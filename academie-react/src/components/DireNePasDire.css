@@ -1,0 +1,169 @@
+/* ============================================
+   DIRE NE PAS DIRE STYLES
+   ============================================ */
+
+.dire-section {
+    padding: var(--space-3xl) 0;
+    background: var(--cream);
+}
+
+.dire-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-3xl);
+    align-items: center;
+}
+
+.dire-content .section-title {
+    margin-bottom: var(--space-lg);
+}
+
+.dire-intro {
+    font-size: 1.1rem;
+    color: var(--medium-gray);
+    line-height: 1.7;
+    margin-bottom: var(--space-xl);
+}
+
+/* Tabs */
+.dire-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-xl);
+}
+
+.dire-tab {
+    padding: var(--space-sm) var(--space-lg);
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--medium-gray);
+    background: var(--white);
+    border: 1px solid var(--light-gray);
+    border-radius: 50px;
+    transition: all var(--transition-fast);
+}
+
+.dire-tab:hover {
+    border-color: var(--primary-gold);
+    color: var(--primary-gold);
+}
+
+.dire-tab.active {
+    background: var(--primary-gold);
+    border-color: var(--primary-gold);
+    color: var(--primary-dark);
+}
+
+/* Card */
+.dire-card {
+    background: var(--white);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+}
+
+.dire-card-header {
+    padding: var(--space-lg) var(--space-xl);
+    background: var(--gradient-dark);
+}
+
+.dire-card-category {
+    color: var(--primary-gold);
+    font-weight: 600;
+    font-size: 0.9rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.dire-card-body {
+    padding: var(--space-xl);
+}
+
+/* Dire Items */
+.dire-item {
+    margin-bottom: var(--space-lg);
+    padding: var(--space-lg);
+    border-radius: var(--radius-md);
+}
+
+.dire-item--correct {
+    background: rgba(45, 74, 62, 0.08);
+    border-left: 4px solid var(--accent-forest);
+}
+
+.dire-item--incorrect {
+    background: rgba(114, 47, 55, 0.08);
+    border-left: 4px solid var(--accent-burgundy);
+}
+
+.dire-label {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: var(--space-sm);
+}
+
+.dire-item--correct .dire-label {
+    color: var(--accent-forest);
+}
+
+.dire-item--incorrect .dire-label {
+    color: var(--accent-burgundy);
+}
+
+.dire-label svg {
+    width: 16px;
+    height: 16px;
+}
+
+.dire-text {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 500;
+    color: var(--primary-dark);
+}
+
+.dire-explanation {
+    padding-top: var(--space-lg);
+    border-top: 1px solid var(--light-gray);
+}
+
+.dire-explanation p {
+    font-size: 0.95rem;
+    color: var(--dark-gray);
+    line-height: 1.7;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 1023px) {
+    .dire-layout {
+        grid-template-columns: 1fr;
+        gap: var(--space-2xl);
+    }
+}
+
+@media (max-width: 639px) {
+    .dire-tabs {
+        flex-direction: column;
+    }
+
+    .dire-tab {
+        text-align: center;
+    }
+
+    .dire-card-body {
+        padding: var(--space-lg);
+    }
+
+    .dire-item {
+        padding: var(--space-md);
+    }
+}

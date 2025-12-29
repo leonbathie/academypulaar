@@ -1,0 +1,11 @@
+.academie-sidebar-title {
+    margin-bottom: 1em;
+}
+
+.academie-sidebar-fieldset fieldset.filter-wrapper {
+    display: none;
+}
+
+.academie-sidebar-fieldset .cke_contents {
+    height: 225px !important;
+}

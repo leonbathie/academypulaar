@@ -1,0 +1,122 @@
+{
+    "common": {
+        "siteName": "GoomuFuloWiɗto",
+        "siteSlogan": "Fedde Ɗemngal Pulaar",
+        "since": "Gila 2024",
+        "discover": "Yiytu",
+        "readMore": "Janngol goɗɗum",
+        "learnMore": "Anndude goɗɗum",
+        "search": "Yiylo",
+        "submit": "Neldu",
+        "contact": "Jokkondiral"
+    },
+    "nav": {
+        "home": "Jaɓɓorgo",
+        "institution": "Fedde ndee",
+        "history": "Taariik",
+        "missions": "Golle",
+        "organization": "Yuɓɓo",
+        "statutes": "Sariyaaji",
+        "immortals": "Janngooɓe",
+        "members": "Terɗe",
+        "becomeImmortal": "Wontude terɗe",
+        "greenCoat": "Comci e kaafaahi",
+        "speeches": "Haalaaji",
+        "language": "Ɗemngal Pulaar",
+        "frenchToday": "Pulaar hannde",
+        "languageQuestions": "Naamne ɗemngal",
+        "terminology": "Helmere",
+        "sayDontSay": "Haalu, Woto haalu",
+        "dictionary": "Saggitorde",
+        "ninthEdition": "Weccitaare gadane",
+        "ninePrefaces": "Deftere",
+        "onlineDictionary": "Saggitorde e internet",
+        "prizes": "Njeenaaje",
+        "literaryPrizes": "Njeenaaje binndol",
+        "workPrizes": "Njeenaaje golle",
+        "laureates": "Jaaɓe",
+        "news": "Kabaruuji"
+    },
+    "hero": {
+        "title1": "Pottital 2025",
+        "subtitle1": "Yiytu sakkeeji mawɗi ndee julotiral",
+        "title2": "Saggitorde",
+        "subtitle2": "Weccitaare gadane Saggitorde GoomuFuloWiɗto",
+        "title3": "Ɗemngal Pulaar",
+        "subtitle3": "Doomtotooɗo ɗemngal, GoomuFuloWiɗto reeni Pulaar",
+        "title4": "Janngooɓe",
+        "subtitle4": "Terɗe golloowo ngam ɗemngal e pinal Pulaar",
+        "consultDictionary": "Yeewtude Saggitorde",
+        "scroll": "Tellu"
+    },
+    "features": {
+        "sectionLabel": "Golle amen",
+        "title": "E wallitorde",
+        "titleHighlight": "ɗemngal Pulaar",
+        "description": "GoomuFuloWiɗto ngollata golle tati mawɗe: winndude Saggitorde, reende ɗemngal Pulaar, e rokkude njeenaaje binndol.",
+        "institution": {
+            "title": "Fedde ndee",
+            "description": "Sosaa ngam ɗemngal Pulaar, GoomuFuloWiɗto ko fedde reentooɓe ɗemngal."
+        },
+        "dictionary": {
+            "title": "Saggitorde",
+            "description": "GoomuFuloWiɗto woni e mahde Saggitorde, deftere jogoore ɗemngal Pulaar."
+        },
+        "prizes": {
+            "title": "Njeenaaje",
+            "description": "Hitaande kala, GoomuFuloWiɗto hokkata njeenaaje binndol."
+        },
+        "immortals": {
+            "title": "Janngooɓe",
+            "description": "Terɗe cuɓaaɗe mbana GoomuFuloWiɗto, reentooɓe ɗemngal e pinal."
+        }
+    },
+    "news": {
+        "sectionLabel": "Heɓu kabaruuji",
+        "title": "Kabaruuji",
+        "titleHighlight": "GoomuFuloWiɗto",
+        "viewAll": "Kabaruuji fow",
+        "candidacy": "Cownagol",
+        "election": "Suɓagol",
+        "sayDontSay": "Haalu, Woto haalu",
+        "literaryPrizes": "Njeenaaje binndol"
+    },
+    "sayDontSay": {
+        "sectionLabel": "Ɗemngal Pulaar",
+        "title": "Haalu,",
+        "titleHighlight": "Woto haalu",
+        "intro": "Ɗume kelme, ɗume mbaydi suɓaade, jogaade walla salaade hakkunde ko nanee e ko haalee? GoomuFuloWiɗto ndaardata on e huutoraade ɗemngal Pulaar no haaniri.",
+        "discoverSection": "Yiytu taƴre ndee",
+        "weSay": "Haalen",
+        "weDontSay": "Woto haalu",
+        "faultyUsage": "Kuutorɗe booɗɗe",
+        "anglicisms": "Kelme janane",
+        "abusiveExtensions": "Feertingol bonngol"
+    },
+    "dictionary": {
+        "sectionLabel": "Saggitorde Pulaar",
+        "title": "Nde",
+        "titleHighlight": "Saggitorde",
+        "intro": "Saggitorde GoomuFuloWiɗto ko deftere jogoore nde darnoti huutoraade Pulaar. Yeewtaa e internet.",
+        "wordsStartingWith": "Kelme puɗɗortooɗe e",
+        "similarWords": "Kelme pottiiɗe",
+        "searchPlaceholder": "Yiylo helmere...",
+        "editions": "Weccitaaje",
+        "wordsDefined": "Kelme faamninaaɗe",
+        "yearsOfWork": "Duuɓi golle",
+        "volumesPublished": "Tome mbinndaaɗe"
+    },
+    "footer": {
+        "description": "GoomuFuloWiɗto ko fedde ina toppitii faamninirde ɗemngal Pulaar e saggitorde mum.",
+        "institution": "Fedde ndee",
+        "language": "Ɗemngal ngal",
+        "services": "Balluuji",
+        "stayInformed": "Heɓu kabaruuji",
+        "newsletterText": "Heɓu kabaruuji cakkitiiɗi GoomuFuloWiɗto.",
+        "emailPlaceholder": "Iimeel maa",
+        "copyright": "GoomuFuloWiɗto. Jojjanɗe fow ndaanitaa.",
+        "legalNotice": "Baɗte sariya",
+        "privacy": "Dawiree cuuɗii",
+        "accessibility": "Heɓtineede"
+    }
+}

@@ -1,0 +1,47 @@
+.not-found-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--secondary-burgundy) 100%);
+    padding: var(--space-xl);
+}
+
+.not-found-content {
+    text-align: center;
+    color: var(--white);
+}
+
+.not-found-code {
+    font-family: var(--font-display);
+    font-size: clamp(8rem, 20vw, 15rem);
+    font-weight: 700;
+    line-height: 1;
+    background: linear-gradient(135deg, var(--primary-gold), var(--gold-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: var(--space-lg);
+}
+
+.not-found-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    margin-bottom: var(--space-md);
+}
+
+.not-found-message {
+    font-size: 1.1rem;
+    opacity: 0.8;
+    max-width: 400px;
+    margin: 0 auto var(--space-2xl);
+}
+
+.not-found-page .btn {
+    display: inline-flex;
+}
+
+.not-found-page .btn svg {
+    width: 18px;
+    height: 18px;
+}

@@ -1,0 +1,249 @@
+/* Affichage des boutons avec les thèmes tao/rubik */
+
+.ui-dialog {
+    z-index: 11000 !important;
+}
+
+body.tao .webform-submission-info-text {
+    overflow: inherit;
+}
+
+body.tao a.button,
+body.tao #media-browser-tabset a.button,
+body.tao #media-format-form a.button,
+body.tao #views-form-views-media-browser-browser-thumbs .form-actions a,
+body.tao .media-widget a.button {
+    padding: 2px 10px;
+    background: url("../../../themes/rubik/images/buttons.png") no-repeat scroll -1px 50% #FFFFFF;
+    border-color: #DDDDDD #DDDDDD #CCCCCC;
+    border-style: solid;
+    border-width: 1px;
+    color: #333333;
+    cursor: pointer;
+    text-align: center;
+    font-weight: normal;
+    font-family: Verdana,Arial,sans-serif;
+    font-size: 1em;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    -webkit-box-shadow: 0 1px 1px #DDDDDD;
+    -moz-box-shadow: 0 1px 1px #DDDDDD;
+    box-shadow: 0 1px 1px #DDDDDD;
+}
+
+body.tao a.button:hover,
+body.tao a.button:focus,
+body.tao #media-browser-tabset a.button:hover,
+body.tao #media-browser-tabset a.button:focus,
+body.tao #views-form-views-media-browser-browser-thumbs .form-actions a:hover,
+body.tao #views-form-views-media-browser-browser-thumbs .form-actions a:focus,
+body.tao .media-widget a.button:hover,
+body.tao .media-widget a.button:focus {
+    border-color: #AACCEE;
+}
+
+body.tao .form-actions {
+    text-align: right;
+}
+
+body.tao .form-actions a.button {
+    margin-right: 5px;
+}
+
+body.tao #media-browser-tabset a.button-yes,
+body.tao #media-format-form a.fake-ok {
+    background-position: -2401px 50%;
+    padding-left: 25px;
+}
+
+body.tao #media-browser-tabset a.button-no,
+body.tao #media-format-form a.fake-cancel,
+body.tao .media-widget a.button.remove {
+    background-position:-3201px 50%;
+    padding-left:25px;
+}
+
+body.tao .media-widget a.button.launcher {
+    background-position:-1201px 50%;
+    padding-left:25px;
+}
+
+body.tao .media-widget a.button.remove,
+body.tao .media-widget a.button.launcher {
+    padding-top: 3px;
+    padding-bottom: 3px;
+    display: inline-block;
+}
+
+/* TO DO : On le masque le temps de régler le problème d'affichage */
+body.tao #views-media-browser-browser-view-form .form-item-display-format {
+    display: none;
+}
+
+body.tao .media-widget a.button.remove {
+    display: none;
+}
+
+body.tao #media-browser-tabset .views-submit-button {
+    padding-top: 1.9em;
+}
+
+body.tao.page-admin-store-orders .form-item label {
+    padding: 6px;
+}
+
+body.tao.page-admin-store-orders input.fluid {
+    width: auto;
+}
+
+body.tao.page-admin-store-orders input.fluid:after {
+    clear: both;
+}
+
+body.tao .order-pane .uc-store-address-field .form-item {
+    padding: 10px;
+}
+
+/* Module : Quickbar */
+
+body.tao.quickbar-enabled {
+    margin-top: 0;
+}
+
+body.tao.quickbar-enabled #quickbar-spacer {
+    padding-top: 30px;
+}
+
+/* Module : Date */
+
+body.tao .field-type-datestamp .description {
+    display: none;
+}
+
+body.tao .field-type-datestamp .date-float {
+    margin: 25px 0 0 0;
+    float: right;
+}
+
+body.tao .field-type-datestamp .date-no-float {
+    width: auto;
+    float: left;
+    clear: none;
+}
+
+body.tao .field-type-datestamp .date-padding {
+    padding: 0;
+    float: none;
+}
+
+body.tao .field-type-datestamp .form-type-date-popup > label {
+    display: none;
+}
+
+/* Modules : Bouton de sauvegarde latéral droit fixe */
+body.tao .column-side .form-actions.fixed {
+    width: 32%;
+    position: fixed;
+    top: 80px;
+}
+
+/* module_filter : Bouton de sauvegarde latéral droit fixe */
+#module-filter-squeeze {
+    margin-right: 250px;   
+}
+#module-filter-submit-fixed{
+    width: 240px;
+    float: right;
+}
+#module-filter-submit-fixed .form-actions.fixed {
+    width: 220px;
+    position: fixed;
+    top: 80px;
+    /*right: 0;*/
+}
+#module-filter-wrapper{
+    position: relative;
+}
+
+/* Modules : Better Watchdog UI */
+body.tao .views-exposed-form .views-widget-per-page,
+body.tao .views-exposed-form .views-submit-button,
+body.tao .views-exposed-form .views-reset-button {
+    width: auto;
+    float: right;
+    clear: right;
+}
+
+body.tao .views-exposed-form .views-widget-per-page label {
+    margin-right: 15px;
+    display: inline;
+}
+
+body.tao .views-exposed-form .views-submit-button .form-submit,
+body.tao .views-exposed-form .views-reset-button .form-submit {
+    width: 100%;
+    margin: 0;
+}
+
+body.tao .view-better-watchdog-ui-view tr.severity-avertissement,
+body.tao .view-better-watchdog-ui-view tr.severity-avertissement td,
+body.tao .view-better-watchdog-ui-view tr.severity-warning,
+body.tao .view-better-watchdog-ui-view tr.severity-warning td {
+    background: #FFF4C0;
+}
+
+body.tao .view-better-watchdog-ui-view tr.severity-avertissement.odd,
+body.tao .view-better-watchdog-ui-view tr.severity-avertissement.odd td,
+body.tao .view-better-watchdog-ui-view tr.severity-warning.odd,
+body.tao .view-better-watchdog-ui-view tr.severity-warning.odd td {
+    background: #F9EDB3;
+}
+
+body.tao .view-better-watchdog-ui-view tr.severity-emergency,
+body.tao .view-better-watchdog-ui-view tr.severity-emergency td,
+body.tao .view-better-watchdog-ui-view tr.severity-alerte,
+body.tao .view-better-watchdog-ui-view tr.severity-alerte td,
+body.tao .view-better-watchdog-ui-view tr.severity-critique,
+body.tao .view-better-watchdog-ui-view tr.severity-critique td,
+body.tao .view-better-watchdog-ui-view tr.severity-erreur,
+body.tao .view-better-watchdog-ui-view tr.severity-erreur td,
+body.tao .view-better-watchdog-ui-view tr.severity-alert,
+body.tao .view-better-watchdog-ui-view tr.severity-alert td,
+body.tao .view-better-watchdog-ui-view tr.severity-critical,
+body.tao .view-better-watchdog-ui-view tr.severity-critical td,
+body.tao .view-better-watchdog-ui-view tr.severity-error,
+body.tao .view-better-watchdog-ui-view tr.severity-error td{
+    background: #FFE4E0;
+}
+
+body.tao .view-better-watchdog-ui-view tr.severity-emergency.odd,
+body.tao .view-better-watchdog-ui-view tr.severity-emergency.odd td,
+body.tao .view-better-watchdog-ui-view tr.severity-alerte.odd,
+body.tao .view-better-watchdog-ui-view tr.severity-alerte.odd td,
+body.tao .view-better-watchdog-ui-view tr.severity-critique.odd,
+body.tao .view-better-watchdog-ui-view tr.severity-critique.odd td,
+body.tao .view-better-watchdog-ui-view tr.severity-erreur.odd,
+body.tao .view-better-watchdog-ui-view tr.severity-erreur.odd td,
+body.tao .view-better-watchdog-ui-view tr.severity-alert.odd,
+body.tao .view-better-watchdog-ui-view tr.severity-alert.odd td,
+body.tao .view-better-watchdog-ui-view tr.severity-critical.odd,
+body.tao .view-better-watchdog-ui-view tr.severity-critical.odd td,
+body.tao .view-better-watchdog-ui-view tr.severity-error.odd,
+body.tao .view-better-watchdog-ui-view tr.severity-error.odd td {
+    background: #F9D6D1;
+}
+
+/* Modules : Gestion des blocs */
+
+#block-admin-display-form .block-line td.block-title {
+    width: 50%;
+}
+
+#block-admin-display-form .block-line td.block-region {
+    width: 25%;
+}
+
+#block-admin-display-form .block-line td.block-region select {
+    width: 100%;
+}

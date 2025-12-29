@@ -1,0 +1,37 @@
+body.tao .field-type-datestamp .description {
+    display: none;
+}
+
+body.tao .field-type-datestamp .date-float {
+    margin: 25px 0 0 0;
+    float: right;
+}
+
+body.tao .field-type-datestamp .date-no-float {
+    width: auto;
+    float: left;
+    clear: none;
+}
+
+body.tao .field-type-datestamp .date-padding {
+    padding: 0;
+    float: none;
+}
+
+body.tao .field-type-datestamp .form-type-date-popup > label {
+    display: none;
+}
+
+#academie-admin-form #edit-categories label {
+    width: 150px;
+    float: left;
+}
+
+#academie-admin-form #edit-categories input {
+    width: 400px;
+}
+
+#views-exposed-form-admin-academie-works-page #edit-tid-wrapper,
+#views-exposed-form-admin-academie-works-page-1 #edit-tid-wrapper {
+    clear: left;
+}

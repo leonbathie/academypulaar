@@ -1,0 +1,149 @@
+import { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
+import { API_URL } from '../config'
+import './DireNePasDire.css'
+
+// Données statiques de fallback
+const defaultArticles = [
+    {
+        category: "Emplois fautifs",
+        dire: "Se rappeler quelque chose",
+        ne_pas_dire: "Se rappeler de quelque chose",
+        explanation: "Le verbe « se rappeler » est transitif direct. On se rappelle quelque chose, on ne se rappelle pas DE quelque chose."
+    },
+    {
+        category: "Anglicismes",
+        dire: "En fin de compte",
+        ne_pas_dire: "À la fin de la journée",
+        explanation: "Cette expression calquée sur l'anglais « At the end of the day » doit être évitée."
+    },
+    {
+        category: "Extensions abusives",
+        dire: "Incontournable (qu'on ne peut éviter)",
+        ne_pas_dire: "Incontournable (excellent)",
+        explanation: "« Incontournable » ne signifie pas « excellent » ou « remarquable », mais « qu'on ne peut éviter »."
+    }
+]
+
+function DireNePasDire() {
+    const { t, i18n } = useTranslation()
+    const [articles, setArticles] = useState(defaultArticles)
+    const [activeIndex, setActiveIndex] = useState(0)
+    const [loading, setLoading] = useState(true)
+
+    useEffect(() => {
+        loadArticles()
+    }, [])
+
+    const loadArticles = async () => {
+        try {
+            const response = await fetch(`${API_URL}/api/content/dire`)
+            if (response.ok) {
+                const data = await response.json()
+                if (data.length > 0) {
+                    setArticles(data)
+                }
+            }
+        } catch (error) {
+            console.error('Error loading dire:', error)
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    const getDire = (article) => {
+        switch (i18n.language) {
+            case 'en': return article.dire_en || article.dire_fr || article.dire
+            case 'ff': return article.dire_ff || article.dire_fr || article.dire
+            default: return article.dire_fr || article.dire
+        }
+    }
+
+    const getNePasDire = (article) => {
+        switch (i18n.language) {
+            case 'en': return article.ne_pas_dire_en || article.ne_pas_dire_fr || article.ne_pas_dire
+            case 'ff': return article.ne_pas_dire_ff || article.ne_pas_dire_fr || article.ne_pas_dire
+            default: return article.ne_pas_dire_fr || article.ne_pas_dire
+        }
+    }
+
+    const getExplanation = (article) => {
+        switch (i18n.language) {
+            case 'en': return article.explanation_en || article.explanation_fr || article.explanation
+            case 'ff': return article.explanation_ff || article.explanation_fr || article.explanation
+            default: return article.explanation_fr || article.explanation
+        }
+    }
+
+    const currentArticle = articles[activeIndex] || articles[0]
+
+    return (
+        <section className="dire-section" id="dire">
+            <div className="container">
+                <div className="dire-layout">
+                    <div className="dire-content">
+                        <span className="section-label">{t('sayDontSay.sectionLabel')}</span>
+                        <h2 className="section-title">
+                            {t('sayDontSay.title')} <span className="gold-accent">{t('sayDontSay.titleHighlight')}</span>
+                        </h2>
+                        <p className="dire-intro">
+                            {t('sayDontSay.intro')}
+                        </p>
+
+                        <div className="dire-tabs">
+                            {articles.slice(0, 4).map((article, index) => (
+                                <button
+                                    key={index}
+                                    className={`dire-tab ${index === activeIndex ? 'active' : ''}`}
+                                    onClick={() => setActiveIndex(index)}
+                                >
+                                    {article.category || `#${index + 1}`}
+                                </button>
+                            ))}
+                        </div>
+
+                        <a href="/dictionnaire" className="btn btn-primary">
+                            {t('sayDontSay.discoverSection')}
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                <path d="M5 12h14M12 5l7 7-7 7" />
+                            </svg>
+                        </a>
+                    </div>
+
+                    <div className="dire-card">
+                        <div className="dire-card-header">
+                            <span className="dire-card-category">{currentArticle.category}</span>
+                        </div>
+                        <div className="dire-card-body">
+                            <div className="dire-item dire-item--correct">
+                                <span className="dire-label">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                                        <path d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    {t('sayDontSay.weSay')}
+                                </span>
+                                <p className="dire-text">{getDire(currentArticle)}</p>
+                            </div>
+                            <div className="dire-item dire-item--incorrect">
+                                <span className="dire-label">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                                        <path d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                    {t('sayDontSay.weDontSay')}
+                                </span>
+                                <p className="dire-text">{getNePasDire(currentArticle)}</p>
+                            </div>
+                            {getExplanation(currentArticle) && (
+                                <div className="dire-explanation">
+                                    <p>{getExplanation(currentArticle)}</p>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    )
+}
+
+export default DireNePasDire

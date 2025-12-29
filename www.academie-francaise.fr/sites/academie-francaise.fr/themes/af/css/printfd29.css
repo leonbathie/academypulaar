@@ -1,0 +1,30 @@
+/*
+    Académie française - print.css
+    =========================
+    developpé par Nicolas Ricklin
+    SDV Plurimédia (http://www.sdv.fr/)
+*/
+
+
+
+/* ------------- Général ------------ */
+
+html, body {
+    padding: 0 !important;
+    background: #FFF;
+    font-family: Ovo,​Times,​serif;
+}
+
+#toolbar,
+#header,
+#sidebar,
+#footer,
+#tabs,
+.to-top {
+    display: none;
+}
+
+#content {
+    float: none;
+    margin: 0 auto;
+}

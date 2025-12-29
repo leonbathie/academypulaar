@@ -1,0 +1,38 @@
+.academie-columns-select {
+    margin-bottom: 1em;
+}
+
+.academie-columns {
+    width: 100%;
+    display: block;
+    position: relative;
+    float: left;
+}
+
+.academie-columns-1 {
+    width: 100%;
+}
+
+.academie-columns-2 {
+    width: 47%;
+    padding-left: 2%;
+}
+
+.academie-columns-2:first-child,
+.academie-columns-2.academie-columns-first {
+    padding-left: 0;
+    padding-right: 2%;
+}
+
+.academie-columns-2 + .academie-columns-2 {
+    float: right;
+}
+
+.academie-columns-fieldset .academie-columns {
+    display: inline-block;
+    float: none;
+}
+
+.academie-columns-fieldset fieldset.filter-wrapper {
+    display: none;
+}
