@@ -1,11 +1,31 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Navigate, NavLink, Outlet } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import './AdminPage.css'
 
 function AdminPage() {
     const { user, logout, isAuthenticated, isAdmin, loading } = useAuth()
-    const [sidebarOpen, setSidebarOpen] = useState(true)
+    const [sidebarOpen, setSidebarOpen] = useState(window.innerWidth > 768)
+
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth <= 768) {
+                setSidebarOpen(false)
+            } else {
+                setSidebarOpen(true)
+            }
+        }
+
+        window.addEventListener('resize', handleResize)
+        return () => window.removeEventListener('resize', handleResize)
+    }, [])
+
+    const toggleSidebar = () => setSidebarOpen(!sidebarOpen)
+    const closeSidebarMobile = () => {
+        if (window.innerWidth <= 768) {
+            setSidebarOpen(false)
+        }
+    }
 
     if (loading) {
         return (
@@ -22,6 +42,12 @@ function AdminPage() {
 
     return (
         <div className="admin-layout">
+            {/* Overlay pour mobile */}
+            <div
+                className={`sidebar-overlay ${sidebarOpen ? 'active' : ''}`}
+                onClick={() => setSidebarOpen(false)}
+            />
+
             <aside className={`admin-sidebar ${sidebarOpen ? '' : 'collapsed'}`}>
                 <div className="sidebar-header">
                     <h2>GoomuFuloWiɗto</h2>
@@ -29,7 +55,7 @@ function AdminPage() {
                 </div>
 
                 <nav className="sidebar-nav">
-                    <NavLink to="/admin" end className="nav-item">
+                    <NavLink to="/admin" end className="nav-item" onClick={closeSidebarMobile}>
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                             <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
                             <polyline points="9 22 9 12 15 12 15 22" />
@@ -37,7 +63,7 @@ function AdminPage() {
                         <span>Tableau de bord</span>
                     </NavLink>
 
-                    <NavLink to="/admin/dictionnaire" className="nav-item">
+                    <NavLink to="/admin/dictionnaire" className="nav-item" onClick={closeSidebarMobile}>
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                             <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
                             <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
@@ -45,7 +71,7 @@ function AdminPage() {
                         <span>Dictionnaire</span>
                     </NavLink>
 
-                    <NavLink to="/admin/membres" className="nav-item">
+                    <NavLink to="/admin/membres" className="nav-item" onClick={closeSidebarMobile}>
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                             <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
                             <circle cx="9" cy="7" r="4" />
@@ -55,7 +81,7 @@ function AdminPage() {
                         <span>Membres</span>
                     </NavLink>
 
-                    <NavLink to="/admin/actualites" className="nav-item">
+                    <NavLink to="/admin/actualites" className="nav-item" onClick={closeSidebarMobile}>
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                             <path d="M19 20H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v1" />
                             <path d="M21 16V8a2 2 0 0 0-2-2h-2" />
@@ -64,7 +90,7 @@ function AdminPage() {
                         <span>Actualités</span>
                     </NavLink>
 
-                    <NavLink to="/admin/contenu" className="nav-item">
+                    <NavLink to="/admin/contenu" className="nav-item" onClick={closeSidebarMobile}>
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                             <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
                             <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
@@ -72,7 +98,7 @@ function AdminPage() {
                         <span>Dire, Ne pas dire</span>
                     </NavLink>
 
-                    <NavLink to="/admin/bibliotheque" className="nav-item">
+                    <NavLink to="/admin/bibliotheque" className="nav-item" onClick={closeSidebarMobile}>
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                             <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
                             <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
@@ -83,7 +109,7 @@ function AdminPage() {
                 </nav>
 
                 <div className="sidebar-footer">
-                    <a href="/" className="nav-item" target="_blank">
+                    <a href="/" className="nav-item" target="_blank" onClick={closeSidebarMobile}>
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                             <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
                             <polyline points="15 3 21 3 21 9" />
@@ -91,7 +117,7 @@ function AdminPage() {
                         </svg>
                         <span>Voir le site</span>
                     </a>
-                    <button onClick={logout} className="nav-item logout">
+                    <button onClick={() => { logout(); closeSidebarMobile(); }} className="nav-item logout">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                             <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
                             <polyline points="16 17 21 12 16 7" />
