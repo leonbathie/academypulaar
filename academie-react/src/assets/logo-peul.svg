@@ -1,49 +1,63 @@
 <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-  <!-- Style definitions -->
   <defs>
-    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#D4A537;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#B8860B;stop-opacity:1" />
-    </linearGradient>
+    <style>
+      .gold { fill: #D4A537; }
+      .gold-stroke { stroke: #D4A537; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+      .sketch { stroke: #D4A537; fill: none; stroke-width: 0.5; opacity: 0.4; }
+    </style>
   </defs>
 
-  <!-- Decorative Circle Frame (Minimalist) -->
-  <circle cx="100" cy="100" r="95" stroke="url(#goldGrad)" stroke-width="1" fill="none" opacity="0.3"/>
+  <!-- Circle Frame -->
+  <circle cx="100" cy="100" r="95" class="gold-stroke" style="stroke-width: 1.5; opacity: 0.8;"/>
+  <circle cx="100" cy="100" r="90" class="gold-stroke" style="stroke-width: 0.5; opacity: 0.4;"/>
 
-  <!-- Cow (Zébu) - Positioned behind and to the right -->
-  <g id="cow" transform="translate(85, 80) scale(1.1)">
+  <!-- Cow (Zébu) Illustration -->
+  <g transform="translate(80, 70)">
     <!-- Body -->
-    <path d="M10 40 C20 30 50 30 70 45 C85 60 85 85 85 85 L70 85 L70 75 L30 75 L30 85 L15 85 C10 85 5 70 5 40Z" fill="url(#goldGrad)" fill-opacity="0.15" stroke="#D4A537" stroke-width="2"/>
-    <!-- The Iconic Hump -->
-    <path d="M18 40 C35 20 55 20 65 42" stroke="#D4A537" stroke-width="3" stroke-linecap="round" fill="none"/>
-    <!-- Head and Ears -->
-    <path d="M80 50 L95 45 L98 65 L82 65 Z" fill="#D4A537"/>
-    <path d="M82 52 L75 55" stroke="#D4A537" stroke-width="1.5" stroke-linecap="round"/>
-    <!-- Majestic Horns -->
-    <path d="M92 48 C100 30 115 25 120 20" stroke="#D4A537" stroke-width="2.5" stroke-linecap="round" fill="none"/>
-    <path d="M95 48 C85 30 75 25 70 20" stroke="#D4A537" stroke-width="2.5" stroke-linecap="round" fill="none"/>
-    <!-- Tail -->
-    <path d="M10 45 C0 55 5 75 8 80" stroke="#D4A537" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+    <path d="M10 50 Q25 40 50 45 Q70 50 80 70 V100 H70 V85 H30 V100 H20 V75 Q10 70 10 50Z" class="gold" opacity="0.1"/>
+    <path d="M10 50 Q25 40 50 45 Q70 50 80 70 V100 M70 100 V85 H30 V100 M20 100 V75 Q10 70 10 50" class="gold-stroke"/>
+    
+    <!-- Hump -->
+    <path d="M35 44 C45 25 60 30 65 47" class="gold-stroke" style="stroke-width: 3;"/>
+    <!-- Sketch lines on hump -->
+    <path d="M42 35 L48 38 M45 32 L51 35" class="sketch"/>
+
+    <!-- Head -->
+    <path d="M80 70 L95 65 Q100 75 95 85 L80 85 Z" class="gold" opacity="0.2"/>
+    <path d="M80 70 L95 65 Q100 75 95 85 L80 85" class="gold-stroke"/>
+    
+    <!-- Horns -->
+    <path d="M92 67 C105 45 125 40 135 35" class="gold-stroke" style="stroke-width: 2.5;"/>
+    <path d="M96 67 C90 45 80 40 70 35" class="gold-stroke" style="stroke-width: 2.5;"/>
+    
+    <!-- Details -->
+    <circle cx="90" cy="74" r="1.5" class="gold"/> <!-- Eye -->
+    <path d="M10 55 C0 65 5 95 8 100" class="gold-stroke" style="stroke-width: 1;"/> <!-- Tail -->
   </g>
 
-  <!-- Shepherd (Pullo) - Positioned in front and to the left -->
-  <g id="shepherd" transform="translate(35, 45) scale(1.1)">
-    <!-- Turban / Traditional Hat -->
-    <path d="M10 25 L40 25 L25 10 Z" fill="#D4A537"/>
-    <path d="M12 25 Q25 30 38 25" stroke="#FFFFFF" stroke-width="1" opacity="0.8"/>
-    <!-- Face Silhouette -->
-    <circle cx="25" cy="38" r="8" stroke="#D4A537" stroke-width="2" fill="none"/>
-    <!-- Boubou (Traditional Robe) -->
-    <path d="M8 50 L42 50 L48 110 L2 110 Z" fill="url(#goldGrad)" fill-opacity="0.2" stroke="#D4A537" stroke-width="2"/>
-    <path d="M25 50 V75" stroke="#D4A537" stroke-width="1" opacity="0.5"/>
-    <path d="M15 65 H35" stroke="#D4A537" stroke-width="0.5" opacity="0.3"/>
-    <!-- Arms holding the stick -->
-    <path d="M35 65 L55 55" stroke="#D4A537" stroke-width="4" stroke-linecap="round"/>
-    <!-- The Shepherd's Stick (Gafal) -->
-    <path d="M58 10 V125" stroke="#D4A537" stroke-width="3" stroke-linecap="round"/>
-    <path d="M58 10 C58 0 75 0 75 10" stroke="#D4A537" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <!-- Shepherd (Pullo) Illustration -->
+  <g transform="translate(30, 60)">
+    <!-- Hat (Tengaade) -->
+    <path d="M10 30 L40 30 L25 5 Z" class="gold"/>
+    <path d="M15 30 L25 10 L35 30" class="sketch" style="stroke: #FFFFFF; opacity: 0.6;"/>
+    
+    <!-- Body (Boubou) -->
+    <path d="M12 30 L38 30 L45 120 L5 120 Z" class="gold" opacity="0.15"/>
+    <path d="M12 30 L38 30 L45 120 H5 L12 30" class="gold-stroke"/>
+    
+    <!-- Face -->
+    <circle cx="25" cy="45" r="9" class="gold-stroke" style="stroke-width: 1.5;"/>
+    <path d="M22 45 Q25 48 28 45" class="gold-stroke" style="stroke-width: 1;"/> <!-- Mouth -->
+
+    <!-- Stick (Gafal) -->
+    <path d="M45 15 V135" class="gold-stroke" style="stroke-width: 3.5;"/>
+    <path d="M45 15 Q55 15 55 25" class="gold-stroke" style="stroke-width: 3.5;"/>
+    
+    <!-- Arm -->
+    <path d="M35 70 L43 70" class="gold-stroke" style="stroke-width: 4;"/>
   </g>
 
-  <!-- Symbolic GroundLine -->
-  <path d="M30 175 Q100 185 170 175" stroke="#D4A537" stroke-width="1" stroke-dasharray="2 4" opacity="0.6"/>
+  <!-- Ground -->
+  <path d="M30 180 H170" class="sketch"/>
+  <path d="M40 183 H160" class="sketch" style="opacity: 0.2;"/>
 </svg>
