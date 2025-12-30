@@ -51,7 +51,7 @@
     },
     "features": {
         "sectionLabel": "Golle amen",
-        "title": "E wallitorde",
+        "title": "E wallitorde ",
         "titleHighlight": "ɗemngal Pulaar",
         "description": "Goomu Fulo Wiɗto ngollata golle tati mawɗe: winndude Saggitorde, reende ɗemngal Pulaar, e rokkude njeenaaje binndol.",
         "institution": {
@@ -73,7 +73,7 @@
     },
     "news": {
         "sectionLabel": "Heɓu kabaruuji",
-        "title": "Kabaruuji",
+        "title": "Kabaruuji ",
         "titleHighlight": "Goomu Fulo Wiɗto",
         "viewAll": "Kabaruuji fow",
         "candidacy": "Cownagol",
@@ -83,7 +83,7 @@
     },
     "sayDontSay": {
         "sectionLabel": "Ɗemngal Pulaar",
-        "title": "Haalu,",
+        "title": "Haalu, ",
         "titleHighlight": "Woto haalu",
         "intro": "Ɗume kelme, ɗume mbaydi suɓaade, jogaade walla salaade hakkunde ko nanee e ko haalee? Goomu Fulo Wiɗto ndaardata on e huutoraade ɗemngal Pulaar no haaniri.",
         "discoverSection": "Yiytu taƴre ndee",
@@ -95,7 +95,7 @@
     },
     "dictionary": {
         "sectionLabel": "Saggitorde Pulaar",
-        "title": "Nde",
+        "title": "Nde ",
         "titleHighlight": "Saggitorde",
         "intro": "Saggitorde Goomu Fulo Wiɗto ko deftere jogoore nde darnoti huutoraade Pulaar. Yeewtaa e internet.",
         "wordsStartingWith": "Kelme puɗɗortooɗe e",

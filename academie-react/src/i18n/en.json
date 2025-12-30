@@ -51,7 +51,7 @@
     },
     "features": {
         "sectionLabel": "Our missions",
-        "title": "Serving the",
+        "title": "Serving the ",
         "titleHighlight": "Pulaar language",
         "description": "Goomu Fulo Wiɗto fulfills three main missions: writing the Dictionary, defending the Pulaar language, and patronage through literary prizes.",
         "institution": {
@@ -73,7 +73,7 @@
     },
     "news": {
         "sectionLabel": "Stay informed",
-        "title": "News from",
+        "title": "News from ",
         "titleHighlight": "Goomu Fulo Wiɗto",
         "viewAll": "All news",
         "candidacy": "Candidacy",
@@ -83,7 +83,7 @@
     },
     "sayDontSay": {
         "sectionLabel": "Pulaar Language",
-        "title": "Say,",
+        "title": "Say, ",
         "titleHighlight": "Don't Say",
         "intro": "Which words, which phrases to choose, keep or reject? Goomu Fulo Wiɗto guides you in the correct use of the Pulaar language.",
         "discoverSection": "Discover the section",
@@ -95,7 +95,7 @@
     },
     "dictionary": {
         "sectionLabel": "Pulaar Dictionary",
-        "title": "The",
+        "title": "The ",
         "titleHighlight": "Dictionary",
         "intro": "The Goomu Fulo Wiɗto Dictionary is the reference work for Pulaar usage. Consult it online.",
         "wordsStartingWith": "Words starting with",
