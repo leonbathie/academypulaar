@@ -26,6 +26,7 @@
     height: 80px;
     margin-bottom: var(--space-md);
     object-fit: contain;
+    border-radius: 50%;
 }
 
 .login-header h1 {
