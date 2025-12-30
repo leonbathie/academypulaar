@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-import logoPeul from '../assets/logo-peul.svg'
+import logoPeul from '../assets/logo-peul.png'
 import './LoginPage.css'
 
 function LoginPage() {
