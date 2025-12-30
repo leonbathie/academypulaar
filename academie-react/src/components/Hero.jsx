@@ -91,8 +91,8 @@ function Hero() {
             <div className="hero-scroll">
                 <span>{t('hero.scroll')}</span>
                 <svg className="scroll-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M7 13l5 5 5-5" />
-                    <path d="M7 8l5 5 5-5" opacity="0.5" />
+                    <path d="M6 10l6 6 6-6" />
+                    <path d="M6 4l6 6 6-6" opacity="0.4" />
                 </svg>
             </div>
         </section>
