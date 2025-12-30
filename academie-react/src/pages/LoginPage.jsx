@@ -39,7 +39,11 @@ function LoginPage() {
         <div className="login-page">
             <div className="login-container">
                 <div className="login-header">
-                    <img src={logoPeul} alt="Logo" className="login-logo-img" />
+                    <svg viewBox="0 0 60 60" fill="none" style={{ width: '80px', height: '80px', color: 'var(--primary-gold)', marginBottom: '1rem' }}>
+                        <circle cx="30" cy="30" r="28" stroke="currentColor" strokeWidth="2" />
+                        <path d="M30 10 L30 50 M15 25 L45 25 M15 35 L45 35" stroke="currentColor" strokeWidth="2" />
+                        <circle cx="30" cy="30" r="8" fill="currentColor" />
+                    </svg>
                     <h1>GoomuFuloWiɗto</h1>
                     <p>Administration</p>
                 </div>
