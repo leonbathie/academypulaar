@@ -38,7 +38,7 @@ function LoginPage() {
         <div className="login-page">
             <div className="login-container">
                 <div className="login-header">
-                    <h1>Goomu Fulo Wiɗto</h1>
+                    <h1>GoomuFuloWiɗto</h1>
                     <p>Administration</p>
                 </div>
 
