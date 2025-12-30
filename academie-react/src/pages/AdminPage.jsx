@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Navigate, NavLink, Outlet } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../context/AuthContext'
+import logoPeul from '../assets/logo-peul.png'
 import './AdminPage.css'
 
 function AdminPage() {
@@ -66,6 +67,7 @@ function AdminPage() {
 
             <aside className={`admin-sidebar ${sidebarOpen ? '' : 'collapsed'}`}>
                 <div className="sidebar-header">
+                    <img src={logoPeul} alt="Logo" className="admin-sidebar-logo" />
                     <h2>GoomuFuloWiɗto</h2>
                     <span>{t('admin.header.welcome')}</span>
                 </div>

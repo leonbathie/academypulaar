@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useTheme } from '../context/ThemeContext'
+import logoPeul from '../assets/logo-peul.png'
 import './Header.css'
 
 const languages = [
@@ -86,11 +87,7 @@ function Header() {
             <div className="header-container">
                 <Link to="/" className="logo">
                     <div className="logo-icon">
-                        <svg viewBox="0 0 60 60" fill="none">
-                            <circle cx="30" cy="30" r="28" stroke="currentColor" strokeWidth="2" />
-                            <path d="M30 10 L30 50 M15 25 L45 25 M15 35 L45 35" stroke="currentColor" strokeWidth="2" />
-                            <circle cx="30" cy="30" r="8" fill="currentColor" />
-                        </svg>
+                        <img src={logoPeul} alt="Logo" className="logo-image" />
                     </div>
                     <div className="logo-text">
                         <span className="logo-title">{t('common.siteName')}</span>

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
+import logoPeul from '../assets/logo-peul.png'
 import './LoginPage.css'
 
 function LoginPage() {
@@ -38,6 +39,7 @@ function LoginPage() {
         <div className="login-page">
             <div className="login-container">
                 <div className="login-header">
+                    <img src={logoPeul} alt="Logo" className="login-logo-img" />
                     <h1>GoomuFuloWiɗto</h1>
                     <p>Administration</p>
                 </div>
