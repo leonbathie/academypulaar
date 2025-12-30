@@ -118,5 +118,111 @@
         "legalNotice": "Legal notice",
         "privacy": "Privacy policy",
         "accessibility": "Accessibility"
+    },
+    "admin": {
+        "sidebar": {
+            "dashboard": "Dashboard",
+            "dictionary": "Dictionary",
+            "members": "Members",
+            "news": "News",
+            "content": "Say, Don't Say",
+            "library": "Library",
+            "viewSite": "View Site",
+            "logout": "Logout"
+        },
+        "header": {
+            "welcome": "Welcome",
+            "loading": "Loading..."
+        },
+        "dashboard": {
+            "title": "Dashboard",
+            "stats": {
+                "words": "Words in dictionary",
+                "members": "Members / Scholars",
+                "news": "Published news",
+                "content": "Say, Don't Say expressions"
+            },
+            "welcomeCard": {
+                "title": "Welcome to administration",
+                "text": "Use the left menu to manage GoomuFuloWiɗto content:",
+                "dict": "Add, edit or delete words",
+                "members": "Manage scholars and their biographies",
+                "news": "Publish news and articles",
+                "content": "Manage language expressions"
+            }
+        },
+        "common": {
+            "add": "Add",
+            "edit": "Edit",
+            "delete": "Delete",
+            "save": "Save",
+            "cancel": "Cancel",
+            "actions": "Actions",
+            "confirmDelete": "Confirm deletion?",
+            "noData": "No data available",
+            "errorSaving": "Error during saving"
+        },
+        "dictionary": {
+            "title": "Dictionary",
+            "add": "Add a word",
+            "edit": "Edit word",
+            "wordPulaar": "Word (Pulaar)",
+            "translationFr": "French",
+            "translationEn": "English",
+            "translationFf": "Pulaar",
+            "category": "Category",
+            "example": "Usage example",
+            "audioWord": "Word pronunciation",
+            "audioExample": "Example pronunciation",
+            "noWords": "No words in the dictionary",
+            "record": "Record",
+            "stop": "Stop",
+            "reRecord": "Re-record"
+        },
+        "members": {
+            "title": "Members",
+            "add": "Add a member",
+            "edit": "Edit member",
+            "name": "Name",
+            "role": "Role",
+            "specialty": "Specialty",
+            "joined": "Joined on",
+            "noMembers": "No members found"
+        },
+        "books": {
+            "title": "Library",
+            "add": "Add a book",
+            "edit": "Edit book",
+            "titleLabel": "Title",
+            "author": "Author",
+            "price": "Price",
+            "free": "Free",
+            "noBooks": "No books found"
+        },
+        "news": {
+            "title": "News",
+            "add": "Add news",
+            "edit": "Edit news",
+            "titleLabel": "Title",
+            "category": "Category",
+            "date": "Date",
+            "status": "Status",
+            "published": "Published",
+            "draft": "Draft",
+            "image": "Cover image",
+            "excerpt": "Summary",
+            "content": "Content",
+            "publishNow": "Publish immediately",
+            "noNews": "No news published"
+        },
+        "content": {
+            "title": "Say, Don't say",
+            "add": "Add expression",
+            "edit": "Edit expression",
+            "dire": "Say",
+            "nePasDire": "Don't say",
+            "explanation": "Explanation",
+            "noContent": "No expression recorded"
+        }
     }
 }

@@ -1,8 +1,10 @@
 import { useState, useEffect, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useApi } from '../../context/AuthContext'
 import { API_URL } from '../../config'
 
 function BooksAdmin() {
+    const { t } = useTranslation()
     const { apiRequest, token } = useApi()
     const [books, setBooks] = useState([])
     const [loading, setLoading] = useState(true)
@@ -196,11 +198,11 @@ function BooksAdmin() {
         <div className="admin-page">
             <div className="admin-header">
                 <div>
-                    <h1>📚 Bibliothèque</h1>
-                    <p>Gérer les livres téléchargeables</p>
+                    <h1>📚 {t('admin.books.title')}</h1>
+                    <p>{t('admin.dashboard.welcomeCard.content')}</p>
                 </div>
                 <button className="btn btn-primary" onClick={() => openModal()}>
-                    + Ajouter un livre
+                    + {t('admin.books.add')}
                 </button>
             </div>
 
@@ -209,12 +211,12 @@ function BooksAdmin() {
                     <thead>
                         <tr>
                             <th>Couverture</th>
-                            <th>Titre</th>
-                            <th>Auteur</th>
-                            <th>Catégorie</th>
+                            <th>{t('admin.books.titleLabel')}</th>
+                            <th>{t('admin.books.author')}</th>
+                            <th>{t('admin.dictionary.category')}</th>
                             <th>Fichier</th>
                             <th>Téléch.</th>
-                            <th>Actions</th>
+                            <th>{t('admin.common.actions')}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -260,7 +262,7 @@ function BooksAdmin() {
                         {books.length === 0 && (
                             <tr>
                                 <td colSpan="7" style={{ textAlign: 'center', padding: '2rem', color: 'var(--medium-gray)' }}>
-                                    Aucun livre enregistré
+                                    {t('admin.books.noData')}
                                 </td>
                             </tr>
                         )}
@@ -272,7 +274,7 @@ function BooksAdmin() {
                 <div className="modal-overlay" onClick={closeModal}>
                     <div className="modal modal-large" onClick={e => e.stopPropagation()}>
                         <div className="modal-header">
-                            <h3>{editingBook ? 'Modifier le livre' : 'Ajouter un livre'}</h3>
+                            <h3>{editingBook ? t('admin.books.edit') : t('admin.books.add')}</h3>
                             <button className="modal-close" onClick={closeModal}>
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                     <line x1="18" y1="6" x2="6" y2="18" />
@@ -386,13 +388,13 @@ function BooksAdmin() {
                                 {/* Onglets de langues */}
                                 <div className="lang-tabs">
                                     <button type="button" className={`lang-tab ${activeTab === 'fr' ? 'active' : ''}`} onClick={() => setActiveTab('fr')}>
-                                        🇫🇷 Français
+                                        🇫🇷 {t('admin.dictionary.translationFr')}
                                     </button>
                                     <button type="button" className={`lang-tab ${activeTab === 'en' ? 'active' : ''}`} onClick={() => setActiveTab('en')}>
-                                        🇬🇧 English
+                                        🇬🇧 {t('admin.dictionary.translationEn')}
                                     </button>
                                     <button type="button" className={`lang-tab ${activeTab === 'ff' ? 'active' : ''}`} onClick={() => setActiveTab('ff')}>
-                                        SN Pulaar
+                                        SN {t('admin.dictionary.translationFf')}
                                     </button>
                                 </div>
 
@@ -514,10 +516,10 @@ function BooksAdmin() {
                             </div>
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-secondary" onClick={closeModal}>
-                                    Annuler
+                                    {t('admin.common.cancel')}
                                 </button>
                                 <button type="submit" className="btn btn-primary">
-                                    {editingBook ? 'Enregistrer' : 'Ajouter'}
+                                    {editingBook ? t('admin.common.save') : t('admin.common.add')}
                                 </button>
                             </div>
                         </form>

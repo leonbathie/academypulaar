@@ -132,12 +132,111 @@
     height: 24px;
 }
 
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xl);
+}
+
 .header-user {
     color: var(--dark-gray);
+    font-size: 0.95rem;
 }
 
 .header-user strong {
     color: var(--primary-gold);
+}
+
+/* Admin Language Selector */
+.admin-lang-selector {
+    position: relative;
+}
+
+.admin-lang-btn {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-xs) var(--space-md);
+    background: var(--light-gray);
+    border: 1px solid var(--light-gray);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--dark-gray);
+    transition: all var(--transition-fast);
+}
+
+.admin-lang-btn:hover {
+    background: var(--white);
+    border-color: var(--primary-gold);
+}
+
+.admin-lang-flag {
+    font-size: 1.1rem;
+}
+
+.admin-lang-btn .chevron {
+    width: 14px;
+    height: 14px;
+    transition: transform var(--transition-fast);
+}
+
+.admin-lang-btn .chevron.open {
+    transform: rotate(180deg);
+}
+
+.admin-lang-menu {
+    position: absolute;
+    top: calc(100% + 5px);
+    right: 0;
+    background: var(--white);
+    border: 1px solid var(--light-gray);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    z-index: 1000;
+    min-width: 140px;
+    padding: var(--space-xs);
+    list-style: none;
+    animation: fadeInDown 0.2s ease-out;
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.admin-lang-option {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    width: 100%;
+    padding: var(--space-sm) var(--space-md);
+    border: none;
+    background: none;
+    cursor: pointer;
+    border-radius: var(--radius-sm);
+    font-size: 0.9rem;
+    color: var(--dark-gray);
+    transition: all var(--transition-fast);
+}
+
+.admin-lang-option:hover {
+    background: var(--light-gray);
+    color: var(--primary-gold);
+}
+
+.admin-lang-option.active {
+    background: rgba(212, 165, 55, 0.1);
+    color: var(--primary-gold);
+    font-weight: 600;
 }
 
 .admin-content {

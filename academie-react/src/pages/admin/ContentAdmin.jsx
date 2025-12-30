@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useApi } from '../../context/AuthContext'
 
 function ContentAdmin() {
+    const { t } = useTranslation()
     const { apiRequest } = useApi()
     const [items, setItems] = useState([])
     const [loading, setLoading] = useState(true)
@@ -114,23 +116,23 @@ function ContentAdmin() {
         <div>
             <div className="admin-card">
                 <h2>
-                    Dire, Ne pas dire
+                    {t('admin.content.title')}
                     <button className="btn-add" onClick={() => openModal()}>
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                             <line x1="12" y1="5" x2="12" y2="19" />
                             <line x1="5" y1="12" x2="19" y2="12" />
                         </svg>
-                        Ajouter une expression
+                        {t('admin.content.add')}
                     </button>
                 </h2>
 
                 <table className="admin-table">
                     <thead>
                         <tr>
-                            <th>On dit</th>
-                            <th>On ne dit pas</th>
-                            <th>Catégorie</th>
-                            <th>Actions</th>
+                            <th>{t('admin.content.dire')}</th>
+                            <th>{t('admin.content.nePasDire')}</th>
+                            <th>{t('admin.dictionary.category')}</th>
+                            <th>{t('admin.common.actions')}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -158,7 +160,7 @@ function ContentAdmin() {
                         {items.length === 0 && (
                             <tr>
                                 <td colSpan="4" style={{ textAlign: 'center', padding: '2rem', color: 'var(--medium-gray)' }}>
-                                    Aucune expression enregistrée
+                                    {t('admin.content.noContent')}
                                 </td>
                             </tr>
                         )}
@@ -170,7 +172,7 @@ function ContentAdmin() {
                 <div className="modal-overlay" onClick={closeModal}>
                     <div className="modal modal-large" onClick={e => e.stopPropagation()}>
                         <div className="modal-header">
-                            <h3>{editingItem ? 'Modifier l\'expression' : 'Ajouter une expression'}</h3>
+                            <h3>{editingItem ? t('admin.content.edit') : t('admin.content.add')}</h3>
                             <button className="modal-close" onClick={closeModal}>
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                     <line x1="18" y1="6" x2="6" y2="18" />
@@ -201,21 +203,21 @@ function ContentAdmin() {
                                         className={`lang-tab ${activeTab === 'fr' ? 'active' : ''}`}
                                         onClick={() => setActiveTab('fr')}
                                     >
-                                        🇫🇷 Français
+                                        🇫🇷 {t('admin.dictionary.translationFr')}
                                     </button>
                                     <button
                                         type="button"
                                         className={`lang-tab ${activeTab === 'en' ? 'active' : ''}`}
                                         onClick={() => setActiveTab('en')}
                                     >
-                                        🇬🇧 English
+                                        🇬🇧 {t('admin.dictionary.translationEn')}
                                     </button>
                                     <button
                                         type="button"
                                         className={`lang-tab ${activeTab === 'ff' ? 'active' : ''}`}
                                         onClick={() => setActiveTab('ff')}
                                     >
-                                        SN Pulaar
+                                        SN {t('admin.dictionary.translationFf')}
                                     </button>
                                 </div>
 
@@ -318,9 +320,9 @@ function ContentAdmin() {
                                 </div>
                             </div>
                             <div className="modal-footer">
-                                <button type="button" className="btn-cancel" onClick={closeModal}>Annuler</button>
+                                <button type="button" className="btn-cancel" onClick={closeModal}>{t('admin.common.cancel')}</button>
                                 <button type="submit" className="btn-save">
-                                    {editingItem ? 'Enregistrer' : 'Ajouter'}
+                                    {editingItem ? t('admin.common.save') : t('admin.common.add')}
                                 </button>
                             </div>
                         </form>

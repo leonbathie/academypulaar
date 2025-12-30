@@ -1,8 +1,10 @@
 import { useState, useEffect, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useApi } from '../../context/AuthContext'
 import { API_URL } from '../../config'
 
 function NewsAdmin() {
+    const { t } = useTranslation()
     const { apiRequest, token } = useApi()
     const [news, setNews] = useState([])
     const [loading, setLoading] = useState(true)
@@ -172,13 +174,13 @@ function NewsAdmin() {
         <div>
             <div className="admin-card">
                 <h2>
-                    Actualités
+                    {t('admin.news.title')}
                     <button className="btn-add" onClick={() => openModal()}>
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                             <line x1="12" y1="5" x2="12" y2="19" />
                             <line x1="5" y1="12" x2="19" y2="12" />
                         </svg>
-                        Ajouter une actualité
+                        {t('admin.news.add')}
                     </button>
                 </h2>
 
@@ -186,11 +188,11 @@ function NewsAdmin() {
                     <thead>
                         <tr>
                             <th>Image</th>
-                            <th>Titre</th>
-                            <th>Catégorie</th>
-                            <th>Date</th>
-                            <th>Statut</th>
-                            <th>Actions</th>
+                            <th>{t('admin.news.titleLabel')}</th>
+                            <th>{t('admin.news.category')}</th>
+                            <th>{t('admin.news.date')}</th>
+                            <th>{t('admin.news.status')}</th>
+                            <th>{t('admin.common.actions')}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -221,7 +223,7 @@ function NewsAdmin() {
                                         background: item.published ? 'rgba(34, 197, 94, 0.1)' : 'rgba(239, 68, 68, 0.1)',
                                         color: item.published ? '#22c55e' : '#ef4444'
                                     }}>
-                                        {item.published ? 'Publié' : 'Brouillon'}
+                                        {item.published ? t('admin.news.published') : t('admin.news.draft')}
                                     </span>
                                 </td>
                                 <td className="actions-cell">
@@ -243,7 +245,7 @@ function NewsAdmin() {
                         {news.length === 0 && (
                             <tr>
                                 <td colSpan="6" style={{ textAlign: 'center', padding: '2rem', color: 'var(--medium-gray)' }}>
-                                    Aucune actualité publiée
+                                    {t('admin.news.noNews')}
                                 </td>
                             </tr>
                         )}
@@ -255,7 +257,7 @@ function NewsAdmin() {
                 <div className="modal-overlay" onClick={closeModal}>
                     <div className="modal modal-large" onClick={e => e.stopPropagation()}>
                         <div className="modal-header">
-                            <h3>{editingNews ? 'Modifier l\'actualité' : 'Ajouter une actualité'}</h3>
+                            <h3>{editingNews ? t('admin.news.edit') : t('admin.news.add')}</h3>
                             <button className="modal-close" onClick={closeModal}>
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                     <line x1="18" y1="6" x2="6" y2="18" />
@@ -362,21 +364,21 @@ function NewsAdmin() {
                                         className={`lang-tab ${activeTab === 'fr' ? 'active' : ''}`}
                                         onClick={() => setActiveTab('fr')}
                                     >
-                                        🇫🇷 Français
+                                        🇫🇷 {t('admin.dictionary.translationFr')}
                                     </button>
                                     <button
                                         type="button"
                                         className={`lang-tab ${activeTab === 'en' ? 'active' : ''}`}
                                         onClick={() => setActiveTab('en')}
                                     >
-                                        🇬🇧 English
+                                        🇬🇧 {t('admin.dictionary.translationEn')}
                                     </button>
                                     <button
                                         type="button"
                                         className={`lang-tab ${activeTab === 'ff' ? 'active' : ''}`}
                                         onClick={() => setActiveTab('ff')}
                                     >
-                                        SN Pulaar
+                                        SN {t('admin.dictionary.translationFf')}
                                     </button>
                                 </div>
 
@@ -479,14 +481,14 @@ function NewsAdmin() {
                                             onChange={e => setFormData({ ...formData, published: e.target.checked })}
                                             style={{ width: 'auto' }}
                                         />
-                                        Publier immédiatement
+                                        {t('admin.news.publishNow')}
                                     </label>
                                 </div>
                             </div>
                             <div className="modal-footer">
-                                <button type="button" className="btn-cancel" onClick={closeModal}>Annuler</button>
+                                <button type="button" className="btn-cancel" onClick={closeModal}>{t('admin.common.cancel')}</button>
                                 <button type="submit" className="btn-save">
-                                    {editingNews ? 'Enregistrer' : 'Ajouter'}
+                                    {editingNews ? t('admin.common.save') : t('admin.common.add')}
                                 </button>
                             </div>
                         </form>

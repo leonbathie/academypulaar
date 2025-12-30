@@ -1,8 +1,10 @@
 import { useState, useEffect, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useApi } from '../../context/AuthContext'
 import { API_URL } from '../../config'
 
 function DictionaryAdmin() {
+    const { t } = useTranslation()
     const { apiRequest, token } = useApi()
     const [words, setWords] = useState([])
     const [loading, setLoading] = useState(true)
@@ -208,25 +210,25 @@ function DictionaryAdmin() {
         <div>
             <div className="admin-card">
                 <h2>
-                    Dictionnaire
+                    {t('admin.dictionary.title')}
                     <button className="btn-add" onClick={() => openModal()}>
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                             <line x1="12" y1="5" x2="12" y2="19" />
                             <line x1="5" y1="12" x2="19" y2="12" />
                         </svg>
-                        Ajouter un mot
+                        {t('admin.dictionary.add')}
                     </button>
                 </h2>
 
                 <table className="admin-table">
                     <thead>
                         <tr>
-                            <th>Mot (Pulaar)</th>
-                            <th>Français</th>
-                            <th>English</th>
-                            <th>Pulaar</th>
+                            <th>{t('admin.dictionary.wordPulaar')}</th>
+                            <th>{t('admin.dictionary.translationFr')}</th>
+                            <th>{t('admin.dictionary.translationEn')}</th>
+                            <th>{t('admin.dictionary.translationFf')}</th>
                             <th>🎤</th>
-                            <th>Actions</th>
+                            <th>{t('admin.common.actions')}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -260,7 +262,7 @@ function DictionaryAdmin() {
                         {words.length === 0 && (
                             <tr>
                                 <td colSpan="6" style={{ textAlign: 'center', padding: '2rem', color: 'var(--medium-gray)' }}>
-                                    Aucun mot dans le dictionnaire
+                                    {t('admin.dictionary.noWords')}
                                 </td>
                             </tr>
                         )}
@@ -272,7 +274,7 @@ function DictionaryAdmin() {
                 <div className="modal-overlay" onClick={closeModal}>
                     <div className="modal modal-large" onClick={e => e.stopPropagation()}>
                         <div className="modal-header">
-                            <h3>{editingWord ? 'Modifier le mot' : 'Ajouter un mot'}</h3>
+                            <h3>{editingWord ? t('admin.dictionary.edit') : t('admin.dictionary.add')}</h3>
                             <button className="modal-close" onClick={closeModal}>
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                     <line x1="18" y1="6" x2="6" y2="18" />
@@ -284,7 +286,7 @@ function DictionaryAdmin() {
                             <div className="modal-body">
                                 <div className="form-row">
                                     <div className="form-group">
-                                        <label>Mot (Pulaar) *</label>
+                                        <label>{t('admin.dictionary.wordPulaar')} *</label>
                                         <input
                                             type="text"
                                             value={formData.word}
@@ -294,7 +296,7 @@ function DictionaryAdmin() {
                                         />
                                     </div>
                                     <div className="form-group">
-                                        <label>Catégorie</label>
+                                        <label>{t('admin.dictionary.category')}</label>
                                         <select
                                             value={formData.category}
                                             onChange={e => setFormData({ ...formData, category: e.target.value })}
@@ -311,7 +313,7 @@ function DictionaryAdmin() {
 
                                 {/* Audio du mot */}
                                 <div className="form-group">
-                                    <label>🎤 Prononciation du mot</label>
+                                    <label>🎤 {t('admin.dictionary.audioWord')}</label>
                                     <div className="audio-recorder">
                                         {!isRecordingWord ? (
                                             <button
@@ -323,7 +325,7 @@ function DictionaryAdmin() {
                                                     <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z" />
                                                     <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z" />
                                                 </svg>
-                                                {audioWordUrl ? 'Ré-enregistrer' : 'Enregistrer'}
+                                                {audioWordUrl ? t('admin.dictionary.reRecord') : t('admin.dictionary.record')}
                                             </button>
                                         ) : (
                                             <button
@@ -357,28 +359,28 @@ function DictionaryAdmin() {
                                         className={`lang-tab ${activeTab === 'fr' ? 'active' : ''}`}
                                         onClick={() => setActiveTab('fr')}
                                     >
-                                        🇫🇷 Français
+                                        🇫🇷 {t('admin.dictionary.translationFr')}
                                     </button>
                                     <button
                                         type="button"
                                         className={`lang-tab ${activeTab === 'en' ? 'active' : ''}`}
                                         onClick={() => setActiveTab('en')}
                                     >
-                                        🇬🇧 English
+                                        🇬🇧 {t('admin.dictionary.translationEn')}
                                     </button>
                                     <button
                                         type="button"
                                         className={`lang-tab ${activeTab === 'ff' ? 'active' : ''}`}
                                         onClick={() => setActiveTab('ff')}
                                     >
-                                        SN Pulaar
+                                        SN {t('admin.dictionary.translationFf')}
                                     </button>
                                 </div>
 
                                 <div className="lang-content">
                                     {activeTab === 'fr' && (
                                         <div className="form-group">
-                                            <label>Traduction Français</label>
+                                            <label>{t('admin.dictionary.translationFr')}</label>
                                             <textarea
                                                 value={formData.translation_fr}
                                                 onChange={e => setFormData({ ...formData, translation_fr: e.target.value })}
@@ -389,7 +391,7 @@ function DictionaryAdmin() {
                                     )}
                                     {activeTab === 'en' && (
                                         <div className="form-group">
-                                            <label>English Translation</label>
+                                            <label>{t('admin.dictionary.translationEn')}</label>
                                             <textarea
                                                 value={formData.translation_en}
                                                 onChange={e => setFormData({ ...formData, translation_en: e.target.value })}
@@ -400,7 +402,7 @@ function DictionaryAdmin() {
                                     )}
                                     {activeTab === 'ff' && (
                                         <div className="form-group">
-                                            <label>Définition Pulaar</label>
+                                            <label>{t('admin.dictionary.translationFf')}</label>
                                             <textarea
                                                 value={formData.translation_ff}
                                                 onChange={e => setFormData({ ...formData, translation_ff: e.target.value })}
@@ -423,7 +425,7 @@ function DictionaryAdmin() {
 
                                 {/* Audio de l'exemple */}
                                 <div className="form-group">
-                                    <label>🎤 Prononciation de l'exemple</label>
+                                    <label>🎤 {t('admin.dictionary.audioExample')}</label>
                                     <div className="audio-recorder">
                                         {!isRecordingExample ? (
                                             <button
@@ -435,7 +437,7 @@ function DictionaryAdmin() {
                                                     <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z" />
                                                     <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z" />
                                                 </svg>
-                                                {audioExampleUrl ? 'Ré-enregistrer' : 'Enregistrer'}
+                                                {audioExampleUrl ? t('admin.dictionary.reRecord') : t('admin.dictionary.record')}
                                             </button>
                                         ) : (
                                             <button
@@ -463,9 +465,9 @@ function DictionaryAdmin() {
                                 </div>
                             </div>
                             <div className="modal-footer">
-                                <button type="button" className="btn-cancel" onClick={closeModal}>Annuler</button>
+                                <button type="button" className="btn-cancel" onClick={closeModal}>{t('admin.common.cancel')}</button>
                                 <button type="submit" className="btn-save">
-                                    {editingWord ? 'Enregistrer' : 'Ajouter'}
+                                    {editingWord ? t('admin.common.save') : t('admin.common.add')}
                                 </button>
                             </div>
                         </form>

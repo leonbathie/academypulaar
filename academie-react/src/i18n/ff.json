@@ -118,5 +118,111 @@
         "legalNotice": "Baɗte sariya",
         "privacy": "Dawiree cuuɗii",
         "accessibility": "Heɓtineede"
+    },
+    "admin": {
+        "sidebar": {
+            "dashboard": "Jaagere",
+            "dictionary": "Saggitorde",
+            "members": "Terɗe",
+            "news": "Kabaruuji",
+            "content": "Haalu, Woto haalu",
+            "library": "Defte-manti",
+            "viewSite": "Yiyde lowre ndee",
+            "logout": "Teppitante"
+        },
+        "header": {
+            "welcome": "Bismilla",
+            "loading": "Ɗon hantoo..."
+        },
+        "dashboard": {
+            "title": "Jaagere",
+            "stats": {
+                "words": "Helmere e saggitorde",
+                "members": "Terɗe / Gandalɓe",
+                "news": "Kabaruuji bayyinaaɗi",
+                "content": "Wiide, Woto wiide"
+            },
+            "welcomeCard": {
+                "title": "Bismilla e jaagere",
+                "text": "Huutora doggol nano ngam feewnude ko woni e lowre GoomuFuloWiɗto :",
+                "dict": "Ɓeydude, waylude walla momtude kelme",
+                "members": "Feewnude gandalɓe e nguurndam muudum'en",
+                "news": "Bayyinde kabaruuji e winndanɗe",
+                "content": "Feewnude kelme ɗemngal"
+            }
+        },
+        "common": {
+            "add": "Ɓeydude",
+            "edit": "Waylude",
+            "delete": "Momtude",
+            "save": "Hisnude",
+            "cancel": "Faytude",
+            "actions": "Kuuɗe",
+            "confirmDelete": "A jaɓii momtude ?",
+            "noData": "Alaa ko heɓii",
+            "errorSaving": "Juumre e hisnude"
+        },
+        "dictionary": {
+            "title": "Saggitorde",
+            "add": "Ɓeydude helmere",
+            "edit": "Waylude helmere",
+            "wordPulaar": "Helmere (Pulaar)",
+            "translationFr": "Faransikoore",
+            "translationEn": "Engeleere",
+            "translationFf": "Pulaar",
+            "category": "Mbaydi",
+            "example": "Yerirun",
+            "audioWord": "Bi'ol helmere ndee",
+            "audioExample": "Bi'ol yerirun ngun",
+            "noWords": "Alaa helmere e saggitorde",
+            "record": "Hisnude",
+            "stop": "Dartude",
+            "reRecord": "Hisnude goɗɗum"
+        },
+        "members": {
+            "title": "Terɗe",
+            "add": "Ɓeydude tergal",
+            "edit": "Waylude tergal",
+            "name": "Innde",
+            "role": "Gollal",
+            "specialty": "Karallaagal",
+            "joined": "Naatii e",
+            "noMembers": "Alaa tergal heɓaa"
+        },
+        "books": {
+            "title": "Defte-manti",
+            "add": "Ɓeydude deftere",
+            "edit": "Waylude deftere",
+            "titleLabel": "Tiitoonde",
+            "author": "Binnduɗo",
+            "price": "Coggu",
+            "free": "Meere",
+            "noBooks": "Alaa deftere heɓaa"
+        },
+        "news": {
+            "title": "Kabaaruuji",
+            "add": "Ɓeydude kabaaru",
+            "edit": "Waylude kabaaru",
+            "titleLabel": "Tiitoonde",
+            "category": "Mbaydi",
+            "date": "Ñalngu",
+            "status": "Mbaydi",
+            "published": "Yaltinaama",
+            "draft": "Binndol",
+            "image": "Nate dow",
+            "excerpt": "Dow-kabaaru",
+            "content": "Kuurun kabaaru",
+            "publishNow": "Yaltinde jooni",
+            "noNews": "Alaa kabaaru yaltinaa"
+        },
+        "content": {
+            "title": "Wiyde e wiyde ala",
+            "add": "Ɓeydude bihol",
+            "edit": "Waylude bihol",
+            "dire": "Wiyde",
+            "nePasDire": "Wiyde ala",
+            "explanation": "Pinal",
+            "noContent": "Alaa bihol winndaa"
+        }
     }
 }

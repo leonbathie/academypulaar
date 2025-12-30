@@ -118,5 +118,111 @@
         "legalNotice": "Mentions légales",
         "privacy": "Politique de confidentialité",
         "accessibility": "Accessibilité"
+    },
+    "admin": {
+        "sidebar": {
+            "dashboard": "Tableau de bord",
+            "dictionary": "Dictionnaire",
+            "members": "Membres",
+            "news": "Actualités",
+            "content": "Dire, Ne pas dire",
+            "library": "Bibliothèque",
+            "viewSite": "Voir le site",
+            "logout": "Déconnexion"
+        },
+        "header": {
+            "welcome": "Bienvenue",
+            "loading": "Chargement..."
+        },
+        "dashboard": {
+            "title": "Tableau de bord",
+            "stats": {
+                "words": "Mots dans le dictionnaire",
+                "members": "Membres / Érudits",
+                "news": "Actualités publiées",
+                "content": "Expressions \"Dire, Ne pas dire\""
+            },
+            "welcomeCard": {
+                "title": "Bienvenue dans l'administration",
+                "text": "Utilisez le menu de gauche pour gérer le contenu du site GoomuFuloWiɗto :",
+                "dict": "Ajouter, modifier ou supprimer des mots",
+                "members": "Gérer les érudits et leurs biographies",
+                "news": "Publier des nouvelles et articles",
+                "content": "Gérer les expressions linguistiques"
+            }
+        },
+        "common": {
+            "add": "Ajouter",
+            "edit": "Modifier",
+            "delete": "Supprimer",
+            "save": "Enregistrer",
+            "cancel": "Annuler",
+            "actions": "Actions",
+            "confirmDelete": "Confirmer la suppression ?",
+            "noData": "Aucune donnée disponible",
+            "errorSaving": "Erreur lors de l'enregistrement"
+        },
+        "dictionary": {
+            "title": "Dictionnaire",
+            "add": "Ajouter un mot",
+            "edit": "Modifier le mot",
+            "wordPulaar": "Mot (Pulaar)",
+            "translationFr": "Français",
+            "translationEn": "English",
+            "translationFf": "Pulaar",
+            "category": "Catégorie",
+            "example": "Exemple d'utilisation",
+            "audioWord": "Prononciation du mot",
+            "audioExample": "Prononciation de l'exemple",
+            "noWords": "Aucun mot dans le dictionnaire",
+            "record": "Enregistrer",
+            "stop": "Arrêter",
+            "reRecord": "Ré-enregistrer"
+        },
+        "members": {
+            "title": "Membres",
+            "add": "Ajouter un membre",
+            "edit": "Modifier le membre",
+            "name": "Nom",
+            "role": "Rôle",
+            "specialty": "Spécialité",
+            "joined": "Rejoint le",
+            "noMembers": "Aucun membre trouvé"
+        },
+        "books": {
+            "title": "Bibliothèque",
+            "add": "Ajouter un livre",
+            "edit": "Modifier le livre",
+            "titleLabel": "Titre",
+            "author": "Auteur",
+            "price": "Prix",
+            "free": "Gratuit",
+            "noBooks": "Aucun livre trouvé"
+        },
+        "news": {
+            "title": "Actualités",
+            "add": "Ajouter une actualité",
+            "edit": "Modifier l'actualité",
+            "titleLabel": "Titre",
+            "category": "Catégorie",
+            "date": "Date",
+            "status": "Statut",
+            "published": "Publié",
+            "draft": "Brouillon",
+            "image": "Image de couverture",
+            "excerpt": "Résumé",
+            "content": "Contenu",
+            "publishNow": "Publier immédiatement",
+            "noNews": "Aucune actualité publiée"
+        },
+        "content": {
+            "title": "Dire, Ne pas dire",
+            "add": "Ajouter une expression",
+            "edit": "Modifier l'expression",
+            "dire": "On dit",
+            "nePasDire": "On ne dit pas",
+            "explanation": "Explication",
+            "noContent": "Aucune expression enregistrée"
+        }
     }
 }

@@ -1,11 +1,27 @@
 import { useState, useEffect } from 'react'
 import { Navigate, NavLink, Outlet } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { useAuth } from '../context/AuthContext'
 import './AdminPage.css'
 
 function AdminPage() {
+    const { t, i18n } = useTranslation()
     const { user, logout, isAuthenticated, isAdmin, loading } = useAuth()
     const [sidebarOpen, setSidebarOpen] = useState(window.innerWidth > 768)
+    const [isLangMenuOpen, setIsLangMenuOpen] = useState(false)
+
+    const languages = [
+        { code: 'fr', name: 'Français', flag: '🇫🇷' },
+        { code: 'en', name: 'English', flag: '🇬🇧' },
+        { code: 'ff', name: 'Pulaar', flag: '🇸🇳' }
+    ]
+
+    const currentLang = languages.find(l => l.code === i18n.language) || languages[0]
+
+    const changeLanguage = (langCode) => {
+        i18n.changeLanguage(langCode)
+        setIsLangMenuOpen(false)
+    }
 
     useEffect(() => {
         const handleResize = () => {
@@ -31,7 +47,7 @@ function AdminPage() {
         return (
             <div className="admin-loading">
                 <div className="spinner-large"></div>
-                <p>Chargement...</p>
+                <p>{t('admin.header.loading')}</p>
             </div>
         )
     }
@@ -51,7 +67,7 @@ function AdminPage() {
             <aside className={`admin-sidebar ${sidebarOpen ? '' : 'collapsed'}`}>
                 <div className="sidebar-header">
                     <h2>GoomuFuloWiɗto</h2>
-                    <span>Administration</span>
+                    <span>{t('admin.header.welcome')}</span>
                 </div>
 
                 <nav className="sidebar-nav">
@@ -60,7 +76,7 @@ function AdminPage() {
                             <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
                             <polyline points="9 22 9 12 15 12 15 22" />
                         </svg>
-                        <span>Tableau de bord</span>
+                        <span>{t('admin.sidebar.dashboard')}</span>
                     </NavLink>
 
                     <NavLink to="/admin/dictionnaire" className="nav-item" onClick={closeSidebarMobile}>
@@ -68,7 +84,7 @@ function AdminPage() {
                             <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
                             <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
                         </svg>
-                        <span>Dictionnaire</span>
+                        <span>{t('admin.sidebar.dictionary')}</span>
                     </NavLink>
 
                     <NavLink to="/admin/membres" className="nav-item" onClick={closeSidebarMobile}>
@@ -78,7 +94,7 @@ function AdminPage() {
                             <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
                             <path d="M16 3.13a4 4 0 0 1 0 7.75" />
                         </svg>
-                        <span>Membres</span>
+                        <span>{t('admin.sidebar.members')}</span>
                     </NavLink>
 
                     <NavLink to="/admin/actualites" className="nav-item" onClick={closeSidebarMobile}>
@@ -87,7 +103,7 @@ function AdminPage() {
                             <path d="M21 16V8a2 2 0 0 0-2-2h-2" />
                             <path d="M7 8h4M7 12h8M7 16h6" />
                         </svg>
-                        <span>Actualités</span>
+                        <span>{t('admin.sidebar.news')}</span>
                     </NavLink>
 
                     <NavLink to="/admin/contenu" className="nav-item" onClick={closeSidebarMobile}>
@@ -95,7 +111,7 @@ function AdminPage() {
                             <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
                             <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
                         </svg>
-                        <span>Dire, Ne pas dire</span>
+                        <span>{t('admin.sidebar.content')}</span>
                     </NavLink>
 
                     <NavLink to="/admin/bibliotheque" className="nav-item" onClick={closeSidebarMobile}>
@@ -104,7 +120,7 @@ function AdminPage() {
                             <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
                             <path d="M8 7h8M8 11h8M8 15h4" />
                         </svg>
-                        <span>Bibliothèque</span>
+                        <span>{t('admin.sidebar.library')}</span>
                     </NavLink>
                 </nav>
 
@@ -115,7 +131,7 @@ function AdminPage() {
                             <polyline points="15 3 21 3 21 9" />
                             <line x1="10" y1="14" x2="21" y2="3" />
                         </svg>
-                        <span>Voir le site</span>
+                        <span>{t('admin.sidebar.viewSite')}</span>
                     </a>
                     <button onClick={() => { logout(); closeSidebarMobile(); }} className="nav-item logout">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -123,7 +139,7 @@ function AdminPage() {
                             <polyline points="16 17 21 12 16 7" />
                             <line x1="21" y1="12" x2="9" y2="12" />
                         </svg>
-                        <span>Déconnexion</span>
+                        <span>{t('admin.sidebar.logout')}</span>
                     </button>
                 </div>
             </aside>
@@ -140,8 +156,37 @@ function AdminPage() {
                             <line x1="3" y1="18" x2="21" y2="18" />
                         </svg>
                     </button>
-                    <div className="header-user">
-                        <span>Bienvenue, <strong>{user?.username}</strong></span>
+                    <div className="header-right">
+                        <div className="admin-lang-selector">
+                            <button
+                                className="admin-lang-btn"
+                                onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}
+                            >
+                                <span className="admin-lang-flag">{currentLang.flag}</span>
+                                <span className="admin-lang-code">{currentLang.code.toUpperCase()}</span>
+                                <svg className={`chevron ${isLangMenuOpen ? 'open' : ''}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                    <path d="M6 9l6 6 6-6" />
+                                </svg>
+                            </button>
+                            {isLangMenuOpen && (
+                                <ul className="admin-lang-menu">
+                                    {languages.map((lang) => (
+                                        <li key={lang.code}>
+                                            <button
+                                                className={`admin-lang-option ${i18n.language === lang.code ? 'active' : ''}`}
+                                                onClick={() => changeLanguage(lang.code)}
+                                            >
+                                                <span className="admin-lang-flag">{lang.flag}</span>
+                                                <span className="admin-lang-name">{lang.name}</span>
+                                            </button>
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
+                        </div>
+                        <div className="header-user">
+                            <span>{t('admin.header.welcome')}, <strong>{user?.username}</strong></span>
+                        </div>
                     </div>
                 </header>
 

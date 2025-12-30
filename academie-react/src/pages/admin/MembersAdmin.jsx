@@ -1,8 +1,10 @@
 import { useState, useEffect, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useApi } from '../../context/AuthContext'
 import { API_URL } from '../../config'
 
 function MembersAdmin() {
+    const { t } = useTranslation()
     const { apiRequest, token } = useApi()
     const [members, setMembers] = useState([])
     const [loading, setLoading] = useState(true)
@@ -166,13 +168,13 @@ function MembersAdmin() {
         <div>
             <div className="admin-card">
                 <h2>
-                    Membres / Érudits
+                    {t('admin.members.title')}
                     <button className="btn-add" onClick={() => openModal()}>
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                             <line x1="12" y1="5" x2="12" y2="19" />
                             <line x1="5" y1="12" x2="19" y2="12" />
                         </svg>
-                        Ajouter un membre
+                        {t('admin.members.add')}
                     </button>
                 </h2>
 
@@ -180,10 +182,10 @@ function MembersAdmin() {
                     <thead>
                         <tr>
                             <th>Photo</th>
-                            <th>Nom</th>
-                            <th>Rôle (FR)</th>
-                            <th>Spécialité</th>
-                            <th>Actions</th>
+                            <th>{t('admin.members.name')}</th>
+                            <th>{t('admin.members.role')} (FR)</th>
+                            <th>{t('admin.members.specialty')}</th>
+                            <th>{t('admin.common.actions')}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -224,7 +226,7 @@ function MembersAdmin() {
                         {members.length === 0 && (
                             <tr>
                                 <td colSpan="5" style={{ textAlign: 'center', padding: '2rem', color: 'var(--medium-gray)' }}>
-                                    Aucun membre enregistré
+                                    {t('admin.members.noMembers')}
                                 </td>
                             </tr>
                         )}
@@ -236,7 +238,7 @@ function MembersAdmin() {
                 <div className="modal-overlay" onClick={closeModal}>
                     <div className="modal modal-large" onClick={e => e.stopPropagation()}>
                         <div className="modal-header">
-                            <h3>{editingMember ? 'Modifier le membre' : 'Ajouter un membre'}</h3>
+                            <h3>{editingMember ? t('admin.members.edit') : t('admin.members.add')}</h3>
                             <button className="modal-close" onClick={closeModal}>
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                     <line x1="18" y1="6" x2="6" y2="18" />
@@ -282,7 +284,7 @@ function MembersAdmin() {
 
                                 <div className="form-row">
                                     <div className="form-group">
-                                        <label>Nom complet *</label>
+                                        <label>{t('admin.members.name')} *</label>
                                         <input
                                             type="text"
                                             value={formData.name}
@@ -291,7 +293,7 @@ function MembersAdmin() {
                                         />
                                     </div>
                                     <div className="form-group">
-                                        <label>Membre depuis</label>
+                                        <label>{t('admin.members.joined')}</label>
                                         <input
                                             type="text"
                                             value={formData.joined}
@@ -302,7 +304,7 @@ function MembersAdmin() {
                                 </div>
 
                                 <div className="form-group">
-                                    <label>Spécialité</label>
+                                    <label>{t('admin.members.specialty')}</label>
                                     <input
                                         type="text"
                                         value={formData.specialty}
@@ -372,21 +374,21 @@ function MembersAdmin() {
                                         className={`lang-tab ${activeTab === 'fr' ? 'active' : ''}`}
                                         onClick={() => setActiveTab('fr')}
                                     >
-                                        🇫🇷 Français
+                                        🇫🇷 {t('admin.dictionary.translationFr')}
                                     </button>
                                     <button
                                         type="button"
                                         className={`lang-tab ${activeTab === 'en' ? 'active' : ''}`}
                                         onClick={() => setActiveTab('en')}
                                     >
-                                        🇬🇧 English
+                                        🇬🇧 {t('admin.dictionary.translationEn')}
                                     </button>
                                     <button
                                         type="button"
                                         className={`lang-tab ${activeTab === 'ff' ? 'active' : ''}`}
                                         onClick={() => setActiveTab('ff')}
                                     >
-                                        SN Pulaar
+                                        SN {t('admin.dictionary.translationFf')}
                                     </button>
                                 </div>
 
@@ -460,9 +462,9 @@ function MembersAdmin() {
                                 </div>
                             </div>
                             <div className="modal-footer">
-                                <button type="button" className="btn-cancel" onClick={closeModal}>Annuler</button>
+                                <button type="button" className="btn-cancel" onClick={closeModal}>{t('admin.common.cancel')}</button>
                                 <button type="submit" className="btn-save">
-                                    {editingMember ? 'Enregistrer' : 'Ajouter'}
+                                    {editingMember ? t('admin.common.save') : t('admin.common.add')}
                                 </button>
                             </div>
                         </form>

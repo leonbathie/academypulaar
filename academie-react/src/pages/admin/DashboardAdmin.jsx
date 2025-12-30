@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useApi } from '../../context/AuthContext'
 
 function DashboardAdmin() {
+    const { t } = useTranslation()
     const { apiRequest } = useApi()
     const [stats, setStats] = useState({
         dictionary: 0,
@@ -48,7 +50,7 @@ function DashboardAdmin() {
     return (
         <div>
             <h1 style={{ marginBottom: '2rem', fontFamily: 'var(--font-display)' }}>
-                Tableau de bord
+                {t('admin.dashboard.title')}
             </h1>
 
             <div className="stats-grid">
@@ -61,7 +63,7 @@ function DashboardAdmin() {
                     </div>
                     <div className="stat-info">
                         <h3>{stats.dictionary}</h3>
-                        <p>Mots dans le dictionnaire</p>
+                        <p>{t('admin.dashboard.stats.words')}</p>
                     </div>
                 </div>
 
@@ -76,7 +78,7 @@ function DashboardAdmin() {
                     </div>
                     <div className="stat-info">
                         <h3>{stats.members}</h3>
-                        <p>Membres / Érudits</p>
+                        <p>{t('admin.dashboard.stats.members')}</p>
                     </div>
                 </div>
 
@@ -90,7 +92,7 @@ function DashboardAdmin() {
                     </div>
                     <div className="stat-info">
                         <h3>{stats.news}</h3>
-                        <p>Actualités publiées</p>
+                        <p>{t('admin.dashboard.stats.news')}</p>
                     </div>
                 </div>
 
@@ -103,21 +105,21 @@ function DashboardAdmin() {
                     </div>
                     <div className="stat-info">
                         <h3>{stats.content}</h3>
-                        <p>Expressions "Dire, Ne pas dire"</p>
+                        <p>{t('admin.dashboard.stats.content')}</p>
                     </div>
                 </div>
             </div>
 
             <div className="admin-card">
-                <h2>Bienvenue dans l'administration</h2>
+                <h2>{t('admin.dashboard.welcomeCard.title')}</h2>
                 <p style={{ color: 'var(--medium-gray)', lineHeight: 1.7 }}>
-                    Utilisez le menu de gauche pour gérer le contenu du site GoomuFuloWiɗto :
+                    {t('admin.dashboard.welcomeCard.text')}
                 </p>
                 <ul style={{ marginTop: '1rem', color: 'var(--dark-gray)', lineHeight: 2 }}>
-                    <li><strong>Dictionnaire</strong> - Ajouter, modifier ou supprimer des mots</li>
-                    <li><strong>Membres</strong> - Gérer les érudits et leurs biographies</li>
-                    <li><strong>Actualités</strong> - Publier des nouvelles et articles</li>
-                    <li><strong>Dire, Ne pas dire</strong> - Gérer les expressions linguistiques</li>
+                    <li><strong>{t('admin.sidebar.dictionary')}</strong> - {t('admin.dashboard.welcomeCard.dict')}</li>
+                    <li><strong>{t('admin.sidebar.members')}</strong> - {t('admin.dashboard.welcomeCard.members')}</li>
+                    <li><strong>{t('admin.sidebar.news')}</strong> - {t('admin.dashboard.welcomeCard.news')}</li>
+                    <li><strong>{t('admin.sidebar.content')}</strong> - {t('admin.dashboard.welcomeCard.content')}</li>
                 </ul>
             </div>
         </div>
