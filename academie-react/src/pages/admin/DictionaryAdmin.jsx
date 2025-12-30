@@ -88,6 +88,10 @@ function DictionaryAdmin() {
     // Audio Recording Functions
     const startRecording = async (type) => {
         try {
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                alert('L\'accès au microphone est restreint aux connexions sécurisées (HTTPS). Si vous êtes en test, utilisez localhost ou configurez SSL sur votre serveur.')
+                return
+            }
             const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
             mediaRecorderRef.current = new MediaRecorder(stream, { mimeType: 'audio/webm' })
             audioChunksRef.current = []
@@ -123,7 +127,7 @@ function DictionaryAdmin() {
             }
         } catch (error) {
             console.error('Error accessing microphone:', error)
-            alert('Impossible d\'accéder au microphone. Vérifiez les permissions.')
+            alert('Impossible d\'accéder au microphone. Vérifiez les permissions de votre navigateur.')
         }
     }
 
