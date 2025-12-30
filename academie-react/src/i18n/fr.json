@@ -1,6 +1,6 @@
 {
     "common": {
-        "siteName": "GoomuFuloWiɗto",
+        "siteName": "Goomu Fulo Wiɗto",
         "siteSlogan": "Académie de la langue Pulaar",
         "since": "Depuis 2024",
         "discover": "Découvrir",
@@ -41,9 +41,9 @@
         "title1": "Séance annuelle 2025",
         "subtitle1": "Découvrez les moments forts de cette cérémonie prestigieuse",
         "title2": "Le Dictionnaire",
-        "subtitle2": "Première édition du Dictionnaire GoomuFuloWiɗto",
+        "subtitle2": "Première édition du Dictionnaire Goomu Fulo Wiɗto",
         "title3": "La langue Pulaar",
-        "subtitle3": "Gardienne de la langue, GoomuFuloWiɗto protège le Pulaar",
+        "subtitle3": "Gardienne de la langue, Goomu Fulo Wiɗto protège le Pulaar",
         "title4": "Les Érudits",
         "subtitle4": "Des membres au service de la langue et de la culture Pulaar",
         "consultDictionary": "Consulter le Dictionnaire",
@@ -53,28 +53,28 @@
         "sectionLabel": "Nos missions",
         "title": "Au service de la",
         "titleHighlight": "langue Pulaar",
-        "description": "GoomuFuloWiɗto accomplit trois missions principales : la rédaction du Dictionnaire, la défense de la langue Pulaar et le mécénat à travers les prix littéraires.",
+        "description": "Goomu Fulo Wiɗto accomplit trois missions principales : la rédaction du Dictionnaire, la défense de la langue Pulaar et le mécénat à travers les prix littéraires.",
         "institution": {
             "title": "L'Institution",
-            "description": "Fondée pour la langue Pulaar, GoomuFuloWiɗto est une organisation de gardiens de la langue."
+            "description": "Fondée pour la langue Pulaar, Goomu Fulo Wiɗto est une organisation de gardiens de la langue."
         },
         "dictionary": {
             "title": "Le Dictionnaire",
-            "description": "GoomuFuloWiɗto élabore le Dictionnaire, ouvrage de référence de la langue Pulaar."
+            "description": "Goomu Fulo Wiɗto élabore le Dictionnaire, ouvrage de référence de la langue Pulaar."
         },
         "prizes": {
             "title": "Les Prix",
-            "description": "Chaque année, GoomuFuloWiɗto décerne des prix littéraires et récompenses."
+            "description": "Chaque année, Goomu Fulo Wiɗto décerne des prix littéraires et récompenses."
         },
         "immortals": {
             "title": "Les Érudits",
-            "description": "Des membres élus composent GoomuFuloWiɗto, gardiens de la langue et de la culture."
+            "description": "Des membres élus composent Goomu Fulo Wiɗto, gardiens de la langue et de la culture."
         }
     },
     "news": {
         "sectionLabel": "Restez informés",
         "title": "L'actualité de",
-        "titleHighlight": "GoomuFuloWiɗto",
+        "titleHighlight": "Goomu Fulo Wiɗto",
         "viewAll": "Toutes les actualités",
         "candidacy": "Candidature",
         "election": "Élection",
@@ -85,7 +85,7 @@
         "sectionLabel": "La langue Pulaar",
         "title": "Dire,",
         "titleHighlight": "Ne pas dire",
-        "intro": "Quels mots, quelles tournures choisir, retenir ou rejeter ? GoomuFuloWiɗto vous guide dans l'usage correct de la langue Pulaar.",
+        "intro": "Quels mots, quelles tournures choisir, retenir ou rejeter ? Goomu Fulo Wiɗto vous guide dans l'usage correct de la langue Pulaar.",
         "discoverSection": "Découvrir la rubrique",
         "weSay": "On dit",
         "weDontSay": "On ne dit pas",
@@ -97,7 +97,7 @@
         "sectionLabel": "Dictionnaire Pulaar",
         "title": "Le",
         "titleHighlight": "Dictionnaire",
-        "intro": "Le Dictionnaire de GoomuFuloWiɗto est l'ouvrage de référence qui fixe l'usage du Pulaar. Consultez-le en ligne.",
+        "intro": "Le Dictionnaire de Goomu Fulo Wiɗto est l'ouvrage de référence qui fixe l'usage du Pulaar. Consultez-le en ligne.",
         "wordsStartingWith": "Mots commençant par",
         "similarWords": "Mots proches",
         "searchPlaceholder": "Rechercher un mot...",
@@ -107,14 +107,14 @@
         "volumesPublished": "Tomes publiés"
     },
     "footer": {
-        "description": "GoomuFuloWiɗto est une organisation dédiée à la définition de la langue Pulaar par l'élaboration de son dictionnaire.",
+        "description": "Goomu Fulo Wiɗto est une organisation dédiée à la définition de la langue Pulaar par l'élaboration de son dictionnaire.",
         "institution": "L'Institution",
         "language": "La Langue",
         "services": "Services",
         "stayInformed": "Restez informé",
-        "newsletterText": "Recevez les dernières actualités de GoomuFuloWiɗto.",
+        "newsletterText": "Recevez les dernières actualités de Goomu Fulo Wiɗto.",
         "emailPlaceholder": "Votre e-mail",
-        "copyright": "GoomuFuloWiɗto. Tous droits réservés.",
+        "copyright": "Goomu Fulo Wiɗto. Tous droits réservés.",
         "legalNotice": "Mentions légales",
         "privacy": "Politique de confidentialité",
         "accessibility": "Accessibilité"
@@ -144,7 +144,7 @@
             },
             "welcomeCard": {
                 "title": "Bienvenue dans l'administration",
-                "text": "Utilisez le menu de gauche pour gérer le contenu du site GoomuFuloWiɗto :",
+                "text": "Utilisez le menu de gauche pour gérer le contenu du site Goomu Fulo Wiɗto :",
                 "dict": "Ajouter, modifier ou supprimer des mots",
                 "members": "Gérer les érudits et leurs biographies",
                 "news": "Publier des nouvelles et articles",

@@ -1,6 +1,6 @@
 {
     "common": {
-        "siteName": "GoomuFuloWiɗto",
+        "siteName": "Goomu Fulo Wiɗto",
         "siteSlogan": "Fedde Ɗemngal Pulaar",
         "since": "Gila 2024",
         "discover": "Yiytu",
@@ -41,9 +41,9 @@
         "title1": "Pottital 2025",
         "subtitle1": "Yiytu sakkeeji mawɗi ndee julotiral",
         "title2": "Saggitorde",
-        "subtitle2": "Weccitaare gadane Saggitorde GoomuFuloWiɗto",
+        "subtitle2": "Weccitaare gadane Saggitorde Goomu Fulo Wiɗto",
         "title3": "Ɗemngal Pulaar",
-        "subtitle3": "Doomtotooɗo ɗemngal, GoomuFuloWiɗto reeni Pulaar",
+        "subtitle3": "Doomtotooɗo ɗemngal, Goomu Fulo Wiɗto reeni Pulaar",
         "title4": "Janngooɓe",
         "subtitle4": "Terɗe golloowo ngam ɗemngal e pinal Pulaar",
         "consultDictionary": "Yeewtude Saggitorde",
@@ -53,28 +53,28 @@
         "sectionLabel": "Golle amen",
         "title": "E wallitorde",
         "titleHighlight": "ɗemngal Pulaar",
-        "description": "GoomuFuloWiɗto ngollata golle tati mawɗe: winndude Saggitorde, reende ɗemngal Pulaar, e rokkude njeenaaje binndol.",
+        "description": "Goomu Fulo Wiɗto ngollata golle tati mawɗe: winndude Saggitorde, reende ɗemngal Pulaar, e rokkude njeenaaje binndol.",
         "institution": {
             "title": "Fedde ndee",
-            "description": "Sosaa ngam ɗemngal Pulaar, GoomuFuloWiɗto ko fedde reentooɓe ɗemngal."
+            "description": "Sosaa ngam ɗemngal Pulaar, Goomu Fulo Wiɗto ko fedde reentooɓe ɗemngal."
         },
         "dictionary": {
             "title": "Saggitorde",
-            "description": "GoomuFuloWiɗto woni e mahde Saggitorde, deftere jogoore ɗemngal Pulaar."
+            "description": "Goomu Fulo Wiɗto woni e mahde Saggitorde, deftere jogoore ɗemngal Pulaar."
         },
         "prizes": {
             "title": "Njeenaaje",
-            "description": "Hitaande kala, GoomuFuloWiɗto hokkata njeenaaje binndol."
+            "description": "Hitaande kala, Goomu Fulo Wiɗto hokkata njeenaaje binndol."
         },
         "immortals": {
             "title": "Janngooɓe",
-            "description": "Terɗe cuɓaaɗe mbana GoomuFuloWiɗto, reentooɓe ɗemngal e pinal."
+            "description": "Terɗe cuɓaaɗe mbana Goomu Fulo Wiɗto, reentooɓe ɗemngal e pinal."
         }
     },
     "news": {
         "sectionLabel": "Heɓu kabaruuji",
         "title": "Kabaruuji",
-        "titleHighlight": "GoomuFuloWiɗto",
+        "titleHighlight": "Goomu Fulo Wiɗto",
         "viewAll": "Kabaruuji fow",
         "candidacy": "Cownagol",
         "election": "Suɓagol",
@@ -85,7 +85,7 @@
         "sectionLabel": "Ɗemngal Pulaar",
         "title": "Haalu,",
         "titleHighlight": "Woto haalu",
-        "intro": "Ɗume kelme, ɗume mbaydi suɓaade, jogaade walla salaade hakkunde ko nanee e ko haalee? GoomuFuloWiɗto ndaardata on e huutoraade ɗemngal Pulaar no haaniri.",
+        "intro": "Ɗume kelme, ɗume mbaydi suɓaade, jogaade walla salaade hakkunde ko nanee e ko haalee? Goomu Fulo Wiɗto ndaardata on e huutoraade ɗemngal Pulaar no haaniri.",
         "discoverSection": "Yiytu taƴre ndee",
         "weSay": "Haalen",
         "weDontSay": "Woto haalu",
@@ -97,7 +97,7 @@
         "sectionLabel": "Saggitorde Pulaar",
         "title": "Nde",
         "titleHighlight": "Saggitorde",
-        "intro": "Saggitorde GoomuFuloWiɗto ko deftere jogoore nde darnoti huutoraade Pulaar. Yeewtaa e internet.",
+        "intro": "Saggitorde Goomu Fulo Wiɗto ko deftere jogoore nde darnoti huutoraade Pulaar. Yeewtaa e internet.",
         "wordsStartingWith": "Kelme puɗɗortooɗe e",
         "similarWords": "Kelme pottiiɗe",
         "searchPlaceholder": "Yiylo helmere...",
@@ -107,14 +107,14 @@
         "volumesPublished": "Tome mbinndaaɗe"
     },
     "footer": {
-        "description": "GoomuFuloWiɗto ko fedde ina toppitii faamninirde ɗemngal Pulaar e saggitorde mum.",
+        "description": "Goomu Fulo Wiɗto ko fedde ina toppitii faamninirde ɗemngal Pulaar e saggitorde mum.",
         "institution": "Fedde ndee",
         "language": "Ɗemngal ngal",
         "services": "Balluuji",
         "stayInformed": "Heɓu kabaruuji",
-        "newsletterText": "Heɓu kabaruuji cakkitiiɗi GoomuFuloWiɗto.",
+        "newsletterText": "Heɓu kabaruuji cakkitiiɗi Goomu Fulo Wiɗto.",
         "emailPlaceholder": "Iimeel maa",
-        "copyright": "GoomuFuloWiɗto. Jojjanɗe fow ndaanitaa.",
+        "copyright": "Goomu Fulo Wiɗto. Jojjanɗe fow ndaanitaa.",
         "legalNotice": "Baɗte sariya",
         "privacy": "Dawiree cuuɗii",
         "accessibility": "Heɓtineede"
@@ -144,7 +144,7 @@
             },
             "welcomeCard": {
                 "title": "Bismilla e jaagere",
-                "text": "Huutora doggol nano ngam feewnude ko woni e lowre GoomuFuloWiɗto :",
+                "text": "Huutora doggol nano ngam feewnude ko woni e lowre Goomu Fulo Wiɗto :",
                 "dict": "Ɓeydude, waylude walla momtude kelme",
                 "members": "Feewnude gandalɓe e nguurndam muudum'en",
                 "news": "Bayyinde kabaruuji e winndanɗe",

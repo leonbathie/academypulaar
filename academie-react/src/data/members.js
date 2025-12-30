@@ -1,4 +1,4 @@
-// Données des membres / érudits de GoomuFuloWiɗto
+// Données des membres / érudits de Goomu Fulo Wiɗto
 export const membersData = [
     {
         id: 1,

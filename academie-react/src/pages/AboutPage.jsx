@@ -7,12 +7,12 @@ function AboutPage() {
     const content = {
         fr: {
             title: 'À propos de',
-            highlight: 'GoomuFuloWiɗto',
-            intro: 'GoomuFuloWiɗto est une organisation dédiée à la préservation, la promotion et le développement de la langue Pulaar.',
+            highlight: 'Goomu Fulo Wiɗto',
+            intro: 'Goomu Fulo Wiɗto est une organisation dédiée à la préservation, la promotion et le développement de la langue Pulaar.',
             missionTitle: 'Notre Mission',
             mission: 'Notre mission est de créer un dictionnaire complet de la langue Pulaar, de promouvoir son utilisation dans l\'éducation et les médias, et de préserver le patrimoine culturel des Fulɓe à travers leur langue.',
             historyTitle: 'Notre Histoire',
-            history: 'Fondée par un groupe de linguistes, écrivains et défenseurs de la culture Pulaar, GoomuFuloWiɗto a vu le jour pour répondre au besoin urgent de documenter et standardiser le Pulaar à l\'ère numérique.',
+            history: 'Fondée par un groupe de linguistes, écrivains et défenseurs de la culture Pulaar, Goomu Fulo Wiɗto a vu le jour pour répondre au besoin urgent de documenter et standardiser le Pulaar à l\'ère numérique.',
             valuesTitle: 'Nos Valeurs',
             values: [
                 { title: 'Préservation', desc: 'Protéger et documenter le patrimoine linguistique Pulaar' },
@@ -23,12 +23,12 @@ function AboutPage() {
         },
         en: {
             title: 'About',
-            highlight: 'GoomuFuloWiɗto',
-            intro: 'GoomuFuloWiɗto is an organization dedicated to the preservation, promotion and development of the Pulaar language.',
+            highlight: 'Goomu Fulo Wiɗto',
+            intro: 'Goomu Fulo Wiɗto is an organization dedicated to the preservation, promotion and development of the Pulaar language.',
             missionTitle: 'Our Mission',
             mission: 'Our mission is to create a comprehensive dictionary of the Pulaar language, promote its use in education and media, and preserve the cultural heritage of the Fulɓe through their language.',
             historyTitle: 'Our History',
-            history: 'Founded by a group of linguists, writers and advocates of Pulaar culture, GoomuFuloWiɗto was created to address the urgent need to document and standardize Pulaar in the digital age.',
+            history: 'Founded by a group of linguists, writers and advocates of Pulaar culture, Goomu Fulo Wiɗto was created to address the urgent need to document and standardize Pulaar in the digital age.',
             valuesTitle: 'Our Values',
             values: [
                 { title: 'Preservation', desc: 'Protect and document Pulaar linguistic heritage' },
@@ -39,12 +39,12 @@ function AboutPage() {
         },
         ff: {
             title: 'Baɗte',
-            highlight: 'GoomuFuloWiɗto',
-            intro: 'GoomuFuloWiɗto ko fedde toppitiiɗo reentaade, ɓamtaade e ƴellitaade ɗemngal Pulaar.',
+            highlight: 'Goomu Fulo Wiɗto',
+            intro: 'Goomu Fulo Wiɗto ko fedde toppitiiɗo reentaade, ɓamtaade e ƴellitaade ɗemngal Pulaar.',
             missionTitle: 'Golle Amen',
             mission: 'Golle amen ko mahde saggitorde timmuɗo ɗemngal Pulaar, ɓamtude huutoraade mum e jaŋde e jaayndeeli, e reentaade pinal Fulɓe e ɗemngal maɓɓe.',
             historyTitle: 'Taariik Amen',
-            history: 'Sosaa e dental ganndooji ɗemngal, winnderɓe e yarlitanɓe pinal Pulaar, GoomuFuloWiɗto fuɗɗii ngam jaɓɓaade waɗɗagol binndude e darnaade Pulaar e waktu internet.',
+            history: 'Sosaa e dental ganndooji ɗemngal, winnderɓe e yarlitanɓe pinal Pulaar, Goomu Fulo Wiɗto fuɗɗii ngam jaɓɓaade waɗɗagol binndude e darnaade Pulaar e waktu internet.',
             valuesTitle: 'Jojjanɗe Amen',
             values: [
                 { title: 'Reentaade', desc: 'Reentude e binndude ndonu ɗemngal Pulaar' },

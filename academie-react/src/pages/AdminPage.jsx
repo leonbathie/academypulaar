@@ -66,7 +66,7 @@ function AdminPage() {
 
             <aside className={`admin-sidebar ${sidebarOpen ? '' : 'collapsed'}`}>
                 <div className="sidebar-header">
-                    <h2>GoomuFuloWiɗto</h2>
+                    <h2>Goomu Fulo Wiɗto</h2>
                     <span>{t('admin.header.welcome')}</span>
                 </div>
 
