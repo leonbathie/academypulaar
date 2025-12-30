@@ -4,50 +4,40 @@
       <stop offset="0%" style="stop-color:#D4A537;stop-opacity:1" />
       <stop offset="100%" style="stop-color:#B8860B;stop-opacity:1" />
     </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="2" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
   </defs>
 
-  <!-- Circular Frame -->
-  <circle cx="100" cy="100" r="96" stroke="#D4A537" stroke-width="1.5" fill="none" opacity="0.4"/>
-
-  <!-- Cow (Zébu) - Based on the provided stylised image -->
-  <g transform="translate(90, 85) scale(0.9)">
-    <!-- Main Body and Head -->
-    <path d="M10 60 C10 40 20 30 35 30 C50 30 65 40 75 55 L95 55 L110 70 L95 85 L80 85 V120 H65 V95 H35 V120 H20 V85 C10 85 5 75 10 60Z" fill="#D4A537" opacity="0.15"/>
-    <path d="M10 60 C10 40 15 35 25 35 M45 35 C60 35 70 45 75 55 L95 55 L110 70 L95 85 L80 85" stroke="#D4A537" stroke-width="4" stroke-linecap="round" fill="none"/>
-    <path d="M70 120 V95 H40 V120 M25 120 V85" stroke="#D4A537" stroke-width="4" stroke-linecap="round" fill="none"/>
+  <!-- Circular Decorative Background (Subtle) -->
+  <circle cx="100" cy="100" r="90" stroke="#D4A537" stroke-width="0.5" fill="none" opacity="0.2"/>
+  
+  <!-- Dynamic Zebu Cow Logo -->
+  <g transform="translate(20, 40) scale(1.4)">
+    <!-- Main Body Shape - Sleek and Forward-Leaning -->
+    <path d="M10 60 C10 40 25 30 50 32 C75 35 90 55 110 60 L125 75 L110 90 L90 90 Q85 105 80 120 H65 Q70 100 75 80 L40 80 Q35 100 30 120 H15 Q20 90 25 65 C15 65 10 75 10 60Z" fill="url(#goldGrad)" fill-opacity="0.1"/>
     
-    <!-- Stylised Hump -->
-    <path d="M25 35 C35 20 45 20 50 35" stroke="#D4A537" stroke-width="5" stroke-linecap="round" fill="none"/>
+    <!-- Dynamic Outline -->
+    <path d="M15 65 Q25 40 50 35 Q75 30 95 60 L120 75 L105 85" stroke="#D4A537" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none" filter="url(#glow)"/>
     
-    <!-- One Majestic Horn (Stylised) -->
-    <path d="M90 55 C100 40 115 35 125 30" stroke="#D4A537" stroke-width="4" stroke-linecap="round" fill="none"/>
+    <!-- Hump - Dynamic Curve -->
+    <path d="M30 35 C45 15 65 18 75 38" stroke="#D4A537" stroke-width="6" stroke-linecap="round" fill="none"/>
     
-    <!-- Tail (Stylised) -->
-    <path d="M10 60 C0 70 5 95 8 105" stroke="#D4A537" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+    <!-- Back Horn - Flowing backwards -->
+    <path d="M95 55 C110 30 135 25 145 20" stroke="#D4A537" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.8"/>
     
-    <!-- Eye -->
-    <circle cx="95" cy="65" r="2.5" fill="#D4A537"/>
+    <!-- Face/Nuzzle Detail -->
+    <path d="M120 75 L105 85" stroke="#D4A537" stroke-width="4" stroke-linecap="round" fill="none"/>
+    
+    <!-- Legs in Motion (Simplified for Dynamic Look) -->
+    <path d="M75 85 L68 115" stroke="#D4A537" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    <path d="M35 85 L28 115" stroke="#D4A537" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    
+    <!-- Tail - Whipping through air -->
+    <path d="M10 60 Q-10 70 5 95" stroke="#D4A537" stroke-width="2" stroke-linecap="round" fill="none"/>
+    
+    <!-- Grounding Line (Motion Stroke) -->
+    <path d="M30 125 H100" stroke="#D4A537" stroke-width="1.5" stroke-dasharray="8 4" opacity="0.6"/>
   </g>
-
-  <!-- Portrait Shepherd (Pullo) - From previous version, repositioned -->
-  <g transform="translate(25, 25) scale(0.95)">
-    <!-- Traditional Hat (Tengaade) -->
-    <path d="M15 85 L105 85 L60 10 Z" fill="url(#goldGrad)" fill-opacity="0.2" stroke="#D4A537" stroke-width="3" stroke-linejoin="round"/>
-    <!-- Zigzag Pattern -->
-    <path d="M30 65 L40 55 L50 65 L60 55 L70 65 L80 55 L90 65" stroke="#D4A537" stroke-width="2" fill="none" opacity="0.6"/>
-    <!-- Knob and Buttons -->
-    <circle cx="60" cy="10" r="6" fill="#D4A537"/>
-    <circle cx="28" cy="78" r="4" fill="#D4A537"/>
-    <circle cx="92" cy="78" r="4" fill="#D4A537"/>
-    
-    <!-- Profile Silhouette -->
-    <path d="M60 140 C50 140 40 130 40 110 C40 95 45 85 50 82" stroke="#D4A537" stroke-width="3" stroke-linecap="round" fill="none"/>
-    <path d="M100 135 C115 120 115 105 108 90" stroke="#D4A537" stroke-width="3" stroke-linecap="round" fill="none"/>
-    
-    <!-- Face Strap -->
-    <path d="M48 85 Q60 115 72 85" stroke="#D4A537" stroke-width="1.5" stroke-dasharray="2 2" fill="none"/>
-  </g>
-
-  <!-- Ground Detail -->
-  <path d="M40 185 Q100 195 160 185" stroke="#D4A537" stroke-width="1" stroke-dasharray="2 4" opacity="0.4"/>
 </svg>
