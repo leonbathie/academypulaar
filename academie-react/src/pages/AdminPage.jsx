@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { Navigate, NavLink, Outlet } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../context/AuthContext'
-import logoPeul from '../assets/logo-peul.png'
+
 import './AdminPage.css'
 
 function AdminPage() {
