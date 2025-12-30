@@ -1,63 +1,48 @@
 <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <style>
-      .gold { fill: #D4A537; }
-      .gold-stroke { stroke: #D4A537; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-      .sketch { stroke: #D4A537; fill: none; stroke-width: 0.5; opacity: 0.4; }
-    </style>
+    <linearGradient id="hatGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#D4A537;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#B8860B;stop-opacity:1" />
+    </linearGradient>
   </defs>
 
-  <!-- Circle Frame -->
-  <circle cx="100" cy="100" r="95" class="gold-stroke" style="stroke-width: 1.5; opacity: 0.8;"/>
-  <circle cx="100" cy="100" r="90" class="gold-stroke" style="stroke-width: 0.5; opacity: 0.4;"/>
+  <!-- Circular Frame -->
+  <circle cx="100" cy="100" r="98" stroke="#D4A537" stroke-width="1" fill="none" opacity="0.3"/>
 
-  <!-- Cow (Zébu) Illustration -->
-  <g transform="translate(80, 70)">
-    <!-- Body -->
-    <path d="M10 50 Q25 40 50 45 Q70 50 80 70 V100 H70 V85 H30 V100 H20 V75 Q10 70 10 50Z" class="gold" opacity="0.1"/>
-    <path d="M10 50 Q25 40 50 45 Q70 50 80 70 V100 M70 100 V85 H30 V100 M20 100 V75 Q10 70 10 50" class="gold-stroke"/>
+  <!-- Portrait Container -->
+  <g transform="translate(40, 25)">
+    <!-- Face/Profile Outline -->
+    <path d="M60 140 C50 140 40 130 40 110 C40 90 50 80 60 75 Q80 70 95 85 C110 100 110 120 100 135 C95 145 80 145 60 140Z" fill="#D4A537" fill-opacity="0.1"/>
+    <path d="M60 140 C50 140 40 130 40 110 C40 90 45 85 50 80" stroke="#D4A537" stroke-width="2.5" stroke-linecap="round" fill="none"/> <!-- Chin and Neck -->
+    <path d="M100 135 C115 120 115 100 105 85" stroke="#D4A537" stroke-width="2.5" stroke-linecap="round" fill="none"/> <!-- Back of head -->
     
-    <!-- Hump -->
-    <path d="M35 44 C45 25 60 30 65 47" class="gold-stroke" style="stroke-width: 3;"/>
-    <!-- Sketch lines on hump -->
-    <path d="M42 35 L48 38 M45 32 L51 35" class="sketch"/>
+    <!-- Traditional Fulani Hat (Tengaade) -->
+    <!-- Base cone -->
+    <path d="M15 85 L105 85 L60 10 Z" fill="url(#hatGrad)" fill-opacity="0.2" stroke="#D4A537" stroke-width="3" stroke-linejoin="round"/>
+    
+    <!-- Decorative Zigzag Pattern -->
+    <path d="M30 65 L40 55 L50 65 L60 55 L70 65 L80 55 L90 65" stroke="#D4A537" stroke-width="2" fill="none" opacity="0.8"/>
+    <path d="M35 75 L45 65 L55 75 L65 65 L75 75 L85 65 L95 75" stroke="#D4A537" stroke-width="1" fill="none" opacity="0.5"/>
+    
+    <!-- Top Knob -->
+    <circle cx="60" cy="10" r="6" fill="#D4A537"/>
+    <path d="M54 10 Q60 2 66 10" stroke="#FFFFFF" stroke-width="1" opacity="0.6"/>
+    
+    <!-- Side Tassels / Buttons -->
+    <circle cx="28" cy="78" r="4" fill="#D4A537"/>
+    <circle cx="92" cy="78" r="4" fill="#D4A537"/>
+    
+    <!-- Hat Chin Strap -->
+    <path d="M45 85 Q60 120 75 85" stroke="#D4A537" stroke-width="1.5" stroke-dasharray="2 2" fill="none"/>
 
-    <!-- Head -->
-    <path d="M80 70 L95 65 Q100 75 95 85 L80 85 Z" class="gold" opacity="0.2"/>
-    <path d="M80 70 L95 65 Q100 75 95 85 L80 85" class="gold-stroke"/>
+    <!-- Eye Detail (Simple illustrative line) -->
+    <path d="M85 100 Q92 98 95 105" stroke="#D4A537" stroke-width="2" stroke-linecap="round" fill="none"/>
     
-    <!-- Horns -->
-    <path d="M92 67 C105 45 125 40 135 35" class="gold-stroke" style="stroke-width: 2.5;"/>
-    <path d="M96 67 C90 45 80 40 70 35" class="gold-stroke" style="stroke-width: 2.5;"/>
-    
-    <!-- Details -->
-    <circle cx="90" cy="74" r="1.5" class="gold"/> <!-- Eye -->
-    <path d="M10 55 C0 65 5 95 8 100" class="gold-stroke" style="stroke-width: 1;"/> <!-- Tail -->
+    <!-- Shoulders / Boubou Detail -->
+    <path d="M10 145 Q60 135 110 145" stroke="#D4A537" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.6"/>
+    <path d="M20 145 V160 M100 145 V160" stroke="#D4A537" stroke-width="1" opacity="0.3"/>
   </g>
 
-  <!-- Shepherd (Pullo) Illustration -->
-  <g transform="translate(30, 60)">
-    <!-- Hat (Tengaade) -->
-    <path d="M10 30 L40 30 L25 5 Z" class="gold"/>
-    <path d="M15 30 L25 10 L35 30" class="sketch" style="stroke: #FFFFFF; opacity: 0.6;"/>
-    
-    <!-- Body (Boubou) -->
-    <path d="M12 30 L38 30 L45 120 L5 120 Z" class="gold" opacity="0.15"/>
-    <path d="M12 30 L38 30 L45 120 H5 L12 30" class="gold-stroke"/>
-    
-    <!-- Face -->
-    <circle cx="25" cy="45" r="9" class="gold-stroke" style="stroke-width: 1.5;"/>
-    <path d="M22 45 Q25 48 28 45" class="gold-stroke" style="stroke-width: 1;"/> <!-- Mouth -->
-
-    <!-- Stick (Gafal) -->
-    <path d="M45 15 V135" class="gold-stroke" style="stroke-width: 3.5;"/>
-    <path d="M45 15 Q55 15 55 25" class="gold-stroke" style="stroke-width: 3.5;"/>
-    
-    <!-- Arm -->
-    <path d="M35 70 L43 70" class="gold-stroke" style="stroke-width: 4;"/>
-  </g>
-
-  <!-- Ground -->
-  <path d="M30 180 H170" class="sketch"/>
-  <path d="M40 183 H160" class="sketch" style="opacity: 0.2;"/>
+  <!-- Bottom Label Space (Implicit) -->
+  <path d="M60 185 H140" stroke="#D4A537" stroke-width="0.5" stroke-dasharray="1 4" opacity="0.5"/>
 </svg>
