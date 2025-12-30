@@ -90,11 +90,10 @@ function Hero() {
 
             <div className="hero-scroll">
                 <span>{t('hero.scroll')}</span>
-                <div className="scroll-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M12 5v14M5 12l7 7 7-7" />
-                    </svg>
-                </div>
+                <svg className="scroll-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M7 13l5 5 5-5" />
+                    <path d="M7 8l5 5 5-5" opacity="0.5" />
+                </svg>
             </div>
         </section>
     )
