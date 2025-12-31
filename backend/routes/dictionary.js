@@ -98,6 +98,12 @@ router.post('/', authMiddleware, adminOnly, upload.fields([
             return res.status(400).json({ error: 'Le mot est requis' })
         }
 
+        // Vérifier si le mot existe déjà
+        const existingWord = await query('SELECT id FROM dictionary WHERE word = $1', [word])
+        if (existingWord.rows.length > 0) {
+            return res.status(400).json({ error: `Le mot "${word}" existe déjà dans le dictionnaire.` })
+        }
+
         // Récupérer les chemins des fichiers audio
         let audioWordPath = null
         let audioExamplePath = null
@@ -132,6 +138,14 @@ router.put('/:id', authMiddleware, adminOnly, upload.fields([
 ]), async (req, res) => {
     try {
         const { word, translation_fr, translation_en, translation_ff, category, example, example_translation } = req.body
+
+        // Vérifier si le mot existe déjà (exclure l'ID actuel)
+        if (word) {
+            const existingWord = await query('SELECT id FROM dictionary WHERE word = $1 AND id != $2', [word, req.params.id])
+            if (existingWord.rows.length > 0) {
+                return res.status(400).json({ error: `Le mot "${word}" existe déjà dans le dictionnaire.` })
+            }
+        }
 
         // Récupérer l'existant pour garder les anciens audios si pas de nouveaux
         const existing = await query('SELECT audio_word, audio_example FROM dictionary WHERE id = $1', [req.params.id])
