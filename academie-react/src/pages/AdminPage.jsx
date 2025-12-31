@@ -72,7 +72,7 @@ function AdminPage() {
                         <path d="M30 10 L30 50 M15 25 L45 25 M15 35 L45 35" stroke="currentColor" strokeWidth="2" />
                         <circle cx="30" cy="30" r="8" fill="currentColor" />
                     </svg>
-                    <h2>GoomuFuloWiɗto</h2>
+                    <h2>Goomu Fulo Wiɗto</h2>
                     <span>{t('admin.header.welcome')}</span>
                 </div>
 

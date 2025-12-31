@@ -46,6 +46,7 @@
     font-family: var(--font-display);
     font-size: 1.1rem;
     font-weight: 600;
+    white-space: nowrap;
 }
 
 .footer-logo .logo-subtitle {
