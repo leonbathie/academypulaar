@@ -1013,3 +1013,64 @@
     background: #dc3545;
     color: var(--white);
 }
+
+/* Responsive Table into Cards */
+@media (max-width: 991px) {
+    .admin-table thead {
+        display: none;
+        /* Cache les en-têtes du tableau */
+    }
+
+    .admin-table,
+    .admin-table tbody,
+    .admin-table tr,
+    .admin-table td {
+        display: block;
+        width: 100%;
+    }
+
+    .admin-table tr {
+        margin-bottom: var(--space-lg);
+        background: var(--white);
+        border: 1px solid var(--light-gray);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        box-shadow: var(--shadow-sm);
+    }
+
+    .admin-table td {
+        text-align: right;
+        padding: var(--space-md) var(--space-lg);
+        position: relative;
+        border-bottom: 1px solid var(--light-gray);
+        min-height: 45px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: var(--space-md);
+    }
+
+    .admin-table td:last-child {
+        border-bottom: none;
+        background: rgba(212, 165, 55, 0.05);
+        justify-content: center;
+    }
+
+    .admin-table td::before {
+        content: attr(data-label);
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        color: var(--medium-gray);
+        text-align: left;
+    }
+
+    .admin-table td strong {
+        font-size: 1rem;
+        color: var(--primary-dark);
+    }
+
+    .actions-cell {
+        gap: var(--space-lg) !important;
+    }
+}
