@@ -99,6 +99,81 @@
     color: #ef4444;
 }
 
+/* Admin Card Header with Search */
+.admin-card-header-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-xl);
+    flex-wrap: wrap;
+    gap: var(--space-lg);
+}
+
+.admin-card-header-actions h2 {
+    margin-bottom: 0;
+}
+
+.admin-actions-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-lg);
+    flex-wrap: wrap;
+}
+
+.admin-search-bar {
+    position: relative;
+    min-width: 300px;
+}
+
+.admin-search-bar svg {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+    height: 18px;
+    color: var(--medium-gray);
+    pointer-events: none;
+}
+
+.admin-search-bar input {
+    width: 100%;
+    padding: 10px 12px 10px 40px;
+    background: var(--white);
+    border: 1px solid var(--light-gray);
+    border-radius: var(--radius-md);
+    font-size: 0.95rem;
+    transition: all var(--transition-fast);
+}
+
+.admin-search-bar input:focus {
+    outline: none;
+    border-color: var(--primary-gold);
+    box-shadow: 0 0 0 3px rgba(212, 165, 55, 0.1);
+}
+
+@media (max-width: 768px) {
+    .admin-card-header-actions {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .admin-actions-row {
+        width: 100%;
+    }
+
+    .admin-search-bar {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .btn-add {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+
 .nav-item.logout:hover {
     background: rgba(239, 68, 68, 0.1);
 }
