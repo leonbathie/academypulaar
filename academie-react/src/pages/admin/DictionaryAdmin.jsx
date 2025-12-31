@@ -254,16 +254,16 @@ function DictionaryAdmin() {
                     <tbody>
                         {filteredWords.map(word => (
                             <tr key={word.id}>
-                                <td data-label={t('admin.dictionary.wordPulaar')}><strong>{word.word}</strong></td>
-                                <td data-label={t('admin.dictionary.translationFr')}>{word.translation_fr || '-'}</td>
-                                <td data-label={t('admin.dictionary.translationEn')}>{word.translation_en || '-'}</td>
-                                <td data-label={t('admin.dictionary.translationFf')}>{word.translation_ff || '-'}</td>
-                                <td data-label="Audio" style={{ textAlign: 'center' }}>
+                                <td><strong>{word.word}</strong></td>
+                                <td>{word.translation_fr || '-'}</td>
+                                <td>{word.translation_en || '-'}</td>
+                                <td>{word.translation_ff || '-'}</td>
+                                <td style={{ textAlign: 'center' }}>
                                     {word.audio_word && (
                                         <span title="Audio du mot">🔊</span>
                                     )}
                                 </td>
-                                <td data-label={t('admin.common.actions')} className="actions-cell">
+                                <td className="actions-cell">
                                     <button className="btn-edit" onClick={() => openModal(word)}>
                                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                             <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
