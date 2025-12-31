@@ -34,14 +34,15 @@
 }
 
 .dire-tab {
-    padding: var(--space-sm) var(--space-lg);
-    font-size: 0.9rem;
+    padding: var(--space-xs) var(--space-md);
+    font-size: 0.85rem;
     font-weight: 500;
     color: var(--medium-gray);
     background: var(--white);
     border: 1px solid var(--light-gray);
     border-radius: 50px;
     transition: all var(--transition-fast);
+    white-space: nowrap;
 }
 
 .dire-tab:hover {

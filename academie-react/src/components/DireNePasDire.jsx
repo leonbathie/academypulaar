@@ -41,7 +41,9 @@ function DireNePasDire() {
             if (response.ok) {
                 const data = await response.json()
                 if (data.length > 0) {
-                    setArticles(data)
+                    // Randomiser l'ordre des articles
+                    const shuffled = [...data].sort(() => Math.random() - 0.5)
+                    setArticles(shuffled)
                 }
             }
         } catch (error) {
@@ -52,6 +54,7 @@ function DireNePasDire() {
     }
 
     const getDire = (article) => {
+        if (!article) return ""
         switch (i18n.language) {
             case 'en': return article.dire_en || article.dire_fr || article.dire
             case 'ff': return article.dire_ff || article.dire_fr || article.dire
@@ -60,6 +63,7 @@ function DireNePasDire() {
     }
 
     const getNePasDire = (article) => {
+        if (!article) return ""
         switch (i18n.language) {
             case 'en': return article.ne_pas_dire_en || article.ne_pas_dire_fr || article.ne_pas_dire
             case 'ff': return article.ne_pas_dire_ff || article.ne_pas_dire_fr || article.ne_pas_dire
@@ -68,11 +72,21 @@ function DireNePasDire() {
     }
 
     const getExplanation = (article) => {
+        if (!article) return ""
         switch (i18n.language) {
             case 'en': return article.explanation_en || article.explanation_fr || article.explanation
             case 'ff': return article.explanation_ff || article.explanation_fr || article.explanation
             default: return article.explanation_fr || article.explanation
         }
+    }
+
+    const getTabLabel = (article) => {
+        const text = getDire(article)
+        if (!text) return `#${articles.indexOf(article) + 1}`
+        // Prendre les 2 premiers mots pour le label
+        const words = text.split(' ')
+        if (words.length <= 2) return text
+        return words.slice(0, 2).join(' ') + '...'
     }
 
     const currentArticle = articles[activeIndex] || articles[0]
@@ -91,13 +105,13 @@ function DireNePasDire() {
                         </p>
 
                         <div className="dire-tabs">
-                            {articles.slice(0, 4).map((article, index) => (
+                            {articles.slice(0, 6).map((article, index) => (
                                 <button
                                     key={index}
                                     className={`dire-tab ${index === activeIndex ? 'active' : ''}`}
                                     onClick={() => setActiveIndex(index)}
                                 >
-                                    {article.category || `#${index + 1}`}
+                                    {getTabLabel(article)}
                                 </button>
                             ))}
                         </div>
