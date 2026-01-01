@@ -41,7 +41,6 @@
     height: 100%;
     object-fit: contain;
     border-radius: 50%;
-    mix-blend-mode: screen;
     background: transparent;
 }
 
