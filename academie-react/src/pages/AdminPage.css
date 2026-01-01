@@ -38,6 +38,7 @@
     object-fit: contain;
     border-radius: 50%;
     background: transparent;
+    mix-blend-mode: screen;
 }
 
 .sidebar-header h2 {

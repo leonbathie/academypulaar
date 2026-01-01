@@ -28,6 +28,7 @@
     object-fit: contain;
     border-radius: 50%;
     background: transparent;
+    mix-blend-mode: multiply;
 }
 
 .login-header h1 {

@@ -50,6 +50,7 @@
     object-fit: cover;
     border-radius: 50%;
     background: transparent;
+    mix-blend-mode: screen;
 }
 
 .footer-logo .logo-text {
