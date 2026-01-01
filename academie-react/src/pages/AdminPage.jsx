@@ -67,7 +67,16 @@ function AdminPage() {
 
             <aside className={`admin-sidebar ${sidebarOpen ? '' : 'collapsed'}`}>
                 <div className="sidebar-header">
-                    <video src={logoVideo} autoPlay loop muted playsInline className="admin-sidebar-logo" />
+                    <video 
+                        src={logoVideo} 
+                        autoPlay 
+                        loop 
+                        muted 
+                        playsInline
+                        preload="auto"
+                        className="admin-sidebar-logo"
+                        onLoadedData={(e) => e.target.play()}
+                    />
                     <h2>Goomu Fulo Wiɗto</h2>
                     <span>{t('admin.header.welcome')}</span>
                 </div>

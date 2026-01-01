@@ -87,7 +87,16 @@ function Header() {
             <div className="header-container">
                 <Link to="/" className="logo">
                     <div className="logo-icon">
-                        <video src={logoVideo} autoPlay loop muted playsInline className="logo-video" />
+                        <video 
+                            src={logoVideo} 
+                            autoPlay 
+                            loop 
+                            muted 
+                            playsInline
+                            preload="auto"
+                            className="logo-video"
+                            onLoadedData={(e) => e.target.play()}
+                        />
                     </div>
                     <div className="logo-text">
                         <span className="logo-title">{t('common.siteName')}</span>

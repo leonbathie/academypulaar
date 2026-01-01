@@ -14,7 +14,16 @@ function Footer() {
                         <div className="footer-brand">
                             <Link to="/" className="footer-logo">
                                 <div className="logo-icon">
-                                    <video src={logoVideo} autoPlay loop muted playsInline className="logo-video" />
+                                    <video 
+                                        src={logoVideo} 
+                                        autoPlay 
+                                        loop 
+                                        muted 
+                                        playsInline
+                                        preload="auto"
+                                        className="logo-video"
+                                        onLoadedData={(e) => e.target.play()}
+                                    />
                                 </div>
                                 <div className="logo-text">
                                     <span className="logo-title">{t('common.siteName')}</span>

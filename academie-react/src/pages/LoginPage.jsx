@@ -41,7 +41,16 @@ function LoginPage() {
         <div className="login-page">
             <div className="login-container">
                 <div className="login-header">
-                    <video src={logoVideo} autoPlay loop muted playsInline className="login-logo" />
+                    <video 
+                        src={logoVideo} 
+                        autoPlay 
+                        loop 
+                        muted 
+                        playsInline
+                        preload="auto"
+                        className="login-logo"
+                        onLoadedData={(e) => e.target.play()}
+                    />
                     <h1>Goomu Fulo Wiɗto</h1>
                     <p>Administration</p>
                 </div>
