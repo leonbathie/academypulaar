@@ -3,12 +3,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #F8F6F0;
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--secondary-burgundy) 100%);
     padding: var(--space-lg);
 }
 
 .login-container {
-    background: rgba(26, 31, 46, 0.95);
+    background: #FAF8F5;
     border-radius: var(--radius-xl);
     padding: var(--space-2xl);
     width: 100%;
@@ -27,7 +27,7 @@
 }
 
 .login-header h1 {
-    color: var(--white);
+    color: var(--primary-dark);
 }
 
 .login-header p {
@@ -88,29 +88,29 @@
     display: block;
     margin-bottom: var(--space-sm);
     font-weight: 600;
-    color: rgba(255, 255, 255, 0.8);
+    color: var(--dark-gray);
 }
 
 .login-form .form-group input {
     width: 100%;
     padding: var(--space-md);
-    border: 2px solid rgba(255, 255, 255, 0.2);
+    border: 2px solid var(--light-gray);
     border-radius: var(--radius-md);
     font-size: 1rem;
     transition: all var(--transition-fast);
-    background: rgba(255, 255, 255, 0.1);
-    color: var(--white);
+    background: var(--white);
+    color: var(--dark-gray);
 }
 
 .login-form .form-group input::placeholder {
-    color: rgba(255, 255, 255, 0.5);
+    color: var(--medium-gray);
 }
 
 .login-form .form-group input:focus {
     outline: none;
     border-color: var(--primary-gold);
     box-shadow: 0 0 0 3px rgba(212, 165, 55, 0.2);
-    background: rgba(255, 255, 255, 0.15);
+    background: var(--white);
 }
 
 .login-btn {
