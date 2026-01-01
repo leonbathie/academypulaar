@@ -27,6 +27,8 @@
     margin-bottom: var(--space-md);
     object-fit: contain;
     border-radius: 50%;
+    mix-blend-mode: multiply;
+    background: transparent;
 }
 
 .login-header h1 {
