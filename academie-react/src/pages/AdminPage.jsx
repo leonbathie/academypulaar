@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { Navigate, NavLink, Outlet } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../context/AuthContext'
-
+import logoImage from '../assets/logo-academie.png'
 import './AdminPage.css'
 
 function AdminPage() {
@@ -67,11 +67,7 @@ function AdminPage() {
 
             <aside className={`admin-sidebar ${sidebarOpen ? '' : 'collapsed'}`}>
                 <div className="sidebar-header">
-                    <svg viewBox="0 0 60 60" fill="none" style={{ width: '48px', height: '48px', color: 'var(--primary-gold)', marginBottom: '1rem' }}>
-                        <circle cx="30" cy="30" r="28" stroke="currentColor" strokeWidth="2" />
-                        <path d="M30 10 L30 50 M15 25 L45 25 M15 35 L45 35" stroke="currentColor" strokeWidth="2" />
-                        <circle cx="30" cy="30" r="8" fill="currentColor" />
-                    </svg>
+                    <img src={logoImage} alt="Goomu Fulo Wiɗto" className="admin-sidebar-logo" />
                     <h2>Goomu Fulo Wiɗto</h2>
                     <span>{t('admin.header.welcome')}</span>
                 </div>
