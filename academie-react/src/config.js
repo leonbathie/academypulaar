@@ -1,3 +1,6 @@
 // Configuration API centralisée
 // En production, utilisez la variable d'environnement VITE_API_URL
-export const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000'
+const isProduction = window.location.hostname !== 'localhost';
+export const API_URL = isProduction 
+    ? 'https://goomufulowidto.servemp3.com/api' 
+    : 'http://localhost:5000'
