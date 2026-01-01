@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useTheme } from '../context/ThemeContext'
-import logoVideo from '../assets/logo-academie.mp4'
+import logoGif from '../assets/logo-academie.gif'
 import './Header.css'
 
 const languages = [
@@ -87,16 +87,7 @@ function Header() {
             <div className="header-container">
                 <Link to="/" className="logo">
                     <div className="logo-icon">
-                        <video 
-                            src={logoVideo} 
-                            autoPlay 
-                            loop 
-                            muted 
-                            playsInline
-                            preload="auto"
-                            className="logo-video"
-                            onLoadedData={(e) => e.target.play()}
-                        />
+                        <img src={logoGif} alt="Goomu Fulo Wiɗto" className="logo-image" />
                     </div>
                     <div className="logo-text">
                         <span className="logo-title">{t('common.siteName')}</span>

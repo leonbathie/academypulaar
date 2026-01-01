@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-import logoVideo from '../assets/logo-academie.mp4'
+import logoGif from '../assets/logo-academie.gif'
 import './LoginPage.css'
 
 function LoginPage() {
@@ -41,16 +41,7 @@ function LoginPage() {
         <div className="login-page">
             <div className="login-container">
                 <div className="login-header">
-                    <video 
-                        src={logoVideo} 
-                        autoPlay 
-                        loop 
-                        muted 
-                        playsInline
-                        preload="auto"
-                        className="login-logo"
-                        onLoadedData={(e) => e.target.play()}
-                    />
+                    <img src={logoGif} alt="Goomu Fulo Wiɗto" className="login-logo" />
                     <h1>Goomu Fulo Wiɗto</h1>
                     <p>Administration</p>
                 </div>

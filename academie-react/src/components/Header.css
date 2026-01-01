@@ -54,7 +54,6 @@
     height: 100%;
     object-fit: contain;
     border-radius: 50%;
-    background: transparent;
 }
 
 .logo-video {
@@ -62,9 +61,6 @@
     height: 100%;
     object-fit: cover;
     border-radius: 50%;
-    background: transparent;
-    mix-blend-mode: darken;
-    filter: contrast(1.1);
 }
 
 .logo-text {

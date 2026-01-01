@@ -27,9 +27,6 @@
     margin-bottom: var(--space-md);
     object-fit: contain;
     border-radius: 50%;
-    background: transparent;
-    mix-blend-mode: darken;
-    filter: contrast(1.1);
 }
 
 .login-header h1 {
