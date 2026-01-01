@@ -38,7 +38,8 @@
     object-fit: contain;
     border-radius: 50%;
     background: transparent;
-    mix-blend-mode: screen;
+    mix-blend-mode: lighten;
+    filter: contrast(1.1) brightness(1.1);
 }
 
 .sidebar-header h2 {
