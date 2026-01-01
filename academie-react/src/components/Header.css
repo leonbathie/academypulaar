@@ -225,10 +225,12 @@
 .lang-selector {
     position: relative;
     z-index: 1002;
+    display: flex !important;
+    visibility: visible !important;
 }
 
 .lang-btn {
-    display: flex;
+    display: flex !important;
     align-items: center;
     gap: 4px;
     padding: 4px 8px;
