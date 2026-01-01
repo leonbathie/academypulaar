@@ -89,6 +89,7 @@
     flex: 1;
     display: flex;
     justify-content: center;
+    max-width: 50%;
 }
 
 .nav-list {
@@ -104,10 +105,10 @@
 .nav-link {
     display: flex;
     align-items: center;
-    gap: 3px;
-    padding: 4px 6px;
+    gap: 2px;
+    padding: 4px 5px;
     color: var(--white);
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     font-weight: 500;
     border-radius: var(--radius-md);
     transition: all var(--transition-fast);
