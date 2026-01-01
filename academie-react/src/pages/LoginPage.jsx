@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-import logoImage from '../assets/logo-academie.svg'
+import logoVideo from '../assets/logo-academie.mp4'
 import './LoginPage.css'
 
 function LoginPage() {
@@ -41,7 +41,7 @@ function LoginPage() {
         <div className="login-page">
             <div className="login-container">
                 <div className="login-header">
-                    <img src={logoImage} alt="Goomu Fulo Wiɗto" className="login-logo" />
+                    <video src={logoVideo} autoPlay loop muted playsInline className="login-logo" />
                     <h1>Goomu Fulo Wiɗto</h1>
                     <p>Administration</p>
                 </div>

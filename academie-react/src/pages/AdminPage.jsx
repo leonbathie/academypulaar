@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { Navigate, NavLink, Outlet } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../context/AuthContext'
-import logoImage from '../assets/logo-academie.svg'
+import logoVideo from '../assets/logo-academie.mp4'
 import './AdminPage.css'
 
 function AdminPage() {
@@ -67,7 +67,7 @@ function AdminPage() {
 
             <aside className={`admin-sidebar ${sidebarOpen ? '' : 'collapsed'}`}>
                 <div className="sidebar-header">
-                    <img src={logoImage} alt="Goomu Fulo Wiɗto" className="admin-sidebar-logo" />
+                    <video src={logoVideo} autoPlay loop muted playsInline className="admin-sidebar-logo" />
                     <h2>Goomu Fulo Wiɗto</h2>
                     <span>{t('admin.header.welcome')}</span>
                 </div>

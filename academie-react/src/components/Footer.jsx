@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import logoImage from '../assets/logo-academie.svg'
+import logoVideo from '../assets/logo-academie.mp4'
 import './Footer.css'
 
 function Footer() {
@@ -14,7 +14,7 @@ function Footer() {
                         <div className="footer-brand">
                             <Link to="/" className="footer-logo">
                                 <div className="logo-icon">
-                                    <img src={logoImage} alt="Goomu Fulo Wiɗto" className="logo-image" />
+                                    <video src={logoVideo} autoPlay loop muted playsInline className="logo-video" />
                                 </div>
                                 <div className="logo-text">
                                     <span className="logo-title">{t('common.siteName')}</span>
