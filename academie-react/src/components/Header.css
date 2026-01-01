@@ -382,6 +382,7 @@
 
     .header-actions {
         gap: var(--space-sm);
+        margin-left: 0;
     }
 
     .theme-toggle {
