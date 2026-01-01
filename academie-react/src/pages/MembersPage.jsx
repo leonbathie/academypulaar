@@ -65,7 +65,7 @@ function MembersPage() {
                 </div>
                 <div className="container" style={{ textAlign: 'center', padding: '4rem 0' }}>
                     <div className="spinner"></div>
-                    <p>Chargement...</p>
+                    <p>{t('admin.header.loadingMembers')}</p>
                 </div>
             </div>
         )
@@ -122,17 +122,14 @@ function MembersPage() {
                                                         className="btn-read-more"
                                                         onClick={() => toggleBio(member.id)}
                                                     >
-                                                        {isExpanded
-                                                            ? (i18n.language === 'en' ? 'Show less' : 'Réduire')
-                                                            : (i18n.language === 'en' ? 'Read more' : 'Lire la suite')
-                                                        }
+                                                        {isExpanded ? t('members.readLess') : t('members.readMore')}
                                                     </button>
                                                 )}
                                             </div>
                                         )}
                                         {member.joined && (
                                             <span className="member-joined">
-                                                {i18n.language === 'ff' ? 'Gila' : i18n.language === 'en' ? 'Since' : 'Depuis'} {member.joined}
+                                                {t('members.since')} {member.joined}
                                             </span>
                                         )}
 
@@ -183,7 +180,7 @@ function MembersPage() {
                     </div>
                 ) : (
                     <div className="no-members" style={{ textAlign: 'center', padding: '4rem 0' }}>
-                        <p style={{ color: 'var(--medium-gray)' }}>Aucun membre enregistré</p>
+                        <p style={{ color: 'var(--medium-gray)' }}>{t('members.noMembers')}</p>
                     </div>
                 )}
             </div>

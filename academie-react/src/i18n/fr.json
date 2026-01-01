@@ -8,7 +8,8 @@
         "learnMore": "En savoir plus",
         "search": "Rechercher",
         "submit": "Envoyer",
-        "contact": "Contact"
+        "contact": "Contact",
+        "library": "Bibliothèque"
     },
     "nav": {
         "home": "Accueil",
@@ -104,7 +105,95 @@
         "editions": "Éditions",
         "wordsDefined": "Mots définis",
         "yearsOfWork": "Années de travail",
-        "volumesPublished": "Tomes publiés"
+        "volumesPublished": "Tomes publiés",
+        "result": "résultat",
+        "results": "résultats",
+        "noResults": "Aucun résultat trouvé",
+        "searchPrompt": "Tapez un mot ou sélectionnez une lettre pour commencer",
+        "availableWords": "mots disponibles dans le dictionnaire",
+        "listenPronunciation": "Écouter la prononciation",
+        "listenExample": "Écouter l'exemple"
+    },
+    "about": {
+        "title": "À propos de",
+        "highlight": "Goomu Fulo Wiɗto",
+        "intro": "Goomu Fulo Wiɗto est une organisation dédiée à la préservation, la promotion et le développement de la langue Pulaar.",
+        "missionTitle": "Notre Mission",
+        "mission": "Notre mission est de créer un dictionnaire complet de la langue Pulaar, de promouvoir son utilisation dans l'éducation et les médias, et de préserver le patrimoine culturel des Fulɓe à travers leur langue.",
+        "historyTitle": "Notre Histoire",
+        "history": "Fondée par un groupe de linguistes, écrivains et défenseurs de la culture Pulaar, Goomu Fulo Wiɗto a vu le jour pour répondre au besoin urgent de documenter et standardiser le Pulaar à l'ère numérique.",
+        "valuesTitle": "Nos Valeurs",
+        "values": {
+            "preservation": {
+                "title": "Préservation",
+                "desc": "Protéger et documenter le patrimoine linguistique Pulaar"
+            },
+            "education": {
+                "title": "Éducation",
+                "desc": "Promouvoir l'enseignement du Pulaar dans les écoles"
+            },
+            "innovation": {
+                "title": "Innovation",
+                "desc": "Utiliser la technologie pour la diffusion de la langue"
+            },
+            "unity": {
+                "title": "Unité",
+                "desc": "Rassembler les locuteurs Pulaar du monde entier"
+            }
+        }
+    },
+    "contact": {
+        "title": "Contact",
+        "subtitle": "Entrez en contact avec nous",
+        "infoTitle": "Informations",
+        "address": "Adresse",
+        "phone": "Téléphone",
+        "form": {
+            "name": "Nom complet",
+            "email": "Email",
+            "subject": "Sujet",
+            "message": "Message",
+            "send": "Envoyer",
+            "sending": "Envoi en cours...",
+            "success": "Message envoyé avec succès !",
+            "error": "Une erreur est survenue. Veuillez réessayer.",
+            "required": "Ce champ est requis"
+        }
+    },
+    "library": {
+        "title": "Bibliothèque Numérique",
+        "intro": "Découvrez et téléchargez notre collection de livres et publications en Pulaar",
+        "stats": {
+            "books": "Livres",
+            "downloads": "Téléchargements"
+        },
+        "filters": {
+            "label": "Filtrer par :",
+            "all": "Tous"
+        },
+        "book": {
+            "freeDownload": "Télécharger Gratuit",
+            "buyNow": "Acheter",
+            "contactUs": "Nous contacter",
+            "noBooks": "Aucun livre disponible pour le moment",
+            "checkBack": "Revenez bientôt pour de nouvelles publications !",
+            "categories": {
+                "roman": "Roman",
+                "poesie": "Poésie",
+                "essai": "Essai",
+                "histoire": "Histoire",
+                "linguistique": "Linguistique",
+                "dictionnaire": "Dictionnaire",
+                "enfants": "Livres enfants",
+                "autre": "Autre"
+            }
+        }
+    },
+    "members": {
+        "readMore": "Lire la suite",
+        "readLess": "Réduire",
+        "since": "Depuis",
+        "noMembers": "Aucun membre enregistré"
     },
     "footer": {
         "description": "Goomu Fulo Wiɗto est une organisation dédiée à la définition de la langue Pulaar par l'élaboration de son dictionnaire.",
@@ -132,7 +221,10 @@
         },
         "header": {
             "welcome": "Bienvenue",
-            "loading": "Chargement..."
+            "loading": "Chargement...",
+            "loadingDictionary": "Chargement du dictionnaire...",
+            "loadingMembers": "Chargement des membres...",
+            "loadingBooks": "Chargement des livres..."
         },
         "dashboard": {
             "title": "Tableau de bord",
@@ -160,7 +252,8 @@
             "actions": "Actions",
             "confirmDelete": "Confirmer la suppression ?",
             "noData": "Aucune donnée disponible",
-            "errorSaving": "Erreur lors de l'enregistrement"
+            "errorSaving": "Erreur lors de l'enregistrement",
+            "select": "Sélectionner..."
         },
         "dictionary": {
             "title": "Dictionnaire",
@@ -177,7 +270,17 @@
             "noWords": "Aucun mot dans le dictionnaire",
             "record": "Enregistrer",
             "stop": "Arrêter",
-            "reRecord": "Ré-enregistrer"
+            "reRecord": "Ré-enregistrer",
+            "searchPlaceholder": "Rechercher un mot...",
+            "catNom": "Nom",
+            "catVerbe": "Verbe",
+            "catAdjectif": "Adjectif",
+            "catAdverbe": "Adverbe",
+            "catExpression": "Expression",
+            "placeholderFr": "Définition en français...",
+            "placeholderFf": "Définition en Pulaar...",
+            "placeholderEn": "Definition in English...",
+            "examplePlaceholder": "Phrase d'exemple..."
         },
         "members": {
             "title": "Membres",
@@ -187,7 +290,14 @@
             "role": "Rôle",
             "specialty": "Spécialité",
             "joined": "Rejoint le",
-            "noMembers": "Aucun membre trouvé"
+            "noMembers": "Aucun membre trouvé",
+            "photo": "Photo",
+            "clickToPhoto": "Cliquez pour ajouter une photo",
+            "joinedPlaceholder": "Ex: 2020",
+            "specialtyPlaceholder": "Ex: Linguistique Pulaar",
+            "socialMedia": "Réseaux sociaux & Contact",
+            "roleLabel": "Rôle",
+            "rolePlaceholderFr": "Ex: Secrétaire perpétuel"
         },
         "books": {
             "title": "Bibliothèque",
@@ -197,7 +307,20 @@
             "author": "Auteur",
             "price": "Prix",
             "free": "Gratuit",
-            "noBooks": "Aucun livre trouvé"
+            "noBooks": "Aucun livre trouvé",
+            "cover": "Couverture",
+            "file": "Fichier",
+            "downloads": "Téléch.",
+            "notPublished": "Non publié",
+            "coverLabel": "Couverture du livre",
+            "fileLabel": "Fichier du livre (PDF, EPUB, etc.)",
+            "existingFile": "Fichier existant",
+            "clickToAddFile": "Cliquez pour ajouter un fichier",
+            "year": "Année",
+            "description": "Description",
+            "pricing": "Tarification",
+            "paymentLink": "Lien de paiement",
+            "publishThis": "Publier ce livre"
         },
         "news": {
             "title": "Actualités",
@@ -213,7 +336,13 @@
             "excerpt": "Résumé",
             "content": "Contenu",
             "publishNow": "Publier immédiatement",
-            "noNews": "Aucune actualité publiée"
+            "noNews": "Aucune actualité publiée",
+            "coverLabel": "Image de couverture",
+            "clickToAddImage": "Cliquez pour ajouter une image",
+            "redirectLink": "Lien de redirection (URL)",
+            "contactEmail": "Email de contact",
+            "contactPhone": "Téléphone",
+            "catEvent": "Événement"
         },
         "content": {
             "title": "Dire, Ne pas dire",
@@ -222,7 +351,14 @@
             "dire": "On dit",
             "nePasDire": "On ne dit pas",
             "explanation": "Explication",
-            "noContent": "Aucune expression enregistrée"
+            "noContent": "Aucune expression enregistrée",
+            "catCommon": "Erreurs courantes",
+            "catBorrowings": "Emprunts",
+            "catIncorrect": "Usage incorrect",
+            "catGrammar": "Grammaire",
+            "weSayLabel": "On dit",
+            "weDontSayLabel": "On ne dit pas",
+            "explanationLabel": "Explication"
         }
     }
 }

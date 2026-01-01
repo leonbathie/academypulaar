@@ -109,7 +109,7 @@ function ContentAdmin() {
     }
 
     if (loading) {
-        return <div className="admin-loading"><div className="spinner-large"></div></div>
+        return <div className="admin-loading"><div className="spinner-large"></div>{t('admin.header.loading')}</div>
     }
 
     return (
@@ -183,16 +183,16 @@ function ContentAdmin() {
                         <form onSubmit={handleSubmit} className="modal-form">
                             <div className="modal-body">
                                 <div className="form-group">
-                                    <label>Catégorie</label>
+                                    <label>{t('admin.dictionary.category')}</label>
                                     <select
                                         value={formData.category}
                                         onChange={e => setFormData({ ...formData, category: e.target.value })}
                                     >
-                                        <option value="">Sélectionner...</option>
-                                        <option value="Erreurs courantes">Erreurs courantes</option>
-                                        <option value="Emprunts">Emprunts</option>
-                                        <option value="Usage incorrect">Usage incorrect</option>
-                                        <option value="Grammaire">Grammaire</option>
+                                        <option value="">{t('admin.common.select')}</option>
+                                        <option value="Erreurs courantes">{t('admin.content.catCommon')}</option>
+                                        <option value="Emprunts">{t('admin.content.catBorrowings')}</option>
+                                        <option value="Usage incorrect">{t('admin.content.catIncorrect')}</option>
+                                        <option value="Grammaire">{t('admin.content.catGrammar')}</option>
                                     </select>
                                 </div>
 
@@ -225,17 +225,17 @@ function ContentAdmin() {
                                     {activeTab === 'fr' && (
                                         <>
                                             <div className="form-group">
-                                                <label style={{ color: '#22c55e' }}>✓ On dit (Français) *</label>
+                                                <label style={{ color: '#22c55e' }}>✓ {t('admin.content.weSayLabel')} (Français) *</label>
                                                 <input
                                                     type="text"
                                                     value={formData.dire_fr}
-                                                    onChange={e => setFormData({ ...formData, dire_fr: e.target.value })}
+                                                    onChange={e => setFormData({ ...formData, draft_fr: e.target.value })}
                                                     required
                                                     style={{ borderColor: 'rgba(34, 197, 94, 0.5)' }}
                                                 />
                                             </div>
                                             <div className="form-group">
-                                                <label style={{ color: '#ef4444' }}>✗ On ne dit pas (Français) *</label>
+                                                <label style={{ color: '#ef4444' }}>✗ {t('admin.content.weDontSayLabel')} (Français) *</label>
                                                 <input
                                                     type="text"
                                                     value={formData.ne_pas_dire_fr}
@@ -245,12 +245,11 @@ function ContentAdmin() {
                                                 />
                                             </div>
                                             <div className="form-group">
-                                                <label>Explication (Français)</label>
+                                                <label>{t('admin.content.explanationLabel')} (Français)</label>
                                                 <textarea
                                                     value={formData.explanation_fr}
                                                     onChange={e => setFormData({ ...formData, explanation_fr: e.target.value })}
                                                     rows="3"
-                                                    placeholder="Pourquoi cette forme est incorrecte..."
                                                 />
                                             </div>
                                         </>
@@ -258,7 +257,7 @@ function ContentAdmin() {
                                     {activeTab === 'en' && (
                                         <>
                                             <div className="form-group">
-                                                <label style={{ color: '#22c55e' }}>✓ Say (English)</label>
+                                                <label style={{ color: '#22c55e' }}>✓ {t('admin.content.weSayLabel')} (English)</label>
                                                 <input
                                                     type="text"
                                                     value={formData.dire_en}
@@ -267,7 +266,7 @@ function ContentAdmin() {
                                                 />
                                             </div>
                                             <div className="form-group">
-                                                <label style={{ color: '#ef4444' }}>✗ Don't say (English)</label>
+                                                <label style={{ color: '#ef4444' }}>✗ {t('admin.content.weDontSayLabel')} (English)</label>
                                                 <input
                                                     type="text"
                                                     value={formData.ne_pas_dire_en}
@@ -276,12 +275,11 @@ function ContentAdmin() {
                                                 />
                                             </div>
                                             <div className="form-group">
-                                                <label>Explanation (English)</label>
+                                                <label>{t('admin.content.explanationLabel')} (English)</label>
                                                 <textarea
                                                     value={formData.explanation_en}
                                                     onChange={e => setFormData({ ...formData, explanation_en: e.target.value })}
                                                     rows="3"
-                                                    placeholder="Why this form is incorrect..."
                                                 />
                                             </div>
                                         </>
@@ -289,7 +287,7 @@ function ContentAdmin() {
                                     {activeTab === 'ff' && (
                                         <>
                                             <div className="form-group">
-                                                <label style={{ color: '#22c55e' }}>✓ On dit (Pulaar)</label>
+                                                <label style={{ color: '#22c55e' }}>✓ {t('admin.content.weSayLabel')} (Pulaar)</label>
                                                 <input
                                                     type="text"
                                                     value={formData.dire_ff}
@@ -298,7 +296,7 @@ function ContentAdmin() {
                                                 />
                                             </div>
                                             <div className="form-group">
-                                                <label style={{ color: '#ef4444' }}>✗ On ne dit pas (Pulaar)</label>
+                                                <label style={{ color: '#ef4444' }}>✗ {t('admin.content.weDontSayLabel')} (Pulaar)</label>
                                                 <input
                                                     type="text"
                                                     value={formData.ne_pas_dire_ff}
@@ -307,12 +305,11 @@ function ContentAdmin() {
                                                 />
                                             </div>
                                             <div className="form-group">
-                                                <label>Explication (Pulaar)</label>
+                                                <label>{t('admin.content.explanationLabel')} (Pulaar)</label>
                                                 <textarea
                                                     value={formData.explanation_ff}
                                                     onChange={e => setFormData({ ...formData, explanation_ff: e.target.value })}
                                                     rows="3"
-                                                    placeholder="Explication en Pulaar..."
                                                 />
                                             </div>
                                         </>

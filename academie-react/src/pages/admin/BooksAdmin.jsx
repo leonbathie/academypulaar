@@ -191,7 +191,7 @@ function BooksAdmin() {
     }
 
     if (loading) {
-        return <div className="admin-loading">Chargement...</div>
+        return <div className="admin-loading">{t('admin.header.loading')}</div>
     }
 
     return (
@@ -199,7 +199,7 @@ function BooksAdmin() {
             <div className="admin-header">
                 <div>
                     <h1>📚 {t('admin.books.title')}</h1>
-                    <p>{t('admin.dashboard.welcomeCard.content')}</p>
+                    <p>{t('admin.dashboard.welcomeCard.text')} {t('admin.dashboard.welcomeCard.content')}</p>
                 </div>
                 <button className="btn btn-primary" onClick={() => openModal()}>
                     + {t('admin.books.add')}
@@ -210,12 +210,12 @@ function BooksAdmin() {
                 <table className="admin-table">
                     <thead>
                         <tr>
-                            <th>Couverture</th>
+                            <th>{t('admin.books.cover')}</th>
                             <th>{t('admin.books.titleLabel')}</th>
                             <th>{t('admin.books.author')}</th>
                             <th>{t('admin.dictionary.category')}</th>
-                            <th>Fichier</th>
-                            <th>Téléch.</th>
+                            <th>{t('admin.books.file')}</th>
+                            <th>{t('admin.books.downloads')}</th>
                             <th>{t('admin.common.actions')}</th>
                         </tr>
                     </thead>
@@ -237,20 +237,20 @@ function BooksAdmin() {
                                 </td>
                                 <td>
                                     <strong>{book.title_fr}</strong>
-                                    {!book.published && <span style={{ marginLeft: '8px', color: 'orange', fontSize: '0.8rem' }}>⚠️ Non publié</span>}
+                                    {!book.published && <span style={{ marginLeft: '8px', color: 'orange', fontSize: '0.8rem' }}>⚠️ {t('admin.books.notPublished')}</span>}
                                 </td>
                                 <td>{book.author || '-'}</td>
                                 <td>{book.category || '-'}</td>
                                 <td>{formatFileSize(book.file_size)}</td>
                                 <td>{book.downloads || 0}</td>
                                 <td>
-                                    <button className="btn-icon" onClick={() => openModal(book)} title="Modifier">
+                                    <button className="btn-icon" onClick={() => openModal(book)} title={t('admin.common.edit')}>
                                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                             <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
                                             <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
                                         </svg>
                                     </button>
-                                    <button className="btn-icon btn-danger" onClick={() => handleDelete(book.id)} title="Supprimer">
+                                    <button className="btn-icon btn-danger" onClick={() => handleDelete(book.id)} title={t('admin.common.delete')}>
                                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                             <polyline points="3,6 5,6 21,6" />
                                             <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
@@ -262,7 +262,7 @@ function BooksAdmin() {
                         {books.length === 0 && (
                             <tr>
                                 <td colSpan="7" style={{ textAlign: 'center', padding: '2rem', color: 'var(--medium-gray)' }}>
-                                    {t('admin.books.noData')}
+                                    {t('admin.common.noData')}
                                 </td>
                             </tr>
                         )}
@@ -287,7 +287,7 @@ function BooksAdmin() {
                                 <div className="form-row">
                                     {/* Couverture */}
                                     <div className="form-group">
-                                        <label>Couverture du livre</label>
+                                        <label>{t('admin.books.coverLabel')}</label>
                                         <div
                                             onClick={() => coverInputRef.current?.click()}
                                             style={{
@@ -315,7 +315,7 @@ function BooksAdmin() {
 
                                     {/* Fichier */}
                                     <div className="form-group" style={{ flex: 1 }}>
-                                        <label>📁 Fichier du livre (PDF, EPUB, etc.)</label>
+                                        <label>📁 {t('admin.books.fileLabel')}</label>
                                         <div
                                             onClick={() => fileInputRef.current?.click()}
                                             style={{
@@ -330,9 +330,9 @@ function BooksAdmin() {
                                             {selectedFile ? (
                                                 <span>✅ {selectedFile.name} ({formatFileSize(selectedFile.size)})</span>
                                             ) : editingBook?.file_path ? (
-                                                <span>📄 Fichier existant ({formatFileSize(editingBook.file_size)})</span>
+                                                <span>📄 {t('admin.books.existingFile')} ({formatFileSize(editingBook.file_size)})</span>
                                             ) : (
-                                                <span>Cliquez pour ajouter un fichier</span>
+                                                <span>{t('admin.books.clickToAddFile')}</span>
                                             )}
                                         </div>
                                         <input
@@ -347,21 +347,21 @@ function BooksAdmin() {
 
                                 <div className="form-row">
                                     <div className="form-group">
-                                        <label>Auteur</label>
+                                        <label>{t('admin.books.author')}</label>
                                         <input
                                             type="text"
                                             value={formData.author}
                                             onChange={e => setFormData({ ...formData, author: e.target.value })}
-                                            placeholder="Nom de l'auteur"
+                                            placeholder={t('admin.books.author')}
                                         />
                                     </div>
                                     <div className="form-group">
-                                        <label>Catégorie</label>
+                                        <label>{t('admin.dictionary.category')}</label>
                                         <select
                                             value={formData.category}
                                             onChange={e => setFormData({ ...formData, category: e.target.value })}
                                         >
-                                            <option value="">Sélectionner...</option>
+                                            <option value="">{t('admin.common.select')}</option>
                                             <option value="roman">Roman</option>
                                             <option value="poesie">Poésie</option>
                                             <option value="essai">Essai</option>
@@ -373,7 +373,7 @@ function BooksAdmin() {
                                         </select>
                                     </div>
                                     <div className="form-group">
-                                        <label>Année</label>
+                                        <label>{t('admin.books.year')}</label>
                                         <input
                                             type="number"
                                             value={formData.year}
@@ -411,7 +411,7 @@ function BooksAdmin() {
                                             />
                                         </div>
                                         <div className="form-group">
-                                            <label>Description</label>
+                                            <label>{t('admin.books.description')}</label>
                                             <textarea
                                                 value={formData.description_fr}
                                                 onChange={e => setFormData({ ...formData, description_fr: e.target.value })}
@@ -433,7 +433,7 @@ function BooksAdmin() {
                                             />
                                         </div>
                                         <div className="form-group">
-                                            <label>Description</label>
+                                            <label>{t('admin.books.description')}</label>
                                             <textarea
                                                 value={formData.description_en}
                                                 onChange={e => setFormData({ ...formData, description_en: e.target.value })}
@@ -467,7 +467,7 @@ function BooksAdmin() {
 
                                 {/* Prix et paiement */}
                                 <div style={{ padding: '1rem', background: 'rgba(212, 165, 55, 0.1)', borderRadius: '8px', marginBottom: '1rem' }}>
-                                    <h4 style={{ marginBottom: '1rem', color: 'var(--primary-gold)', fontSize: '0.95rem' }}>💰 Tarification</h4>
+                                    <h4 style={{ marginBottom: '1rem', color: 'var(--primary-gold)', fontSize: '0.95rem' }}>💰 {t('admin.books.pricing')}</h4>
                                     <div className="form-group">
                                         <label className="checkbox-label">
                                             <input
@@ -475,13 +475,13 @@ function BooksAdmin() {
                                                 checked={formData.is_free}
                                                 onChange={e => setFormData({ ...formData, is_free: e.target.checked, price: e.target.checked ? '' : formData.price })}
                                             />
-                                            Livre gratuit
+                                            {t('admin.books.free')}
                                         </label>
                                     </div>
                                     {!formData.is_free && (
                                         <div className="form-row">
                                             <div className="form-group">
-                                                <label>Prix (FCFA)</label>
+                                                <label>{t('admin.books.price')} (FCFA)</label>
                                                 <input
                                                     type="number"
                                                     value={formData.price}
@@ -491,12 +491,12 @@ function BooksAdmin() {
                                                 />
                                             </div>
                                             <div className="form-group">
-                                                <label>Lien de paiement</label>
+                                                <label>{t('admin.books.paymentLink')}</label>
                                                 <input
                                                     type="url"
                                                     value={formData.payment_link}
                                                     onChange={e => setFormData({ ...formData, payment_link: e.target.value })}
-                                                    placeholder="https://payment.example.com/..."
+                                                    placeholder="https://..."
                                                 />
                                             </div>
                                         </div>
@@ -510,7 +510,7 @@ function BooksAdmin() {
                                             checked={formData.published}
                                             onChange={e => setFormData({ ...formData, published: e.target.checked })}
                                         />
-                                        Publier ce livre
+                                        {t('admin.books.publishThis')}
                                     </label>
                                 </div>
                             </div>

@@ -167,7 +167,7 @@ function NewsAdmin() {
     }
 
     if (loading) {
-        return <div className="admin-loading"><div className="spinner-large"></div></div>
+        return <div className="admin-loading"><div className="spinner-large"></div>{t('admin.header.loading')}</div>
     }
 
     return (
@@ -187,7 +187,7 @@ function NewsAdmin() {
                 <table className="admin-table">
                     <thead>
                         <tr>
-                            <th>Image</th>
+                            <th>{t('admin.news.image')}</th>
                             <th>{t('admin.news.titleLabel')}</th>
                             <th>{t('admin.news.category')}</th>
                             <th>{t('admin.news.date')}</th>
@@ -269,7 +269,7 @@ function NewsAdmin() {
                             <div className="modal-body">
                                 {/* Image upload */}
                                 <div className="form-group">
-                                    <label>Image de couverture</label>
+                                    <label>{t('admin.news.coverLabel')}</label>
                                     <div
                                         onClick={() => fileInputRef.current?.click()}
                                         style={{
@@ -288,7 +288,7 @@ function NewsAdmin() {
                                         {!imagePreview && (
                                             <div style={{ textAlign: 'center', color: 'var(--medium-gray)' }}>
                                                 <span style={{ fontSize: '2rem', display: 'block' }}>🖼️</span>
-                                                <span>Cliquez pour ajouter une image</span>
+                                                <span>{t('admin.news.clickToAddImage')}</span>
                                             </div>
                                         )}
                                     </div>
@@ -303,21 +303,21 @@ function NewsAdmin() {
 
                                 <div className="form-row">
                                     <div className="form-group">
-                                        <label>Catégorie</label>
+                                        <label>{t('admin.news.category')}</label>
                                         <select
                                             value={formData.category}
                                             onChange={e => setFormData({ ...formData, category: e.target.value })}
                                         >
-                                            <option value="">Sélectionner...</option>
-                                            <option value="candidacy">Candidature</option>
-                                            <option value="election">Élection</option>
-                                            <option value="sayDontSay">Dire, Ne pas dire</option>
-                                            <option value="literaryPrizes">Prix littéraires</option>
-                                            <option value="event">Événement</option>
+                                            <option value="">{t('admin.common.select')}</option>
+                                            <option value="candidacy">{t('news.candidacy')}</option>
+                                            <option value="election">{t('news.election')}</option>
+                                            <option value="sayDontSay">{t('news.sayDontSay')}</option>
+                                            <option value="literaryPrizes">{t('news.literaryPrizes')}</option>
+                                            <option value="event">{t('admin.news.catEvent')}</option>
                                         </select>
                                     </div>
                                     <div className="form-group">
-                                        <label>Date</label>
+                                        <label>{t('admin.news.date')}</label>
                                         <input
                                             type="date"
                                             value={formData.date}
@@ -328,31 +328,31 @@ function NewsAdmin() {
 
                                 {/* Liens et contact */}
                                 <div className="form-group">
-                                    <label>🔗 Lien de redirection (URL)</label>
+                                    <label>🔗 {t('admin.news.redirectLink')}</label>
                                     <input
                                         type="url"
                                         value={formData.link}
                                         onChange={e => setFormData({ ...formData, link: e.target.value })}
-                                        placeholder="https://exemple.com"
+                                        placeholder="https://..."
                                     />
                                 </div>
                                 <div className="form-row">
                                     <div className="form-group">
-                                        <label>📧 Email de contact</label>
+                                        <label>📧 {t('admin.news.contactEmail')}</label>
                                         <input
                                             type="email"
                                             value={formData.contact_email}
                                             onChange={e => setFormData({ ...formData, contact_email: e.target.value })}
-                                            placeholder="contact@exemple.com"
+                                            placeholder="contact@example.com"
                                         />
                                     </div>
                                     <div className="form-group">
-                                        <label>📱 Téléphone</label>
+                                        <label>📱 {t('admin.news.contactPhone')}</label>
                                         <input
                                             type="tel"
                                             value={formData.contact_phone}
                                             onChange={e => setFormData({ ...formData, contact_phone: e.target.value })}
-                                            placeholder="+221 77 123 45 67"
+                                            placeholder="+221 ..."
                                         />
                                     </div>
                                 </div>
@@ -386,7 +386,7 @@ function NewsAdmin() {
                                     {activeTab === 'fr' && (
                                         <>
                                             <div className="form-group">
-                                                <label>Titre (Français) *</label>
+                                                <label>{t('admin.news.titleLabel')} (Français) *</label>
                                                 <input
                                                     type="text"
                                                     value={formData.title_fr}
@@ -395,16 +395,15 @@ function NewsAdmin() {
                                                 />
                                             </div>
                                             <div className="form-group">
-                                                <label>Résumé (Français)</label>
+                                                <label>{t('admin.news.excerpt')} (Français)</label>
                                                 <textarea
                                                     value={formData.excerpt_fr}
                                                     onChange={e => setFormData({ ...formData, excerpt_fr: e.target.value })}
                                                     rows="2"
-                                                    placeholder="Courte description..."
                                                 />
                                             </div>
                                             <div className="form-group">
-                                                <label>Contenu (Français)</label>
+                                                <label>{t('admin.news.content')} (Français)</label>
                                                 <textarea
                                                     value={formData.content_fr}
                                                     onChange={e => setFormData({ ...formData, content_fr: e.target.value })}
@@ -416,7 +415,7 @@ function NewsAdmin() {
                                     {activeTab === 'en' && (
                                         <>
                                             <div className="form-group">
-                                                <label>Title (English)</label>
+                                                <label>{t('admin.news.titleLabel')} (English)</label>
                                                 <input
                                                     type="text"
                                                     value={formData.title_en}
@@ -424,16 +423,15 @@ function NewsAdmin() {
                                                 />
                                             </div>
                                             <div className="form-group">
-                                                <label>Excerpt (English)</label>
+                                                <label>{t('admin.news.excerpt')} (English)</label>
                                                 <textarea
                                                     value={formData.excerpt_en}
                                                     onChange={e => setFormData({ ...formData, excerpt_en: e.target.value })}
                                                     rows="2"
-                                                    placeholder="Short description..."
                                                 />
                                             </div>
                                             <div className="form-group">
-                                                <label>Content (English)</label>
+                                                <label>{t('admin.news.content')} (English)</label>
                                                 <textarea
                                                     value={formData.content_en}
                                                     onChange={e => setFormData({ ...formData, content_en: e.target.value })}
@@ -445,7 +443,7 @@ function NewsAdmin() {
                                     {activeTab === 'ff' && (
                                         <>
                                             <div className="form-group">
-                                                <label>Titre (Pulaar)</label>
+                                                <label>{t('admin.news.titleLabel')} (Pulaar)</label>
                                                 <input
                                                     type="text"
                                                     value={formData.title_ff}
@@ -453,16 +451,15 @@ function NewsAdmin() {
                                                 />
                                             </div>
                                             <div className="form-group">
-                                                <label>Résumé (Pulaar)</label>
+                                                <label>{t('admin.news.excerpt')} (Pulaar)</label>
                                                 <textarea
                                                     value={formData.excerpt_ff}
                                                     onChange={e => setFormData({ ...formData, excerpt_ff: e.target.value })}
                                                     rows="2"
-                                                    placeholder="Résumé en Pulaar..."
                                                 />
                                             </div>
                                             <div className="form-group">
-                                                <label>Contenu (Pulaar)</label>
+                                                <label>{t('admin.news.content')} (Pulaar)</label>
                                                 <textarea
                                                     value={formData.content_ff}
                                                     onChange={e => setFormData({ ...formData, content_ff: e.target.value })}

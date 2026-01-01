@@ -79,7 +79,7 @@ function LibraryPage() {
             <div className="library-page">
                 <div className="library-loading">
                     <div className="spinner"></div>
-                    <p>Chargement des livres...</p>
+                    <p>{t('admin.header.loadingBooks')}</p>
                 </div>
             </div>
         )
@@ -92,22 +92,18 @@ function LibraryPage() {
                 <div className="container">
                     <div className="library-header-content">
                         <div className="library-icon">📚</div>
-                        <h1>{i18n.language === 'en' ? 'Digital Library' : i18n.language === 'ff' ? 'Defte Amen' : 'Bibliothèque Numérique'}</h1>
+                        <h1>{t('library.title')}</h1>
                         <p>
-                            {i18n.language === 'en'
-                                ? 'Discover and download our collection of books and publications in Pulaar'
-                                : i18n.language === 'ff'
-                                    ? 'Yiytu e aawto defte amen e ɗemngal Pulaar'
-                                    : 'Découvrez et téléchargez notre collection de livres et publications en Pulaar'}
+                            {t('library.intro')}
                         </p>
                         <div className="library-stats">
                             <div className="stat-item">
                                 <span className="stat-number">{books.length}</span>
-                                <span className="stat-label">{i18n.language === 'en' ? 'Books' : i18n.language === 'ff' ? 'Defte' : 'Livres'}</span>
+                                <span className="stat-label">{t('library.stats.books')}</span>
                             </div>
                             <div className="stat-item">
                                 <span className="stat-number">{books.reduce((acc, b) => acc + (b.downloads || 0), 0)}</span>
-                                <span className="stat-label">{i18n.language === 'en' ? 'Downloads' : 'Téléchargements'}</span>
+                                <span className="stat-label">{t('library.stats.downloads')}</span>
                             </div>
                         </div>
                     </div>
@@ -118,13 +114,13 @@ function LibraryPage() {
                 {/* Filtres */}
                 {categories.length > 0 && (
                     <div className="library-filters">
-                        <span className="filter-label">{i18n.language === 'en' ? 'Filter by:' : 'Filtrer par:'}</span>
+                        <span className="filter-label">{t('library.filters.label')}</span>
                         <div className="filter-buttons">
                             <button
                                 className={`filter-btn ${selectedCategory === '' ? 'active' : ''}`}
                                 onClick={() => setSelectedCategory('')}
                             >
-                                {i18n.language === 'en' ? 'All' : i18n.language === 'ff' ? 'Fof' : 'Tous'}
+                                {t('library.filters.all')}
                             </button>
                             {categories.map(cat => (
                                 <button
@@ -220,7 +216,7 @@ function LibraryPage() {
                                                         <polyline points="7 10 12 15 17 10" />
                                                         <line x1="12" y1="15" x2="12" y2="3" />
                                                     </svg>
-                                                    {i18n.language === 'en' ? 'Free Download' : i18n.language === 'ff' ? 'Aawto Mehre' : 'Télécharger Gratuit'}
+                                                    {t('library.book.freeDownload')}
                                                 </button>
                                             )
                                         ) : (
@@ -230,7 +226,7 @@ function LibraryPage() {
                                                         <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
                                                         <line x1="1" y1="10" x2="23" y2="10" />
                                                     </svg>
-                                                    {i18n.language === 'en' ? 'Buy Now' : i18n.language === 'ff' ? 'Sood Jooni' : 'Acheter'}
+                                                    {t('library.book.buyNow')}
                                                 </a>
                                             ) : (
                                                 <button className="btn-buy btn-disabled" disabled>
@@ -239,7 +235,7 @@ function LibraryPage() {
                                                         <line x1="12" y1="8" x2="12" y2="12" />
                                                         <line x1="12" y1="16" x2="12.01" y2="16" />
                                                     </svg>
-                                                    {i18n.language === 'en' ? 'Contact us' : 'Nous contacter'}
+                                                    {t('library.book.contactUs')}
                                                 </button>
                                             )
                                         )}
@@ -251,8 +247,8 @@ function LibraryPage() {
                 ) : (
                     <div className="no-books">
                         <div className="no-books-icon">📖</div>
-                        <h3>{i18n.language === 'en' ? 'No books available yet' : i18n.language === 'ff' ? 'Alaa defte tawtaa' : 'Aucun livre disponible pour le moment'}</h3>
-                        <p>{i18n.language === 'en' ? 'Check back soon for new publications!' : 'Revenez bientôt pour de nouvelles publications !'}</p>
+                        <h3>{t('library.book.noBooks')}</h3>
+                        <p>{t('library.book.checkBack')}</p>
                     </div>
                 )}
             </div>

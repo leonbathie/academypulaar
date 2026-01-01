@@ -152,8 +152,12 @@ function DictionaryAdmin() {
         }
     }
 
+    const [isSubmitting, setIsSubmitting] = useState(false)
     const handleSubmit = async (e) => {
         e.preventDefault()
+        if (isSubmitting) return
+
+        setIsSubmitting(true)
         try {
             const formDataToSend = new FormData()
 
@@ -183,13 +187,16 @@ function DictionaryAdmin() {
             })
 
             if (!response.ok) {
-                throw new Error('Erreur lors de l\'enregistrement')
+                const errorData = await response.json().catch(() => ({}))
+                throw new Error(errorData.message || 'Erreur lors de l\'enregistrement')
             }
 
             closeModal()
             loadWords()
         } catch (error) {
             alert('Erreur: ' + error.message)
+        } finally {
+            setIsSubmitting(false)
         }
     }
 
@@ -203,10 +210,13 @@ function DictionaryAdmin() {
         }
     }
 
-    const filteredWords = words.filter(word =>
-        word.word.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        (word.translation_fr && word.translation_fr.toLowerCase().includes(searchTerm.toLowerCase()))
-    )
+    const filteredWords = words.filter(word => {
+        const term = searchTerm.toLowerCase()
+        return (word.word?.toLowerCase() || '').includes(term) ||
+               (word.translation_fr?.toLowerCase() || '').includes(term) ||
+               (word.translation_en?.toLowerCase() || '').includes(term) ||
+               (word.translation_ff?.toLowerCase() || '').includes(term)
+    })
 
     if (loading) {
         return <div className="admin-loading"><div className="spinner-large"></div></div>
@@ -225,7 +235,7 @@ function DictionaryAdmin() {
                             </svg>
                             <input
                                 type="text"
-                                placeholder="Rechercher un mot..."
+                                placeholder={t('admin.dictionary.searchPlaceholder')}
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                             />
@@ -321,12 +331,12 @@ function DictionaryAdmin() {
                                             value={formData.category}
                                             onChange={e => setFormData({ ...formData, category: e.target.value })}
                                         >
-                                            <option value="">Sélectionner...</option>
-                                            <option value="nom">Nom</option>
-                                            <option value="verbe">Verbe</option>
-                                            <option value="adjectif">Adjectif</option>
-                                            <option value="adverbe">Adverbe</option>
-                                            <option value="expression">Expression</option>
+                                            <option value="">{t('admin.common.select')}</option>
+                                            <option value="nom">{t('admin.dictionary.catNom')}</option>
+                                            <option value="verbe">{t('admin.dictionary.catVerbe')}</option>
+                                            <option value="adjectif">{t('admin.dictionary.catAdjectif')}</option>
+                                            <option value="adverbe">{t('admin.dictionary.catAdverbe')}</option>
+                                            <option value="expression">{t('admin.dictionary.catExpression')}</option>
                                         </select>
                                     </div>
                                 </div>
@@ -354,7 +364,7 @@ function DictionaryAdmin() {
                                                 onClick={stopRecording}
                                             >
                                                 <span className="recording-dot"></span>
-                                                Arrêter
+                                                {t('admin.dictionary.stop')}
                                             </button>
                                         )}
                                         {audioWordUrl && (
@@ -404,7 +414,7 @@ function DictionaryAdmin() {
                                             <textarea
                                                 value={formData.translation_fr}
                                                 onChange={e => setFormData({ ...formData, translation_fr: e.target.value })}
-                                                placeholder="Définition en français..."
+                                                placeholder={t('admin.dictionary.placeholderFr')}
                                                 rows="3"
                                             />
                                         </div>
@@ -415,7 +425,7 @@ function DictionaryAdmin() {
                                             <textarea
                                                 value={formData.translation_en}
                                                 onChange={e => setFormData({ ...formData, translation_en: e.target.value })}
-                                                placeholder="English definition..."
+                                                placeholder={t('admin.dictionary.placeholderEn')}
                                                 rows="3"
                                             />
                                         </div>
@@ -426,7 +436,7 @@ function DictionaryAdmin() {
                                             <textarea
                                                 value={formData.translation_ff}
                                                 onChange={e => setFormData({ ...formData, translation_ff: e.target.value })}
-                                                placeholder="Définition en Pulaar..."
+                                                placeholder={t('admin.dictionary.placeholderFf')}
                                                 rows="3"
                                             />
                                         </div>
@@ -434,11 +444,11 @@ function DictionaryAdmin() {
                                 </div>
 
                                 <div className="form-group">
-                                    <label>Exemple d'utilisation</label>
+                                    <label>{t('admin.dictionary.example')}</label>
                                     <textarea
                                         value={formData.example}
                                         onChange={e => setFormData({ ...formData, example: e.target.value })}
-                                        placeholder="Phrase d'exemple..."
+                                        placeholder={t('admin.dictionary.examplePlaceholder')}
                                         rows="2"
                                     />
                                 </div>
@@ -485,9 +495,13 @@ function DictionaryAdmin() {
                                 </div>
                             </div>
                             <div className="modal-footer">
-                                <button type="button" className="btn-cancel" onClick={closeModal}>{t('admin.common.cancel')}</button>
-                                <button type="submit" className="btn-save">
-                                    {editingWord ? t('admin.common.save') : t('admin.common.add')}
+                                <button type="button" className="btn-cancel" onClick={closeModal} disabled={isSubmitting}>{t('admin.common.cancel')}</button>
+                                <button type="submit" className="btn-save" disabled={isSubmitting}>
+                                    {isSubmitting ? (
+                                        <div className="btn-spinner"></div>
+                                    ) : (
+                                        editingWord ? t('admin.common.save') : t('admin.common.add')
+                                    )}
                                 </button>
                             </div>
                         </form>

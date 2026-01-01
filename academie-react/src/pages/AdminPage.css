@@ -958,13 +958,57 @@
 }
 
 @media (max-width: 600px) {
+    .modal.modal-large {
+        width: 98%;
+        margin: var(--space-xs);
+    }
+
+    .modal-body {
+        padding: var(--space-md);
+        max-height: 80vh;
+    }
+
     .form-row {
         grid-template-columns: 1fr;
+        gap: var(--space-sm);
+    }
+
+    .lang-tabs {
+        display: flex;
+        overflow-x: auto;
+        padding-bottom: var(--space-xs);
+        gap: var(--space-xs);
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .lang-tab {
+        white-space: nowrap;
+        flex-shrink: 0;
+        padding: var(--space-sm) var(--space-md);
+        font-size: 0.85rem;
+    }
+
+    .modal-footer {
+        flex-direction: column-reverse;
+        gap: var(--space-md);
+        padding: var(--space-lg) var(--space-md);
+    }
+
+    .modal-footer button {
+        width: 100%;
+        margin: 0;
+        padding: var(--space-md);
     }
 
     .audio-recorder {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: stretch;
+        gap: var(--space-md);
+    }
+
+    .btn-record {
+        width: 100%;
+        justify-content: center;
     }
 
     .audio-preview {

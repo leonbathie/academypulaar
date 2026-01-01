@@ -45,7 +45,7 @@ function Header() {
             link: "/dictionnaire"
         },
         {
-            title: i18n.language === 'en' ? 'Library' : i18n.language === 'ff' ? 'Defte' : 'Bibliothèque',
+            title: t('common.library'),
             link: "/bibliotheque"
         },
         {

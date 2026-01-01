@@ -9,7 +9,7 @@ createRoot(document.getElementById('root')).render(
     <Suspense fallback={
       <div className="loading-screen">
         <div className="loading-spinner"></div>
-        <p>Chargement...</p>
+        <p>Chargement / Loading / Heɓtude...</p>
       </div>
     }>
       <App />

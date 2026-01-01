@@ -53,20 +53,30 @@ function DictionaryPage() {
         }
     }
 
-    // Recherche dans les mots
+    // Recherche dans les mots (Pulaar, Français, Anglais, Définition Pulaar)
     useEffect(() => {
         if (searchTerm.length >= 1) {
             setIsSearching(true)
             const timer = setTimeout(() => {
                 const filtered = allWords.filter(word => {
                     const term = searchTerm.toLowerCase()
-                    const wordLower = word.word.toLowerCase()
+                    const wordLower = word.word?.toLowerCase() || ''
+                    const frLower = word.translation_fr?.toLowerCase() || ''
+                    const enLower = word.translation_en?.toLowerCase() || ''
+                    const ffLower = word.translation_ff?.toLowerCase() || ''
 
                     if (searchType === 'prefix') {
-                        return wordLower.startsWith(term)
+                        // Recherche par préfixe dans tous les champs
+                        return wordLower.startsWith(term) ||
+                               frLower.startsWith(term) ||
+                               enLower.startsWith(term) ||
+                               ffLower.startsWith(term)
                     } else {
-                        // Recherche similaire (contient)
-                        return wordLower.includes(term)
+                        // Recherche similaire (contient) dans tous les champs
+                        return wordLower.includes(term) ||
+                               frLower.includes(term) ||
+                               enLower.includes(term) ||
+                               ffLower.includes(term)
                     }
                 })
                 setResults(filtered)
@@ -138,7 +148,7 @@ function DictionaryPage() {
                 </div>
                 <div className="container" style={{ textAlign: 'center', padding: '4rem 0' }}>
                     <div className="spinner"></div>
-                    <p>Chargement du dictionnaire...</p>
+                    <p>{t('admin.header.loadingDictionary')}</p>
                 </div>
             </div>
         )
@@ -218,7 +228,7 @@ function DictionaryPage() {
                     {results.length > 0 ? (
                         <>
                             <p className="results-count">
-                                {results.length} {results.length === 1 ? 'résultat' : 'résultats'}
+                                {results.length} {results.length === 1 ? t('dictionary.result') : t('dictionary.results')}
                             </p>
                             <div className="results-grid">
                                 {results.map((entry) => (
@@ -230,7 +240,7 @@ function DictionaryPage() {
                                                     <button
                                                         className={`audio-play-btn ${playingAudio === `${entry.id}-word` ? 'playing' : ''}`}
                                                         onClick={() => playAudio(entry.audio_word, entry.id, 'word')}
-                                                        title="Écouter la prononciation"
+                                                        title={t('dictionary.listenPronunciation')}
                                                     >
                                                         {playingAudio === `${entry.id}-word` ? (
                                                             <svg viewBox="0 0 24 24" fill="currentColor">
@@ -259,7 +269,7 @@ function DictionaryPage() {
                                                     <button
                                                         className={`audio-play-btn audio-play-btn--small ${playingAudio === `${entry.id}-example` ? 'playing' : ''}`}
                                                         onClick={() => playAudio(entry.audio_example, entry.id, 'example')}
-                                                        title="Écouter l'exemple"
+                                                        title={t('dictionary.listenExample')}
                                                     >
                                                         {playingAudio === `${entry.id}-example` ? (
                                                             <svg viewBox="0 0 24 24" fill="currentColor">
@@ -286,7 +296,7 @@ function DictionaryPage() {
                                 <path d="M21 21l-4.35-4.35" />
                                 <path d="M8 8l6 6M14 8l-6 6" />
                             </svg>
-                            <p>Aucun résultat trouvé</p>
+                            <p>{t('dictionary.noResults')}</p>
                         </div>
                     ) : (
                         <div className="search-prompt">
@@ -294,10 +304,10 @@ function DictionaryPage() {
                                 <circle cx="11" cy="11" r="8" />
                                 <path d="M21 21l-4.35-4.35" />
                             </svg>
-                            <p>Tapez un mot ou sélectionnez une lettre pour commencer</p>
+                            <p>{t('dictionary.searchPrompt')}</p>
                             {allWords.length > 0 && (
                                 <p style={{ color: 'var(--primary-gold)', marginTop: '1rem' }}>
-                                    {allWords.length} mots disponibles dans le dictionnaire
+                                    {allWords.length} {t('dictionary.availableWords')}
                                 </p>
                             )}
                         </div>

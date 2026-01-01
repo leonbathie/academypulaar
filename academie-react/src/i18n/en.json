@@ -8,7 +8,8 @@
         "learnMore": "Learn more",
         "search": "Search",
         "submit": "Submit",
-        "contact": "Contact"
+        "contact": "Contact",
+        "library": "Library"
     },
     "nav": {
         "home": "Home",
@@ -104,7 +105,95 @@
         "editions": "Editions",
         "wordsDefined": "Words defined",
         "yearsOfWork": "Years of work",
-        "volumesPublished": "Volumes published"
+        "volumesPublished": "Volumes published",
+        "result": "result",
+        "results": "results",
+        "noResults": "No results found",
+        "searchPrompt": "Type a word or select a letter to start",
+        "availableWords": "available words in the dictionary",
+        "listenPronunciation": "Listen to pronunciation",
+        "listenExample": "Listen to the example"
+    },
+    "about": {
+        "title": "About",
+        "highlight": "Goomu Fulo Wiɗto",
+        "intro": "Goomu Fulo Wiɗto is an organization dedicated to the preservation, promotion and development of the Pulaar language.",
+        "missionTitle": "Our Mission",
+        "mission": "Our mission is to create a comprehensive dictionary of the Pulaar language, promote its use in education and media, and preserve the cultural heritage of the Fulɓe through their language.",
+        "historyTitle": "Our History",
+        "history": "Founded by a group of linguists, writers and advocates of Pulaar culture, Goomu Fulo Wiɗto was created to address the urgent need to document and standardize Pulaar in the digital age.",
+        "valuesTitle": "Our Values",
+        "values": {
+            "preservation": {
+                "title": "Preservation",
+                "desc": "Protect and document Pulaar linguistic heritage"
+            },
+            "education": {
+                "title": "Education",
+                "desc": "Promote Pulaar teaching in schools"
+            },
+            "innovation": {
+                "title": "Innovation",
+                "desc": "Use technology for language dissemination"
+            },
+            "unity": {
+                "title": "Unity",
+                "desc": "Bring together Pulaar speakers from around the world"
+            }
+        }
+    },
+    "contact": {
+        "title": "Contact",
+        "subtitle": "Get in touch with us",
+        "infoTitle": "Information",
+        "address": "Address",
+        "phone": "Phone",
+        "form": {
+            "name": "Full name",
+            "email": "Email",
+            "subject": "Subject",
+            "message": "Message",
+            "send": "Send",
+            "sending": "Sending...",
+            "success": "Message sent successfully!",
+            "error": "An error occurred. Please try again.",
+            "required": "This field is required"
+        }
+    },
+    "library": {
+        "title": "Digital Library",
+        "intro": "Discover and download our collection of books and publications in Pulaar",
+        "stats": {
+            "books": "Books",
+            "downloads": "Downloads"
+        },
+        "filters": {
+            "label": "Filter by:",
+            "all": "All"
+        },
+        "book": {
+            "freeDownload": "Free Download",
+            "buyNow": "Buy Now",
+            "contactUs": "Contact us",
+            "noBooks": "No books available yet",
+            "checkBack": "Check back soon for new publications!",
+            "categories": {
+                "roman": "Novel",
+                "poesie": "Poetry",
+                "essai": "Essay",
+                "histoire": "History",
+                "linguistique": "Linguistics",
+                "dictionnaire": "Dictionary",
+                "enfants": "Children Books",
+                "autre": "Other"
+            }
+        }
+    },
+    "members": {
+        "readMore": "Read more",
+        "readLess": "Show less",
+        "since": "Since",
+        "noMembers": "No members recorded"
     },
     "footer": {
         "description": "Goomu Fulo Wiɗto is an organization dedicated to defining the Pulaar language through its dictionary.",
@@ -132,7 +221,10 @@
         },
         "header": {
             "welcome": "Welcome",
-            "loading": "Loading..."
+            "loading": "Loading...",
+            "loadingDictionary": "Loading dictionary...",
+            "loadingMembers": "Loading members...",
+            "loadingBooks": "Loading books..."
         },
         "dashboard": {
             "title": "Dashboard",
@@ -160,7 +252,8 @@
             "actions": "Actions",
             "confirmDelete": "Confirm deletion?",
             "noData": "No data available",
-            "errorSaving": "Error during saving"
+            "errorSaving": "Error during saving",
+            "select": "Select..."
         },
         "dictionary": {
             "title": "Dictionary",
@@ -177,7 +270,17 @@
             "noWords": "No words in the dictionary",
             "record": "Record",
             "stop": "Stop",
-            "reRecord": "Re-record"
+            "reRecord": "Re-record",
+            "searchPlaceholder": "Search for a word...",
+            "catNom": "Noun",
+            "catVerbe": "Verb",
+            "catAdjectif": "Adjective",
+            "catAdverbe": "Adverb",
+            "catExpression": "Expression",
+            "placeholderFr": "French definition...",
+            "placeholderFf": "Pulaar definition...",
+            "placeholderEn": "English definition...",
+            "examplePlaceholder": "Example sentence..."
         },
         "members": {
             "title": "Members",
@@ -186,8 +289,15 @@
             "name": "Name",
             "role": "Role",
             "specialty": "Specialty",
-            "joined": "Joined on",
-            "noMembers": "No members found"
+            "joined": "Joined",
+            "noMembers": "No members found",
+            "photo": "Photo",
+            "clickToPhoto": "Click to add a photo",
+            "joinedPlaceholder": "Ex: 2020",
+            "specialtyPlaceholder": "Ex: Pulaar Linguistics",
+            "socialMedia": "Social Media & Contact",
+            "roleLabel": "Role",
+            "rolePlaceholderFr": "Ex: Perpetual Secretary"
         },
         "books": {
             "title": "Library",
@@ -197,7 +307,20 @@
             "author": "Author",
             "price": "Price",
             "free": "Free",
-            "noBooks": "No books found"
+            "noBooks": "No books found",
+            "cover": "Cover",
+            "file": "File",
+            "downloads": "Downloads",
+            "notPublished": "Not published",
+            "coverLabel": "Book cover",
+            "fileLabel": "Book file (PDF, EPUB, etc.)",
+            "existingFile": "Existing file",
+            "clickToAddFile": "Click to add a file",
+            "year": "Year",
+            "description": "Description",
+            "pricing": "Pricing",
+            "paymentLink": "Payment link",
+            "publishThis": "Publish this book"
         },
         "news": {
             "title": "News",
@@ -212,8 +335,14 @@
             "image": "Cover image",
             "excerpt": "Summary",
             "content": "Content",
-            "publishNow": "Publish immediately",
-            "noNews": "No news published"
+            "publishNow": "Publish now",
+            "noNews": "No news published",
+            "coverLabel": "Cover image",
+            "clickToAddImage": "Click to add an image",
+            "redirectLink": "Redirect link (URL)",
+            "contactEmail": "Contact email",
+            "contactPhone": "Phone",
+            "catEvent": "Event"
         },
         "content": {
             "title": "Say, Don't say",
@@ -222,7 +351,14 @@
             "dire": "Say",
             "nePasDire": "Don't say",
             "explanation": "Explanation",
-            "noContent": "No expression recorded"
+            "noContent": "No expression recorded",
+            "catCommon": "Common errors",
+            "catBorrowings": "Borrowings",
+            "catIncorrect": "Incorrect usage",
+            "catGrammar": "Grammar",
+            "weSayLabel": "Say",
+            "weDontSayLabel": "Don't say",
+            "explanationLabel": "Explanation"
         }
     }
 }

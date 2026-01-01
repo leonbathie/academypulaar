@@ -181,7 +181,7 @@ function MembersAdmin() {
                 <table className="admin-table">
                     <thead>
                         <tr>
-                            <th>Photo</th>
+                            <th>{t('admin.members.photo')}</th>
                             <th>{t('admin.members.name')}</th>
                             <th>{t('admin.members.role')} (FR)</th>
                             <th>{t('admin.members.specialty')}</th>
@@ -278,7 +278,7 @@ function MembersAdmin() {
                                         style={{ display: 'none' }}
                                     />
                                     <p style={{ marginTop: '0.5rem', fontSize: '0.85rem', color: 'var(--medium-gray)' }}>
-                                        Cliquez pour ajouter une photo
+                                        {t('admin.members.clickToPhoto')}
                                     </p>
                                 </div>
 
@@ -298,7 +298,7 @@ function MembersAdmin() {
                                             type="text"
                                             value={formData.joined}
                                             onChange={e => setFormData({ ...formData, joined: e.target.value })}
-                                            placeholder="Ex: 2020"
+                                            placeholder={t('admin.members.joinedPlaceholder')}
                                         />
                                     </div>
                                 </div>
@@ -309,13 +309,13 @@ function MembersAdmin() {
                                         type="text"
                                         value={formData.specialty}
                                         onChange={e => setFormData({ ...formData, specialty: e.target.value })}
-                                        placeholder="Ex: Linguistique Pulaar"
+                                        placeholder={t('admin.members.specialtyPlaceholder')}
                                     />
                                 </div>
 
                                 {/* Réseaux sociaux et contact */}
                                 <div style={{ marginTop: '1rem', padding: '1rem', background: 'rgba(212, 165, 55, 0.1)', borderRadius: '8px', marginBottom: '1rem' }}>
-                                    <h4 style={{ marginBottom: '1rem', color: 'var(--primary-gold)', fontSize: '0.95rem' }}>📱 Réseaux sociaux & Contact</h4>
+                                    <h4 style={{ marginBottom: '1rem', color: 'var(--primary-gold)', fontSize: '0.95rem' }}>📱 {t('admin.members.socialMedia')}</h4>
                                     <div className="form-row">
                                         <div className="form-group">
                                             <label>📧 Email</label>
@@ -396,12 +396,12 @@ function MembersAdmin() {
                                     {activeTab === 'fr' && (
                                         <>
                                             <div className="form-group">
-                                                <label>Rôle (Français)</label>
+                                                <label>{t('admin.members.roleLabel')} (Français)</label>
                                                 <input
                                                     type="text"
                                                     value={formData.role_fr}
                                                     onChange={e => setFormData({ ...formData, role_fr: e.target.value })}
-                                                    placeholder="Ex: Secrétaire perpétuel"
+                                                    placeholder={t('admin.members.rolePlaceholderFr')}
                                                 />
                                             </div>
                                             <div className="form-group">

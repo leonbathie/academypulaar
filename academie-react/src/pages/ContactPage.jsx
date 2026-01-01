@@ -12,44 +12,6 @@ function ContactPage() {
     })
     const [status, setStatus] = useState(null)
 
-    const labels = {
-        fr: {
-            name: 'Nom complet',
-            email: 'Email',
-            subject: 'Sujet',
-            message: 'Message',
-            send: 'Envoyer',
-            sending: 'Envoi en cours...',
-            success: 'Message envoyé avec succès !',
-            error: 'Une erreur est survenue. Veuillez réessayer.',
-            required: 'Ce champ est requis'
-        },
-        en: {
-            name: 'Full name',
-            email: 'Email',
-            subject: 'Subject',
-            message: 'Message',
-            send: 'Send',
-            sending: 'Sending...',
-            success: 'Message sent successfully!',
-            error: 'An error occurred. Please try again.',
-            required: 'This field is required'
-        },
-        ff: {
-            name: 'Innde timmuɗe',
-            email: 'Iimeel',
-            subject: 'Toɓɓere',
-            message: 'Ɓataake',
-            send: 'Neldu',
-            sending: 'Neldude...',
-            success: 'Ɓataake neldaama!',
-            error: 'Juumre waɗii. Fuɗɗito.',
-            required: 'Ɗum waɗɗii'
-        }
-    }
-
-    const l = labels[i18n.language] || labels.fr
-
     const handleChange = (e) => {
         setFormData({
             ...formData,
@@ -78,11 +40,7 @@ function ContactPage() {
                 <div className="container">
                     <h1 className="page-title">{t('common.contact')}</h1>
                     <p className="page-subtitle">
-                        {i18n.language === 'ff'
-                            ? 'Jokkondiren e amen'
-                            : i18n.language === 'en'
-                                ? 'Get in touch with us'
-                                : 'Entrez en contact avec nous'}
+                        {t('contact.subtitle')}
                     </p>
                 </div>
             </div>
@@ -91,7 +49,7 @@ function ContactPage() {
                 <div className="contact-layout">
                     <div className="contact-info">
                         <h2>
-                            {i18n.language === 'ff' ? 'Kumpital' : i18n.language === 'en' ? 'Information' : 'Informations'}
+                            {t('contact.infoTitle')}
                         </h2>
 
                         <div className="info-item">
@@ -100,7 +58,7 @@ function ContactPage() {
                                 <circle cx="12" cy="10" r="3" />
                             </svg>
                             <div>
-                                <h4>{i18n.language === 'ff' ? 'Ɗo ngonɗen' : i18n.language === 'en' ? 'Address' : 'Adresse'}</h4>
+                                <h4>{t('contact.address')}</h4>
                                 <p>Dakar, Sénégal</p>
                             </div>
                         </div>
@@ -121,7 +79,7 @@ function ContactPage() {
                                 <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
                             </svg>
                             <div>
-                                <h4>{i18n.language === 'ff' ? 'Telefon' : i18n.language === 'en' ? 'Phone' : 'Téléphone'}</h4>
+                                <h4>{t('contact.phone')}</h4>
                                 <p>+221 77 000 00 00</p>
                             </div>
                         </div>
@@ -149,7 +107,7 @@ function ContactPage() {
 
                     <form className="contact-form" onSubmit={handleSubmit}>
                         <div className="form-group">
-                            <label htmlFor="name">{l.name}</label>
+                            <label htmlFor="name">{t('contact.form.name')}</label>
                             <input
                                 type="text"
                                 id="name"
@@ -161,7 +119,7 @@ function ContactPage() {
                         </div>
 
                         <div className="form-group">
-                            <label htmlFor="email">{l.email}</label>
+                            <label htmlFor="email">{t('contact.form.email')}</label>
                             <input
                                 type="email"
                                 id="email"
@@ -173,7 +131,7 @@ function ContactPage() {
                         </div>
 
                         <div className="form-group">
-                            <label htmlFor="subject">{l.subject}</label>
+                            <label htmlFor="subject">{t('contact.form.subject')}</label>
                             <input
                                 type="text"
                                 id="subject"
@@ -185,7 +143,7 @@ function ContactPage() {
                         </div>
 
                         <div className="form-group">
-                            <label htmlFor="message">{l.message}</label>
+                            <label htmlFor="message">{t('contact.form.message')}</label>
                             <textarea
                                 id="message"
                                 name="message"
@@ -201,7 +159,7 @@ function ContactPage() {
                             className="btn btn-primary submit-btn"
                             disabled={status === 'sending'}
                         >
-                            {status === 'sending' ? l.sending : l.send}
+                            {status === 'sending' ? t('contact.form.sending') : t('contact.form.send')}
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                 <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" />
                             </svg>
@@ -213,7 +171,7 @@ function ContactPage() {
                                     <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
                                     <polyline points="22 4 12 14.01 9 11.01" />
                                 </svg>
-                                {l.success}
+                                {t('contact.form.success')}
                             </div>
                         )}
 
@@ -224,7 +182,7 @@ function ContactPage() {
                                     <line x1="15" y1="9" x2="9" y2="15" />
                                     <line x1="9" y1="9" x2="15" y2="15" />
                                 </svg>
-                                {l.error}
+                                {t('contact.form.error')}
                             </div>
                         )}
                     </form>
