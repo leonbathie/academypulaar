@@ -494,6 +494,11 @@
         display: none;
     }
 
+    .logo-icon {
+        width: 70px;
+        height: 70px;
+    }
+
     .search-btn {
         display: none;
     }
