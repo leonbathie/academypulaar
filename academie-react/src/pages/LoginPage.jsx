@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-import logoImage from '../assets/logo-academie.png'
+import logoImage from '../assets/logo-academie.svg'
 import './LoginPage.css'
 
 function LoginPage() {

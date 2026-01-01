@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import logoImage from '../assets/logo-academie.png'
+import logoImage from '../assets/logo-academie.svg'
 import './Footer.css'
 
 function Footer() {
