@@ -90,6 +90,7 @@
     display: flex;
     justify-content: center;
     max-width: 50%;
+    margin-left: 20px;
 }
 
 .nav-list {
@@ -177,6 +178,7 @@
     gap: 8px;
     flex-shrink: 0;
     position: relative;
+    margin-left: 15px;
 }
 
 /* Theme Toggle */
