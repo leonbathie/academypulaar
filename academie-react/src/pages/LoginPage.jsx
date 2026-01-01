@@ -13,9 +13,7 @@ function LoginPage() {
     const [isLoading, setIsLoading] = useState(false)
 
     if (loading) {
-        if (loading) {
-            return <div className="login-loading">{t('admin.header.loading')}</div>
-        }
+        return <div className="login-loading">Chargement...</div>
     }
 
     if (isAuthenticated) {
