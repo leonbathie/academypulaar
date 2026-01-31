@@ -28,28 +28,6 @@ function Features() {
             titleKey: "features.dictionary.title",
             descriptionKey: "features.dictionary.description",
             link: "#dictionnaire"
-        },
-        {
-            icon: (
-                <svg viewBox="0 0 64 64" fill="none">
-                    <path d="M32 8l6 12 14 2-10 10 2 14-12-6-12 6 2-14-10-10 14-2z" stroke="currentColor" strokeWidth="2" fill="currentColor" opacity="0.1" />
-                </svg>
-            ),
-            titleKey: "features.prizes.title",
-            descriptionKey: "features.prizes.description",
-            link: "#prix"
-        },
-        {
-            icon: (
-                <svg viewBox="0 0 64 64" fill="none">
-                    <circle cx="32" cy="24" r="10" stroke="currentColor" strokeWidth="2" />
-                    <path d="M16 52c0-8.8 7.2-16 16-16s16 7.2 16 16" stroke="currentColor" strokeWidth="2" />
-                    <path d="M32 34v4M28 52v-8M36 52v-8" stroke="currentColor" strokeWidth="2" />
-                </svg>
-            ),
-            titleKey: "features.immortals.title",
-            descriptionKey: "features.immortals.description",
-            link: "#immortels"
         }
     ]
 

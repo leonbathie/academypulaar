@@ -202,42 +202,16 @@ function LibraryPage() {
                                             </span>
                                         </div>
 
-                                        {/* Prix et boutons */}
-                                        {book.is_free === false && book.price > 0 && (
-                                            <div className="book-price">
-                                                <span className="price-label">{book.price.toLocaleString()} FCFA</span>
-                                            </div>
-                                        )}
-                                        {book.is_free !== false ? (
-                                            book.file_path && (
-                                                <button className="btn-download" onClick={() => handleDownload(book.id)}>
-                                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                                        <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
-                                                        <polyline points="7 10 12 15 17 10" />
-                                                        <line x1="12" y1="15" x2="12" y2="3" />
-                                                    </svg>
-                                                    {t('library.book.freeDownload')}
-                                                </button>
-                                            )
-                                        ) : (
-                                            book.payment_link ? (
-                                                <a href={book.payment_link} target="_blank" rel="noopener noreferrer" className="btn-buy">
-                                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                                        <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
-                                                        <line x1="1" y1="10" x2="23" y2="10" />
-                                                    </svg>
-                                                    {t('library.book.buyNow')}
-                                                </a>
-                                            ) : (
-                                                <button className="btn-buy btn-disabled" disabled>
-                                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                                        <circle cx="12" cy="12" r="10" />
-                                                        <line x1="12" y1="8" x2="12" y2="12" />
-                                                        <line x1="12" y1="16" x2="12.01" y2="16" />
-                                                    </svg>
-                                                    {t('library.book.contactUs')}
-                                                </button>
-                                            )
+                                        {/* Bouton de téléchargement simple */}
+                                        {book.file_path && (
+                                            <button className="btn-download" onClick={() => handleDownload(book.id)}>
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                                    <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+                                                    <polyline points="7 10 12 15 17 10" />
+                                                    <line x1="12" y1="15" x2="12" y2="3" />
+                                                </svg>
+                                                {i18n.language === 'en' ? 'Download' : i18n.language === 'ff' ? 'Aawto' : 'Télécharger'}
+                                            </button>
                                         )}
                                     </div>
                                 </div>
@@ -247,8 +221,7 @@ function LibraryPage() {
                 ) : (
                     <div className="no-books">
                         <div className="no-books-icon">📖</div>
-                        <h3>{t('library.book.noBooks')}</h3>
-                        <p>{t('library.book.checkBack')}</p>
+                        <h3>{i18n.language === 'en' ? 'No books available' : i18n.language === 'ff' ? 'Alaa defte' : 'Aucun livre disponible'}</h3>
                     </div>
                 )}
             </div>

@@ -4,11 +4,6 @@ import './Hero.css'
 
 const slides = [
     {
-        image: "https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?w=1920",
-        titleKey: "hero.title1",
-        subtitleKey: "hero.subtitle1"
-    },
-    {
         image: "https://images.unsplash.com/photo-1568667256549-094345857637?w=1920",
         titleKey: "hero.title2",
         subtitleKey: "hero.subtitle2"
@@ -17,11 +12,6 @@ const slides = [
         image: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=1920",
         titleKey: "hero.title3",
         subtitleKey: "hero.subtitle3"
-    },
-    {
-        image: "https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=1920",
-        titleKey: "hero.title4",
-        subtitleKey: "hero.subtitle4"
     }
 ]
 

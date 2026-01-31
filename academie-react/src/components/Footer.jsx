@@ -31,16 +31,6 @@ function Footer() {
                         </div>
 
                         <div className="footer-links-group">
-                            <h4 className="footer-title">{t('footer.institution')}</h4>
-                            <ul className="footer-links">
-                                <li><Link to="/a-propos#histoire">{t('nav.history')}</Link></li>
-                                <li><Link to="/a-propos#missions">{t('nav.missions')}</Link></li>
-                                <li><Link to="/a-propos#organisation">{t('nav.organization')}</Link></li>
-                                <li><Link to="/a-propos#statuts">{t('nav.statutes')}</Link></li>
-                            </ul>
-                        </div>
-
-                        <div className="footer-links-group">
                             <h4 className="footer-title">{t('footer.language')}</h4>
                             <ul className="footer-links">
                                 <li><Link to="/dictionnaire">{t('nav.dictionary')}</Link></li>
@@ -53,27 +43,13 @@ function Footer() {
                         <div className="footer-links-group">
                             <h4 className="footer-title">{t('footer.services')}</h4>
                             <ul className="footer-links">
-                                <li><Link to="/#actualites">{t('nav.literaryPrizes')}</Link></li>
                                 <li><Link to="/membres">{t('nav.members')}</Link></li>
+                                <li><Link to="/bibliotheque">{t('common.library')}</Link></li>
                                 <li><Link to="/contact">{t('common.contact')}</Link></li>
                             </ul>
                         </div>
 
-                        <div className="footer-newsletter">
-                            <h4 className="footer-title">{t('footer.stayInformed')}</h4>
-                            <p>{t('footer.newsletterText')}</p>
-                            <form className="newsletter-form">
-                                <input
-                                    type="email"
-                                    placeholder={t('footer.emailPlaceholder')}
-                                    className="newsletter-input"
-                                />
-                                <button type="submit" className="newsletter-btn">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                        <path d="M5 12h14M12 5l7 7-7 7" />
-                                    </svg>
-                                </button>
-                            </form>
+                        <div className="footer-social-section">
                             <div className="footer-social">
                                 <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="social-link" aria-label="LinkedIn">
                                     <svg viewBox="0 0 24 24" fill="currentColor">
@@ -100,7 +76,6 @@ function Footer() {
                         <nav className="footer-legal">
                             <Link to="/mentions-legales">{t('footer.legalNotice')}</Link>
                             <Link to="/confidentialite">{t('footer.privacy')}</Link>
-                            <Link to="/accessibilite">{t('footer.accessibility')}</Link>
                         </nav>
                     </div>
                 </div>

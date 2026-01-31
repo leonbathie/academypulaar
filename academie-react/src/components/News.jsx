@@ -53,10 +53,7 @@ function News() {
 
     const getCategoryLabel = (category) => {
         const categoryMap = {
-            'candidacy': 'news.candidacy',
-            'election': 'news.election',
             'sayDontSay': 'news.sayDontSay',
-            'literaryPrizes': 'news.literaryPrizes',
             'event': 'news.event'
         }
         return t(categoryMap[category] || category)

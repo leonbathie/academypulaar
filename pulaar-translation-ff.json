@@ -1,0 +1,364 @@
+{
+    "common": {
+        "siteName": "Goomu Fulo Wiɗto",
+        "siteSlogan": "Fedde Ɗemngal Pulaar",
+        "since": "Gila 2024",
+        "discover": "Yiytu",
+        "readMore": "Janngol goɗɗum",
+        "learnMore": "Anndude goɗɗum",
+        "search": "Yiylo",
+        "submit": "Neldu",
+        "contact": "Jokkondiral",
+        "library": "Defte-manti"
+    },
+    "nav": {
+        "home": "Jaɓɓorgo",
+        "institution": "Fedde ndee",
+        "history": "Taariik",
+        "missions": "Golle",
+        "organization": "Yuɓɓo",
+        "statutes": "Sariyaaji",
+        "immortals": "Janngooɓe",
+        "members": "Terɗe",
+        "becomeImmortal": "Wontude terɗe",
+        "greenCoat": "Comci e kaafaahi",
+        "speeches": "Haalaaji",
+        "language": "Ɗemngal Pulaar",
+        "frenchToday": "Pulaar hannde",
+        "languageQuestions": "Naamne ɗemngal",
+        "terminology": "Helmere",
+        "sayDontSay": "Haalu, Woto haalu",
+        "dictionary": "Saggitorde",
+        "ninthEdition": "Weccitaare gadane",
+        "ninePrefaces": "Deftere",
+        "onlineDictionary": "Saggitorde e internet",
+        "prizes": "Njeenaaje",
+        "literaryPrizes": "Njeenaaje binndol",
+        "workPrizes": "Njeenaaje golle",
+        "laureates": "Jaaɓe",
+        "news": "Kabaruuji"
+    },
+    "hero": {
+        "title1": "Pottital 2025",
+        "subtitle1": "Yiytu sakkeeji mawɗi ndee julotiral",
+        "title2": "Saggitorde",
+        "subtitle2": "Weccitaare gadane Saggitorde Goomu Fulo Wiɗto",
+        "title3": "Ɗemngal Pulaar",
+        "subtitle3": "Doomtotooɗo ɗemngal, Goomu Fulo Wiɗto reeni Pulaar",
+        "title4": "Janngooɓe",
+        "subtitle4": "Terɗe golloowo ngam ɗemngal e pinal Pulaar",
+        "consultDictionary": "Yeewtude Saggitorde",
+        "scroll": "Tellu"
+    },
+    "features": {
+        "sectionLabel": "Golle amen",
+        "title": "E wallitorde ",
+        "titleHighlight": "ɗemngal Pulaar",
+        "description": "Goomu Fulo Wiɗto ngollata golle tati mawɗe: winndude Saggitorde, reende ɗemngal Pulaar, e rokkude njeenaaje binndol.",
+        "institution": {
+            "title": "Fedde ndee",
+            "description": "Sosaa ngam ɗemngal Pulaar, Goomu Fulo Wiɗto ko fedde reentooɓe ɗemngal."
+        },
+        "dictionary": {
+            "title": "Saggitorde",
+            "description": "Goomu Fulo Wiɗto woni e mahde Saggitorde, deftere jogoore ɗemngal Pulaar."
+        },
+        "prizes": {
+            "title": "Njeenaaje",
+            "description": "Hitaande kala, Goomu Fulo Wiɗto hokkata njeenaaje binndol."
+        },
+        "immortals": {
+            "title": "Janngooɓe",
+            "description": "Terɗe cuɓaaɗe mbana Goomu Fulo Wiɗto, reentooɓe ɗemngal e pinal."
+        }
+    },
+    "news": {
+        "sectionLabel": "Heɓu kabaruuji",
+        "title": "Kabaruuji ",
+        "titleHighlight": "Goomu Fulo Wiɗto",
+        "viewAll": "Kabaruuji fow",
+        "candidacy": "Cownagol",
+        "election": "Suɓagol",
+        "sayDontSay": "Haalu, Woto haalu",
+        "literaryPrizes": "Njeenaaje binndol"
+    },
+    "sayDontSay": {
+        "sectionLabel": "Ɗemngal Pulaar",
+        "title": "Haalu, ",
+        "titleHighlight": "Woto haalu",
+        "intro": "Ɗume kelme, ɗume mbaydi suɓaade, jogaade walla salaade hakkunde ko nanee e ko haalee? Goomu Fulo Wiɗto ndaardata on e huutoraade ɗemngal Pulaar no haaniri.",
+        "discoverSection": "Yiytu taƴre ndee",
+        "weSay": "Haalen",
+        "weDontSay": "Woto haalu",
+        "faultyUsage": "Kuutorɗe booɗɗe",
+        "anglicisms": "Kelme janane",
+        "abusiveExtensions": "Feertingol bonngol"
+    },
+    "dictionary": {
+        "sectionLabel": "Saggitorde Pulaar",
+        "title": "Nde ",
+        "titleHighlight": "Saggitorde",
+        "intro": "Saggitorde Goomu Fulo Wiɗto ko deftere jogoore nde darnoti huutoraade Pulaar. Yeewtaa e internet.",
+        "wordsStartingWith": "Kelme puɗɗortooɗe e",
+        "similarWords": "Kelme pottiiɗe",
+        "searchPlaceholder": "Yiylo helmere...",
+        "editions": "Weccitaaje",
+        "wordsDefined": "Kelme faamninaaɗe",
+        "yearsOfWork": "Duuɓi golle",
+        "volumesPublished": "Tome mbinndaaɗe",
+        "result": "ko heɓii",
+        "results": "ɗon heɓii",
+        "noResults": "Alaa ko heɓii",
+        "searchPrompt": "Winndu helmere walla suɓo harfeere ngam fuɗɗorde",
+        "availableWords": "helme tawaaɗe e saggitorde ndee",
+        "listenPronunciation": "Heɗo no wiyete",
+        "listenExample": "Heɗo yeru o"
+    },
+    "about": {
+        "title": "Baɗte",
+        "highlight": "Goomu Fulo Wiɗto",
+        "intro": "Goomu Fulo Wiɗto ko fedde toppitiiɗo reentaade, ɓamtaade e ƴellitaade ɗemngal Pulaar.",
+        "missionTitle": "Golle Amen",
+        "mission": "Golle amen ko mahde saggitorde timmuɗo ɗemngal Pulaar, ɓamtude huutoraade mum e jaŋde e jaayndeeli, e reentaade pinal Fulɓe e ɗemngal maɓɓe.",
+        "historyTitle": "Taariik Amen",
+        "history": "Sosaa e dental ganndooji ɗemngal, winnderɓe e yarlitanɓe pinal Pulaar, Goomu Fulo Wiɗto fuɗɗii ngam jaɓɓaade waɗɗagol binndude e darnaade Pulaar e waktu internet.",
+        "valuesTitle": "Jojjanɗe Amen",
+        "values": {
+            "preservation": {
+                "title": "Reentaade",
+                "desc": "Reentude e binndude ndonu ɗemngal Pulaar"
+            },
+            "education": {
+                "title": "Jaŋde",
+                "desc": "Ɓamtude janngude Pulaar e duɗe"
+            },
+            "innovation": {
+                "title": "Kese",
+                "desc": "Huutoraade karallaaji ngam saakde ɗemngal"
+            },
+            "unity": {
+                "title": "Kawral",
+                "desc": "Renndinde haaltooɓe Pulaar aduna fof"
+            }
+        }
+    },
+    "contact": {
+        "title": "Jokkondiral",
+        "subtitle": "Jokkondiren e amen",
+        "infoTitle": "Kumpital",
+        "address": "Ɗo ngonɗen",
+        "phone": "Telefon",
+        "form": {
+            "name": "Innde timmuɗe",
+            "email": "Iimeel",
+            "subject": "Toɓɓere",
+            "message": "Message",
+            "send": "Neldu",
+            "sending": "Neldude...",
+            "success": "Ɓataake neldaama!",
+            "error": "Juumre waɗii. Fuɗɗito.",
+            "required": "Ɗum waɗɗii"
+        }
+    },
+    "library": {
+        "title": "Defte Amen",
+        "intro": "Yiytu e aawto defte amen e ɗemngal Pulaar",
+        "stats": {
+            "books": "Defte",
+            "downloads": "Aawtodi"
+        },
+        "filters": {
+            "label": "Suɓagol :",
+            "all": "Fof"
+        },
+        "book": {
+            "freeDownload": "Aawto Mehre",
+            "buyNow": "Sood Jooni",
+            "contactUs": "Jokkondir e amen",
+            "noBooks": "Alaa defte tawtaa",
+            "checkBack": "Wartu jooni ngam yiyde kabaruuji kese !",
+            "categories": {
+                "roman": "Tinndi",
+                "poesie": "Jimol",
+                "essai": "Eseey",
+                "histoire": "Taariik",
+                "linguistique": "Ɗemngal",
+                "dictionnaire": "Saggitorde",
+                "enfants": "Defte sukaaɓe",
+                "autre": "Goɗɗum"
+            }
+        }
+    },
+    "members": {
+        "readMore": "Janngol goɗɗum",
+        "readLess": "Ustu",
+        "since": "Gila",
+        "noMembers": "Alaa tergal winndaa"
+    },
+    "footer": {
+        "description": "Goomu Fulo Wiɗto ko fedde ina toppitii faamninirde ɗemngal Pulaar e saggitorde mum.",
+        "institution": "Fedde ndee",
+        "language": "Ɗemngal ngal",
+        "services": "Balluuji",
+        "stayInformed": "Heɓu kabaruuji",
+        "newsletterText": "Heɓu kabaruuji cakkitiiɗi Goomu Fulo Wiɗto.",
+        "emailPlaceholder": "Iimeel maa",
+        "copyright": "Goomu Fulo Wiɗto. Jojjanɗe fow ndaanitaa.",
+        "legalNotice": "Baɗte sariya",
+        "privacy": "Dawiree cuuɗii",
+        "accessibility": "Heɓtineede"
+    },
+    "admin": {
+        "sidebar": {
+            "dashboard": "Jaagere",
+            "dictionary": "Saggitorde",
+            "members": "Terɗe",
+            "news": "Kabaruuji",
+            "content": "Haalu, Woto haalu",
+            "library": "Defte-manti",
+            "viewSite": "Yiyde lowre ndee",
+            "logout": "Teppitante"
+        },
+        "header": {
+            "welcome": "Bismilla",
+            "loading": "Heɓtude...",
+            "loadingDictionary": "Heɓtude saggitorde ndee...",
+            "loadingMembers": "Heɓtude terɗe ɗee...",
+            "loadingBooks": "Heɓtude defte ɗee..."
+        },
+        "dashboard": {
+            "title": "Jaagere",
+            "stats": {
+                "words": "Helmere e saggitorde",
+                "members": "Terɗe / Gandalɓe",
+                "news": "Kabaruuji bayyinaaɗi",
+                "content": "Wiide, Woto wiide"
+            },
+            "welcomeCard": {
+                "title": "Bismilla e jaagere",
+                "text": "Huutora doggol nano ngam feewnude ko woni e lowre Goomu Fulo Wiɗto :",
+                "dict": "Ɓeydude, waylude walla momtude kelme",
+                "members": "Feewnude gandalɓe e nguurndam muudum'en",
+                "news": "Bayyinde kabaruuji e winndanɗe",
+                "content": "Feewnude kelme ɗemngal"
+            }
+        },
+        "common": {
+            "add": "Ɓeydude",
+            "edit": "Waylude",
+            "delete": "Momtude",
+            "save": "Hisnude",
+            "cancel": "Faytude",
+            "actions": "Kuuɗe",
+            "confirmDelete": "A jaɓii momtude ?",
+            "noData": "Alaa ko heɓii",
+            "errorSaving": "Juumre e hisnude",
+            "select": "Suɓagol..."
+        },
+        "dictionary": {
+            "title": "Saggitorde",
+            "add": "Ɓeydude helmere",
+            "edit": "Waylude helmere",
+            "wordPulaar": "Helmere (Pulaar)",
+            "translationFr": "Faransikoore",
+            "translationEn": "Engeleere",
+            "translationFf": "Pulaar",
+            "category": "Mbaydi",
+            "example": "Yerirun",
+            "audioWord": "Bi'ol helmere ndee",
+            "audioExample": "Bi'ol yerirun ngun",
+            "noWords": "Alaa helmere e saggitorde",
+            "record": "Hisnude",
+            "stop": "Dartude",
+            "reRecord": "Hisnude goɗɗum",
+            "searchPlaceholder": "Yiylo helmere...",
+            "catNom": "Innde (Nom)",
+            "catVerbe": "Gollal (Verbe)",
+            "catAdjectif": "Sifa (Adjectif)",
+            "catAdverbe": "Sifa-gollal (Adverbe)",
+            "catExpression": "Bihol (Expression)",
+            "placeholderFr": "Faamninaare Faransikoore...",
+            "placeholderFf": "Faamninaare Pulaar...",
+            "placeholderEn": "Faamninaare Engeleere...",
+            "examplePlaceholder": "Yerirun..."
+        },
+        "members": {
+            "title": "Terɗe",
+            "add": "Ɓeydude tergal",
+            "edit": "Waylude tergal",
+            "name": "Innde",
+            "role": "Gollal",
+            "specialty": "Karallaagal",
+            "joined": "Naatii e",
+            "noMembers": "Alaa tergal heɓaa",
+            "photo": "Nate",
+            "clickToPhoto": "Dobi ngam ɓeydude nate",
+            "joinedPlaceholder": "Ex: 2020",
+            "specialtyPlaceholder": "Ex: Gandal Pulaar",
+            "socialMedia": "Jokkondiral e Janngooɓe",
+            "roleLabel": "Gollal",
+            "rolePlaceholderFr": "Ex: Koolaaɗo kuuɓal"
+        },
+        "books": {
+            "title": "Defte-manti",
+            "add": "Ɓeydude deftere",
+            "edit": "Waylude deftere",
+            "titleLabel": "Tiitoonde",
+            "author": "Binnduɗo",
+            "price": "Coggu",
+            "free": "Meere",
+            "noBooks": "Alaa deftere heɓaa",
+            "cover": "Nate",
+            "file": "Winndannde",
+            "downloads": "Tellitinaa",
+            "notPublished": "Yaltinaaka",
+            "coverLabel": "Nate deftere ndee",
+            "fileLabel": "Winndannde deftere ndee (PDF, EPUB, ...)",
+            "existingFile": "Winndannde wonnde nii",
+            "clickToAddFile": "Dobo ngam ɓeydude winndannde",
+            "year": "Hitaande",
+            "description": "Cifol",
+            "pricing": "Njeenaari",
+            "paymentLink": "Jokkondiral yoɓo",
+            "publishThis": "Yaltinde ndee deftere"
+        },
+        "news": {
+            "title": "Kabaaruuji",
+            "add": "Ɓeydude kabaaru",
+            "edit": "Waylude kabaaru",
+            "titleLabel": "Tiitoonde",
+            "category": "Mbaydi",
+            "date": "Ñalngu",
+            "status": "Mbaydi",
+            "published": "Yaltinaama",
+            "draft": "Binndol",
+            "image": "Nate dow",
+            "excerpt": "Dow-kabaaru",
+            "content": "Kuurun kabaaru",
+            "publishNow": "Yaltinde jooni",
+            "noNews": "Alaa kabaaru yaltinaa",
+            "coverLabel": "Nate kabaaru oo",
+            "clickToAddImage": "Dobo ngam ɓeydude nate",
+            "redirectLink": "Jokkondiral (URL)",
+            "contactEmail": "E-maayel",
+            "contactPhone": "Telefoon",
+            "catEvent": "Pottital"
+        },
+        "content": {
+            "title": "Wiyde e wiyde ala",
+            "add": "Ɓeydude bihol",
+            "edit": "Waylude bihol",
+            "dire": "Wiyde",
+            "nePasDire": "Wiyde ala",
+            "explanation": "Pinal",
+            "noContent": "Alaa bihol winndaa",
+            "catCommon": "Boofooti",
+            "catBorrowings": "Emprunts",
+            "catIncorrect": "Kuutoragol bonngol",
+            "catGrammar": "Sariyaaji ɗemngal",
+            "weSayLabel": "Ma-en wiy",
+            "weDontSayLabel": "Wana nii wiyete",
+            "explanationLabel": "Pinal"
+        }
+    }
+}

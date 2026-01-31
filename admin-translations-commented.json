@@ -1,0 +1,849 @@
+{
+  "NOTE": "Traductions pour l'interface d'administration de Goomu Fulo Wiɗto",
+  "LANGUAGES": {
+    "fr": "Français (French)",
+    "en": "English",
+    "ff": "Pulaar/Fulfulde"
+  },
+
+  "admin": {
+    "_comment": "Section principale de l'administration",
+    
+    "sidebar": {
+      "_comment": "Menu latéral gauche de l'interface admin - Navigation principale",
+      
+      "dashboard": {
+        "fr": "Tableau de bord",
+        "en": "Dashboard",
+        "ff": "Jaagere",
+        "_usage": "Titre de la page d'accueil de l'admin avec statistiques"
+      },
+      "dictionary": {
+        "fr": "Dictionnaire",
+        "en": "Dictionary",
+        "ff": "Saggitorde",
+        "_usage": "Lien vers la gestion du dictionnaire Pulaar"
+      },
+      "members": {
+        "fr": "Membres",
+        "en": "Members",
+        "ff": "Terɗe",
+        "_usage": "Lien vers la gestion des membres/érudits de l'académie"
+      },
+      "news": {
+        "fr": "Actualités",
+        "en": "News",
+        "ff": "Kabaruuji",
+        "_usage": "Lien vers la gestion des articles et actualités"
+      },
+      "content": {
+        "fr": "Dire, Ne pas dire",
+        "en": "Say, Don't Say",
+        "ff": "Haalu, Woto haalu",
+        "_usage": "Section pour les expressions linguistiques correctes/incorrectes"
+      },
+      "library": {
+        "fr": "Bibliothèque",
+        "en": "Library",
+        "ff": "Defte-manti",
+        "_usage": "Gestion de la bibliothèque numérique (livres PDF/EPUB)"
+      },
+      "viewSite": {
+        "fr": "Voir le site",
+        "en": "View Site",
+        "ff": "Yiyde lowre ndee",
+        "_usage": "Bouton pour ouvrir le site public dans un nouvel onglet"
+      },
+      "logout": {
+        "fr": "Déconnexion",
+        "en": "Logout",
+        "ff": "Teppitante",
+        "_usage": "Bouton pour se déconnecter de l'interface admin"
+      }
+    },
+
+    "header": {
+      "_comment": "En-tête de l'interface admin - Messages d'accueil et chargement",
+      
+      "welcome": {
+        "fr": "Bienvenue",
+        "en": "Welcome",
+        "ff": "Bismilla",
+        "_usage": "Message d'accueil affiché en haut de page avec le nom de l'utilisateur"
+      },
+      "loading": {
+        "fr": "Chargement...",
+        "en": "Loading...",
+        "ff": "Heɓtude...",
+        "_usage": "Message générique pendant le chargement des données"
+      },
+      "loadingDictionary": {
+        "fr": "Chargement du dictionnaire...",
+        "en": "Loading dictionary...",
+        "ff": "Heɓtude saggitorde ndee...",
+        "_usage": "Message spécifique lors du chargement des mots du dictionnaire"
+      },
+      "loadingMembers": {
+        "fr": "Chargement des membres...",
+        "en": "Loading members...",
+        "ff": "Heɓtude terɗe ɗee...",
+        "_usage": "Message lors du chargement de la liste des membres"
+      },
+      "loadingBooks": {
+        "fr": "Chargement des livres...",
+        "en": "Loading books...",
+        "ff": "Heɓtude defte ɗee...",
+        "_usage": "Message lors du chargement de la bibliothèque"
+      }
+    },
+
+    "dashboard": {
+      "_comment": "Page d'accueil de l'administration avec statistiques",
+      
+      "title": {
+        "fr": "Tableau de bord",
+        "en": "Dashboard",
+        "ff": "Jaagere",
+        "_usage": "Titre principal de la page d'accueil admin"
+      },
+      "stats": {
+        "_comment": "Cartes de statistiques affichées sur le dashboard",
+        
+        "words": {
+          "fr": "Mots dans le dictionnaire",
+          "en": "Words in dictionary",
+          "ff": "Helmere e saggitorde",
+          "_usage": "Nombre total de mots/entrées dans le dictionnaire"
+        },
+        "members": {
+          "fr": "Membres / Érudits",
+          "en": "Members / Scholars",
+          "ff": "Terɗe / Gandalɓe",
+          "_usage": "Nombre total de membres de l'académie"
+        },
+        "news": {
+          "fr": "Actualités publiées",
+          "en": "Published news",
+          "ff": "Kabaruuji bayyinaaɗi",
+          "_usage": "Nombre d'articles/actualités publiés"
+        },
+        "content": {
+          "fr": "Expressions \"Dire, Ne pas dire\"",
+          "en": "Say, Don't Say expressions",
+          "ff": "Wiide, Woto wiide",
+          "_usage": "Nombre d'expressions linguistiques enregistrées"
+        }
+      },
+      "welcomeCard": {
+        "_comment": "Carte d'aide/bienvenue sur le dashboard",
+        
+        "title": {
+          "fr": "Bienvenue dans l'administration",
+          "en": "Welcome to administration",
+          "ff": "Bismilla e jaagere",
+          "_usage": "Titre de la carte d'aide"
+        },
+        "text": {
+          "fr": "Utilisez le menu de gauche pour gérer le contenu du site Goomu Fulo Wiɗto :",
+          "en": "Use the left menu to manage Goomu Fulo Wiɗto content:",
+          "ff": "Huutora doggol nano ngam feewnude ko woni e lowre Goomu Fulo Wiɗto :",
+          "_usage": "Introduction aux fonctionnalités"
+        },
+        "dict": {
+          "fr": "Ajouter, modifier ou supprimer des mots",
+          "en": "Add, edit or delete words",
+          "ff": "Ɓeydude, waylude walla momtude kelme",
+          "_usage": "Description de la fonctionnalité dictionnaire"
+        },
+        "members": {
+          "fr": "Gérer les érudits et leurs biographies",
+          "en": "Manage scholars and their biographies",
+          "ff": "Feewnude gandalɓe e nguurndam muudum'en",
+          "_usage": "Description de la gestion des membres"
+        },
+        "news": {
+          "fr": "Publier des nouvelles et articles",
+          "en": "Publish news and articles",
+          "ff": "Bayyinde kabaruuji e winndanɗe",
+          "_usage": "Description de la gestion des actualités"
+        },
+        "content": {
+          "fr": "Gérer les expressions linguistiques",
+          "en": "Manage language expressions",
+          "ff": "Feewnude kelme ɗemngal",
+          "_usage": "Description de la section Dire/Ne pas dire"
+        }
+      }
+    },
+
+    "common": {
+      "_comment": "Boutons et messages communs à toutes les pages admin",
+      
+      "add": {
+        "fr": "Ajouter",
+        "en": "Add",
+        "ff": "Ɓeydude",
+        "_usage": "Bouton pour ajouter un nouvel élément"
+      },
+      "edit": {
+        "fr": "Modifier",
+        "en": "Edit",
+        "ff": "Waylude",
+        "_usage": "Bouton pour modifier un élément existant"
+      },
+      "delete": {
+        "fr": "Supprimer",
+        "en": "Delete",
+        "ff": "Momtude",
+        "_usage": "Bouton pour supprimer un élément"
+      },
+      "save": {
+        "fr": "Enregistrer",
+        "en": "Save",
+        "ff": "Hisnude",
+        "_usage": "Bouton pour sauvegarder les modifications"
+      },
+      "cancel": {
+        "fr": "Annuler",
+        "en": "Cancel",
+        "ff": "Faytude",
+        "_usage": "Bouton pour annuler et fermer le formulaire"
+      },
+      "actions": {
+        "fr": "Actions",
+        "en": "Actions",
+        "ff": "Kuuɗe",
+        "_usage": "Colonne des actions dans les tableaux (modifier/supprimer)"
+      },
+      "confirmDelete": {
+        "fr": "Confirmer la suppression ?",
+        "en": "Confirm deletion?",
+        "ff": "A jaɓii momtude ?",
+        "_usage": "Message de confirmation avant suppression"
+      },
+      "noData": {
+        "fr": "Aucune donnée disponible",
+        "en": "No data available",
+        "ff": "Alaa ko heɓii",
+        "_usage": "Message quand aucune donnée n'est trouvée"
+      },
+      "errorSaving": {
+        "fr": "Erreur lors de l'enregistrement",
+        "en": "Error during saving",
+        "ff": "Juumre e hisnude",
+        "_usage": "Message d'erreur lors d'une sauvegarde échouée"
+      },
+      "select": {
+        "fr": "Sélectionner...",
+        "en": "Select...",
+        "ff": "Suɓagol...",
+        "_usage": "Placeholder pour les menus déroulants"
+      }
+    },
+
+    "dictionary": {
+      "_comment": "Gestion du dictionnaire Pulaar - Page pour ajouter/modifier/supprimer des mots",
+      
+      "title": {
+        "fr": "Dictionnaire",
+        "en": "Dictionary",
+        "ff": "Saggitorde",
+        "_usage": "Titre de la page de gestion du dictionnaire"
+      },
+      "add": {
+        "fr": "Ajouter un mot",
+        "en": "Add a word",
+        "ff": "Ɓeydude helmere",
+        "_usage": "Bouton pour ouvrir le formulaire d'ajout de mot"
+      },
+      "edit": {
+        "fr": "Modifier le mot",
+        "en": "Edit word",
+        "ff": "Waylude helmere",
+        "_usage": "Titre du formulaire d'édition de mot"
+      },
+      "wordPulaar": {
+        "fr": "Mot (Pulaar)",
+        "en": "Word (Pulaar)",
+        "ff": "Helmere (Pulaar)",
+        "_usage": "Label du champ pour le mot en Pulaar"
+      },
+      "translationFr": {
+        "fr": "Français",
+        "en": "French",
+        "ff": "Faransikoore",
+        "_usage": "Label de la traduction/définition en français"
+      },
+      "translationEn": {
+        "fr": "English",
+        "en": "English",
+        "ff": "Engeleere",
+        "_usage": "Label de la traduction/définition en anglais"
+      },
+      "translationFf": {
+        "fr": "Pulaar",
+        "en": "Pulaar",
+        "ff": "Pulaar",
+        "_usage": "Label de la définition en Pulaar"
+      },
+      "category": {
+        "fr": "Catégorie",
+        "en": "Category",
+        "ff": "Mbaydi",
+        "_usage": "Label du menu déroulant de catégorie grammaticale"
+      },
+      "example": {
+        "fr": "Exemple d'utilisation",
+        "en": "Usage example",
+        "ff": "Yerirun",
+        "_usage": "Label du champ pour la phrase d'exemple"
+      },
+      "audioWord": {
+        "fr": "Prononciation du mot",
+        "en": "Word pronunciation",
+        "ff": "Bi'ol helmere ndee",
+        "_usage": "Label de la section d'enregistrement audio du mot"
+      },
+      "audioExample": {
+        "fr": "Prononciation de l'exemple",
+        "en": "Example pronunciation",
+        "ff": "Bi'ol yerirun ngun",
+        "_usage": "Label de la section d'enregistrement audio de l'exemple"
+      },
+      "noWords": {
+        "fr": "Aucun mot dans le dictionnaire",
+        "en": "No words in the dictionary",
+        "ff": "Alaa helmere e saggitorde",
+        "_usage": "Message quand le dictionnaire est vide"
+      },
+      "record": {
+        "fr": "Enregistrer",
+        "en": "Record",
+        "ff": "Hisnude",
+        "_usage": "Bouton pour démarrer l'enregistrement audio"
+      },
+      "stop": {
+        "fr": "Arrêter",
+        "en": "Stop",
+        "ff": "Dartude",
+        "_usage": "Bouton pour arrêter l'enregistrement audio"
+      },
+      "reRecord": {
+        "fr": "Ré-enregistrer",
+        "en": "Re-record",
+        "ff": "Hisnude goɗɗum",
+        "_usage": "Bouton pour recommencer un enregistrement audio"
+      },
+      "searchPlaceholder": {
+        "fr": "Rechercher un mot...",
+        "en": "Search for a word...",
+        "ff": "Yiylo helmere...",
+        "_usage": "Placeholder de la barre de recherche"
+      },
+      "catNom": {
+        "fr": "Nom",
+        "en": "Noun",
+        "ff": "Innde (Nom)",
+        "_usage": "Catégorie grammaticale : Nom/Substantif"
+      },
+      "catVerbe": {
+        "fr": "Verbe",
+        "en": "Verb",
+        "ff": "Gollal (Verbe)",
+        "_usage": "Catégorie grammaticale : Verbe"
+      },
+      "catAdjectif": {
+        "fr": "Adjectif",
+        "en": "Adjective",
+        "ff": "Sifa (Adjectif)",
+        "_usage": "Catégorie grammaticale : Adjectif"
+      },
+      "catAdverbe": {
+        "fr": "Adverbe",
+        "en": "Adverb",
+        "ff": "Sifa-gollal (Adverbe)",
+        "_usage": "Catégorie grammaticale : Adverbe"
+      },
+      "catExpression": {
+        "fr": "Expression",
+        "en": "Expression",
+        "ff": "Bihol (Expression)",
+        "_usage": "Catégorie grammaticale : Expression/Locution"
+      },
+      "placeholderFr": {
+        "fr": "Définition en français...",
+        "en": "French definition...",
+        "ff": "Faamninaare Faransikoore...",
+        "_usage": "Placeholder du champ de définition française"
+      },
+      "placeholderFf": {
+        "fr": "Définition en Pulaar...",
+        "en": "Pulaar definition...",
+        "ff": "Faamninaare Pulaar...",
+        "_usage": "Placeholder du champ de définition Pulaar"
+      },
+      "placeholderEn": {
+        "fr": "Definition in English...",
+        "en": "English definition...",
+        "ff": "Faamninaare Engeleere...",
+        "_usage": "Placeholder du champ de définition anglaise"
+      },
+      "examplePlaceholder": {
+        "fr": "Phrase d'exemple...",
+        "en": "Example sentence...",
+        "ff": "Yerirun...",
+        "_usage": "Placeholder du champ d'exemple d'utilisation"
+      }
+    },
+
+    "members": {
+      "_comment": "Gestion des membres/érudits de l'académie",
+      
+      "title": {
+        "fr": "Membres",
+        "en": "Members",
+        "ff": "Terɗe",
+        "_usage": "Titre de la page de gestion des membres"
+      },
+      "add": {
+        "fr": "Ajouter un membre",
+        "en": "Add a member",
+        "ff": "Ɓeydude tergal",
+        "_usage": "Bouton pour ouvrir le formulaire d'ajout de membre"
+      },
+      "edit": {
+        "fr": "Modifier le membre",
+        "en": "Edit member",
+        "ff": "Waylude tergal",
+        "_usage": "Titre du formulaire d'édition de membre"
+      },
+      "name": {
+        "fr": "Nom",
+        "en": "Name",
+        "ff": "Innde",
+        "_usage": "Label du champ nom complet du membre"
+      },
+      "role": {
+        "fr": "Rôle",
+        "en": "Role",
+        "ff": "Gollal",
+        "_usage": "Label du champ rôle/fonction dans l'académie"
+      },
+      "specialty": {
+        "fr": "Spécialité",
+        "en": "Specialty",
+        "ff": "Karallaagal",
+        "_usage": "Label du champ domaine d'expertise"
+      },
+      "joined": {
+        "fr": "Rejoint le",
+        "en": "Joined",
+        "ff": "Naatii e",
+        "_usage": "Label du champ année d'adhésion"
+      },
+      "noMembers": {
+        "fr": "Aucun membre trouvé",
+        "en": "No members found",
+        "ff": "Alaa tergal heɓaa",
+        "_usage": "Message quand aucun membre n'est enregistré"
+      },
+      "photo": {
+        "fr": "Photo",
+        "en": "Photo",
+        "ff": "Nate",
+        "_usage": "Label de la section photo de profil"
+      },
+      "clickToPhoto": {
+        "fr": "Cliquez pour ajouter une photo",
+        "en": "Click to add a photo",
+        "ff": "Dobi ngam ɓeydude nate",
+        "_usage": "Texte d'invitation sur la zone de téléchargement de photo"
+      },
+      "joinedPlaceholder": {
+        "fr": "Ex: 2020",
+        "en": "Ex: 2020",
+        "ff": "Ex: 2020",
+        "_usage": "Placeholder du champ année d'adhésion"
+      },
+      "specialtyPlaceholder": {
+        "fr": "Ex: Linguistique Pulaar",
+        "en": "Ex: Pulaar Linguistics",
+        "ff": "Ex: Gandal Pulaar",
+        "_usage": "Placeholder du champ spécialité"
+      },
+      "socialMedia": {
+        "fr": "Réseaux sociaux & Contact",
+        "en": "Social Media & Contact",
+        "ff": "Jokkondiral e Janngooɓe",
+        "_usage": "Section pour les liens réseaux sociaux et contacts"
+      },
+      "roleLabel": {
+        "fr": "Rôle",
+        "en": "Role",
+        "ff": "Gollal",
+        "_usage": "Label répété pour clarification dans formulaire multilingue"
+      },
+      "rolePlaceholderFr": {
+        "fr": "Ex: Secrétaire perpétuel",
+        "en": "Ex: Perpetual Secretary",
+        "ff": "Ex: Koolaaɗo kuuɓal",
+        "_usage": "Placeholder du champ rôle en français"
+      }
+    },
+
+    "books": {
+      "_comment": "Gestion de la bibliothèque numérique (livres PDF/EPUB)",
+      
+      "title": {
+        "fr": "Bibliothèque",
+        "en": "Library",
+        "ff": "Defte-manti",
+        "_usage": "Titre de la page de gestion des livres"
+      },
+      "add": {
+        "fr": "Ajouter un livre",
+        "en": "Add a book",
+        "ff": "Ɓeydude deftere",
+        "_usage": "Bouton pour ouvrir le formulaire d'ajout de livre"
+      },
+      "edit": {
+        "fr": "Modifier le livre",
+        "en": "Edit book",
+        "ff": "Waylude deftere",
+        "_usage": "Titre du formulaire d'édition de livre"
+      },
+      "titleLabel": {
+        "fr": "Titre",
+        "en": "Title",
+        "ff": "Tiitoonde",
+        "_usage": "Label du champ titre du livre"
+      },
+      "author": {
+        "fr": "Auteur",
+        "en": "Author",
+        "ff": "Binnduɗo",
+        "_usage": "Label du champ auteur du livre"
+      },
+      "price": {
+        "fr": "Prix",
+        "en": "Price",
+        "ff": "Coggu",
+        "_usage": "Label du champ prix (si livre payant)"
+      },
+      "free": {
+        "fr": "Gratuit",
+        "en": "Free",
+        "ff": "Meere",
+        "_usage": "Option/badge pour les livres gratuits"
+      },
+      "noBooks": {
+        "fr": "Aucun livre trouvé",
+        "en": "No books found",
+        "ff": "Alaa deftere heɓaa",
+        "_usage": "Message quand aucun livre n'est enregistré"
+      },
+      "cover": {
+        "fr": "Couverture",
+        "en": "Cover",
+        "ff": "Nate",
+        "_usage": "Label de la section image de couverture"
+      },
+      "file": {
+        "fr": "Fichier",
+        "en": "File",
+        "ff": "Winndannde",
+        "_usage": "Label de la section fichier du livre (PDF/EPUB)"
+      },
+      "downloads": {
+        "fr": "Téléch.",
+        "en": "Downloads",
+        "ff": "Tellitinaa",
+        "_usage": "Abréviation pour nombre de téléchargements (dans tableau)"
+      },
+      "notPublished": {
+        "fr": "Non publié",
+        "en": "Not published",
+        "ff": "Yaltinaaka",
+        "_usage": "Badge de statut pour livre en brouillon"
+      },
+      "coverLabel": {
+        "fr": "Couverture du livre",
+        "en": "Book cover",
+        "ff": "Nate deftere ndee",
+        "_usage": "Label descriptif de la zone de téléchargement de couverture"
+      },
+      "fileLabel": {
+        "fr": "Fichier du livre (PDF, EPUB, etc.)",
+        "en": "Book file (PDF, EPUB, etc.)",
+        "ff": "Winndannde deftere ndee (PDF, EPUB, ...)",
+        "_usage": "Label descriptif de la zone de téléchargement du fichier"
+      },
+      "existingFile": {
+        "fr": "Fichier existant",
+        "en": "Existing file",
+        "ff": "Winndannde wonnde nii",
+        "_usage": "Indicateur qu'un fichier est déjà téléchargé"
+      },
+      "clickToAddFile": {
+        "fr": "Cliquez pour ajouter un fichier",
+        "en": "Click to add a file",
+        "ff": "Dobo ngam ɓeydude winndannde",
+        "_usage": "Texte d'invitation sur la zone de téléchargement de fichier"
+      },
+      "year": {
+        "fr": "Année",
+        "en": "Year",
+        "ff": "Hitaande",
+        "_usage": "Label du champ année de publication"
+      },
+      "description": {
+        "fr": "Description",
+        "en": "Description",
+        "ff": "Cifol",
+        "_usage": "Label du champ description/résumé du livre"
+      },
+      "pricing": {
+        "fr": "Tarification",
+        "en": "Pricing",
+        "ff": "Njeenaari",
+        "_usage": "Section concernant le prix et paiement"
+      },
+      "paymentLink": {
+        "fr": "Lien de paiement",
+        "en": "Payment link",
+        "ff": "Jokkondiral yoɓo",
+        "_usage": "Label du champ URL de paiement (si livre payant)"
+      },
+      "publishThis": {
+        "fr": "Publier ce livre",
+        "en": "Publish this book",
+        "ff": "Yaltinde ndee deftere",
+        "_usage": "Label de la case à cocher pour publier le livre"
+      }
+    },
+
+    "news": {
+      "_comment": "Gestion des actualités et articles",
+      
+      "title": {
+        "fr": "Actualités",
+        "en": "News",
+        "ff": "Kabaaruuji",
+        "_usage": "Titre de la page de gestion des actualités"
+      },
+      "add": {
+        "fr": "Ajouter une actualité",
+        "en": "Add news",
+        "ff": "Ɓeydude kabaaru",
+        "_usage": "Bouton pour ouvrir le formulaire d'ajout d'actualité"
+      },
+      "edit": {
+        "fr": "Modifier l'actualité",
+        "en": "Edit news",
+        "ff": "Waylude kabaaru",
+        "_usage": "Titre du formulaire d'édition d'actualité"
+      },
+      "titleLabel": {
+        "fr": "Titre",
+        "en": "Title",
+        "ff": "Tiitoonde",
+        "_usage": "Label du champ titre de l'actualité"
+      },
+      "category": {
+        "fr": "Catégorie",
+        "en": "Category",
+        "ff": "Mbaydi",
+        "_usage": "Label du menu déroulant de catégorie"
+      },
+      "date": {
+        "fr": "Date",
+        "en": "Date",
+        "ff": "Ñalngu",
+        "_usage": "Label du champ date de publication"
+      },
+      "status": {
+        "fr": "Statut",
+        "en": "Status",
+        "ff": "Mbaydi",
+        "_usage": "Label indiquant si publié ou brouillon"
+      },
+      "published": {
+        "fr": "Publié",
+        "en": "Published",
+        "ff": "Yaltinaama",
+        "_usage": "Badge/statut pour actualité publiée"
+      },
+      "draft": {
+        "fr": "Brouillon",
+        "en": "Draft",
+        "ff": "Binndol",
+        "_usage": "Badge/statut pour actualité en brouillon"
+      },
+      "image": {
+        "fr": "Image de couverture",
+        "en": "Cover image",
+        "ff": "Nate dow",
+        "_usage": "Label de la section image de couverture"
+      },
+      "excerpt": {
+        "fr": "Résumé",
+        "en": "Summary",
+        "ff": "Dow-kabaaru",
+        "_usage": "Label du champ résumé/extrait de l'article"
+      },
+      "content": {
+        "fr": "Contenu",
+        "en": "Content",
+        "ff": "Kuurun kabaaru",
+        "_usage": "Label du champ contenu complet de l'article"
+      },
+      "publishNow": {
+        "fr": "Publier immédiatement",
+        "en": "Publish now",
+        "ff": "Yaltinde jooni",
+        "_usage": "Label de la case à cocher pour publier immédiatement"
+      },
+      "noNews": {
+        "fr": "Aucune actualité publiée",
+        "en": "No news published",
+        "ff": "Alaa kabaaru yaltinaa",
+        "_usage": "Message quand aucune actualité n'existe"
+      },
+      "coverLabel": {
+        "fr": "Image de couverture",
+        "en": "Cover image",
+        "ff": "Nate kabaaru oo",
+        "_usage": "Label descriptif de la zone de téléchargement d'image"
+      },
+      "clickToAddImage": {
+        "fr": "Cliquez pour ajouter une image",
+        "en": "Click to add an image",
+        "ff": "Dobo ngam ɓeydude nate",
+        "_usage": "Texte d'invitation sur la zone de téléchargement d'image"
+      },
+      "redirectLink": {
+        "fr": "Lien de redirection (URL)",
+        "en": "Redirect link (URL)",
+        "ff": "Jokkondiral (URL)",
+        "_usage": "Label du champ URL externe (si l'article redirige ailleurs)"
+      },
+      "contactEmail": {
+        "fr": "Email de contact",
+        "en": "Contact email",
+        "ff": "E-maayel",
+        "_usage": "Label du champ email pour contact"
+      },
+      "contactPhone": {
+        "fr": "Téléphone",
+        "en": "Phone",
+        "ff": "Telefoon",
+        "_usage": "Label du champ téléphone pour contact"
+      },
+      "catEvent": {
+        "fr": "Événement",
+        "en": "Event",
+        "ff": "Pottital",
+        "_usage": "Catégorie d'actualité : Événement"
+      }
+    },
+
+    "content": {
+      "_comment": "Gestion de la section 'Dire, Ne pas dire' - Expressions linguistiques correctes/incorrectes",
+      
+      "title": {
+        "fr": "Dire, Ne pas dire",
+        "en": "Say, Don't say",
+        "ff": "Wiyde e wiyde ala",
+        "_usage": "Titre de la page de gestion des expressions"
+      },
+      "add": {
+        "fr": "Ajouter une expression",
+        "en": "Add expression",
+        "ff": "Ɓeydude bihol",
+        "_usage": "Bouton pour ouvrir le formulaire d'ajout d'expression"
+      },
+      "edit": {
+        "fr": "Modifier l'expression",
+        "en": "Edit expression",
+        "ff": "Waylude bihol",
+        "_usage": "Titre du formulaire d'édition d'expression"
+      },
+      "dire": {
+        "fr": "On dit",
+        "en": "Say",
+        "ff": "Wiyde",
+        "_usage": "Label du champ pour l'expression correcte"
+      },
+      "nePasDire": {
+        "fr": "On ne dit pas",
+        "en": "Don't say",
+        "ff": "Wiyde ala",
+        "_usage": "Label du champ pour l'expression incorrecte"
+      },
+      "explanation": {
+        "fr": "Explication",
+        "en": "Explanation",
+        "ff": "Pinal",
+        "_usage": "Label du champ explication/justification"
+      },
+      "noContent": {
+        "fr": "Aucune expression enregistrée",
+        "en": "No expression recorded",
+        "ff": "Alaa bihol winndaa",
+        "_usage": "Message quand aucune expression n'existe"
+      },
+      "catCommon": {
+        "fr": "Erreurs courantes",
+        "en": "Common errors",
+        "ff": "Boofooti",
+        "_usage": "Catégorie : Erreurs fréquentes en Pulaar"
+      },
+      "catBorrowings": {
+        "fr": "Emprunts",
+        "en": "Borrowings",
+        "ff": "Emprunts",
+        "_usage": "Catégorie : Mots empruntés à d'autres langues (anglicismes, etc.)"
+      },
+      "catIncorrect": {
+        "fr": "Usage incorrect",
+        "en": "Incorrect usage",
+        "ff": "Kuutoragol bonngol",
+        "_usage": "Catégorie : Usages incorrects du Pulaar"
+      },
+      "catGrammar": {
+        "fr": "Grammaire",
+        "en": "Grammar",
+        "ff": "Sariyaaji ɗemngal",
+        "_usage": "Catégorie : Règles grammaticales"
+      },
+      "weSayLabel": {
+        "fr": "On dit",
+        "en": "Say",
+        "ff": "Ma-en wiy",
+        "_usage": "Label alternatif pour expression correcte (avec pronom 'nous')"
+      },
+      "weDontSayLabel": {
+        "fr": "On ne dit pas",
+        "en": "Don't say",
+        "ff": "Wana nii wiyete",
+        "_usage": "Label alternatif pour expression incorrecte"
+      },
+      "explanationLabel": {
+        "fr": "Explication",
+        "en": "Explanation",
+        "ff": "Pinal",
+        "_usage": "Label répété pour clarification"
+      }
+    }
+  },
+
+  "NOTES_DE_TRADUCTION": {
+    "_note1": "Toutes les traductions Pulaar (ff) utilisent l'orthographe standardisée avec les caractères spéciaux : ɓ ɗ ŋ ñ ƴ",
+    "_note2": "Les boutons d'action (Ajouter, Modifier, Supprimer) doivent être traduits de manière cohérente dans toute l'interface",
+    "_note3": "Les messages de chargement et d'erreur doivent être courts et clairs",
+    "_note4": "Les placeholders doivent donner des exemples concrets pour aider l'utilisateur",
+    "_note5": "La terminologie doit rester cohérente avec le reste de l'application (ex: 'membres' vs 'érudits')",
+    "_note6": "Pour le Pulaar, privilégier les termes authentiques plutôt que des emprunts directs du français",
+    "_note7": "Les catégories grammaticales doivent suivre la terminologie linguistique Pulaar (Innde, Gollal, Sifa, etc.)"
+  }
+}
