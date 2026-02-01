@@ -6,7 +6,7 @@
         "discover": "Ƴeew",
         "readMore": "Jokku",
         "learnMore": "Ɓeydo Humpitaade",
-        "search": "Yiylo/Ɗaɓɓu",
+        "search": "Yiylo",
         "submit": "Neldu",
         "contact": "Jokkondir",
         "library": "Defterdu"
@@ -17,16 +17,25 @@
         "history": "Ciimtol Goomu Fulo & Wiɗto",
         "missions": "Paandaale",
         "organization": "Lowe Golle",
+        "statutes": "Laabi",
         "immortals": "Jaale/Ngenndiyankooɓe",
         "members": "Terɗe",
-        "becomeImmortal": " On enlève",
+        "becomeImmortal": "Laatoyde tergal",
+        "greenCoat": "Aadaaji",
         "speeches": "Kaalanɗe",
-        "language": "Ɗemngal Fulfulde",
+        "language": "Đemngal Fulfulde",
         "frenchToday": "Fulfulde Hannde",
+        "languageQuestions": "Naamne ɗemngal",
         "terminology": "Kelmeendi",
         "sayDontSay": "Wiy, Woto wiy",
         "dictionary": "Saggitorde",
+        "ninthEdition": "Muulngo adano",
+        "ninePrefaces": "Fuɗɗoore",
         "onlineDictionary": "Saggitorde geese",
+        "prizes": "Njeenaaje",
+        "literaryPrizes": "Njeenaaje binndol",
+        "workPrizes": "Njeenaaje goɗɗe",
+        "laureates": "Yarɗuɓe",
         "news": "Kabaruuji"
     },
     "hero": {
@@ -68,6 +77,8 @@
         "title": "Kabaruuji ",
         "titleHighlight": "Goomu Fulo & Wiɗto",
         "viewAll": "Yiy fof",
+        "candidacy": "Ƴamude",
+        "election": "Cuɓagol",
         "sayDontSay": "Wiy, Woto Wiy",
         "literaryPrizes": "Njeenaaje coñce"
     },
@@ -80,7 +91,8 @@
         "weSay": "Wiyatee",
         "weDontSay": "Wiyataake",
         "faultyUsage": "Haala ka sellaani",
-        "anglicisms": "Kelme jiggaaɗe"
+        "anglicisms": "Kelme jiggaaɗe",
+        "abusiveExtensions": "Kuutoragol bonngol"
     },
     "dictionary": {
         "sectionLabel": "Saggitorde Fulfulde",
@@ -95,6 +107,7 @@
         "yearsOfWork": "Duuɓi gollaaɗi",
         "volumesPublished": "Kaɓɓe binndaaɗe",
         "result": "njeñtudi",
+        "results": "njeñtudi",
         "noResults": "Woodaani",
         "searchPrompt": "Winndu helmere walla suɓo alkule ngam fuɗɗaade",
         "availableWords": "kelme goodɗe",
