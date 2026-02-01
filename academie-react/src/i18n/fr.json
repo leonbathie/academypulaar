@@ -1,8 +1,8 @@
 {
     "common": {
-        "siteName": "Goomu Fulo Wiɗto",
+        "siteName": "Goomu Fulo & Wiɗto",
         "siteSlogan": "Académie de la langue Pulaar",
-        "since": "Depuis 2024",
+        "since": "Depuis 2016",
         "discover": "Découvrir",
         "readMore": "Lire la suite",
         "learnMore": "En savoir plus",
@@ -23,7 +23,7 @@
         "becomeImmortal": "Devenir membre",
         "greenCoat": "Traditions",
         "speeches": "Les discours",
-        "language": "La langue Pulaar",
+        "language": "La langue Fulfulde",
         "frenchToday": "Le Pulaar aujourd'hui",
         "languageQuestions": "Questions de langue",
         "terminology": "Terminologie",
@@ -53,8 +53,8 @@
     "features": {
         "sectionLabel": "Nos missions",
         "title": "Au service de la ",
-        "titleHighlight": "langue Pulaar",
-        "description": "Goomu Fulo Wiɗto accomplit trois missions principales : la rédaction du Dictionnaire, la défense de la langue Pulaar et le mécénat à travers les prix littéraires.",
+        "titleHighlight": "langue Fulfulde",
+        "description": "Goomu Fulo & Wiɗto a pour mission de traduire les mots scientifiques et faire des recherches pour développer la langue Fulfulde.",
         "institution": {
             "title": "L'Institution",
             "description": "Fondée pour la langue Pulaar, Goomu Fulo Wiɗto est une organisation de gardiens de la langue."
@@ -83,10 +83,10 @@
         "literaryPrizes": "Prix littéraires"
     },
     "sayDontSay": {
-        "sectionLabel": "La langue Pulaar",
+        "sectionLabel": "La langue Fulfulde",
         "title": "Dire, ",
         "titleHighlight": "Ne pas dire",
-        "intro": "Quels mots, quelles tournures choisir, retenir ou rejeter ? Goomu Fulo Wiɗto vous guide dans l'usage correct de la langue Pulaar.",
+        "intro": "Goomu Fulo & Wiɗto vous guide dans l'usage correct de la langue Pulaar.",
         "discoverSection": "Découvrir la rubrique",
         "weSay": "On dit",
         "weDontSay": "On ne dit pas",
@@ -95,10 +95,10 @@
         "abusiveExtensions": "Usage incorrect"
     },
     "dictionary": {
-        "sectionLabel": "Dictionnaire Pulaar",
+        "sectionLabel": "Dictionnaire Fulfulde",
         "title": "Le ",
         "titleHighlight": "Dictionnaire",
-        "intro": "Le Dictionnaire de Goomu Fulo Wiɗto est l'ouvrage de référence qui fixe l'usage du Pulaar. Consultez-le en ligne.",
+        "intro": "Le Dictionnaire de Goomu Fulo & Wiɗto est un dictionnaire scientifique de la langue Fulfulde.",
         "wordsStartingWith": "Mots commençant par",
         "similarWords": "Mots proches",
         "searchPlaceholder": "Rechercher un mot...",
@@ -161,8 +161,8 @@
         }
     },
     "library": {
-        "title": "Bibliothèque Numérique",
-        "intro": "Découvrez et téléchargez notre collection de livres et publications en Pulaar",
+        "title": "Bibliothèque Numérique Fulfulde",
+        "intro": "Lisez ou téléchargez des livres et publications en Fulfulde",
         "stats": {
             "books": "Livres",
             "downloads": "Téléchargements"
@@ -196,7 +196,7 @@
         "noMembers": "Aucun membre enregistré"
     },
     "footer": {
-        "description": "Goomu Fulo Wiɗto est une organisation dédiée à la définition de la langue Pulaar par l'élaboration de son dictionnaire.",
+        "description": "Goomu Fulo & Wiɗto est une .",
         "institution": "L'Institution",
         "language": "La Langue",
         "services": "Services",

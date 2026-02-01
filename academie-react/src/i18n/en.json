@@ -1,8 +1,8 @@
 {
     "common": {
-        "siteName": "Goomu Fulo Wiɗto",
+        "siteName": "Goomu Fulo & Wiɗto",
         "siteSlogan": "Pulaar Language Academy",
-        "since": "Since 2024",
+        "since": "Since 2016",
         "discover": "Discover",
         "readMore": "Read more",
         "learnMore": "Learn more",
@@ -53,8 +53,8 @@
     "features": {
         "sectionLabel": "Our missions",
         "title": "Serving the ",
-        "titleHighlight": "Pulaar language",
-        "description": "Goomu Fulo Wiɗto fulfills three main missions: writing the Dictionary, defending the Pulaar language, and patronage through literary prizes.",
+        "titleHighlight": "Fulfulde language",
+        "description": "Goomu Fulo & Wiɗto has as mission to translate scientific terms into Fulfulde and conduct research to develop Fulfulde language.",
         "institution": {
             "title": "The Institution",
             "description": "Founded for the Pulaar language, Goomu Fulo Wiɗto is an organization of language guardians."
@@ -83,10 +83,10 @@
         "literaryPrizes": "Literary Prizes"
     },
     "sayDontSay": {
-        "sectionLabel": "Pulaar Language",
+        "sectionLabel": "Fulfulde Language",
         "title": "Say, ",
         "titleHighlight": "Don't Say",
-        "intro": "Which words, which phrases to choose, keep or reject? Goomu Fulo Wiɗto guides you in the correct use of the Pulaar language.",
+        "intro": "Goomu Fulo Wiɗto guides you in the correct use of the Fulfulde language.",
         "discoverSection": "Discover the section",
         "weSay": "We say",
         "weDontSay": "Don't say",
@@ -95,10 +95,10 @@
         "abusiveExtensions": "Incorrect usage"
     },
     "dictionary": {
-        "sectionLabel": "Pulaar Dictionary",
+        "sectionLabel": "Fulfulde Dictionary",
         "title": "The ",
         "titleHighlight": "Dictionary",
-        "intro": "The Goomu Fulo Wiɗto Dictionary is the reference work for Pulaar usage. Consult it online.",
+        "intro": "Goomu Fulo & Wiɗto dictionary is a Fulfulde scientific dictionary.",
         "wordsStartingWith": "Words starting with",
         "similarWords": "Similar words",
         "searchPlaceholder": "Search for a word...",
@@ -161,8 +161,8 @@
         }
     },
     "library": {
-        "title": "Digital Library",
-        "intro": "Discover and download our collection of books and publications in Pulaar",
+        "title": "Fulfulde Digital Library",
+        "intro": "Read or download our books and publications in Pulaar",
         "stats": {
             "books": "Books",
             "downloads": "Downloads"
@@ -196,7 +196,7 @@
         "noMembers": "No members recorded"
     },
     "footer": {
-        "description": "Goomu Fulo Wiɗto is an organization dedicated to defining the Pulaar language through its dictionary.",
+        "description": "Goomu Fulo &  Wiɗto is .",
         "institution": "The Institution",
         "language": "The Language",
         "services": "Services",

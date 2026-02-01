@@ -38,7 +38,7 @@
         "subtitle3": "Goomu Fulo & Wiɗto Ƴellitooɓe ɗemngal Fulfulde",
         "title4": "Annduɓe",
         "subtitle4": "Terɗe gollooje ngam ɗemngal Fulfulde",
-        "consultDictionary": "Sakkitaade Saggitorde",
+        "consultDictionary": "Saggitaade",
         "scroll": "Tello"
     },
     "features": {
@@ -85,8 +85,8 @@
     "dictionary": {
         "sectionLabel": "Saggitorde Fulfulde",
         "title": "Saggitorde ",
-        "titleHighlight": "Goomu Fulo & Wiɗto",
-        "intro": " Saggitorde Goomu Fulo & Wiɗto ko Saggitorde Ganndinal e Ɗemngal Fulfulde.",
+        "titleHighlight": " Saggitorde nde",
+        "intro": "Saggitorde Goomu Fulo & Wiɗto ko Saggitorde Ganndinal e Đemngal Fulfulde.",
         "wordsStartingWith": "Kelme puɗɗortooɗe e",
         "similarWords": "Kelme nannduɗe",
         "searchPlaceholder": " helmere...",
@@ -131,31 +131,31 @@
     },
     "contact": {
         "title": "Jokkondiral",
-        "subtitle": "Jokkondiren e amen",
-        "infoTitle": "Kumpital",
-        "address": "Ɗo ngonɗen",
-        "phone": "Telefon",
+        "subtitle": "Jokkondir e amin",
+        "infoTitle": "Jokkorɗe",
+        "address": "Ňiiɓirde",
+        "phone": "Tonngoode",
         "form": {
-            "name": "Innde timmuɗe",
+            "name": "Innde timmunde",
             "email": "Iimeel",
-            "subject": "Toɓɓere",
-            "message": "Message",
+            "subject": "Tiitoonde",
+            "message": "Ɓataake",
             "send": "Neldu",
-            "sending": "Neldude...",
-            "success": "Ɓataake neldaama!",
-            "error": "Juumre waɗii. Fuɗɗito.",
-            "required": "Ɗum waɗɗii"
+            "sending": "Ina e neldeede...",
+            "success": "Ɓataake ma neldaama!",
+            "error": "Neldaaki. Fuɗɗito.",
+            "required": "Aɗa foti winndude ɗoo huunde"
         }
     },
     "library": {
-        "title": "Defte Amen",
-        "intro": "Yiytu e aawto defte amen e ɗemngal Pulaar",
+        "title": "Defte Fulfulde",
+        "intro": "Tar walla aawto defte Fulfulde",
         "stats": {
             "books": "Defte",
             "downloads": "Aawtodi"
         },
         "filters": {
-            "label": "Suɓagol :",
+            "label": "Cuɓtagol:",
             "all": "Fof"
         },
         "book": {
@@ -183,7 +183,7 @@
         "noMembers": "Alaa tergal winndaa"
     },
     "footer": {
-        "description": "Goomu Fulo Wiɗto ko fedde ina toppitii faamninirde ɗemngal Pulaar e saggitorde mum.",
+        "description": "Goomu Fulo & Wiɗto ko .",
         "institution": "Fedde ndee",
         "language": "Ɗemngal ngal",
         "services": "Balluuji",
