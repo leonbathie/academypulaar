@@ -3,31 +3,9 @@ import { useTranslation } from 'react-i18next'
 import { API_URL } from '../config'
 import './DireNePasDire.css'
 
-// Données statiques de fallback
-const defaultArticles = [
-    {
-        category: "Emplois fautifs",
-        dire: "Se rappeler quelque chose",
-        ne_pas_dire: "Se rappeler de quelque chose",
-        explanation: "Le verbe « se rappeler » est transitif direct. On se rappelle quelque chose, on ne se rappelle pas DE quelque chose."
-    },
-    {
-        category: "Anglicismes",
-        dire: "En fin de compte",
-        ne_pas_dire: "À la fin de la journée",
-        explanation: "Cette expression calquée sur l'anglais « At the end of the day » doit être évitée."
-    },
-    {
-        category: "Extensions abusives",
-        dire: "Incontournable (qu'on ne peut éviter)",
-        ne_pas_dire: "Incontournable (excellent)",
-        explanation: "« Incontournable » ne signifie pas « excellent » ou « remarquable », mais « qu'on ne peut éviter »."
-    }
-]
-
 function DireNePasDire() {
     const { t, i18n } = useTranslation()
-    const [articles, setArticles] = useState(defaultArticles)
+    const [articles, setArticles] = useState([])
     const [activeIndex, setActiveIndex] = useState(0)
     const [loading, setLoading] = useState(true)
 
@@ -89,7 +67,12 @@ function DireNePasDire() {
         return words.slice(0, 2).join(' ') + '...'
     }
 
-    const currentArticle = articles[activeIndex] || articles[0]
+    const currentArticle = articles[activeIndex] || null
+
+    // Ne pas afficher la section si pas d'articles
+    if (!loading && articles.length === 0) {
+        return null
+    }
 
     return (
         <section className="dire-section" id="dire">
@@ -104,17 +87,19 @@ function DireNePasDire() {
                             {t('sayDontSay.intro')}
                         </p>
 
-                        <div className="dire-tabs">
-                            {articles.slice(0, 6).map((article, index) => (
-                                <button
-                                    key={index}
-                                    className={`dire-tab ${index === activeIndex ? 'active' : ''}`}
-                                    onClick={() => setActiveIndex(index)}
-                                >
-                                    {getTabLabel(article)}
-                                </button>
-                            ))}
-                        </div>
+                        {articles.length > 0 && (
+                            <div className="dire-tabs">
+                                {articles.slice(0, 6).map((article, index) => (
+                                    <button
+                                        key={index}
+                                        className={`dire-tab ${index === activeIndex ? 'active' : ''}`}
+                                        onClick={() => setActiveIndex(index)}
+                                    >
+                                        {getTabLabel(article)}
+                                    </button>
+                                ))}
+                            </div>
+                        )}
 
                         <a href="/dictionnaire" className="btn btn-primary">
                             {t('sayDontSay.discoverSection')}
@@ -124,32 +109,33 @@ function DireNePasDire() {
                         </a>
                     </div>
 
-                    <div className="dire-card">
-                        <div className="dire-card-header">
-                            <span className="dire-card-category">{currentArticle.category}</span>
-                        </div>
-                        <div className="dire-card-body">
-                            <div className="dire-item dire-item--correct">
-                                <span className="dire-label">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
-                                        <path d="M5 13l4 4L19 7" />
-                                    </svg>
-                                    {t('sayDontSay.weSay')}
-                                </span>
-                                <p className="dire-text">{getDire(currentArticle)}</p>
+                    {currentArticle && (
+                        <div className="dire-card">
+                            <div className="dire-card-header">
+                                <span className="dire-card-category">{currentArticle.category}</span>
                             </div>
-                            <div className="dire-item dire-item--incorrect">
-                                <span className="dire-label">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
-                                        <path d="M6 18L18 6M6 6l12 12" />
-                                    </svg>
-                                    {t('sayDontSay.weDontSay')}
-                                </span>
-                                <p className="dire-text">{getNePasDire(currentArticle)}</p>
-                            </div>
-                            {getExplanation(currentArticle) && (
-                                <div className="dire-explanation">
-                                    <p>{getExplanation(currentArticle)}</p>
+                            <div className="dire-card-body">
+                                <div className="dire-item dire-item--correct">
+                                    <span className="dire-label">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                                            <path d="M5 13l4 4L19 7" />
+                                        </svg>
+                                        {t('sayDontSay.weSay')}
+                                    </span>
+                                    <p className="dire-text">{getDire(currentArticle)}</p>
+                                </div>
+                                <div className="dire-item dire-item--incorrect">
+                                    <span className="dire-label">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                                            <path d="M6 18L18 6M6 6l12 12" />
+                                        </svg>
+                                        {t('sayDontSay.weDontSay')}
+                                    </span>
+                                    <p className="dire-text">{getNePasDire(currentArticle)}</p>
+                                </div>
+                                {getExplanation(currentArticle) && (
+                                    <div className="dire-explanation">
+                                        <p>{getExplanation(currentArticle)}</p>
                                 </div>
                             )}
                         </div>
