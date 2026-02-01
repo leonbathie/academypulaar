@@ -136,10 +136,11 @@ function DireNePasDire() {
                                 {getExplanation(currentArticle) && (
                                     <div className="dire-explanation">
                                         <p>{getExplanation(currentArticle)}</p>
-                                </div>
-                            )}
+                                    </div>
+                                )}
+                            </div>
                         </div>
-                    </div>
+                    )}
                 </div>
             </div>
         </section>
