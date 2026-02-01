@@ -18,7 +18,7 @@
         "missions": "Paandaale",
         "organization": "Lowe Golle",
         "statutes": "Laabi",
-        "immortals": "Jaale/Ngenndiyankooɓe",
+        "immortals": "Jaale",
         "members": "Terɗe",
         "becomeImmortal": "Laatoyde tergal",
         "greenCoat": "Aadaaji",
@@ -68,8 +68,8 @@
             "description": "Hitaande kala, Goomu Fulo & Wiɗto ina hokka njeenaaje binndol."
         },
         "immortals": {
-            "title": "Ngenndiyankooɓe/jaale",
-            "description": "Ngenndiyankooɓe/jaale ko darinanooɓe e daraniiɓe ƴellitde Fulfulde e Pulaagu."
+            "title": "Jaale",
+            "description": "Jaale ko darinanooɓe e daraniiɓe ƴellitde Fulfulde e Pulaagu."
         }
     },
     "news": {
