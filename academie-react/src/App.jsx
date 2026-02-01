@@ -6,7 +6,6 @@ import Header from './components/Header'
 import Footer from './components/Footer'
 import HomePage from './pages/HomePage'
 import DictionaryPage from './pages/DictionaryPage'
-import MembersPage from './pages/MembersPage'
 import ContactPage from './pages/ContactPage'
 import AboutPage from './pages/AboutPage'
 import LibraryPage from './pages/LibraryPage'
@@ -40,13 +39,6 @@ function App() {
               <div className="app">
                 <Header />
                 <main><DictionaryPage /></main>
-                <Footer />
-              </div>
-            } />
-            <Route path="/membres" element={
-              <div className="app">
-                <Header />
-                <main><MembersPage /></main>
                 <Footer />
               </div>
             } />

@@ -31,10 +31,6 @@ function Header() {
             ]
         },
         {
-            title: t('nav.immortals'),
-            link: "/membres"
-        },
-        {
             title: t('nav.language'),
             submenu: [
                 { title: t('nav.sayDontSay'), link: "/#dire" }

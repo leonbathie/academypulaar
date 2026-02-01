@@ -43,7 +43,6 @@ function Footer() {
                         <div className="footer-links-group">
                             <h4 className="footer-title">{t('footer.services')}</h4>
                             <ul className="footer-links">
-                                <li><Link to="/membres">{t('nav.members')}</Link></li>
                                 <li><Link to="/bibliotheque">{t('common.library')}</Link></li>
                                 <li><Link to="/contact">{t('common.contact')}</Link></li>
                             </ul>
