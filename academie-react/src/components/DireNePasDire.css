@@ -151,20 +151,67 @@
     }
 }
 
-@media (max-width: 639px) {
+@media (max-width: 768px) {
+    .dire-section {
+        padding: var(--space-2xl) var(--space-md);
+    }
+
+    .dire-intro {
+        font-size: 1rem;
+    }
+
+    .dire-tabs {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .dire-tab {
+        font-size: 0.8rem;
+        padding: var(--space-xs) var(--space-sm);
+    }
+}
+
+@media (max-width: 480px) {
+    .dire-section {
+        padding: var(--space-xl) var(--space-sm);
+    }
+
     .dire-tabs {
         flex-direction: column;
+        width: 100%;
     }
 
     .dire-tab {
         text-align: center;
+        width: 100%;
+    }
+
+    .dire-card-header {
+        padding: var(--space-md) var(--space-lg);
+    }
+
+    .dire-card-category {
+        font-size: 0.8rem;
     }
 
     .dire-card-body {
-        padding: var(--space-lg);
+        padding: var(--space-md);
     }
 
     .dire-item {
-        padding: var(--space-md);
+        padding: var(--space-sm);
+        margin-bottom: var(--space-md);
+    }
+
+    .dire-text {
+        font-size: 1rem;
+    }
+
+    .dire-explanation p {
+        font-size: 0.85rem;
+    }
+
+    .dire-intro {
+        font-size: 0.9rem;
     }
 }

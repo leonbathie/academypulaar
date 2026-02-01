@@ -239,35 +239,54 @@
 
 @media (max-width: 1200px) {
     .footer-grid {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(2, 1fr);
         gap: var(--space-xl);
     }
 
     .footer-brand {
         grid-column: 1 / -1;
         max-width: none;
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: var(--space-lg);
-        align-items: start;
-    }
-
-    .footer-logo {
-        grid-column: 1 / -1;
     }
 }
 
 @media (max-width: 768px) {
+    .footer-main {
+        padding: var(--space-2xl) var(--space-md);
+    }
+
     .footer-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-lg);
     }
 
     .footer-brand {
         display: block;
+        text-align: center;
+    }
+
+    .footer-logo {
+        justify-content: center;
+    }
+
+    .footer-description {
+        text-align: center;
+    }
+
+    .footer-address {
+        text-align: center;
     }
 
     .footer-newsletter {
         grid-column: 1 / -1;
+        text-align: center;
+    }
+
+    .newsletter-form {
+        justify-content: center;
+    }
+
+    .footer-social {
+        justify-content: center;
     }
 
     .footer-bottom-content {
@@ -277,14 +296,23 @@
     }
 }
 
-@media (max-width: 639px) {
+@media (max-width: 480px) {
+    .footer-main {
+        padding: var(--space-xl) var(--space-sm);
+    }
+
     .footer-grid {
         grid-template-columns: 1fr;
         gap: var(--space-xl);
+        text-align: center;
     }
 
     .footer-links-group {
         text-align: center;
+    }
+
+    .footer-title {
+        font-size: 0.95rem;
     }
 
     .footer-title::after {
@@ -292,16 +320,49 @@
         transform: translateX(-50%);
     }
 
+    .footer-links a {
+        font-size: 0.85rem;
+    }
+
     .footer-links a:hover {
         transform: none;
     }
 
-    .footer-social {
-        justify-content: center;
+    .footer-logo .logo-icon {
+        width: 60px;
+        height: 60px;
+    }
+
+    .footer-logo .logo-title {
+        font-size: 1rem;
+    }
+
+    .footer-description {
+        font-size: 0.85rem;
+    }
+
+    .newsletter-form {
+        flex-direction: column;
+    }
+
+    .newsletter-input {
+        width: 100%;
+    }
+
+    .newsletter-btn {
+        width: 100%;
     }
 
     .footer-legal {
-        flex-wrap: wrap;
-        justify-content: center;
+        flex-direction: column;
+        gap: var(--space-sm);
+    }
+
+    .footer-copyright {
+        font-size: 0.75rem;
+    }
+
+    .footer-legal a {
+        font-size: 0.75rem;
     }
 }

@@ -539,3 +539,70 @@
         box-sizing: border-box;
     }
 }
+
+/* Extra small devices (phones, 480px and down) */
+@media (max-width: 480px) {
+    .header-container {
+        padding: var(--space-xs) var(--space-sm);
+    }
+
+    .logo-icon {
+        width: 50px;
+        height: 50px;
+    }
+
+    .logo-title {
+        font-size: 0.8rem;
+    }
+
+    .logo-subtitle {
+        font-size: 0.55rem;
+    }
+
+    .mobile-menu-btn {
+        width: 38px;
+        height: 38px;
+        padding: 8px;
+    }
+
+    .mobile-menu-btn span {
+        width: 18px;
+    }
+
+    .lang-btn {
+        padding: 4px 6px;
+        font-size: 0.75rem;
+    }
+
+    .lang-flag {
+        font-size: 1rem;
+    }
+
+    .theme-toggle {
+        width: 32px;
+        height: 32px;
+    }
+
+    .theme-toggle svg {
+        width: 16px;
+        height: 16px;
+    }
+
+    .nav {
+        padding: 60px var(--space-sm) var(--space-md);
+    }
+
+    .nav-link {
+        font-size: 0.9rem;
+        padding: var(--space-xs) var(--space-sm);
+    }
+
+    .submenu {
+        width: 220px;
+    }
+
+    .submenu-link {
+        font-size: 0.8rem;
+        padding: var(--space-xs) var(--space-sm);
+    }
+}
