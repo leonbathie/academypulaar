@@ -229,7 +229,7 @@ function ContentAdmin() {
                                                 <input
                                                     type="text"
                                                     value={formData.dire_fr}
-                                                    onChange={e => setFormData({ ...formData, draft_fr: e.target.value })}
+                                                    onChange={e => setFormData({ ...formData, dire_fr: e.target.value })}
                                                     required
                                                     style={{ borderColor: 'rgba(34, 197, 94, 0.5)' }}
                                                 />
