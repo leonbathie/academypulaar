@@ -43,7 +43,7 @@
         "subtitle1": "Découvrez les moments forts de cette cérémonie prestigieuse",
         "title2": "Le Dictionnaire",
         "subtitle2": "Première édition du Dictionnaire Goomu Fulo Wiɗto",
-        "title3": "La langue Pulaar",
+        "title3": "La langue Fulfulde",
         "subtitle3": "Gardienne de la langue, Goomu Fulo Wiɗto protège le Pulaar",
         "title4": "Les Érudits",
         "subtitle4": "Des membres au service de la langue et de la culture Pulaar",
@@ -151,7 +151,7 @@
         "form": {
             "name": "Nom complet",
             "email": "Email",
-            "subject": "Sujet",
+            "subject": "Objet",
             "message": "Message",
             "send": "Envoyer",
             "sending": "Envoi en cours...",

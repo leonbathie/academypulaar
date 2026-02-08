@@ -105,14 +105,7 @@
       "ff": "Hentordu ndu",
       "_explication": "Section présentant l'organisation. 'Hentordu' = académie/institution",
       "_contexte": "Menu déroulant principal"
-    },
-    "history": {
-      "fr": "L'histoire",
-      "en": "History",
-      "ff": "Ciimtol Goomu Fulo & Wiɗto",
-      "_explication": "Page historique de l'organisation. 'Ciimtol' = histoire/récit",
-      "_contexte": "Sous-menu de 'L'institution'"
-    },
+   
     "missions": {
       "fr": "Les missions",
       "en": "Missions",
@@ -126,48 +119,7 @@
       "ff": "Lowe Golle",
       "_explication": "Structure organisationnelle. 'Lowe Golle' = sections de travail",
       "_contexte": "Sous-menu de 'L'institution'"
-    },
-    "statutes": {
-      "fr": "Les statuts",
-      "en": "Statutes",
-      #"ff": "",
-      "_explication": "Documents officiels et règlements de l'organisation",
-      "_contexte": "Sous-menu de 'L'institution' - Absent en Pulaar dans le fichier original"
-    },
-    "immortals": {
-      "fr": "Les érudits",
-      "en": "Scholars",
-      "ff": "Jaale",
-      "_explication": "Les membres savants de l'académie. 'Jaale' = nobles/sages, 'Ngenndiyankooɓe' = patriotes/défenseurs de la nation",
-      "_contexte": "Menu déroulant pour la section des membres"
-    },
-    "members": {
-      "fr": "Les membres",
-      "en": "Members",
-      "ff": "Terɗe",
-      "_explication": "Liste des membres. 'Terɗe' = membres (pluriel de 'tergal')",
-      "_contexte": "Sous-menu des érudits"
-    },
-    "becomeImmortal": {
-      "fr": "Devenir membre",
-      "en": "Become a Member",
-      #"ff": " ",
-      "_explication": "Page pour candidater comme membre. NOTE: La traduction Pulaar actuelle est incorrecte ('On enlève' est en français). À corriger.",
-      "_contexte": "Sous-menu des érudits - NÉCESSITE CORRECTION"
-    },
-    "greenCoat": {
-      "fr": "Traditions",
-      "en": "Traditions",
-     # "ff": "",
-      "_explication": "Page sur les traditions et coutumes de l'académie",
-      "_contexte": "Sous-menu des érudits - Absent en Pulaar"
-    },
-    "speeches": {
-      "fr": "Les discours",
-      "en": "Speeches",
-      #"ff": "Kaalanɗe",
-      "_explication": "Archive des discours officiels. 'Kaalanɗe' = discours/paroles (pluriel de 'kaalon')",
-      "_contexte": "Sous-menu des érudits"
+   
     },
     "language": {
       "fr": "La langue Fulfulde",
@@ -175,13 +127,6 @@
       "ff": "Ɗemngal Fulfulde",
       "_explication": "Section dédiée à la langue. 'Ɗemngal' = langue, 'Fulfulde' = Pulaar",
       "_contexte": "Menu déroulant principal"
-    },
-    "frenchToday": {
-      "fr": "Le Pulaar aujourd'hui",
-      "en": "Pulaar Today",
-      #"ff": "Fulfulde Hannde",
-      "_explication": "État actuel de la langue Pulaar. 'Hannde' = aujourd'hui",
-      "_contexte": "Sous-menu de la langue"
     },
     "languageQuestions": {
       "fr": "Questions de langue",
@@ -210,55 +155,7 @@
       "ff": "Saggitorde",
       "_explication": "Dictionnaire Pulaar en ligne. 'Saggitorde' = dictionnaire (de 'saggitaade' = chercher le sens)",
       "_contexte": "Menu déroulant principal"
-    },
-    "ninthEdition": {
-      "fr": "Première édition",
-      "en": "First Edition",
-      #"ff": "[À TRADUIRE]",
-      "_explication": "Première édition du dictionnaire",
-      "_contexte": "Sous-menu du dictionnaire - Absent en Pulaar"
-    },
-    "ninePrefaces": {
-      "fr": "Préfaces",
-      "en": "Prefaces",
-      #"ff": "[À TRADUIRE]",
-      "_explication": "Préfaces des différentes éditions",
-      "_contexte": "Sous-menu du dictionnaire - Absent en Pulaar"
-    },
-    #"onlineDictionary": {
-      "fr": "Dictionnaire en ligne",
-      "en": "Online Dictionary",
-     # "ff": "Saggitorde geese",
-      "_explication": "Version web du dictionnaire. 'Geese' = toile/internet",
-      "_contexte": "Sous-menu du dictionnaire"
-    },
-    #"prizes": {
-      "fr": "Les prix",
-      "en": "Prizes",
-      #"ff": "[À TRADUIRE]",
-      "_explication": "Section des prix littéraires",
-      "_contexte": "Menu déroulant principal - Absent en Pulaar"
-    },
-    #"literaryPrizes": {
-      "fr": "Prix littéraires",
-      "en": "Literary Prizes",
-     # "ff": "[À TRADUIRE]",
-      "_explication": "Prix décernés aux œuvres littéraires",
-      "_contexte": "Sous-menu des prix - Absent en Pulaar"
-    },
-    #"workPrizes": {
-      "fr": "Prix d'œuvres",
-      "en": "Work Prizes",
-     # "ff": "[À TRADUIRE]",
-      "_explication": "Prix décernés à des œuvres spécifiques",
-      "_contexte": "Sous-menu des prix - Absent en Pulaar"
-    },
-   # "laureates": {
-      "fr": "Les lauréats",
-      "en": "Laureates",
-      #"ff": "[À TRADUIRE]",
-      "_explication": "Liste des gagnants des prix",
-      "_contexte": "Sous-menu des prix - Absent en Pulaar"
+    
     },
     "news": {
       "fr": "Actualités",
@@ -266,41 +163,7 @@
       "ff": "Kabaruuji",
       "_explication": "Section des actualités. 'Kabaruuji' = nouvelles (pluriel de 'kabaaru')",
       "_contexte": "Lien principal du menu"
-    }
-  },
-
-  "=== SECTION 3: HERO/BANNIÈRE D'ACCUEIL (hero) ===": {
-    "_description": "Grande bannière animée sur la page d'accueil avec images défilantes"
-  },
-
-  "hero": {
-    #"title1": {
-      "fr": "Séance annuelle 2025",
-      "en": "Annual Session 2025",
-     # "ff": "Pottital 2025",
-      "_explication": "Titre de la première slide - réunion annuelle. 'Pottital' = réunion/assemblée",
-      "_contexte": "Carrousel d'images en page d'accueil - Slide 1"
-    },
-   # "subtitle1": {
-      "fr": "Découvrez les moments forts de cette cérémonie prestigieuse",
-      "en": "Discover the highlights of this prestigious ceremony",
-     # "ff": "Ko faati e pottital ngal",
-      "_explication": "Sous-titre décrivant la cérémonie annuelle. 'Ko faati e pottital ngal' = #Ce qui concerne cette réunion",
-      "_contexte": "Carrousel d'images - Slide 1"
-    },
-    "title2": {
-      "fr": "Le Dictionnaire",
-      "en": "The Dictionary",
-     # "ff": "Saggitorde",
-      "_explication": "Titre de la slide sur le dictionnaire",
-      "_contexte": "Carrousel d'images - Slide 2"
-    },
-    #"subtitle2": {
-      "fr": "Première édition du Dictionnaire Goomu Fulo Wiɗto",
-      "en": "First edition of the Goomu Fulo Wiɗto Dictionary",
-      #"ff": "Muulngo Adano Saggitorde Goomu Fulo Wiɗto",
-      "_explication": "Description de la première édition. 'Muulngo Adano' = Première édition/publication",
-      "_contexte": "Carrousel d'images - Slide 2"
+   
     },
     "title3": {
       "fr": "La langue Fulfulde",
@@ -308,27 +171,6 @@
       "ff": "Ɗemngal Fulfulde",
       "_explication": "Titre de la slide sur la langue",
       "_contexte": "Carrousel d'images - Slide 3"
-    },
-    #"subtitle3": {
-      "fr": "Gardienne de la langue, Goomu Fulo Wiɗto protège le Pulaar",
-      "en": "Guardian of the language, Goomu Fulo Wiɗto protects Pulaar",
-     # "ff": "Goomu Fulo & Wiɗto Ƴellitooɓe ɗemngal Fulfulde",
-      "_explication": "Mission de protection de la langue. 'Ƴellitooɓe' = ceux qui élèvent/promeuvent",
-      "_contexte": "Carrousel d'images - Slide 3"
-    },
-    #"title4": {
-      "fr": "Les Érudits",
-      "en": "Scholars",
-     # "ff": "Annduɓe",
-      "_explication": "Titre de la slide sur les membres savants. 'Annduɓe' = ceux qui savent (de 'anndude' = savoir)",
-      "_contexte": "Carrousel d'images - Slide 4"
-    },
-    "subtitle4": {
-      #"fr": "Des membres au service de la langue et de la culture Pulaar",
-      "en": "Members serving Pulaar language and culture",
-      #"ff": "Terɗe gollooje ngam ɗemngal Fulfulde",
-      #"_explication": "Description du rôle des membres. 'Terɗe gollooje' = membres qui travaillent",
-      "_contexte": "Carrousel d'images - Slide 4"
     },
     "consultDictionary": {
       "fr": "Consulter le Dictionnaire",
@@ -358,13 +200,6 @@
       "_explication": "Titre de la section missions. 'Paandaale amen' = nos objectifs",
       "_contexte": "En-tête de la section sur la page d'accueil"
     },
-    #"title": {
-      #"fr": "Au service de la ",
-      "en": "Serving the ",
-     # "ff": "Gollande Ɗemngal Fulfulde",
-      "_explication": "Début du titre principal. Note: En Pulaar c'est une phrase complète 'Travaillant pour la langue Pulaar'",
-      "_contexte": "Titre principal de la section (suivi de titleHighlight)"
-    },
     "titleHighlight": {
       "fr": "langue Fulfulde",
       "en": "Fulfulde language",
@@ -386,15 +221,7 @@
         "ff": "Hentordu ndu",
         "_explication": "Titre de la carte Institution",
         "_contexte": "Carte 1 de la section missions"
-      },
-      # "description": {
-        "fr": "Fondée pour la langue Pulaar, Goomu Fulo Wiɗto est une #organisation de gardiens de la langue.",
-        "en": "Founded for the Pulaar language, Goomu Fulo Wiɗto is an #organization of language guardians.",
-        #"ff": "Goomu Fulo & Wiɗto ko hentordu ngam ƴellitde ɗemngal Fulfulde, .",
-        "_explication": "Description de l'institution. Note: phrase incomplète #en Pulaar (se termine par une virgule)",
-        "_contexte": "Description de la carte Institution"
-      }
-    },
+   },
     "dictionary": {
       "title": {
         "fr": "Le Dictionnaire",
@@ -402,23 +229,7 @@
         "ff": "Saggitorde",
         "_explication": "Titre de la carte Dictionnaire",
         "_contexte": "Carte 2 de la section missions"
-      },
-      #"description": {
-        "fr": "Goomu Fulo Wiɗto élabore le Dictionnaire, ouvrage de référence de la langue Pulaar.",
-        "en": "Goomu Fulo Wiɗto is developing the Dictionary, the reference work of the Pulaar language.",
-        "ff": "Goomu Fulo & Wiɗto woni ko e wallifaade Saggitorde Ganndinal e Ɗemngal Fulfulde.",
-        "_explication": "Description du projet dictionnaire. 'Wallifaade' = #écrire/composer, 'Ganndinal' = science/savoir",
-        "_contexte": "Description de la carte Dictionnaire"
-      }
-    },
-    #"prizes": {
-      "title": {
-        "fr": "Les Prix",
-        "en": "The Prizes",
-      #  "ff": "Njeenaaje",
-        "_explication": "Titre de la carte Prix. 'Njeenaaje' = récompenses (pluriel de 'njeenel')",
-        "_contexte": "Carte 3 de la section missions"
-      },
+           },
       "description": {
         "fr": "Chaque année, Goomu Fulo Wiɗto décerne des prix littéraires et #récompenses.",
         "en": "Each year, Goomu Fulo Wiɗto awards literary prizes and various awards.",
@@ -426,25 +237,7 @@
         "_explication": "Description des prix. 'Hitaande kala' = chaque année, #'ina hokka' = donne, 'njeenaaje binndol' = prix d'écriture",
         "_contexte": "Description de la carte Prix"
       }
-    },
-   # "immortals": {
-      "title": {
-        "fr": "Les Érudits",
-        "en": "Scholars",
-       # "ff":"jaale",
-        "_explication": "Titre de la carte Érudits. 'Ngenndiyankooɓe' = #patriotes, 'Jaale' = nobles/sages",
-        "_contexte": "Carte 4 de la section missions"
-      },
-      "description": {
-        "fr": "Des membres élus composent Goomu Fulo Wiɗto, gardiens de la langue et de la culture.",
-        "en": "Elected members make up Goomu Fulo Wiɗto, guardians of language and culture.",
-        "ff": "jaale ko darinanooɓe e daraniiɓe ƴellitde Fulfulde e Pulaagu.",
-        "_explication": "Description des membres. 'Darinanooɓe' = élus/choisis, 'Daraniiɓe' = qui se tiennent debout pour, 'Pulaagu' = culture Peule",
-        "_contexte": "Description de la carte Érudits"
-      }
-    }
-  },
-
+   
   "=== SECTION 5: ACTUALITÉS (news) ===": {
     "_description": "Section actualités sur la page d'accueil et page dédiée"
   },
@@ -477,37 +270,14 @@
       "ff": "Yiy fof",
       "_explication": "Lien pour voir toutes les actualités. 'Yiy fof' = voir tout",
       "_contexte": "Bouton en bas de la section actualités"
-    },
-   # "candidacy": {
-      "fr": "Candidature",
-      "en": "Candidacy",
-      #"ff": "[À TRADUIRE]",
-      "_explication": "Catégorie d'actualité pour les candidatures",
-      "_contexte": "Badge/tag sur les cartes d'actualité"
-    },
-    #"election": {
-      "fr": "Élection",
-      "en": "Election",
-     # "ff": "[À TRADUIRE]",
-      "_explication": "Catégorie d'actualité pour les élections",
-      "_contexte": "Badge/tag sur les cartes d'actualité"
-    },
+       },
     "sayDontSay": {
       "fr": "Dire, Ne pas dire",
       "en": "Say, Don't Say",
       "ff": "Wiy, Woto Wiy",
       "_explication": "Catégorie d'actualité linguistique",
       "_contexte": "Badge/tag sur les cartes d'actualité"
-    },
-   # "literaryPrizes": {
-      "fr": "Prix littéraires",
-     # "en": "Literary Prizes",
-     # "ff": "Njeenaaje coñce",
-      "_explication": "Catégorie pour les prix. 'Njeenaaje coñce' = prix de littérature ('coñce' = écrits/littérature)",
-      "_contexte": "Badge/tag sur les cartes d'actualité"
-    }
-  },
-
+   
   "=== SECTION 6: DIRE, NE PAS DIRE (sayDontSay) ===": {
     "_description": "Section dédiée à l'usage correct de la langue Pulaar - expressions à utiliser ou éviter"
   },
@@ -575,16 +345,7 @@
       "ff": "Kelme jiggaaɗe",
       "_explication": "Mots empruntés d'autres langues. 'Kelme jiggaaɗe' = mots empruntés (de 'jiggude' = emprunter)",
       "_contexte": "Badge de catégorie"
-    },
-    #"abusiveExtensions": {
-      "fr": "Usage incorrect",
-      "en": "Incorrect usage",
-      #"ff": "[À TRADUIRE]",
-      "_explication": "Catégorie pour les usages abusifs ou incorrects",
-      "_contexte": "Badge de catégorie - Absent en Pulaar"
-    }
-  },
-
+   
   "=== SECTION 7: DICTIONNAIRE (dictionary) ===": {
     "_description": "Interface du dictionnaire en ligne - recherche, résultats, statistiques"
   },
@@ -631,6 +392,7 @@
       "ff": "Kelme nannduɗe",
       "_explication": "Mots similaires dans les résultats. 'Kelme nannduɗe' = mots ressemblants",
       "_contexte": "Section de suggestions"
+
     },
     "searchPlaceholder": {
       "fr": "Rechercher un mot...",
@@ -638,13 +400,7 @@
       "ff": "helmere...",
       "_explication": "Placeholder de la barre de recherche. Note: Pulaar semble incomplet (manque le verbe)",
       "_contexte": "Champ de recherche"
-    },
-    #"editions": {
-      "fr": "Éditions",
-      "en": "Editions",
-     # "ff": "muulngo",
-      "_explication": "Statistique du nombre d'éditions. 'Muulngo' = publication/édition",
-      "_contexte": "Carte de statistique"
+    
     },
     "wordsDefined": {
       "fr": "Mots définis",
@@ -652,20 +408,7 @@
       "ff": "Kelme pirtaaɗe",
       "_explication": "Nombre de mots dans le dictionnaire. 'Kelme pirtaaɗe' = mots expliqués",
       "_contexte": "Carte de statistique"
-    },
-    #"yearsOfWork": {
-      "fr": "Années de travail",
-      "en": "Years of work",
-      #"ff": "Duuɓi gollaaɗi",
-      "_explication": "Durée du projet. 'Duuɓi gollaaɗi' = années travaillées",
-      "_contexte": "Carte de statistique"
-    },
-    #"volumesPublished": {
-      "fr": "Tomes publiés",
-      "en": "Volumes published",
-      #"ff": "Kaɓɓe binndaaɗe",
-      "_explication": "Nombre de volumes. 'Kaɓɓe binndaaɗe' = tomes écrits",
-      "_contexte": "Carte de statistique"
+   
     },
     "result": {
       "fr": "résultat",
@@ -736,120 +479,7 @@
       "ff": "Goomu Fulo & Wiɗto",
       "_explication": "Nom de l'organisation mis en évidence",
       "_contexte": "Suite du titre, en couleur"
-    },
-    "intro": {
-      "fr": "Goomu Fulo Wiɗto est une organisation dédiée à la préservation, la promotion et le développement de la langue Pulaar.",
-      "en": "Goomu Fulo Wiɗto is an organization dedicated to the preservation, promotion and development of the Pulaar language.",
-      "ff": "Goomu Fulo Wiɗto ko fedde toppitiiɗo reentaade, ɓamtaade e ƴellitaade ɗemngal Pulaar.",
-      "_explication": "Introduction de l'organisation. 'Fedde' = association, 'toppitiiɗo' = qui s'occupe de, 'reentaade' = préserver",
-      "_contexte": "Paragraphe d'introduction"
-    },
-    #"missionTitle": {
-      "fr": "Notre Mission",
-      "en": "Our Mission",
-     # "ff": "Golle Amin",
-      "_explication": "Titre de la section mission. 'Golle Amen' = notre #travail/mission",
-      "_contexte": "Titre de sous-section"
-    },
-  "intro": {
-      "fr": "Goomu Fulo Wiɗto est une organisation dédiée à la préservation, la promotion et le développement de la langue Pulaar.",
-      "en": "Goomu Fulo Wiɗto is an organization dedicated to the preservation, promotion and development of the Pulaar language.",
-      "ff": "Goomu Fulo Wiɗto ko fedde toppitiiɗo reentaade, ɓamtaade e ƴellitaade ɗemngal Pulaar.",  "mission": {
-      "fr": "Notre mission est de créer un dictionnaire complet de la langue Pulaar, de promouvoir son utilisation dans l'éducation et les médias, et de préserver le patrimoine culturel des Fulɓe à travers leur langue.",
-      "en": "Our mission is to create a comprehensive dictionary of the Pulaar language, promote its use in education and media, and preserve the cultural heritage of the Fulɓe through their language.",
-      "ff": "Golle amen ko mahde saggitorde timmuɗo ɗemngal Pulaar, ɓamtude huutoraade mum e jaŋde e jaayndeeli, e reentaade pinal Fulɓe e ɗemngal maɓɓe.",
-      "_explication": "Description de la mission. 'Mahde' = construire, 'timmuɗo' = complet, 'jaŋde' = éducation, 'jaayndeeli' = médias, 'pinal' = culture",
-      "_contexte": "Paragraphe de description de mission"
-    },
-    #"historyTitle": {
-      "fr": "Notre Histoire",
-      "en": "Our History",
-     # "ff": "Taariik Amen",
-      "_explication": "Titre de la section histoire. 'Taariik' = histoire (emprunt arabe)",
-      "_contexte": "Titre de sous-section"
-    },
-   # "history": {
-      "fr": "Fondée par un groupe de linguistes, écrivains et défenseurs de la culture Pulaar, Goomu Fulo Wiɗto a vu le jour pour répondre au besoin urgent de documenter et standardiser le Pulaar à l'ère numérique.",
-      "en": "Founded by a group of linguists, writers and advocates of Pulaar culture, Goomu Fulo Wiɗto was created to address the urgent need to document and standardize Pulaar in the digital age.",
-     # "ff": "Sosaa e dental ganndooji ɗemngal, winnderɓe e yarlitanɓe pinal Pulaar, Goomu Fulo Wiɗto fuɗɗii ngam jaɓɓaade waɗɗagol binndude e darnaade Pulaar e waktu internet.",
-      "_explication": "Histoire de l'organisation. 'Sosaa' = fondée, 'dental ganndooji' = groupe de savants, 'winnderɓe' = écrivains, 'yarlitanɓe' = défenseurs, 'waktu internet' = ère internet",
-      "_contexte": "Paragraphe d'histoire"
-    },
-   # "valuesTitle": {
-      "fr": "Nos Valeurs",
-    #  "en": "Our Values",
-     # "ff": "Jojjanɗe Amen",
-      "_explication": "Titre de la section valeurs. 'Jojjanɗe' = #valeurs/principes",
-      "_contexte": "Titre de sous-section"
-    },
-  #  "values": {
-      "preservation": {
-        "title": {
-          "fr": "Préservation",
-          "en": "Preservation",
-        #  "ff": "Reentaade",
-          "_explication": "Valeur 1: Préservation. 'Reentaade' = #préserver/garder",
-          "_contexte": "Titre de carte de valeur"
-        },
-        "desc": {
-          "fr": "Protéger et documenter le patrimoine linguistique Pulaar",
-          "en": "Protect and document Pulaar linguistic heritage",
-         # "ff": "Reentude e binndude ndonu ɗemngal Pulaar",
-          "_explication": "Description de la valeur. 'Ndonu' = héritage/patrimoine",
-          "_contexte": "Description de carte de valeur"
-        }
-      },
-     # "education": {
-        "title": {
-          "fr": "Éducation",
-          "en": "Education",
-          #"ff": "Jaŋde",
-          "_explication": "Valeur 2: Éducation. 'Jaŋde' = #éducation/apprentissage",
-          "_contexte": "Titre de carte de valeur"
-        },
-        "desc": {
-          "fr": "Promouvoir l'enseignement du Pulaar dans les écoles",
-          "en": "Promote Pulaar teaching in schools",
-         # "ff": "Ɓamtude janngude Pulaar e duɗe",
-          "_explication": "Description de la valeur. 'Ɓamtude' = promouvoir, 'janngude' = enseigner, 'duɗe' = écoles",
-          "_contexte": "Description de carte de valeur"
-        }
-      },
-      #"innovation": {
-        "title": {
-          "fr": "Innovation",
-          "en": "Innovation",
-          #"ff": "Kese",
-          "_explication": "Valeur 3: Innovation. 'Kese' = nouveautés",
-          "_contexte": "Titre de carte de valeur"
-        },
-        "desc": {
-          "fr": "Utiliser la technologie pour la diffusion de la langue",
-          "en": "Use technology for language dissemination",
-        #  "ff": "Huutoraade karallaaji ngam saakde ɗemngal",
-          "_explication": "Description de la valeur. 'Huutoraade' = utiliser, #'karallaaji' = technologies, 'saakde' = diffuser",
-          "_contexte": "Description de carte de valeur"
-        }
-      },
-     # "unity": {
-        "title": {
-          "fr": "Unité",
-          "en": "Unity",
-          #"ff": "Kawral",
-          "_explication": "Valeur 4: Unité. 'Kawral' = unité/rassemblement",
-          "_contexte": "Titre de carte de valeur"
-        },
-        "desc": {
-          "fr": "Rassembler les locuteurs Pulaar du monde entier",
-          "en": "Bring together Pulaar speakers from around the world",
-         # "ff": "Renndinde haaltooɓe Pulaar aduna fof",
-          "_explication": "Description de la valeur. 'Renndinde' = rassembler, 'haaltooɓe' = locuteurs, 'aduna fof' = monde entier",
-          "_contexte": "Description de carte de valeur"
-        }
-      }
-    }
-  },
-
+    
   "=== SECTION 9: CONTACT (contact) ===": {
     "_description": "Page et formulaire de contact"
   },
@@ -1006,43 +636,8 @@
         "ff": "Fof",
         "_explication": "Option pour afficher tous les livres. 'Fof' = tout",
         "_contexte": "Option de filtre"
-      }
-    },
-    "book": {
-      #"freeDownload": {
-        "fr": "Télécharger Gratuit",
-        "en": "Free Download",
-       # "ff": "Aawto Mehre",
-        "_explication": "Bouton de téléchargement gratuit. 'Aawto Mehre' = télécharge gratuitement",
-        "_contexte": "Bouton sur carte de livre gratuit"
-      },
-     # "buyNow": {
-        "fr": "Acheter",
-        "en": "Buy Now",
-       # "ff": "Sood Jooni",
-        "_explication": "Bouton d'achat. 'Sood Jooni' = achète maintenant",
-        "_contexte": "Bouton sur carte de livre payant"
-      },
-     # "contactUs": {
-        "fr": "Nous contacter",
-        "en": "Contact us",
-       # "ff": "Jokkondir e amin",
-        "_explication": "Lien pour contact. 'Jokkondir e amen' = contactez-nous",
-        "_contexte": "Lien alternatif pour achat"
-      },
-      #"noBooks": {
-        "fr": "Aucun livre disponible pour le moment",
-        "en": "No books available yet",
-      #  "ff": "Alaa defte tawtaa",
-        "_explication": "Message quand pas de livres. 'Alaa defte tawtaa' = pas de livres trouvés",
-        "_contexte": "Message d'état vide"
-      },
-      #"checkBack": {
-        "fr": "Revenez bientôt pour de nouvelles publications !",
-        "en": "Check back soon for new publications!",
-      #  "ff": "Wartu jooni ngam yiyde kabaruuji kese !",
-        "_explication": "Invitation à revenir. 'Wartu jooni' = reviens #bientôt, 'kabaruuji kese' = nouvelles nouvelles",
-        "_contexte": "Message d'encouragement"
+      
+
       },
       "categories": {
         "roman": {
@@ -1105,41 +700,7 @@
     }
   },
 
-  #"=== SECTION 11: MEMBRES (members) ===": {
-    "_description": "Éléments de la page des membres/érudits - affichage public"
-  },
-
-  #"members": {
-    "readMore": {
-      "fr": "Lire la suite",
-      "en": "Read more",
-      "ff": "Janngol goɗɗum",
-      "_explication": "Lien pour voir la bio complète. 'Janngol goɗɗum' = #lire plus",
-      "_contexte": "Bouton sur carte de membre"
-    },
-    #"readLess": {
-      "fr": "Réduire",
-      "en": "Show less",
-      "ff": "Ustu",
-      "_explication": "Lien pour réduire la bio. 'Ustu' = #réduire/diminuer",
-      "_contexte": "Bouton pour masquer détails"
-    },
-  #  "since": {
-      "fr": "Depuis",
-      "en": "Since",
-    #  "ff": "Gila",
-      "_explication": "Préfixe pour l'année d'adhésion. 'Gila' = depuis",
-      "_contexte": "Label sur carte de membre (ex: 'Depuis 2020')"
-    },
-    #"noMembers": {
-      "fr": "Aucun membre enregistré",
-      "en": "No members recorded",
-      "ff": "Alaa tergal winndaa",
-      "_explication": "Message quand pas de membres. 'Alaa tergal #winndaa' = aucun membre inscrit",
-      "_contexte": "Message d'état vide"
-    }
-  },
-
+  
   "=== SECTION 12: PIED DE PAGE (footer) ===": {
     "_description": "Pied de page du site - liens, newsletter, copyright"
   },
@@ -1152,12 +713,7 @@
       "_explication": "Description courte de l'organisation. 'Faamninirde' = faire comprendre/expliquer",
       "_contexte": "Texte dans le pied de page"
     },
-    #"institution": {
-      "fr": "L'Institution",
-      "en": "The Institution",
-     # "ff": "Fedde ndee",
-      "_explication": "En-tête de colonne de liens. 'Fedde ndee' = cette association",
-      "_contexte": "Titre de colonne dans le footer"
+   
     },
     "language": {
       "fr": "La Langue",
@@ -1165,34 +721,7 @@
       "ff": "Ɗemngal ngal",
       "_explication": "En-tête de colonne de liens. 'Ɗemngal ngal' = cette langue",
       "_contexte": "Titre de colonne dans le footer"
-    },
-    "services": {
-      "fr": "Services",
-      "en": "Services",
-      "ff": "Gollal",
-      "_explication": "En-tête de colonne de liens. 'Balluuji' = services/aides",
-      "_contexte": "Titre de colonne dans le footer"
-    },
-    #"stayInformed": {
-      "fr": "Restez informé",
-      "en": "Stay informed",
-     # "ff": "Heɓu kabaruuji",
-      "_explication": "Titre de section newsletter. 'Heɓu kabaruuji' = reçois les nouvelles",
-      "_contexte": "Titre de section newsletter"
-    },
-    #"newsletterText": {
-      "fr": "Recevez les dernières actualités de Goomu Fulo Wiɗto.",
-      "en": "Receive the latest news from Goomu Fulo Wiɗto.",
-     # "ff": "Heɓu kabaruuji cakkitiiɗi Goomu Fulo Wiɗto.",
-      "_explication": "Description de la newsletter. 'Kabaruuji #cakkitiiɗi' = dernières nouvelles",
-      "_contexte": "Texte explicatif newsletter"
-    },
-    #"emailPlaceholder": {
-      "fr": "Votre e-mail",
-      "en": "Your email",
-     # "ff": "Iimeel maa",
-      "_explication": "Placeholder du champ email. 'Iimeel maa' = ton #email",
-     # "_contexte": "Champ d'inscription newsletter"
+    
     },
     "copyright": {
       "fr": "Goomu Fulo & Wiɗto. Tous droits réservés.",
@@ -1215,14 +744,7 @@
       "_explication": "Lien vers politique de confidentialité. 'Dawiree cuuɗii' = règle de secret/vie privée",
       "_contexte": "Lien dans le footer"
     },
-   # "accessibility": {
-      "fr": "Accessibilité",
-   #   "en": "Accessibility",
-      "ff": "Heɓtineede",
-      "_explication": "Lien vers page accessibilité. 'Heɓtineede' = pouvoir être atteint/accédé",
-    #  "_contexte": "Lien dans le footer"
-    }
-
+  
 
 
 

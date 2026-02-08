@@ -23,9 +23,9 @@
         "becomeImmortal": "Laatoyde tergal",
         "greenCoat": "Aadaaji",
         "speeches": "Kaalanɗe",
-        "language": "Đemngal Fulfulde",
+        "language": "Ɗemngal Fulfulde",
         "frenchToday": "Fulfulde Hannde",
-        "languageQuestions": "Naamne ɗemngal",
+        "languageQuestions": "Naamne lolluɗe",
         "terminology": "Kelmeendi",
         "sayDontSay": "Wiy, Woto wiy",
         "dictionary": "Saggitorde",
@@ -51,10 +51,10 @@
         "scroll": "Tello"
     },
     "features": {
-        "sectionLabel": "Paandaale amen",
+        "sectionLabel": "Paandaale amin",
         "title": "Gollande Ɗemngal Fulfulde",
         "titleHighlight": "Ɗemngal Fulfulde",
-        "description": "Goomu Fulo & Wiɗto gollata ko geɗe tati: Fulde e tafde kelme ganndinal, Ƴellitde ɗemngal Fulfulde, e rokkude njeenaaje binndol.",
+        "description": "Goomu Fulo & Wiɗto daranii ko Fulde kelme ganndinal e wiɗtude ngam ƴellitde ɗemngal Fulfulde.",
         "institution": {
             "title": "Hentordu ndu",
             "description": "Goomu Fulo & Wiɗto ko hentordu ngam ƴellitde ɗemngal Fulfulde, ."
@@ -73,8 +73,8 @@
         }
     },
     "news": {
-        "sectionLabel": "Heɓu kabaruuji",
-        "title": "Kabaruuji ",
+        "sectionLabel": "Humpito",
+        "title": "Joljole",
         "titleHighlight": "Goomu Fulo & Wiɗto",
         "viewAll": "Yiy fof",
         "candidacy": "Ƴamude",
@@ -101,21 +101,21 @@
         "intro": "Saggitorde Goomu Fulo & Wiɗto ko Saggitorde Ganndinal e Đemngal Fulfulde.",
         "wordsStartingWith": "Kelme puɗɗortooɗe e",
         "similarWords": "Kelme nannduɗe",
-        "searchPlaceholder": " helmere...",
+        "searchPlaceholder": "helmere...",
         "editions": "muulngo",
         "wordsDefined": "Kelme pirtaaɗe",
         "yearsOfWork": "Duuɓi gollaaɗi",
         "volumesPublished": "Kaɓɓe binndaaɗe",
         "result": "njeñtudi",
         "results": "njeñtudi",
-        "noResults": "Woodaani",
-        "searchPrompt": "Winndu helmere walla suɓo alkule ngam fuɗɗaade",
-        "availableWords": "kelme goodɗe",
+        "noResults": "Alaa",
+        "searchPrompt": "Winndu helmere walla suɓo alkulal ngam fuɗɗaade",
+        "availableWords": "kelme goodɗe e saggitorde nde",
         "listenPronunciation": "Heɗto no wowlirtee",
         "listenExample": "Heɗto yeru"
     },
     "about": {
-        "title": "Baɗte",
+        "title": "Ciimtol Goomu ngu",
         "highlight": "Goomu Fulo Wiɗto",
         "intro": "Goomu Fulo Wiɗto ko fedde toppitiiɗo reentaade, ɓamtaade e ƴellitaade ɗemngal Pulaar.",
         "missionTitle": "Golle Amen",
@@ -165,7 +165,7 @@
         "intro": "Tar walla aawto defte Fulfulde",
         "stats": {
             "books": "Defte",
-            "downloads": "Aawtodi"
+            "downloads": "Gaawtaaɗe"
         },
         "filters": {
             "label": "Cuɓtagol:",
@@ -178,11 +178,11 @@
             "noBooks": "Alaa defte tawtaa",
             "checkBack": "Wartu jooni ngam yiyde kabaruuji kese !",
             "categories": {
-                "roman": "Tinndi",
-                "poesie": "Jimol",
-                "essai": "Eseey",
-                "histoire": "Taariik",
-                "linguistique": "Ɗemngal",
+                "roman": "Pentol/Miilol",
+                "poesie": "Jime",
+                "essai": "Winndannde",
+                "histoire": "Daartol",
+                "linguistique": "Ɗemɗiwal",
                 "dictionnaire": "Saggitorde",
                 "enfants": "Defte sukaaɓe",
                 "autre": "Goɗɗum"
@@ -203,9 +203,9 @@
         "stayInformed": "Heɓu kabaruuji",
         "newsletterText": "Heɓu kabaruuji cakkitiiɗi Goomu Fulo Wiɗto.",
         "emailPlaceholder": "Iimeel maa",
-        "copyright": "Goomu Fulo Wiɗto. Jojjanɗe fow ndaanitaa.",
-        "legalNotice": "Baɗte sariya",
-        "privacy": "Dawiree cuuɗii",
+        "copyright": "Goomu Fulo & Wiɗto. Hakkeeji kala wonande.",
+        "legalNotice": "Binndanɗe laawol",
+        "privacy": "Gonal Sirru",
         "accessibility": "Heɓtineede"
     },
     "admin": {
