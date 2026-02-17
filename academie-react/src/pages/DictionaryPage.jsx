@@ -15,6 +15,7 @@ function DictionaryPage() {
     const [selectedLetter, setSelectedLetter] = useState(null)
     const [isSearching, setIsSearching] = useState(false)
     const [loading, setLoading] = useState(true)
+    const [selectedDomain, setSelectedDomain] = useState('')
     const [playingAudio, setPlayingAudio] = useState(null)
     const audioRef = useRef(null)
 
@@ -45,6 +46,9 @@ function DictionaryPage() {
                 // Extraire les lettres disponibles
                 const uniqueLetters = [...new Set(data.map(w => w.word.charAt(0).toUpperCase()))].sort()
                 setLetters(uniqueLetters)
+
+                // Extraire les domaines disponibles
+                const uniqueDomains = [...new Set(data.filter(w => w.domain).map(w => w.domain))]
             }
         } catch (error) {
             console.error('Error loading dictionary:', error)
@@ -58,7 +62,7 @@ function DictionaryPage() {
         if (searchTerm.length >= 1) {
             setIsSearching(true)
             const timer = setTimeout(() => {
-                const filtered = allWords.filter(word => {
+                let filtered = allWords.filter(word => {
                     const term = searchTerm.toLowerCase()
                     const wordLower = word.word?.toLowerCase() || ''
                     const frLower = word.translation_fr?.toLowerCase() || ''
@@ -66,32 +70,39 @@ function DictionaryPage() {
                     const ffLower = word.translation_ff?.toLowerCase() || ''
 
                     if (searchType === 'prefix') {
-                        // Recherche par préfixe dans tous les champs
                         return wordLower.startsWith(term) ||
                                frLower.startsWith(term) ||
                                enLower.startsWith(term) ||
                                ffLower.startsWith(term)
                     } else {
-                        // Recherche similaire (contient) dans tous les champs
                         return wordLower.includes(term) ||
                                frLower.includes(term) ||
                                enLower.includes(term) ||
                                ffLower.includes(term)
                     }
                 })
+                if (selectedDomain) {
+                    filtered = filtered.filter(w => w.domain === selectedDomain)
+                }
                 setResults(filtered)
                 setIsSearching(false)
             }, 300)
             return () => clearTimeout(timer)
         } else if (selectedLetter) {
-            const filtered = allWords.filter(word =>
+            let filtered = allWords.filter(word =>
                 word.word.charAt(0).toUpperCase() === selectedLetter
             )
+            if (selectedDomain) {
+                filtered = filtered.filter(w => w.domain === selectedDomain)
+            }
+            setResults(filtered)
+        } else if (selectedDomain) {
+            const filtered = allWords.filter(w => w.domain === selectedDomain)
             setResults(filtered)
         } else {
             setResults([])
         }
-    }, [searchTerm, searchType, selectedLetter, allWords])
+    }, [searchTerm, searchType, selectedLetter, selectedDomain, allWords])
 
     const handleLetterClick = (letter) => {
         setSelectedLetter(letter)
@@ -167,6 +178,29 @@ function DictionaryPage() {
 
             <div className="container">
                 <div className="dictionary-search-section">
+                    {/* Filtres par domaine */}
+                    <div className="domain-filters">
+                        <button
+                            className={`domain-btn ${selectedDomain === '' ? 'active' : ''}`}
+                            onClick={() => setSelectedDomain('')}
+                        >
+                            {t('dictionary.allDomains')}
+                        </button>
+                        {['general', 'scientifique', 'informatique', 'biologie', 'mathematiques', 'medecine', 'droit', 'economie', 'education', 'agriculture'].map(domain => {
+                            const count = allWords.filter(w => w.domain === domain).length
+                            if (count === 0) return null
+                            return (
+                                <button
+                                    key={domain}
+                                    className={`domain-btn ${selectedDomain === domain ? 'active' : ''}`}
+                                    onClick={() => setSelectedDomain(domain)}
+                                >
+                                    {t(`dictionary.domains.${domain}`)} <span className="domain-count">{count}</span>
+                                </button>
+                            )
+                        })}
+                    </div>
+
                     <div className="search-box">
                         <div className="search-options">
                             <label className="search-option">
@@ -255,9 +289,14 @@ function DictionaryPage() {
                                                     </button>
                                                 )}
                                             </div>
-                                            {entry.category && (
-                                                <span className="word-category">{entry.category}</span>
-                                            )}
+                                            <div className="word-badges">
+                                                {entry.category && (
+                                                    <span className="word-category">{entry.category}</span>
+                                                )}
+                                                {entry.domain && entry.domain !== 'general' && (
+                                                    <span className="word-domain">{t(`dictionary.domains.${entry.domain}`)}</span>
+                                                )}
+                                            </div>
                                         </div>
                                         <p className="word-translation">{getTranslation(entry)}</p>
                                         {entry.example && (

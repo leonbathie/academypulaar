@@ -112,7 +112,20 @@
         "searchPrompt": "Type a word or select a letter to start",
         "availableWords": "available words in the dictionary",
         "listenPronunciation": "Listen to pronunciation",
-        "listenExample": "Listen to the example"
+        "listenExample": "Listen to the example",
+        "allDomains": "All domains",
+        "domains": {
+            "general": "General",
+            "scientifique": "Scientific",
+            "informatique": "Computer Science",
+            "biologie": "Biology",
+            "mathematiques": "Mathematics",
+            "medecine": "Medicine",
+            "droit": "Law",
+            "economie": "Economics",
+            "education": "Education",
+            "agriculture": "Agriculture"
+        }
     },
     "about": {
         "title": "About",
@@ -280,7 +293,18 @@
             "placeholderFr": "French definition...",
             "placeholderFf": "Pulaar definition...",
             "placeholderEn": "English definition...",
-            "examplePlaceholder": "Example sentence..."
+            "examplePlaceholder": "Example sentence...",
+            "domain": "Domain",
+            "domGeneral": "General",
+            "domScience": "Scientific",
+            "domInfo": "Computer Science",
+            "domBio": "Biology",
+            "domMath": "Mathematics",
+            "domMed": "Medicine",
+            "domDroit": "Law",
+            "domEco": "Economics",
+            "domEdu": "Education",
+            "domAgri": "Agriculture"
         },
         "members": {
             "title": "Members",

@@ -112,7 +112,20 @@
         "searchPrompt": "Winndu helmere walla suɓo alkulal ngam fuɗɗaade",
         "availableWords": "kelme goodɗe e saggitorde nde",
         "listenPronunciation": "Heɗto no wowlirtee",
-        "listenExample": "Heɗto yeru"
+        "listenExample": "Heɗto yeru",
+        "allDomains": "Fannu fof",
+        "domains": {
+            "general": "Kuuɓal",
+            "scientifique": "Ganndal",
+            "informatique": "Kerecce",
+            "biologie": "Ganndal nguurndam",
+            "mathematiques": "Hiisaaji",
+            "medecine": "Safaara",
+            "droit": "Laawol sariya",
+            "economie": "Nguura-jawdi",
+            "education": "Jaŋde",
+            "agriculture": "Ngesa-ndema"
+        }
     },
     "about": {
         "title": "Ciimtol Goomu ngu",
@@ -280,7 +293,18 @@
             "placeholderFr": "Faamninaare Faransikoore...",
             "placeholderFf": "Faamninaare Pulaar...",
             "placeholderEn": "Faamninaare Engeleere...",
-            "examplePlaceholder": "Yerirun..."
+            "examplePlaceholder": "Yerirun...",
+            "domain": "Fannu",
+            "domGeneral": "Kuuɓal",
+            "domScience": "Ganndal",
+            "domInfo": "Kerecce",
+            "domBio": "Ganndal nguurndam",
+            "domMath": "Hiisaaji",
+            "domMed": "Safaara",
+            "domDroit": "Laawol sariya",
+            "domEco": "Nguura-jawdi",
+            "domEdu": "Jaŋde",
+            "domAgri": "Ngesa-ndema"
         },
         "members": {
             "title": "Terɗe",

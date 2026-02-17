@@ -40,14 +40,6 @@ function Footer() {
                             </ul>
                         </div>
 
-                        <div className="footer-links-group">
-                            <h4 className="footer-title">{t('footer.services')}</h4>
-                            <ul className="footer-links">
-                                <li><Link to="/bibliotheque">{t('common.library')}</Link></li>
-                                <li><Link to="/contact">{t('common.contact')}</Link></li>
-                            </ul>
-                        </div>
-
                         <div className="footer-social-section">
                             <div className="footer-social">
                                 <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="social-link" aria-label="LinkedIn">

@@ -18,6 +18,7 @@ function DictionaryAdmin() {
         translation_en: '',
         translation_ff: '',
         category: '',
+        domain: '',
         example: '',
         example_translation: ''
     })
@@ -56,6 +57,7 @@ function DictionaryAdmin() {
                 translation_en: word.translation_en || '',
                 translation_ff: word.translation_ff || '',
                 category: word.category || '',
+                domain: word.domain || '',
                 example: word.example || '',
                 example_translation: word.example_translation || ''
             })
@@ -70,6 +72,7 @@ function DictionaryAdmin() {
                 translation_en: '',
                 translation_ff: '',
                 category: '',
+                domain: '',
                 example: '',
                 example_translation: ''
             })
@@ -257,6 +260,7 @@ function DictionaryAdmin() {
                             <th>{t('admin.dictionary.translationFr')}</th>
                             <th>{t('admin.dictionary.translationEn')}</th>
                             <th>{t('admin.dictionary.translationFf')}</th>
+                            <th>{t('admin.dictionary.domain')}</th>
                             <th>🎤</th>
                             <th>{t('admin.common.actions')}</th>
                         </tr>
@@ -268,6 +272,7 @@ function DictionaryAdmin() {
                                 <td>{word.translation_fr || '-'}</td>
                                 <td>{word.translation_en || '-'}</td>
                                 <td>{word.translation_ff || '-'}</td>
+                                <td><span className="domain-badge">{word.domain || '-'}</span></td>
                                 <td style={{ textAlign: 'center' }}>
                                     {word.audio_word && (
                                         <span title="Audio du mot">🔊</span>
@@ -291,7 +296,7 @@ function DictionaryAdmin() {
                         ))}
                         {words.length === 0 && (
                             <tr>
-                                <td colSpan="6" style={{ textAlign: 'center', padding: '2rem', color: 'var(--medium-gray)' }}>
+                                <td colSpan="7" style={{ textAlign: 'center', padding: '2rem', color: 'var(--medium-gray)' }}>
                                     {t('admin.dictionary.noWords')}
                                 </td>
                             </tr>
@@ -339,6 +344,26 @@ function DictionaryAdmin() {
                                             <option value="expression">{t('admin.dictionary.catExpression')}</option>
                                         </select>
                                     </div>
+                                </div>
+
+                                <div className="form-group">
+                                    <label>{t('admin.dictionary.domain')}</label>
+                                    <select
+                                        value={formData.domain}
+                                        onChange={e => setFormData({ ...formData, domain: e.target.value })}
+                                    >
+                                        <option value="">{t('admin.common.select')}</option>
+                                        <option value="general">{t('admin.dictionary.domGeneral')}</option>
+                                        <option value="scientifique">{t('admin.dictionary.domScience')}</option>
+                                        <option value="informatique">{t('admin.dictionary.domInfo')}</option>
+                                        <option value="biologie">{t('admin.dictionary.domBio')}</option>
+                                        <option value="mathematiques">{t('admin.dictionary.domMath')}</option>
+                                        <option value="medecine">{t('admin.dictionary.domMed')}</option>
+                                        <option value="droit">{t('admin.dictionary.domDroit')}</option>
+                                        <option value="economie">{t('admin.dictionary.domEco')}</option>
+                                        <option value="education">{t('admin.dictionary.domEdu')}</option>
+                                        <option value="agriculture">{t('admin.dictionary.domAgri')}</option>
+                                    </select>
                                 </div>
 
                                 {/* Audio du mot */}

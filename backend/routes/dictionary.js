@@ -92,7 +92,7 @@ router.post('/', authMiddleware, adminOnly, upload.fields([
     { name: 'audio_example', maxCount: 1 }
 ]), async (req, res) => {
     try {
-        const { word, translation_fr, translation_en, translation_ff, category, example, example_translation } = req.body
+        const { word, translation_fr, translation_en, translation_ff, category, domain, example, example_translation } = req.body
 
         if (!word) {
             return res.status(400).json({ error: 'Le mot est requis' })
@@ -118,9 +118,9 @@ router.post('/', authMiddleware, adminOnly, upload.fields([
         }
 
         const result = await query(
-            `INSERT INTO dictionary (word, translation_fr, translation_en, translation_ff, category, example, example_translation, audio_word, audio_example)
-             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *`,
-            [word, translation_fr, translation_en, translation_ff, category, example, example_translation, audioWordPath, audioExamplePath]
+            `INSERT INTO dictionary (word, translation_fr, translation_en, translation_ff, category, domain, example, example_translation, audio_word, audio_example)
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *`,
+            [word, translation_fr, translation_en, translation_ff, category, domain || null, example, example_translation, audioWordPath, audioExamplePath]
         )
 
         res.status(201).json(result.rows[0])
@@ -137,7 +137,7 @@ router.put('/:id', authMiddleware, adminOnly, upload.fields([
     { name: 'audio_example', maxCount: 1 }
 ]), async (req, res) => {
     try {
-        const { word, translation_fr, translation_en, translation_ff, category, example, example_translation } = req.body
+        const { word, translation_fr, translation_en, translation_ff, category, domain, example, example_translation } = req.body
 
         // Vérifier si le mot existe déjà (exclure l'ID actuel)
         if (word) {
@@ -165,10 +165,10 @@ router.put('/:id', authMiddleware, adminOnly, upload.fields([
         const result = await query(
             `UPDATE dictionary 
              SET word = $1, translation_fr = $2, translation_en = $3, translation_ff = $4, 
-                 category = $5, example = $6, example_translation = $7, 
-                 audio_word = $8, audio_example = $9, updated_at = CURRENT_TIMESTAMP
-             WHERE id = $10 RETURNING *`,
-            [word, translation_fr, translation_en, translation_ff, category, example, example_translation, audioWordPath, audioExamplePath, req.params.id]
+                 category = $5, domain = $6, example = $7, example_translation = $8, 
+                 audio_word = $9, audio_example = $10, updated_at = CURRENT_TIMESTAMP
+             WHERE id = $11 RETURNING *`,
+            [word, translation_fr, translation_en, translation_ff, category, domain || null, example, example_translation, audioWordPath, audioExamplePath, req.params.id]
         )
 
         if (result.rows.length === 0) {
