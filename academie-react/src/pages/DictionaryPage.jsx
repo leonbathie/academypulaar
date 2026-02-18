@@ -186,7 +186,7 @@ function DictionaryPage() {
                         >
                             {t('dictionary.allDomains')}
                         </button>
-                        {['general', 'scientifique', 'informatique', 'biologie', 'mathematiques', 'medecine', 'droit', 'economie', 'education', 'agriculture'].map(domain => {
+                        {['scientifique', 'mathematiques', 'biologie', 'philosophie', 'economie', 'droit', 'astronomie', 'informatique', 'botanique', 'vivants', 'elevage', 'agriculture', 'peche', 'forge', 'dictionnaire'].map(domain => {
                             const count = allWords.filter(w => w.domain === domain).length
                             if (count === 0) return null
                             return (
@@ -293,7 +293,7 @@ function DictionaryPage() {
                                                 {entry.category && (
                                                     <span className="word-category">{entry.category}</span>
                                                 )}
-                                                {entry.domain && entry.domain !== 'general' && (
+                                                {entry.domain && (
                                                     <span className="word-domain">{t(`dictionary.domains.${entry.domain}`)}</span>
                                                 )}
                                             </div>
