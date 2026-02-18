@@ -353,16 +353,21 @@ function DictionaryAdmin() {
                                         onChange={e => setFormData({ ...formData, domain: e.target.value })}
                                     >
                                         <option value="">{t('admin.common.select')}</option>
-                                        <option value="general">{t('admin.dictionary.domGeneral')}</option>
                                         <option value="scientifique">{t('admin.dictionary.domScience')}</option>
-                                        <option value="informatique">{t('admin.dictionary.domInfo')}</option>
-                                        <option value="biologie">{t('admin.dictionary.domBio')}</option>
                                         <option value="mathematiques">{t('admin.dictionary.domMath')}</option>
-                                        <option value="medecine">{t('admin.dictionary.domMed')}</option>
-                                        <option value="droit">{t('admin.dictionary.domDroit')}</option>
+                                        <option value="biologie">{t('admin.dictionary.domBio')}</option>
+                                        <option value="philosophie">{t('admin.dictionary.domPhilo')}</option>
                                         <option value="economie">{t('admin.dictionary.domEco')}</option>
-                                        <option value="education">{t('admin.dictionary.domEdu')}</option>
+                                        <option value="droit">{t('admin.dictionary.domDroit')}</option>
+                                        <option value="astronomie">{t('admin.dictionary.domAstro')}</option>
+                                        <option value="informatique">{t('admin.dictionary.domInfo')}</option>
+                                        <option value="botanique">{t('admin.dictionary.domBota')}</option>
+                                        <option value="vivants">{t('admin.dictionary.domVivants')}</option>
+                                        <option value="elevage">{t('admin.dictionary.domElevage')}</option>
                                         <option value="agriculture">{t('admin.dictionary.domAgri')}</option>
+                                        <option value="peche">{t('admin.dictionary.domPeche')}</option>
+                                        <option value="forge">{t('admin.dictionary.domForge')}</option>
+                                        <option value="dictionnaire">{t('admin.dictionary.domDict')}</option>
                                     </select>
                                 </div>
 
