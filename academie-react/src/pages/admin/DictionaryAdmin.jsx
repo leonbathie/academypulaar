@@ -444,7 +444,6 @@ function DictionaryAdmin() {
                                             <textarea
                                                 value={formData.translation_fr}
                                                 onChange={e => setFormData({ ...formData, translation_fr: e.target.value })}
-                                                placeholder={t('admin.dictionary.placeholderFr')}
                                                 rows="3"
                                             />
                                         </div>
@@ -455,7 +454,6 @@ function DictionaryAdmin() {
                                             <textarea
                                                 value={formData.translation_en}
                                                 onChange={e => setFormData({ ...formData, translation_en: e.target.value })}
-                                                placeholder={t('admin.dictionary.placeholderEn')}
                                                 rows="3"
                                             />
                                         </div>

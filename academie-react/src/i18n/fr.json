@@ -230,7 +230,6 @@
         "sidebar": {
             "dashboard": "Tableau de bord",
             "dictionary": "Dictionnaire",
-            "members": "Membres",
             "news": "Actualités",
             "content": "Dire, Ne pas dire",
             "library": "Bibliothèque",
@@ -241,14 +240,12 @@
             "welcome": "Bienvenue",
             "loading": "Chargement...",
             "loadingDictionary": "Chargement du dictionnaire...",
-            "loadingMembers": "Chargement des membres...",
             "loadingBooks": "Chargement des livres..."
         },
         "dashboard": {
             "title": "Tableau de bord",
             "stats": {
                 "words": "Mots dans le dictionnaire",
-                "members": "Membres / Érudits",
                 "news": "Actualités publiées",
                 "content": "Expressions \"Dire, Ne pas dire\""
             },
@@ -256,7 +253,6 @@
                 "title": "Bienvenue dans l'administration",
                 "text": "Utilisez le menu de gauche pour gérer le contenu du site Goomu Fulo Wiɗto :",
                 "dict": "Ajouter, modifier ou supprimer des mots",
-                "members": "Gérer les érudits et leurs biographies",
                 "news": "Publier des nouvelles et articles",
                 "content": "Gérer les expressions linguistiques"
             }
@@ -277,10 +273,10 @@
             "title": "Dictionnaire",
             "add": "Ajouter un mot",
             "edit": "Modifier le mot",
-            "wordPulaar": "Mot (Pulaar)",
+            "wordPulaar": "Mot (Fulfulde)",
             "translationFr": "Français",
             "translationEn": "English",
-            "translationFf": "Pulaar",
+            "translationFf": "Fulfulde",
             "category": "Catégorie",
             "example": "Exemple d'utilisation",
             "audioWord": "Prononciation du mot",
@@ -295,9 +291,7 @@
             "catAdjectif": "Adjectif",
             "catAdverbe": "Adverbe",
             "catExpression": "Expression",
-            "placeholderFr": "Définition en français...",
             "placeholderFf": "Définition en Pulaar...",
-            "placeholderEn": "Definition in English...",
             "examplePlaceholder": "Phrase d'exemple...",
             "domain": "Domaine",
             "domScience": "Noms Scientifiques",
@@ -316,45 +310,18 @@
             "domForge": "Forge / Bijouterie",
             "domDict": "Dictionnaire"
         },
-        "members": {
-            "title": "Membres",
-            "add": "Ajouter un membre",
-            "edit": "Modifier le membre",
-            "name": "Nom",
-            "role": "Rôle",
-            "specialty": "Spécialité",
-            "joined": "Rejoint le",
-            "noMembers": "Aucun membre trouvé",
-            "photo": "Photo",
-            "clickToPhoto": "Cliquez pour ajouter une photo",
-            "joinedPlaceholder": "Ex: 2020",
-            "specialtyPlaceholder": "Ex: Linguistique Pulaar",
-            "socialMedia": "Réseaux sociaux & Contact",
-            "roleLabel": "Rôle",
-            "rolePlaceholderFr": "Ex: Secrétaire perpétuel"
-        },
         "books": {
             "title": "Bibliothèque",
             "add": "Ajouter un livre",
             "edit": "Modifier le livre",
             "titleLabel": "Titre",
-            "author": "Auteur",
-            "price": "Prix",
-            "free": "Gratuit",
             "noBooks": "Aucun livre trouvé",
-            "cover": "Couverture",
             "file": "Fichier",
             "downloads": "Téléch.",
-            "notPublished": "Non publié",
-            "coverLabel": "Couverture du livre",
             "fileLabel": "Fichier du livre (PDF, EPUB, etc.)",
             "existingFile": "Fichier existant",
             "clickToAddFile": "Cliquez pour ajouter un fichier",
-            "year": "Année",
-            "description": "Description",
-            "pricing": "Tarification",
-            "paymentLink": "Lien de paiement",
-            "publishThis": "Publier ce livre"
+            "description": "Description"
         },
         "news": {
             "title": "Actualités",
@@ -363,9 +330,6 @@
             "titleLabel": "Titre",
             "category": "Catégorie",
             "date": "Date",
-            "status": "Statut",
-            "published": "Publié",
-            "draft": "Brouillon",
             "image": "Image de couverture",
             "excerpt": "Résumé",
             "content": "Contenu",
@@ -374,8 +338,6 @@
             "coverLabel": "Image de couverture",
             "clickToAddImage": "Cliquez pour ajouter une image",
             "redirectLink": "Lien de redirection (URL)",
-            "contactEmail": "Email de contact",
-            "contactPhone": "Téléphone",
             "catEvent": "Événement"
         },
         "content": {

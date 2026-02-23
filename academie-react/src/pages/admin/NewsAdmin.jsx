@@ -191,7 +191,6 @@ function NewsAdmin() {
                             <th>{t('admin.news.titleLabel')}</th>
                             <th>{t('admin.news.category')}</th>
                             <th>{t('admin.news.date')}</th>
-                            <th>{t('admin.news.status')}</th>
                             <th>{t('admin.common.actions')}</th>
                         </tr>
                     </thead>
@@ -214,18 +213,6 @@ function NewsAdmin() {
                                 <td><strong>{item.title_fr || item.title}</strong></td>
                                 <td>{item.category}</td>
                                 <td>{item.date ? new Date(item.date).toLocaleDateString('fr-FR') : '-'}</td>
-                                <td>
-                                    <span style={{
-                                        padding: '0.25rem 0.75rem',
-                                        borderRadius: '999px',
-                                        fontSize: '0.8rem',
-                                        fontWeight: 600,
-                                        background: item.published ? 'rgba(34, 197, 94, 0.1)' : 'rgba(239, 68, 68, 0.1)',
-                                        color: item.published ? '#22c55e' : '#ef4444'
-                                    }}>
-                                        {item.published ? t('admin.news.published') : t('admin.news.draft')}
-                                    </span>
-                                </td>
                                 <td className="actions-cell">
                                     <button className="btn-edit" onClick={() => openModal(item)}>
                                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -244,7 +231,7 @@ function NewsAdmin() {
                         ))}
                         {news.length === 0 && (
                             <tr>
-                                <td colSpan="6" style={{ textAlign: 'center', padding: '2rem', color: 'var(--medium-gray)' }}>
+                                <td colSpan="5" style={{ textAlign: 'center', padding: '2rem', color: 'var(--medium-gray)' }}>
                                     {t('admin.news.noNews')}
                                 </td>
                             </tr>
@@ -335,26 +322,6 @@ function NewsAdmin() {
                                         onChange={e => setFormData({ ...formData, link: e.target.value })}
                                         placeholder="https://..."
                                     />
-                                </div>
-                                <div className="form-row">
-                                    <div className="form-group">
-                                        <label>📧 {t('admin.news.contactEmail')}</label>
-                                        <input
-                                            type="email"
-                                            value={formData.contact_email}
-                                            onChange={e => setFormData({ ...formData, contact_email: e.target.value })}
-                                            placeholder="contact@example.com"
-                                        />
-                                    </div>
-                                    <div className="form-group">
-                                        <label>📱 {t('admin.news.contactPhone')}</label>
-                                        <input
-                                            type="tel"
-                                            value={formData.contact_phone}
-                                            onChange={e => setFormData({ ...formData, contact_phone: e.target.value })}
-                                            placeholder="+221 ..."
-                                        />
-                                    </div>
                                 </div>
 
                                 {/* Onglets de langues */}

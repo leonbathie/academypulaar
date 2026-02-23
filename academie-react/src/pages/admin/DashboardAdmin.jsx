@@ -7,7 +7,6 @@ function DashboardAdmin() {
     const { apiRequest } = useApi()
     const [stats, setStats] = useState({
         dictionary: 0,
-        members: 0,
         news: 0,
         content: 0
     })
@@ -19,16 +18,14 @@ function DashboardAdmin() {
 
     const loadStats = async () => {
         try {
-            const [dictionary, members, news, content] = await Promise.all([
+            const [dictionary, news, content] = await Promise.all([
                 apiRequest('/dictionary'),
-                apiRequest('/members'),
                 apiRequest('/news'),
                 apiRequest('/content/dire')
             ])
 
             setStats({
                 dictionary: dictionary.length,
-                members: members.length,
                 news: news.length,
                 content: content.length
             })
@@ -70,21 +67,6 @@ function DashboardAdmin() {
                 <div className="stat-card">
                     <div className="stat-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-                            <circle cx="9" cy="7" r="4" />
-                            <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-                            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-                        </svg>
-                    </div>
-                    <div className="stat-info">
-                        <h3>{stats.members}</h3>
-                        <p>{t('admin.dashboard.stats.members')}</p>
-                    </div>
-                </div>
-
-                <div className="stat-card">
-                    <div className="stat-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                             <path d="M19 20H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v1" />
                             <path d="M21 16V8a2 2 0 0 0-2-2h-2" />
                             <path d="M7 8h4M7 12h8M7 16h6" />
@@ -117,7 +99,6 @@ function DashboardAdmin() {
                 </p>
                 <ul style={{ marginTop: '1rem', color: 'var(--dark-gray)', lineHeight: 2 }}>
                     <li><strong>{t('admin.sidebar.dictionary')}</strong> - {t('admin.dashboard.welcomeCard.dict')}</li>
-                    <li><strong>{t('admin.sidebar.members')}</strong> - {t('admin.dashboard.welcomeCard.members')}</li>
                     <li><strong>{t('admin.sidebar.news')}</strong> - {t('admin.dashboard.welcomeCard.news')}</li>
                     <li><strong>{t('admin.sidebar.content')}</strong> - {t('admin.dashboard.welcomeCard.content')}</li>
                 </ul>

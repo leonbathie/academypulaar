@@ -11,25 +11,16 @@ function BooksAdmin() {
     const [showModal, setShowModal] = useState(false)
     const [editingBook, setEditingBook] = useState(null)
     const [activeTab, setActiveTab] = useState('fr')
-    const [coverPreview, setCoverPreview] = useState(null)
-    const [selectedCover, setSelectedCover] = useState(null)
     const [selectedFile, setSelectedFile] = useState(null)
-    const coverInputRef = useRef(null)
     const fileInputRef = useRef(null)
     const [formData, setFormData] = useState({
         title_fr: '',
         title_en: '',
         title_ff: '',
-        author: '',
         description_fr: '',
         description_en: '',
         description_ff: '',
-        category: '',
-        year: '',
-        published: true,
-        is_free: true,
-        price: '',
-        payment_link: ''
+        category: ''
     })
 
     useEffect(() => {
@@ -54,38 +45,23 @@ function BooksAdmin() {
                 title_fr: book.title_fr || '',
                 title_en: book.title_en || '',
                 title_ff: book.title_ff || '',
-                author: book.author || '',
                 description_fr: book.description_fr || '',
                 description_en: book.description_en || '',
                 description_ff: book.description_ff || '',
-                category: book.category || '',
-                year: book.year || '',
-                published: book.published !== false,
-                is_free: book.is_free !== false,
-                price: book.price || '',
-                payment_link: book.payment_link || ''
+                category: book.category || ''
             })
-            setCoverPreview(book.cover_image ? `${API_URL}${book.cover_image}` : null)
         } else {
             setEditingBook(null)
             setFormData({
                 title_fr: '',
                 title_en: '',
                 title_ff: '',
-                author: '',
                 description_fr: '',
                 description_en: '',
                 description_ff: '',
-                category: '',
-                year: '',
-                published: true,
-                is_free: true,
-                price: '',
-                payment_link: ''
+                category: ''
             })
-            setCoverPreview(null)
         }
-        setSelectedCover(null)
         setSelectedFile(null)
         setActiveTab('fr')
         setShowModal(true)
@@ -94,21 +70,7 @@ function BooksAdmin() {
     const closeModal = () => {
         setShowModal(false)
         setEditingBook(null)
-        setCoverPreview(null)
-        setSelectedCover(null)
         setSelectedFile(null)
-    }
-
-    const handleCoverChange = (e) => {
-        const file = e.target.files[0]
-        if (file) {
-            setSelectedCover(file)
-            const reader = new FileReader()
-            reader.onloadend = () => {
-                setCoverPreview(reader.result)
-            }
-            reader.readAsDataURL(file)
-        }
     }
 
     const handleFileChange = (e) => {
@@ -125,12 +87,6 @@ function BooksAdmin() {
             Object.keys(formData).forEach(key => {
                 formDataToSend.append(key, formData[key])
             })
-
-            if (selectedCover) {
-                formDataToSend.append('cover', selectedCover)
-            } else if (editingBook?.cover_image) {
-                formDataToSend.append('existingCover', editingBook.cover_image)
-            }
 
             if (selectedFile) {
                 formDataToSend.append('file', selectedFile)
@@ -210,9 +166,7 @@ function BooksAdmin() {
                 <table className="admin-table">
                     <thead>
                         <tr>
-                            <th>{t('admin.books.cover')}</th>
                             <th>{t('admin.books.titleLabel')}</th>
-                            <th>{t('admin.books.author')}</th>
                             <th>{t('admin.dictionary.category')}</th>
                             <th>{t('admin.books.file')}</th>
                             <th>{t('admin.books.downloads')}</th>
@@ -223,23 +177,8 @@ function BooksAdmin() {
                         {books.map(book => (
                             <tr key={book.id}>
                                 <td>
-                                    {book.cover_image ? (
-                                        <img
-                                            src={`${API_URL}${book.cover_image}`}
-                                            alt={book.title_fr}
-                                            style={{ width: '50px', height: '70px', objectFit: 'cover', borderRadius: '4px' }}
-                                        />
-                                    ) : (
-                                        <div style={{ width: '50px', height: '70px', background: 'var(--light-gray)', borderRadius: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                            📖
-                                        </div>
-                                    )}
-                                </td>
-                                <td>
                                     <strong>{book.title_fr}</strong>
-                                    {!book.published && <span style={{ marginLeft: '8px', color: 'orange', fontSize: '0.8rem' }}>⚠️ {t('admin.books.notPublished')}</span>}
                                 </td>
-                                <td>{book.author || '-'}</td>
                                 <td>{book.category || '-'}</td>
                                 <td>{formatFileSize(book.file_size)}</td>
                                 <td>{book.downloads || 0}</td>
@@ -261,7 +200,7 @@ function BooksAdmin() {
                         ))}
                         {books.length === 0 && (
                             <tr>
-                                <td colSpan="7" style={{ textAlign: 'center', padding: '2rem', color: 'var(--medium-gray)' }}>
+                                <td colSpan="5" style={{ textAlign: 'center', padding: '2rem', color: 'var(--medium-gray)' }}>
                                     {t('admin.common.noData')}
                                 </td>
                             </tr>
@@ -285,34 +224,6 @@ function BooksAdmin() {
                         <form onSubmit={handleSubmit} className="modal-form">
                             <div className="modal-body">
                                 <div className="form-row">
-                                    {/* Couverture */}
-                                    <div className="form-group">
-                                        <label>{t('admin.books.coverLabel')}</label>
-                                        <div
-                                            onClick={() => coverInputRef.current?.click()}
-                                            style={{
-                                                width: '120px',
-                                                height: '170px',
-                                                borderRadius: '8px',
-                                                background: coverPreview ? `url(${coverPreview}) center/cover` : 'var(--light-gray)',
-                                                display: 'flex',
-                                                alignItems: 'center',
-                                                justifyContent: 'center',
-                                                cursor: 'pointer',
-                                                border: '2px dashed var(--medium-gray)'
-                                            }}
-                                        >
-                                            {!coverPreview && <span style={{ fontSize: '2rem' }}>📖</span>}
-                                        </div>
-                                        <input
-                                            ref={coverInputRef}
-                                            type="file"
-                                            accept="image/*"
-                                            onChange={handleCoverChange}
-                                            style={{ display: 'none' }}
-                                        />
-                                    </div>
-
                                     {/* Fichier */}
                                     <div className="form-group" style={{ flex: 1 }}>
                                         <label>📁 {t('admin.books.fileLabel')}</label>
@@ -347,15 +258,6 @@ function BooksAdmin() {
 
                                 <div className="form-row">
                                     <div className="form-group">
-                                        <label>{t('admin.books.author')}</label>
-                                        <input
-                                            type="text"
-                                            value={formData.author}
-                                            onChange={e => setFormData({ ...formData, author: e.target.value })}
-                                            placeholder={t('admin.books.author')}
-                                        />
-                                    </div>
-                                    <div className="form-group">
                                         <label>{t('admin.dictionary.category')}</label>
                                         <select
                                             value={formData.category}
@@ -371,17 +273,6 @@ function BooksAdmin() {
                                             <option value="enfants">Livres enfants</option>
                                             <option value="autre">Autre</option>
                                         </select>
-                                    </div>
-                                    <div className="form-group">
-                                        <label>{t('admin.books.year')}</label>
-                                        <input
-                                            type="number"
-                                            value={formData.year}
-                                            onChange={e => setFormData({ ...formData, year: e.target.value })}
-                                            placeholder="2024"
-                                            min="1900"
-                                            max="2100"
-                                        />
                                     </div>
                                 </div>
 
@@ -465,54 +356,6 @@ function BooksAdmin() {
                                     </div>
                                 )}
 
-                                {/* Prix et paiement */}
-                                <div style={{ padding: '1rem', background: 'rgba(212, 165, 55, 0.1)', borderRadius: '8px', marginBottom: '1rem' }}>
-                                    <h4 style={{ marginBottom: '1rem', color: 'var(--primary-gold)', fontSize: '0.95rem' }}>💰 {t('admin.books.pricing')}</h4>
-                                    <div className="form-group">
-                                        <label className="checkbox-label">
-                                            <input
-                                                type="checkbox"
-                                                checked={formData.is_free}
-                                                onChange={e => setFormData({ ...formData, is_free: e.target.checked, price: e.target.checked ? '' : formData.price })}
-                                            />
-                                            {t('admin.books.free')}
-                                        </label>
-                                    </div>
-                                    {!formData.is_free && (
-                                        <div className="form-row">
-                                            <div className="form-group">
-                                                <label>{t('admin.books.price')} (FCFA)</label>
-                                                <input
-                                                    type="number"
-                                                    value={formData.price}
-                                                    onChange={e => setFormData({ ...formData, price: e.target.value })}
-                                                    placeholder="Ex: 5000"
-                                                    min="0"
-                                                />
-                                            </div>
-                                            <div className="form-group">
-                                                <label>{t('admin.books.paymentLink')}</label>
-                                                <input
-                                                    type="url"
-                                                    value={formData.payment_link}
-                                                    onChange={e => setFormData({ ...formData, payment_link: e.target.value })}
-                                                    placeholder="https://..."
-                                                />
-                                            </div>
-                                        </div>
-                                    )}
-                                </div>
-
-                                <div className="form-group">
-                                    <label className="checkbox-label">
-                                        <input
-                                            type="checkbox"
-                                            checked={formData.published}
-                                            onChange={e => setFormData({ ...formData, published: e.target.checked })}
-                                        />
-                                        {t('admin.books.publishThis')}
-                                    </label>
-                                </div>
                             </div>
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-secondary" onClick={closeModal}>

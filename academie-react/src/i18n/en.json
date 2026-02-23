@@ -230,7 +230,6 @@
         "sidebar": {
             "dashboard": "Dashboard",
             "dictionary": "Dictionary",
-            "members": "Members",
             "news": "News",
             "content": "Say, Don't Say",
             "library": "Library",
@@ -241,14 +240,12 @@
             "welcome": "Welcome",
             "loading": "Loading...",
             "loadingDictionary": "Loading dictionary...",
-            "loadingMembers": "Loading members...",
             "loadingBooks": "Loading books..."
         },
         "dashboard": {
             "title": "Dashboard",
             "stats": {
                 "words": "Words in dictionary",
-                "members": "Members / Scholars",
                 "news": "Published news",
                 "content": "Say, Don't Say expressions"
             },
@@ -256,7 +253,6 @@
                 "title": "Welcome to administration",
                 "text": "Use the left menu to manage Goomu Fulo Wiɗto content:",
                 "dict": "Add, edit or delete words",
-                "members": "Manage scholars and their biographies",
                 "news": "Publish news and articles",
                 "content": "Manage language expressions"
             }
@@ -277,10 +273,10 @@
             "title": "Dictionary",
             "add": "Add a word",
             "edit": "Edit word",
-            "wordPulaar": "Word (Pulaar)",
+            "wordPulaar": "Word (Fulfulde)",
             "translationFr": "French",
             "translationEn": "English",
-            "translationFf": "Pulaar",
+            "translationFf": "Fulfulde",
             "category": "Category",
             "example": "Usage example",
             "audioWord": "Word pronunciation",
@@ -295,9 +291,7 @@
             "catAdjectif": "Adjective",
             "catAdverbe": "Adverb",
             "catExpression": "Expression",
-            "placeholderFr": "French definition...",
-            "placeholderFf": "Pulaar definition...",
-            "placeholderEn": "English definition...",
+            "placeholderFf": "Fulfulde definition...",
             "examplePlaceholder": "Example sentence...",
             "domain": "Domain",
             "domScience": "Scientific Terms",
@@ -316,45 +310,18 @@
             "domForge": "Blacksmithing",
             "domDict": "Dictionary"
         },
-        "members": {
-            "title": "Members",
-            "add": "Add a member",
-            "edit": "Edit member",
-            "name": "Name",
-            "role": "Role",
-            "specialty": "Specialty",
-            "joined": "Joined",
-            "noMembers": "No members found",
-            "photo": "Photo",
-            "clickToPhoto": "Click to add a photo",
-            "joinedPlaceholder": "Ex: 2020",
-            "specialtyPlaceholder": "Ex: Pulaar Linguistics",
-            "socialMedia": "Social Media & Contact",
-            "roleLabel": "Role",
-            "rolePlaceholderFr": "Ex: Perpetual Secretary"
-        },
         "books": {
             "title": "Library",
             "add": "Add a book",
             "edit": "Edit book",
             "titleLabel": "Title",
-            "author": "Author",
-            "price": "Price",
-            "free": "Free",
             "noBooks": "No books found",
-            "cover": "Cover",
             "file": "File",
             "downloads": "Downloads",
-            "notPublished": "Not published",
-            "coverLabel": "Book cover",
             "fileLabel": "Book file (PDF, EPUB, etc.)",
             "existingFile": "Existing file",
             "clickToAddFile": "Click to add a file",
-            "year": "Year",
-            "description": "Description",
-            "pricing": "Pricing",
-            "paymentLink": "Payment link",
-            "publishThis": "Publish this book"
+            "description": "Description"
         },
         "news": {
             "title": "News",
@@ -363,9 +330,6 @@
             "titleLabel": "Title",
             "category": "Category",
             "date": "Date",
-            "status": "Status",
-            "published": "Published",
-            "draft": "Draft",
             "image": "Cover image",
             "excerpt": "Summary",
             "content": "Content",
@@ -374,8 +338,6 @@
             "coverLabel": "Cover image",
             "clickToAddImage": "Click to add an image",
             "redirectLink": "Redirect link (URL)",
-            "contactEmail": "Contact email",
-            "contactPhone": "Phone",
             "catEvent": "Event"
         },
         "content": {

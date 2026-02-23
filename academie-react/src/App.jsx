@@ -14,7 +14,6 @@ import LoginPage from './pages/LoginPage'
 import AdminPage from './pages/AdminPage'
 import DashboardAdmin from './pages/admin/DashboardAdmin'
 import DictionaryAdmin from './pages/admin/DictionaryAdmin'
-import MembersAdmin from './pages/admin/MembersAdmin'
 import NewsAdmin from './pages/admin/NewsAdmin'
 import ContentAdmin from './pages/admin/ContentAdmin'
 import BooksAdmin from './pages/admin/BooksAdmin'
@@ -69,7 +68,6 @@ function App() {
             <Route path="/admin" element={<AdminPage />}>
               <Route index element={<DashboardAdmin />} />
               <Route path="dictionnaire" element={<DictionaryAdmin />} />
-              <Route path="membres" element={<MembersAdmin />} />
               <Route path="actualites" element={<NewsAdmin />} />
               <Route path="contenu" element={<ContentAdmin />} />
               <Route path="bibliotheque" element={<BooksAdmin />} />
