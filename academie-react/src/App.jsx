@@ -9,6 +9,8 @@ import DictionaryPage from './pages/DictionaryPage'
 import ContactPage from './pages/ContactPage'
 import AboutPage from './pages/AboutPage'
 import LibraryPage from './pages/LibraryPage'
+import LanguageQuestionsPage from './pages/LanguageQuestionsPage'
+import TerminologyPage from './pages/TerminologyPage'
 import NotFoundPage from './pages/NotFoundPage'
 import LoginPage from './pages/LoginPage'
 import AdminPage from './pages/AdminPage'
@@ -59,6 +61,20 @@ function App() {
               <div className="app">
                 <Header />
                 <main><LibraryPage /></main>
+                <Footer />
+              </div>
+            } />
+            <Route path="/questions-langue" element={
+              <div className="app">
+                <Header />
+                <main><LanguageQuestionsPage /></main>
+                <Footer />
+              </div>
+            } />
+            <Route path="/terminologie" element={
+              <div className="app">
+                <Header />
+                <main><TerminologyPage /></main>
                 <Footer />
               </div>
             } />
