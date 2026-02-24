@@ -232,7 +232,7 @@
             "dictionary": "Saggitorde",
             "news": "Kabaruuji",
             "content": "Wiy, Woto wiy",
-            "library": "Deterdu",
+            "library": "Defterdu",
             "viewSite": "Yiy lowre nde",
             "logout": "Seŋto"
         },
@@ -273,7 +273,7 @@
             "title": "Saggitorde",
             "add": "Ɓeydude helmere",
             "edit": "Waylude helmere",
-            "wordPulaar": "Helmere (Pulaar)",
+            "wordPulaar": "Helmere (Fulfulde)",
             "translationFr": "Farayseere",
             "translationEn": "Engeleere",
             "translationFf": "Fulfulde",
@@ -324,7 +324,7 @@
             "description": "Tonngol deftere nde"
         },
         "news": {
-            "title": "Kabaaruuji",
+            "title": "Kabaruuji",
             "add": "Ɓeydude kabaaru",
             "edit": "Waylude kabaaru",
             "titleLabel": "Tiitoonde",
