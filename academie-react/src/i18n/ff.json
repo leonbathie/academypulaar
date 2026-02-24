@@ -114,6 +114,13 @@
         "listenPronunciation": "Heɗto no wowlirtee",
         "listenExample": "Heɗto yeru",
         "allDomains": "Fannu fof",
+        "categories": {
+            "nom": "Innde",
+            "verbe": "Gollal",
+            "adjectif": "Sifaa",
+            "adverbe": "Sifaa-gollal",
+            "expression": "Biyanɗe"
+        },
         "domains": {
             "scientifique": "Inɗe Ganndine",
             "mathematiques": "Hiisowal & Ɓalliwal",

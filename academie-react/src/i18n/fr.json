@@ -114,6 +114,13 @@
         "listenPronunciation": "Écouter la prononciation",
         "listenExample": "Écouter l'exemple",
         "allDomains": "Tous les domaines",
+        "categories": {
+            "nom": "Nom",
+            "verbe": "Verbe",
+            "adjectif": "Adjectif",
+            "adverbe": "Adverbe",
+            "expression": "Expression"
+        },
         "domains": {
             "scientifique": "Noms Scientifiques",
             "mathematiques": "Mathématiques & Physique",

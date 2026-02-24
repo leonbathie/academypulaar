@@ -291,7 +291,7 @@ function DictionaryPage() {
                                             </div>
                                             <div className="word-badges">
                                                 {entry.category && (
-                                                    <span className="word-category">{entry.category}</span>
+                                                    <span className="word-category">{t(`dictionary.categories.${entry.category}`, entry.category)}</span>
                                                 )}
                                                 {entry.domain && (
                                                     <span className="word-domain">{t(`dictionary.domains.${entry.domain}`)}</span>
