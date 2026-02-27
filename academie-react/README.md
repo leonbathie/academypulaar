@@ -1,44 +1,44 @@
-# GoomuFuloWiɗto – Frontend
+# GoomuFuloWidto Frontend
 
-Application React pour GoomuFuloWiɗto – Suudu Ɗemngal Pulaar.
+React single-page application for the GoomuFuloWidto platform.
 
 ## Stack
 
-- **React 19** + **Vite 7**
-- **React Router 7** (SPA routing)
-- **i18next** (internationalisation FR / Pulaar / EN)
-- **CSS3** avec variables CSS et design responsive
+- React 19 with Vite 7
+- React Router 7 (client-side routing)
+- i18next (internationalization: French, Pulaar, English)
+- CSS3 with custom properties and responsive breakpoints
 
 ## Structure
 
 ```
 src/
-├── components/     # Header, Footer, Hero, Dictionary, Features, News, DireNePasDire
-├── pages/          # DictionaryPage, LibraryPage, AboutPage, ContactPage, AdminPage...
-│   └── admin/      # DashboardAdmin, DictionaryAdmin, BooksAdmin, MembersAdmin...
-├── context/        # AuthContext (JWT), ThemeContext (dark/light)
-├── i18n/           # fr.json, ff.json, en.json, index.js
-├── data/           # Données statiques (dictionary.js, members.js)
-├── assets/         # Logo, images
-├── App.jsx         # Routes principales
-├── App.css         # Styles globaux de l'app
-├── index.css       # Variables CSS, reset, typographie
-└── main.jsx        # Point d'entrée React
+├── components/     Reusable UI components (Header, Footer, Hero, Dictionary, etc.)
+├── pages/          Route-level pages (Dictionary, Library, About, Contact, Admin)
+│   └── admin/      Admin sub-pages (Dashboard, Dictionary, Books, Members, News)
+├── context/        React context providers (Auth, Theme)
+├── i18n/           Translation files (fr.json, ff.json, en.json)
+├── data/           Static data modules
+├── assets/         Images and logos
+├── App.jsx         Application routes
+├── App.css         Application-level styles
+├── index.css       CSS variables, reset, typography
+└── main.jsx        Application entry point
 ```
 
-## Développement
+## Development
 
 ```bash
 npm install
-npm run dev       # http://localhost:5173
-npm run build     # Production build dans dist/
-npm run preview   # Prévisualisation du build
+npm run dev         # http://localhost:5173
+npm run build       # Production build output in dist/
+npm run preview     # Preview production build locally
 ```
 
-## Variables d'environnement
+## Environment Variables
 
-Créer `.env.production` pour la production :
+Create `.env.production` for production builds:
 
 ```env
-VITE_API_URL=https://votre-domaine.com
+VITE_API_URL=https://your-domain.com
 ```

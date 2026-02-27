@@ -1,126 +1,110 @@
-# GoomuFuloWiɗto Backend
+﻿# GoomuFuloWidto Backend
 
-API Backend pour le site GoomuFuloWiɗto – Suudu Ɗemngal Pulaar.
+REST API server for the GoomuFuloWidto platform.
 
-## Prérequis
+## Prerequisites
 
-- Node.js 18+
-- PostgreSQL 14+
+- Node.js 18 or later
+- PostgreSQL 14 or later
 
 ## Installation
 
-1. **Configurer PostgreSQL**
+1. Create the database:
 
 ```sql
 CREATE DATABASE goomufulowidto;
 ```
 
-2. **Configurer les variables d'environnement**
-
-Modifiez le fichier `.env` avec vos informations PostgreSQL :
+2. Configure environment variables in `.env`:
 
 ```env
 DATABASE_URL=postgresql://postgres:password@localhost:5432/goomufulowidto
+JWT_SECRET=your-secret-key
 ```
 
-3. **Installer les dépendances**
+3. Install dependencies:
 
 ```bash
 npm install
 ```
 
-4. **Initialiser la base de données**
+4. Initialize the database (creates tables and default admin user):
 
 ```bash
 npm run init-db
 ```
 
-Cela crée les tables et l'utilisateur admin par défaut.
-
-## Démarrage
+## Usage
 
 ```bash
-# Mode développement (avec rechargement automatique)
-npm run dev
-
-# Mode production
-npm start
+npm run dev     # Development mode with auto-reload
+npm start       # Production mode
 ```
 
-Le serveur démarre sur `http://localhost:5000`
-
-## Credentials Admin
-
-- **Username:** admin
-- **Password:** GoomuFulo2024!
-
-> ⚠️ Changez le mot de passe après la première connexion !
+The server starts on `http://localhost:5000`.
 
 ## API Endpoints
 
-### Authentification
+### Authentication
 
-- `POST /api/auth/login` - Connexion
-- `GET /api/auth/me` - Infos utilisateur
-- `POST /api/auth/change-password` - Changer mot de passe
+| Method | Endpoint                    | Description           |
+| ------ | --------------------------- | --------------------- |
+| POST   | /api/auth/login             | Login                 |
+| GET    | /api/auth/me                | Current user info     |
+| POST   | /api/auth/change-password   | Change password       |
 
-### Dictionnaire
+### Dictionary
 
-- `GET /api/dictionary` - Liste des mots
-- `GET /api/dictionary/:id` - Détail d'un mot
-- `POST /api/dictionary` - Ajouter (admin)
-- `PUT /api/dictionary/:id` - Modifier (admin)
-- `DELETE /api/dictionary/:id` - Supprimer (admin)
+| Method | Endpoint              | Description           |
+| ------ | --------------------- | --------------------- |
+| GET    | /api/dictionary       | List all entries      |
+| GET    | /api/dictionary/:id   | Get single entry      |
+| POST   | /api/dictionary       | Create entry (admin)  |
+| PUT    | /api/dictionary/:id   | Update entry (admin)  |
+| DELETE | /api/dictionary/:id   | Delete entry (admin)  |
 
-### Membres
+### Members
 
-- `GET /api/members` - Liste des membres
-- `POST /api/members` - Ajouter (admin)
-- `PUT /api/members/:id` - Modifier (admin)
-- `DELETE /api/members/:id` - Supprimer (admin)
+| Method | Endpoint           | Description           |
+| ------ | ------------------ | --------------------- |
+| GET    | /api/members       | List all members      |
+| POST   | /api/members       | Create member (admin) |
+| PUT    | /api/members/:id   | Update member (admin) |
+| DELETE | /api/members/:id   | Delete member (admin) |
 
-### Actualités
+### News
 
-- `GET /api/news` - Liste des actualités
-- `POST /api/news` - Ajouter (admin)
-- `PUT /api/news/:id` - Modifier (admin)
-- `DELETE /api/news/:id` - Supprimer (admin)
+| Method | Endpoint        | Description             |
+| ------ | --------------- | ----------------------- |
+| GET    | /api/news       | List all articles       |
+| POST   | /api/news       | Create article (admin)  |
+| PUT    | /api/news/:id   | Update article (admin)  |
+| DELETE | /api/news/:id   | Delete article (admin)  |
 
-### Contenu
+### Content
 
-- `GET /api/content/dire` - Liste "Dire, Ne pas dire"
-- `POST /api/content/dire` - Ajouter (admin)
-- `PUT /api/content/dire/:id` - Modifier (admin)
-- `DELETE /api/content/dire/:id` - Supprimer (admin)
+| Method | Endpoint              | Description                    |
+| ------ | --------------------- | ------------------------------ |
+| GET    | /api/content/dire     | List linguistic corrections    |
+| POST   | /api/content/dire     | Create correction (admin)      |
+| PUT    | /api/content/dire/:id | Update correction (admin)      |
+| DELETE | /api/content/dire/:id | Delete correction (admin)      |
 
 ## Structure
 
 ```
 backend/
-├── server.js          # Serveur Express
-├── database.js        # Connexion PostgreSQL
-├── init-database.js   # Script d'initialisation
+├── server.js          Express server entry point
+├── database.js        PostgreSQL connection pool
+├── init-database.js   Database initialization script
 ├── routes/
-│   ├── auth.js        # Routes authentification
-│   ├── dictionary.js  # Routes dictionnaire
-│   ├── members.js     # Routes membres
-│   ├── news.js        # Routes actualités
-│   └── content.js     # Routes contenu
+│   ├── auth.js        Authentication routes
+│   ├── dictionary.js  Dictionary routes
+│   ├── members.js     Members routes
+│   ├── news.js        News routes
+│   ├── books.js       Books routes
+│   └── content.js     Content routes
 ├── middleware/
-│   └── auth.js        # Middleware JWT
-└── uploads/           # Images uploadées
-```
-
-## Frontend Admin
-
-Accédez au panel d'administration via:
-
-```
-http://localhost:5173/login
-```
-
-Puis:
-
-```
-http://localhost:5173/admin
+│   └── auth.js        JWT authentication middleware
+└── uploads/           User-uploaded files
 ```
