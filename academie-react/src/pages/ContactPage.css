@@ -1,5 +1,5 @@
 .contact-page {
-    padding-top: 100px;
+    padding-top: 80px;
     min-height: 100vh;
 }
 
@@ -207,5 +207,24 @@
 
     .contact-form {
         padding: var(--space-xl);
+    }
+}
+
+@media (max-width: 480px) {
+    .contact-page {
+        padding-top: 70px;
+    }
+
+    .contact-page-header {
+        padding: var(--space-xl) var(--space-sm);
+    }
+
+    .contact-form {
+        padding: var(--space-md);
+    }
+
+    .form-group input,
+    .form-group textarea {
+        font-size: 0.95rem;
     }
 }

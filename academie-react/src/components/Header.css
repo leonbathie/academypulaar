@@ -39,8 +39,8 @@
 }
 
 .logo-icon {
-    width: 150px;
-    height: 150px;
+    width: 70px;
+    height: 70px;
     color: var(--primary-gold);
 }
 
@@ -89,8 +89,7 @@
     flex: 1;
     display: flex;
     justify-content: center;
-    max-width: 45%;
-    margin-left: 40px;
+    margin-left: var(--space-lg);
 }
 
 .nav-list {
@@ -178,7 +177,7 @@
     gap: 8px;
     flex-shrink: 0;
     position: relative;
-    margin-left: 60px;
+    margin-left: var(--space-lg);
 }
 
 /* Theme Toggle */
@@ -510,8 +509,8 @@
     }
 
     .logo-icon {
-        width: 120px;
-        height: 120px;
+        width: 55px;
+        height: 55px;
     }
 
     .search-btn {
@@ -547,12 +546,12 @@
     }
 
     .logo-icon {
-        width: 50px;
-        height: 50px;
+        width: 42px;
+        height: 42px;
     }
 
     .logo-title {
-        font-size: 0.8rem;
+        font-size: 0.75rem;
     }
 
     .logo-subtitle {

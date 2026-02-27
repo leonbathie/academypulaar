@@ -1,5 +1,5 @@
 .term-page {
-    padding-top: 100px;
+    padding-top: 80px;
     min-height: 100vh;
 }
 
@@ -56,7 +56,7 @@
 
 .term-domains-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     gap: var(--space-xl);
     margin-top: var(--space-2xl);
 }
@@ -165,5 +165,28 @@
     .term-section h2,
     .term-cta h2 {
         font-size: 1.4rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .term-page {
+        padding-top: 70px;
+    }
+
+    .term-header {
+        padding: var(--space-xl) var(--space-sm);
+    }
+
+    .term-domain-card {
+        padding: var(--space-lg);
+    }
+
+    .term-cta {
+        padding: var(--space-2xl) var(--space-sm);
+    }
+
+    .btn-cta {
+        font-size: 0.95rem;
+        padding: var(--space-sm) var(--space-xl);
     }
 }

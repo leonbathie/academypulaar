@@ -1,6 +1,6 @@
 # GoomuFuloWiɗto Backend
 
-API Backend pour le site GoomuFuloWiɗto - Académie de la langue Pulaar.
+API Backend pour le site GoomuFuloWiɗto – Suudu Ɗemngal Pulaar.
 
 ## Prérequis
 
@@ -59,11 +59,13 @@ Le serveur démarre sur `http://localhost:5000`
 ## API Endpoints
 
 ### Authentification
+
 - `POST /api/auth/login` - Connexion
 - `GET /api/auth/me` - Infos utilisateur
 - `POST /api/auth/change-password` - Changer mot de passe
 
 ### Dictionnaire
+
 - `GET /api/dictionary` - Liste des mots
 - `GET /api/dictionary/:id` - Détail d'un mot
 - `POST /api/dictionary` - Ajouter (admin)
@@ -71,18 +73,21 @@ Le serveur démarre sur `http://localhost:5000`
 - `DELETE /api/dictionary/:id` - Supprimer (admin)
 
 ### Membres
+
 - `GET /api/members` - Liste des membres
 - `POST /api/members` - Ajouter (admin)
 - `PUT /api/members/:id` - Modifier (admin)
 - `DELETE /api/members/:id` - Supprimer (admin)
 
 ### Actualités
+
 - `GET /api/news` - Liste des actualités
 - `POST /api/news` - Ajouter (admin)
 - `PUT /api/news/:id` - Modifier (admin)
 - `DELETE /api/news/:id` - Supprimer (admin)
 
 ### Contenu
+
 - `GET /api/content/dire` - Liste "Dire, Ne pas dire"
 - `POST /api/content/dire` - Ajouter (admin)
 - `PUT /api/content/dire/:id` - Modifier (admin)
@@ -115,6 +120,7 @@ http://localhost:5173/login
 ```
 
 Puis:
+
 ```
 http://localhost:5173/admin
 ```

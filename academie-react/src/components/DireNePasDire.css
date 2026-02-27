@@ -177,13 +177,15 @@
     }
 
     .dire-tabs {
-        flex-direction: column;
-        width: 100%;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: var(--space-xs);
     }
 
     .dire-tab {
         text-align: center;
-        width: 100%;
+        font-size: 0.75rem;
+        padding: var(--space-xs) var(--space-sm);
     }
 
     .dire-card-header {

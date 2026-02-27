@@ -74,9 +74,14 @@
 }
 
 .feature-card:hover {
-    transform: translateY(-8px);
     box-shadow: var(--shadow-lg);
     background: var(--white);
+}
+
+@media (hover: hover) {
+    .feature-card:hover {
+        transform: translateY(-8px);
+    }
 }
 
 .feature-card:hover::before {

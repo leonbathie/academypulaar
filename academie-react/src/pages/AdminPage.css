@@ -126,7 +126,9 @@
 
 .admin-search-bar {
     position: relative;
-    min-width: 300px;
+    min-width: 200px;
+    flex: 1;
+    max-width: 400px;
 }
 
 .admin-search-bar svg {
@@ -754,7 +756,6 @@
     .admin-table {
         display: block;
         overflow-x: auto;
-        white-space: nowrap;
     }
 
     .admin-table th,
@@ -765,6 +766,8 @@
 
     /* Modal responsive */
     .modal {
+        width: calc(100vw - 2rem);
+        max-width: calc(100vw - 2rem);
         max-height: 95vh;
         margin: var(--space-sm);
         border-radius: var(--radius-lg);

@@ -36,3 +36,18 @@ uploads/
 # Logs
 logs/
 *.log
+
+# ============================================
+# Fichiers hérités / scraping (ne pas tracker)
+# ============================================
+www.academie-francaise.fr/
+hts-cache/
+backblue.gif
+fade.gif
+index.html
+*.csv
+TRADUCTIONS-COMPLETES-COMMENTEES*.json
+HELLO*.json
+admin-translations-commented.json
+admin-traductions-reference.json
+pulaar-translation*.json

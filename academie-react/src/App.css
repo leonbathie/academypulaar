@@ -6,6 +6,7 @@
   min-height: 100vh;
   opacity: 1;
   transition: opacity 0.5s ease;
+  overflow-x: hidden;
 }
 
 .app.loaded {

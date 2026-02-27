@@ -175,6 +175,37 @@
     color: var(--primary-gold);
 }
 
+@media (max-width: 480px) {
+    .login-container {
+        padding: var(--space-xl);
+        margin: var(--space-sm);
+        border-radius: var(--radius-lg);
+    }
+
+    .login-logo {
+        width: 100px;
+        height: 100px;
+    }
+
+    .login-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .login-header p {
+        font-size: 0.8rem;
+    }
+
+    .login-form .form-group input {
+        padding: var(--space-sm);
+        font-size: 0.95rem;
+    }
+
+    .login-btn {
+        padding: var(--space-sm) var(--space-lg);
+        font-size: 0.95rem;
+    }
+}
+
 .login-loading {
     min-height: 100vh;
     display: flex;

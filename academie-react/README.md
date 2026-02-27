@@ -1,16 +1,44 @@
-# React + Vite
+# GoomuFuloWiɗto – Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Application React pour GoomuFuloWiɗto – Suudu Ɗemngal Pulaar.
 
-Currently, two official plugins are available:
+## Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **React 19** + **Vite 7**
+- **React Router 7** (SPA routing)
+- **i18next** (internationalisation FR / Pulaar / EN)
+- **CSS3** avec variables CSS et design responsive
 
-## React Compiler
+## Structure
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```
+src/
+├── components/     # Header, Footer, Hero, Dictionary, Features, News, DireNePasDire
+├── pages/          # DictionaryPage, LibraryPage, AboutPage, ContactPage, AdminPage...
+│   └── admin/      # DashboardAdmin, DictionaryAdmin, BooksAdmin, MembersAdmin...
+├── context/        # AuthContext (JWT), ThemeContext (dark/light)
+├── i18n/           # fr.json, ff.json, en.json, index.js
+├── data/           # Données statiques (dictionary.js, members.js)
+├── assets/         # Logo, images
+├── App.jsx         # Routes principales
+├── App.css         # Styles globaux de l'app
+├── index.css       # Variables CSS, reset, typographie
+└── main.jsx        # Point d'entrée React
+```
 
-## Expanding the ESLint configuration
+## Développement
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```bash
+npm install
+npm run dev       # http://localhost:5173
+npm run build     # Production build dans dist/
+npm run preview   # Prévisualisation du build
+```
+
+## Variables d'environnement
+
+Créer `.env.production` pour la production :
+
+```env
+VITE_API_URL=https://votre-domaine.com
+```

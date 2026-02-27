@@ -1,5 +1,5 @@
 .lq-page {
-    padding-top: 100px;
+    padding-top: 80px;
     min-height: 100vh;
 }
 
@@ -101,7 +101,7 @@
 }
 
 .lq-item.open .lq-answer {
-    max-height: 500px;
+    max-height: 1000px;
     padding: 0 var(--space-xl) var(--space-lg);
 }
 
@@ -130,5 +130,25 @@
 
     .lq-answer p {
         padding-left: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .lq-page {
+        padding-top: 70px;
+    }
+
+    .lq-header {
+        padding: var(--space-xl) var(--space-sm);
+    }
+
+    .lq-list {
+        margin: var(--space-xl) auto;
+        padding: 0 var(--space-sm);
+    }
+
+    .lq-question {
+        font-size: 0.9rem;
+        gap: var(--space-sm);
     }
 }

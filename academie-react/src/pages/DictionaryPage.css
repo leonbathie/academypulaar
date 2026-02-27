@@ -1,5 +1,5 @@
 .dictionary-page {
-    padding-top: 100px;
+    padding-top: 80px;
     min-height: 100vh;
 }
 
@@ -170,7 +170,7 @@
 
 .results-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: var(--space-lg);
 }
 
@@ -275,6 +275,39 @@
 
     .results-grid {
         grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .dictionary-page {
+        padding-top: 70px;
+    }
+
+    .dictionary-page-header {
+        padding: var(--space-xl) var(--space-sm);
+    }
+
+    .search-box {
+        padding: var(--space-md);
+    }
+
+    .search-input-full {
+        font-size: 1rem;
+        padding: var(--space-sm) var(--space-sm) var(--space-sm) 44px;
+    }
+
+    .letter-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 0.8rem;
+    }
+
+    .word-card {
+        padding: var(--space-md);
+    }
+
+    .word-term {
+        font-size: 1.25rem;
     }
 }
 
