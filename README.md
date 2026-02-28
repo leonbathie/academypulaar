@@ -81,15 +81,15 @@ npm run dev                 # Starts on http://localhost:5173
 
 ## API
 
-| Method | Endpoint            | Description                |
-| ------ | ------------------- | -------------------------- |
-| POST   | /api/auth/login     | Admin authentication       |
-| GET    | /api/dictionary     | List dictionary entries    |
-| POST   | /api/dictionary     | Add dictionary entry       |
-| GET    | /api/members        | List team members          |
-| GET    | /api/news           | List news articles         |
-| GET    | /api/content/dire   | Linguistic corrections     |
-| GET    | /api/books          | List library books         |
+| Method | Endpoint          | Description             |
+| ------ | ----------------- | ----------------------- |
+| POST   | /api/auth/login   | Admin authentication    |
+| GET    | /api/dictionary   | List dictionary entries |
+| POST   | /api/dictionary   | Add dictionary entry    |
+| GET    | /api/members      | List team members       |
+| GET    | /api/news         | List news articles      |
+| GET    | /api/content/dire | Linguistic corrections  |
+| GET    | /api/books        | List library books      |
 
 See [backend/README.md](backend/README.md) for full API documentation.
 
