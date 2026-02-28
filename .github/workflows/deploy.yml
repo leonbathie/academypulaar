@@ -7,33 +7,40 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
-    
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+    runs-on: self-hosted
 
-    - name: Deploy to VPS
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.SSH_HOST }}
-        username: ${{ secrets.SSH_USER }}
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
-        script: |
+    steps:
+      - name: Pull latest code
+        run: |
           cd /var/www/academypulaar
           git pull origin main
-          
-          # Backend
-          cd backend
+
+      - name: Install backend dependencies
+        run: |
+          cd /var/www/academypulaar/backend
+          npm install --production
+
+      - name: Restart backend (PM2)
+        run: |
+          cd /var/www/academypulaar/backend
+          sudo /usr/lib/node_modules/pm2/bin/pm2 restart academypulaar-api || sudo /usr/lib/node_modules/pm2/bin/pm2 start server.js --name academypulaar-api
+
+      - name: Install frontend dependencies
+        run: |
+          cd /var/www/academypulaar/academie-react
           npm install
-          sudo pm2 restart academypulaar-api || sudo pm2 start server.js --name academypulaar-api
-          
-          # Frontend
-          cd ../academie-react
-          npm install
+
+      - name: Build frontend
+        run: |
+          cd /var/www/academypulaar/academie-react
           npm run build
-          
-          # Restart Nginx
-          sudo systemctl reload nginx
-          
+
+      - name: Reload Nginx
+        run: sudo systemctl reload nginx
+
+      - name: Verify deployment
+        run: |
+          sleep 2
+          curl -s -o /dev/null -w "HTTP Status: %{http_code}" http://localhost
+          echo ""
           echo "Deployment complete!"
