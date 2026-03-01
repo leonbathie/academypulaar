@@ -8,7 +8,7 @@ import './Header.css'
 const languages = [
     { code: 'fr', name: 'Français', flag: '🇫🇷' },
     { code: 'en', name: 'English', flag: '🇬🇧' },
-    { code: 'ff', name: 'Pulaar', flag: '🌍' }
+    { code: 'ff', name: 'Fulfulde', flag: '🌍' }
 ]
 
 function Header() {
