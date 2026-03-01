@@ -6,8 +6,8 @@ import logoGif from '../assets/logo-academie.gif'
 import './Header.css'
 
 const languages = [
-    { code: 'fr', name: 'Français', flag: '🇫🇷' },
-    { code: 'en', name: 'English', flag: '🇬🇧' },
+    { code: 'fr', name: 'Français', flag: 'FR' },
+    { code: 'en', name: 'English', flag: 'GB' },
     { code: 'ff', name: 'Fulfulde', flag: 'FF' }
 ]
 
