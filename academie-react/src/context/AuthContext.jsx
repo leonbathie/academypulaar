@@ -98,7 +98,7 @@ export function useAuth() {
 export function useApi() {
     const { token } = useAuth()
 
-    const apiRequest = async (endpoint, options = {}) => {
+    const apiRequest = async (endpoint, options = {}, retries = 2) => {
         const headers = {
             'Content-Type': 'application/json',
             ...options.headers
@@ -108,18 +108,34 @@ export function useApi() {
             headers['Authorization'] = `Bearer ${token}`
         }
 
-        const response = await fetch(`${API_BASE}${endpoint}`, {
-            ...options,
-            headers
-        })
+        for (let attempt = 0; attempt <= retries; attempt++) {
+            try {
+                const response = await fetch(`${API_BASE}${endpoint}`, {
+                    ...options,
+                    headers
+                })
 
-        const data = await response.json()
+                // Retry on 408 (connection reuse race condition)
+                if (response.status === 408 && attempt < retries) {
+                    await new Promise(r => setTimeout(r, 300 * (attempt + 1)))
+                    continue
+                }
 
-        if (!response.ok) {
-            throw new Error(data.error || 'Erreur API')
+                const data = await response.json()
+
+                if (!response.ok) {
+                    throw new Error(data.error || 'Erreur API')
+                }
+
+                return data
+            } catch (error) {
+                if (attempt < retries && (error.name === 'TypeError' || error.message?.includes('408'))) {
+                    await new Promise(r => setTimeout(r, 300 * (attempt + 1)))
+                    continue
+                }
+                throw error
+            }
         }
-
-        return data
     }
 
     return { apiRequest, token }

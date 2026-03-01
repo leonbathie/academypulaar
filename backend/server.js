@@ -88,6 +88,7 @@ const server = app.listen(PORT, () => {
 // Solution: Node keepAliveTimeout MUST be > Nginx keepalive_timeout
 server.keepAliveTimeout = 120000    // 120s (Nginx default: 75s)
 server.headersTimeout = 125000      // Must be > keepAliveTimeout
-server.requestTimeout = 0           // Disable request timeout (Nginx handles it)
+server.requestTimeout = 0           // Disable request timeout
+server.timeout = 0                  // Disable socket timeout completely
 
 module.exports = app

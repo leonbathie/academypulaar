@@ -99,13 +99,19 @@ function BooksAdmin() {
                 ? `${API_URL}/api/books/${editingBook.id}`
                 : `${API_URL}/api/books`
 
-            const response = await fetch(url, {
-                method: editingBook ? 'PUT' : 'POST',
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                },
-                body: formDataToSend
-            })
+            // Retry logic for 408 (connection reuse timeout)
+            let response
+            for (let attempt = 0; attempt < 3; attempt++) {
+                response = await fetch(url, {
+                    method: editingBook ? 'PUT' : 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: formDataToSend
+                })
+                if (response.status !== 408) break
+                await new Promise(r => setTimeout(r, 500 * (attempt + 1)))
+            }
 
             if (response.ok) {
                 loadBooks()
