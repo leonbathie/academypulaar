@@ -33,7 +33,7 @@ function Header() {
         {
             title: t('nav.language'),
             submenu: [
-                { title: t('nav.sayDontSay'), link: "/#dire" }
+                { title: t('nav.sayDontSay'), link: "/dire" }
             ]
         },
         {

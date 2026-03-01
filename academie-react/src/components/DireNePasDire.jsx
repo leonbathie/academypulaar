@@ -69,13 +69,9 @@ function DireNePasDire() {
 
     const currentArticle = articles[activeIndex] || null
 
-    // Ne pas afficher la section si pas d'articles
-    if (!loading && articles.length === 0) {
-        return null
-    }
-
     return (
         <section className="dire-section" id="dire">
+            {!loading && articles.length === 0 ? null : (
             <div className="container">
                 <div className="dire-layout">
                     <div className="dire-content">
@@ -143,6 +139,7 @@ function DireNePasDire() {
                     )}
                 </div>
             </div>
+            )}
         </section>
     )
 }
