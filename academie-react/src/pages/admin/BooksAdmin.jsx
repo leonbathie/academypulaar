@@ -15,6 +15,8 @@ function BooksAdmin() {
     const fileInputRef = useRef(null)
     const [submitting, setSubmitting] = useState(false)
     const [submitError, setSubmitError] = useState(null)
+    const [uploadProgress, setUploadProgress] = useState(0)
+    const xhrRef = useRef(null)
     const [formData, setFormData] = useState({
         title_fr: '',
         title_en: '',
@@ -97,6 +99,7 @@ function BooksAdmin() {
 
         setSubmitting(true)
         setSubmitError(null)
+        setUploadProgress(0)
 
         try {
             const formDataToSend = new FormData()
@@ -104,9 +107,10 @@ function BooksAdmin() {
                 formDataToSend.append(key, formData[key])
             })
 
+            const hasFile = !!selectedFile
             if (selectedFile) {
                 formDataToSend.append('file', selectedFile)
-                console.log('[BooksAdmin] File attached:', selectedFile.name, selectedFile.size, 'bytes')
+                console.log('[BooksAdmin] File attached:', selectedFile.name, selectedFile.size, 'bytes', `(${(selectedFile.size / 1024 / 1024).toFixed(1)} Mo)`)
             } else if (editingBook?.file_path) {
                 formDataToSend.append('existingFile', editingBook.file_path)
                 formDataToSend.append('existingFileSize', editingBook.file_size)
@@ -118,95 +122,102 @@ function BooksAdmin() {
                 : `${API_URL}/api/books`
             const method = editingBook ? 'PUT' : 'POST'
 
-            console.log('[BooksAdmin] Sending', method, url)
+            console.log('[BooksAdmin] Sending', method, url, hasFile ? '(with file upload)' : '(no file)')
 
-            // Retry logic for 408/network errors
-            let response
-            let lastError
-            for (let attempt = 0; attempt < 3; attempt++) {
-                try {
-                    if (attempt > 0) {
-                        console.log(`[BooksAdmin] Retry attempt ${attempt + 1}/3`)
-                    }
+            // Use XMLHttpRequest for upload progress tracking
+            const result = await new Promise((resolve, reject) => {
+                const xhr = new XMLHttpRequest()
+                xhrRef.current = xhr
 
-                    // AbortController with 30s timeout
-                    const controller = new AbortController()
-                    const timeoutId = setTimeout(() => {
-                        console.log('[BooksAdmin] Request timeout after 30s, aborting')
-                        controller.abort()
-                    }, 30000)
+                // 5 minutes for file uploads, 60s for text-only
+                const timeoutMs = hasFile ? 300000 : 60000
+                xhr.timeout = timeoutMs
+                console.log(`[BooksAdmin] Timeout set to ${timeoutMs / 1000}s`)
 
-                    response = await fetch(url, {
-                        method,
-                        headers: {
-                            'Authorization': `Bearer ${token}`
-                        },
-                        body: formDataToSend,
-                        signal: controller.signal
-                    })
-
-                    clearTimeout(timeoutId)
-                    console.log('[BooksAdmin] Response received:', response.status, response.statusText)
-
-                    if (response.status !== 408) break
-                    console.log('[BooksAdmin] Got 408, will retry...')
-                    lastError = new Error('408 Request Timeout')
-                    await new Promise(r => setTimeout(r, 500 * (attempt + 1)))
-                } catch (fetchError) {
-                    lastError = fetchError
-                    console.error(`[BooksAdmin] Fetch error on attempt ${attempt + 1}:`, fetchError.name, fetchError.message)
-                    if (fetchError.name === 'AbortError') {
-                        // Timeout - retry
-                        if (attempt < 2) {
-                            await new Promise(r => setTimeout(r, 1000 * (attempt + 1)))
-                            continue
+                // Upload progress
+                xhr.upload.onprogress = (event) => {
+                    if (event.lengthComputable) {
+                        const pct = Math.round((event.loaded / event.total) * 100)
+                        setUploadProgress(pct)
+                        if (pct % 10 === 0) {
+                            console.log(`[BooksAdmin] Upload progress: ${pct}% (${(event.loaded / 1024 / 1024).toFixed(1)}/${(event.total / 1024 / 1024).toFixed(1)} Mo)`)
                         }
-                    } else if (attempt < 2) {
-                        await new Promise(r => setTimeout(r, 500 * (attempt + 1)))
-                        continue
                     }
-                    throw fetchError
                 }
-            }
 
-            if (!response) {
-                throw lastError || new Error('Aucune réponse du serveur après 3 tentatives')
-            }
+                xhr.upload.onload = () => {
+                    console.log('[BooksAdmin] Upload complete, waiting for server response...')
+                    setUploadProgress(100)
+                }
 
-            if (response.ok) {
+                xhr.onload = () => {
+                    console.log('[BooksAdmin] Response received:', xhr.status, xhr.statusText)
+                    resolve({ status: xhr.status, responseText: xhr.responseText })
+                }
+
+                xhr.onerror = () => {
+                    console.error('[BooksAdmin] XHR network error')
+                    reject(new Error('Erreur réseau. Vérifiez votre connexion.'))
+                }
+
+                xhr.ontimeout = () => {
+                    console.error(`[BooksAdmin] XHR timeout after ${timeoutMs / 1000}s`)
+                    reject(new Error(`L'envoi a expiré après ${timeoutMs / 1000}s. Le fichier est peut-être trop gros pour votre connexion.`))
+                }
+
+                xhr.onabort = () => {
+                    console.log('[BooksAdmin] XHR aborted by user')
+                    reject(new Error('Envoi annulé'))
+                }
+
+                xhr.open(method, url)
+                xhr.setRequestHeader('Authorization', `Bearer ${token}`)
+                xhr.send(formDataToSend)
+            })
+
+            xhrRef.current = null
+
+            if (result.status >= 200 && result.status < 300) {
                 console.log('[BooksAdmin] Success!')
                 await loadBooks()
                 closeModal()
             } else {
-                let errorMsg = `Erreur ${response.status}`
-                if (response.status === 413) {
+                let errorMsg = `Erreur ${result.status}`
+                if (result.status === 413) {
                     errorMsg = 'Le fichier est trop volumineux (max 100 Mo)'
-                } else if (response.status === 401) {
+                } else if (result.status === 401) {
                     errorMsg = 'Session expirée. Reconnectez-vous.'
-                } else if (response.status === 403) {
+                } else if (result.status === 403) {
                     errorMsg = 'Accès non autorisé'
+                } else if (result.status === 408) {
+                    errorMsg = 'Le serveur a mis trop de temps à répondre. Réessayez.'
                 } else {
                     try {
-                        const errorData = await response.json()
+                        const errorData = JSON.parse(result.responseText)
                         console.error('[BooksAdmin] Server error:', errorData)
                         errorMsg = errorData.error || errorData.message || errorMsg
                     } catch {
-                        const text = await response.text()
-                        console.error('[BooksAdmin] Non-JSON response:', text.substring(0, 200))
+                        console.error('[BooksAdmin] Non-JSON response:', result.responseText?.substring(0, 200))
                     }
                 }
                 setSubmitError(errorMsg)
                 alert(errorMsg)
             }
         } catch (error) {
-            console.error('[BooksAdmin] handleSubmit error:', error.name, error.message, error.stack)
-            const errorMsg = error.name === 'AbortError'
-                ? 'La requête a expiré (30s). Vérifiez votre connexion.'
-                : `Erreur: ${error.message}`
-            setSubmitError(errorMsg)
-            alert(errorMsg)
+            console.error('[BooksAdmin] handleSubmit error:', error.message)
+            setSubmitError(error.message)
+            alert(error.message)
         } finally {
+            xhrRef.current = null
             setSubmitting(false)
+            setUploadProgress(0)
+        }
+    }
+
+    const cancelUpload = () => {
+        if (xhrRef.current) {
+            console.log('[BooksAdmin] User cancelled upload')
+            xhrRef.current.abort()
         }
     }
 
@@ -447,18 +458,43 @@ function BooksAdmin() {
                                 )}
 
                             </div>
-                            <div className="modal-footer">
+                            <div className="modal-footer" style={{ flexDirection: 'column', gap: '0.75rem' }}>
+                                {submitting && uploadProgress > 0 && (
+                                    <div style={{ width: '100%' }}>
+                                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', marginBottom: '4px' }}>
+                                            <span>{uploadProgress < 100 ? `Envoi du fichier... ${uploadProgress}%` : 'Traitement en cours...'}</span>
+                                            <span>{uploadProgress}%</span>
+                                        </div>
+                                        <div style={{ width: '100%', height: '8px', background: '#e0e0e0', borderRadius: '4px', overflow: 'hidden' }}>
+                                            <div style={{
+                                                width: `${uploadProgress}%`,
+                                                height: '100%',
+                                                background: uploadProgress < 100 ? '#2196F3' : '#4CAF50',
+                                                borderRadius: '4px',
+                                                transition: 'width 0.3s ease'
+                                            }} />
+                                        </div>
+                                    </div>
+                                )}
                                 {submitError && (
-                                    <div style={{ color: 'red', fontSize: '0.85rem', marginRight: 'auto', maxWidth: '60%' }}>
+                                    <div style={{ color: 'red', fontSize: '0.85rem', width: '100%', textAlign: 'left' }}>
                                         {submitError}
                                     </div>
                                 )}
-                                <button type="button" className="btn btn-secondary" onClick={closeModal} disabled={submitting}>
-                                    {t('admin.common.cancel')}
-                                </button>
-                                <button type="submit" className="btn btn-primary" disabled={submitting}>
-                                    {submitting ? '⏳ Envoi en cours...' : (editingBook ? t('admin.common.save') : t('admin.common.add'))}
-                                </button>
+                                <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'flex-end', width: '100%' }}>
+                                    <button type="button" className="btn btn-secondary" onClick={submitting ? cancelUpload : closeModal}>
+                                        {submitting ? '✖ Annuler l\'envoi' : t('admin.common.cancel')}
+                                    </button>
+                                    <button type="submit" className="btn btn-primary" disabled={submitting}>
+                                        {submitting
+                                            ? (uploadProgress > 0 && uploadProgress < 100
+                                                ? `⏳ Envoi ${uploadProgress}%`
+                                                : uploadProgress >= 100
+                                                    ? '⏳ Traitement...'
+                                                    : '⏳ Préparation...')
+                                            : (editingBook ? t('admin.common.save') : t('admin.common.add'))}
+                                    </button>
+                                </div>
                             </div>
                         </form>
                     </div>
