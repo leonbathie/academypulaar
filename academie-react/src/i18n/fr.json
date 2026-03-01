@@ -9,7 +9,9 @@
         "search": "Rechercher",
         "submit": "Envoyer",
         "contact": "Contact",
-        "library": "Bibliothèque"
+        "library": "Bibliothèque",
+        "noNewsAvailable": "Aucune actualité disponible",
+        "readLess": "Réduire"
     },
     "nav": {
         "home": "Accueil",

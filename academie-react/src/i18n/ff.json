@@ -9,7 +9,9 @@
         "search": "Yiylo",
         "submit": "Neldu",
         "contact": "Jokkondir",
-        "library": "Defterdu"
+        "library": "Defterdu",
+        "noNewsAvailable": "Alaa kabaaru goodɗo",
+        "readLess": "Ustu"
     },
     "nav": {
         "home": "Jaɓɓorgo",

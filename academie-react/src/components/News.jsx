@@ -133,7 +133,7 @@ function News() {
                                             onClick={() => toggleExpand(item.id)}
                                         >
                                             {isExpanded
-                                                ? (i18n.language === 'en' ? 'Show less' : 'Réduire')
+                                                ? t('common.readLess')
                                                 : t('common.readMore')
                                             }
                                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -147,7 +147,7 @@ function News() {
                                         <div className="news-contact">
                                             {item.link && (
                                                 <a href={item.link} target="_blank" rel="noopener noreferrer" className="news-external-link">
-                                                    🔗 {i18n.language === 'en' ? 'View more' : 'En savoir plus'}
+                                                    🔗 {t('common.learnMore')}
                                                 </a>
                                             )}
                                             {item.contact_email && (
@@ -168,7 +168,7 @@ function News() {
                     </div>
                 ) : (
                     <div style={{ textAlign: 'center', padding: '3rem', color: 'var(--medium-gray)' }}>
-                        <p>{i18n.language === 'en' ? 'No news available' : 'Aucune actualité disponible'}</p>
+                        <p>{t('common.noNewsAvailable')}</p>
                     </div>
                 )}
             </div>

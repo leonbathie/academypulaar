@@ -9,7 +9,9 @@
         "search": "Search",
         "submit": "Submit",
         "contact": "Contact",
-        "library": "Library"
+        "library": "Library",
+        "noNewsAvailable": "No news available",
+        "readLess": "Show less"
     },
     "nav": {
         "home": "Home",
