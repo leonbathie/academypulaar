@@ -5,78 +5,67 @@ on:
     branches:
       - main
 
-env:
-  PM2_BIN: /usr/lib/node_modules/pm2/bin/pm2
-  APP_DIR: /var/www/academypulaar
-
 jobs:
   deploy:
     runs-on: self-hosted
 
     steps:
-      # ── 0. Grant gha passwordless sudo (one-time, via PM2 running as root) ──
       - name: Setup sudo for gha (one-time)
         continue-on-error: true
         timeout-minutes: 1
         run: |
+          PM2=/usr/lib/node_modules/pm2/bin/pm2
           if sudo -n true 2>/dev/null; then
-            echo "sudo already configured for gha"
+            echo "sudo already configured"
           else
-            echo "Granting gha passwordless sudo..."
-            cat > /tmp/setup-sudoers.sh << 'ENDSCRIPT'
-#!/bin/bash
-echo 'gha ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/gha-deploy
-chmod 440 /etc/sudoers.d/gha-deploy
-visudo -cf /etc/sudoers.d/gha-deploy && echo "sudoers OK" || rm -f /etc/sudoers.d/gha-deploy
-ENDSCRIPT
+            echo "Granting gha passwordless sudo via PM2..."
+            printf '#!/bin/bash\necho "gha ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/gha-deploy\nchmod 440 /etc/sudoers.d/gha-deploy\nvisudo -cf /etc/sudoers.d/gha-deploy && echo "sudoers OK" || rm -f /etc/sudoers.d/gha-deploy\n' > /tmp/setup-sudoers.sh
             chmod +x /tmp/setup-sudoers.sh
-            sudo $PM2_BIN delete sudoers-fix 2>/dev/null || true
-            sudo $PM2_BIN start /tmp/setup-sudoers.sh --name sudoers-fix --interpreter bash --no-autorestart
+            sudo $PM2 delete sudoers-fix 2>/dev/null || true
+            sudo $PM2 start /tmp/setup-sudoers.sh --name sudoers-fix --interpreter bash --no-autorestart
             sleep 5
-            sudo $PM2_BIN logs sudoers-fix --lines 20 --nostream 2>&1 || true
-            sudo $PM2_BIN delete sudoers-fix 2>&1 || true
+            sudo $PM2 logs sudoers-fix --lines 20 --nostream 2>&1 || true
+            sudo $PM2 delete sudoers-fix 2>&1 || true
           fi
 
-      # ── 1. Pull code ──
       - name: Pull latest code
         run: |
-          cd $APP_DIR
+          cd /var/www/academypulaar
           git pull origin main
 
-      # ── 2. Backend ──
       - name: Install backend dependencies
         run: |
-          cd $APP_DIR/backend
+          cd /var/www/academypulaar/backend
           npm install --production
 
       - name: Run database migrations
         run: |
-          cd $APP_DIR/backend
+          cd /var/www/academypulaar/backend
           node init-database.js
 
       - name: Restart backend (PM2)
         run: |
-          cd $APP_DIR/backend
-          sudo $PM2_BIN restart academypulaar-api || sudo $PM2_BIN start server.js --name academypulaar-api
+          cd /var/www/academypulaar/backend
+          PM2=/usr/lib/node_modules/pm2/bin/pm2
+          sudo $PM2 restart academypulaar-api || sudo $PM2 start server.js --name academypulaar-api
 
-      # ── 3. Frontend ──
       - name: Install frontend dependencies
         run: |
-          cd $APP_DIR/academie-react
+          cd /var/www/academypulaar/academie-react
           npm install
 
       - name: Build frontend
         run: |
-          cd $APP_DIR/academie-react
+          cd /var/www/academypulaar/academie-react
           npm run build
 
-      # ── 4. Nginx (clean sudo if available, PM2 fallback otherwise) ──
       - name: Update Nginx config
         timeout-minutes: 2
         run: |
+          PM2=/usr/lib/node_modules/pm2/bin/pm2
           if sudo -n true 2>/dev/null; then
             echo "Using direct sudo..."
-            sudo cp $APP_DIR/nginx-academypulaar.conf /etc/nginx/sites-available/academypulaar
+            sudo cp /var/www/academypulaar/nginx-academypulaar.conf /etc/nginx/sites-available/academypulaar
             sudo ln -sf /etc/nginx/sites-available/academypulaar /etc/nginx/sites-enabled/academypulaar
             sudo rm -f /etc/nginx/sites-enabled/default
             sudo sed -i '/client_max_body_size/d' /etc/nginx/nginx.conf
@@ -85,34 +74,19 @@ ENDSCRIPT
             sudo systemctl reload nginx
             echo "Nginx configured via sudo"
           else
-            echo "Sudo unavailable, using PM2 fallback..."
-            cat > /tmp/fix-nginx.sh << 'ENDSCRIPT'
-#!/bin/bash
-set -e
-cp /var/www/academypulaar/nginx-academypulaar.conf /etc/nginx/sites-available/academypulaar
-ln -sf /etc/nginx/sites-available/academypulaar /etc/nginx/sites-enabled/academypulaar
-rm -f /etc/nginx/sites-enabled/default
-sed -i '/client_max_body_size/d' /etc/nginx/nginx.conf
-sed -i '/http {/a\    client_max_body_size 100M;' /etc/nginx/nginx.conf
-nginx -t && systemctl reload nginx
-echo "Nginx configured via PM2"
-ENDSCRIPT
+            echo "Sudo not available, using PM2 fallback..."
+            printf '#!/bin/bash\nset -e\ncp /var/www/academypulaar/nginx-academypulaar.conf /etc/nginx/sites-available/academypulaar\nln -sf /etc/nginx/sites-available/academypulaar /etc/nginx/sites-enabled/academypulaar\nrm -f /etc/nginx/sites-enabled/default\nsed -i "/client_max_body_size/d" /etc/nginx/nginx.conf\nsed -i "/http {/a\\    client_max_body_size 100M;" /etc/nginx/nginx.conf\nnginx -t && systemctl reload nginx\necho "Nginx configured via PM2"\n' > /tmp/fix-nginx.sh
             chmod +x /tmp/fix-nginx.sh
-            sudo $PM2_BIN delete nginx-fix 2>/dev/null || true
-            sudo $PM2_BIN start /tmp/fix-nginx.sh --name nginx-fix --interpreter bash --no-autorestart
+            sudo $PM2 delete nginx-fix 2>/dev/null || true
+            sudo $PM2 start /tmp/fix-nginx.sh --name nginx-fix --interpreter bash --no-autorestart
             sleep 10
-            sudo $PM2_BIN logs nginx-fix --lines 50 --nostream 2>&1 || true
-            sudo $PM2_BIN delete nginx-fix 2>&1 || true
+            sudo $PM2 logs nginx-fix --lines 50 --nostream 2>&1 || true
+            sudo $PM2 delete nginx-fix 2>&1 || true
           fi
 
-      # ── 5. Verify ──
       - name: Verify deployment
         run: |
           sleep 2
-          echo "--- Frontend ---"
-          curl -s -o /dev/null -w "HTTP %{http_code}" http://localhost && echo ""
-          echo "--- API ---"
-          curl -s -o /dev/null -w "HTTP %{http_code}" http://localhost:5000/api/health && echo ""
-          echo "--- Nginx config test ---"
-          sudo nginx -t 2>&1 || sudo $PM2_BIN start bash --no-autorestart -- -c "nginx -t" 2>&1
+          curl -sf -o /dev/null http://localhost && echo "Frontend: OK" || echo "Frontend: FAIL"
+          curl -sf -o /dev/null http://localhost:5000/api/health && echo "API: OK" || echo "API: FAIL"
           echo "Deployment complete!"
