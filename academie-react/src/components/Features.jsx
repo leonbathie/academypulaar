@@ -14,7 +14,7 @@ function Features() {
             ),
             titleKey: "features.institution.title",
             descriptionKey: "features.institution.description",
-            link: "#institution"
+            link: "/a-propos"
         },
         {
             icon: (
