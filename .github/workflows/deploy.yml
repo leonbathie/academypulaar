@@ -42,34 +42,44 @@ jobs:
 
       - name: Update Nginx config
         run: |
-          # Find existing nginx config for this site
-          NGINX_CONF=""
-          for f in /etc/nginx/sites-enabled/* /etc/nginx/conf.d/* /etc/nginx/sites-available/*; do
-            if [ -f "$f" ] && grep -q "academypulaar\|173.249.2.195\|goomunfulawidto" "$f" 2>/dev/null; then
-              NGINX_CONF="$f"
-              break
-            fi
-          done
-          
-          if [ -z "$NGINX_CONF" ]; then
-            # No existing config found, use sites-available
-            NGINX_CONF="/etc/nginx/sites-available/academypulaar"
-          fi
-          
-          echo "Updating Nginx config at: $NGINX_CONF"
-          sudo cp /var/www/academypulaar/nginx-academypulaar.conf "$NGINX_CONF"
-          
-          # Ensure symlink in sites-enabled if using sites-available
-          if echo "$NGINX_CONF" | grep -q "sites-available"; then
-            sudo ln -sf "$NGINX_CONF" /etc/nginx/sites-enabled/$(basename "$NGINX_CONF")
-          fi
-          
-          # Also ensure client_max_body_size is set globally as fallback
+          # Ensure client_max_body_size is in nginx.conf globally (most reliable)
           if ! grep -q "client_max_body_size" /etc/nginx/nginx.conf; then
-            sudo sed -i '/http {/a \\tclient_max_body_size 100M;' /etc/nginx/nginx.conf
+            sudo sed -i '/http\s*{/a \\tclient_max_body_size 100M;' /etc/nginx/nginx.conf
+            echo "Added client_max_body_size to nginx.conf globally"
+          else
+            echo "client_max_body_size already in nginx.conf"
           fi
           
+          # Copy our site config to ALL possible locations
+          sudo cp /var/www/academypulaar/nginx-academypulaar.conf /etc/nginx/sites-available/academypulaar 2>/dev/null || true
+          sudo ln -sf /etc/nginx/sites-available/academypulaar /etc/nginx/sites-enabled/academypulaar 2>/dev/null || true
+          
+          # Also overwrite default if it exists and contains our site
+          if [ -f /etc/nginx/sites-enabled/default ]; then
+            if grep -q "academypulaar\|173.249.2.195" /etc/nginx/sites-enabled/default 2>/dev/null; then
+              sudo cp /var/www/academypulaar/nginx-academypulaar.conf /etc/nginx/sites-enabled/default
+              echo "Replaced default with our config"
+            else
+              # Default exists but is not our site - remove it to avoid conflicts
+              sudo rm -f /etc/nginx/sites-enabled/default
+              echo "Removed default config to avoid conflicts"
+            fi
+          fi
+          
+          # Also handle conf.d directory
+          if [ -d /etc/nginx/conf.d ]; then
+            for f in /etc/nginx/conf.d/*.conf; do
+              if [ -f "$f" ] && grep -q "academypulaar\|173.249.2.195" "$f" 2>/dev/null; then
+                sudo cp /var/www/academypulaar/nginx-academypulaar.conf "$f"
+                echo "Updated $f"
+              fi
+            done
+          fi
+          
+          echo "--- Nginx config test ---"
           sudo nginx -t
+          echo "--- Active server blocks ---"
+          sudo grep -r "server_name\|client_max_body_size" /etc/nginx/sites-enabled/ /etc/nginx/conf.d/ /etc/nginx/nginx.conf 2>/dev/null || true
 
       - name: Reload Nginx
         run: sudo systemctl reload nginx
