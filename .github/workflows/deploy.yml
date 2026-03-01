@@ -42,8 +42,33 @@ jobs:
 
       - name: Update Nginx config
         run: |
-          sudo cp /var/www/academypulaar/nginx-academypulaar.conf /etc/nginx/sites-available/academypulaar
-          sudo ln -sf /etc/nginx/sites-available/academypulaar /etc/nginx/sites-enabled/academypulaar
+          # Find existing nginx config for this site
+          NGINX_CONF=""
+          for f in /etc/nginx/sites-enabled/* /etc/nginx/conf.d/* /etc/nginx/sites-available/*; do
+            if [ -f "$f" ] && grep -q "academypulaar\|173.249.2.195\|goomunfulawidto" "$f" 2>/dev/null; then
+              NGINX_CONF="$f"
+              break
+            fi
+          done
+          
+          if [ -z "$NGINX_CONF" ]; then
+            # No existing config found, use sites-available
+            NGINX_CONF="/etc/nginx/sites-available/academypulaar"
+          fi
+          
+          echo "Updating Nginx config at: $NGINX_CONF"
+          sudo cp /var/www/academypulaar/nginx-academypulaar.conf "$NGINX_CONF"
+          
+          # Ensure symlink in sites-enabled if using sites-available
+          if echo "$NGINX_CONF" | grep -q "sites-available"; then
+            sudo ln -sf "$NGINX_CONF" /etc/nginx/sites-enabled/$(basename "$NGINX_CONF")
+          fi
+          
+          # Also ensure client_max_body_size is set globally as fallback
+          if ! grep -q "client_max_body_size" /etc/nginx/nginx.conf; then
+            sudo sed -i '/http {/a \\tclient_max_body_size 100M;' /etc/nginx/nginx.conf
+          fi
+          
           sudo nginx -t
 
       - name: Reload Nginx
