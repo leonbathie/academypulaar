@@ -129,10 +129,10 @@ function BooksAdmin() {
                 const xhr = new XMLHttpRequest()
                 xhrRef.current = xhr
 
-                // 5 minutes for file uploads, 60s for text-only
-                const timeoutMs = hasFile ? 300000 : 60000
+                // 20 minutes for file uploads, 60s for text-only
+                const timeoutMs = hasFile ? 1200000 : 60000
                 xhr.timeout = timeoutMs
-                console.log(`[BooksAdmin] Timeout set to ${timeoutMs / 1000}s`)
+                console.log(`[BooksAdmin] Timeout set to ${timeoutMs / 1000}s (${hasFile ? '20min for file' : '60s no file'})`)
 
                 // Upload progress
                 xhr.upload.onprogress = (event) => {
