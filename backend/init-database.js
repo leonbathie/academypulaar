@@ -27,13 +27,26 @@ async function initDatabase() {
                 translation_en TEXT,
                 translation_ff TEXT,
                 category VARCHAR(50),
+                domain VARCHAR(100),
                 example TEXT,
                 example_translation TEXT,
+                audio_word VARCHAR(255),
+                audio_example VARCHAR(255),
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
         `)
         console.log('✅ Table dictionary créée')
+
+        // Ajouter les colonnes manquantes si elles n'existent pas (migration)
+        const dictionaryMigrations = [
+            'ALTER TABLE dictionary ADD COLUMN IF NOT EXISTS domain VARCHAR(100)',
+            'ALTER TABLE dictionary ADD COLUMN IF NOT EXISTS audio_word VARCHAR(255)',
+            'ALTER TABLE dictionary ADD COLUMN IF NOT EXISTS audio_example VARCHAR(255)'
+        ]
+        for (const sql of dictionaryMigrations) {
+            await pool.query(sql).catch(() => {})
+        }
 
         // Table des membres
         await pool.query(`
@@ -49,28 +62,78 @@ async function initDatabase() {
                 bio_ff TEXT,
                 image VARCHAR(255),
                 joined VARCHAR(20),
+                facebook VARCHAR(255),
+                twitter VARCHAR(255),
+                linkedin VARCHAR(255),
+                website VARCHAR(255),
+                email VARCHAR(255),
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
         `)
         console.log('✅ Table members créée')
 
+        // Ajouter les colonnes manquantes si elles n'existent pas (migration)
+        const membersMigrations = [
+            'ALTER TABLE members ADD COLUMN IF NOT EXISTS facebook VARCHAR(255)',
+            'ALTER TABLE members ADD COLUMN IF NOT EXISTS twitter VARCHAR(255)',
+            'ALTER TABLE members ADD COLUMN IF NOT EXISTS linkedin VARCHAR(255)',
+            'ALTER TABLE members ADD COLUMN IF NOT EXISTS website VARCHAR(255)',
+            'ALTER TABLE members ADD COLUMN IF NOT EXISTS email VARCHAR(255)'
+        ]
+        for (const sql of membersMigrations) {
+            await pool.query(sql).catch(() => {})
+        }
+
         // Table des actualités
         await pool.query(`
             CREATE TABLE IF NOT EXISTS news (
                 id SERIAL PRIMARY KEY,
                 title VARCHAR(255) NOT NULL,
+                title_fr VARCHAR(255),
+                title_en VARCHAR(255),
+                title_ff VARCHAR(255),
                 excerpt TEXT,
+                excerpt_fr TEXT,
+                excerpt_en TEXT,
+                excerpt_ff TEXT,
                 content TEXT,
+                content_fr TEXT,
+                content_en TEXT,
+                content_ff TEXT,
                 category VARCHAR(50),
                 type VARCHAR(50),
                 date DATE DEFAULT CURRENT_DATE,
                 published BOOLEAN DEFAULT true,
+                image VARCHAR(255),
+                link VARCHAR(500),
+                contact_email VARCHAR(255),
+                contact_phone VARCHAR(50),
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
         `)
         console.log('✅ Table news créée')
+
+        // Ajouter les colonnes manquantes si elles n'existent pas (migration)
+        const newsMigrations = [
+            'ALTER TABLE news ADD COLUMN IF NOT EXISTS title_fr VARCHAR(255)',
+            'ALTER TABLE news ADD COLUMN IF NOT EXISTS title_en VARCHAR(255)',
+            'ALTER TABLE news ADD COLUMN IF NOT EXISTS title_ff VARCHAR(255)',
+            'ALTER TABLE news ADD COLUMN IF NOT EXISTS excerpt_fr TEXT',
+            'ALTER TABLE news ADD COLUMN IF NOT EXISTS excerpt_en TEXT',
+            'ALTER TABLE news ADD COLUMN IF NOT EXISTS excerpt_ff TEXT',
+            'ALTER TABLE news ADD COLUMN IF NOT EXISTS content_fr TEXT',
+            'ALTER TABLE news ADD COLUMN IF NOT EXISTS content_en TEXT',
+            'ALTER TABLE news ADD COLUMN IF NOT EXISTS content_ff TEXT',
+            'ALTER TABLE news ADD COLUMN IF NOT EXISTS image VARCHAR(255)',
+            'ALTER TABLE news ADD COLUMN IF NOT EXISTS link VARCHAR(500)',
+            'ALTER TABLE news ADD COLUMN IF NOT EXISTS contact_email VARCHAR(255)',
+            'ALTER TABLE news ADD COLUMN IF NOT EXISTS contact_phone VARCHAR(50)'
+        ]
+        for (const sql of newsMigrations) {
+            await pool.query(sql).catch(() => {})
+        }
 
         // Table "Dire, Ne pas dire"
         await pool.query(`
@@ -78,13 +141,38 @@ async function initDatabase() {
                 id SERIAL PRIMARY KEY,
                 category VARCHAR(100),
                 dire TEXT NOT NULL,
+                dire_fr TEXT,
+                dire_en TEXT,
+                dire_ff TEXT,
                 ne_pas_dire TEXT NOT NULL,
+                ne_pas_dire_fr TEXT,
+                ne_pas_dire_en TEXT,
+                ne_pas_dire_ff TEXT,
                 explanation TEXT,
+                explanation_fr TEXT,
+                explanation_en TEXT,
+                explanation_ff TEXT,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
         `)
         console.log('✅ Table dire_ne_pas_dire créée')
+
+        // Ajouter les colonnes manquantes si elles n'existent pas (migration)
+        const direMigrations = [
+            'ALTER TABLE dire_ne_pas_dire ADD COLUMN IF NOT EXISTS dire_fr TEXT',
+            'ALTER TABLE dire_ne_pas_dire ADD COLUMN IF NOT EXISTS dire_en TEXT',
+            'ALTER TABLE dire_ne_pas_dire ADD COLUMN IF NOT EXISTS dire_ff TEXT',
+            'ALTER TABLE dire_ne_pas_dire ADD COLUMN IF NOT EXISTS ne_pas_dire_fr TEXT',
+            'ALTER TABLE dire_ne_pas_dire ADD COLUMN IF NOT EXISTS ne_pas_dire_en TEXT',
+            'ALTER TABLE dire_ne_pas_dire ADD COLUMN IF NOT EXISTS ne_pas_dire_ff TEXT',
+            'ALTER TABLE dire_ne_pas_dire ADD COLUMN IF NOT EXISTS explanation_fr TEXT',
+            'ALTER TABLE dire_ne_pas_dire ADD COLUMN IF NOT EXISTS explanation_en TEXT',
+            'ALTER TABLE dire_ne_pas_dire ADD COLUMN IF NOT EXISTS explanation_ff TEXT'
+        ]
+        for (const sql of direMigrations) {
+            await pool.query(sql).catch(() => {})
+        }
 
         // Table contenu général (Hero, À propos, etc.)
         await pool.query(`
@@ -101,6 +189,33 @@ async function initDatabase() {
             )
         `)
         console.log('✅ Table content créée')
+
+        // Table des livres (bibliothèque)
+        await pool.query(`
+            CREATE TABLE IF NOT EXISTS books (
+                id SERIAL PRIMARY KEY,
+                title_fr VARCHAR(255),
+                title_en VARCHAR(255),
+                title_ff VARCHAR(255),
+                author VARCHAR(255),
+                description_fr TEXT,
+                description_en TEXT,
+                description_ff TEXT,
+                cover_image VARCHAR(255),
+                file_path VARCHAR(255),
+                file_size BIGINT,
+                category VARCHAR(100),
+                year INTEGER,
+                published BOOLEAN DEFAULT true,
+                price DECIMAL(10,2) DEFAULT 0,
+                is_free BOOLEAN DEFAULT true,
+                payment_link VARCHAR(500),
+                downloads INTEGER DEFAULT 0,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        `)
+        console.log('✅ Table books créée')
 
         // Créer l'admin par défaut
         const adminUsername = process.env.ADMIN_USERNAME || 'admin'

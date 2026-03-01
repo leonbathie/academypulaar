@@ -20,6 +20,11 @@ jobs:
           cd /var/www/academypulaar/backend
           npm install --production
 
+      - name: Run database migrations
+        run: |
+          cd /var/www/academypulaar/backend
+          node init-database.js
+
       - name: Restart backend (PM2)
         run: |
           cd /var/www/academypulaar/backend
