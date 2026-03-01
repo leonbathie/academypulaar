@@ -72,7 +72,7 @@ app.use((req, res) => {
 })
 
 // Démarrage du serveur
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
     console.log(`
     ╔═══════════════════════════════════════════════════╗
     ║                                                   ║
@@ -82,5 +82,12 @@ app.listen(PORT, () => {
     ╚═══════════════════════════════════════════════════╝
     `)
 })
+
+// Fix 408 Request Timeout: Node.js keepAliveTimeout (5s) < Nginx keepalive_timeout (75s)
+// Nginx reuses connections that Node already closed → 408
+// Solution: Node keepAliveTimeout MUST be > Nginx keepalive_timeout
+server.keepAliveTimeout = 120000    // 120s (Nginx default: 75s)
+server.headersTimeout = 125000      // Must be > keepAliveTimeout
+server.requestTimeout = 0           // Disable request timeout (Nginx handles it)
 
 module.exports = app
