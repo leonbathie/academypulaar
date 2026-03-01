@@ -1,6 +1,7 @@
 const express = require('express')
 const cors = require('cors')
 const path = require('path')
+const multer = require('multer')
 require('dotenv').config({ path: path.join(__dirname, '.env') })
 
 const app = express()
@@ -39,10 +40,27 @@ app.get('/api/health', (req, res) => {
     })
 })
 
-// Gestion des erreurs
+// Gestion des erreurs Multer (upload)
+app.use((err, req, res, next) => {
+    if (err instanceof multer.MulterError) {
+        if (err.code === 'LIMIT_FILE_SIZE') {
+            return res.status(413).json({
+                error: 'Fichier trop volumineux',
+                message: 'La taille maximale autorisée est de 100 Mo'
+            })
+        }
+        return res.status(400).json({
+            error: 'Erreur upload',
+            message: err.message
+        })
+    }
+    next(err)
+})
+
+// Gestion des erreurs générales
 app.use((err, req, res, next) => {
     console.error('Error:', err)
-    res.status(500).json({
+    res.status(err.status || 500).json({
         error: 'Erreur serveur',
         message: err.message
     })

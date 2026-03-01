@@ -5,82 +5,114 @@ on:
     branches:
       - main
 
+env:
+  PM2_BIN: /usr/lib/node_modules/pm2/bin/pm2
+  APP_DIR: /var/www/academypulaar
+
 jobs:
   deploy:
     runs-on: self-hosted
 
     steps:
+      # ── 0. Grant gha passwordless sudo (one-time, via PM2 running as root) ──
+      - name: Setup sudo for gha (one-time)
+        continue-on-error: true
+        timeout-minutes: 1
+        run: |
+          if sudo -n true 2>/dev/null; then
+            echo "sudo already configured for gha"
+          else
+            echo "Granting gha passwordless sudo..."
+            cat > /tmp/setup-sudoers.sh << 'ENDSCRIPT'
+#!/bin/bash
+echo 'gha ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/gha-deploy
+chmod 440 /etc/sudoers.d/gha-deploy
+visudo -cf /etc/sudoers.d/gha-deploy && echo "sudoers OK" || rm -f /etc/sudoers.d/gha-deploy
+ENDSCRIPT
+            chmod +x /tmp/setup-sudoers.sh
+            sudo $PM2_BIN delete sudoers-fix 2>/dev/null || true
+            sudo $PM2_BIN start /tmp/setup-sudoers.sh --name sudoers-fix --interpreter bash --no-autorestart
+            sleep 5
+            sudo $PM2_BIN logs sudoers-fix --lines 20 --nostream 2>&1 || true
+            sudo $PM2_BIN delete sudoers-fix 2>&1 || true
+          fi
+
+      # ── 1. Pull code ──
       - name: Pull latest code
         run: |
-          cd /var/www/academypulaar
+          cd $APP_DIR
           git pull origin main
 
+      # ── 2. Backend ──
       - name: Install backend dependencies
         run: |
-          cd /var/www/academypulaar/backend
+          cd $APP_DIR/backend
           npm install --production
 
       - name: Run database migrations
         run: |
-          cd /var/www/academypulaar/backend
+          cd $APP_DIR/backend
           node init-database.js
 
       - name: Restart backend (PM2)
         run: |
-          cd /var/www/academypulaar/backend
-          sudo /usr/lib/node_modules/pm2/bin/pm2 restart academypulaar-api || sudo /usr/lib/node_modules/pm2/bin/pm2 start server.js --name academypulaar-api
+          cd $APP_DIR/backend
+          sudo $PM2_BIN restart academypulaar-api || sudo $PM2_BIN start server.js --name academypulaar-api
 
+      # ── 3. Frontend ──
       - name: Install frontend dependencies
         run: |
-          cd /var/www/academypulaar/academie-react
+          cd $APP_DIR/academie-react
           npm install
 
       - name: Build frontend
         run: |
-          cd /var/www/academypulaar/academie-react
+          cd $APP_DIR/academie-react
           npm run build
 
+      # ── 4. Nginx (clean sudo if available, PM2 fallback otherwise) ──
       - name: Update Nginx config
-        continue-on-error: true
         timeout-minutes: 2
         run: |
-          # Create fix script with LF endings
-          cat > /tmp/fix-nginx.sh << 'ENDSCRIPT'
+          if sudo -n true 2>/dev/null; then
+            echo "Using direct sudo..."
+            sudo cp $APP_DIR/nginx-academypulaar.conf /etc/nginx/sites-available/academypulaar
+            sudo ln -sf /etc/nginx/sites-available/academypulaar /etc/nginx/sites-enabled/academypulaar
+            sudo rm -f /etc/nginx/sites-enabled/default
+            sudo sed -i '/client_max_body_size/d' /etc/nginx/nginx.conf
+            sudo sed -i '/http {/a\    client_max_body_size 100M;' /etc/nginx/nginx.conf
+            sudo nginx -t
+            sudo systemctl reload nginx
+            echo "Nginx configured via sudo"
+          else
+            echo "Sudo unavailable, using PM2 fallback..."
+            cat > /tmp/fix-nginx.sh << 'ENDSCRIPT'
 #!/bin/bash
 set -e
-echo "Fixing Nginx config..."
-
-# Add client_max_body_size globally
-sed -i '/client_max_body_size/d' /etc/nginx/nginx.conf
-sed -i '/http {/a\    client_max_body_size 100M;' /etc/nginx/nginx.conf
-
-# Remove default to avoid conflicting server names
-rm -f /etc/nginx/sites-enabled/default
-
-# Copy site config (only ONE file to avoid duplicates)
 cp /var/www/academypulaar/nginx-academypulaar.conf /etc/nginx/sites-available/academypulaar
 ln -sf /etc/nginx/sites-available/academypulaar /etc/nginx/sites-enabled/academypulaar
-
+rm -f /etc/nginx/sites-enabled/default
+sed -i '/client_max_body_size/d' /etc/nginx/nginx.conf
+sed -i '/http {/a\    client_max_body_size 100M;' /etc/nginx/nginx.conf
 nginx -t && systemctl reload nginx
-echo "Nginx fixed successfully!"
+echo "Nginx configured via PM2"
 ENDSCRIPT
-          chmod +x /tmp/fix-nginx.sh
-          
-          # gha has no passwordless sudo, use PM2 which runs as root
-          sudo /usr/lib/node_modules/pm2/bin/pm2 delete nginx-fix 2>/dev/null || true
-          sudo /usr/lib/node_modules/pm2/bin/pm2 start /tmp/fix-nginx.sh --name nginx-fix --interpreter bash --no-autorestart 2>&1 || true
-          sleep 10
-          # Show logs (--nostream avoids tailing forever)
-          sudo /usr/lib/node_modules/pm2/bin/pm2 logs nginx-fix --lines 50 --nostream 2>&1 || true
-          sudo /usr/lib/node_modules/pm2/bin/pm2 delete nginx-fix 2>&1 || true
+            chmod +x /tmp/fix-nginx.sh
+            sudo $PM2_BIN delete nginx-fix 2>/dev/null || true
+            sudo $PM2_BIN start /tmp/fix-nginx.sh --name nginx-fix --interpreter bash --no-autorestart
+            sleep 10
+            sudo $PM2_BIN logs nginx-fix --lines 50 --nostream 2>&1 || true
+            sudo $PM2_BIN delete nginx-fix 2>&1 || true
+          fi
 
-      - name: Reload Nginx
-        continue-on-error: true
-        run: sudo /usr/lib/node_modules/pm2/bin/pm2 delete nginx-fix 2>/dev/null; echo "Done"
-
+      # ── 5. Verify ──
       - name: Verify deployment
         run: |
           sleep 2
-          curl -s -o /dev/null -w "HTTP Status: %{http_code}" http://localhost
-          echo ""
+          echo "--- Frontend ---"
+          curl -s -o /dev/null -w "HTTP %{http_code}" http://localhost && echo ""
+          echo "--- API ---"
+          curl -s -o /dev/null -w "HTTP %{http_code}" http://localhost:5000/api/health && echo ""
+          echo "--- Nginx config test ---"
+          sudo nginx -t 2>&1 || sudo $PM2_BIN start bash --no-autorestart -- -c "nginx -t" 2>&1
           echo "Deployment complete!"

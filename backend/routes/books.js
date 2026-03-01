@@ -51,6 +51,32 @@ const uploadFields = upload.fields([
     { name: 'file', maxCount: 1 }
 ])
 
+// Wrapper multer : gère les erreurs d'upload proprement (413, 400...)
+const handleUpload = (req, res, next) => {
+    uploadFields(req, res, (err) => {
+        if (err) {
+            if (err instanceof multer.MulterError) {
+                if (err.code === 'LIMIT_FILE_SIZE') {
+                    return res.status(413).json({
+                        error: 'Fichier trop volumineux',
+                        message: 'La taille maximale autorisée est de 100 Mo'
+                    })
+                }
+                return res.status(400).json({
+                    error: 'Erreur upload',
+                    message: err.message
+                })
+            }
+            // Erreur custom (fileFilter rejection)
+            return res.status(400).json({
+                error: 'Fichier non accepté',
+                message: err.message
+            })
+        }
+        next()
+    })
+}
+
 // GET /api/books - Récupérer tous les livres
 router.get('/', async (req, res) => {
     try {
@@ -133,7 +159,7 @@ router.get('/:id/download', async (req, res) => {
 })
 
 // POST /api/books - Ajouter un livre (Admin only)
-router.post('/', authMiddleware, adminOnly, uploadFields, async (req, res) => {
+router.post('/', authMiddleware, adminOnly, handleUpload, async (req, res) => {
     try {
         const {
             title_fr, title_en, title_ff,
@@ -164,7 +190,7 @@ router.post('/', authMiddleware, adminOnly, uploadFields, async (req, res) => {
 })
 
 // PUT /api/books/:id - Modifier un livre (Admin only)
-router.put('/:id', authMiddleware, adminOnly, uploadFields, async (req, res) => {
+router.put('/:id', authMiddleware, adminOnly, handleUpload, async (req, res) => {
     try {
         const {
             title_fr, title_en, title_ff,
