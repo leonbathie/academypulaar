@@ -410,7 +410,7 @@ function NewsAdmin() {
                                     {activeTab === 'ff' && (
                                         <>
                                             <div className="form-group">
-                                                <label>{t('admin.news.titleLabel')} (Pulaar)</label>
+                                                <label>{t('admin.news.titleLabel')} (Fulfulde)</label>
                                                 <input
                                                     type="text"
                                                     value={formData.title_ff}
@@ -418,7 +418,7 @@ function NewsAdmin() {
                                                 />
                                             </div>
                                             <div className="form-group">
-                                                <label>{t('admin.news.excerpt')} (Pulaar)</label>
+                                                <label>{t('admin.news.excerpt')} (Fulfulde)</label>
                                                 <textarea
                                                     value={formData.excerpt_ff}
                                                     onChange={e => setFormData({ ...formData, excerpt_ff: e.target.value })}
@@ -426,7 +426,7 @@ function NewsAdmin() {
                                                 />
                                             </div>
                                             <div className="form-group">
-                                                <label>{t('admin.news.content')} (Pulaar)</label>
+                                                <label>{t('admin.news.content')} (Fulfulde)</label>
                                                 <textarea
                                                     value={formData.content_ff}
                                                     onChange={e => setFormData({ ...formData, content_ff: e.target.value })}

@@ -440,21 +440,21 @@ function MembersAdmin() {
                                     {activeTab === 'ff' && (
                                         <>
                                             <div className="form-group">
-                                                <label>Rôle (Pulaar)</label>
+                                                <label>Rôle (Fulfulde)</label>
                                                 <input
                                                     type="text"
                                                     value={formData.role_ff}
                                                     onChange={e => setFormData({ ...formData, role_ff: e.target.value })}
-                                                    placeholder="Rôle en Pulaar..."
+                                                    placeholder="Rôle en Fulfulde..."
                                                 />
                                             </div>
                                             <div className="form-group">
-                                                <label>Biographie (Pulaar)</label>
+                                                <label>Biographie (Fulfulde)</label>
                                                 <textarea
                                                     value={formData.bio_ff}
                                                     onChange={e => setFormData({ ...formData, bio_ff: e.target.value })}
                                                     rows="5"
-                                                    placeholder="Biographie en Pulaar..."
+                                                    placeholder="Biographie en Fulfulde..."
                                                 />
                                             </div>
                                         </>

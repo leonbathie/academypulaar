@@ -14,7 +14,7 @@ function AdminPage() {
     const languages = [
         { code: 'fr', name: 'Français', flag: '🇫🇷' },
         { code: 'en', name: 'English', flag: '🇬🇧' },
-        { code: 'ff', name: 'Pulaar', flag: '🇸🇳' }
+        { code: 'ff', name: 'Fulfulde', flag: '🇸🇳' }
     ]
 
     const currentLang = languages.find(l => l.code === i18n.language) || languages[0]

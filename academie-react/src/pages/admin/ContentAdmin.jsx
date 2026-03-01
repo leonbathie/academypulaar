@@ -225,7 +225,7 @@ function ContentAdmin() {
                                     {activeTab === 'fr' && (
                                         <>
                                             <div className="form-group">
-                                                <label style={{ color: '#22c55e' }}>✓ {t('admin.content.weSayLabel')} (Français) *</label>
+                                                <label style={{ color: '#22c55e' }}>✓ {t('admin.content.weSayLabel')} (Fulfulde) *</label>
                                                 <input
                                                     type="text"
                                                     value={formData.dire_fr}
@@ -235,7 +235,7 @@ function ContentAdmin() {
                                                 />
                                             </div>
                                             <div className="form-group">
-                                                <label style={{ color: '#ef4444' }}>✗ {t('admin.content.weDontSayLabel')} (Français) *</label>
+                                                <label style={{ color: '#ef4444' }}>✗ {t('admin.content.weDontSayLabel')} (Fulfulde) *</label>
                                                 <input
                                                     type="text"
                                                     value={formData.ne_pas_dire_fr}
@@ -257,7 +257,7 @@ function ContentAdmin() {
                                     {activeTab === 'en' && (
                                         <>
                                             <div className="form-group">
-                                                <label style={{ color: '#22c55e' }}>✓ {t('admin.content.weSayLabel')} (English)</label>
+                                                <label style={{ color: '#22c55e' }}>✓ {t('admin.content.weSayLabel')} (Fulfulde)</label>
                                                 <input
                                                     type="text"
                                                     value={formData.dire_en}
@@ -266,7 +266,7 @@ function ContentAdmin() {
                                                 />
                                             </div>
                                             <div className="form-group">
-                                                <label style={{ color: '#ef4444' }}>✗ {t('admin.content.weDontSayLabel')} (English)</label>
+                                                <label style={{ color: '#ef4444' }}>✗ {t('admin.content.weDontSayLabel')} (Fulfulde)</label>
                                                 <input
                                                     type="text"
                                                     value={formData.ne_pas_dire_en}
@@ -287,7 +287,7 @@ function ContentAdmin() {
                                     {activeTab === 'ff' && (
                                         <>
                                             <div className="form-group">
-                                                <label style={{ color: '#22c55e' }}>✓ {t('admin.content.weSayLabel')} (Pulaar)</label>
+                                                <label style={{ color: '#22c55e' }}>✓ {t('admin.content.weSayLabel')} (Fulfulde)</label>
                                                 <input
                                                     type="text"
                                                     value={formData.dire_ff}
@@ -296,7 +296,7 @@ function ContentAdmin() {
                                                 />
                                             </div>
                                             <div className="form-group">
-                                                <label style={{ color: '#ef4444' }}>✗ {t('admin.content.weDontSayLabel')} (Pulaar)</label>
+                                                <label style={{ color: '#ef4444' }}>✗ {t('admin.content.weDontSayLabel')} (Fulfulde)</label>
                                                 <input
                                                     type="text"
                                                     value={formData.ne_pas_dire_ff}
@@ -305,7 +305,7 @@ function ContentAdmin() {
                                                 />
                                             </div>
                                             <div className="form-group">
-                                                <label>{t('admin.content.explanationLabel')} (Pulaar)</label>
+                                                <label>{t('admin.content.explanationLabel')} (Fulfulde)</label>
                                                 <textarea
                                                     value={formData.explanation_ff}
                                                     onChange={e => setFormData({ ...formData, explanation_ff: e.target.value })}
