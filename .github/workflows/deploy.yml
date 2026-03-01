@@ -42,44 +42,47 @@ jobs:
 
       - name: Update Nginx config
         run: |
-          # Ensure client_max_body_size is in nginx.conf globally (most reliable)
-          if ! grep -q "client_max_body_size" /etc/nginx/nginx.conf; then
-            sudo sed -i '/http\s*{/a \\tclient_max_body_size 100M;' /etc/nginx/nginx.conf
-            echo "Added client_max_body_size to nginx.conf globally"
-          else
-            echo "client_max_body_size already in nginx.conf"
-          fi
+          echo "=== STEP 1: Force client_max_body_size in nginx.conf ==="
+          # Remove any existing client_max_body_size lines first, then add fresh
+          sudo sed -i '/client_max_body_size/d' /etc/nginx/nginx.conf
+          sudo sed -i '/http\s*{/a \\tclient_max_body_size 100M;' /etc/nginx/nginx.conf
+          echo "Forced client_max_body_size 100M in nginx.conf"
           
-          # Copy our site config to ALL possible locations
-          sudo cp /var/www/academypulaar/nginx-academypulaar.conf /etc/nginx/sites-available/academypulaar 2>/dev/null || true
-          sudo ln -sf /etc/nginx/sites-available/academypulaar /etc/nginx/sites-enabled/academypulaar 2>/dev/null || true
+          echo "=== STEP 2: List all enabled configs ==="
+          ls -la /etc/nginx/sites-enabled/ 2>/dev/null || echo "No sites-enabled dir"
+          ls -la /etc/nginx/conf.d/ 2>/dev/null || echo "No conf.d dir"
           
-          # Also overwrite default if it exists and contains our site
-          if [ -f /etc/nginx/sites-enabled/default ]; then
-            if grep -q "academypulaar\|173.249.2.195" /etc/nginx/sites-enabled/default 2>/dev/null; then
-              sudo cp /var/www/academypulaar/nginx-academypulaar.conf /etc/nginx/sites-enabled/default
-              echo "Replaced default with our config"
-            else
-              # Default exists but is not our site - remove it to avoid conflicts
-              sudo rm -f /etc/nginx/sites-enabled/default
-              echo "Removed default config to avoid conflicts"
-            fi
-          fi
-          
-          # Also handle conf.d directory
-          if [ -d /etc/nginx/conf.d ]; then
-            for f in /etc/nginx/conf.d/*.conf; do
-              if [ -f "$f" ] && grep -q "academypulaar\|173.249.2.195" "$f" 2>/dev/null; then
+          echo "=== STEP 3: Replace ALL site configs ==="
+          # Replace every config in sites-enabled with our config
+          if [ -d /etc/nginx/sites-enabled ]; then
+            for f in /etc/nginx/sites-enabled/*; do
+              if [ -f "$f" ]; then
+                echo "Replacing $f"
                 sudo cp /var/www/academypulaar/nginx-academypulaar.conf "$f"
-                echo "Updated $f"
               fi
             done
           fi
           
-          echo "--- Nginx config test ---"
+          # If no files in sites-enabled, create one
+          if [ -z "$(ls -A /etc/nginx/sites-enabled/ 2>/dev/null)" ]; then
+            echo "sites-enabled is empty, creating config"
+            sudo cp /var/www/academypulaar/nginx-academypulaar.conf /etc/nginx/sites-enabled/academypulaar
+          fi
+          
+          # Also handle conf.d
+          if [ -d /etc/nginx/conf.d ]; then
+            for f in /etc/nginx/conf.d/*.conf; do
+              if [ -f "$f" ]; then
+                echo "Replacing $f"
+                sudo cp /var/www/academypulaar/nginx-academypulaar.conf "$f"
+              fi
+            done
+          fi
+          
+          echo "=== STEP 4: Verify ==="
           sudo nginx -t
-          echo "--- Active server blocks ---"
-          sudo grep -r "server_name\|client_max_body_size" /etc/nginx/sites-enabled/ /etc/nginx/conf.d/ /etc/nginx/nginx.conf 2>/dev/null || true
+          echo "--- client_max_body_size in all configs ---"
+          sudo grep -r "client_max_body_size" /etc/nginx/ 2>/dev/null || echo "NOT FOUND ANYWHERE!"
 
       - name: Reload Nginx
         run: sudo systemctl reload nginx
