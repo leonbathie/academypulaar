@@ -20,6 +20,29 @@ app.use(cors({
 app.use(express.json({ limit: '50mb' }))
 app.use(express.urlencoded({ extended: true, limit: '50mb' }))
 
+// Request logging middleware
+app.use('/api', (req, res, next) => {
+    const start = Date.now()
+    const { method, originalUrl } = req
+    console.log(`[REQ] ${method} ${originalUrl} - Start`)
+    
+    // Log when response finishes
+    res.on('finish', () => {
+        const duration = Date.now() - start
+        console.log(`[RES] ${method} ${originalUrl} - ${res.statusCode} (${duration}ms)`)
+    })
+    
+    // Log if connection is closed prematurely
+    req.on('close', () => {
+        if (!res.writableFinished) {
+            const duration = Date.now() - start
+            console.log(`[REQ] ${method} ${originalUrl} - CONNECTION CLOSED by client after ${duration}ms (response not sent)`)
+        }
+    })
+    
+    next()
+})
+
 // Servir les fichiers uploadés
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
 

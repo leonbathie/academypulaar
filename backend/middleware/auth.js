@@ -7,6 +7,7 @@ const authMiddleware = (req, res, next) => {
         const authHeader = req.headers.authorization
 
         if (!authHeader || !authHeader.startsWith('Bearer ')) {
+            console.log(`[AUTH] REJECTED: No token - ${req.method} ${req.originalUrl}`)
             return res.status(401).json({ error: 'Token requis' })
         }
 
@@ -15,9 +16,11 @@ const authMiddleware = (req, res, next) => {
         // Vérifier le token
         const decoded = jwt.verify(token, process.env.JWT_SECRET)
         req.user = decoded
+        console.log(`[AUTH] OK: user=${decoded.username} role=${decoded.role} - ${req.method} ${req.originalUrl}`)
 
         next()
     } catch (error) {
+        console.log(`[AUTH] REJECTED: ${error.name} - ${error.message} - ${req.method} ${req.originalUrl}`)
         if (error.name === 'TokenExpiredError') {
             return res.status(401).json({ error: 'Token expiré' })
         }

@@ -53,8 +53,11 @@ const uploadFields = upload.fields([
 
 // Wrapper multer : gère les erreurs d'upload proprement (413, 400...)
 const handleUpload = (req, res, next) => {
+    console.log(`[BOOKS] handleUpload START - ${req.method} ${req.originalUrl}`)
+    console.log(`[BOOKS] Headers: Content-Type=${req.headers['content-type']}, Authorization=${req.headers['authorization'] ? 'Bearer ...' : 'MISSING'}`)
     uploadFields(req, res, (err) => {
         if (err) {
+            console.error(`[BOOKS] Multer error:`, err.code, err.message, err.field)
             if (err instanceof multer.MulterError) {
                 if (err.code === 'LIMIT_FILE_SIZE') {
                     return res.status(413).json({
@@ -73,6 +76,7 @@ const handleUpload = (req, res, next) => {
                 message: err.message
             })
         }
+        console.log(`[BOOKS] Multer OK - Body keys: [${Object.keys(req.body || {}).join(', ')}], Files: ${JSON.stringify(Object.keys(req.files || {}))}`)
         next()
     })
 }
@@ -160,6 +164,8 @@ router.get('/:id/download', async (req, res) => {
 
 // POST /api/books - Ajouter un livre (Admin only)
 router.post('/', authMiddleware, adminOnly, handleUpload, async (req, res) => {
+    console.log(`[BOOKS] POST handler START`)
+    console.log(`[BOOKS] User: ${req.user?.username} (role: ${req.user?.role})`)
     try {
         const {
             title_fr, title_en, title_ff,
@@ -167,13 +173,19 @@ router.post('/', authMiddleware, adminOnly, handleUpload, async (req, res) => {
             category, year, published, price, is_free, payment_link
         } = req.body
 
+        console.log(`[BOOKS] Parsed body: title_fr="${title_fr}", author="${author}", category="${category}"`)
+        console.log(`[BOOKS] Files received: cover=${req.files?.cover?.[0]?.filename || 'none'}, file=${req.files?.file?.[0]?.filename || 'none'}`)
+
         if (!title_fr) {
-            return res.status(400).json({ error: 'Le titre est requis' })
+            console.log(`[BOOKS] REJECTED: title_fr missing`)
+            return res.status(400).json({ error: 'Le titre en français est requis' })
         }
 
         const cover_image = req.files?.cover?.[0] ? `/uploads/${req.files.cover[0].filename}` : null
         const file_path = req.files?.file?.[0] ? `/uploads/books/${req.files.file[0].filename}` : null
         const file_size = req.files?.file?.[0]?.size || null
+
+        console.log(`[BOOKS] Inserting into DB: cover=${cover_image}, file=${file_path}, size=${file_size}`)
 
         const result = await query(
             `INSERT INTO books (title_fr, title_en, title_ff, author, description_fr, description_en, description_ff, cover_image, file_path, file_size, category, year, published, price, is_free, payment_link)
@@ -181,16 +193,19 @@ router.post('/', authMiddleware, adminOnly, handleUpload, async (req, res) => {
             [title_fr, title_en, title_ff, author, description_fr, description_en, description_ff, cover_image, file_path, file_size, category, year || null, published !== 'false', price || 0, is_free !== 'false', payment_link || null]
         )
 
+        console.log(`[BOOKS] INSERT SUCCESS: id=${result.rows[0].id}`)
         res.status(201).json(result.rows[0])
 
     } catch (error) {
-        console.error('Add book error:', error)
-        res.status(500).json({ error: 'Erreur serveur' })
+        console.error('[BOOKS] POST ERROR:', error.message, error.stack)
+        res.status(500).json({ error: 'Erreur serveur', message: error.message })
     }
 })
 
 // PUT /api/books/:id - Modifier un livre (Admin only)
 router.put('/:id', authMiddleware, adminOnly, handleUpload, async (req, res) => {
+    console.log(`[BOOKS] PUT handler START - book id=${req.params.id}`)
+    console.log(`[BOOKS] User: ${req.user?.username} (role: ${req.user?.role})`)
     try {
         const {
             title_fr, title_en, title_ff,
@@ -227,8 +242,8 @@ router.put('/:id', authMiddleware, adminOnly, handleUpload, async (req, res) => 
         res.json(result.rows[0])
 
     } catch (error) {
-        console.error('Update book error:', error)
-        res.status(500).json({ error: 'Erreur serveur' })
+        console.error('[BOOKS] PUT ERROR:', error.message, error.stack)
+        res.status(500).json({ error: 'Erreur serveur', message: error.message })
     }
 })
 

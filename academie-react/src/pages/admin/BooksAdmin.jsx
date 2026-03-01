@@ -13,6 +13,8 @@ function BooksAdmin() {
     const [activeTab, setActiveTab] = useState('fr')
     const [selectedFile, setSelectedFile] = useState(null)
     const fileInputRef = useRef(null)
+    const [submitting, setSubmitting] = useState(false)
+    const [submitError, setSubmitError] = useState(null)
     const [formData, setFormData] = useState({
         title_fr: '',
         title_en: '',
@@ -82,6 +84,20 @@ function BooksAdmin() {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
+        console.log('[BooksAdmin] handleSubmit called')
+        console.log('[BooksAdmin] formData:', JSON.stringify(formData))
+        console.log('[BooksAdmin] editingBook:', editingBook?.id || 'NEW')
+        console.log('[BooksAdmin] selectedFile:', selectedFile?.name || 'none')
+        console.log('[BooksAdmin] token present:', !!token)
+
+        if (submitting) {
+            console.log('[BooksAdmin] Already submitting, ignoring')
+            return
+        }
+
+        setSubmitting(true)
+        setSubmitError(null)
+
         try {
             const formDataToSend = new FormData()
             Object.keys(formData).forEach(key => {
@@ -90,49 +106,107 @@ function BooksAdmin() {
 
             if (selectedFile) {
                 formDataToSend.append('file', selectedFile)
+                console.log('[BooksAdmin] File attached:', selectedFile.name, selectedFile.size, 'bytes')
             } else if (editingBook?.file_path) {
                 formDataToSend.append('existingFile', editingBook.file_path)
                 formDataToSend.append('existingFileSize', editingBook.file_size)
+                console.log('[BooksAdmin] Keeping existing file:', editingBook.file_path)
             }
 
             const url = editingBook
                 ? `${API_URL}/api/books/${editingBook.id}`
                 : `${API_URL}/api/books`
+            const method = editingBook ? 'PUT' : 'POST'
 
-            // Retry logic for 408 (connection reuse timeout)
+            console.log('[BooksAdmin] Sending', method, url)
+
+            // Retry logic for 408/network errors
             let response
+            let lastError
             for (let attempt = 0; attempt < 3; attempt++) {
-                response = await fetch(url, {
-                    method: editingBook ? 'PUT' : 'POST',
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: formDataToSend
-                })
-                if (response.status !== 408) break
-                await new Promise(r => setTimeout(r, 500 * (attempt + 1)))
+                try {
+                    if (attempt > 0) {
+                        console.log(`[BooksAdmin] Retry attempt ${attempt + 1}/3`)
+                    }
+
+                    // AbortController with 30s timeout
+                    const controller = new AbortController()
+                    const timeoutId = setTimeout(() => {
+                        console.log('[BooksAdmin] Request timeout after 30s, aborting')
+                        controller.abort()
+                    }, 30000)
+
+                    response = await fetch(url, {
+                        method,
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        },
+                        body: formDataToSend,
+                        signal: controller.signal
+                    })
+
+                    clearTimeout(timeoutId)
+                    console.log('[BooksAdmin] Response received:', response.status, response.statusText)
+
+                    if (response.status !== 408) break
+                    console.log('[BooksAdmin] Got 408, will retry...')
+                    lastError = new Error('408 Request Timeout')
+                    await new Promise(r => setTimeout(r, 500 * (attempt + 1)))
+                } catch (fetchError) {
+                    lastError = fetchError
+                    console.error(`[BooksAdmin] Fetch error on attempt ${attempt + 1}:`, fetchError.name, fetchError.message)
+                    if (fetchError.name === 'AbortError') {
+                        // Timeout - retry
+                        if (attempt < 2) {
+                            await new Promise(r => setTimeout(r, 1000 * (attempt + 1)))
+                            continue
+                        }
+                    } else if (attempt < 2) {
+                        await new Promise(r => setTimeout(r, 500 * (attempt + 1)))
+                        continue
+                    }
+                    throw fetchError
+                }
+            }
+
+            if (!response) {
+                throw lastError || new Error('Aucune réponse du serveur après 3 tentatives')
             }
 
             if (response.ok) {
-                loadBooks()
+                console.log('[BooksAdmin] Success!')
+                await loadBooks()
                 closeModal()
             } else {
-                let errorMsg = 'Erreur lors de la sauvegarde'
+                let errorMsg = `Erreur ${response.status}`
                 if (response.status === 413) {
                     errorMsg = 'Le fichier est trop volumineux (max 100 Mo)'
+                } else if (response.status === 401) {
+                    errorMsg = 'Session expirée. Reconnectez-vous.'
+                } else if (response.status === 403) {
+                    errorMsg = 'Accès non autorisé'
                 } else {
                     try {
-                        const error = await response.json()
-                        errorMsg = error.error || errorMsg
+                        const errorData = await response.json()
+                        console.error('[BooksAdmin] Server error:', errorData)
+                        errorMsg = errorData.error || errorData.message || errorMsg
                     } catch {
-                        // Response is not JSON (e.g. Nginx HTML error page)
+                        const text = await response.text()
+                        console.error('[BooksAdmin] Non-JSON response:', text.substring(0, 200))
                     }
                 }
+                setSubmitError(errorMsg)
                 alert(errorMsg)
             }
         } catch (error) {
-            console.error('Save book error:', error)
-            alert('Erreur lors de la sauvegarde')
+            console.error('[BooksAdmin] handleSubmit error:', error.name, error.message, error.stack)
+            const errorMsg = error.name === 'AbortError'
+                ? 'La requête a expiré (30s). Vérifiez votre connexion.'
+                : `Erreur: ${error.message}`
+            setSubmitError(errorMsg)
+            alert(errorMsg)
+        } finally {
+            setSubmitting(false)
         }
     }
 
@@ -374,11 +448,16 @@ function BooksAdmin() {
 
                             </div>
                             <div className="modal-footer">
-                                <button type="button" className="btn btn-secondary" onClick={closeModal}>
+                                {submitError && (
+                                    <div style={{ color: 'red', fontSize: '0.85rem', marginRight: 'auto', maxWidth: '60%' }}>
+                                        {submitError}
+                                    </div>
+                                )}
+                                <button type="button" className="btn btn-secondary" onClick={closeModal} disabled={submitting}>
                                     {t('admin.common.cancel')}
                                 </button>
-                                <button type="submit" className="btn btn-primary">
-                                    {editingBook ? t('admin.common.save') : t('admin.common.add')}
+                                <button type="submit" className="btn btn-primary" disabled={submitting}>
+                                    {submitting ? '⏳ Envoi en cours...' : (editingBook ? t('admin.common.save') : t('admin.common.add'))}
                                 </button>
                             </div>
                         </form>
