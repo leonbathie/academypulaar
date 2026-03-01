@@ -42,42 +42,41 @@ jobs:
 
       - name: Update Nginx config
         continue-on-error: true
+        timeout-minutes: 2
         run: |
-          # Create fix script with LF endings (avoids CRLF issues from Windows)
+          # Create fix script with LF endings
           cat > /tmp/fix-nginx.sh << 'ENDSCRIPT'
-          #!/bin/bash
-          set -e
-          echo "Fixing Nginx config..."
-          
-          # Add client_max_body_size globally
-          sed -i '/client_max_body_size/d' /etc/nginx/nginx.conf
-          sed -i '/http {/a\    client_max_body_size 100M;' /etc/nginx/nginx.conf
-          
-          # Copy site config
-          cp /var/www/academypulaar/nginx-academypulaar.conf /etc/nginx/sites-enabled/default 2>/dev/null || true
-          cp /var/www/academypulaar/nginx-academypulaar.conf /etc/nginx/sites-available/academypulaar 2>/dev/null || true
-          ln -sf /etc/nginx/sites-available/academypulaar /etc/nginx/sites-enabled/academypulaar 2>/dev/null || true
-          
-          nginx -t && systemctl reload nginx
-          echo "Nginx fixed successfully!"
-          ENDSCRIPT
+#!/bin/bash
+set -e
+echo "Fixing Nginx config..."
+
+# Add client_max_body_size globally
+sed -i '/client_max_body_size/d' /etc/nginx/nginx.conf
+sed -i '/http {/a\    client_max_body_size 100M;' /etc/nginx/nginx.conf
+
+# Remove default to avoid conflicting server names
+rm -f /etc/nginx/sites-enabled/default
+
+# Copy site config (only ONE file to avoid duplicates)
+cp /var/www/academypulaar/nginx-academypulaar.conf /etc/nginx/sites-available/academypulaar
+ln -sf /etc/nginx/sites-available/academypulaar /etc/nginx/sites-enabled/academypulaar
+
+nginx -t && systemctl reload nginx
+echo "Nginx fixed successfully!"
+ENDSCRIPT
           chmod +x /tmp/fix-nginx.sh
           
-          # Method 1: Direct sudo bash
-          if sudo bash /tmp/fix-nginx.sh 2>&1; then
-            echo "==> Method 1 (sudo bash) worked!"
-          else
-            echo "==> Method 1 failed, trying Method 2 (PM2)..."
-            # Method 2: Run via PM2 with sudo (gha has sudo access to PM2)
-            sudo /usr/lib/node_modules/pm2/bin/pm2 start /tmp/fix-nginx.sh --name nginx-fix --interpreter bash --no-autorestart 2>&1 || true
-            sleep 5
-            sudo /usr/lib/node_modules/pm2/bin/pm2 logs nginx-fix --lines 30 2>&1 || true
-            sudo /usr/lib/node_modules/pm2/bin/pm2 delete nginx-fix 2>&1 || true
-          fi
+          # gha has no passwordless sudo, use PM2 which runs as root
+          sudo /usr/lib/node_modules/pm2/bin/pm2 delete nginx-fix 2>/dev/null || true
+          sudo /usr/lib/node_modules/pm2/bin/pm2 start /tmp/fix-nginx.sh --name nginx-fix --interpreter bash --no-autorestart 2>&1 || true
+          sleep 10
+          # Show logs (--nostream avoids tailing forever)
+          sudo /usr/lib/node_modules/pm2/bin/pm2 logs nginx-fix --lines 50 --nostream 2>&1 || true
+          sudo /usr/lib/node_modules/pm2/bin/pm2 delete nginx-fix 2>&1 || true
 
       - name: Reload Nginx
         continue-on-error: true
-        run: sudo systemctl reload nginx
+        run: sudo /usr/lib/node_modules/pm2/bin/pm2 delete nginx-fix 2>/dev/null; echo "Done"
 
       - name: Verify deployment
         run: |
