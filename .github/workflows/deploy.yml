@@ -57,14 +57,23 @@ jobs:
         run: |
           cd /var/www/academypulaar/backend
           PM2=/usr/lib/node_modules/pm2/bin/pm2
-          echo "Stopping existing PM2 processes..."
-          sudo $PM2 delete academypulaar-api 2>/dev/null || true
-          sudo $PM2 delete all 2>/dev/null || true
-          echo "Starting fresh from $(pwd)..."
+          echo "=== Kill ALL existing processes on port 5000 ==="
+          sudo lsof -ti:5000 | xargs -r sudo kill -9 || true
+          sleep 2
+          echo "=== Stop ALL PM2 instances (all users) ==="
+          sudo $PM2 kill 2>/dev/null || true
+          sudo -u ousmane $PM2 kill 2>/dev/null || true
+          sleep 1
+          echo "=== Verify port 5000 is free ==="
+          sudo lsof -i:5000 || echo "Port 5000 is free - OK"
+          echo "=== Starting fresh PM2 process ==="
           sudo $PM2 start server.js --name academypulaar-api --cwd /var/www/academypulaar/backend
           sleep 3
           sudo $PM2 list
-          sudo $PM2 logs academypulaar-api --lines 10 --nostream 2>&1 || true
+          echo "=== PM2 logs ==="
+          sudo $PM2 logs academypulaar-api --lines 15 --nostream 2>&1 || true
+          echo "=== Verify port 5000 is taken by new process ==="
+          sudo lsof -i:5000 || echo "WARNING: Nothing listening on port 5000!"
 
       - name: Install frontend dependencies
         run: |
