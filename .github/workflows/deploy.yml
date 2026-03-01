@@ -41,49 +41,7 @@ jobs:
           npm run build
 
       - name: Update Nginx config
-        run: |
-          echo "=== STEP 1: Force client_max_body_size in nginx.conf ==="
-          # Remove any existing client_max_body_size lines first, then add fresh
-          sudo sed -i '/client_max_body_size/d' /etc/nginx/nginx.conf
-          sudo sed -i '/http\s*{/a \\tclient_max_body_size 100M;' /etc/nginx/nginx.conf
-          echo "Forced client_max_body_size 100M in nginx.conf"
-          
-          echo "=== STEP 2: List all enabled configs ==="
-          ls -la /etc/nginx/sites-enabled/ 2>/dev/null || echo "No sites-enabled dir"
-          ls -la /etc/nginx/conf.d/ 2>/dev/null || echo "No conf.d dir"
-          
-          echo "=== STEP 3: Replace ALL site configs ==="
-          # Replace every config in sites-enabled with our config
-          if [ -d /etc/nginx/sites-enabled ]; then
-            for f in /etc/nginx/sites-enabled/*; do
-              if [ -f "$f" ]; then
-                echo "Replacing $f"
-                sudo cp /var/www/academypulaar/nginx-academypulaar.conf "$f"
-              fi
-            done
-          fi
-          
-          # If no files in sites-enabled, create one
-          if [ -z "$(ls -A /etc/nginx/sites-enabled/ 2>/dev/null)" ]; then
-            echo "sites-enabled is empty, creating config"
-            sudo cp /var/www/academypulaar/nginx-academypulaar.conf /etc/nginx/sites-enabled/academypulaar
-          fi
-          
-          # Also handle conf.d
-          if [ -d /etc/nginx/conf.d ]; then
-            for f in /etc/nginx/conf.d/*.conf; do
-              if [ -f "$f" ]; then
-                echo "Replacing $f"
-                sudo cp /var/www/academypulaar/nginx-academypulaar.conf "$f"
-              fi
-            done
-          fi
-          
-          echo "=== STEP 4: Verify ==="
-          sudo nginx -t
-          echo "--- client_max_body_size in all configs ---"
-          sudo grep -r "client_max_body_size" /etc/nginx/ 2>/dev/null || echo "NOT FOUND ANYWHERE!"
-
+        run: sudo bash /var/www/academypulaar/backend/scripts/fix-nginx.sh
       - name: Reload Nginx
         run: sudo systemctl reload nginx
 
