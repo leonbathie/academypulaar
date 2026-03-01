@@ -97,8 +97,8 @@
     "dictionary": {
         "sectionLabel": "Saggitorde Fulfulde",
         "title": "Saggitorde ",
-        "titleHighlight": " Saggitorde nde",
-        "intro": "Saggitorde Goomu Fulo & Wiɗto ko Saggitorde Ganndinal e Đemngal Fulfulde.",
+        "titleHighlight": "nde",
+        "intro": "Saggitorde Goomu Fulo & Wiɗto ko Saggitorde Ganndinal e Ɗemngal Fulfulde.",
         "wordsStartingWith": "Kelme puɗɗortooɗe e",
         "similarWords": "Kelme nannduɗe",
         "searchPlaceholder": "helmere...",
@@ -143,11 +143,11 @@
         "title": "Ciimtol Goomu ngu",
         "highlight": "Goomu Fulo Wiɗto",
         "intro": "Goomu Fulo Wiɗto ko fedde toppitiiɗo reentaade, ɓamtaade e ƴellitaade ɗemngal Pulaar.",
-        "missionTitle": "Golle Amen",
-        "mission": "Golle amen ko mahde saggitorde timmuɗo ɗemngal Pulaar, ɓamtude huutoraade mum e jaŋde e jaayndeeli, e reentaade pinal Fulɓe e ɗemngal maɓɓe.",
-        "historyTitle": "Taariik Amen",
+        "missionTitle": "Golle Amin",
+        "mission": "Golle amin ko mahde saggitorde ganndinal timmunde he ɗemngal Fulfulde, ɓamtude huutoraade ɗum e jaŋde e jayɗe, e reende pinal Fulɓe e ɗemngal mumen.",
+        "historyTitle": "Taariik Amin",
         "history": "Sosaa e dental ganndooji ɗemngal, winnderɓe e yarlitanɓe pinal Pulaar, Goomu Fulo Wiɗto fuɗɗii ngam jaɓɓaade waɗɗagol binndude e darnaade Pulaar e waktu internet.",
-        "valuesTitle": "Jojjanɗe Amen",
+        "valuesTitle": "Jojjanɗe Amin",
         "values": {
             "preservation": {
                 "title": "Reentaade",
@@ -199,7 +199,7 @@
         "book": {
             "freeDownload": "Aawto Mehre",
             "buyNow": "Sood Jooni",
-            "contactUs": "Jokkondir e amen",
+            "contactUs": "Jokkondir e amin",
             "noBooks": "Alaa defte tawtaa",
             "checkBack": "Wartu jooni ngam yiyde kabaruuji kese !",
             "categories": {
@@ -235,7 +235,7 @@
         "q5": "No siigorde gollal gollortee e Fulfulde ?",
         "a5": "Siigorde gollal e Fulfulde ina heewi sanne. Golle ina wayloo mbaydi sabu sahaa, ngonka, daande (gollirde, golleede, hakkunde) e baɗoowo. Yuɓɓo gollal ngal ina jogii kadi ɓeyditte baylitte maana gollal ngal (sabaabu, peccindirgal, teeŋtingal, ekn).",
         "q6": "Hol to neɗɗo waawi janngude Fulfulde ?",
-        "a6": "Ballitine keewɗe ina ngoodi : janngirɗe jaaɓi-haaɗtirde, pelle pine Fulɓe, e kuutorɗe geese hono saggitorde Goomu Fulo & Wiɗto. Lowre amen ina faanditii wallitde janngude e reentaade ɗemngal ngal."
+        "a6": "Ballitine keewɗe ina ngoodi : janngirɗe jaaɓi-haaɗtirde, pelle pine Fulɓe, e kuutorɗe geese hono saggitorde Goomu Fulo & Wiɗto. Lowre amin ina faanditii wallitde janngude e reentaade ɗemngal ngal."
     },
     "terminology": {
         "title": "Kelmeendi",
@@ -255,7 +255,7 @@
         "domEdu": "Jaŋde",
         "domEduDesc": "Kelme jaŋdiwal ngam wallitde jannginde e ɗemngal Fulfulde.",
         "explore": "Ƴeew saggitorde nde",
-        "exploreText": "Ƴeew saggitorde amen ngam yiytude kelme keeriiɗe e kala fannu."
+        "exploreText": "Ƴeew saggitorde amin ngam yiytude kelme keeriiɗe e kala fannu."
     },
     "footer": {
         "description": "Goomu Fulo & Wiɗto ko .",
