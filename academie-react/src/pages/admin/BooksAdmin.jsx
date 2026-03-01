@@ -111,8 +111,18 @@ function BooksAdmin() {
                 loadBooks()
                 closeModal()
             } else {
-                const error = await response.json()
-                alert(error.error || 'Erreur lors de la sauvegarde')
+                let errorMsg = 'Erreur lors de la sauvegarde'
+                if (response.status === 413) {
+                    errorMsg = 'Le fichier est trop volumineux (max 100 Mo)'
+                } else {
+                    try {
+                        const error = await response.json()
+                        errorMsg = error.error || errorMsg
+                    } catch {
+                        // Response is not JSON (e.g. Nginx HTML error page)
+                    }
+                }
+                alert(errorMsg)
             }
         } catch (error) {
             console.error('Save book error:', error)

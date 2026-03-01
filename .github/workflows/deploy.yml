@@ -40,6 +40,12 @@ jobs:
           cd /var/www/academypulaar/academie-react
           npm run build
 
+      - name: Update Nginx config
+        run: |
+          sudo cp /var/www/academypulaar/nginx-academypulaar.conf /etc/nginx/sites-available/academypulaar
+          sudo ln -sf /etc/nginx/sites-available/academypulaar /etc/nginx/sites-enabled/academypulaar
+          sudo nginx -t
+
       - name: Reload Nginx
         run: sudo systemctl reload nginx
 
