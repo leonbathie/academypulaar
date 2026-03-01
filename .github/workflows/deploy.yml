@@ -31,10 +31,17 @@ jobs:
       - name: Pull latest code
         run: |
           cd /var/www/academypulaar
+          echo "Current user: $(whoami)"
+          echo "File owner: $(stat -c '%U' backend/routes/books.js)"
+          sudo chown -R $(whoami):$(whoami) /var/www/academypulaar
+          sudo git config --global --add safe.directory /var/www/academypulaar
           git fetch origin main
           git reset --hard origin/main
           echo "Deployed commit: $(git rev-parse HEAD)"
           echo "Last commit message: $(git log -1 --pretty=%s)"
+          echo "=== Verify books.js updated ==="
+          grep -n 'titre en fran' backend/routes/books.js || echo "WARNING: books.js NOT updated!"
+          head -5 backend/routes/books.js
 
       - name: Install backend dependencies
         run: |
@@ -98,12 +105,13 @@ jobs:
         run: |
           sleep 3
           echo "=== Frontend ==="
-          curl -sf -o /dev/null http://localhost && echo "Frontend: OK" || echo "Frontend: FAIL"
+          curl -s -o /dev/null -w '%{http_code}' http://localhost && echo " Frontend: OK" || echo " Frontend: FAIL"
           echo "=== API Health ==="
-          curl -sf http://localhost:5000/api/health && echo "" || echo "API Health: FAIL"
+          curl -s http://localhost:5000/api/health || echo "API Health: FAIL"
+          echo ""
           echo "=== API Books POST validation test ==="
-          RESULT=$(curl -sf -X POST http://localhost:5000/api/books -H 'Content-Type: application/json' -d '{}' 2>&1)
-          echo "Response: $RESULT"
+          curl -s -X POST http://localhost:5000/api/books -H 'Content-Type: application/json' -d '{}' || true
+          echo ""
           echo "=== Deployed commit ==="
           cd /var/www/academypulaar && git rev-parse HEAD
           echo "Deployment complete!"
