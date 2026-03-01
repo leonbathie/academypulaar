@@ -31,7 +31,10 @@ jobs:
       - name: Pull latest code
         run: |
           cd /var/www/academypulaar
-          git pull origin main
+          git fetch origin main
+          git reset --hard origin/main
+          echo "Deployed commit: $(git rev-parse HEAD)"
+          echo "Last commit message: $(git log -1 --pretty=%s)"
 
       - name: Install backend dependencies
         run: |
@@ -47,7 +50,14 @@ jobs:
         run: |
           cd /var/www/academypulaar/backend
           PM2=/usr/lib/node_modules/pm2/bin/pm2
-          sudo $PM2 restart academypulaar-api || sudo $PM2 start server.js --name academypulaar-api
+          echo "Stopping existing PM2 processes..."
+          sudo $PM2 delete academypulaar-api 2>/dev/null || true
+          sudo $PM2 delete all 2>/dev/null || true
+          echo "Starting fresh from $(pwd)..."
+          sudo $PM2 start server.js --name academypulaar-api --cwd /var/www/academypulaar/backend
+          sleep 3
+          sudo $PM2 list
+          sudo $PM2 logs academypulaar-api --lines 10 --nostream 2>&1 || true
 
       - name: Install frontend dependencies
         run: |
@@ -86,7 +96,14 @@ jobs:
 
       - name: Verify deployment
         run: |
-          sleep 2
+          sleep 3
+          echo "=== Frontend ==="
           curl -sf -o /dev/null http://localhost && echo "Frontend: OK" || echo "Frontend: FAIL"
-          curl -sf -o /dev/null http://localhost:5000/api/health && echo "API: OK" || echo "API: FAIL"
+          echo "=== API Health ==="
+          curl -sf http://localhost:5000/api/health && echo "" || echo "API Health: FAIL"
+          echo "=== API Books POST validation test ==="
+          RESULT=$(curl -sf -X POST http://localhost:5000/api/books -H 'Content-Type: application/json' -d '{}' 2>&1)
+          echo "Response: $RESULT"
+          echo "=== Deployed commit ==="
+          cd /var/www/academypulaar && git rev-parse HEAD
           echo "Deployment complete!"
