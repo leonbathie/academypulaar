@@ -545,6 +545,11 @@
         color: var(--primary-gold) !important;
     }
 
+    .logo {
+        flex: 1;
+        justify-content: center;
+    }
+
     .logo-text {
         display: flex;
         flex-direction: column;
@@ -559,8 +564,8 @@
     }
 
     .logo-icon {
-        width: 55px;
-        height: 55px;
+        width: 60px;
+        height: 60px;
     }
 
     .search-btn {
@@ -596,16 +601,16 @@
     }
 
     .logo-icon {
-        width: 42px;
-        height: 42px;
+        width: 52px;
+        height: 52px;
     }
 
     .logo-title {
-        font-size: 0.75rem;
+        font-size: 0.8rem;
     }
 
     .logo-subtitle {
-        font-size: 0.55rem;
+        font-size: 0.58rem;
     }
 
     .mobile-menu-btn {
