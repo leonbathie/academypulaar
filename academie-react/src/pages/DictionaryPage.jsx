@@ -6,6 +6,7 @@ import './DictionaryPage.css'
 
 function DictionaryPage() {
     const { t, i18n } = useTranslation()
+    const lang = (i18n.language || 'fr').substring(0, 2)
     const [searchParams] = useSearchParams()
     const [searchTerm, setSearchTerm] = useState('')
     const [searchType, setSearchType] = useState('prefix')
@@ -110,7 +111,7 @@ function DictionaryPage() {
     }
 
     const getTranslation = (entry) => {
-        switch (i18n.language) {
+        switch (lang) {
             case 'en': return entry.translation_en || entry.translation_fr
             case 'ff': return entry.translation_ff || entry.translation_fr
             default: return entry.translation_fr

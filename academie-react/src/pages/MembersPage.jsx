@@ -5,6 +5,7 @@ import './MembersPage.css'
 
 function MembersPage() {
     const { t, i18n } = useTranslation()
+    const lang = (i18n.language || 'fr').substring(0, 2)
     const [members, setMembers] = useState([])
     const [loading, setLoading] = useState(true)
     const [expandedBios, setExpandedBios] = useState({})
@@ -28,7 +29,7 @@ function MembersPage() {
     }
 
     const getRole = (member) => {
-        switch (i18n.language) {
+        switch (lang) {
             case 'en': return member.role_en || member.role_fr
             case 'ff': return member.role_ff || member.role_fr
             default: return member.role_fr
@@ -36,7 +37,7 @@ function MembersPage() {
     }
 
     const getBio = (member) => {
-        switch (i18n.language) {
+        switch (lang) {
             case 'en': return member.bio_en || member.bio_fr
             case 'ff': return member.bio_ff || member.bio_fr
             default: return member.bio_fr

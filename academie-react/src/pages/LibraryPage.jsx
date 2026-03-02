@@ -5,6 +5,7 @@ import './LibraryPage.css'
 
 function LibraryPage() {
     const { t, i18n } = useTranslation()
+    const lang = (i18n.language || 'fr').substring(0, 2)
     const [books, setBooks] = useState([])
     const [loading, setLoading] = useState(true)
     const [selectedCategory, setSelectedCategory] = useState('')
@@ -28,7 +29,7 @@ function LibraryPage() {
     }
 
     const getTitle = (book) => {
-        switch (i18n.language) {
+        switch (lang) {
             case 'en': return book.title_en || book.title_fr
             case 'ff': return book.title_ff || book.title_fr
             default: return book.title_fr
@@ -36,7 +37,7 @@ function LibraryPage() {
     }
 
     const getDescription = (book) => {
-        switch (i18n.language) {
+        switch (lang) {
             case 'en': return book.description_en || book.description_fr
             case 'ff': return book.description_ff || book.description_fr
             default: return book.description_fr
@@ -50,7 +51,7 @@ function LibraryPage() {
             conce: { fr: 'Littérature', en: 'Literature', ff: 'Coñce' },
             ganndine: { fr: 'Sciences', en: 'Sciences', ff: 'Ganndine' }
         }
-        return labels[category]?.[i18n.language] || labels[category]?.fr || category
+        return labels[category]?.[lang] || labels[category]?.fr || category
     }
 
     const formatFileSize = (bytes) => {

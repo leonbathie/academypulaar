@@ -5,6 +5,7 @@ import './News.css'
 
 function News() {
     const { t, i18n } = useTranslation()
+    const lang = (i18n.language || 'fr').substring(0, 2)
     const [newsItems, setNewsItems] = useState([])
     const [loading, setLoading] = useState(true)
     const [expandedNews, setExpandedNews] = useState({})
@@ -28,7 +29,7 @@ function News() {
     }
 
     const getTitle = (item) => {
-        switch (i18n.language) {
+        switch (lang) {
             case 'en': return item.title_en || item.title_fr || item.title
             case 'ff': return item.title_ff || item.title_fr || item.title
             default: return item.title_fr || item.title
@@ -36,7 +37,7 @@ function News() {
     }
 
     const getExcerpt = (item) => {
-        switch (i18n.language) {
+        switch (lang) {
             case 'en': return item.excerpt_en || item.excerpt_fr || item.excerpt
             case 'ff': return item.excerpt_ff || item.excerpt_fr || item.excerpt
             default: return item.excerpt_fr || item.excerpt
@@ -44,7 +45,7 @@ function News() {
     }
 
     const getContent = (item) => {
-        switch (i18n.language) {
+        switch (lang) {
             case 'en': return item.content_en || item.content_fr || item.content
             case 'ff': return item.content_ff || item.content_fr || item.content
             default: return item.content_fr || item.content
@@ -64,7 +65,7 @@ function News() {
     const formatDate = (dateString) => {
         if (!dateString) return ''
         const date = new Date(dateString)
-        return date.toLocaleDateString(i18n.language === 'en' ? 'en-US' : i18n.language === 'ff' ? 'fr-FR' : 'fr-FR', {
+        return date.toLocaleDateString(lang === 'en' ? 'en-US' : lang === 'ff' ? 'fr-FR' : 'fr-FR', {
             day: 'numeric',
             month: 'long',
             year: 'numeric'

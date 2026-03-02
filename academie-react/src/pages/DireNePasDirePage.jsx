@@ -27,9 +27,11 @@ function DireNePasDirePage() {
         }
     }
 
+    const lang = (i18n.language || 'fr').substring(0, 2)
+
     const getDire = (article) => {
         if (!article) return ""
-        switch (i18n.language) {
+        switch (lang) {
             case 'en': return article.dire_en || article.dire_fr || article.dire
             case 'ff': return article.dire_ff || article.dire_fr || article.dire
             default: return article.dire_fr || article.dire
@@ -38,7 +40,7 @@ function DireNePasDirePage() {
 
     const getNePasDire = (article) => {
         if (!article) return ""
-        switch (i18n.language) {
+        switch (lang) {
             case 'en': return article.ne_pas_dire_en || article.ne_pas_dire_fr || article.ne_pas_dire
             case 'ff': return article.ne_pas_dire_ff || article.ne_pas_dire_fr || article.ne_pas_dire
             default: return article.ne_pas_dire_fr || article.ne_pas_dire
@@ -47,7 +49,7 @@ function DireNePasDirePage() {
 
     const getExplanation = (article) => {
         if (!article) return ""
-        switch (i18n.language) {
+        switch (lang) {
             case 'en': return article.explanation_en || article.explanation_fr || article.explanation
             case 'ff': return article.explanation_ff || article.explanation_fr || article.explanation
             default: return article.explanation_fr || article.explanation
