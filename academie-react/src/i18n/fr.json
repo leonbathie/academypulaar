@@ -94,7 +94,12 @@
         "weDontSay": "On ne dit pas",
         "faultyUsage": "Erreurs courantes",
         "anglicisms": "Emprunts",
-        "abusiveExtensions": "Usage incorrect"
+        "abusiveExtensions": "Usage incorrect",
+        "allCategories": "Toutes",
+        "catGrammar": "Grammaire",
+        "catCommon": "Erreurs courantes",
+        "catBorrowings": "Emprunts",
+        "catIncorrect": "Usage incorrect"
     },
     "dictionary": {
         "sectionLabel": "Dictionnaire Fulfulde",

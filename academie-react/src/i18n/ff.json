@@ -94,7 +94,12 @@
         "weDontSay": "Wiyataake",
         "faultyUsage": "Haala ka sellaani",
         "anglicisms": "Kelme jiggaaɗe",
-        "abusiveExtensions": "Kuutoragol bonngol"
+        "abusiveExtensions": "Kuutoragol bonngol",
+        "allCategories": "Fof",
+        "catGrammar": "Celluka",
+        "catCommon": "Goofi jaaliiɗi",
+        "catBorrowings": "Jiggaaɗe",
+        "catIncorrect": "Kuutorogol ñawngol"
     },
     "dictionary": {
         "sectionLabel": "Saggitorde Fulfulde",

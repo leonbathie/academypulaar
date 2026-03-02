@@ -56,6 +56,19 @@ function DireNePasDirePage() {
         }
     }
 
+    // Mapping des catégories DB (français) vers clés i18n
+    const categoryMap = {
+        'Grammaire': 'sayDontSay.catGrammar',
+        'Erreurs courantes': 'sayDontSay.catCommon',
+        'Emprunts': 'sayDontSay.catBorrowings',
+        'Usage incorrect': 'sayDontSay.catIncorrect'
+    }
+
+    const translateCategory = (cat) => {
+        if (cat === 'all') return t('sayDontSay.allCategories', 'Toutes')
+        return categoryMap[cat] ? t(categoryMap[cat], cat) : cat
+    }
+
     // Extraire les catégories uniques
     const categories = ['all', ...new Set(articles.map(a => a.category).filter(Boolean))]
 
@@ -84,7 +97,7 @@ function DireNePasDirePage() {
                                 className={`dire-filter-btn ${selectedCategory === cat ? 'active' : ''}`}
                                 onClick={() => setSelectedCategory(cat)}
                             >
-                                {cat === 'all' ? t('sayDontSay.allCategories', 'Toutes') : cat}
+                                {translateCategory(cat)}
                             </button>
                         ))}
                     </div>

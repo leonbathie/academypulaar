@@ -94,7 +94,12 @@
         "weDontSay": "Don't say",
         "faultyUsage": "Common errors",
         "anglicisms": "Borrowed words",
-        "abusiveExtensions": "Incorrect usage"
+        "abusiveExtensions": "Incorrect usage",
+        "allCategories": "All",
+        "catGrammar": "Grammar",
+        "catCommon": "Common errors",
+        "catBorrowings": "Borrowings",
+        "catIncorrect": "Incorrect usage"
     },
     "dictionary": {
         "sectionLabel": "Fulfulde Dictionary",
