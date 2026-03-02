@@ -79,10 +79,10 @@
         "title": "Joljole",
         "titleHighlight": "Goomu Fulo & Wiɗto",
         "viewAll": "Yiy fof",
-        "candidacy": "Ƴamude",
-        "election": "Cuɓagol",
-        "sayDontSay": "Wiy, Woto Wiy",
-        "literaryPrizes": "Njeenaaje coñce"
+        "language": "Ɗemngal",
+        "publication": "Binndol",
+        "event": "Pottital",
+        "general": "Kabaaru"
     },
     "sayDontSay": {
         "sectionLabel": "Ɗemngal Fulfulde",
@@ -205,14 +205,10 @@
             "noBooks": "Alaa defte tawtaa",
             "checkBack": "Wartu jooni ngam yiyde kabaruuji kese !",
             "categories": {
-                "roman": "Pentol/Miilol",
-                "poesie": "Jime",
-                "essai": "Winndannde",
-                "histoire": "Daartol",
-                "linguistique": "Ɗemɗiwal",
-                "dictionnaire": "Saggitorde",
-                "enfants": "Defte sukaaɓe",
-                "autre": "Goɗɗum"
+                "celluka": "Celluka/ Mbinndiin Fulfulde",
+                "caggitorde": "Caggitorɗe",
+                "conce": "Coñce",
+                "ganndine": "Ganndine"
             }
         }
     },
@@ -273,6 +269,14 @@
         "accessibility": "Heɓtineede"
     },
     "admin": {
+        "loginTitle": "Ɗowoowo",
+        "login": {
+            "username": "Innde kuutoro",
+            "password": "Finnde",
+            "connecting": "Seŋorde...",
+            "submit": "Seŋto",
+            "backToSite": "Rutto e lowre nde"
+        },
         "sidebar": {
             "dashboard": "Jaɓɓorgo",
             "dictionary": "Saggitorde",
@@ -296,7 +300,7 @@
                 "content": "Wiide, Woto wiide"
             },
             "welcomeCard": {
-                "title": "A jaɓɓaama e ardorde nde",
+                "title": "A jaɓɓaama e Ɗowoowo",
                 "text": "Huutoro doggol nanol ngol ngam leemde lowre Goomu Fulo Wiɗto :",
                 "dict": "Ɓeydude, waylude walla momtude kelme",
                 "news": "Ɓaŋŋinde kabaruuji e binndanɗe",
@@ -357,7 +361,7 @@
             "domDict": "Saggitorde"
         },
         "books": {
-            "title": "Defte-manti",
+            "title": "Defterdu",
             "add": "Ɓeydude deftere",
             "edit": "Waylude deftere",
             "titleLabel": "Tiitoonde",
@@ -367,7 +371,9 @@
             "fileLabel": "Filewol deftere nde (PDF, EPUB, ...)",
             "existingFile": "Filewol ngol ina woodi",
             "clickToAddFile": "Dobo ngam ɓeydude filewol",
-            "description": "Tonngol deftere nde"
+            "description": "Tonngol deftere nde",
+            "coverLabel": "Natal deftere nde",
+            "clickToAddCover": "Dobo ngam ɓeydude natal"
         },
         "news": {
             "title": "Kabaruuji",

@@ -79,10 +79,10 @@
         "title": "News from ",
         "titleHighlight": "Goomu Fulo Wiɗto",
         "viewAll": "All news",
-        "candidacy": "Candidacy",
-        "election": "Election",
-        "sayDontSay": "Say, Don't Say",
-        "literaryPrizes": "Literary Prizes"
+        "language": "Language",
+        "publication": "Publication",
+        "event": "Event",
+        "general": "News"
     },
     "sayDontSay": {
         "sectionLabel": "Fulfulde Language",
@@ -205,14 +205,10 @@
             "noBooks": "No books available yet",
             "checkBack": "Check back soon for new publications!",
             "categories": {
-                "roman": "Novel",
-                "poesie": "Poetry",
-                "essai": "Essay",
-                "histoire": "History",
-                "linguistique": "Linguistics",
-                "dictionnaire": "Dictionary",
-                "enfants": "Children Books",
-                "autre": "Other"
+                "celluka": "Learning Fulfulde",
+                "caggitorde": "Dictionaries",
+                "conce": "Literature",
+                "ganndine": "Sciences"
             }
         }
     },
@@ -271,6 +267,14 @@
         "accessibility": "Accessibility"
     },
     "admin": {
+        "loginTitle": "Administration",
+        "login": {
+            "username": "Username",
+            "password": "Password",
+            "connecting": "Connecting...",
+            "submit": "Log in",
+            "backToSite": "Back to site"
+        },
         "sidebar": {
             "dashboard": "Dashboard",
             "dictionary": "Dictionary",
@@ -365,7 +369,9 @@
             "fileLabel": "Book file (PDF, EPUB, etc.)",
             "existingFile": "Existing file",
             "clickToAddFile": "Click to add a file",
-            "description": "Description"
+            "description": "Description",
+            "coverLabel": "Cover image",
+            "clickToAddCover": "Click to add a cover image"
         },
         "news": {
             "title": "News",
@@ -381,8 +387,7 @@
             "noNews": "No news published",
             "coverLabel": "Cover image",
             "clickToAddImage": "Click to add an image",
-            "redirectLink": "Redirect link (URL)",
-            "catEvent": "Event"
+            "redirectLink": "Redirect link (URL)"
         },
         "content": {
             "title": "Say, Don't say",

@@ -296,11 +296,10 @@ function NewsAdmin() {
                                             onChange={e => setFormData({ ...formData, category: e.target.value })}
                                         >
                                             <option value="">{t('admin.common.select')}</option>
-                                            <option value="candidacy">{t('news.candidacy')}</option>
-                                            <option value="election">{t('news.election')}</option>
-                                            <option value="sayDontSay">{t('news.sayDontSay')}</option>
-                                            <option value="literaryPrizes">{t('news.literaryPrizes')}</option>
-                                            <option value="event">{t('admin.news.catEvent')}</option>
+                                            <option value="language">{t('news.language')}</option>
+                                            <option value="publication">{t('news.publication')}</option>
+                                            <option value="event">{t('news.event')}</option>
+                                            <option value="general">{t('news.general')}</option>
                                         </select>
                                     </div>
                                     <div className="form-group">

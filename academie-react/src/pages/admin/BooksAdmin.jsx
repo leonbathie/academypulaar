@@ -12,7 +12,10 @@ function BooksAdmin() {
     const [editingBook, setEditingBook] = useState(null)
     const [activeTab, setActiveTab] = useState('fr')
     const [selectedFile, setSelectedFile] = useState(null)
+    const [selectedCover, setSelectedCover] = useState(null)
+    const [coverPreview, setCoverPreview] = useState(null)
     const fileInputRef = useRef(null)
+    const coverInputRef = useRef(null)
     const [submitting, setSubmitting] = useState(false)
     const [submitError, setSubmitError] = useState(null)
     const [uploadProgress, setUploadProgress] = useState(0)
@@ -67,6 +70,8 @@ function BooksAdmin() {
             })
         }
         setSelectedFile(null)
+        setSelectedCover(null)
+        setCoverPreview(book?.cover_image ? `${API_URL}${book.cover_image}` : null)
         setActiveTab('fr')
         setShowModal(true)
     }
@@ -75,12 +80,24 @@ function BooksAdmin() {
         setShowModal(false)
         setEditingBook(null)
         setSelectedFile(null)
+        setSelectedCover(null)
+        setCoverPreview(null)
     }
 
     const handleFileChange = (e) => {
         const file = e.target.files[0]
         if (file) {
             setSelectedFile(file)
+        }
+    }
+
+    const handleCoverChange = (e) => {
+        const file = e.target.files[0]
+        if (file) {
+            setSelectedCover(file)
+            const reader = new FileReader()
+            reader.onloadend = () => setCoverPreview(reader.result)
+            reader.readAsDataURL(file)
         }
     }
 
@@ -107,6 +124,15 @@ function BooksAdmin() {
                 formDataToSend.append(key, formData[key])
             })
 
+            // Cover image
+            if (selectedCover) {
+                formDataToSend.append('cover', selectedCover)
+                console.log('[BooksAdmin] Cover attached:', selectedCover.name)
+            } else if (editingBook?.cover_image) {
+                formDataToSend.append('existingCover', editingBook.cover_image)
+                console.log('[BooksAdmin] Keeping existing cover:', editingBook.cover_image)
+            }
+
             const hasFile = !!selectedFile
             if (selectedFile) {
                 formDataToSend.append('file', selectedFile)
@@ -129,10 +155,10 @@ function BooksAdmin() {
                 const xhr = new XMLHttpRequest()
                 xhrRef.current = xhr
 
-                // 20 minutes for file uploads, 60s for text-only
-                const timeoutMs = hasFile ? 1200000 : 60000
+                // 5 minutes for file uploads, 60s for text-only
+                const timeoutMs = hasFile ? 300000 : 60000
                 xhr.timeout = timeoutMs
-                console.log(`[BooksAdmin] Timeout set to ${timeoutMs / 1000}s (${hasFile ? '20min for file' : '60s no file'})`)
+                console.log(`[BooksAdmin] Timeout set to ${timeoutMs / 1000}s`)
 
                 // Upload progress
                 xhr.upload.onprogress = (event) => {
@@ -324,7 +350,39 @@ function BooksAdmin() {
                         </div>
                         <form onSubmit={handleSubmit} className="modal-form">
                             <div className="modal-body">
-                                <div className="form-row">
+                                <div className="form-row" style={{ gap: '1rem' }}>
+                                    {/* Image de couverture */}
+                                    <div className="form-group" style={{ flex: '0 0 160px' }}>
+                                        <label>🖼️ {t('admin.books.coverLabel', 'Image de couverture')} *</label>
+                                        <div
+                                            onClick={() => coverInputRef.current?.click()}
+                                            style={{
+                                                width: '160px',
+                                                height: '220px',
+                                                borderRadius: '8px',
+                                                background: 'var(--light-gray)',
+                                                cursor: 'pointer',
+                                                border: '2px dashed var(--medium-gray)',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                                overflow: 'hidden'
+                                            }}
+                                        >
+                                            {coverPreview ? (
+                                                <img src={coverPreview} alt="Couverture" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                            ) : (
+                                                <span style={{ textAlign: 'center', padding: '0.5rem', fontSize: '0.85rem', color: '#999' }}>{t('admin.books.clickToAddCover', 'Cliquez pour ajouter une couverture')}</span>
+                                            )}
+                                        </div>
+                                        <input
+                                            ref={coverInputRef}
+                                            type="file"
+                                            accept="image/jpeg,image/png,image/gif,image/webp"
+                                            onChange={handleCoverChange}
+                                            style={{ display: 'none' }}
+                                        />
+                                    </div>
                                     {/* Fichier */}
                                     <div className="form-group" style={{ flex: 1 }}>
                                         <label>📁 {t('admin.books.fileLabel')}</label>
@@ -365,14 +423,10 @@ function BooksAdmin() {
                                             onChange={e => setFormData({ ...formData, category: e.target.value })}
                                         >
                                             <option value="">{t('admin.common.select')}</option>
-                                            <option value="roman">Roman</option>
-                                            <option value="poesie">Poésie</option>
-                                            <option value="essai">Essai</option>
-                                            <option value="histoire">Histoire</option>
-                                            <option value="linguistique">Linguistique</option>
-                                            <option value="dictionnaire">Dictionnaire</option>
-                                            <option value="enfants">Livres enfants</option>
-                                            <option value="autre">Autre</option>
+                                            <option value="celluka">{t('library.book.categories.celluka', 'Apprendre le Fulfulde')}</option>
+                                            <option value="caggitorde">{t('library.book.categories.caggitorde', 'Dictionnaires')}</option>
+                                            <option value="conce">{t('library.book.categories.conce', 'Littérature')}</option>
+                                            <option value="ganndine">{t('library.book.categories.ganndine', 'Sciences')}</option>
                                         </select>
                                     </div>
                                 </div>

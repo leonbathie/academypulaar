@@ -1,11 +1,13 @@
 import { useState } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { useAuth } from '../context/AuthContext'
 import logoGif from '../assets/logo-academie.gif'
 import './LoginPage.css'
 
 function LoginPage() {
     const { login, isAuthenticated, loading } = useAuth()
+    const { t } = useTranslation()
     const navigate = useNavigate()
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
@@ -41,7 +43,7 @@ function LoginPage() {
                 <div className="login-header">
                     <img src={logoGif} alt="Goomu Fulo Wiɗto" className="login-logo" />
                     <h1>Goomu Fulo Wiɗto</h1>
-                    <p>Administration</p>
+                    <p>{t('admin.loginTitle', 'Administration')}</p>
                 </div>
 
                 <form onSubmit={handleSubmit} className="login-form">
@@ -56,7 +58,7 @@ function LoginPage() {
                     )}
 
                     <div className="form-group">
-                        <label htmlFor="username">Nom d'utilisateur</label>
+                        <label htmlFor="username">{t('admin.login.username', "Nom d'utilisateur")}</label>
                         <input
                             type="text"
                             id="username"
@@ -69,7 +71,7 @@ function LoginPage() {
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="password">Mot de passe</label>
+                        <label htmlFor="password">{t('admin.login.password', 'Mot de passe')}</label>
                         <input
                             type="password"
                             id="password"
@@ -84,21 +86,21 @@ function LoginPage() {
                         {isLoading ? (
                             <>
                                 <span className="spinner"></span>
-                                Connexion...
+                                {t('admin.login.connecting', 'Connexion...')}
                             </>
                         ) : (
                             <>
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                     <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3" />
                                 </svg>
-                                Se connecter
+                                {t('admin.login.submit', 'Se connecter')}
                             </>
                         )}
                     </button>
                 </form>
 
                 <div className="login-footer">
-                    <a href="/">← Retour au site</a>
+                    <a href="/">← {t('admin.login.backToSite', 'Retour au site')}</a>
                 </div>
             </div>
         </div>

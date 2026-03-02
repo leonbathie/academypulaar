@@ -177,7 +177,7 @@ function AdminPage() {
                             )}
                         </div>
                         <div className="header-user">
-                            <span>{t('admin.header.welcome')}, <strong>{user?.username}</strong></span>
+                            <span>{t('admin.header.welcome')}, <strong>{i18n.language?.startsWith('ff') ? 'Ɗowoowo' : user?.username}</strong></span>
                         </div>
                     </div>
                 </header>

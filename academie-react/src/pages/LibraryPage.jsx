@@ -45,14 +45,10 @@ function LibraryPage() {
 
     const getCategoryLabel = (category) => {
         const labels = {
-            roman: { fr: 'Roman', en: 'Novel', ff: 'Tinndi' },
-            poesie: { fr: 'Poésie', en: 'Poetry', ff: 'Jimol' },
-            essai: { fr: 'Essai', en: 'Essay', ff: 'Eseey' },
-            histoire: { fr: 'Histoire', en: 'History', ff: 'Taariik' },
-            linguistique: { fr: 'Linguistique', en: 'Linguistics', ff: 'Ɗemngal' },
-            dictionnaire: { fr: 'Dictionnaire', en: 'Dictionary', ff: 'Saggitorde' },
-            enfants: { fr: 'Livres enfants', en: 'Children Books', ff: 'Defte sukaaɓe' },
-            autre: { fr: 'Autre', en: 'Other', ff: 'Goɗɗum' }
+            celluka: { fr: 'Apprendre le Fulfulde', en: 'Learning Fulfulde', ff: 'Celluka/ Mbinndiin Fulfulde' },
+            caggitorde: { fr: 'Dictionnaires', en: 'Dictionaries', ff: 'Caggitorɗe' },
+            conce: { fr: 'Littérature', en: 'Literature', ff: 'Coñce' },
+            ganndine: { fr: 'Sciences', en: 'Sciences', ff: 'Ganndine' }
         }
         return labels[category]?.[i18n.language] || labels[category]?.fr || category
     }

@@ -79,10 +79,10 @@
         "title": "L'actualité de ",
         "titleHighlight": "Goomu Fulo Wiɗto",
         "viewAll": "Toutes les actualités",
-        "candidacy": "Candidature",
-        "election": "Élection",
-        "sayDontSay": "Dire, Ne pas dire",
-        "literaryPrizes": "Prix littéraires"
+        "language": "Langue",
+        "publication": "Publication",
+        "event": "Événement",
+        "general": "Actualité"
     },
     "sayDontSay": {
         "sectionLabel": "La langue Fulfulde",
@@ -205,14 +205,10 @@
             "noBooks": "Aucun livre disponible pour le moment",
             "checkBack": "Revenez bientôt pour de nouvelles publications !",
             "categories": {
-                "roman": "Roman",
-                "poesie": "Poésie",
-                "essai": "Essai",
-                "histoire": "Histoire",
-                "linguistique": "Linguistique",
-                "dictionnaire": "Dictionnaire",
-                "enfants": "Livres enfants",
-                "autre": "Autre"
+                "celluka": "Apprendre le Fulfulde",
+                "caggitorde": "Dictionnaires",
+                "conce": "Littérature",
+                "ganndine": "Sciences"
             }
         }
     },
@@ -273,6 +269,14 @@
         "accessibility": "Accessibilité"
     },
     "admin": {
+        "loginTitle": "Administration",
+        "login": {
+            "username": "Nom d'utilisateur",
+            "password": "Mot de passe",
+            "connecting": "Connexion...",
+            "submit": "Se connecter",
+            "backToSite": "Retour au site"
+        },
         "sidebar": {
             "dashboard": "Tableau de bord",
             "dictionary": "Dictionnaire",
@@ -367,7 +371,9 @@
             "fileLabel": "Fichier du livre (PDF, EPUB, etc.)",
             "existingFile": "Fichier existant",
             "clickToAddFile": "Cliquez pour ajouter un fichier",
-            "description": "Description"
+            "description": "Description",
+            "coverLabel": "Image de couverture",
+            "clickToAddCover": "Cliquez pour ajouter une couverture"
         },
         "news": {
             "title": "Actualités",
@@ -383,8 +389,7 @@
             "noNews": "Aucune actualité publiée",
             "coverLabel": "Image de couverture",
             "clickToAddImage": "Cliquez pour ajouter une image",
-            "redirectLink": "Lien de redirection (URL)",
-            "catEvent": "Événement"
+            "redirectLink": "Lien de redirection (URL)"
         },
         "content": {
             "title": "Dire, Ne pas dire",
