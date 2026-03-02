@@ -556,16 +556,16 @@
     }
 
     .logo-title {
-        font-size: 1rem;
+        font-size: 1.1rem;
     }
 
     .logo-subtitle {
-        font-size: 0.7rem;
+        font-size: 0.75rem;
     }
 
     .logo-icon {
-        width: 66px;
-        height: 66px;
+        width: 72px;
+        height: 72px;
     }
 
     .search-btn {
@@ -601,16 +601,16 @@
     }
 
     .logo-icon {
-        width: 58px;
-        height: 58px;
+        width: 64px;
+        height: 64px;
     }
 
     .logo-title {
-        font-size: 0.88rem;
+        font-size: 0.95rem;
     }
 
     .logo-subtitle {
-        font-size: 0.62rem;
+        font-size: 0.68rem;
     }
 
     .mobile-menu-btn {
