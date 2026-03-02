@@ -83,7 +83,7 @@ function Header() {
     }
 
     return (
-        <header className={`header ${isScrolled ? 'scrolled' : ''} ${isLightPage && !isScrolled ? 'light-page' : ''}`}>
+        <header className={`header ${isScrolled ? 'scrolled' : ''} ${isLightPage && !isScrolled && !isDark ? 'light-page' : ''}`}>
             <div className="header-container">
                 <Link to="/" className="logo">
                     <div className="logo-icon">
