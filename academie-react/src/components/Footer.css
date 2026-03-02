@@ -330,6 +330,12 @@
         justify-content: flex-start;
     }
 
+    .footer-links {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.5rem 1rem;
+    }
+
     .footer-bottom {
         padding: 0.85rem 1rem;
     }
@@ -397,6 +403,9 @@
     }
 
     .footer-links {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.5rem 1rem;
         align-items: center;
     }
 
