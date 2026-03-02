@@ -3,11 +3,12 @@
    ============================================ */
 
 .dire-page {
+    padding-top: 80px;
     padding-bottom: var(--space-3xl);
 }
 
 .dire-page-header {
-    background: linear-gradient(135deg, var(--dark-green) 0%, #1a5a3a 100%);
+    background: linear-gradient(135deg, var(--accent-forest) 0%, #1a5a3a 100%);
     padding: var(--space-3xl) 0 var(--space-2xl);
     margin-bottom: var(--space-2xl);
     text-align: center;
@@ -38,10 +39,10 @@
 
 .dire-filter-btn {
     padding: 0.5rem 1.2rem;
-    border: 2px solid var(--gold);
+    border: 2px solid var(--primary-gold);
     border-radius: var(--radius-full);
     background: transparent;
-    color: var(--dark-green);
+    color: var(--accent-forest);
     font-weight: 600;
     font-size: 0.9rem;
     cursor: pointer;
@@ -50,7 +51,7 @@
 
 .dire-filter-btn:hover,
 .dire-filter-btn.active {
-    background: var(--gold);
+    background: var(--primary-gold);
     color: white;
 }
 
@@ -86,7 +87,7 @@
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: var(--gold);
+    color: var(--primary-gold);
 }
 
 .dire-page-card-body {
@@ -128,14 +129,14 @@
 .dire-page-text {
     font-size: 1.1rem;
     font-weight: 500;
-    color: var(--text-primary);
+    color: var(--dark-gray);
     line-height: 1.6;
     padding-left: 1.6rem;
 }
 
 .dire-page-explanation {
     background: var(--cream);
-    border-left: 3px solid var(--gold);
+    border-left: 3px solid var(--primary-gold);
     padding: var(--space-md) var(--space-lg);
     border-radius: 0 var(--radius-md) var(--radius-md) 0;
     margin-top: var(--space-md);
@@ -163,7 +164,7 @@
 
 .dire-page-empty h3 {
     font-size: 1.3rem;
-    color: var(--text-primary);
+    color: var(--dark-gray);
     margin-bottom: var(--space-sm);
 }
 
@@ -182,7 +183,7 @@
     width: 40px;
     height: 40px;
     border: 3px solid var(--light-gray);
-    border-top-color: var(--gold);
+    border-top-color: var(--primary-gold);
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
     margin: 0 auto var(--space-md);
