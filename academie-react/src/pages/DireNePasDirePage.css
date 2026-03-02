@@ -204,3 +204,34 @@
         padding: var(--space-2xl) 0 var(--space-xl);
     }
 }
+
+/* Dark Mode */
+[data-theme="dark"] .dire-page-card {
+    background: #1E1E2F;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .dire-page-card:hover {
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="dark"] .dire-page-card-header {
+    background: #16162A;
+    border-bottom-color: #2A2A3E;
+}
+
+[data-theme="dark"] .dire-page-card-body {
+    background: #1E1E2F;
+}
+
+[data-theme="dark"] .dire-page-text {
+    color: #E8E6E1;
+}
+
+[data-theme="dark"] .dire-page-explanation {
+    background: #16162A;
+}
+
+[data-theme="dark"] .dire-page-explanation p {
+    color: #B0B0B0;
+}
