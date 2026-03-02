@@ -12,8 +12,8 @@ function AdminPage() {
     const [isLangMenuOpen, setIsLangMenuOpen] = useState(false)
 
     const languages = [
-        { code: 'fr', name: 'Français', flag: '🇫🇷' },
-        { code: 'en', name: 'English', flag: '🇬🇧' },
+        { code: 'fr', name: 'Français', flag: 'FR' },
+        { code: 'en', name: 'English', flag: 'GB' },
         { code: 'ff', name: 'Fulfulde', flag: 'FF' }
     ]
 
