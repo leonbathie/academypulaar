@@ -20,6 +20,52 @@
     box-shadow: var(--shadow-lg);
 }
 
+/* Light page header - dark text on light background */
+.header.light-page {
+    background: rgba(253, 248, 240, 0.95);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.06);
+}
+
+.header.light-page .logo {
+    color: var(--dark-gray);
+}
+
+.header.light-page .logo-subtitle {
+    color: var(--primary-gold);
+}
+
+.header.light-page .nav-link {
+    color: var(--dark-gray);
+}
+
+.header.light-page .nav-link:hover {
+    background: rgba(0, 0, 0, 0.05);
+    color: var(--primary-gold);
+}
+
+.header.light-page .theme-toggle {
+    color: var(--dark-gray);
+}
+
+.header.light-page .theme-toggle:hover {
+    background: rgba(0, 0, 0, 0.05);
+    color: var(--primary-gold);
+}
+
+.header.light-page .lang-btn {
+    background: rgba(0, 0, 0, 0.06);
+    color: var(--dark-gray);
+}
+
+.header.light-page .lang-btn:hover {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.header.light-page .mobile-menu-btn span {
+    background: var(--dark-gray);
+}
+
 .header-container {
     max-width: var(--max-width);
     margin: 0 auto;

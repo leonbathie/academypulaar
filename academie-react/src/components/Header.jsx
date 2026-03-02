@@ -22,6 +22,10 @@ function Header() {
 
     const currentLang = languages.find(l => l.code === i18n.language) || languages[0]
 
+    // Pages with light backgrounds need dark header text
+    const lightPages = ['/dire', '/contact', '/a-propos', '/dictionnaire', '/terminologie']
+    const isLightPage = lightPages.includes(location.pathname)
+
     const menuItems = [
         {
             title: t('nav.institution'),
@@ -79,7 +83,7 @@ function Header() {
     }
 
     return (
-        <header className={`header ${isScrolled ? 'scrolled' : ''}`}>
+        <header className={`header ${isScrolled ? 'scrolled' : ''} ${isLightPage && !isScrolled ? 'light-page' : ''}`}>
             <div className="header-container">
                 <Link to="/" className="logo">
                     <div className="logo-icon">
