@@ -302,7 +302,8 @@
             "stats": {
                 "words": "Kelme e saggitorde",
                 "news": "Kabaruuji ɓaŋŋinaaɗi",
-                "content": "Wiide, Woto wiide"
+                "content": "Wiy, Woto wiy",
+                "books": "Defte e defterdu"
             },
             "welcomeCard": {
                 "title": "A jaɓɓaama e Ɗowoowo",
@@ -398,7 +399,7 @@
             "catEvent": "Pottital"
         },
         "content": {
-            "title": "Wiyde e wiyde ala",
+            "title": "Wiyatee / Wiyataake",
             "add": "Ɓeydude wiyannde",
             "edit": "Waylude wiyannde",
             "dire": "Wiyde",

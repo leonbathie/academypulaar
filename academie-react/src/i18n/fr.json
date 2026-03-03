@@ -302,7 +302,8 @@
             "stats": {
                 "words": "Mots dans le dictionnaire",
                 "news": "Actualités publiées",
-                "content": "Expressions \"Dire, Ne pas dire\""
+                "content": "Expressions \"Dire, Ne pas dire\"",
+                "books": "Livres dans la bibliothèque"
             },
             "welcomeCard": {
                 "title": "Bienvenue dans l'administration",

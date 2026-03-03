@@ -194,7 +194,7 @@
     },
     "library": {
         "title": "Fulfulde Digital Library",
-        "intro": "Read or download our books and publications in Pulaar",
+        "intro": "Read or download books and publications in Fulfulde",
         "stats": {
             "books": "Books",
             "downloads": "Downloads"
@@ -300,7 +300,8 @@
             "stats": {
                 "words": "Words in dictionary",
                 "news": "Published news",
-                "content": "Say, Don't Say expressions"
+                "content": "Say, Don't Say expressions",
+                "books": "Books in library"
             },
             "welcomeCard": {
                 "title": "Welcome to administration",

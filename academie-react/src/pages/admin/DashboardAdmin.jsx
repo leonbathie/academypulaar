@@ -8,7 +8,8 @@ function DashboardAdmin() {
     const [stats, setStats] = useState({
         dictionary: 0,
         news: 0,
-        content: 0
+        content: 0,
+        books: 0
     })
     const [loading, setLoading] = useState(true)
 
@@ -18,16 +19,18 @@ function DashboardAdmin() {
 
     const loadStats = async () => {
         try {
-            const [dictionary, news, content] = await Promise.all([
+            const [dictionary, news, content, books] = await Promise.all([
                 apiRequest('/dictionary'),
                 apiRequest('/news'),
-                apiRequest('/content/dire')
+                apiRequest('/content/dire'),
+                apiRequest('/books')
             ])
 
             setStats({
                 dictionary: dictionary.length,
                 news: news.length,
-                content: content.length
+                content: content.length,
+                books: books.length
             })
         } catch (error) {
             console.error('Error loading stats:', error)
@@ -88,6 +91,19 @@ function DashboardAdmin() {
                     <div className="stat-info">
                         <h3>{stats.content}</h3>
                         <p>{t('admin.dashboard.stats.content')}</p>
+                    </div>
+                </div>
+
+                <div className="stat-card">
+                    <div className="stat-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+                            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+                        </svg>
+                    </div>
+                    <div className="stat-info">
+                        <h3>{stats.books}</h3>
+                        <p>{t('admin.dashboard.stats.books')}</p>
                     </div>
                 </div>
             </div>
