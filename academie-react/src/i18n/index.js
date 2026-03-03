@@ -22,7 +22,7 @@ i18n
 
         detection: {
             // Ordre de détection de la langue
-            order: ['navigator', 'localStorage', 'htmlTag', 'querystring'],
+            order: ['localStorage', 'navigator', 'htmlTag', 'querystring'],
             // Où sauvegarder la langue choisie
             lookupLocalStorage: 'i18nextLng',
             caches: ['localStorage']

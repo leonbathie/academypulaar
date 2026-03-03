@@ -303,14 +303,14 @@
                 "words": "Kelme e saggitorde",
                 "news": "Kabaruuji ɓaŋŋinaaɗi",
                 "content": "Wiy, Woto wiy",
-                "books": "Defte e defterdu"
+                "books": "Defte e nder Defterdu"
             },
             "welcomeCard": {
                 "title": "A jaɓɓaama e Ɗowoowo",
                 "text": "Huutoro doggol nanol ngol ngam leemde lowre Goomu Fulo Wiɗto :",
                 "dict": "Ɓeydude, waylude walla momtude kelme",
                 "news": "Ɓaŋŋinde kabaruuji e binndanɗe",
-                "content": "Leemde biyanɗe"
+                "library": "Leemde defte defterdu"
             }
         },
         "common": {

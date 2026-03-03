@@ -282,7 +282,7 @@ function BooksAdmin() {
             <div className="admin-header">
                 <div>
                     <h1>📚 {t('admin.books.title')}</h1>
-                    <p>{t('admin.dashboard.welcomeCard.text')} {t('admin.dashboard.welcomeCard.content')}</p>
+                    <p>{t('admin.dashboard.welcomeCard.text')}</p>
                 </div>
                 <button className="btn btn-primary" onClick={() => openModal()}>
                     + {t('admin.books.add')}

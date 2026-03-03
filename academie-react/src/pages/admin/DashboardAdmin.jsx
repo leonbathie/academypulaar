@@ -116,7 +116,7 @@ function DashboardAdmin() {
                 <ul style={{ marginTop: '1rem', color: 'var(--dark-gray)', lineHeight: 2 }}>
                     <li><strong>{t('admin.sidebar.dictionary')}</strong> - {t('admin.dashboard.welcomeCard.dict')}</li>
                     <li><strong>{t('admin.sidebar.news')}</strong> - {t('admin.dashboard.welcomeCard.news')}</li>
-                    <li><strong>{t('admin.sidebar.content')}</strong> - {t('admin.dashboard.welcomeCard.content')}</li>
+                    <li><strong>{t('admin.sidebar.library')}</strong> - {t('admin.dashboard.welcomeCard.library')}</li>
                 </ul>
             </div>
         </div>
