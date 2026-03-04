@@ -4,8 +4,27 @@ import { useApi } from '../../context/AuthContext'
 import { API_URL } from '../../config'
 
 function DictionaryAdmin() {
-    const { t } = useTranslation()
+    const { t, i18n } = useTranslation()
     const { apiRequest, token } = useApi()
+
+    // Map stored domain values to i18n keys
+    const domainKeyMap = {
+        scientifique: 'admin.dictionary.domScience',
+        mathematiques: 'admin.dictionary.domMath',
+        biologie: 'admin.dictionary.domBio',
+        philosophie: 'admin.dictionary.domPhilo',
+        economie: 'admin.dictionary.domEco',
+        droit: 'admin.dictionary.domDroit',
+        astronomie: 'admin.dictionary.domAstro',
+        informatique: 'admin.dictionary.domInfo',
+        botanique: 'admin.dictionary.domBota',
+        vivants: 'admin.dictionary.domVivants',
+        elevage: 'admin.dictionary.domElevage',
+        agriculture: 'admin.dictionary.domAgri',
+        peche: 'admin.dictionary.domPeche',
+        forge: 'admin.dictionary.domForge',
+        dictionnaire: 'admin.dictionary.domDict'
+    }
     const [words, setWords] = useState([])
     const [loading, setLoading] = useState(true)
     const [searchTerm, setSearchTerm] = useState('')
@@ -272,7 +291,7 @@ function DictionaryAdmin() {
                                 <td>{word.translation_fr || '-'}</td>
                                 <td>{word.translation_en || '-'}</td>
                                 <td>{word.translation_ff || '-'}</td>
-                                <td><span className="domain-badge">{word.domain || '-'}</span></td>
+                                <td><span className="domain-badge">{word.domain ? t(domainKeyMap[word.domain] || word.domain) : '-'}</span></td>
                                 <td style={{ textAlign: 'center' }}>
                                     {word.audio_word && (
                                         <span title="Audio du mot">🔊</span>

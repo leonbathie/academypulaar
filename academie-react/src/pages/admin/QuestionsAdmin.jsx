@@ -3,7 +3,8 @@ import { useTranslation } from 'react-i18next'
 import { useApi } from '../../context/AuthContext'
 
 function QuestionsAdmin() {
-    const { t } = useTranslation()
+    const { t, i18n } = useTranslation()
+    const lang = i18n.language || 'fr'
     const { apiRequest } = useApi()
     const [items, setItems] = useState([])
     const [loading, setLoading] = useState(true)
@@ -90,7 +91,7 @@ function QuestionsAdmin() {
     }
 
     const handleDelete = async (id) => {
-        if (!confirm('Supprimer cette question ?')) return
+        if (!confirm(t('admin.common.confirmDelete') || 'Supprimer cette question ?')) return
         try {
             await apiRequest(`/questions/${id}`, { method: 'DELETE' })
             loadItems()
@@ -130,9 +131,9 @@ function QuestionsAdmin() {
                         {items.map((item, index) => (
                             <tr key={item.id}>
                                 <td>{item.sort_order || index + 1}</td>
-                                <td><strong>{item.question_fr}</strong></td>
+                                <td><strong>{item[`question_${lang}`] || item.question_fr}</strong></td>
                                 <td style={{ maxWidth: '400px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                                    {item.answer_fr}
+                                    {item[`answer_${lang}`] || item.answer_fr}
                                 </td>
                                 <td className="actions-cell">
                                     <button className="btn-edit" onClick={() => openModal(item)}>

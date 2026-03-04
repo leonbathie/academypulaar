@@ -27,7 +27,7 @@
         "speeches": "Kaalanɗe",
         "language": "Ɗemngal Fulfulde",
         "frenchToday": "Fulfulde Hannde",
-        "languageQuestions": "Naamne lolluɗe",
+        "languageQuestions": "Laaɓnde / ƴame lolluɗe",
         "terminology": "Kelmeendi",
         "sayDontSay": "Wiy, Woto wiy",
         "dictionary": "Saggitorde",
@@ -224,8 +224,8 @@
         "noMembers": "Alaa tergal winndaa"
     },
     "languageQuestions": {
-        "title": "Naamne dow",
-        "titleHighlight": "Ɗemngal",
+        "title": "Laaɓnde /",
+        "titleHighlight": "Ƴame lolluɗe",
         "intro": "Ƴeew naamne lolluɗe dow ɗemngal Fulfulde, celluka mum, kuutoragol mum e keeriiɗi mum.",
         "q1": "Hol sereendu hakkunde Pulaar e Fulfulde ?",
         "a1": "Pulaar e Fulfulde ko ɗemngal gootol, ɗemngal Fulɓe. Pulaar ko innde huutorteende semmbe e Afirik Hirnaange (Senegaal, Muritani, Gine), tawi Fulfulde ko innde kuuftidinɗe mbaadi ɗemngal ngal kala e Afirik.",
@@ -288,7 +288,7 @@
             "news": "Kabaruuji",
             "content": "Wiy, Woto wiy",
             "library": "Defterdu",
-            "questions": "Naamne ɗemngal",
+            "questions": "Laaɓnde / ƴame lolluɗe",
             "viewSite": "Yiy lowre nde",
             "logout": "Seŋto"
         },
@@ -305,7 +305,7 @@
                 "news": "Kabaruuji ɓaŋŋinaaɗi",
                 "content": "Wiy, Woto wiy",
                 "books": "Defte e nder Defterdu",
-                "questions": "Naamne dow ɗemngal"
+                "questions": "Laaɓnde / ƴame lolluɗe"
             },
             "welcomeCard": {
                 "title": "A jaɓɓaama e Ɗowoowo",
@@ -314,7 +314,7 @@
                 "news": "Ɓaŋŋinde kabaruuji e binndanɗe",
                 "content": "Leemde biyanɗe",
                 "library": "Leemde defte defterdu",
-                "questions": "Leemde naamne ɗemngal"
+                "questions": "Leemde laaɓnde / ƴame lolluɗe"
             }
         },
         "common": {
@@ -420,7 +420,7 @@
             "explanationLabel": "Pinal"
         },
         "questions": {
-            "title": "Naamne ɗemngal",
+            "title": "Laaɓnde / ƴame lolluɗe",
             "add": "Ɓeydude naamnal",
             "edit": "Waylude naamnal",
             "questionLabel": "Naamnal",
