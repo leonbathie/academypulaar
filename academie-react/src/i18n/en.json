@@ -1,7 +1,7 @@
 {
     "common": {
         "siteName": "Goomu Fulo & Wiɗto",
-        "siteSlogan": "Pulaar Language Academy",
+        "siteSlogan": "Fulfulde Language Academy",
         "since": "Since 2016",
         "discover": "Discover",
         "readMore": "Read more",
@@ -26,7 +26,7 @@
         "greenCoat": "Traditions",
         "speeches": "Speeches",
         "language": "Fulfulde Language",
-        "frenchToday": "Pulaar Today",
+        "frenchToday": "Fulfulde Today",
         "languageQuestions": "Language Questions",
         "terminology": "Terminology",
         "sayDontSay": "Say, Don't Say",
@@ -46,9 +46,9 @@
         "title2": "The Dictionary",
         "subtitle2": "First edition of the Goomu Fulo Wiɗto Dictionary",
         "title3": "Fulfulde Language",
-        "subtitle3": "Guardian of the language, Goomu Fulo Wiɗto protects Pulaar",
+        "subtitle3": "Guardian of the language, Goomu Fulo Wiɗto protects Fulfulde",
         "title4": "Scholars",
-        "subtitle4": "Members serving Pulaar language and culture",
+        "subtitle4": "Members serving Fulfulde language and culture",
         "consultDictionary": "Consult the Dictionary",
         "scroll": "Scroll"
     },
@@ -59,11 +59,11 @@
         "description": "Goomu Fulo & Wiɗto has as mission to translate scientific terms into Fulfulde and conduct research to develop Fulfulde language.",
         "institution": {
             "title": "The Institution",
-            "description": "Founded for the Pulaar language, Goomu Fulo Wiɗto is an organization of language guardians."
+            "description": "Founded for the Fulfulde language, Goomu Fulo Wiɗto is an organization of language guardians."
         },
         "dictionary": {
             "title": "The Dictionary",
-            "description": "Goomu Fulo Wiɗto is developing the Dictionary, the reference work of the Pulaar language."
+            "description": "Goomu Fulo Wiɗto is developing the Dictionary, the reference work of the Fulfulde language."
         },
         "prizes": {
             "title": "The Prizes",
@@ -149,20 +149,20 @@
     "about": {
         "title": "About",
         "highlight": "Goomu Fulo Wiɗto",
-        "intro": "Goomu Fulo Wiɗto is an organization dedicated to the preservation, promotion and development of the Pulaar language.",
+        "intro": "Goomu Fulo Wiɗto is an organization dedicated to the preservation, promotion and development of the Fulfulde language.",
         "missionTitle": "Our Mission",
-        "mission": "Our mission is to create a comprehensive dictionary of the Pulaar language, promote its use in education and media, and preserve the cultural heritage of the Fulɓe through their language.",
+        "mission": "Our mission is to create a comprehensive dictionary of the Fulfulde language, promote its use in education and media, and preserve the cultural heritage of the Fulɓe through their language.",
         "historyTitle": "Our History",
-        "history": "Founded by a group of linguists, writers and advocates of Pulaar culture, Goomu Fulo Wiɗto was created to address the urgent need to document and standardize Pulaar in the digital age.",
+        "history": "Founded by a group of linguists, writers and advocates of Fulfulde culture, Goomu Fulo Wiɗto was created to address the urgent need to document and standardize Fulfulde in the digital age.",
         "valuesTitle": "Our Values",
         "values": {
             "preservation": {
                 "title": "Preservation",
-                "desc": "Protect and document Pulaar linguistic heritage"
+                "desc": "Protect and document Fulfulde linguistic heritage"
             },
             "education": {
                 "title": "Education",
-                "desc": "Promote Pulaar teaching in schools"
+                "desc": "Promote Fulfulde teaching in schools"
             },
             "innovation": {
                 "title": "Innovation",
@@ -170,7 +170,7 @@
             },
             "unity": {
                 "title": "Unity",
-                "desc": "Bring together Pulaar speakers from around the world"
+                "desc": "Bring together Fulfulde speakers from around the world"
             }
         }
     },
@@ -286,6 +286,7 @@
             "news": "News",
             "content": "Say, Don't Say",
             "library": "Library",
+            "questions": "Language Questions",
             "viewSite": "View Site",
             "logout": "Logout"
         },
@@ -301,7 +302,8 @@
                 "words": "Words in dictionary",
                 "news": "Published news",
                 "content": "Say, Don't Say expressions",
-                "books": "Books in library"
+                "books": "Books in library",
+                "questions": "Language questions"
             },
             "welcomeCard": {
                 "title": "Welcome to administration",
@@ -309,7 +311,8 @@
                 "dict": "Add, edit or delete words",
                 "news": "Publish news and articles",
                 "content": "Manage language expressions",
-                "library": "Manage library books"
+                "library": "Manage library books",
+                "questions": "Manage language questions"
             }
         },
         "common": {
@@ -328,7 +331,7 @@
             "title": "Dictionary",
             "add": "Add a word",
             "edit": "Edit word",
-            "wordPulaar": "Word (Fulfulde)",
+            "wordFulfulde": "Word (Fulfulde)",
             "translationFr": "French",
             "translationEn": "English",
             "translationFf": "Fulfulde",
@@ -367,6 +370,7 @@
         },
         "books": {
             "title": "Library",
+            "category": "Category",
             "add": "Add a book",
             "edit": "Edit book",
             "titleLabel": "Title",
@@ -411,6 +415,17 @@
             "weSayLabel": "Say",
             "weDontSayLabel": "Don't say",
             "explanationLabel": "Explanation"
+        },
+        "questions": {
+            "title": "Language Questions",
+            "add": "Add a question",
+            "edit": "Edit question",
+            "questionLabel": "Question",
+            "answerLabel": "Answer",
+            "orderLabel": "Display order",
+            "noQuestions": "No questions recorded",
+            "questionPlaceholder": "Write the question...",
+            "answerPlaceholder": "Write the answer..."
         }
     }
 }

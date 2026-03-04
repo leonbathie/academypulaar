@@ -9,7 +9,8 @@ function DashboardAdmin() {
         dictionary: 0,
         news: 0,
         content: 0,
-        books: 0
+        books: 0,
+        questions: 0
     })
     const [loading, setLoading] = useState(true)
 
@@ -19,18 +20,20 @@ function DashboardAdmin() {
 
     const loadStats = async () => {
         try {
-            const [dictionary, news, content, books] = await Promise.all([
+            const [dictionary, news, content, books, questions] = await Promise.all([
                 apiRequest('/dictionary'),
                 apiRequest('/news'),
                 apiRequest('/content/dire'),
-                apiRequest('/books')
+                apiRequest('/books'),
+                apiRequest('/questions')
             ])
 
             setStats({
                 dictionary: dictionary.length,
                 news: news.length,
                 content: content.length,
-                books: books.length
+                books: books.length,
+                questions: questions.length
             })
         } catch (error) {
             console.error('Error loading stats:', error)
@@ -106,6 +109,20 @@ function DashboardAdmin() {
                         <p>{t('admin.dashboard.stats.books')}</p>
                     </div>
                 </div>
+
+                <div className="stat-card">
+                    <div className="stat-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <circle cx="12" cy="12" r="10" />
+                            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+                            <line x1="12" y1="17" x2="12.01" y2="17" />
+                        </svg>
+                    </div>
+                    <div className="stat-info">
+                        <h3>{stats.questions}</h3>
+                        <p>{t('admin.dashboard.stats.questions')}</p>
+                    </div>
+                </div>
             </div>
 
             <div className="admin-card">
@@ -118,6 +135,7 @@ function DashboardAdmin() {
                     <li><strong>{t('admin.sidebar.news')}</strong> - {t('admin.dashboard.welcomeCard.news')}</li>
                     <li><strong>{t('admin.sidebar.content')}</strong> - {t('admin.dashboard.welcomeCard.content')}</li>
                     <li><strong>{t('admin.sidebar.library')}</strong> - {t('admin.dashboard.welcomeCard.library')}</li>
+                    <li><strong>{t('admin.sidebar.questions')}</strong> - {t('admin.dashboard.welcomeCard.questions')}</li>
                 </ul>
             </div>
         </div>

@@ -294,7 +294,7 @@ function BooksAdmin() {
                     <thead>
                         <tr>
                             <th>{t('admin.books.titleLabel')}</th>
-                            <th>{t('admin.dictionary.category')}</th>
+                            <th>{t('admin.books.category')}</th>
                             <th>{t('admin.books.file')}</th>
                             <th>{t('admin.books.downloads')}</th>
                             <th>{t('admin.common.actions')}</th>

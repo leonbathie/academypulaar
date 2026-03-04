@@ -9,7 +9,7 @@ import ff from './ff.json'
 const resources = {
     fr: { translation: fr },
     en: { translation: en },
-    ff: { translation: ff }  // Pulaar (Fulfulde)
+    ff: { translation: ff }  // Fulfulde
 }
 
 i18n

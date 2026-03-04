@@ -20,6 +20,7 @@ import DictionaryAdmin from './pages/admin/DictionaryAdmin'
 import NewsAdmin from './pages/admin/NewsAdmin'
 import ContentAdmin from './pages/admin/ContentAdmin'
 import BooksAdmin from './pages/admin/BooksAdmin'
+import QuestionsAdmin from './pages/admin/QuestionsAdmin'
 import './App.css'
 
 function App() {
@@ -95,6 +96,7 @@ function App() {
               <Route path="actualites" element={<NewsAdmin />} />
               <Route path="contenu" element={<ContentAdmin />} />
               <Route path="bibliotheque" element={<BooksAdmin />} />
+              <Route path="questions" element={<QuestionsAdmin />} />
             </Route>
 
             {/* 404 */}

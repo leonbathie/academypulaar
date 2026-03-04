@@ -1,7 +1,7 @@
 {
     "common": {
         "siteName": "Goomu Fulo & Wiɗto",
-        "siteSlogan": "Hentordu Ɗemngal Pulaar",
+        "siteSlogan": "Hentordu Ɗemngal Fulfulde",
         "since": "Gila 2016",
         "discover": "Ƴeew",
         "readMore": "Jokku",
@@ -149,20 +149,20 @@
     "about": {
         "title": "Ciimtol Goomu ngu",
         "highlight": "Goomu Fulo Wiɗto",
-        "intro": "Goomu Fulo Wiɗto ko fedde toppitiiɗo reentaade, ɓamtaade e ƴellitaade ɗemngal Pulaar.",
+        "intro": "Goomu Fulo Wiɗto ko fedde toppitiiɗo reentaade, ɓamtaade e ƴellitaade ɗemngal Fulfulde.",
         "missionTitle": "Golle Amin",
         "mission": "Golle amin ko mahde saggitorde ganndinal timmunde he ɗemngal Fulfulde, ɓamtude huutoraade ɗum e jaŋde e jayɗe, e reende pinal Fulɓe e ɗemngal mumen.",
         "historyTitle": "Taariik Amin",
-        "history": "Sosaa e dental ganndooji ɗemngal, winnderɓe e yarlitanɓe pinal Pulaar, Goomu Fulo Wiɗto fuɗɗii ngam jaɓɓaade waɗɗagol binndude e darnaade Pulaar e waktu internet.",
+        "history": "Sosaa e dental ganndooji ɗemngal, winnderɓe e yarlitanɓe pinal Fulfulde, Goomu Fulo Wiɗto fuɗɗii ngam jaɓɓaade waɗɗagol binndude e darnaade Fulfulde e waktu internet.",
         "valuesTitle": "Jojjanɗe Amin",
         "values": {
             "preservation": {
                 "title": "Reentaade",
-                "desc": "Reentude e binndude ndonu ɗemngal Pulaar"
+                "desc": "Reentude e binndude ndonu ɗemngal Fulfulde"
             },
             "education": {
                 "title": "Jaŋde",
-                "desc": "Ɓamtude janngude Pulaar e duɗe"
+                "desc": "Ɓamtude janngude Fulfulde e duɗe"
             },
             "innovation": {
                 "title": "Kese",
@@ -170,7 +170,7 @@
             },
             "unity": {
                 "title": "Kawral",
-                "desc": "Renndinde haaltooɓe Pulaar aduna fof"
+                "desc": "Renndinde haaltoɓe Fulfulde aduna fof"
             }
         }
     },
@@ -288,6 +288,7 @@
             "news": "Kabaruuji",
             "content": "Wiy, Woto wiy",
             "library": "Defterdu",
+            "questions": "Naamne ɗemngal",
             "viewSite": "Yiy lowre nde",
             "logout": "Seŋto"
         },
@@ -303,7 +304,8 @@
                 "words": "Kelme e saggitorde",
                 "news": "Kabaruuji ɓaŋŋinaaɗi",
                 "content": "Wiy, Woto wiy",
-                "books": "Defte e nder Defterdu"
+                "books": "Defte e nder Defterdu",
+                "questions": "Naamne dow ɗemngal"
             },
             "welcomeCard": {
                 "title": "A jaɓɓaama e Ɗowoowo",
@@ -311,7 +313,8 @@
                 "dict": "Ɓeydude, waylude walla momtude kelme",
                 "news": "Ɓaŋŋinde kabaruuji e binndanɗe",
                 "content": "Leemde biyanɗe",
-                "library": "Leemde defte defterdu"
+                "library": "Leemde defte defterdu",
+                "questions": "Leemde naamne ɗemngal"
             }
         },
         "common": {
@@ -330,7 +333,7 @@
             "title": "Saggitorde",
             "add": "Ɓeydude helmere",
             "edit": "Waylude helmere",
-            "wordPulaar": "Helmere (Fulfulde)",
+            "wordFulfulde": "Helmere (Fulfulde)",
             "translationFr": "Farayseere",
             "translationEn": "Engeleere",
             "translationFf": "Fulfulde",
@@ -369,6 +372,7 @@
         },
         "books": {
             "title": "Defterdu",
+            "category": "Fannu",
             "add": "Ɓeydude deftere",
             "edit": "Waylude deftere",
             "titleLabel": "Tiitoonde",
@@ -414,6 +418,17 @@
             "weSayLabel": "Ma-en wiy",
             "weDontSayLabel": "Wana nii wiyete",
             "explanationLabel": "Pinal"
+        },
+        "questions": {
+            "title": "Naamne ɗemngal",
+            "add": "Ɓeydude naamnal",
+            "edit": "Waylude naamnal",
+            "questionLabel": "Naamnal",
+            "answerLabel": "Jaabtawol",
+            "orderLabel": "Teddungal hollirgal",
+            "noQuestions": "Hay naamnal hisnaaka",
+            "questionPlaceholder": "Winndu naamnal ngal...",
+            "answerPlaceholder": "Winndu jaabtawol ngol..."
         }
     }
 }

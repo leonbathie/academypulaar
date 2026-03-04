@@ -58,7 +58,7 @@ function DictionaryPage() {
         }
     }
 
-    // Recherche dans les mots (Pulaar, Français, Anglais, Définition Pulaar)
+    // Recherche dans les mots (Fulfulde, Français, Anglais, Définition Fulfulde)
     useEffect(() => {
         if (searchTerm.length >= 1) {
             setIsSearching(true)

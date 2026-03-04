@@ -1,7 +1,7 @@
 {
     "common": {
         "siteName": "Goomu Fulo & Wiɗto",
-        "siteSlogan": "Académie de la langue Pulaar",
+        "siteSlogan": "Académie de la langue Fulfulde",
         "since": "Depuis 2016",
         "discover": "Découvrir",
         "readMore": "Lire la suite",
@@ -26,7 +26,7 @@
         "greenCoat": "Traditions",
         "speeches": "Les discours",
         "language": "La langue Fulfulde",
-        "frenchToday": "Le Pulaar aujourd'hui",
+        "frenchToday": "Le Fulfulde aujourd'hui",
         "languageQuestions": "Questions de langue",
         "terminology": "Terminologie",
         "sayDontSay": "Dire, Ne pas dire",
@@ -46,9 +46,9 @@
         "title2": "Le Dictionnaire",
         "subtitle2": "Première édition du Dictionnaire Goomu Fulo Wiɗto",
         "title3": "La langue Fulfulde",
-        "subtitle3": "Gardienne de la langue, Goomu Fulo Wiɗto protège le Pulaar",
+        "subtitle3": "Gardienne de la langue, Goomu Fulo Wiɗto protège le Fulfulde",
         "title4": "Les Érudits",
-        "subtitle4": "Des membres au service de la langue et de la culture Pulaar",
+        "subtitle4": "Des membres au service de la langue et de la culture Fulfulde",
         "consultDictionary": "Consulter le Dictionnaire",
         "scroll": "Défiler"
     },
@@ -59,11 +59,11 @@
         "description": "Goomu Fulo & Wiɗto a pour mission de traduire les mots scientifiques et faire des recherches pour développer la langue Fulfulde.",
         "institution": {
             "title": "L'Institution",
-            "description": "Fondée pour la langue Pulaar, Goomu Fulo Wiɗto est une organisation de gardiens de la langue."
+            "description": "Fondée pour la langue Fulfulde, Goomu Fulo Wiɗto est une organisation de gardiens de la langue."
         },
         "dictionary": {
             "title": "Le Dictionnaire",
-            "description": "Goomu Fulo Wiɗto élabore le Dictionnaire, ouvrage de référence de la langue Pulaar."
+            "description": "Goomu Fulo Wiɗto élabore le Dictionnaire, ouvrage de référence de la langue Fulfulde."
         },
         "prizes": {
             "title": "Les Prix",
@@ -88,7 +88,7 @@
         "sectionLabel": "La langue Fulfulde",
         "title": "Dire, ",
         "titleHighlight": "Ne pas dire",
-        "intro": "Goomu Fulo & Wiɗto vous guide dans l'usage correct de la langue Pulaar.",
+        "intro": "Goomu Fulo & Wiɗto vous guide dans l'usage correct de la langue Fulfulde.",
         "discoverSection": "Découvrir la rubrique",
         "weSay": "On dit",
         "weDontSay": "On ne dit pas",
@@ -149,20 +149,20 @@
     "about": {
         "title": "À propos de",
         "highlight": "Goomu Fulo Wiɗto",
-        "intro": "Goomu Fulo Wiɗto est une organisation dédiée à la préservation, la promotion et le développement de la langue Pulaar.",
+        "intro": "Goomu Fulo Wiɗto est une organisation dédiée à la préservation, la promotion et le développement de la langue Fulfulde.",
         "missionTitle": "Notre Mission",
-        "mission": "Notre mission est de créer un dictionnaire complet de la langue Pulaar, de promouvoir son utilisation dans l'éducation et les médias, et de préserver le patrimoine culturel des Fulɓe à travers leur langue.",
+        "mission": "Notre mission est de créer un dictionnaire complet de la langue Fulfulde, de promouvoir son utilisation dans l'éducation et les médias, et de préserver le patrimoine culturel des Fulɓe à travers leur langue.",
         "historyTitle": "Notre Histoire",
-        "history": "Fondée par un groupe de linguistes, écrivains et défenseurs de la culture Pulaar, Goomu Fulo Wiɗto a vu le jour pour répondre au besoin urgent de documenter et standardiser le Pulaar à l'ère numérique.",
+        "history": "Fondée par un groupe de linguistes, écrivains et défenseurs de la culture Fulfulde, Goomu Fulo Wiɗto a vu le jour pour répondre au besoin urgent de documenter et standardiser le Fulfulde à l'ère numérique.",
         "valuesTitle": "Nos Valeurs",
         "values": {
             "preservation": {
                 "title": "Préservation",
-                "desc": "Protéger et documenter le patrimoine linguistique Pulaar"
+                "desc": "Protéger et documenter le patrimoine linguistique Fulfulde"
             },
             "education": {
                 "title": "Éducation",
-                "desc": "Promouvoir l'enseignement du Pulaar dans les écoles"
+                "desc": "Promouvoir l'enseignement du Fulfulde dans les écoles"
             },
             "innovation": {
                 "title": "Innovation",
@@ -170,7 +170,7 @@
             },
             "unity": {
                 "title": "Unité",
-                "desc": "Rassembler les locuteurs Pulaar du monde entier"
+                "desc": "Rassembler les locuteurs Fulfulde du monde entier"
             }
         }
     },
@@ -288,6 +288,7 @@
             "news": "Actualités",
             "content": "Dire, Ne pas dire",
             "library": "Bibliothèque",
+            "questions": "Questions langue",
             "viewSite": "Voir le site",
             "logout": "Déconnexion"
         },
@@ -303,7 +304,8 @@
                 "words": "Mots dans le dictionnaire",
                 "news": "Actualités publiées",
                 "content": "Expressions \"Dire, Ne pas dire\"",
-                "books": "Livres dans la bibliothèque"
+                "books": "Livres dans la bibliothèque",
+                "questions": "Questions sur la langue"
             },
             "welcomeCard": {
                 "title": "Bienvenue dans l'administration",
@@ -311,7 +313,8 @@
                 "dict": "Ajouter, modifier ou supprimer des mots",
                 "news": "Publier des nouvelles et articles",
                 "content": "Gérer les expressions linguistiques",
-                "library": "Gérer les livres de la bibliothèque"
+                "library": "Gérer les livres de la bibliothèque",
+                "questions": "Gérer les questions de langue"
             }
         },
         "common": {
@@ -330,7 +333,7 @@
             "title": "Dictionnaire",
             "add": "Ajouter un mot",
             "edit": "Modifier le mot",
-            "wordPulaar": "Mot (Fulfulde)",
+            "wordFulfulde": "Mot (Fulfulde)",
             "translationFr": "Français",
             "translationEn": "English",
             "translationFf": "Fulfulde",
@@ -348,7 +351,7 @@
             "catAdjectif": "Adjectif",
             "catAdverbe": "Adverbe",
             "catExpression": "Expression",
-            "placeholderFf": "Définition en Pulaar...",
+            "placeholderFf": "Définition en Fulfulde...",
             "examplePlaceholder": "Phrase d'exemple...",
             "domain": "Domaine",
             "domScience": "Noms Scientifiques",
@@ -369,6 +372,7 @@
         },
         "books": {
             "title": "Bibliothèque",
+            "category": "Catégorie",
             "add": "Ajouter un livre",
             "edit": "Modifier le livre",
             "titleLabel": "Titre",
@@ -413,6 +417,17 @@
             "weSayLabel": "On dit",
             "weDontSayLabel": "On ne dit pas",
             "explanationLabel": "Explication"
+        },
+        "questions": {
+            "title": "Questions de langue",
+            "add": "Ajouter une question",
+            "edit": "Modifier la question",
+            "questionLabel": "Question",
+            "answerLabel": "Réponse",
+            "orderLabel": "Ordre d'affichage",
+            "noQuestions": "Aucune question enregistrée",
+            "questionPlaceholder": "Écrivez la question...",
+            "answerPlaceholder": "Écrivez la réponse..."
         }
     }
 }

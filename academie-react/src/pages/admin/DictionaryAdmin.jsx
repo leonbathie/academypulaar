@@ -256,7 +256,7 @@ function DictionaryAdmin() {
                 <table className="admin-table">
                     <thead>
                         <tr>
-                            <th>{t('admin.dictionary.wordPulaar')}</th>
+                            <th>{t('admin.dictionary.wordFulfulde')}</th>
                             <th>{t('admin.dictionary.translationFr')}</th>
                             <th>{t('admin.dictionary.translationEn')}</th>
                             <th>{t('admin.dictionary.translationFf')}</th>
@@ -321,7 +321,7 @@ function DictionaryAdmin() {
                             <div className="modal-body">
                                 <div className="form-row">
                                     <div className="form-group">
-                                        <label>{t('admin.dictionary.wordPulaar')} *</label>
+                                        <label>{t('admin.dictionary.wordFulfulde')} *</label>
                                         <input
                                             type="text"
                                             value={formData.word}

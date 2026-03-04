@@ -53,6 +53,7 @@ app.use('/api/members', require('./routes/members'))
 app.use('/api/news', require('./routes/news'))
 app.use('/api/content', require('./routes/content'))
 app.use('/api/books', require('./routes/books'))
+app.use('/api/questions', require('./routes/questions'))
 
 // Route de test
 app.get('/api/health', (req, res) => {

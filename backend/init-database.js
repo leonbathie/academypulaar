@@ -217,6 +217,23 @@ async function initDatabase() {
         `)
         console.log('✅ Table books créée')
 
+        // Table des questions de langue
+        await pool.query(`
+            CREATE TABLE IF NOT EXISTS language_questions (
+                id SERIAL PRIMARY KEY,
+                question_fr TEXT NOT NULL,
+                question_en TEXT,
+                question_ff TEXT,
+                answer_fr TEXT NOT NULL,
+                answer_en TEXT,
+                answer_ff TEXT,
+                sort_order INTEGER DEFAULT 0,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        `)
+        console.log('✅ Table language_questions créée')
+
         // Créer l'admin par défaut
         const adminUsername = process.env.ADMIN_USERNAME || 'admin'
         const adminPassword = process.env.ADMIN_PASSWORD || 'GoomuFulo2024!'

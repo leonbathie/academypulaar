@@ -1,4 +1,4 @@
-// Base de données du dictionnaire Pulaar
+// Base de données du dictionnaire Fulfulde
 export const dictionaryData = [
     // A
     { word: "aadee", translation: "être humain, personne", category: "noun", example: "Aadee fof ena waawi janngude." },
@@ -13,7 +13,7 @@ export const dictionaryData = [
     { word: "balde", translation: "jours", category: "noun", example: "Balde ɗiɗi paali." },
     { word: "banndu", translation: "corps", category: "noun", example: "Banndu makko sellinii." },
     { word: "barke", translation: "bénédiction", category: "noun", example: "Barke maa wondu." },
-    { word: "bindol", translation: "écriture", category: "noun", example: "Bindol Pulaar moƴƴi." },
+    { word: "bindol", translation: "écriture", category: "noun", example: "Bindol Fulfulde moƴƴi." },
     { word: "binndude", translation: "écrire", category: "verb", example: "Mi yiɗi binndude." },
 
     // C
@@ -29,7 +29,7 @@ export const dictionaryData = [
     { word: "duuniyaaru", translation: "monde", category: "noun", example: "Duuniyaaru wonndi e mbaylawal." },
 
     // Ɗ
-    { word: "ɗemngal", translation: "langue", category: "noun", example: "Ɗemngal Pulaar moƴƴi." },
+    { word: "ɗemngal", translation: "langue", category: "noun", example: "Ɗemngal Fulfulde moƴƴi." },
     { word: "ɗoo", translation: "ici", category: "adverb", example: "O woni ɗoo." },
 
     // E
@@ -38,9 +38,9 @@ export const dictionaryData = [
 
     // F
     { word: "faamude", translation: "comprendre", category: "verb", example: "Mi faamii." },
-    { word: "fedde", translation: "association, groupe", category: "noun", example: "Fedde ɗemngal Pulaar." },
+    { word: "fedde", translation: "association, groupe", category: "noun", example: "Fedde ɗemngal Fulfulde." },
     { word: "fulɓe", translation: "Peuls", category: "noun", example: "Fulɓe ena nder Afrik." },
-    { word: "fulfulde", translation: "langue peule, Pulaar", category: "noun", example: "Fulfulde ko ɗemngal am." },
+    { word: "fulfulde", translation: "langue peule, Fulfulde", category: "noun", example: "Fulfulde ko ɗemngal am." },
 
     // G
     { word: "galle", translation: "maison, famille", category: "noun", example: "Galle am mawɗo." },
@@ -50,7 +50,7 @@ export const dictionaryData = [
 
     // H
     { word: "haala", translation: "parole, affaire", category: "noun", example: "Haala ndaa moƴƴi." },
-    { word: "haalde", translation: "parler", category: "verb", example: "Mi yiɗi haalde Pulaar." },
+    { word: "haalde", translation: "parler", category: "verb", example: "Mi yiɗi haalde Fulfulde." },
     { word: "helmere", translation: "mot", category: "noun", example: "Helmere ndee heewi maana." },
     { word: "hoore", translation: "tête, soi-même", category: "noun", example: "Hoore am muusataa." },
 
@@ -59,7 +59,7 @@ export const dictionaryData = [
 
     // J
     { word: "jaɓɓorgo", translation: "accueil", category: "noun", example: "Jaɓɓorgo moƴƴo." },
-    { word: "janngude", translation: "apprendre, étudier", category: "verb", example: "Mi jannga Pulaar." },
+    { word: "janngude", translation: "apprendre, étudier", category: "verb", example: "Mi jannga Fulfulde." },
     { word: "jawdi", translation: "richesse, bétail", category: "noun", example: "O heewi jawdi." },
     { word: "jom", translation: "propriétaire, maître", category: "noun", example: "Jom galle." },
 
@@ -94,7 +94,7 @@ export const dictionaryData = [
 
     // P
     { word: "pinal", translation: "culture", category: "noun", example: "Pinal Fulɓe." },
-    { word: "pulaar", translation: "langue Pulaar", category: "noun", example: "Mi haala Pulaar." },
+    { word: "pulaar", translation: "langue Fulfulde", category: "noun", example: "Mi haala Fulfulde." },
     { word: "pullo", translation: "Peul (singulier)", category: "noun", example: "O woni Pullo." },
 
     // R
