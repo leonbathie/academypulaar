@@ -122,7 +122,7 @@ function DireNePasDirePage() {
                             <div key={article.id} className="dire-page-card">
                                 {article.category && (
                                     <div className="dire-page-card-header">
-                                        <span className="dire-page-category">{article.category}</span>
+                                        <span className="dire-page-category">{translateCategory(article.category)}</span>
                                     </div>
                                 )}
                                 <div className="dire-page-card-body">
