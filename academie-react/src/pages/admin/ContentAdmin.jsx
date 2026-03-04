@@ -5,6 +5,14 @@ import { useApi } from '../../context/AuthContext'
 function ContentAdmin() {
     const { t } = useTranslation()
     const { apiRequest } = useApi()
+
+    // Map stored category values to i18n keys
+    const categoryKeyMap = {
+        'Erreurs courantes': 'admin.content.catCommon',
+        'Emprunts': 'admin.content.catBorrowings',
+        'Usage incorrect': 'admin.content.catIncorrect',
+        'Grammaire': 'admin.content.catGrammar'
+    }
     const [items, setItems] = useState([])
     const [loading, setLoading] = useState(true)
     const [showModal, setShowModal] = useState(false)
@@ -140,7 +148,7 @@ function ContentAdmin() {
                             <tr key={item.id}>
                                 <td style={{ color: '#22c55e' }}><strong>{item.dire_fr || item.dire}</strong></td>
                                 <td style={{ color: '#ef4444' }}>{item.ne_pas_dire_fr || item.ne_pas_dire}</td>
-                                <td>{item.category}</td>
+                                <td>{item.category ? t(categoryKeyMap[item.category] || item.category) : '-'}</td>
                                 <td className="actions-cell">
                                     <button className="btn-edit" onClick={() => openModal(item)}>
                                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
