@@ -4,44 +4,83 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   deploy:
     runs-on: self-hosted
 
     steps:
-      - name: Setup sudo for gha (one-time)
-        continue-on-error: true
-        timeout-minutes: 1
+      - name: System prerequisites
         run: |
-          PM2=/usr/lib/node_modules/pm2/bin/pm2
-          if sudo -n true 2>/dev/null; then
-            echo "sudo already configured"
-          else
-            echo "Granting gha passwordless sudo via PM2..."
-            printf '#!/bin/bash\necho "gha ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/gha-deploy\nchmod 440 /etc/sudoers.d/gha-deploy\nvisudo -cf /etc/sudoers.d/gha-deploy && echo "sudoers OK" || rm -f /etc/sudoers.d/gha-deploy\n' > /tmp/setup-sudoers.sh
-            chmod +x /tmp/setup-sudoers.sh
-            sudo $PM2 delete sudoers-fix 2>/dev/null || true
-            sudo $PM2 start /tmp/setup-sudoers.sh --name sudoers-fix --interpreter bash --no-autorestart
-            sleep 5
-            sudo $PM2 logs sudoers-fix --lines 20 --nostream 2>&1 || true
-            sudo $PM2 delete sudoers-fix 2>&1 || true
+          echo "=== System info ==="
+          uname -a
+          echo "User: $(whoami)"
+
+          echo "=== Install base packages ==="
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq curl git nginx postgresql postgresql-contrib lsof openssl certbot python3-certbot-nginx
+
+          echo "=== Ensure Node.js 20 ==="
+          if ! command -v node &>/dev/null || [[ $(node -v | cut -d. -f1 | tr -d v) -lt 20 ]]; then
+            curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+            sudo apt-get install -y -qq nodejs
           fi
+          echo "Node: $(node -v) | NPM: $(npm -v)"
+
+          echo "=== Install PM2 globally ==="
+          sudo npm install -g pm2 || true
+          echo "PM2: $(pm2 -v)"
+
+      - name: Setup project directory
+        run: |
+          REPO_DIR=/var/www/academypulaar
+          if [ ! -d "$REPO_DIR/.git" ]; then
+            echo "=== Cloning repo for first time ==="
+            sudo mkdir -p /var/www
+            sudo chown -R $(whoami):$(whoami) /var/www
+            git clone https://github.com/leonbathie/academypulaar.git $REPO_DIR
+          fi
+          sudo chown -R $(whoami):$(whoami) $REPO_DIR
+          git config --global --add safe.directory $REPO_DIR 2>/dev/null || true
 
       - name: Pull latest code
         run: |
           cd /var/www/academypulaar
-          echo "Current user: $(whoami)"
-          echo "File owner: $(stat -c '%U' backend/routes/books.js)"
-          sudo chown -R $(whoami):$(whoami) /var/www/academypulaar
-          sudo git config --global --add safe.directory /var/www/academypulaar
           git fetch origin main
           git reset --hard origin/main
           echo "Deployed commit: $(git rev-parse HEAD)"
           echo "Last commit message: $(git log -1 --pretty=%s)"
-          echo "=== Verify books.js updated ==="
-          grep -n 'titre en fran' backend/routes/books.js || echo "WARNING: books.js NOT updated!"
-          head -5 backend/routes/books.js
+
+      - name: Setup PostgreSQL
+        run: |
+          echo "=== Ensure PostgreSQL is running ==="
+          sudo systemctl enable postgresql
+          sudo systemctl start postgresql
+
+          echo "=== Create database and user if needed ==="
+          sudo -u postgres psql -tc "SELECT 1 FROM pg_roles WHERE rolname='academypulaar'" | grep -q 1 || \
+            sudo -u postgres psql -c "CREATE USER academypulaar WITH PASSWORD 'academypulaar2024';"
+          
+          sudo -u postgres psql -tc "SELECT 1 FROM pg_database WHERE datname='academypulaar'" | grep -q 1 || \
+            sudo -u postgres psql -c "CREATE DATABASE academypulaar OWNER academypulaar;"
+
+          sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE academypulaar TO academypulaar;" 2>/dev/null || true
+
+          echo "=== Create backend .env if missing ==="
+          ENV_FILE=/var/www/academypulaar/backend/.env
+          if [ ! -f "$ENV_FILE" ]; then
+            cat > $ENV_FILE << 'EOF'
+DATABASE_URL=postgresql://academypulaar:academypulaar2024@localhost:5432/academypulaar
+DATABASE_SSL=false
+JWT_SECRET=goomufulowidto-secret-key-2024
+PORT=5000
+NODE_ENV=production
+EOF
+            echo ".env created"
+          else
+            echo ".env already exists"
+          fi
 
       - name: Install backend dependencies
         run: |
@@ -53,26 +92,38 @@ jobs:
           cd /var/www/academypulaar/backend
           node init-database.js
 
+      - name: Create uploads directory
+        run: |
+          mkdir -p /var/www/academypulaar/backend/uploads
+          chmod 755 /var/www/academypulaar/backend/uploads
+
       - name: Restart backend (PM2)
         run: |
           cd /var/www/academypulaar/backend
-          PM2=/usr/lib/node_modules/pm2/bin/pm2
-          echo "=== Kill ALL existing processes on port 5000 ==="
+          echo "=== Kill existing processes on port 5000 ==="
           sudo lsof -ti:5000 | xargs -r sudo kill -9 || true
           sleep 2
-          echo "=== Stop ALL PM2 instances (all users) ==="
-          sudo $PM2 kill 2>/dev/null || true
-          sudo -u ousmane $PM2 kill 2>/dev/null || true
+
+          echo "=== Stop existing PM2 instances ==="
+          pm2 kill 2>/dev/null || true
           sleep 1
+
           echo "=== Verify port 5000 is free ==="
           sudo lsof -i:5000 || echo "Port 5000 is free - OK"
+
           echo "=== Starting fresh PM2 process ==="
-          sudo $PM2 start server.js --name academypulaar-api --cwd /var/www/academypulaar/backend
+          pm2 start server.js --name academypulaar-api --cwd /var/www/academypulaar/backend
           sleep 3
-          sudo $PM2 list
+          pm2 list
+          pm2 save
+
+          echo "=== Setup PM2 startup ==="
+          pm2 startup systemd -u $(whoami) --hp $HOME 2>/dev/null || true
+
           echo "=== PM2 logs ==="
-          sudo $PM2 logs academypulaar-api --lines 15 --nostream 2>&1 || true
-          echo "=== Verify port 5000 is taken by new process ==="
+          pm2 logs academypulaar-api --lines 15 --nostream 2>&1 || true
+
+          echo "=== Verify port 5000 ==="
           sudo lsof -i:5000 || echo "WARNING: Nothing listening on port 5000!"
 
       - name: Install frontend dependencies
@@ -85,42 +136,62 @@ jobs:
           cd /var/www/academypulaar/academie-react
           npm run build
 
-      - name: Update Nginx config
-        timeout-minutes: 2
+      - name: Setup SSL certificate
         run: |
-          PM2=/usr/lib/node_modules/pm2/bin/pm2
-          if sudo -n true 2>/dev/null; then
-            echo "Using direct sudo..."
-            sudo cp /var/www/academypulaar/nginx-academypulaar.conf /etc/nginx/sites-available/academypulaar
-            sudo ln -sf /etc/nginx/sites-available/academypulaar /etc/nginx/sites-enabled/academypulaar
-            sudo rm -f /etc/nginx/sites-enabled/default
-            sudo sed -i '/client_max_body_size/d' /etc/nginx/nginx.conf
-            sudo sed -i '/http {/a\    client_max_body_size 100M;' /etc/nginx/nginx.conf
-            sudo nginx -t
-            sudo systemctl reload nginx
-            echo "Nginx configured via sudo"
+          echo "=== Generate self-signed certificate (fallback) ==="
+          if [ ! -f /etc/ssl/certs/nginx-selfsigned.crt ]; then
+            sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+              -keyout /etc/ssl/private/nginx-selfsigned.key \
+              -out /etc/ssl/certs/nginx-selfsigned.crt \
+              -subj "/C=FR/ST=IDF/L=Paris/O=GoomuFulo/CN=goomufulo.com"
+            echo "Self-signed certificate created"
           else
-            echo "Sudo not available, using PM2 fallback..."
-            printf '#!/bin/bash\nset -e\ncp /var/www/academypulaar/nginx-academypulaar.conf /etc/nginx/sites-available/academypulaar\nln -sf /etc/nginx/sites-available/academypulaar /etc/nginx/sites-enabled/academypulaar\nrm -f /etc/nginx/sites-enabled/default\nsed -i "/client_max_body_size/d" /etc/nginx/nginx.conf\nsed -i "/http {/a\\    client_max_body_size 100M;" /etc/nginx/nginx.conf\nnginx -t && systemctl reload nginx\necho "Nginx configured via PM2"\n' > /tmp/fix-nginx.sh
-            chmod +x /tmp/fix-nginx.sh
-            sudo $PM2 delete nginx-fix 2>/dev/null || true
-            sudo $PM2 start /tmp/fix-nginx.sh --name nginx-fix --interpreter bash --no-autorestart
-            sleep 10
-            sudo $PM2 logs nginx-fix --lines 50 --nostream 2>&1 || true
-            sudo $PM2 delete nginx-fix 2>&1 || true
+            echo "Self-signed certificate already exists"
           fi
+
+      - name: Update Nginx config
+        run: |
+          echo "=== Copy Nginx config ==="
+          sudo cp /var/www/academypulaar/nginx-academypulaar.conf /etc/nginx/sites-available/academypulaar
+          sudo ln -sf /etc/nginx/sites-available/academypulaar /etc/nginx/sites-enabled/academypulaar
+          sudo rm -f /etc/nginx/sites-enabled/default
+
+          echo "=== Set client_max_body_size in nginx.conf ==="
+          sudo sed -i '/client_max_body_size/d' /etc/nginx/nginx.conf
+          sudo sed -i '/http {/a\    client_max_body_size 100M;' /etc/nginx/nginx.conf
+
+          echo "=== Test and reload Nginx ==="
+          sudo nginx -t
+          sudo systemctl enable nginx
+          sudo systemctl reload nginx || sudo systemctl start nginx
+          echo "Nginx configured OK"
+
+      - name: Setup Let's Encrypt SSL
+        continue-on-error: true
+        run: |
+          echo "=== Attempting Let's Encrypt certificate ==="
+          sudo certbot --nginx -d goomufulo.com -d www.goomufulo.com --non-interactive --agree-tos --email contact@goomufulo.com --redirect 2>&1 || echo "Certbot failed (DNS may not be ready yet). Using self-signed cert."
+          
+          echo "=== Setup auto-renewal ==="
+          sudo systemctl enable certbot.timer 2>/dev/null || true
 
       - name: Verify deployment
         run: |
           sleep 3
           echo "=== Frontend ==="
-          curl -s -o /dev/null -w '%{http_code}' http://localhost && echo " Frontend: OK" || echo " Frontend: FAIL"
+          HTTP_CODE=$(curl -sk -o /dev/null -w '%{http_code}' http://localhost)
+          echo "Frontend HTTP: $HTTP_CODE"
+          [ "$HTTP_CODE" = "200" ] && echo "Frontend: OK" || echo "Frontend: WARNING (got $HTTP_CODE)"
+
           echo "=== API Health ==="
           curl -s http://localhost:5000/api/health || echo "API Health: FAIL"
           echo ""
-          echo "=== API Books POST validation test ==="
-          curl -s -X POST http://localhost:5000/api/books -H 'Content-Type: application/json' -d '{}' || true
+
+          echo "=== External access test ==="
+          curl -sk -o /dev/null -w '%{http_code}' https://goomufulo.com && echo " goomufulo.com: OK" || echo " goomufulo.com: pending DNS"
           echo ""
+
           echo "=== Deployed commit ==="
           cd /var/www/academypulaar && git rev-parse HEAD
-          echo "Deployment complete!"
+          echo ""
+          echo "=== Deployment complete! ==="
