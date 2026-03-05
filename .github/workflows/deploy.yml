@@ -66,6 +66,8 @@ jobs:
             sudo -u postgres psql -c "CREATE DATABASE academypulaar OWNER academypulaar;"
 
           sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE academypulaar TO academypulaar;" 2>/dev/null || true
+          sudo -u postgres psql -d academypulaar -c "GRANT ALL ON SCHEMA public TO academypulaar;" 2>/dev/null || true
+          sudo -u postgres psql -d academypulaar -c "ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO academypulaar;" 2>/dev/null || true
 
           echo "=== Create backend .env if missing ==="
           ENV_FILE=/var/www/academypulaar/backend/.env
