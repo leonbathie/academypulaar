@@ -97,49 +97,58 @@ jobs:
           mkdir -p /var/www/academypulaar/backend/uploads
           chmod 755 /var/www/academypulaar/backend/uploads
 
-      - name: Restart backend (PM2)
+      - name: Restart backend (systemd)
         run: |
-          cd /var/www/academypulaar/backend
-          echo "=== Kill existing processes on port 5000 ==="
+          echo "=== Create systemd service for backend ==="
+          sudo tee /etc/systemd/system/academypulaar-api.service > /dev/null << 'SERVICEEOF'
+          [Unit]
+          Description=GoomuFuloWidto API Backend
+          After=network.target postgresql.service
+
+          [Service]
+          Type=simple
+          User=gha
+          WorkingDirectory=/var/www/academypulaar/backend
+          ExecStart=/usr/bin/node server.js
+          Restart=always
+          RestartSec=5
+          Environment=NODE_ENV=production
+          EnvironmentFile=/var/www/academypulaar/backend/.env
+
+          [Install]
+          WantedBy=multi-user.target
+          SERVICEEOF
+
+          echo "=== Fix service file indentation ==="
+          sudo sed -i 's/^          //' /etc/systemd/system/academypulaar-api.service
+
+          echo "=== Reload systemd ==="
+          sudo systemctl daemon-reload
+
+          echo "=== Kill anything on port 5000 ==="
           sudo lsof -ti:5000 | xargs -r sudo kill -9 || true
           sleep 2
 
-          echo "=== Stop existing PM2 instances ==="
+          echo "=== Stop old PM2 if running ==="
           pm2 kill 2>/dev/null || true
           sudo pm2 kill 2>/dev/null || true
-          sleep 1
 
-          echo "=== Verify port 5000 is free ==="
-          sudo lsof -i:5000 || echo "Port 5000 is free - OK"
+          echo "=== Enable and start the service ==="
+          sudo systemctl enable academypulaar-api
+          sudo systemctl restart academypulaar-api
+          sleep 3
 
-          echo "=== Check .env exists ==="
-          cat /var/www/academypulaar/backend/.env || echo "WARNING: .env missing!"
+          echo "=== Service status ==="
+          sudo systemctl status academypulaar-api --no-pager || true
 
-          echo "=== Test node can start server ==="
-          cd /var/www/academypulaar/backend
-          timeout 5 node -e "require('./database'); console.log('DB module OK')" 2>&1 || echo "DB module test done"
-
-          echo "=== Starting fresh PM2 process ==="
-          pm2 start server.js --name academypulaar-api --cwd /var/www/academypulaar/backend --env production
-          sleep 5
-          pm2 list
-
-          echo "=== PM2 logs (check for errors) ==="
-          pm2 logs academypulaar-api --lines 30 --nostream 2>&1 || true
+          echo "=== Service logs ==="
+          sudo journalctl -u academypulaar-api --no-pager -n 20 || true
 
           echo "=== Verify port 5000 ==="
           sudo lsof -i:5000 || echo "CRITICAL: Nothing listening on port 5000!"
 
           echo "=== Direct API test ==="
           curl -s http://localhost:5000/api/health || echo "API Health: FAIL"
-
-          echo "=== Save PM2 and setup startup ==="
-          pm2 save
-          STARTUP_CMD=$(pm2 startup systemd -u $(whoami) --hp $HOME 2>&1 | grep 'sudo' | head -1)
-          if [ -n "$STARTUP_CMD" ]; then
-            echo "Running: $STARTUP_CMD"
-            eval $STARTUP_CMD
-          fi
 
       - name: Install frontend dependencies
         run: |
@@ -193,8 +202,8 @@ jobs:
       - name: Verify deployment
         run: |
           sleep 3
-          echo "=== PM2 status ==="
-          pm2 list
+          echo "=== systemd service status ==="
+          sudo systemctl is-active academypulaar-api && echo "Backend service: RUNNING" || echo "Backend service: NOT RUNNING"
 
           echo "=== Port 5000 check ==="
           sudo lsof -i:5000 || echo "CRITICAL: port 5000 not listening"
@@ -202,15 +211,12 @@ jobs:
           echo "=== API Health (direct) ==="
           curl -s http://localhost:5000/api/health && echo "" || echo "API direct: FAIL"
 
-          echo "=== Frontend ==="
-          HTTP_CODE=$(curl -sk -o /dev/null -w '%{http_code}' http://localhost)
-          echo "Frontend HTTP: $HTTP_CODE"
-
           echo "=== API via Nginx ==="
-          curl -sk http://localhost/api/health && echo "" || echo "API via Nginx: FAIL"
+          curl -sk https://localhost/api/health && echo "" || echo "API via Nginx: FAIL"
 
-          echo "=== External access test ==="
-          curl -sk -o /dev/null -w '%{http_code}' https://goomufulo.com && echo " goomufulo.com: OK" || echo " goomufulo.com: pending"
+          echo "=== Frontend ==="
+          HTTP_CODE=$(curl -sk -o /dev/null -w '%{http_code}' https://goomufulo.com)
+          echo "goomufulo.com HTTPS: $HTTP_CODE"
 
           echo "=== Deployed commit ==="
           cd /var/www/academypulaar && git rev-parse HEAD
