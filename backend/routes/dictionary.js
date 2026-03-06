@@ -3,7 +3,7 @@ const router = express.Router()
 const multer = require('multer')
 const path = require('path')
 const fs = require('fs')
-const pdfParse = require('pdf-parse/lib/pdf-parse')
+const pdfjsLib = require('pdfjs-dist/legacy/build/pdf.mjs')
 const { query } = require('../database')
 const { authMiddleware, adminOnly } = require('../middleware/auth')
 
@@ -238,62 +238,25 @@ router.post('/import-pdf', authMiddleware, adminOnly, uploadPdf.single('pdf'), a
         pdfPath = req.file.path
         const domain = req.body.domain || null
 
-        // Lire le PDF
+        // Lire et parser le PDF avec pdfjs-dist (extraction positionnelle des colonnes)
         const dataBuffer = fs.readFileSync(pdfPath)
-        const pdfData = await pdfParse(dataBuffer)
-        const text = pdfData.text
-
-        // Parser les lignes du PDF
-        // Format attendu : Numéro | Fulfulde | Français | Anglais
-        // Le texte extrait de pdf-parse vient ligne par ligne
-        const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 0)
-
-        const words = []
-        const errors = []
-        const duplicates = []
-
-        // Détecter les en-têtes pour les ignorer
-        const headerPatterns = [
-            /^num[ée]ro/i, /^fulfulde/i, /^fran[çc]ais/i, /^anglais/i, /^english/i,
-            /^n[°o°]?\s/i, /^#/
-        ]
-
-        for (const line of lines) {
-            // Ignorer les en-têtes
-            if (headerPatterns.some(p => p.test(line))) continue
-
-            // Essayer de parser la ligne
-            // Stratégie 1: Nombre au début suivi de mots dans les 3 langues
-            // Le PDF a le format : "1    koloropalastiwon    chloroplaste    chloroplast"
-            const match = line.match(/^\s*(\d+)\s+(.+)/)
-            if (!match) continue
-
-            const rest = match[2].trim()
-
-            // Découper le reste en colonnes basé sur des espaces multiples (2+ espaces) ou tabulations
-            const parts = rest.split(/\s{2,}|\t+/).map(s => s.trim()).filter(s => s.length > 0)
-
-            if (parts.length >= 2) {
-                const wordObj = {
-                    word: parts[0],                     // Fulfulde
-                    translation_fr: parts[1] || null,   // Français
-                    translation_en: parts[2] || null,   // Anglais (optionnel)
-                    domain: domain
-                }
-                words.push(wordObj)
-            }
-        }
+        const uint8 = new Uint8Array(dataBuffer)
+        const words = await parsePdfTableWords(uint8)
 
         if (words.length === 0) {
             return res.status(400).json({
-                error: 'Aucun mot trouvé dans le PDF. Vérifiez le format : Numéro | Fulfulde | Français | Anglais',
-                rawTextPreview: text.substring(0, 1000)
+                error: 'Aucun mot trouvé dans le PDF. Vérifiez le format : Numéro | Fulfulde | Français | Anglais'
             })
         }
+
+        // Assigner le domaine
+        words.forEach(w => w.domain = domain)
 
         // Insérer les mots en base
         let inserted = 0
         let skipped = 0
+        const errors = []
+        const duplicates = []
 
         for (const w of words) {
             try {
@@ -351,35 +314,10 @@ router.post('/preview-pdf', authMiddleware, adminOnly, uploadPdf.single('pdf'), 
 
         pdfPath = req.file.path
 
+        // Lire et parser le PDF avec pdfjs-dist (extraction positionnelle des colonnes)
         const dataBuffer = fs.readFileSync(pdfPath)
-        const pdfData = await pdfParse(dataBuffer)
-        const text = pdfData.text
-
-        const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 0)
-
-        const words = []
-        const headerPatterns = [
-            /^num[ée]ro/i, /^fulfulde/i, /^fran[çc]ais/i, /^anglais/i, /^english/i,
-            /^n[°o°]?\s/i, /^#/
-        ]
-
-        for (const line of lines) {
-            if (headerPatterns.some(p => p.test(line))) continue
-
-            const match = line.match(/^\s*(\d+)\s+(.+)/)
-            if (!match) continue
-
-            const rest = match[2].trim()
-            const parts = rest.split(/\s{2,}|\t+/).map(s => s.trim()).filter(s => s.length > 0)
-
-            if (parts.length >= 2) {
-                words.push({
-                    word: parts[0],
-                    translation_fr: parts[1] || null,
-                    translation_en: parts[2] || null
-                })
-            }
-        }
+        const uint8 = new Uint8Array(dataBuffer)
+        const words = await parsePdfTableWords(uint8)
 
         // Vérifier les doublons existants
         const existingWords = []
@@ -398,8 +336,7 @@ router.post('/preview-pdf', authMiddleware, adminOnly, uploadPdf.single('pdf'), 
             words,
             total: words.length,
             duplicates: existingWords,
-            newWords: words.length - existingWords.length,
-            rawTextPreview: text.substring(0, 500)
+            newWords: words.length - existingWords.length
         })
 
     } catch (error) {
@@ -410,5 +347,146 @@ router.post('/preview-pdf', authMiddleware, adminOnly, uploadPdf.single('pdf'), 
         res.status(500).json({ error: 'Erreur lors de la lecture du PDF: ' + error.message })
     }
 })
+
+/**
+ * Parse a PDF table with columns: Numéro | Fulfulde | Français | Anglais
+ * Uses pdfjs-dist to extract text with x/y positions for accurate column detection.
+ * Automatically detects column boundaries from the header row.
+ */
+async function parsePdfTableWords(uint8Data) {
+    const doc = await pdfjsLib.getDocument({ data: uint8Data }).promise
+
+    // First pass: detect column boundaries from header row (page 1)
+    const page1 = await doc.getPage(1)
+    const tc1 = await page1.getTextContent()
+    const colStarts = detectColumnBoundaries(tc1.items)
+
+    if (!colStarts) {
+        throw new Error('Impossible de détecter les colonnes du PDF. En-tête attendu: Numéro | Fulfulde | Français | Anglais')
+    }
+
+    const COL_BOUNDS = [
+        { name: 'numero', min: 0, max: colStarts.fulfulde - 1 },
+        { name: 'fulfulde', min: colStarts.fulfulde - 1, max: colStarts.francais - 1 },
+        { name: 'francais', min: colStarts.francais - 1, max: colStarts.anglais - 1 },
+        { name: 'anglais', min: colStarts.anglais - 1, max: 9999 }
+    ]
+
+    // Second pass: extract all rows from all pages
+    const allRows = []
+    for (let pn = 1; pn <= doc.numPages; pn++) {
+        const page = await doc.getPage(pn)
+        const tc = await page.getTextContent()
+
+        // Group text items by Y coordinate with tolerance
+        const yGroups = groupByYTolerance(tc.items, 10)
+
+        // Sort groups by y descending (top of page first)
+        const sortedYs = Object.keys(yGroups).map(Number).sort((a, b) => b - a)
+
+        for (const y of sortedYs) {
+            const items = yGroups[y].sort((a, b) => a.x - b.x)
+            const row = { numero: '', fulfulde: '', francais: '', anglais: '' }
+
+            for (const item of items) {
+                for (const col of COL_BOUNDS) {
+                    if (item.x >= col.min && item.x < col.max) {
+                        row[col.name] += item.text
+                        break
+                    }
+                }
+            }
+            allRows.push(row)
+        }
+    }
+
+    // Merge continuation lines (lines without a number) into the previous row
+    const merged = []
+    for (const row of allRows) {
+        const num = row.numero.trim()
+        if (/^\d+$/.test(num)) {
+            merged.push({ ...row })
+        } else if (merged.length > 0) {
+            const last = merged[merged.length - 1]
+            if (row.fulfulde.trim()) last.fulfulde += ' ' + row.fulfulde
+            if (row.francais.trim()) last.francais += ' ' + row.francais
+            if (row.anglais.trim()) last.anglais += ' ' + row.anglais
+        }
+    }
+
+    // Convert to word objects
+    return merged
+        .map(r => ({
+            word: r.fulfulde.trim(),
+            translation_fr: r.francais.trim() || null,
+            translation_en: r.anglais.trim() || null
+        }))
+        .filter(w => w.word.length > 0)
+}
+
+/**
+ * Detect column x-positions from header text items.
+ * Looks for "Fulfulde", "Français"/"Francais", "Anglais"/"English" in page 1.
+ */
+function detectColumnBoundaries(items) {
+    const headerKeywords = {
+        fulfulde: /fulfulde/i,
+        francais: /fran[çc]ais/i,
+        anglais: /anglais|english/i
+    }
+    const positions = {}
+
+    for (const item of items) {
+        if (!item.str || !item.str.trim()) continue
+        const text = item.str.trim()
+        const x = item.transform[4]
+
+        for (const [col, regex] of Object.entries(headerKeywords)) {
+            if (regex.test(text) && !positions[col]) {
+                positions[col] = x
+            }
+        }
+    }
+
+    if (positions.fulfulde && positions.francais && positions.anglais) {
+        return positions
+    }
+
+    // Fallback: hardcoded typical positions for "Kelmeendi ganndinal" style PDFs
+    return { fulfulde: 113.7, francais: 273.2, anglais: 407.8 }
+}
+
+/**
+ * Group text items by Y coordinate with a tolerance (items within `tolerance` units
+ * of Y are considered the same row). This handles cells where text is slightly offset.
+ */
+function groupByYTolerance(items, tolerance) {
+    const groups = {}
+    const yKeys = [] // sorted representative y values
+
+    for (const item of items) {
+        if (item.str === undefined) continue
+        const y = item.transform[5]
+        const x = item.transform[4]
+
+        // Find an existing group within tolerance
+        let matched = false
+        for (const yk of yKeys) {
+            if (Math.abs(y - yk) <= tolerance) {
+                groups[yk].push({ x, text: item.str })
+                matched = true
+                break
+            }
+        }
+
+        if (!matched) {
+            groups[y] = [{ x, text: item.str }]
+            yKeys.push(y)
+            yKeys.sort((a, b) => b - a)
+        }
+    }
+
+    return groups
+}
 
 module.exports = router
