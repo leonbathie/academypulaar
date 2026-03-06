@@ -1204,3 +1204,99 @@
         padding: var(--space-lg) var(--space-md);
     }
 }
+
+/* ===== Bulk Selection ===== */
+.bulk-action-bar {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    padding: var(--space-sm) var(--space-lg);
+    background: linear-gradient(135deg, var(--primary-dark), var(--primary-green));
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--space-md);
+    color: var(--white);
+    font-weight: 600;
+    box-shadow: var(--shadow-md);
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.bulk-action-count {
+    flex: 1;
+    font-size: 0.95rem;
+}
+
+.bulk-delete-btn {
+    background: #e74c3c;
+    color: var(--white);
+    border: none;
+    padding: var(--space-xs) var(--space-lg);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: background var(--transition-base);
+}
+
+.bulk-delete-btn:hover {
+    background: #c0392b;
+}
+
+.bulk-delete-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.bulk-deselect-btn {
+    background: rgba(255, 255, 255, 0.2);
+    color: var(--white);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    padding: var(--space-xs) var(--space-md);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: background var(--transition-base);
+}
+
+.bulk-deselect-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.th-checkbox,
+.td-checkbox {
+    width: 40px;
+    text-align: center;
+    padding: var(--space-xs) !important;
+}
+
+.bulk-checkbox {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: var(--primary-gold);
+}
+
+.row-selected {
+    background: rgba(196, 164, 75, 0.12) !important;
+}
+
+.row-selected:hover {
+    background: rgba(196, 164, 75, 0.2) !important;
+}
+
+@media (max-width: 768px) {
+    .bulk-action-bar {
+        flex-wrap: wrap;
+        padding: var(--space-sm);
+        gap: var(--space-sm);
+    }
+
+    .bulk-action-count {
+        width: 100%;
+    }
+}

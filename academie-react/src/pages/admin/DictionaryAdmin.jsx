@@ -52,6 +52,10 @@ function DictionaryAdmin() {
     const mediaRecorderRef = useRef(null)
     const audioChunksRef = useRef([])
 
+    // Bulk selection states
+    const [selectedIds, setSelectedIds] = useState(new Set())
+    const [bulkDeleting, setBulkDeleting] = useState(false)
+
     // PDF import states
     const [showPdfModal, setShowPdfModal] = useState(false)
     const [pdfFile, setPdfFile] = useState(null)
@@ -242,6 +246,43 @@ function DictionaryAdmin() {
         }
     }
 
+    // Bulk selection functions
+    const toggleSelect = (id) => {
+        setSelectedIds(prev => {
+            const next = new Set(prev)
+            if (next.has(id)) next.delete(id)
+            else next.add(id)
+            return next
+        })
+    }
+
+    const toggleSelectAll = () => {
+        if (selectedIds.size === filteredWords.length) {
+            setSelectedIds(new Set())
+        } else {
+            setSelectedIds(new Set(filteredWords.map(w => w.id)))
+        }
+    }
+
+    const handleBulkDelete = async () => {
+        if (selectedIds.size === 0) return
+        const count = selectedIds.size
+        if (!confirm(t('admin.dictionary.confirmBulkDelete', { count }))) return
+        setBulkDeleting(true)
+        try {
+            await apiRequest('/dictionary/bulk-delete', {
+                method: 'POST',
+                body: JSON.stringify({ ids: [...selectedIds] })
+            })
+            setSelectedIds(new Set())
+            loadWords()
+        } catch (error) {
+            alert('Erreur: ' + error.message)
+        } finally {
+            setBulkDeleting(false)
+        }
+    }
+
     // PDF Import Functions
     const openPdfModal = () => {
         setPdfFile(null)
@@ -365,9 +406,49 @@ function DictionaryAdmin() {
                     </div>
                 </div>
 
+                {/* Bulk action bar */}
+                {selectedIds.size > 0 && (
+                    <div className="bulk-action-bar">
+                        <span className="bulk-action-count">
+                            {t('admin.dictionary.selectedCount', { count: selectedIds.size })}
+                        </span>
+                        <button
+                            className="btn-delete bulk-delete-btn"
+                            onClick={handleBulkDelete}
+                            disabled={bulkDeleting}
+                        >
+                            {bulkDeleting ? (
+                                <div className="btn-spinner"></div>
+                            ) : (
+                                <>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                        <polyline points="3 6 5 6 21 6" />
+                                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                                    </svg>
+                                    {t('admin.dictionary.deleteSelected')}
+                                </>
+                            )}
+                        </button>
+                        <button
+                            className="btn-cancel"
+                            onClick={() => setSelectedIds(new Set())}
+                        >
+                            {t('admin.dictionary.deselectAll')}
+                        </button>
+                    </div>
+                )}
+
                 <table className="admin-table">
                     <thead>
                         <tr>
+                            <th className="th-checkbox">
+                                <input
+                                    type="checkbox"
+                                    className="bulk-checkbox"
+                                    checked={filteredWords.length > 0 && selectedIds.size === filteredWords.length}
+                                    onChange={toggleSelectAll}
+                                />
+                            </th>
                             <th>{t('admin.dictionary.wordFulfulde')}</th>
                             <th>{t('admin.dictionary.translationFr')}</th>
                             <th>{t('admin.dictionary.translationEn')}</th>
@@ -379,7 +460,15 @@ function DictionaryAdmin() {
                     </thead>
                     <tbody>
                         {filteredWords.map(word => (
-                            <tr key={word.id}>
+                            <tr key={word.id} className={selectedIds.has(word.id) ? 'row-selected' : ''}>
+                                <td className="td-checkbox">
+                                    <input
+                                        type="checkbox"
+                                        className="bulk-checkbox"
+                                        checked={selectedIds.has(word.id)}
+                                        onChange={() => toggleSelect(word.id)}
+                                    />
+                                </td>
                                 <td><strong>{word.word}</strong></td>
                                 <td>{word.translation_fr || '-'}</td>
                                 <td>{word.translation_en || '-'}</td>
@@ -408,7 +497,7 @@ function DictionaryAdmin() {
                         ))}
                         {words.length === 0 && (
                             <tr>
-                                <td colSpan="7" style={{ textAlign: 'center', padding: '2rem', color: 'var(--medium-gray)' }}>
+                                <td colSpan="8" style={{ textAlign: 'center', padding: '2rem', color: 'var(--medium-gray)' }}>
                                     {t('admin.dictionary.noWords')}
                                 </td>
                             </tr>

@@ -386,7 +386,11 @@
             "pdfTotal": "Denndaangal",
             "pdfInserted": "Naatnaaɗe",
             "pdfSkipped": "Diwaaɗe",
-            "pdfDuplicates": "Ɗiɗaɓe"
+            "pdfDuplicates": "Ɗiɗaɓe",
+            "confirmBulkDelete": "Momtude {{count}} helmere/kelme cuɓaaɗe ?",
+            "selectedCount": "{{count}} helmere/kelme cuɓaaɗe",
+            "deleteSelected": "Momtude cuɓaaɗe",
+            "deselectAll": "Ittude cuɓe fof"
         },
         "books": {
             "title": "Defterdu",

@@ -384,7 +384,11 @@
             "pdfTotal": "Total",
             "pdfInserted": "Inserted",
             "pdfSkipped": "Skipped",
-            "pdfDuplicates": "Duplicates"
+            "pdfDuplicates": "Duplicates",
+            "confirmBulkDelete": "Delete {{count}} selected word(s)?",
+            "selectedCount": "{{count}} word(s) selected",
+            "deleteSelected": "Delete selected",
+            "deselectAll": "Deselect all"
         },
         "books": {
             "title": "Library",

@@ -386,7 +386,11 @@
             "pdfTotal": "Total",
             "pdfInserted": "Ajoutés",
             "pdfSkipped": "Ignorés",
-            "pdfDuplicates": "Doublons"
+            "pdfDuplicates": "Doublons",
+            "confirmBulkDelete": "Supprimer {{count}} mot(s) sélectionné(s) ?",
+            "selectedCount": "{{count}} mot(s) sélectionné(s)",
+            "deleteSelected": "Supprimer la sélection",
+            "deselectAll": "Tout désélectionner"
         },
         "books": {
             "title": "Bibliothèque",

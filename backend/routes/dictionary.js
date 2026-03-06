@@ -202,6 +202,32 @@ router.delete('/:id', authMiddleware, adminOnly, async (req, res) => {
     }
 })
 
+// POST /api/dictionary/bulk-delete - Supprimer plusieurs mots (Admin only)
+router.post('/bulk-delete', authMiddleware, adminOnly, async (req, res) => {
+    try {
+        const { ids } = req.body
+        if (!ids || !Array.isArray(ids) || ids.length === 0) {
+            return res.status(400).json({ error: 'Aucun ID fourni' })
+        }
+
+        // Build parameterized query for safe bulk delete
+        const placeholders = ids.map((_, i) => `$${i + 1}`).join(', ')
+        const result = await query(
+            `DELETE FROM dictionary WHERE id IN (${placeholders}) RETURNING id`,
+            ids
+        )
+
+        res.json({
+            message: `${result.rows.length} mot(s) supprimé(s)`,
+            deleted: result.rows.length
+        })
+
+    } catch (error) {
+        console.error('Bulk delete error:', error)
+        res.status(500).json({ error: 'Erreur serveur' })
+    }
+})
+
 // Configuration multer pour les fichiers PDF
 const pdfStorage = multer.diskStorage({
     destination: (req, file, cb) => {
