@@ -3,7 +3,7 @@ const router = express.Router()
 const multer = require('multer')
 const path = require('path')
 const fs = require('fs')
-const pdfParse = require('pdf-parse')
+const pdfParse = require('pdf-parse/lib/pdf-parse')
 const { query } = require('../database')
 const { authMiddleware, adminOnly } = require('../middleware/auth')
 
