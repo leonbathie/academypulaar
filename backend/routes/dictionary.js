@@ -2,6 +2,8 @@ const express = require('express')
 const router = express.Router()
 const multer = require('multer')
 const path = require('path')
+const fs = require('fs')
+const pdfParse = require('pdf-parse')
 const { query } = require('../database')
 const { authMiddleware, adminOnly } = require('../middleware/auth')
 
@@ -197,6 +199,215 @@ router.delete('/:id', authMiddleware, adminOnly, async (req, res) => {
     } catch (error) {
         console.error('Delete word error:', error)
         res.status(500).json({ error: 'Erreur serveur' })
+    }
+})
+
+// Configuration multer pour les fichiers PDF
+const pdfStorage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads/')
+    },
+    filename: (req, file, cb) => {
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
+        cb(null, 'pdf-' + uniqueSuffix + path.extname(file.originalname))
+    }
+})
+
+const pdfFilter = (req, file, cb) => {
+    if (file.mimetype === 'application/pdf') {
+        cb(null, true)
+    } else {
+        cb(new Error('Seuls les fichiers PDF sont acceptés'), false)
+    }
+}
+
+const uploadPdf = multer({
+    storage: pdfStorage,
+    fileFilter: pdfFilter,
+    limits: { fileSize: 50 * 1024 * 1024 } // 50MB max
+})
+
+// POST /api/dictionary/import-pdf - Importer des mots depuis un PDF (Admin only)
+router.post('/import-pdf', authMiddleware, adminOnly, uploadPdf.single('pdf'), async (req, res) => {
+    let pdfPath = null
+    try {
+        if (!req.file) {
+            return res.status(400).json({ error: 'Aucun fichier PDF fourni' })
+        }
+
+        pdfPath = req.file.path
+        const domain = req.body.domain || null
+
+        // Lire le PDF
+        const dataBuffer = fs.readFileSync(pdfPath)
+        const pdfData = await pdfParse(dataBuffer)
+        const text = pdfData.text
+
+        // Parser les lignes du PDF
+        // Format attendu : Numéro | Fulfulde | Français | Anglais
+        // Le texte extrait de pdf-parse vient ligne par ligne
+        const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 0)
+
+        const words = []
+        const errors = []
+        const duplicates = []
+
+        // Détecter les en-têtes pour les ignorer
+        const headerPatterns = [
+            /^num[ée]ro/i, /^fulfulde/i, /^fran[çc]ais/i, /^anglais/i, /^english/i,
+            /^n[°o°]?\s/i, /^#/
+        ]
+
+        for (const line of lines) {
+            // Ignorer les en-têtes
+            if (headerPatterns.some(p => p.test(line))) continue
+
+            // Essayer de parser la ligne
+            // Stratégie 1: Nombre au début suivi de mots dans les 3 langues
+            // Le PDF a le format : "1    koloropalastiwon    chloroplaste    chloroplast"
+            const match = line.match(/^\s*(\d+)\s+(.+)/)
+            if (!match) continue
+
+            const rest = match[2].trim()
+
+            // Découper le reste en colonnes basé sur des espaces multiples (2+ espaces) ou tabulations
+            const parts = rest.split(/\s{2,}|\t+/).map(s => s.trim()).filter(s => s.length > 0)
+
+            if (parts.length >= 2) {
+                const wordObj = {
+                    word: parts[0],                     // Fulfulde
+                    translation_fr: parts[1] || null,   // Français
+                    translation_en: parts[2] || null,   // Anglais (optionnel)
+                    domain: domain
+                }
+                words.push(wordObj)
+            }
+        }
+
+        if (words.length === 0) {
+            return res.status(400).json({
+                error: 'Aucun mot trouvé dans le PDF. Vérifiez le format : Numéro | Fulfulde | Français | Anglais',
+                rawTextPreview: text.substring(0, 1000)
+            })
+        }
+
+        // Insérer les mots en base
+        let inserted = 0
+        let skipped = 0
+
+        for (const w of words) {
+            try {
+                // Vérifier si le mot existe déjà
+                const existing = await query('SELECT id FROM dictionary WHERE LOWER(word) = LOWER($1)', [w.word])
+                if (existing.rows.length > 0) {
+                    duplicates.push(w.word)
+                    skipped++
+                    continue
+                }
+
+                await query(
+                    `INSERT INTO dictionary (word, translation_fr, translation_en, domain)
+                     VALUES ($1, $2, $3, $4)`,
+                    [w.word, w.translation_fr, w.translation_en, w.domain]
+                )
+                inserted++
+            } catch (err) {
+                errors.push({ word: w.word, error: err.message })
+                skipped++
+            }
+        }
+
+        // Nettoyer le fichier PDF uploadé
+        fs.unlinkSync(pdfPath)
+        pdfPath = null
+
+        res.json({
+            message: `Import terminé : ${inserted} mots ajoutés, ${skipped} ignorés`,
+            inserted,
+            skipped,
+            total: words.length,
+            duplicates: duplicates.length > 0 ? duplicates : undefined,
+            errors: errors.length > 0 ? errors : undefined,
+            parsedWords: words // Retourner pour vérification
+        })
+
+    } catch (error) {
+        console.error('PDF import error:', error)
+        // Nettoyer le fichier PDF en cas d'erreur
+        if (pdfPath) {
+            try { fs.unlinkSync(pdfPath) } catch (e) {}
+        }
+        res.status(500).json({ error: 'Erreur lors de l\'import du PDF: ' + error.message })
+    }
+})
+
+// POST /api/dictionary/preview-pdf - Prévisualiser le contenu d'un PDF sans importer (Admin only)
+router.post('/preview-pdf', authMiddleware, adminOnly, uploadPdf.single('pdf'), async (req, res) => {
+    let pdfPath = null
+    try {
+        if (!req.file) {
+            return res.status(400).json({ error: 'Aucun fichier PDF fourni' })
+        }
+
+        pdfPath = req.file.path
+
+        const dataBuffer = fs.readFileSync(pdfPath)
+        const pdfData = await pdfParse(dataBuffer)
+        const text = pdfData.text
+
+        const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 0)
+
+        const words = []
+        const headerPatterns = [
+            /^num[ée]ro/i, /^fulfulde/i, /^fran[çc]ais/i, /^anglais/i, /^english/i,
+            /^n[°o°]?\s/i, /^#/
+        ]
+
+        for (const line of lines) {
+            if (headerPatterns.some(p => p.test(line))) continue
+
+            const match = line.match(/^\s*(\d+)\s+(.+)/)
+            if (!match) continue
+
+            const rest = match[2].trim()
+            const parts = rest.split(/\s{2,}|\t+/).map(s => s.trim()).filter(s => s.length > 0)
+
+            if (parts.length >= 2) {
+                words.push({
+                    word: parts[0],
+                    translation_fr: parts[1] || null,
+                    translation_en: parts[2] || null
+                })
+            }
+        }
+
+        // Vérifier les doublons existants
+        const existingWords = []
+        for (const w of words) {
+            const existing = await query('SELECT id FROM dictionary WHERE LOWER(word) = LOWER($1)', [w.word])
+            if (existing.rows.length > 0) {
+                existingWords.push(w.word)
+            }
+        }
+
+        // Nettoyer
+        fs.unlinkSync(pdfPath)
+        pdfPath = null
+
+        res.json({
+            words,
+            total: words.length,
+            duplicates: existingWords,
+            newWords: words.length - existingWords.length,
+            rawTextPreview: text.substring(0, 500)
+        })
+
+    } catch (error) {
+        console.error('PDF preview error:', error)
+        if (pdfPath) {
+            try { fs.unlinkSync(pdfPath) } catch (e) {}
+        }
+        res.status(500).json({ error: 'Erreur lors de la lecture du PDF: ' + error.message })
     }
 })
 

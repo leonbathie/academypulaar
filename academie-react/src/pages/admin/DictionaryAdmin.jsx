@@ -52,6 +52,16 @@ function DictionaryAdmin() {
     const mediaRecorderRef = useRef(null)
     const audioChunksRef = useRef([])
 
+    // PDF import states
+    const [showPdfModal, setShowPdfModal] = useState(false)
+    const [pdfFile, setPdfFile] = useState(null)
+    const [pdfDomain, setPdfDomain] = useState('')
+    const [pdfPreview, setPdfPreview] = useState(null)
+    const [pdfImporting, setPdfImporting] = useState(false)
+    const [pdfPreviewing, setPdfPreviewing] = useState(false)
+    const [pdfResult, setPdfResult] = useState(null)
+    const pdfInputRef = useRef(null)
+
     useEffect(() => {
         loadWords()
     }, [])
@@ -232,6 +242,80 @@ function DictionaryAdmin() {
         }
     }
 
+    // PDF Import Functions
+    const openPdfModal = () => {
+        setPdfFile(null)
+        setPdfDomain('')
+        setPdfPreview(null)
+        setPdfResult(null)
+        setShowPdfModal(true)
+    }
+
+    const closePdfModal = () => {
+        setShowPdfModal(false)
+        setPdfFile(null)
+        setPdfPreview(null)
+        setPdfResult(null)
+    }
+
+    const handlePdfPreview = async () => {
+        if (!pdfFile) return
+        setPdfPreviewing(true)
+        setPdfResult(null)
+        try {
+            const formData = new FormData()
+            formData.append('pdf', pdfFile)
+
+            const response = await fetch(`${API_URL}/api/dictionary/preview-pdf`, {
+                method: 'POST',
+                headers: { 'Authorization': `Bearer ${token}` },
+                body: formData
+            })
+
+            if (!response.ok) {
+                const err = await response.json().catch(() => ({}))
+                throw new Error(err.error || 'Erreur lors de la prévisualisation')
+            }
+
+            const data = await response.json()
+            setPdfPreview(data)
+        } catch (error) {
+            alert('Erreur: ' + error.message)
+        } finally {
+            setPdfPreviewing(false)
+        }
+    }
+
+    const handlePdfImport = async () => {
+        if (!pdfFile) return
+        setPdfImporting(true)
+        try {
+            const formData = new FormData()
+            formData.append('pdf', pdfFile)
+            if (pdfDomain) formData.append('domain', pdfDomain)
+
+            const response = await fetch(`${API_URL}/api/dictionary/import-pdf`, {
+                method: 'POST',
+                headers: { 'Authorization': `Bearer ${token}` },
+                body: formData
+            })
+
+            if (!response.ok) {
+                const err = await response.json().catch(() => ({}))
+                throw new Error(err.error || 'Erreur lors de l\'import')
+            }
+
+            const data = await response.json()
+            setPdfResult(data)
+            setPdfPreview(null)
+            loadWords()
+        } catch (error) {
+            alert('Erreur: ' + error.message)
+        } finally {
+            setPdfImporting(false)
+        }
+    }
+
     const filteredWords = words.filter(word => {
         const term = searchTerm.toLowerCase()
         return (word.word?.toLowerCase() || '').includes(term) ||
@@ -262,6 +346,15 @@ function DictionaryAdmin() {
                                 onChange={(e) => setSearchTerm(e.target.value)}
                             />
                         </div>
+                        <button className="btn-add" style={{ background: 'linear-gradient(135deg, #e67e22, #d35400)' }} onClick={openPdfModal}>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                                <polyline points="14 2 14 8 20 8" />
+                                <line x1="12" y1="18" x2="12" y2="12" />
+                                <line x1="9" y1="15" x2="15" y2="15" />
+                            </svg>
+                            {t('admin.dictionary.importPdf')}
+                        </button>
                         <button className="btn-add" onClick={() => openModal()}>
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                 <line x1="12" y1="5" x2="12" y2="19" />
@@ -552,6 +645,220 @@ function DictionaryAdmin() {
                                 </button>
                             </div>
                         </form>
+                    </div>
+                </div>
+            )}
+
+            {/* PDF Import Modal */}
+            {showPdfModal && (
+                <div className="modal-overlay" onClick={closePdfModal}>
+                    <div className="modal modal-large" onClick={e => e.stopPropagation()}>
+                        <div className="modal-header">
+                            <h3>{t('admin.dictionary.importPdf')}</h3>
+                            <button className="modal-close" onClick={closePdfModal}>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                    <line x1="18" y1="6" x2="6" y2="18" />
+                                    <line x1="6" y1="6" x2="18" y2="18" />
+                                </svg>
+                            </button>
+                        </div>
+                        <div className="modal-body">
+                            {/* File selection */}
+                            <div className="form-group">
+                                <label>{t('admin.dictionary.pdfFile')}</label>
+                                <div
+                                    className="pdf-drop-zone"
+                                    onClick={() => pdfInputRef.current?.click()}
+                                    style={{
+                                        border: '2px dashed var(--medium-gray)',
+                                        borderRadius: '12px',
+                                        padding: '2rem',
+                                        textAlign: 'center',
+                                        cursor: 'pointer',
+                                        background: pdfFile ? 'var(--light-green, #f0fff4)' : 'var(--light-gray, #f9f9f9)',
+                                        transition: 'all 0.3s'
+                                    }}
+                                >
+                                    {pdfFile ? (
+                                        <div>
+                                            <span style={{ fontSize: '2rem' }}>📄</span>
+                                            <p style={{ marginTop: '0.5rem', fontWeight: 600 }}>{pdfFile.name}</p>
+                                            <p style={{ fontSize: '0.85rem', color: 'var(--medium-gray)' }}>
+                                                {(pdfFile.size / 1024).toFixed(1)} Ko
+                                            </p>
+                                        </div>
+                                    ) : (
+                                        <div>
+                                            <span style={{ fontSize: '2rem' }}>📤</span>
+                                            <p style={{ marginTop: '0.5rem' }}>{t('admin.dictionary.pdfClickToSelect')}</p>
+                                            <p style={{ fontSize: '0.85rem', color: 'var(--medium-gray)' }}>
+                                                {t('admin.dictionary.pdfFormat')}
+                                            </p>
+                                        </div>
+                                    )}
+                                    <input
+                                        ref={pdfInputRef}
+                                        type="file"
+                                        accept=".pdf"
+                                        style={{ display: 'none' }}
+                                        onChange={e => {
+                                            setPdfFile(e.target.files[0] || null)
+                                            setPdfPreview(null)
+                                            setPdfResult(null)
+                                        }}
+                                    />
+                                </div>
+                            </div>
+
+                            {/* Domain selection */}
+                            <div className="form-group">
+                                <label>{t('admin.dictionary.pdfDomain')}</label>
+                                <select value={pdfDomain} onChange={e => setPdfDomain(e.target.value)}>
+                                    <option value="">{t('admin.common.select')}</option>
+                                    <option value="scientifique">{t('admin.dictionary.domScience')}</option>
+                                    <option value="mathematiques">{t('admin.dictionary.domMath')}</option>
+                                    <option value="biologie">{t('admin.dictionary.domBio')}</option>
+                                    <option value="philosophie">{t('admin.dictionary.domPhilo')}</option>
+                                    <option value="economie">{t('admin.dictionary.domEco')}</option>
+                                    <option value="droit">{t('admin.dictionary.domDroit')}</option>
+                                    <option value="astronomie">{t('admin.dictionary.domAstro')}</option>
+                                    <option value="informatique">{t('admin.dictionary.domInfo')}</option>
+                                    <option value="botanique">{t('admin.dictionary.domBota')}</option>
+                                    <option value="vivants">{t('admin.dictionary.domVivants')}</option>
+                                    <option value="elevage">{t('admin.dictionary.domElevage')}</option>
+                                    <option value="agriculture">{t('admin.dictionary.domAgri')}</option>
+                                    <option value="peche">{t('admin.dictionary.domPeche')}</option>
+                                    <option value="forge">{t('admin.dictionary.domForge')}</option>
+                                    <option value="dictionnaire">{t('admin.dictionary.domDict')}</option>
+                                </select>
+                            </div>
+
+                            {/* Action buttons */}
+                            <div style={{ display: 'flex', gap: '1rem', marginBottom: '1.5rem' }}>
+                                <button
+                                    type="button"
+                                    className="btn-add"
+                                    style={{ background: 'linear-gradient(135deg, #3498db, #2980b9)', flex: 1 }}
+                                    onClick={handlePdfPreview}
+                                    disabled={!pdfFile || pdfPreviewing}
+                                >
+                                    {pdfPreviewing ? (
+                                        <div className="btn-spinner"></div>
+                                    ) : (
+                                        <>
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ width: 18, height: 18 }}>
+                                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                                <circle cx="12" cy="12" r="3" />
+                                            </svg>
+                                            {t('admin.dictionary.pdfPreview')}
+                                        </>
+                                    )}
+                                </button>
+                                <button
+                                    type="button"
+                                    className="btn-add"
+                                    style={{ background: 'linear-gradient(135deg, #27ae60, #219a52)', flex: 1 }}
+                                    onClick={handlePdfImport}
+                                    disabled={!pdfFile || pdfImporting}
+                                >
+                                    {pdfImporting ? (
+                                        <div className="btn-spinner"></div>
+                                    ) : (
+                                        <>
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ width: 18, height: 18 }}>
+                                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                                                <polyline points="7 10 12 15 17 10" />
+                                                <line x1="12" y1="15" x2="12" y2="3" />
+                                            </svg>
+                                            {t('admin.dictionary.pdfImport')}
+                                        </>
+                                    )}
+                                </button>
+                            </div>
+
+                            {/* Import result */}
+                            {pdfResult && (
+                                <div style={{
+                                    padding: '1rem 1.5rem',
+                                    borderRadius: '12px',
+                                    background: pdfResult.inserted > 0 ? '#f0fff4' : '#fff5f5',
+                                    border: `1px solid ${pdfResult.inserted > 0 ? '#27ae60' : '#e74c3c'}`,
+                                    marginBottom: '1.5rem'
+                                }}>
+                                    <p style={{ fontWeight: 700, fontSize: '1.05rem', marginBottom: '0.5rem' }}>
+                                        {pdfResult.inserted > 0 ? '✅' : '⚠️'} {pdfResult.message}
+                                    </p>
+                                    <div style={{ display: 'flex', gap: '2rem', fontSize: '0.9rem' }}>
+                                        <span>📊 {t('admin.dictionary.pdfTotal')}: <strong>{pdfResult.total}</strong></span>
+                                        <span>✅ {t('admin.dictionary.pdfInserted')}: <strong>{pdfResult.inserted}</strong></span>
+                                        <span>⏭️ {t('admin.dictionary.pdfSkipped')}: <strong>{pdfResult.skipped}</strong></span>
+                                    </div>
+                                    {pdfResult.duplicates && pdfResult.duplicates.length > 0 && (
+                                        <p style={{ marginTop: '0.5rem', fontSize: '0.85rem', color: '#666' }}>
+                                            {t('admin.dictionary.pdfDuplicates')}: {pdfResult.duplicates.join(', ')}
+                                        </p>
+                                    )}
+                                </div>
+                            )}
+
+                            {/* Preview table */}
+                            {pdfPreview && pdfPreview.words && pdfPreview.words.length > 0 && (
+                                <div>
+                                    <h4 style={{ marginBottom: '0.5rem' }}>
+                                        {t('admin.dictionary.pdfPreviewTitle')} ({pdfPreview.total} {t('admin.dictionary.pdfWords')},
+                                        {' '}{pdfPreview.newWords} {t('admin.dictionary.pdfNew')},
+                                        {' '}{pdfPreview.duplicates.length} {t('admin.dictionary.pdfExisting')})
+                                    </h4>
+                                    <div style={{ maxHeight: '350px', overflowY: 'auto', borderRadius: '8px', border: '1px solid #eee' }}>
+                                        <table className="admin-table" style={{ margin: 0 }}>
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Fulfulde</th>
+                                                    <th>{t('admin.dictionary.translationFr')}</th>
+                                                    <th>{t('admin.dictionary.translationEn')}</th>
+                                                    <th>Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {pdfPreview.words.map((w, idx) => {
+                                                    const isDuplicate = pdfPreview.duplicates.includes(w.word)
+                                                    return (
+                                                        <tr key={idx} style={{ background: isDuplicate ? '#fff5f5' : 'transparent' }}>
+                                                            <td>{idx + 1}</td>
+                                                            <td><strong>{w.word}</strong></td>
+                                                            <td>{w.translation_fr || '-'}</td>
+                                                            <td>{w.translation_en || '-'}</td>
+                                                            <td>
+                                                                {isDuplicate ? (
+                                                                    <span style={{ color: '#e74c3c', fontWeight: 600 }}>⚠️ {t('admin.dictionary.pdfDuplicate')}</span>
+                                                                ) : (
+                                                                    <span style={{ color: '#27ae60', fontWeight: 600 }}>✅ {t('admin.dictionary.pdfNewWord')}</span>
+                                                                )}
+                                                            </td>
+                                                        </tr>
+                                                    )
+                                                })}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            )}
+
+                            {pdfPreview && pdfPreview.words && pdfPreview.words.length === 0 && (
+                                <div style={{ textAlign: 'center', padding: '2rem', color: '#e74c3c' }}>
+                                    <p style={{ fontSize: '1.1rem', fontWeight: 600 }}>❌ {t('admin.dictionary.pdfNoWords')}</p>
+                                    {pdfPreview.rawTextPreview && (
+                                        <pre style={{ textAlign: 'left', background: '#f5f5f5', padding: '1rem', borderRadius: '8px', fontSize: '0.8rem', maxHeight: '200px', overflow: 'auto', marginTop: '1rem' }}>
+                                            {pdfPreview.rawTextPreview}
+                                        </pre>
+                                    )}
+                                </div>
+                            )}
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn-cancel" onClick={closePdfModal}>{t('admin.common.cancel')}</button>
+                        </div>
                     </div>
                 </div>
             )}
