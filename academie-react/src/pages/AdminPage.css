@@ -1068,3 +1068,139 @@
     background: #dc3545;
     color: var(--white);
 }
+
+/* ============================================
+   PDF IMPORT
+   ============================================ */
+.pdf-drop-zone {
+    border: 2px dashed var(--medium-gray);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl) var(--space-lg);
+    text-align: center;
+    cursor: pointer;
+    background: var(--light-gray);
+    transition: all var(--transition-fast);
+}
+
+.pdf-drop-zone:hover {
+    border-color: var(--primary-gold);
+    background: rgba(212, 165, 55, 0.05);
+}
+
+.pdf-drop-zone-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+.pdf-drop-zone-icon {
+    font-size: 2rem;
+}
+
+.pdf-drop-zone-filename {
+    font-weight: 600;
+    color: var(--dark-gray);
+}
+
+.pdf-drop-zone-size {
+    font-size: 0.85rem;
+    color: var(--medium-gray);
+}
+
+.pdf-drop-zone-text {
+    color: var(--dark-gray);
+}
+
+.pdf-drop-zone-hint {
+    font-size: 0.85rem;
+    color: var(--medium-gray);
+}
+
+/* PDF Result */
+.pdf-result {
+    padding: var(--space-md) var(--space-lg);
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--space-lg);
+}
+
+.pdf-result-success {
+    background: #f0fff4;
+    border: 1px solid #27ae60;
+}
+
+.pdf-result-warning {
+    background: #fff5f5;
+    border: 1px solid #e74c3c;
+}
+
+.pdf-result-title {
+    font-weight: 700;
+    font-size: 1.05rem;
+    margin-bottom: var(--space-sm);
+    color: var(--dark-gray);
+}
+
+.pdf-result-stats {
+    display: flex;
+    gap: var(--space-xl);
+    font-size: 0.9rem;
+    flex-wrap: wrap;
+}
+
+.pdf-result-duplicates {
+    margin-top: var(--space-sm);
+    font-size: 0.85rem;
+    color: var(--medium-gray);
+}
+
+/* PDF Preview Table */
+.pdf-preview-table-wrapper {
+    max-height: 350px;
+    overflow-y: auto;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--light-gray);
+}
+
+.pdf-preview-table {
+    margin: 0 !important;
+}
+
+.pdf-row-duplicate {
+    background: #fff5f5 !important;
+}
+
+.pdf-status-duplicate {
+    color: #e74c3c;
+    font-weight: 600;
+    font-size: 0.85rem;
+}
+
+.pdf-status-new {
+    color: #27ae60;
+    font-weight: 600;
+    font-size: 0.85rem;
+}
+
+.pdf-no-words {
+    text-align: center;
+    padding: var(--space-xl);
+    color: #e74c3c;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+@media (max-width: 600px) {
+    .pdf-result-stats {
+        flex-direction: column;
+        gap: var(--space-sm);
+    }
+
+    .pdf-preview-table-wrapper {
+        max-height: 250px;
+    }
+
+    .pdf-drop-zone {
+        padding: var(--space-lg) var(--space-md);
+    }
+}
