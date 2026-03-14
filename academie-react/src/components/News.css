@@ -122,6 +122,8 @@
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    overflow-wrap: break-word;
+    word-break: break-word;
 }
 
 .news-excerpt {
@@ -129,9 +131,22 @@
     color: rgba(255, 255, 255, 0.7);
     line-height: 1.6;
     margin-bottom: var(--space-lg);
-    flex: 1;
-    word-break: break-word;
     overflow-wrap: break-word;
+    word-break: break-word;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.news-card .news-excerpt:last-child {
+    flex: 1;
+}
+
+.news-excerpt.expanded {
+    display: block;
+    -webkit-line-clamp: unset;
+    overflow: visible;
 }
 
 .news-link {

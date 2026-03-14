@@ -129,7 +129,7 @@ function News() {
                                         <time className="news-date">{formatDate(item.date)}</time>
                                     </div>
                                     <h3 className="news-title">{getTitle(item)}</h3>
-                                    <p className="news-excerpt">{displayText}</p>
+                                    <p className={`news-excerpt${isExpanded ? ' expanded' : ''}`}>{displayText}</p>
                                     {hasMoreContent && (
                                         <button
                                             className="news-link"
