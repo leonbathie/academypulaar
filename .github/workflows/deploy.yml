@@ -172,16 +172,35 @@ jobs:
 
       - name: Setup SSL certificate
         run: |
-          echo "=== Generate self-signed certificate (fallback) ==="
-          if [ ! -f /etc/ssl/certs/nginx-selfsigned.crt ]; then
-            sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
-              -keyout /etc/ssl/private/nginx-selfsigned.key \
-              -out /etc/ssl/certs/nginx-selfsigned.crt \
-              -subj "/C=FR/ST=IDF/L=Paris/O=GoomuFulo/CN=goomufulo.com"
-            echo "Self-signed certificate created"
+          echo "=== Try Let's Encrypt certificate first ==="
+          # Stop nginx temporarily for standalone verification
+          sudo systemctl stop nginx 2>/dev/null || true
+
+          if [ ! -d /etc/letsencrypt/live/goomufulo.com ]; then
+            sudo certbot certonly --standalone \
+              -d goomufulo.com -d www.goomufulo.com \
+              --non-interactive --agree-tos \
+              --email contact@goomufulo.com 2>&1 || true
           else
-            echo "Self-signed certificate already exists"
+            echo "Let's Encrypt certificate already exists"
+            sudo certbot renew --dry-run 2>/dev/null || true
           fi
+
+          # If Let's Encrypt failed, create fallback self-signed at same paths
+          if [ ! -f /etc/letsencrypt/live/goomufulo.com/fullchain.pem ]; then
+            echo "=== Let's Encrypt failed, creating self-signed fallback ==="
+            sudo mkdir -p /etc/letsencrypt/live/goomufulo.com
+            sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+              -keyout /etc/letsencrypt/live/goomufulo.com/privkey.pem \
+              -out /etc/letsencrypt/live/goomufulo.com/fullchain.pem \
+              -subj "/C=FR/ST=IDF/L=Paris/O=GoomuFulo/CN=goomufulo.com"
+            echo "Self-signed certificate created at Let's Encrypt paths"
+          else
+            echo "=== Let's Encrypt certificate OK ==="
+          fi
+
+          # Enable auto-renewal
+          sudo systemctl enable certbot.timer 2>/dev/null || true
 
       - name: Update Nginx config
         run: |
@@ -199,15 +218,6 @@ jobs:
           sudo systemctl enable nginx
           sudo systemctl reload nginx || sudo systemctl start nginx
           echo "Nginx configured OK"
-
-      - name: Setup Let's Encrypt SSL
-        continue-on-error: true
-        run: |
-          echo "=== Attempting Let's Encrypt certificate ==="
-          sudo certbot --nginx -d goomufulo.com -d www.goomufulo.com --non-interactive --agree-tos --email contact@goomufulo.com --redirect 2>&1 || echo "Certbot failed (DNS may not be ready yet). Using self-signed cert."
-
-          echo "=== Setup auto-renewal ==="
-          sudo systemctl enable certbot.timer 2>/dev/null || true
 
       - name: Verify deployment
         run: |
