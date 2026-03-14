@@ -244,6 +244,8 @@
     color: var(--white);
     margin-bottom: var(--space-sm);
     line-height: 1.3;
+    overflow-wrap: break-word;
+    word-break: break-word;
 }
 
 .book-author {
@@ -271,6 +273,8 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
     flex: 1;
+    overflow-wrap: break-word;
+    word-break: break-word;
 }
 
 .book-footer {
