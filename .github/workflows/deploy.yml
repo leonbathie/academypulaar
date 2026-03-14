@@ -172,31 +172,41 @@ jobs:
 
       - name: Setup SSL certificate
         run: |
-          echo "=== Try Let's Encrypt certificate first ==="
-          # Stop nginx temporarily for standalone verification
-          sudo systemctl stop nginx 2>/dev/null || true
+          echo "=== Check SSL certificate ==="
+          # Check if we have a real Let's Encrypt cert (not self-signed)
+          CERT_FILE="/etc/letsencrypt/live/goomufulo.com/fullchain.pem"
+          NEED_CERT=false
 
-          if [ ! -d /etc/letsencrypt/live/goomufulo.com ]; then
+          if [ ! -f "$CERT_FILE" ]; then
+            NEED_CERT=true
+            echo "No certificate found"
+          elif openssl x509 -in "$CERT_FILE" -noout -issuer 2>/dev/null | grep -q "Let's Encrypt\|R3\|R10\|R11\|E5\|E6"; then
+            echo "Valid Let's Encrypt certificate found"
+            sudo certbot renew --quiet 2>/dev/null || true
+          else
+            echo "Self-signed certificate detected, replacing with Let's Encrypt"
+            NEED_CERT=true
+          fi
+
+          if [ "$NEED_CERT" = true ]; then
+            echo "=== Obtaining Let's Encrypt certificate ==="
+            sudo systemctl stop nginx 2>/dev/null || true
+            # Remove old self-signed if present
+            sudo rm -rf /etc/letsencrypt/live/goomufulo.com 2>/dev/null || true
+            sudo rm -rf /etc/letsencrypt/renewal/goomufulo.com.conf 2>/dev/null || true
+            sudo rm -rf /etc/letsencrypt/archive/goomufulo.com 2>/dev/null || true
+
             sudo certbot certonly --standalone \
               -d goomufulo.com -d www.goomufulo.com \
               --non-interactive --agree-tos \
-              --email contact@goomufulo.com 2>&1 || true
-          else
-            echo "Let's Encrypt certificate already exists"
-            sudo certbot renew --dry-run 2>/dev/null || true
-          fi
-
-          # If Let's Encrypt failed, create fallback self-signed at same paths
-          if [ ! -f /etc/letsencrypt/live/goomufulo.com/fullchain.pem ]; then
-            echo "=== Let's Encrypt failed, creating self-signed fallback ==="
-            sudo mkdir -p /etc/letsencrypt/live/goomufulo.com
-            sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
-              -keyout /etc/letsencrypt/live/goomufulo.com/privkey.pem \
-              -out /etc/letsencrypt/live/goomufulo.com/fullchain.pem \
-              -subj "/C=FR/ST=IDF/L=Paris/O=GoomuFulo/CN=goomufulo.com"
-            echo "Self-signed certificate created at Let's Encrypt paths"
-          else
-            echo "=== Let's Encrypt certificate OK ==="
+              --email contact@goomufulo.com 2>&1 || {
+              echo "=== Certbot failed, creating self-signed fallback ==="
+              sudo mkdir -p /etc/letsencrypt/live/goomufulo.com
+              sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+                -keyout /etc/letsencrypt/live/goomufulo.com/privkey.pem \
+                -out /etc/letsencrypt/live/goomufulo.com/fullchain.pem \
+                -subj "/C=FR/ST=IDF/L=Paris/O=GoomuFulo/CN=goomufulo.com"
+            }
           fi
 
           # Enable auto-renewal
