@@ -113,7 +113,7 @@ function News() {
                             const excerpt = getExcerpt(item)
                             const content = getContent(item)
                             const displayText = isExpanded ? (content || excerpt) : truncateText(excerpt)
-                            const hasMoreContent = (content && content.length > 100) || (excerpt && excerpt.length > 100)
+                            const hasMoreContent = !!(content && content.trim()) || (excerpt && excerpt.length > 50)
 
                             return (
                                 <article key={item.id} className={`news-card news-card--${item.type || 'default'}`}>
