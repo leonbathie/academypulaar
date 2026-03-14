@@ -80,9 +80,12 @@ jobs:
             echo "JWT_SECRET=goomufulowidto-secret-key-2024" >> $ENV_FILE
             echo "PORT=5000" >> $ENV_FILE
             echo "NODE_ENV=production" >> $ENV_FILE
+            echo "GOOGLE_CLIENT_ID=201037336821-nn28luuobfn04qte7jng3tkegf092mvl.apps.googleusercontent.com" >> $ENV_FILE
             echo ".env created"
           else
             echo ".env already exists"
+            # Ensure GOOGLE_CLIENT_ID is present
+            grep -q GOOGLE_CLIENT_ID $ENV_FILE || echo "GOOGLE_CLIENT_ID=201037336821-nn28luuobfn04qte7jng3tkegf092mvl.apps.googleusercontent.com" >> $ENV_FILE
           fi
 
       - name: Install backend dependencies
@@ -120,6 +123,7 @@ jobs:
             'Environment=DATABASE_URL=postgresql://academypulaar:academypulaar2024@localhost:5432/academypulaar' \
             'Environment=DATABASE_SSL=false' \
             'Environment=JWT_SECRET=goomufulowidto-secret-key-2024' \
+            'Environment=GOOGLE_CLIENT_ID=201037336821-nn28luuobfn04qte7jng3tkegf092mvl.apps.googleusercontent.com' \
             '' \
             '[Install]' \
             'WantedBy=multi-user.target' \
