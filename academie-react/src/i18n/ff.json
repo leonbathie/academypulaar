@@ -99,7 +99,9 @@
         "catGrammar": "Celluka",
         "catCommon": "Goofi jaaliiɗi",
         "catBorrowings": "Jiggaaɗe",
-        "catIncorrect": "Kuutorogol ñawngol"
+        "catIncorrect": "Kuutorogol ñawngol",
+        "noArticles": "Hay binndol alaa ɗoo",
+        "noArticlesDesc": "Binndanɗe \"Selli, Sellaani\" ɗe maa ngarnoy jooni jooni."
     },
     "dictionary": {
         "sectionLabel": "Saggitorde Fulfulde",

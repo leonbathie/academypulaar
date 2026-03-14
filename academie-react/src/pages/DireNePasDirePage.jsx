@@ -113,8 +113,8 @@ function DireNePasDirePage() {
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="dire-empty-icon">
                             <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
                         </svg>
-                        <h3>{t('sayDontSay.noArticles', 'Aucun article disponible')}</h3>
-                        <p>{t('sayDontSay.noArticlesDesc', 'Les articles "Dire, Ne pas dire" seront bientôt disponibles.')}</p>
+                        <h3>{t('sayDontSay.noArticles')}</h3>
+                        <p>{t('sayDontSay.noArticlesDesc')}</p>
                     </div>
                 ) : (
                     <div className="dire-page-grid">

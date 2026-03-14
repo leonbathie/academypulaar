@@ -99,7 +99,9 @@
         "catGrammar": "Grammar",
         "catCommon": "Common errors",
         "catBorrowings": "Borrowings",
-        "catIncorrect": "Incorrect usage"
+        "catIncorrect": "Incorrect usage",
+        "noArticles": "No articles available",
+        "noArticlesDesc": "The \"Say, Don't Say\" articles will be available soon."
     },
     "dictionary": {
         "sectionLabel": "Fulfulde Dictionary",

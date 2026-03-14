@@ -99,7 +99,9 @@
         "catGrammar": "Grammaire",
         "catCommon": "Erreurs courantes",
         "catBorrowings": "Emprunts",
-        "catIncorrect": "Usage incorrect"
+        "catIncorrect": "Usage incorrect",
+        "noArticles": "Aucun article disponible",
+        "noArticlesDesc": "Les articles \"Selli, Sellaani\" seront bientôt disponibles."
     },
     "dictionary": {
         "sectionLabel": "Dictionnaire Fulfulde",
