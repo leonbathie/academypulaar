@@ -195,10 +195,10 @@
 
 .word-header {
     display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
+    flex-wrap: wrap;
+    align-items: center;
     margin-bottom: var(--space-sm);
-    gap: var(--space-sm);
+    gap: var(--space-xs) var(--space-sm);
 }
 
 .word-term {
@@ -326,8 +326,6 @@
     display: flex;
     align-items: center;
     gap: var(--space-sm);
-    min-width: 0;
-    flex: 1;
 }
 
 .audio-play-btn {
