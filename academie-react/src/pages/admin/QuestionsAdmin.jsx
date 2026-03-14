@@ -86,17 +86,17 @@ function QuestionsAdmin() {
             closeModal()
             loadItems()
         } catch (error) {
-            alert('Erreur: ' + error.message)
+            alert(t('admin.common.errorPrefix') + error.message)
         }
     }
 
     const handleDelete = async (id) => {
-        if (!confirm(t('admin.common.confirmDelete') || 'Supprimer cette question ?')) return
+        if (!confirm(t('admin.common.confirmDeleteQuestion'))) return
         try {
             await apiRequest(`/questions/${id}`, { method: 'DELETE' })
             loadItems()
         } catch (error) {
-            alert('Erreur: ' + error.message)
+            alert(t('admin.common.errorPrefix') + error.message)
         }
     }
 
@@ -216,7 +216,7 @@ function QuestionsAdmin() {
                                     {activeTab === 'fr' && (
                                         <>
                                             <div className="form-group">
-                                                <label>{t('admin.questions.questionLabel')} (Français) *</label>
+                                                <label>{t('admin.questions.questionLabel')} ({t('admin.common.langFr')}) *</label>
                                                 <input
                                                     type="text"
                                                     value={formData.question_fr}
@@ -226,7 +226,7 @@ function QuestionsAdmin() {
                                                 />
                                             </div>
                                             <div className="form-group">
-                                                <label>{t('admin.questions.answerLabel')} (Français) *</label>
+                                                <label>{t('admin.questions.answerLabel')} ({t('admin.common.langFr')}) *</label>
                                                 <textarea
                                                     value={formData.answer_fr}
                                                     onChange={e => setFormData({ ...formData, answer_fr: e.target.value })}
@@ -240,7 +240,7 @@ function QuestionsAdmin() {
                                     {activeTab === 'en' && (
                                         <>
                                             <div className="form-group">
-                                                <label>{t('admin.questions.questionLabel')} (English)</label>
+                                                <label>{t('admin.questions.questionLabel')} ({t('admin.common.langEn')})</label>
                                                 <input
                                                     type="text"
                                                     value={formData.question_en}
@@ -249,7 +249,7 @@ function QuestionsAdmin() {
                                                 />
                                             </div>
                                             <div className="form-group">
-                                                <label>{t('admin.questions.answerLabel')} (English)</label>
+                                                <label>{t('admin.questions.answerLabel')} ({t('admin.common.langEn')})</label>
                                                 <textarea
                                                     value={formData.answer_en}
                                                     onChange={e => setFormData({ ...formData, answer_en: e.target.value })}
@@ -262,7 +262,7 @@ function QuestionsAdmin() {
                                     {activeTab === 'ff' && (
                                         <>
                                             <div className="form-group">
-                                                <label>{t('admin.questions.questionLabel')} (Fulfulde)</label>
+                                                <label>{t('admin.questions.questionLabel')} ({t('admin.common.langFf')})</label>
                                                 <input
                                                     type="text"
                                                     value={formData.question_ff}
@@ -271,7 +271,7 @@ function QuestionsAdmin() {
                                                 />
                                             </div>
                                             <div className="form-group">
-                                                <label>{t('admin.questions.answerLabel')} (Fulfulde)</label>
+                                                <label>{t('admin.questions.answerLabel')} ({t('admin.common.langFf')})</label>
                                                 <textarea
                                                     value={formData.answer_ff}
                                                     onChange={e => setFormData({ ...formData, answer_ff: e.target.value })}

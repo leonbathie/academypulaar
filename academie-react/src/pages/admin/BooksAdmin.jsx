@@ -183,17 +183,17 @@ function BooksAdmin() {
 
                 xhr.onerror = () => {
                     console.error('[BooksAdmin] XHR network error')
-                    reject(new Error('Erreur réseau. Vérifiez votre connexion.'))
+                    reject(new Error(t('admin.common.networkError')))
                 }
 
                 xhr.ontimeout = () => {
                     console.error(`[BooksAdmin] XHR timeout after ${timeoutMs / 1000}s`)
-                    reject(new Error(`L'envoi a expiré après ${timeoutMs / 1000}s. Le fichier est peut-être trop gros pour votre connexion.`))
+                    reject(new Error(t('admin.common.uploadTimeout', { seconds: timeoutMs / 1000 })))
                 }
 
                 xhr.onabort = () => {
                     console.log('[BooksAdmin] XHR aborted by user')
-                    reject(new Error('Envoi annulé'))
+                    reject(new Error(t('admin.common.uploadCancelled')))
                 }
 
                 xhr.open(method, url)
@@ -208,15 +208,15 @@ function BooksAdmin() {
                 await loadBooks()
                 closeModal()
             } else {
-                let errorMsg = `Erreur ${result.status}`
+                let errorMsg = t('admin.common.statusError', { status: result.status })
                 if (result.status === 413) {
-                    errorMsg = 'Le fichier est trop volumineux (max 100 Mo)'
+                    errorMsg = t('admin.common.fileTooLarge')
                 } else if (result.status === 401) {
-                    errorMsg = 'Session expirée. Reconnectez-vous.'
+                    errorMsg = t('admin.common.sessionExpired')
                 } else if (result.status === 403) {
-                    errorMsg = 'Accès non autorisé'
+                    errorMsg = t('admin.common.unauthorized')
                 } else if (result.status === 408) {
-                    errorMsg = 'Le serveur a mis trop de temps à répondre. Réessayez.'
+                    errorMsg = t('admin.common.serverTimeout')
                 } else {
                     try {
                         const errorData = JSON.parse(result.responseText)
@@ -248,7 +248,7 @@ function BooksAdmin() {
     }
 
     const handleDelete = async (id) => {
-        if (!window.confirm('Supprimer ce livre ?')) return
+        if (!window.confirm(t('admin.common.confirmDeleteBook'))) return
 
         try {
             const response = await fetch(`${API_URL}/api/books/${id}`, {
@@ -370,7 +370,7 @@ function BooksAdmin() {
                                             }}
                                         >
                                             {coverPreview ? (
-                                                <img src={coverPreview} alt="Couverture" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                                <img src={coverPreview} alt={t('admin.common.coverAlt')} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                                             ) : (
                                                 <span style={{ textAlign: 'center', padding: '0.5rem', fontSize: '0.85rem', color: '#999' }}>{t('admin.books.clickToAddCover', 'Cliquez pour ajouter une couverture')}</span>
                                             )}
@@ -448,7 +448,7 @@ function BooksAdmin() {
                                 {activeTab === 'fr' && (
                                     <div className="lang-content">
                                         <div className="form-group">
-                                            <label>Titre *</label>
+                                            <label>{t('admin.books.titleLabel')} *</label>
                                             <input
                                                 type="text"
                                                 value={formData.title_fr}
@@ -471,7 +471,7 @@ function BooksAdmin() {
                                 {activeTab === 'en' && (
                                     <div className="lang-content">
                                         <div className="form-group">
-                                            <label>Title</label>
+                                            <label>{t('admin.books.titleLabel')}</label>
                                             <input
                                                 type="text"
                                                 value={formData.title_en}
@@ -493,7 +493,7 @@ function BooksAdmin() {
                                 {activeTab === 'ff' && (
                                     <div className="lang-content">
                                         <div className="form-group">
-                                            <label>Tiitoonde</label>
+                                            <label>{t('admin.books.titleLabel')}</label>
                                             <input
                                                 type="text"
                                                 value={formData.title_ff}
@@ -501,7 +501,7 @@ function BooksAdmin() {
                                             />
                                         </div>
                                         <div className="form-group">
-                                            <label>Cifol</label>
+                                            <label>{t('admin.books.description')}</label>
                                             <textarea
                                                 value={formData.description_ff}
                                                 onChange={e => setFormData({ ...formData, description_ff: e.target.value })}
@@ -516,7 +516,7 @@ function BooksAdmin() {
                                 {submitting && uploadProgress > 0 && (
                                     <div style={{ width: '100%' }}>
                                         <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', marginBottom: '4px' }}>
-                                            <span>{uploadProgress < 100 ? `Envoi du fichier... ${uploadProgress}%` : 'Traitement en cours...'}</span>
+                                            <span>{uploadProgress < 100 ? t('admin.common.uploading', { progress: uploadProgress }) : t('admin.common.processing')}</span>
                                             <span>{uploadProgress}%</span>
                                         </div>
                                         <div style={{ width: '100%', height: '8px', background: '#e0e0e0', borderRadius: '4px', overflow: 'hidden' }}>
@@ -537,15 +537,15 @@ function BooksAdmin() {
                                 )}
                                 <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'flex-end', width: '100%' }}>
                                     <button type="button" className="btn btn-secondary" onClick={submitting ? cancelUpload : closeModal}>
-                                        {submitting ? '✖ Annuler l\'envoi' : t('admin.common.cancel')}
+                                        {submitting ? '✖ ' + t('admin.common.cancelUpload') : t('admin.common.cancel')}
                                     </button>
                                     <button type="submit" className="btn btn-primary" disabled={submitting}>
                                         {submitting
                                             ? (uploadProgress > 0 && uploadProgress < 100
-                                                ? `⏳ Envoi ${uploadProgress}%`
+                                                ? '⏳ ' + t('admin.common.uploadingBtn', { progress: uploadProgress })
                                                 : uploadProgress >= 100
-                                                    ? '⏳ Traitement...'
-                                                    : '⏳ Préparation...')
+                                                    ? '⏳ ' + t('admin.common.processingBtn')
+                                                    : '⏳ ' + t('admin.common.preparingBtn'))
                                             : (editingBook ? t('admin.common.save') : t('admin.common.add'))}
                                     </button>
                                 </div>

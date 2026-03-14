@@ -128,7 +128,7 @@ function DictionaryAdmin() {
     const startRecording = async (type) => {
         try {
             if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-                alert('L\'accès au microphone est restreint aux connexions sécurisées (HTTPS). Si vous êtes en test, utilisez localhost ou configurez SSL sur votre serveur.')
+                alert(t('admin.common.micRestricted'))
                 return
             }
             const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
@@ -166,7 +166,7 @@ function DictionaryAdmin() {
             }
         } catch (error) {
             console.error('Error accessing microphone:', error)
-            alert('Impossible d\'accéder au microphone. Vérifiez les permissions de votre navigateur.')
+            alert(t('admin.common.micPermission'))
         }
     }
 
@@ -224,25 +224,25 @@ function DictionaryAdmin() {
 
             if (!response.ok) {
                 const errorData = await response.json().catch(() => ({}))
-                throw new Error(errorData.message || 'Erreur lors de l\'enregistrement')
+                throw new Error(errorData.message || t('admin.common.recordError'))
             }
 
             closeModal()
             loadWords()
         } catch (error) {
-            alert('Erreur: ' + error.message)
+            alert(t('admin.common.errorPrefix') + error.message)
         } finally {
             setIsSubmitting(false)
         }
     }
 
     const handleDelete = async (id) => {
-        if (!confirm('Supprimer ce mot ?')) return
+        if (!confirm(t('admin.common.confirmDeleteWord'))) return
         try {
             await apiRequest(`/dictionary/${id}`, { method: 'DELETE' })
             loadWords()
         } catch (error) {
-            alert('Erreur: ' + error.message)
+            alert(t('admin.common.errorPrefix') + error.message)
         }
     }
 
@@ -277,7 +277,7 @@ function DictionaryAdmin() {
             setSelectedIds(new Set())
             loadWords()
         } catch (error) {
-            alert('Erreur: ' + error.message)
+            alert(t('admin.common.errorPrefix') + error.message)
         } finally {
             setBulkDeleting(false)
         }
@@ -315,13 +315,13 @@ function DictionaryAdmin() {
 
             if (!response.ok) {
                 const err = await response.json().catch(() => ({}))
-                throw new Error(err.error || 'Erreur lors de la prévisualisation')
+                throw new Error(err.error || t('admin.common.previewError'))
             }
 
             const data = await response.json()
             setPdfPreview(data)
         } catch (error) {
-            alert('Erreur: ' + error.message)
+            alert(t('admin.common.errorPrefix') + error.message)
         } finally {
             setPdfPreviewing(false)
         }
@@ -343,7 +343,7 @@ function DictionaryAdmin() {
 
             if (!response.ok) {
                 const err = await response.json().catch(() => ({}))
-                throw new Error(err.error || 'Erreur lors de l\'import')
+                throw new Error(err.error || t('admin.common.importError'))
             }
 
             const data = await response.json()
@@ -351,7 +351,7 @@ function DictionaryAdmin() {
             setPdfPreview(null)
             loadWords()
         } catch (error) {
-            alert('Erreur: ' + error.message)
+            alert(t('admin.common.errorPrefix') + error.message)
         } finally {
             setPdfImporting(false)
         }
@@ -476,7 +476,7 @@ function DictionaryAdmin() {
                                 <td><span className="domain-badge">{word.domain ? t(domainKeyMap[word.domain] || word.domain) : '-'}</span></td>
                                 <td style={{ textAlign: 'center' }}>
                                     {word.audio_word && (
-                                        <span title="Audio du mot">🔊</span>
+                                        <span title={t('admin.common.audioTitle')}>🔊</span>
                                     )}
                                 </td>
                                 <td className="actions-cell">
@@ -705,7 +705,7 @@ function DictionaryAdmin() {
                                                 onClick={stopRecording}
                                             >
                                                 <span className="recording-dot"></span>
-                                                Arrêter
+                                                {t('admin.dictionary.stop')}
                                             </button>
                                         )}
                                         {audioExampleUrl && (

@@ -140,23 +140,23 @@ function MembersAdmin() {
             })
 
             if (!response.ok) {
-                throw new Error('Erreur lors de la sauvegarde')
+                throw new Error(t('admin.common.errorSaving'))
             }
 
             closeModal()
             loadMembers()
         } catch (error) {
-            alert('Erreur: ' + error.message)
+            alert(t('admin.common.errorPrefix') + error.message)
         }
     }
 
     const handleDelete = async (id) => {
-        if (!confirm('Supprimer ce membre ?')) return
+        if (!confirm(t('admin.common.confirmDeleteMember'))) return
         try {
             await apiRequest(`/members/${id}`, { method: 'DELETE' })
             loadMembers()
         } catch (error) {
-            alert('Erreur: ' + error.message)
+            alert(t('admin.common.errorPrefix') + error.message)
         }
     }
 
@@ -183,7 +183,7 @@ function MembersAdmin() {
                         <tr>
                             <th>{t('admin.members.photo')}</th>
                             <th>{t('admin.members.name')}</th>
-                            <th>{t('admin.members.role')} (FR)</th>
+                            <th>{t('admin.members.role')}</th>
                             <th>{t('admin.members.specialty')}</th>
                             <th>{t('admin.common.actions')}</th>
                         </tr>
@@ -318,7 +318,7 @@ function MembersAdmin() {
                                     <h4 style={{ marginBottom: '1rem', color: 'var(--primary-gold)', fontSize: '0.95rem' }}>📱 {t('admin.members.socialMedia')}</h4>
                                     <div className="form-row">
                                         <div className="form-group">
-                                            <label>📧 Email</label>
+                                            <label>📧 {t('admin.members.emailLabel')}</label>
                                             <input
                                                 type="email"
                                                 value={formData.email}
@@ -327,7 +327,7 @@ function MembersAdmin() {
                                             />
                                         </div>
                                         <div className="form-group">
-                                            <label>🌐 Site web</label>
+                                            <label>🌐 {t('admin.members.websiteLabel')}</label>
                                             <input
                                                 type="url"
                                                 value={formData.website}
@@ -396,21 +396,21 @@ function MembersAdmin() {
                                     {activeTab === 'fr' && (
                                         <>
                                             <div className="form-group">
-                                                <label>{t('admin.members.roleLabel')} (Français)</label>
+                                                <label>{t('admin.members.roleLabel')} ({t('admin.common.langFr')})</label>
                                                 <input
                                                     type="text"
                                                     value={formData.role_fr}
                                                     onChange={e => setFormData({ ...formData, role_fr: e.target.value })}
-                                                    placeholder={t('admin.members.rolePlaceholderFr')}
+                                                    placeholder={t('admin.members.rolePlaceholder')}
                                                 />
                                             </div>
                                             <div className="form-group">
-                                                <label>Biographie (Français)</label>
+                                                <label>{t('admin.members.bioLabel')} ({t('admin.common.langFr')})</label>
                                                 <textarea
                                                     value={formData.bio_fr}
                                                     onChange={e => setFormData({ ...formData, bio_fr: e.target.value })}
                                                     rows="5"
-                                                    placeholder="Biographie en français..."
+                                                    placeholder={t('admin.members.bioPlaceholder')}
                                                 />
                                             </div>
                                         </>
@@ -418,21 +418,21 @@ function MembersAdmin() {
                                     {activeTab === 'en' && (
                                         <>
                                             <div className="form-group">
-                                                <label>Role (English)</label>
+                                                <label>{t('admin.members.roleLabel')} ({t('admin.common.langEn')})</label>
                                                 <input
                                                     type="text"
                                                     value={formData.role_en}
                                                     onChange={e => setFormData({ ...formData, role_en: e.target.value })}
-                                                    placeholder="Ex: Perpetual Secretary"
+                                                    placeholder={t('admin.members.rolePlaceholder')}
                                                 />
                                             </div>
                                             <div className="form-group">
-                                                <label>Biography (English)</label>
+                                                <label>{t('admin.members.bioLabel')} ({t('admin.common.langEn')})</label>
                                                 <textarea
                                                     value={formData.bio_en}
                                                     onChange={e => setFormData({ ...formData, bio_en: e.target.value })}
                                                     rows="5"
-                                                    placeholder="Biography in English..."
+                                                    placeholder={t('admin.members.bioPlaceholder')}
                                                 />
                                             </div>
                                         </>
@@ -440,21 +440,21 @@ function MembersAdmin() {
                                     {activeTab === 'ff' && (
                                         <>
                                             <div className="form-group">
-                                                <label>Rôle (Fulfulde)</label>
+                                                <label>{t('admin.members.roleLabel')} ({t('admin.common.langFf')})</label>
                                                 <input
                                                     type="text"
                                                     value={formData.role_ff}
                                                     onChange={e => setFormData({ ...formData, role_ff: e.target.value })}
-                                                    placeholder="Rôle en Fulfulde..."
+                                                    placeholder={t('admin.members.rolePlaceholder')}
                                                 />
                                             </div>
                                             <div className="form-group">
-                                                <label>Biographie (Fulfulde)</label>
+                                                <label>{t('admin.members.bioLabel')} ({t('admin.common.langFf')})</label>
                                                 <textarea
                                                     value={formData.bio_ff}
                                                     onChange={e => setFormData({ ...formData, bio_ff: e.target.value })}
                                                     rows="5"
-                                                    placeholder="Biographie en Fulfulde..."
+                                                    placeholder={t('admin.members.bioPlaceholder')}
                                                 />
                                             </div>
                                         </>

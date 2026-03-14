@@ -4,7 +4,7 @@ import { useApi } from '../../context/AuthContext'
 import { API_URL } from '../../config'
 
 function NewsAdmin() {
-    const { t } = useTranslation()
+    const { t, i18n } = useTranslation()
     const { apiRequest, token } = useApi()
     const [news, setNews] = useState([])
     const [loading, setLoading] = useState(true)
@@ -146,23 +146,23 @@ function NewsAdmin() {
             })
 
             if (!response.ok) {
-                throw new Error('Erreur lors de la sauvegarde')
+                throw new Error(t('admin.common.errorSaving'))
             }
 
             closeModal()
             loadNews()
         } catch (error) {
-            alert('Erreur: ' + error.message)
+            alert(t('admin.common.errorPrefix') + error.message)
         }
     }
 
     const handleDelete = async (id) => {
-        if (!confirm('Supprimer cette actualité ?')) return
+        if (!confirm(t('admin.common.confirmDeleteNews'))) return
         try {
             await apiRequest(`/news/${id}`, { method: 'DELETE' })
             loadNews()
         } catch (error) {
-            alert('Erreur: ' + error.message)
+            alert(t('admin.common.errorPrefix') + error.message)
         }
     }
 
@@ -212,7 +212,7 @@ function NewsAdmin() {
                                 </td>
                                 <td><strong>{item.title_fr || item.title}</strong></td>
                                 <td>{item.category}</td>
-                                <td>{item.date ? new Date(item.date).toLocaleDateString('fr-FR') : '-'}</td>
+                                <td>{item.date ? new Date(item.date).toLocaleDateString(i18n.language === 'ff' ? 'fr-FR' : i18n.language) : '-'}</td>
                                 <td className="actions-cell">
                                     <button className="btn-edit" onClick={() => openModal(item)}>
                                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -352,7 +352,7 @@ function NewsAdmin() {
                                     {activeTab === 'fr' && (
                                         <>
                                             <div className="form-group">
-                                                <label>{t('admin.news.titleLabel')} (Français) *</label>
+                                                <label>{t('admin.news.titleLabel')} ({t('admin.common.langFr')}) *</label>
                                                 <input
                                                     type="text"
                                                     value={formData.title_fr}
@@ -361,7 +361,7 @@ function NewsAdmin() {
                                                 />
                                             </div>
                                             <div className="form-group">
-                                                <label>{t('admin.news.excerpt')} (Français)</label>
+                                                <label>{t('admin.news.excerpt')} ({t('admin.common.langFr')})</label>
                                                 <textarea
                                                     value={formData.excerpt_fr}
                                                     onChange={e => setFormData({ ...formData, excerpt_fr: e.target.value })}
@@ -369,7 +369,7 @@ function NewsAdmin() {
                                                 />
                                             </div>
                                             <div className="form-group">
-                                                <label>{t('admin.news.content')} (Français)</label>
+                                                <label>{t('admin.news.content')} ({t('admin.common.langFr')})</label>
                                                 <textarea
                                                     value={formData.content_fr}
                                                     onChange={e => setFormData({ ...formData, content_fr: e.target.value })}
@@ -381,7 +381,7 @@ function NewsAdmin() {
                                     {activeTab === 'en' && (
                                         <>
                                             <div className="form-group">
-                                                <label>{t('admin.news.titleLabel')} (English)</label>
+                                                <label>{t('admin.news.titleLabel')} ({t('admin.common.langEn')})</label>
                                                 <input
                                                     type="text"
                                                     value={formData.title_en}
@@ -389,7 +389,7 @@ function NewsAdmin() {
                                                 />
                                             </div>
                                             <div className="form-group">
-                                                <label>{t('admin.news.excerpt')} (English)</label>
+                                                <label>{t('admin.news.excerpt')} ({t('admin.common.langEn')})</label>
                                                 <textarea
                                                     value={formData.excerpt_en}
                                                     onChange={e => setFormData({ ...formData, excerpt_en: e.target.value })}
@@ -397,7 +397,7 @@ function NewsAdmin() {
                                                 />
                                             </div>
                                             <div className="form-group">
-                                                <label>{t('admin.news.content')} (English)</label>
+                                                <label>{t('admin.news.content')} ({t('admin.common.langEn')})</label>
                                                 <textarea
                                                     value={formData.content_en}
                                                     onChange={e => setFormData({ ...formData, content_en: e.target.value })}
@@ -409,7 +409,7 @@ function NewsAdmin() {
                                     {activeTab === 'ff' && (
                                         <>
                                             <div className="form-group">
-                                                <label>{t('admin.news.titleLabel')} (Fulfulde)</label>
+                                                <label>{t('admin.news.titleLabel')} ({t('admin.common.langFf')})</label>
                                                 <input
                                                     type="text"
                                                     value={formData.title_ff}
@@ -417,7 +417,7 @@ function NewsAdmin() {
                                                 />
                                             </div>
                                             <div className="form-group">
-                                                <label>{t('admin.news.excerpt')} (Fulfulde)</label>
+                                                <label>{t('admin.news.excerpt')} ({t('admin.common.langFf')})</label>
                                                 <textarea
                                                     value={formData.excerpt_ff}
                                                     onChange={e => setFormData({ ...formData, excerpt_ff: e.target.value })}
@@ -425,7 +425,7 @@ function NewsAdmin() {
                                                 />
                                             </div>
                                             <div className="form-group">
-                                                <label>{t('admin.news.content')} (Fulfulde)</label>
+                                                <label>{t('admin.news.content')} ({t('admin.common.langFf')})</label>
                                                 <textarea
                                                     value={formData.content_ff}
                                                     onChange={e => setFormData({ ...formData, content_ff: e.target.value })}
