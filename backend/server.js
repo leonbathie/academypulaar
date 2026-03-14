@@ -2,10 +2,31 @@ const express = require('express')
 const cors = require('cors')
 const path = require('path')
 const multer = require('multer')
+const rateLimit = require('express-rate-limit')
 require('dotenv').config({ path: path.join(__dirname, '.env') })
 
 const app = express()
 const PORT = process.env.PORT || 5000
+
+// Trust proxy (Cloudflare + Nginx)
+app.set('trust proxy', 1)
+
+// Rate limiters
+const authLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 20, // 20 attempts per 15 min
+    message: { error: 'Too many attempts, please try again later' },
+    standardHeaders: true,
+    legacyHeaders: false
+})
+
+const adminLimiter = rateLimit({
+    windowMs: 1 * 60 * 1000, // 1 minute
+    max: 60, // 60 requests per minute
+    message: { error: 'Too many requests, please slow down' },
+    standardHeaders: true,
+    legacyHeaders: false
+})
 
 // Middleware
 app.use(cors({
@@ -53,13 +74,13 @@ app.use('/api', (req, res, next) => {
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
 
 // Routes API
-app.use('/api/auth', require('./routes/auth'))
-app.use('/api/dictionary', require('./routes/dictionary'))
-app.use('/api/members', require('./routes/members'))
-app.use('/api/news', require('./routes/news'))
-app.use('/api/content', require('./routes/content'))
-app.use('/api/books', require('./routes/books'))
-app.use('/api/questions', require('./routes/questions'))
+app.use('/api/auth', authLimiter, require('./routes/auth'))
+app.use('/api/dictionary', adminLimiter, require('./routes/dictionary'))
+app.use('/api/members', adminLimiter, require('./routes/members'))
+app.use('/api/news', adminLimiter, require('./routes/news'))
+app.use('/api/content', adminLimiter, require('./routes/content'))
+app.use('/api/books', adminLimiter, require('./routes/books'))
+app.use('/api/questions', adminLimiter, require('./routes/questions'))
 
 // Route de test
 app.get('/api/health', (req, res) => {
