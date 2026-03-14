@@ -180,6 +180,7 @@
     padding: var(--space-lg);
     box-shadow: var(--shadow-md);
     transition: all var(--transition-fast);
+    overflow: hidden;
 }
 
 .word-card:hover {
@@ -197,12 +198,16 @@
     justify-content: space-between;
     align-items: flex-start;
     margin-bottom: var(--space-sm);
+    gap: var(--space-sm);
 }
 
 .word-term {
     font-family: var(--font-display);
     font-size: 1.5rem;
     color: var(--primary-gold);
+    overflow-wrap: break-word;
+    word-break: break-word;
+    min-width: 0;
 }
 
 .word-category {
@@ -212,12 +217,15 @@
     color: var(--primary-gold);
     border-radius: var(--radius-full);
     font-weight: 500;
+    white-space: nowrap;
 }
 
 .word-translation {
     font-size: 1.1rem;
     color: var(--dark-gray);
     margin-bottom: var(--space-sm);
+    overflow-wrap: break-word;
+    word-break: break-word;
 }
 
 [data-theme="dark"] .word-translation {
@@ -230,6 +238,8 @@
     font-style: italic;
     padding-left: var(--space-md);
     border-left: 3px solid var(--primary-gold);
+    overflow-wrap: break-word;
+    word-break: break-word;
 }
 
 .example-label {
@@ -316,6 +326,8 @@
     display: flex;
     align-items: center;
     gap: var(--space-sm);
+    min-width: 0;
+    flex: 1;
 }
 
 .audio-play-btn {
@@ -459,6 +471,7 @@
     color: var(--secondary-burgundy);
     border-radius: var(--radius-full);
     font-weight: 500;
+    white-space: nowrap;
 }
 
 [data-theme="dark"] .word-domain {
