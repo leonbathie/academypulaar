@@ -4,7 +4,7 @@ const multer = require('multer')
 const path = require('path')
 const fs = require('fs')
 const { query } = require('../database')
-const { authMiddleware, adminOnly } = require('../middleware/auth')
+const { authMiddleware, canWrite } = require('../middleware/auth')
 
 // Configuration Multer pour l'upload de livres et images
 const storage = multer.diskStorage({
@@ -163,7 +163,7 @@ router.get('/:id/download', async (req, res) => {
 })
 
 // POST /api/books - Ajouter un livre (Admin only)
-router.post('/', authMiddleware, adminOnly, handleUpload, async (req, res) => {
+router.post('/', authMiddleware, canWrite, handleUpload, async (req, res) => {
     console.log(`[BOOKS] POST handler START`)
     console.log(`[BOOKS] User: ${req.user?.username} (role: ${req.user?.role})`)
     try {
@@ -203,7 +203,7 @@ router.post('/', authMiddleware, adminOnly, handleUpload, async (req, res) => {
 })
 
 // PUT /api/books/:id - Modifier un livre (Admin only)
-router.put('/:id', authMiddleware, adminOnly, handleUpload, async (req, res) => {
+router.put('/:id', authMiddleware, canWrite, handleUpload, async (req, res) => {
     console.log(`[BOOKS] PUT handler START - book id=${req.params.id}`)
     console.log(`[BOOKS] User: ${req.user?.username} (role: ${req.user?.role})`)
     try {
@@ -248,7 +248,7 @@ router.put('/:id', authMiddleware, adminOnly, handleUpload, async (req, res) => 
 })
 
 // DELETE /api/books/:id - Supprimer un livre (Admin only)
-router.delete('/:id', authMiddleware, adminOnly, async (req, res) => {
+router.delete('/:id', authMiddleware, canWrite, async (req, res) => {
     try {
         const result = await query('DELETE FROM books WHERE id = $1 RETURNING *', [req.params.id])
 

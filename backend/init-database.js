@@ -11,12 +11,43 @@ async function initDatabase() {
             CREATE TABLE IF NOT EXISTS users (
                 id SERIAL PRIMARY KEY,
                 username VARCHAR(50) UNIQUE NOT NULL,
-                password VARCHAR(255) NOT NULL,
-                role VARCHAR(20) DEFAULT 'admin',
+                password VARCHAR(255),
+                email VARCHAR(255) UNIQUE,
+                google_id VARCHAR(255) UNIQUE,
+                role VARCHAR(20) DEFAULT 'moderateur',
+                invited_by INTEGER REFERENCES users(id),
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
         `)
         console.log('✅ Table users créée')
+
+        // Migrations users
+        const usersMigrations = [
+            'ALTER TABLE users ADD COLUMN IF NOT EXISTS email VARCHAR(255) UNIQUE',
+            'ALTER TABLE users ADD COLUMN IF NOT EXISTS google_id VARCHAR(255) UNIQUE',
+            'ALTER TABLE users ADD COLUMN IF NOT EXISTS invited_by INTEGER REFERENCES users(id)',
+            "ALTER TABLE users ALTER COLUMN password DROP NOT NULL",
+            "ALTER TABLE users ALTER COLUMN role SET DEFAULT 'moderateur'"
+        ]
+        for (const sql of usersMigrations) {
+            await pool.query(sql).catch(() => {})
+        }
+
+        // Table des invitations
+        await pool.query(`
+            CREATE TABLE IF NOT EXISTS invitations (
+                id SERIAL PRIMARY KEY,
+                email VARCHAR(255) NOT NULL,
+                role VARCHAR(20) NOT NULL DEFAULT 'moderateur',
+                token VARCHAR(255) UNIQUE NOT NULL,
+                invited_by INTEGER REFERENCES users(id) NOT NULL,
+                used BOOLEAN DEFAULT false,
+                used_at TIMESTAMP,
+                expires_at TIMESTAMP NOT NULL,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        `)
+        console.log('✅ Table invitations créée')
 
         // Table du dictionnaire
         await pool.query(`

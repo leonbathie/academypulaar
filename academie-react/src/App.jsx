@@ -21,6 +21,7 @@ import NewsAdmin from './pages/admin/NewsAdmin'
 import ContentAdmin from './pages/admin/ContentAdmin'
 import BooksAdmin from './pages/admin/BooksAdmin'
 import QuestionsAdmin from './pages/admin/QuestionsAdmin'
+import UsersAdmin from './pages/admin/UsersAdmin'
 import './App.css'
 
 function App() {
@@ -97,6 +98,7 @@ function App() {
               <Route path="contenu" element={<ContentAdmin />} />
               <Route path="bibliotheque" element={<BooksAdmin />} />
               <Route path="questions" element={<QuestionsAdmin />} />
+              <Route path="utilisateurs" element={<UsersAdmin />} />
             </Route>
 
             {/* 404 */}

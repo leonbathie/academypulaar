@@ -3,7 +3,7 @@ const router = express.Router()
 const multer = require('multer')
 const path = require('path')
 const { query } = require('../database')
-const { authMiddleware, adminOnly } = require('../middleware/auth')
+const { authMiddleware, canWrite } = require('../middleware/auth')
 
 // Configuration Multer pour l'upload d'images
 const storage = multer.diskStorage({
@@ -84,7 +84,7 @@ router.get('/:id', async (req, res) => {
 })
 
 // POST /api/news - Ajouter une actualité (Admin only)
-router.post('/', authMiddleware, adminOnly, upload.single('image'), async (req, res) => {
+router.post('/', authMiddleware, canWrite, upload.single('image'), async (req, res) => {
     try {
         const {
             title, title_fr, title_en, title_ff,
@@ -115,7 +115,7 @@ router.post('/', authMiddleware, adminOnly, upload.single('image'), async (req, 
 })
 
 // PUT /api/news/:id - Modifier une actualité (Admin only)
-router.put('/:id', authMiddleware, adminOnly, upload.single('image'), async (req, res) => {
+router.put('/:id', authMiddleware, canWrite, upload.single('image'), async (req, res) => {
     try {
         const {
             title, title_fr, title_en, title_ff,
@@ -154,7 +154,7 @@ router.put('/:id', authMiddleware, adminOnly, upload.single('image'), async (req
 })
 
 // DELETE /api/news/:id - Supprimer une actualité (Admin only)
-router.delete('/:id', authMiddleware, adminOnly, async (req, res) => {
+router.delete('/:id', authMiddleware, canWrite, async (req, res) => {
     try {
         const result = await query('DELETE FROM news WHERE id = $1 RETURNING id', [req.params.id])
 

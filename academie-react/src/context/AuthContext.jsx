@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react'
-import { API_URL } from '../config'
+import { API_URL, GOOGLE_CLIENT_ID } from '../config'
 
 const AuthContext = createContext()
 
@@ -30,7 +30,6 @@ export function AuthProvider({ children }) {
                 const userData = await response.json()
                 setUser(userData)
             } else {
-                // Token invalide
                 logout()
             }
         } catch (error) {
@@ -62,6 +61,27 @@ export function AuthProvider({ children }) {
         return data
     }
 
+    const loginWithGoogle = async (credential) => {
+        const response = await fetch(`${API_BASE}/auth/google`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ credential })
+        })
+
+        const data = await response.json()
+
+        if (!response.ok) {
+            throw new Error(data.message || data.error || 'Erreur de connexion Google')
+        }
+
+        localStorage.setItem('token', data.token)
+        setToken(data.token)
+        setUser(data.user)
+        return data
+    }
+
     const logout = () => {
         localStorage.removeItem('token')
         setToken(null)
@@ -70,6 +90,8 @@ export function AuthProvider({ children }) {
 
     const isAuthenticated = !!user
     const isAdmin = user?.role === 'admin'
+    const canWrite = user?.role === 'admin' || user?.role === 'moderateur'
+    const canRead = !!user
 
     return (
         <AuthContext.Provider value={{
@@ -77,9 +99,13 @@ export function AuthProvider({ children }) {
             token,
             loading,
             login,
+            loginWithGoogle,
             logout,
             isAuthenticated,
-            isAdmin
+            isAdmin,
+            canWrite,
+            canRead,
+            GOOGLE_CLIENT_ID
         }}>
             {children}
         </AuthContext.Provider>

@@ -5,7 +5,7 @@ const path = require('path')
 const fs = require('fs')
 const pdfjsLib = require('pdfjs-dist/legacy/build/pdf.mjs')
 const { query } = require('../database')
-const { authMiddleware, adminOnly } = require('../middleware/auth')
+const { authMiddleware, canWrite } = require('../middleware/auth')
 
 // Configuration multer pour les fichiers audio
 const storage = multer.diskStorage({
@@ -89,7 +89,7 @@ router.get('/:id', async (req, res) => {
 })
 
 // POST /api/dictionary - Ajouter un mot (Admin only)
-router.post('/', authMiddleware, adminOnly, upload.fields([
+router.post('/', authMiddleware, canWrite, upload.fields([
     { name: 'audio_word', maxCount: 1 },
     { name: 'audio_example', maxCount: 1 }
 ]), async (req, res) => {
@@ -134,7 +134,7 @@ router.post('/', authMiddleware, adminOnly, upload.fields([
 })
 
 // PUT /api/dictionary/:id - Modifier un mot (Admin only)
-router.put('/:id', authMiddleware, adminOnly, upload.fields([
+router.put('/:id', authMiddleware, canWrite, upload.fields([
     { name: 'audio_word', maxCount: 1 },
     { name: 'audio_example', maxCount: 1 }
 ]), async (req, res) => {
@@ -186,7 +186,7 @@ router.put('/:id', authMiddleware, adminOnly, upload.fields([
 })
 
 // DELETE /api/dictionary/:id - Supprimer un mot (Admin only)
-router.delete('/:id', authMiddleware, adminOnly, async (req, res) => {
+router.delete('/:id', authMiddleware, canWrite, async (req, res) => {
     try {
         const result = await query('DELETE FROM dictionary WHERE id = $1 RETURNING id', [req.params.id])
 
@@ -203,7 +203,7 @@ router.delete('/:id', authMiddleware, adminOnly, async (req, res) => {
 })
 
 // POST /api/dictionary/bulk-delete - Supprimer plusieurs mots (Admin only)
-router.post('/bulk-delete', authMiddleware, adminOnly, async (req, res) => {
+router.post('/bulk-delete', authMiddleware, canWrite, async (req, res) => {
     try {
         const { ids } = req.body
         if (!ids || !Array.isArray(ids) || ids.length === 0) {
@@ -254,7 +254,7 @@ const uploadPdf = multer({
 })
 
 // POST /api/dictionary/import-pdf - Importer des mots depuis un PDF (Admin only)
-router.post('/import-pdf', authMiddleware, adminOnly, uploadPdf.single('pdf'), async (req, res) => {
+router.post('/import-pdf', authMiddleware, canWrite, uploadPdf.single('pdf'), async (req, res) => {
     let pdfPath = null
     try {
         if (!req.file) {
@@ -331,7 +331,7 @@ router.post('/import-pdf', authMiddleware, adminOnly, uploadPdf.single('pdf'), a
 })
 
 // POST /api/dictionary/preview-pdf - Prévisualiser le contenu d'un PDF sans importer (Admin only)
-router.post('/preview-pdf', authMiddleware, adminOnly, uploadPdf.single('pdf'), async (req, res) => {
+router.post('/preview-pdf', authMiddleware, canWrite, uploadPdf.single('pdf'), async (req, res) => {
     let pdfPath = null
     try {
         if (!req.file) {

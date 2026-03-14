@@ -3,7 +3,7 @@ const router = express.Router()
 const multer = require('multer')
 const path = require('path')
 const { query } = require('../database')
-const { authMiddleware, adminOnly } = require('../middleware/auth')
+const { authMiddleware, canWrite } = require('../middleware/auth')
 
 // Configuration de l'upload d'images
 const storage = multer.diskStorage({
@@ -58,7 +58,7 @@ router.get('/:id', async (req, res) => {
 })
 
 // POST /api/members - Ajouter un membre (Admin only)
-router.post('/', authMiddleware, adminOnly, upload.single('image'), async (req, res) => {
+router.post('/', authMiddleware, canWrite, upload.single('image'), async (req, res) => {
     try {
         const { name, role_fr, role_en, role_ff, specialty, bio_fr, bio_en, bio_ff, joined, facebook, twitter, linkedin, website, email } = req.body
         const image = req.file ? `/uploads/${req.file.filename}` : null
@@ -82,7 +82,7 @@ router.post('/', authMiddleware, adminOnly, upload.single('image'), async (req, 
 })
 
 // PUT /api/members/:id - Modifier un membre (Admin only)
-router.put('/:id', authMiddleware, adminOnly, upload.single('image'), async (req, res) => {
+router.put('/:id', authMiddleware, canWrite, upload.single('image'), async (req, res) => {
     try {
         const { name, role_fr, role_en, role_ff, specialty, bio_fr, bio_en, bio_ff, joined, facebook, twitter, linkedin, website, email } = req.body
 
@@ -114,7 +114,7 @@ router.put('/:id', authMiddleware, adminOnly, upload.single('image'), async (req
 })
 
 // DELETE /api/members/:id - Supprimer un membre (Admin only)
-router.delete('/:id', authMiddleware, adminOnly, async (req, res) => {
+router.delete('/:id', authMiddleware, canWrite, async (req, res) => {
     try {
         const result = await query('DELETE FROM members WHERE id = $1 RETURNING id', [req.params.id])
 

@@ -160,6 +160,33 @@
     }
 }
 
+.login-divider {
+    display: flex;
+    align-items: center;
+    margin: var(--space-lg) 0;
+    gap: var(--space-md);
+}
+
+.login-divider::before,
+.login-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--light-gray);
+}
+
+.login-divider span {
+    color: var(--medium-gray);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.google-btn-container {
+    display: flex;
+    justify-content: center;
+}
+
 .login-footer {
     margin-top: var(--space-xl);
     text-align: center;

@@ -1,0 +1,240 @@
+.users-admin {
+    padding: var(--space-lg);
+}
+
+.users-admin h2 {
+    color: var(--primary-dark);
+    font-family: var(--font-display);
+    margin-bottom: var(--space-xl);
+}
+
+.users-section {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    margin-bottom: var(--space-xl);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--light-gray);
+}
+
+.users-section h3 {
+    color: var(--primary-dark);
+    margin-bottom: var(--space-lg);
+    font-size: 1.1rem;
+}
+
+/* Alerts */
+.users-alert {
+    padding: var(--space-md);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--space-lg);
+    font-size: 0.9rem;
+}
+
+.users-alert-error {
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    color: #dc2626;
+}
+
+.users-alert-success {
+    background: rgba(34, 197, 94, 0.1);
+    border: 1px solid rgba(34, 197, 94, 0.3);
+    color: #16a34a;
+}
+
+/* Invite form */
+.invite-form {
+    display: flex;
+    gap: var(--space-md);
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.invite-form input[type="email"] {
+    flex: 1;
+    min-width: 200px;
+    padding: var(--space-sm) var(--space-md);
+    border: 2px solid var(--light-gray);
+    border-radius: var(--radius-md);
+    font-size: 0.95rem;
+}
+
+.invite-form input[type="email"]:focus {
+    outline: none;
+    border-color: var(--primary-gold);
+    box-shadow: 0 0 0 3px rgba(212, 165, 55, 0.2);
+}
+
+.invite-form select {
+    padding: var(--space-sm) var(--space-md);
+    border: 2px solid var(--light-gray);
+    border-radius: var(--radius-md);
+    font-size: 0.95rem;
+    background: var(--white);
+}
+
+.btn-invite {
+    padding: var(--space-sm) var(--space-xl);
+    background: var(--primary-gold);
+    color: var(--white);
+    border: none;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.btn-invite:hover:not(:disabled) {
+    background: var(--gold-dark);
+}
+
+.btn-invite:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.invite-note {
+    margin-top: var(--space-sm);
+    font-size: 0.8rem;
+    color: var(--medium-gray);
+    font-style: italic;
+}
+
+/* Table */
+.users-table-wrapper {
+    overflow-x: auto;
+}
+
+.users-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.users-table th {
+    text-align: left;
+    padding: var(--space-sm) var(--space-md);
+    background: var(--cream);
+    color: var(--dark-gray);
+    font-weight: 600;
+    border-bottom: 2px solid var(--light-gray);
+    white-space: nowrap;
+}
+
+.users-table td {
+    padding: var(--space-sm) var(--space-md);
+    border-bottom: 1px solid var(--light-gray);
+    vertical-align: middle;
+}
+
+.users-table tbody tr:hover {
+    background: rgba(212, 165, 55, 0.04);
+}
+
+.user-name {
+    font-weight: 600;
+    color: var(--primary-dark);
+}
+
+/* Role badges */
+.role-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: var(--radius-sm);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.role-badge.role-admin {
+    background: rgba(239, 68, 68, 0.15);
+    color: #dc2626;
+}
+
+.role-badge.role-moderateur {
+    background: rgba(59, 130, 246, 0.15);
+    color: #2563eb;
+}
+
+.role-badge.role-superviseur {
+    background: rgba(34, 197, 94, 0.15);
+    color: #16a34a;
+}
+
+/* Role select */
+.role-select {
+    padding: 2px 6px;
+    border: 1px solid var(--light-gray);
+    border-radius: var(--radius-sm);
+    font-size: 0.8rem;
+    font-weight: 600;
+    background: transparent;
+    cursor: pointer;
+}
+
+.role-select.role-admin { color: #dc2626; }
+.role-select.role-moderateur { color: #2563eb; }
+.role-select.role-superviseur { color: #16a34a; }
+
+/* Status badges */
+.status-pending {
+    color: #d97706;
+    font-weight: 600;
+    font-size: 0.8rem;
+}
+
+.status-used {
+    color: #16a34a;
+    font-weight: 600;
+    font-size: 0.8rem;
+}
+
+.status-expired {
+    color: #dc2626;
+    font-weight: 600;
+    font-size: 0.8rem;
+}
+
+.row-used {
+    opacity: 0.6;
+}
+
+/* Delete button */
+.btn-delete-sm {
+    padding: 4px 10px;
+    background: rgba(239, 68, 68, 0.1);
+    color: #dc2626;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    border-radius: var(--radius-sm);
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.btn-delete-sm:hover {
+    background: #dc2626;
+    color: white;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .users-admin {
+        padding: var(--space-md);
+    }
+
+    .invite-form {
+        flex-direction: column;
+    }
+
+    .invite-form input[type="email"],
+    .invite-form select,
+    .btn-invite {
+        width: 100%;
+    }
+
+    .users-table {
+        font-size: 0.8rem;
+    }
+}

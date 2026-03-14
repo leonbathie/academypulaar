@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../context/AuthContext'
@@ -6,13 +6,75 @@ import logoGif from '../assets/logo-academie.gif'
 import './LoginPage.css'
 
 function LoginPage() {
-    const { login, isAuthenticated, loading } = useAuth()
+    const { login, loginWithGoogle, isAuthenticated, loading, GOOGLE_CLIENT_ID } = useAuth()
     const { t } = useTranslation()
     const navigate = useNavigate()
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [error, setError] = useState('')
     const [isLoading, setIsLoading] = useState(false)
+    const googleBtnRef = useRef(null)
+
+    const handleGoogleCallback = useCallback(async (response) => {
+        setError('')
+        setIsLoading(true)
+        try {
+            await loginWithGoogle(response.credential)
+            navigate('/admin')
+        } catch (err) {
+            setError(err.message)
+        } finally {
+            setIsLoading(false)
+        }
+    }, [loginWithGoogle, navigate])
+
+    useEffect(() => {
+        if (!GOOGLE_CLIENT_ID || isAuthenticated) return
+
+        // Load Google Identity Services script
+        const existingScript = document.getElementById('google-gsi')
+        if (existingScript) {
+            // Script already loaded, init directly
+            if (window.google?.accounts?.id) {
+                window.google.accounts.id.initialize({
+                    client_id: GOOGLE_CLIENT_ID,
+                    callback: handleGoogleCallback
+                })
+                if (googleBtnRef.current) {
+                    window.google.accounts.id.renderButton(googleBtnRef.current, {
+                        theme: 'outline',
+                        size: 'large',
+                        width: '100%',
+                        text: 'signin_with',
+                        locale: 'fr'
+                    })
+                }
+            }
+            return
+        }
+
+        const script = document.createElement('script')
+        script.src = 'https://accounts.google.com/gsi/client'
+        script.id = 'google-gsi'
+        script.async = true
+        script.defer = true
+        script.onload = () => {
+            window.google.accounts.id.initialize({
+                client_id: GOOGLE_CLIENT_ID,
+                callback: handleGoogleCallback
+            })
+            if (googleBtnRef.current) {
+                window.google.accounts.id.renderButton(googleBtnRef.current, {
+                    theme: 'outline',
+                    size: 'large',
+                    width: '100%',
+                    text: 'signin_with',
+                    locale: 'fr'
+                })
+            }
+        }
+        document.head.appendChild(script)
+    }, [GOOGLE_CLIENT_ID, isAuthenticated, handleGoogleCallback])
 
     if (loading) {
         return <div className="login-loading">Chargement...</div>
@@ -98,6 +160,15 @@ function LoginPage() {
                         )}
                     </button>
                 </form>
+
+                {GOOGLE_CLIENT_ID && (
+                    <>
+                        <div className="login-divider">
+                            <span>ou</span>
+                        </div>
+                        <div ref={googleBtnRef} className="google-btn-container"></div>
+                    </>
+                )}
 
                 <div className="login-footer">
                     <a href="/">← {t('admin.login.backToSite', 'Retour au site')}</a>

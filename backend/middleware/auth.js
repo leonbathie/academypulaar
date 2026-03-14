@@ -3,7 +3,6 @@ require('dotenv').config()
 
 const authMiddleware = (req, res, next) => {
     try {
-        // Récupérer le token du header
         const authHeader = req.headers.authorization
 
         if (!authHeader || !authHeader.startsWith('Bearer ')) {
@@ -13,7 +12,6 @@ const authMiddleware = (req, res, next) => {
 
         const token = authHeader.split(' ')[1]
 
-        // Vérifier le token
         const decoded = jwt.verify(token, process.env.JWT_SECRET)
         req.user = decoded
         console.log(`[AUTH] OK: user=${decoded.username} role=${decoded.role} - ${req.method} ${req.originalUrl}`)
@@ -28,13 +26,22 @@ const authMiddleware = (req, res, next) => {
     }
 }
 
-// Middleware pour vérifier le rôle admin
-const adminOnly = (req, res, next) => {
-    if (req.user && req.user.role === 'admin') {
+// Middleware générique : vérifie que le rôle est dans la liste autorisée
+const requireRole = (...roles) => (req, res, next) => {
+    if (req.user && roles.includes(req.user.role)) {
         next()
     } else {
-        res.status(403).json({ error: 'Accès réservé aux administrateurs' })
+        res.status(403).json({ error: 'Accès non autorisé pour votre rôle' })
     }
 }
 
-module.exports = { authMiddleware, adminOnly }
+// Admin seulement (gestion utilisateurs, invitations)
+const adminOnly = requireRole('admin')
+
+// Écriture : admin + modérateur
+const canWrite = requireRole('admin', 'moderateur')
+
+// Lecture : tous les rôles authentifiés
+const canRead = requireRole('admin', 'moderateur', 'superviseur')
+
+module.exports = { authMiddleware, adminOnly, canWrite, canRead, requireRole }

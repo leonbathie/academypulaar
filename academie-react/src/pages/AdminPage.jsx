@@ -7,7 +7,7 @@ import './AdminPage.css'
 
 function AdminPage() {
     const { t, i18n } = useTranslation()
-    const { user, logout, isAuthenticated, isAdmin, loading } = useAuth()
+    const { user, logout, isAuthenticated, isAdmin, canWrite, loading } = useAuth()
     const [sidebarOpen, setSidebarOpen] = useState(window.innerWidth > 768)
     const [isLangMenuOpen, setIsLangMenuOpen] = useState(false)
 
@@ -53,7 +53,7 @@ function AdminPage() {
         )
     }
 
-    if (!isAuthenticated || !isAdmin) {
+    if (!isAuthenticated) {
         return <Navigate to="/login" replace />
     }
 
@@ -123,6 +123,18 @@ function AdminPage() {
                         </svg>
                         <span>{t('admin.sidebar.questions')}</span>
                     </NavLink>
+
+                    {isAdmin && (
+                        <NavLink to="/admin/utilisateurs" className="nav-item" onClick={closeSidebarMobile}>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                                <circle cx="9" cy="7" r="4" />
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                            </svg>
+                            <span>{t('admin.sidebar.users', 'Utilisateurs')}</span>
+                        </NavLink>
+                    )}
                 </nav>
 
                 <div className="sidebar-footer">
@@ -187,6 +199,7 @@ function AdminPage() {
                         </div>
                         <div className="header-user">
                             <span>{t('admin.header.welcome')}, <strong>{i18n.language?.startsWith('ff') ? 'Ɗowoowo' : user?.username}</strong></span>
+                            <span className={`user-role-badge role-${user?.role}`}>{user?.role}</span>
                         </div>
                     </div>
                 </header>
