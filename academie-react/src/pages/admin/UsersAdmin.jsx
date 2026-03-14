@@ -4,7 +4,7 @@ import { useAuth, useApi } from '../../context/AuthContext'
 import './UsersAdmin.css'
 
 function UsersAdmin() {
-    const { t } = useTranslation()
+    const { t, i18n } = useTranslation()
     const { isAdmin } = useAuth()
     const { apiRequest } = useApi()
 
@@ -50,7 +50,7 @@ function UsersAdmin() {
                 method: 'POST',
                 body: JSON.stringify({ email: inviteEmail, role: inviteRole })
             })
-            setSuccess(`Invitation envoyée à ${inviteEmail}`)
+            setSuccess(t('admin.users.inviteSent', { email: inviteEmail }))
             setInviteEmail('')
             setInviteRole('moderateur')
             loadData()
@@ -68,7 +68,7 @@ function UsersAdmin() {
                 method: 'PUT',
                 body: JSON.stringify({ role: newRole })
             })
-            setSuccess('Rôle mis à jour')
+            setSuccess(t('admin.users.roleUpdated'))
             loadData()
         } catch (err) {
             setError(err.message)
@@ -76,11 +76,11 @@ function UsersAdmin() {
     }
 
     const handleDeleteUser = async (userId, username) => {
-        if (!window.confirm(`Supprimer l'utilisateur "${username}" ?`)) return
+        if (!window.confirm(t('admin.users.confirmDelete', { username }))) return
         setError('')
         try {
             await apiRequest(`/auth/users/${userId}`, { method: 'DELETE' })
-            setSuccess('Utilisateur supprimé')
+            setSuccess(t('admin.users.userDeleted'))
             loadData()
         } catch (err) {
             setError(err.message)
@@ -91,7 +91,7 @@ function UsersAdmin() {
         setError('')
         try {
             await apiRequest(`/auth/invitations/${invId}`, { method: 'DELETE' })
-            setSuccess('Invitation supprimée')
+            setSuccess(t('admin.users.invitationDeleted'))
             loadData()
         } catch (err) {
             setError(err.message)
@@ -99,7 +99,7 @@ function UsersAdmin() {
     }
 
     if (!isAdmin) {
-        return <div className="users-admin"><p>Accès réservé aux administrateurs.</p></div>
+        return <div className="users-admin"><p>{t('admin.users.accessDenied')}</p></div>
     }
 
     if (loading) {
@@ -107,21 +107,21 @@ function UsersAdmin() {
     }
 
     const roleLabels = {
-        admin: 'Admin',
-        moderateur: 'Modérateur',
-        superviseur: 'Superviseur'
+        admin: t('admin.users.roleAdmin'),
+        moderateur: t('admin.users.roleModerator'),
+        superviseur: t('admin.users.roleSupervisor')
     }
 
     return (
         <div className="users-admin">
-            <h2>{t('admin.users.title', 'Gestion des utilisateurs')}</h2>
+            <h2>{t('admin.users.title')}</h2>
 
             {error && <div className="users-alert users-alert-error">{error}</div>}
             {success && <div className="users-alert users-alert-success">{success}</div>}
 
             {/* Formulaire d'invitation */}
             <div className="users-section">
-                <h3>{t('admin.users.invite', 'Inviter un utilisateur')}</h3>
+                <h3>{t('admin.users.invite')}</h3>
                 <form onSubmit={handleInvite} className="invite-form">
                     <input
                         type="email"
@@ -131,33 +131,33 @@ function UsersAdmin() {
                         required
                     />
                     <select value={inviteRole} onChange={(e) => setInviteRole(e.target.value)}>
-                        <option value="moderateur">Modérateur</option>
-                        <option value="superviseur">Superviseur</option>
-                        <option value="admin">Admin</option>
+                        <option value="moderateur">{t('admin.users.roleModerator')}</option>
+                        <option value="superviseur">{t('admin.users.roleSupervisor')}</option>
+                        <option value="admin">{t('admin.users.roleAdmin')}</option>
                     </select>
                     <button type="submit" disabled={inviting} className="btn-invite">
-                        {inviting ? 'Envoi...' : 'Inviter'}
+                        {inviting ? t('admin.users.sending') : t('admin.users.inviteBtn')}
                     </button>
                 </form>
                 <p className="invite-note">
-                    L'utilisateur devra se connecter avec Google en utilisant cet email.
+                    {t('admin.users.inviteNote')}
                 </p>
             </div>
 
             {/* Invitations en cours */}
             {invitations.length > 0 && (
                 <div className="users-section">
-                    <h3>{t('admin.users.pendingInvitations', 'Invitations en cours')}</h3>
+                    <h3>{t('admin.users.pendingInvitations')}</h3>
                     <div className="users-table-wrapper">
                         <table className="users-table">
                             <thead>
                                 <tr>
-                                    <th>Email</th>
-                                    <th>Rôle</th>
-                                    <th>Invité par</th>
-                                    <th>Expire</th>
-                                    <th>Statut</th>
-                                    <th>Actions</th>
+                                    <th>{t('admin.users.email')}</th>
+                                    <th>{t('admin.users.role')}</th>
+                                    <th>{t('admin.users.invitedBy')}</th>
+                                    <th>{t('admin.users.expires')}</th>
+                                    <th>{t('admin.users.status')}</th>
+                                    <th>{t('admin.users.actions')}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -166,14 +166,14 @@ function UsersAdmin() {
                                         <td>{inv.email}</td>
                                         <td><span className={`role-badge role-${inv.role}`}>{roleLabels[inv.role]}</span></td>
                                         <td>{inv.invited_by_name}</td>
-                                        <td>{new Date(inv.expires_at).toLocaleDateString('fr-FR')}</td>
+                                        <td>{new Date(inv.expires_at).toLocaleDateString(i18n.language)}</td>
                                         <td>
                                             {inv.used ? (
-                                                <span className="status-used">Utilisée</span>
+                                                <span className="status-used">{t('admin.users.statusUsed')}</span>
                                             ) : new Date(inv.expires_at) < new Date() ? (
-                                                <span className="status-expired">Expirée</span>
+                                                <span className="status-expired">{t('admin.users.statusExpired')}</span>
                                             ) : (
-                                                <span className="status-pending">En attente</span>
+                                                <span className="status-pending">{t('admin.users.statusPending')}</span>
                                             )}
                                         </td>
                                         <td>
@@ -182,7 +182,7 @@ function UsersAdmin() {
                                                     className="btn-delete-sm"
                                                     onClick={() => handleDeleteInvitation(inv.id)}
                                                 >
-                                                    Supprimer
+                                                    {t('admin.users.deleteBtn')}
                                                 </button>
                                             )}
                                         </td>
@@ -196,18 +196,18 @@ function UsersAdmin() {
 
             {/* Liste des utilisateurs */}
             <div className="users-section">
-                <h3>{t('admin.users.list', 'Utilisateurs')} ({users.length})</h3>
+                <h3>{t('admin.users.list')} ({users.length})</h3>
                 <div className="users-table-wrapper">
                     <table className="users-table">
                         <thead>
                             <tr>
-                                <th>Nom</th>
-                                <th>Email</th>
-                                <th>Rôle</th>
-                                <th>Google</th>
-                                <th>Invité par</th>
-                                <th>Créé le</th>
-                                <th>Actions</th>
+                                <th>{t('admin.users.name')}</th>
+                                <th>{t('admin.users.email')}</th>
+                                <th>{t('admin.users.role')}</th>
+                                <th>{t('admin.users.google')}</th>
+                                <th>{t('admin.users.invitedBy')}</th>
+                                <th>{t('admin.users.createdAt')}</th>
+                                <th>{t('admin.users.actions')}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -221,20 +221,20 @@ function UsersAdmin() {
                                             onChange={(e) => handleChangeRole(u.id, e.target.value)}
                                             className={`role-select role-${u.role}`}
                                         >
-                                            <option value="admin">Admin</option>
-                                            <option value="moderateur">Modérateur</option>
-                                            <option value="superviseur">Superviseur</option>
+                                            <option value="admin">{t('admin.users.roleAdmin')}</option>
+                                            <option value="moderateur">{t('admin.users.roleModerator')}</option>
+                                            <option value="superviseur">{t('admin.users.roleSupervisor')}</option>
                                         </select>
                                     </td>
                                     <td>{u.has_google ? '✓' : '—'}</td>
                                     <td>{u.invited_by_name || '—'}</td>
-                                    <td>{new Date(u.created_at).toLocaleDateString('fr-FR')}</td>
+                                    <td>{new Date(u.created_at).toLocaleDateString(i18n.language)}</td>
                                     <td>
                                         <button
                                             className="btn-delete-sm"
                                             onClick={() => handleDeleteUser(u.id, u.username)}
                                         >
-                                            Supprimer
+                                            {t('admin.users.deleteBtn')}
                                         </button>
                                     </td>
                                 </tr>

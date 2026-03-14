@@ -288,6 +288,7 @@
             "library": "Library",
             "questions": "Language Questions",
             "viewSite": "View Site",
+            "users": "Users",
             "logout": "Logout"
         },
         "header": {
@@ -448,6 +449,37 @@
             "noQuestions": "No questions recorded",
             "questionPlaceholder": "Write the question...",
             "answerPlaceholder": "Write the answer..."
+        },
+        "users": {
+            "title": "User Management",
+            "invite": "Invite a User",
+            "pendingInvitations": "Pending Invitations",
+            "list": "Users",
+            "accessDenied": "Access restricted to administrators.",
+            "inviteNote": "The user will need to sign in with Google using this email.",
+            "sending": "Sending...",
+            "inviteBtn": "Invite",
+            "roleAdmin": "Admin",
+            "roleModerator": "Moderator",
+            "roleSupervisor": "Supervisor",
+            "email": "Email",
+            "role": "Role",
+            "invitedBy": "Invited by",
+            "expires": "Expires",
+            "status": "Status",
+            "actions": "Actions",
+            "name": "Name",
+            "google": "Google",
+            "createdAt": "Created",
+            "statusUsed": "Used",
+            "statusExpired": "Expired",
+            "statusPending": "Pending",
+            "deleteBtn": "Delete",
+            "confirmDelete": "Delete user \"{{username}}\"?",
+            "inviteSent": "Invitation sent to {{email}}",
+            "roleUpdated": "Role updated",
+            "userDeleted": "User deleted",
+            "invitationDeleted": "Invitation deleted"
         }
     }
 }

@@ -290,6 +290,7 @@
             "library": "Bibliothèque",
             "questions": "Questions langue",
             "viewSite": "Voir le site",
+            "users": "Utilisateurs",
             "logout": "Déconnexion"
         },
         "header": {
@@ -450,6 +451,37 @@
             "noQuestions": "Aucune question enregistrée",
             "questionPlaceholder": "Écrivez la question...",
             "answerPlaceholder": "Écrivez la réponse..."
+        },
+        "users": {
+            "title": "Gestion des utilisateurs",
+            "invite": "Inviter un utilisateur",
+            "pendingInvitations": "Invitations en cours",
+            "list": "Utilisateurs",
+            "accessDenied": "Accès réservé aux administrateurs.",
+            "inviteNote": "L'utilisateur devra se connecter avec Google en utilisant cet email.",
+            "sending": "Envoi...",
+            "inviteBtn": "Inviter",
+            "roleAdmin": "Admin",
+            "roleModerator": "Modérateur",
+            "roleSupervisor": "Superviseur",
+            "email": "Email",
+            "role": "Rôle",
+            "invitedBy": "Invité par",
+            "expires": "Expire",
+            "status": "Statut",
+            "actions": "Actions",
+            "name": "Nom",
+            "google": "Google",
+            "createdAt": "Créé le",
+            "statusUsed": "Utilisée",
+            "statusExpired": "Expirée",
+            "statusPending": "En attente",
+            "deleteBtn": "Supprimer",
+            "confirmDelete": "Supprimer l'utilisateur \"{{username}}\" ?",
+            "inviteSent": "Invitation envoyée à {{email}}",
+            "roleUpdated": "Rôle mis à jour",
+            "userDeleted": "Utilisateur supprimé",
+            "invitationDeleted": "Invitation supprimée"
         }
     }
 }

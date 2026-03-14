@@ -290,6 +290,7 @@
             "library": "Defterdu",
             "questions": "Laaɓnde / ƴame lolluɗe",
             "viewSite": "Yiy lowre nde",
+            "users": "Huutorɓe",
             "logout": "Seŋto"
         },
         "header": {
@@ -451,6 +452,37 @@
             "noQuestions": "Hay naamnal hisnaaka",
             "questionPlaceholder": "Winndu naamnal ngal...",
             "answerPlaceholder": "Winndu jaabtawol ngol..."
+        },
+        "users": {
+            "title": "Toppitaare huutorɓe",
+            "invite": "Noddude huutorɗo",
+            "pendingInvitations": "Noddaale keɓtiiɗe",
+            "list": "Huutorɓe",
+            "accessDenied": "Ɗo yamiraaka so wonaa jiiloowo.",
+            "inviteNote": "Huutorɗo oo foti seŋorde e Google e oo iimeel.",
+            "sending": "Ina neldee...",
+            "inviteBtn": "Noddu",
+            "roleAdmin": "Jiiloowo",
+            "roleModerator": "Darniiɗo",
+            "roleSupervisor": "Reendiiɗo",
+            "email": "Iimeel",
+            "role": "Daraja",
+            "invitedBy": "Noddanooɗo",
+            "expires": "Haa",
+            "status": "Ngonka",
+            "actions": "Baɗe",
+            "name": "Innde",
+            "google": "Google",
+            "createdAt": "Sosaa",
+            "statusUsed": "Huutoraama",
+            "statusExpired": "Ɓennii",
+            "statusPending": "Ina fadii",
+            "deleteBtn": "Momtu",
+            "confirmDelete": "Momtude huutorɗo \"{{username}}\" ?",
+            "inviteSent": "Noddaale neldaama to {{email}}",
+            "roleUpdated": "Daraja wayliima",
+            "userDeleted": "Huutorɗo momtaama",
+            "invitationDeleted": "Noddaale momtaama"
         }
     }
 }
