@@ -27,9 +27,9 @@
         "speeches": "Les discours",
         "language": "La langue Fulfulde",
         "frenchToday": "Le Fulfulde aujourd'hui",
-        "languageQuestions": "Questions de langue",
+        "languageQuestions": "Questions Fréquentes",
         "terminology": "Terminologie",
-        "sayDontSay": "Dire, Ne pas dire",
+        "sayDontSay": "Correct, Incorrect",
         "dictionary": "Le Dictionnaire",
         "ninthEdition": "Première édition",
         "ninePrefaces": "Préfaces",
@@ -101,7 +101,7 @@
         "catBorrowings": "Emprunts",
         "catIncorrect": "Usage incorrect",
         "noArticles": "Aucun article disponible",
-        "noArticlesDesc": "Les articles \"Selli, Sellaani\" seront bientôt disponibles."
+        "noArticlesDesc": "Les articles \"Correct, Incorrect\" seront bientôt disponibles."
     },
     "dictionary": {
         "sectionLabel": "Dictionnaire Fulfulde",
@@ -288,9 +288,9 @@
             "dashboard": "Tableau de bord",
             "dictionary": "Dictionnaire",
             "news": "Actualités",
-            "content": "Dire, Ne pas dire",
+            "content": "Correct, Incorrect",
             "library": "Bibliothèque",
-            "questions": "Questions langue",
+            "questions": "Questions Fréquentes",
             "viewSite": "Voir le site",
             "users": "Utilisateurs",
             "logout": "Déconnexion"
@@ -306,9 +306,9 @@
             "stats": {
                 "words": "Mots dans le dictionnaire",
                 "news": "Actualités publiées",
-                "content": "Expressions \"Dire, Ne pas dire\"",
+                "content": "Expressions \"Correct, Incorrect\"",
                 "books": "Livres dans la bibliothèque",
-                "questions": "Questions sur la langue"
+                "questions": "Questions Fréquentes"
             },
             "welcomeCard": {
                 "title": "Bienvenue dans l'administration",
@@ -317,7 +317,7 @@
                 "news": "Publier des nouvelles et articles",
                 "content": "Gérer les expressions linguistiques",
                 "library": "Gérer les livres de la bibliothèque",
-                "questions": "Gérer les questions de langue"
+                "questions": "Gérer les Questions Fréquentes"
             }
         },
         "common": {
@@ -459,7 +459,7 @@
             "redirectLink": "Lien de redirection (URL)"
         },
         "content": {
-            "title": "Dire, Ne pas dire",
+            "title": "Correct, Incorrect",
             "add": "Ajouter une expression",
             "edit": "Modifier l'expression",
             "dire": "On dit",
@@ -475,7 +475,7 @@
             "explanationLabel": "Explication"
         },
         "questions": {
-            "title": "Questions de langue",
+            "title": "Questions Fréquentes",
             "add": "Ajouter une question",
             "edit": "Modifier la question",
             "questionLabel": "Question",

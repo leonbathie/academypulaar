@@ -27,9 +27,9 @@
         "speeches": "Speeches",
         "language": "Fulfulde Language",
         "frenchToday": "Fulfulde Today",
-        "languageQuestions": "Language Questions",
+        "languageQuestions": "Frequently Asked Questions (FAQ)",
         "terminology": "Terminology",
-        "sayDontSay": "Say, Don't Say",
+        "sayDontSay": "Correct, Incorrect",
         "dictionary": "The Dictionary",
         "ninthEdition": "First Edition",
         "ninePrefaces": "Prefaces",
@@ -101,7 +101,7 @@
         "catBorrowings": "Borrowings",
         "catIncorrect": "Incorrect usage",
         "noArticles": "No articles available",
-        "noArticlesDesc": "The \"Say, Don't Say\" articles will be available soon."
+        "noArticlesDesc": "The \"Correct, Incorrect\" articles will be available soon."
     },
     "dictionary": {
         "sectionLabel": "Fulfulde Dictionary",
@@ -286,9 +286,9 @@
             "dashboard": "Dashboard",
             "dictionary": "Dictionary",
             "news": "News",
-            "content": "Say, Don't Say",
+            "content": "Correct, Incorrect",
             "library": "Library",
-            "questions": "Language Questions",
+            "questions": "Frequently Asked Questions (FAQ)",
             "viewSite": "View Site",
             "users": "Users",
             "logout": "Logout"
@@ -304,9 +304,9 @@
             "stats": {
                 "words": "Words in dictionary",
                 "news": "Published news",
-                "content": "Say, Don't Say expressions",
+                "content": "Correct, Incorrect expressions",
                 "books": "Books in library",
-                "questions": "Language questions"
+                "questions": "Frequently Asked Questions (FAQ)"
             },
             "welcomeCard": {
                 "title": "Welcome to administration",
@@ -315,7 +315,7 @@
                 "news": "Publish news and articles",
                 "content": "Manage language expressions",
                 "library": "Manage library books",
-                "questions": "Manage language questions"
+                "questions": "Manage Frequently Asked Questions (FAQ)"
             }
         },
         "common": {
@@ -457,7 +457,7 @@
             "redirectLink": "Redirect link (URL)"
         },
         "content": {
-            "title": "Say, Don't say",
+            "title": "Correct, Incorrect",
             "add": "Add expression",
             "edit": "Edit expression",
             "dire": "Say",
@@ -473,7 +473,7 @@
             "explanationLabel": "Explanation"
         },
         "questions": {
-            "title": "Language Questions",
+            "title": "Frequently Asked Questions (FAQ)",
             "add": "Add a question",
             "edit": "Edit question",
             "questionLabel": "Question",
