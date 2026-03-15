@@ -5,7 +5,7 @@ const path = require('path')
 const fs = require('fs')
 const pdfjsLib = require('pdfjs-dist/legacy/build/pdf.mjs')
 const { query } = require('../database')
-const { authMiddleware, canWrite } = require('../middleware/auth')
+const { authMiddleware, canWrite, validateId } = require('../middleware/auth')
 
 // Configuration multer pour les fichiers audio
 const storage = multer.diskStorage({
@@ -14,7 +14,8 @@ const storage = multer.diskStorage({
     },
     filename: (req, file, cb) => {
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
-        cb(null, 'audio-' + uniqueSuffix + path.extname(file.originalname))
+        const ext = path.extname(file.originalname).toLowerCase().replace(/[^a-z0-9.]/g, '')
+        cb(null, 'audio-' + uniqueSuffix + ext)
     }
 })
 
@@ -72,7 +73,7 @@ router.get('/', async (req, res) => {
 })
 
 // GET /api/dictionary/:id - Récupérer un mot
-router.get('/:id', async (req, res) => {
+router.get('/:id', validateId, async (req, res) => {
     try {
         const result = await query('SELECT * FROM dictionary WHERE id = $1', [req.params.id])
 
@@ -134,7 +135,7 @@ router.post('/', authMiddleware, canWrite, upload.fields([
 })
 
 // PUT /api/dictionary/:id - Modifier un mot (Admin only)
-router.put('/:id', authMiddleware, canWrite, upload.fields([
+router.put('/:id', authMiddleware, canWrite, validateId, upload.fields([
     { name: 'audio_word', maxCount: 1 },
     { name: 'audio_example', maxCount: 1 }
 ]), async (req, res) => {
@@ -186,7 +187,7 @@ router.put('/:id', authMiddleware, canWrite, upload.fields([
 })
 
 // DELETE /api/dictionary/:id - Supprimer un mot (Admin only)
-router.delete('/:id', authMiddleware, canWrite, async (req, res) => {
+router.delete('/:id', authMiddleware, canWrite, validateId, async (req, res) => {
     try {
         const result = await query('DELETE FROM dictionary WHERE id = $1 RETURNING id', [req.params.id])
 

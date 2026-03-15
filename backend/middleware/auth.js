@@ -44,4 +44,14 @@ const canWrite = requireRole('admin', 'moderateur')
 // Lecture : tous les rôles authentifiés
 const canRead = requireRole('admin', 'moderateur', 'superviseur')
 
-module.exports = { authMiddleware, adminOnly, canWrite, canRead, requireRole }
+// Middleware : valider que :id est un entier positif
+const validateId = (req, res, next) => {
+    const id = parseInt(req.params.id, 10)
+    if (isNaN(id) || id <= 0) {
+        return res.status(400).json({ error: 'ID invalide' })
+    }
+    req.params.id = id
+    next()
+}
+
+module.exports = { authMiddleware, adminOnly, canWrite, canRead, requireRole, validateId }

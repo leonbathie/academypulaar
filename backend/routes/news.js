@@ -3,7 +3,7 @@ const router = express.Router()
 const multer = require('multer')
 const path = require('path')
 const { query } = require('../database')
-const { authMiddleware, canWrite } = require('../middleware/auth')
+const { authMiddleware, canWrite, validateId } = require('../middleware/auth')
 
 // Configuration Multer pour l'upload d'images
 const storage = multer.diskStorage({
@@ -12,7 +12,8 @@ const storage = multer.diskStorage({
     },
     filename: function (req, file, cb) {
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
-        cb(null, 'news-' + uniqueSuffix + path.extname(file.originalname))
+        const ext = path.extname(file.originalname).toLowerCase().replace(/[^a-z0-9.]/g, '')
+        cb(null, 'news-' + uniqueSuffix + ext)
     }
 })
 
@@ -55,7 +56,11 @@ router.get('/', async (req, res) => {
         sql += ' ORDER BY date DESC'
 
         if (limit) {
-            sql += ` LIMIT ${parseInt(limit)}`
+            const parsedLimit = parseInt(limit, 10)
+            if (!isNaN(parsedLimit) && parsedLimit > 0 && parsedLimit <= 1000) {
+                params.push(parsedLimit)
+                sql += ` LIMIT $${params.length}`
+            }
         }
 
         const result = await query(sql, params)
@@ -68,7 +73,7 @@ router.get('/', async (req, res) => {
 })
 
 // GET /api/news/:id - Récupérer une actualité
-router.get('/:id', async (req, res) => {
+router.get('/:id', validateId, async (req, res) => {
     try {
         const result = await query('SELECT * FROM news WHERE id = $1', [req.params.id])
 
@@ -115,7 +120,7 @@ router.post('/', authMiddleware, canWrite, upload.single('image'), async (req, r
 })
 
 // PUT /api/news/:id - Modifier une actualité (Admin only)
-router.put('/:id', authMiddleware, canWrite, upload.single('image'), async (req, res) => {
+router.put('/:id', authMiddleware, canWrite, validateId, upload.single('image'), async (req, res) => {
     try {
         const {
             title, title_fr, title_en, title_ff,
@@ -154,7 +159,7 @@ router.put('/:id', authMiddleware, canWrite, upload.single('image'), async (req,
 })
 
 // DELETE /api/news/:id - Supprimer une actualité (Admin only)
-router.delete('/:id', authMiddleware, canWrite, async (req, res) => {
+router.delete('/:id', authMiddleware, canWrite, validateId, async (req, res) => {
     try {
         const result = await query('DELETE FROM news WHERE id = $1 RETURNING id', [req.params.id])
 

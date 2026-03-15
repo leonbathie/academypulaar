@@ -1,5 +1,6 @@
 const express = require('express')
 const cors = require('cors')
+const helmet = require('helmet')
 const path = require('path')
 const multer = require('multer')
 const rateLimit = require('express-rate-limit')
@@ -28,7 +29,21 @@ const adminLimiter = rateLimit({
     legacyHeaders: false
 })
 
+// Global rate limiter (all routes)
+const globalLimiter = rateLimit({
+    windowMs: 1 * 60 * 1000,
+    max: 200, // 200 requests per minute per IP
+    message: { error: 'Too many requests, please try again later' },
+    standardHeaders: true,
+    legacyHeaders: false
+})
+
 // Middleware
+app.use(globalLimiter)
+app.use(helmet({
+    contentSecurityPolicy: false, // Handled by Nginx
+    crossOriginEmbedderPolicy: false
+}))
 app.use(cors({
     origin: [
         'http://localhost:5173', 
@@ -44,8 +59,8 @@ app.use(cors({
     ],
     credentials: true
 }))
-app.use(express.json({ limit: '50mb' }))
-app.use(express.urlencoded({ extended: true, limit: '50mb' }))
+app.use(express.json({ limit: '10mb' }))
+app.use(express.urlencoded({ extended: true, limit: '10mb' }))
 
 // Request logging middleware
 app.use('/api', (req, res, next) => {
@@ -111,9 +126,10 @@ app.use((err, req, res, next) => {
 // Gestion des erreurs générales
 app.use((err, req, res, next) => {
     console.error('Error:', err)
-    res.status(err.status || 500).json({
-        error: 'Erreur serveur',
-        message: err.message
+    const status = err.status || 500
+    res.status(status).json({
+        error: status >= 500 ? 'Erreur serveur interne' : 'Erreur',
+        message: status >= 500 ? 'Une erreur inattendue est survenue' : err.message
     })
 })
 

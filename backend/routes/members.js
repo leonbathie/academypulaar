@@ -3,7 +3,7 @@ const router = express.Router()
 const multer = require('multer')
 const path = require('path')
 const { query } = require('../database')
-const { authMiddleware, canWrite } = require('../middleware/auth')
+const { authMiddleware, canWrite, validateId } = require('../middleware/auth')
 
 // Configuration de l'upload d'images
 const storage = multer.diskStorage({
@@ -12,7 +12,8 @@ const storage = multer.diskStorage({
     },
     filename: (req, file, cb) => {
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
-        cb(null, 'member-' + uniqueSuffix + path.extname(file.originalname))
+        const ext = path.extname(file.originalname).toLowerCase().replace(/[^a-z0-9.]/g, '')
+        cb(null, 'member-' + uniqueSuffix + ext)
     }
 })
 
@@ -42,7 +43,7 @@ router.get('/', async (req, res) => {
 })
 
 // GET /api/members/:id - Récupérer un membre
-router.get('/:id', async (req, res) => {
+router.get('/:id', validateId, async (req, res) => {
     try {
         const result = await query('SELECT * FROM members WHERE id = $1', [req.params.id])
 
@@ -82,7 +83,7 @@ router.post('/', authMiddleware, canWrite, upload.single('image'), async (req, r
 })
 
 // PUT /api/members/:id - Modifier un membre (Admin only)
-router.put('/:id', authMiddleware, canWrite, upload.single('image'), async (req, res) => {
+router.put('/:id', authMiddleware, canWrite, validateId, upload.single('image'), async (req, res) => {
     try {
         const { name, role_fr, role_en, role_ff, specialty, bio_fr, bio_en, bio_ff, joined, facebook, twitter, linkedin, website, email } = req.body
 
@@ -114,7 +115,7 @@ router.put('/:id', authMiddleware, canWrite, upload.single('image'), async (req,
 })
 
 // DELETE /api/members/:id - Supprimer un membre (Admin only)
-router.delete('/:id', authMiddleware, canWrite, async (req, res) => {
+router.delete('/:id', authMiddleware, canWrite, validateId, async (req, res) => {
     try {
         const result = await query('DELETE FROM members WHERE id = $1 RETURNING id', [req.params.id])
 

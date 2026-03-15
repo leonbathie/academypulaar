@@ -177,6 +177,10 @@ router.post('/change-password', authMiddleware, async (req, res) => {
             return res.status(400).json({ error: 'Le nouveau mot de passe doit contenir au moins 8 caractères' })
         }
 
+        if (!/[A-Z]/.test(newPassword) || !/[a-z]/.test(newPassword) || !/[0-9]/.test(newPassword)) {
+            return res.status(400).json({ error: 'Le mot de passe doit contenir au moins une majuscule, une minuscule et un chiffre' })
+        }
+
         const result = await query('SELECT password FROM users WHERE id = $1', [req.user.id])
         const user = result.rows[0]
 
@@ -189,7 +193,7 @@ router.post('/change-password', authMiddleware, async (req, res) => {
             return res.status(401).json({ error: 'Mot de passe actuel incorrect' })
         }
 
-        const hashedPassword = await bcrypt.hash(newPassword, 10)
+        const hashedPassword = await bcrypt.hash(newPassword, 12)
         await query('UPDATE users SET password = $1 WHERE id = $2', [hashedPassword, req.user.id])
 
         res.json({ message: 'Mot de passe modifié avec succès' })

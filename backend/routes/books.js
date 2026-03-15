@@ -4,7 +4,7 @@ const multer = require('multer')
 const path = require('path')
 const fs = require('fs')
 const { query } = require('../database')
-const { authMiddleware, canWrite } = require('../middleware/auth')
+const { authMiddleware, canWrite, validateId } = require('../middleware/auth')
 
 // Configuration Multer pour l'upload de livres et images
 const storage = multer.diskStorage({
@@ -19,7 +19,8 @@ const storage = multer.diskStorage({
     filename: function (req, file, cb) {
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
         const prefix = file.fieldname === 'cover' ? 'book-cover-' : 'book-'
-        cb(null, prefix + uniqueSuffix + path.extname(file.originalname))
+        const ext = path.extname(file.originalname).toLowerCase().replace(/[^a-z0-9.]/g, '')
+        cb(null, prefix + uniqueSuffix + ext)
     }
 })
 
@@ -115,7 +116,7 @@ router.get('/', async (req, res) => {
 })
 
 // GET /api/books/:id - Récupérer un livre
-router.get('/:id', async (req, res) => {
+router.get('/:id', validateId, async (req, res) => {
     try {
         const result = await query('SELECT * FROM books WHERE id = $1', [req.params.id])
 
@@ -131,7 +132,7 @@ router.get('/:id', async (req, res) => {
 })
 
 // GET /api/books/:id/download - Télécharger un livre
-router.get('/:id/download', async (req, res) => {
+router.get('/:id/download', validateId, async (req, res) => {
     try {
         const result = await query('SELECT * FROM books WHERE id = $1', [req.params.id])
 
@@ -203,7 +204,7 @@ router.post('/', authMiddleware, canWrite, handleUpload, async (req, res) => {
 })
 
 // PUT /api/books/:id - Modifier un livre (Admin only)
-router.put('/:id', authMiddleware, canWrite, handleUpload, async (req, res) => {
+router.put('/:id', authMiddleware, canWrite, validateId, handleUpload, async (req, res) => {
     console.log(`[BOOKS] PUT handler START - book id=${req.params.id}`)
     console.log(`[BOOKS] User: ${req.user?.username} (role: ${req.user?.role})`)
     try {
@@ -248,7 +249,7 @@ router.put('/:id', authMiddleware, canWrite, handleUpload, async (req, res) => {
 })
 
 // DELETE /api/books/:id - Supprimer un livre (Admin only)
-router.delete('/:id', authMiddleware, canWrite, async (req, res) => {
+router.delete('/:id', authMiddleware, canWrite, validateId, async (req, res) => {
     try {
         const result = await query('DELETE FROM books WHERE id = $1 RETURNING *', [req.params.id])
 

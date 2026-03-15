@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const { query } = require('../database')
-const { authMiddleware, canWrite } = require('../middleware/auth')
+const { authMiddleware, canWrite, validateId } = require('../middleware/auth')
 
 // ============================================
 // ROUTES "DIRE, NE PAS DIRE"
@@ -50,7 +50,7 @@ router.post('/dire', authMiddleware, canWrite, async (req, res) => {
 })
 
 // PUT /api/content/dire/:id - Modifier un "Dire, Ne pas dire"
-router.put('/dire/:id', authMiddleware, canWrite, async (req, res) => {
+router.put('/dire/:id', authMiddleware, canWrite, validateId, async (req, res) => {
     try {
         const {
             category,
@@ -82,7 +82,7 @@ router.put('/dire/:id', authMiddleware, canWrite, async (req, res) => {
 })
 
 // DELETE /api/content/dire/:id - Supprimer un "Dire, Ne pas dire"
-router.delete('/dire/:id', authMiddleware, canWrite, async (req, res) => {
+router.delete('/dire/:id', authMiddleware, canWrite, validateId, async (req, res) => {
     try {
         const result = await query('DELETE FROM dire_ne_pas_dire WHERE id = $1 RETURNING id', [req.params.id])
 
@@ -152,7 +152,7 @@ router.post('/', authMiddleware, canWrite, async (req, res) => {
 })
 
 // DELETE /api/content/:id - Supprimer du contenu
-router.delete('/:id', authMiddleware, canWrite, async (req, res) => {
+router.delete('/:id', authMiddleware, canWrite, validateId, async (req, res) => {
     try {
         const result = await query('DELETE FROM content WHERE id = $1 RETURNING id', [req.params.id])
 
