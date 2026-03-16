@@ -63,7 +63,7 @@ jobs:
 
           echo "=== Create database and user if needed ==="
           sudo -u postgres psql -tc "SELECT 1 FROM pg_roles WHERE rolname='academypulaar'" | grep -q 1 || \
-            sudo -u postgres psql -c "CREATE USER academypulaar WITH PASSWORD 'academypulaar2024';"
+            sudo -u postgres psql -c "CREATE USER academypulaar WITH PASSWORD '${{ secrets.DB_PASSWORD }}';"
 
           sudo -u postgres psql -tc "SELECT 1 FROM pg_database WHERE datname='academypulaar'" | grep -q 1 || \
             sudo -u postgres psql -c "CREATE DATABASE academypulaar OWNER academypulaar;"
@@ -75,17 +75,17 @@ jobs:
           echo "=== Create backend .env if missing ==="
           ENV_FILE=/var/www/academypulaar/backend/.env
           if [ ! -f "$ENV_FILE" ]; then
-            echo "DATABASE_URL=postgresql://academypulaar:academypulaar2024@localhost:5432/academypulaar" > $ENV_FILE
+            echo "DATABASE_URL=postgresql://academypulaar:${{ secrets.DB_PASSWORD }}@localhost:5432/academypulaar" > $ENV_FILE
             echo "DATABASE_SSL=false" >> $ENV_FILE
-            echo "JWT_SECRET=goomufulowidto-secret-key-2024" >> $ENV_FILE
+            echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> $ENV_FILE
             echo "PORT=5000" >> $ENV_FILE
             echo "NODE_ENV=production" >> $ENV_FILE
-            echo "GOOGLE_CLIENT_ID=201037336821-nn28luuobfn04qte7jng3tkegf092mvl.apps.googleusercontent.com" >> $ENV_FILE
+            echo "GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}" >> $ENV_FILE
             echo ".env created"
           else
             echo ".env already exists"
             # Ensure GOOGLE_CLIENT_ID is present
-            grep -q GOOGLE_CLIENT_ID $ENV_FILE || echo "GOOGLE_CLIENT_ID=201037336821-nn28luuobfn04qte7jng3tkegf092mvl.apps.googleusercontent.com" >> $ENV_FILE
+            grep -q GOOGLE_CLIENT_ID $ENV_FILE || echo "GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}" >> $ENV_FILE
           fi
 
       - name: Install backend dependencies
@@ -120,10 +120,10 @@ jobs:
             'RestartSec=5' \
             'Environment=NODE_ENV=production' \
             'Environment=PORT=5000' \
-            'Environment=DATABASE_URL=postgresql://academypulaar:academypulaar2024@localhost:5432/academypulaar' \
+            'Environment=DATABASE_URL=postgresql://academypulaar:${{ secrets.DB_PASSWORD }}@localhost:5432/academypulaar' \
             'Environment=DATABASE_SSL=false' \
-            'Environment=JWT_SECRET=goomufulowidto-secret-key-2024' \
-            'Environment=GOOGLE_CLIENT_ID=201037336821-nn28luuobfn04qte7jng3tkegf092mvl.apps.googleusercontent.com' \
+            'Environment=JWT_SECRET=${{ secrets.JWT_SECRET }}' \
+            'Environment=GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}' \
             '' \
             '[Install]' \
             'WantedBy=multi-user.target' \
@@ -200,12 +200,9 @@ jobs:
               -d goomufulo.com -d www.goomufulo.com \
               --non-interactive --agree-tos \
               --email contact@goomufulo.com 2>&1 || {
-              echo "=== Certbot failed, creating self-signed fallback ==="
-              sudo mkdir -p /etc/letsencrypt/live/goomufulo.com
-              sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
-                -keyout /etc/letsencrypt/live/goomufulo.com/privkey.pem \
-                -out /etc/letsencrypt/live/goomufulo.com/fullchain.pem \
-                -subj "/C=FR/ST=IDF/L=Paris/O=GoomuFulo/CN=goomufulo.com"
+              echo "::error::Certbot failed! Cannot obtain Let's Encrypt certificate."
+              echo "Check DNS settings, port 80 accessibility, and domain configuration."
+              exit 1
             }
           fi
 
