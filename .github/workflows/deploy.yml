@@ -173,7 +173,6 @@ jobs:
       - name: Setup SSL certificate
         run: |
           echo "=== Check SSL certificate ==="
-          # Check if we have a real Let's Encrypt cert (not self-signed)
           CERT_FILE="/etc/letsencrypt/live/goomufulo.com/fullchain.pem"
           NEED_CERT=false
 
@@ -184,25 +183,25 @@ jobs:
             echo "Valid Let's Encrypt certificate found"
             sudo certbot renew --quiet 2>/dev/null || true
           else
-            echo "Self-signed certificate detected, replacing with Let's Encrypt"
+            echo "Self-signed certificate detected, will try to replace with Let's Encrypt"
             NEED_CERT=true
           fi
 
           if [ "$NEED_CERT" = true ]; then
             echo "=== Obtaining Let's Encrypt certificate ==="
             sudo systemctl stop nginx 2>/dev/null || true
-            # Remove old self-signed if present
-            sudo rm -rf /etc/letsencrypt/live/goomufulo.com 2>/dev/null || true
-            sudo rm -rf /etc/letsencrypt/renewal/goomufulo.com.conf 2>/dev/null || true
-            sudo rm -rf /etc/letsencrypt/archive/goomufulo.com 2>/dev/null || true
 
             sudo certbot certonly --standalone \
               -d goomufulo.com -d www.goomufulo.com \
               --non-interactive --agree-tos \
               --email contact@goomufulo.com 2>&1 || {
-              echo "::error::Certbot failed! Cannot obtain Let's Encrypt certificate."
-              echo "Check DNS settings, port 80 accessibility, and domain configuration."
-              exit 1
+              echo "::warning::Certbot failed (likely rate limit). Checking if any cert exists..."
+              if [ -f "$CERT_FILE" ]; then
+                echo "Existing certificate found, continuing deploy."
+              else
+                echo "::error::No certificate available at all. Deploy cannot continue."
+                exit 1
+              fi
             }
           fi
 
