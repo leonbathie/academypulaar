@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useSearchParams } from 'react-router-dom'
 import { API_URL } from '../config'
@@ -18,7 +18,17 @@ function DictionaryPage() {
     const [loading, setLoading] = useState(true)
     const [selectedDomain, setSelectedDomain] = useState('')
     const [playingAudio, setPlayingAudio] = useState(null)
+    const [expandedCards, setExpandedCards] = useState(new Set())
     const audioRef = useRef(null)
+
+    const toggleCard = useCallback((id) => {
+        setExpandedCards(prev => {
+            const next = new Set(prev)
+            if (next.has(id)) next.delete(id)
+            else next.add(id)
+            return next
+        })
+    }, [])
 
     // Lire les paramètres URL au chargement
     useEffect(() => {
@@ -266,67 +276,102 @@ function DictionaryPage() {
                                 {results.length} {results.length === 1 ? t('dictionary.result') : t('dictionary.results')}
                             </p>
                             <div className="results-grid">
-                                {results.map((entry) => (
-                                    <article key={entry.id} className="word-card">
-                                        <div className="word-header">
-                                            <div className="word-title-group">
-                                                <h3 className="word-term">{entry.word}</h3>
-                                                {entry.audio_word && (
-                                                    <button
-                                                        className={`audio-play-btn ${playingAudio === `${entry.id}-word` ? 'playing' : ''}`}
-                                                        onClick={() => playAudio(entry.audio_word, entry.id, 'word')}
-                                                        title={t('dictionary.listenPronunciation')}
-                                                    >
-                                                        {playingAudio === `${entry.id}-word` ? (
-                                                            <svg viewBox="0 0 24 24" fill="currentColor">
-                                                                <rect x="6" y="4" width="4" height="16" />
-                                                                <rect x="14" y="4" width="4" height="16" />
-                                                            </svg>
-                                                        ) : (
-                                                            <svg viewBox="0 0 24 24" fill="currentColor">
-                                                                <polygon points="5 3 19 12 5 21 5 3" />
-                                                            </svg>
-                                                        )}
-                                                    </button>
-                                                )}
+                                {results.map((entry) => {
+                                    const isExpanded = expandedCards.has(entry.id)
+                                    return (
+                                        <article key={entry.id} className={`word-card ${isExpanded ? 'word-card--expanded' : ''}`}>
+                                            <div className="word-header">
+                                                <div className="word-title-group">
+                                                    <h3 className="word-term">{entry.word}</h3>
+                                                    {entry.audio_word && (
+                                                        <button
+                                                            className={`audio-play-btn ${playingAudio === `${entry.id}-word` ? 'playing' : ''}`}
+                                                            onClick={() => playAudio(entry.audio_word, entry.id, 'word')}
+                                                            title={t('dictionary.listenPronunciation')}
+                                                        >
+                                                            {playingAudio === `${entry.id}-word` ? (
+                                                                <svg viewBox="0 0 24 24" fill="currentColor">
+                                                                    <rect x="6" y="4" width="4" height="16" />
+                                                                    <rect x="14" y="4" width="4" height="16" />
+                                                                </svg>
+                                                            ) : (
+                                                                <svg viewBox="0 0 24 24" fill="currentColor">
+                                                                    <polygon points="5 3 19 12 5 21 5 3" />
+                                                                </svg>
+                                                            )}
+                                                        </button>
+                                                    )}
+                                                </div>
+                                                <div className="word-badges">
+                                                    {entry.domain && (
+                                                        <span className="word-domain">{t(`dictionary.domains.${entry.domain}`)}</span>
+                                                    )}
+                                                </div>
                                             </div>
-                                            <div className="word-badges">
-                                                {entry.category && (
-                                                    <span className="word-category">{t(`dictionary.categories.${entry.category}`, entry.category)}</span>
-                                                )}
-                                                {entry.domain && (
-                                                    <span className="word-domain">{t(`dictionary.domains.${entry.domain}`)}</span>
-                                                )}
-                                            </div>
-                                        </div>
-                                        <p className="word-translation">{getTranslation(entry)}</p>
-                                        {entry.example && (
-                                            <div className="word-example-group">
-                                                <p className="word-example">
-                                                    <span className="example-label">Ex:</span> {entry.example}
-                                                </p>
-                                                {entry.audio_example && (
-                                                    <button
-                                                        className={`audio-play-btn audio-play-btn--small ${playingAudio === `${entry.id}-example` ? 'playing' : ''}`}
-                                                        onClick={() => playAudio(entry.audio_example, entry.id, 'example')}
-                                                        title={t('dictionary.listenExample')}
-                                                    >
-                                                        {playingAudio === `${entry.id}-example` ? (
-                                                            <svg viewBox="0 0 24 24" fill="currentColor">
-                                                                <rect x="6" y="4" width="4" height="16" />
-                                                                <rect x="14" y="4" width="4" height="16" />
-                                                            </svg>
-                                                        ) : (
-                                                            <svg viewBox="0 0 24 24" fill="currentColor">
-                                                                <polygon points="5 3 19 12 5 21 5 3" />
-                                                            </svg>
-                                                        )}
-                                                    </button>
-                                                )}
-                                            </div>
-                                        )}
-                                    </article>
-                                ))}
+                                            <p className="word-translation">{getTranslation(entry)}</p>
+
+                                            {isExpanded && (
+                                                <div className="word-details">
+                                                    {entry.category && (
+                                                        <div className="word-detail-row">
+                                                            <span className="word-category">{t(`dictionary.categories.${entry.category}`, entry.category)}</span>
+                                                        </div>
+                                                    )}
+                                                    {entry.translation_fr && lang !== 'fr' && (
+                                                        <div className="word-detail-row">
+                                                            <span className="word-detail-label">FR</span>
+                                                            <span>{entry.translation_fr}</span>
+                                                        </div>
+                                                    )}
+                                                    {entry.translation_en && lang !== 'en' && (
+                                                        <div className="word-detail-row">
+                                                            <span className="word-detail-label">EN</span>
+                                                            <span>{entry.translation_en}</span>
+                                                        </div>
+                                                    )}
+                                                    {entry.translation_ff && lang !== 'ff' && (
+                                                        <div className="word-detail-row">
+                                                            <span className="word-detail-label">FF</span>
+                                                            <span>{entry.translation_ff}</span>
+                                                        </div>
+                                                    )}
+                                                    {entry.example && (
+                                                        <div className="word-example-group">
+                                                            <p className="word-example">
+                                                                <span className="example-label">Ex:</span> {entry.example}
+                                                            </p>
+                                                            {entry.audio_example && (
+                                                                <button
+                                                                    className={`audio-play-btn audio-play-btn--small ${playingAudio === `${entry.id}-example` ? 'playing' : ''}`}
+                                                                    onClick={() => playAudio(entry.audio_example, entry.id, 'example')}
+                                                                    title={t('dictionary.listenExample')}
+                                                                >
+                                                                    {playingAudio === `${entry.id}-example` ? (
+                                                                        <svg viewBox="0 0 24 24" fill="currentColor">
+                                                                            <rect x="6" y="4" width="4" height="16" />
+                                                                            <rect x="14" y="4" width="4" height="16" />
+                                                                        </svg>
+                                                                    ) : (
+                                                                        <svg viewBox="0 0 24 24" fill="currentColor">
+                                                                            <polygon points="5 3 19 12 5 21 5 3" />
+                                                                        </svg>
+                                                                    )}
+                                                                </button>
+                                                            )}
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            )}
+
+                                            <button className="word-toggle-btn" onClick={() => toggleCard(entry.id)}>
+                                                {isExpanded ? t('admin.dictionary.seeLess') : t('admin.dictionary.seeMore')}
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ transform: isExpanded ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }}>
+                                                    <polyline points="6 9 12 15 18 9" />
+                                                </svg>
+                                            </button>
+                                        </article>
+                                    )
+                                })}
                             </div>
                         </>
                     ) : searchTerm || selectedLetter ? (
