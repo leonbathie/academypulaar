@@ -199,8 +199,13 @@ jobs:
               if [ -f "$CERT_FILE" ]; then
                 echo "Existing certificate found, continuing deploy."
               else
-                echo "::error::No certificate available at all. Deploy cannot continue."
-                exit 1
+                echo "::warning::No cert available. Creating self-signed fallback (OK behind Cloudflare)."
+                sudo mkdir -p /etc/letsencrypt/live/goomufulo.com
+                sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+                  -keyout /etc/letsencrypt/live/goomufulo.com/privkey.pem \
+                  -out /etc/letsencrypt/live/goomufulo.com/fullchain.pem \
+                  -subj "/C=FR/ST=IDF/L=Paris/O=GoomuFulo/CN=goomufulo.com"
+                echo "Self-signed cert created. Certbot will replace it on next deploy."
               fi
             }
           fi
