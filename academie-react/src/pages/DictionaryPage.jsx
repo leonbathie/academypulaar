@@ -366,14 +366,14 @@ function DictionaryPage() {
                                                     )}
                                                     {entry.translation_ff && (
                                                         <div className="word-trans-row">
-                                                            <span className="word-trans-flag word-trans-flag--ff">FF</span>
+                                                            <span className="word-trans-flag word-trans-flag--ff">{lang === 'ff' ? 'Anndinoore' : 'FF'}</span>
                                                             <span className="word-trans-text">{entry.translation_ff}</span>
                                                         </div>
                                                     )}
                                                     {entry.example && (
                                                         <div className="word-example-block">
                                                             <p className="word-example">
-                                                                <span className="example-label">Ex :</span> {entry.example}
+                                                                <span className="example-label">{lang === 'ff' ? 'Yeru :' : 'Ex :'}</span> {entry.example}
                                                             </p>
                                                             {entry.audio_example && (
                                                                 <button

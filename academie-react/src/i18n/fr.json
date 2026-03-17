@@ -293,7 +293,7 @@
             "library": "Bibliothèque",
             "questions": "Questions Fréquentes",
             "viewSite": "Voir le site",
-            "users": "Utilisateurs",
+            "users": "Administration",
             "logout": "Déconnexion"
         },
         "header": {
@@ -511,7 +511,7 @@
             "websiteLabel": "Site web"
         },
         "users": {
-            "title": "Gestion des utilisateurs",
+            "title": "Administration",
             "invite": "Inviter un utilisateur",
             "pendingInvitations": "Invitations en cours",
             "list": "Utilisateurs",
@@ -521,7 +521,6 @@
             "inviteBtn": "Inviter",
             "roleAdmin": "Admin",
             "roleModerator": "Modérateur",
-            "roleSupervisor": "Superviseur",
             "email": "Email",
             "role": "Rôle",
             "invitedBy": "Invité par",
