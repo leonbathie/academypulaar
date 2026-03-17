@@ -335,7 +335,16 @@
 }
 
 [data-theme="dark"] .word-trans-text {
-    color: var(--light-gray);
+    color: #f0e6d3;
+}
+
+[data-theme="dark"] .word-preview {
+    color: #f0e6d3;
+}
+
+[data-theme="dark"] .word-example {
+    color: #d4c4a8;
+    border-left-color: rgba(201, 162, 39, 0.5);
 }
 
 /* Exemple */
