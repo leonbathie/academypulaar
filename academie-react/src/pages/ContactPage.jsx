@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { API_URL } from '../config'
 import './ContactPage.css'
 
 function ContactPage() {
@@ -24,7 +25,6 @@ function ContactPage() {
         setStatus('sending')
 
         try {
-            const API_URL = import.meta.env.VITE_API_URL || ''
             const response = await fetch(`${API_URL}/api/contact`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
