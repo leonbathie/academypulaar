@@ -246,6 +246,19 @@
     margin-right: 6px;
     vertical-align: middle;
     letter-spacing: 0.04em;
+    transition: background 0.3s ease;
+}
+
+.word-lang-hint--fr { background: #3b82f6; }
+.word-lang-hint--en { background: #10b981; }
+
+.word-preview--animate {
+    animation: fadeSwitch 1s ease;
+}
+
+@keyframes fadeSwitch {
+    0% { opacity: 0.4; }
+    100% { opacity: 1; }
 }
 
 [data-theme="dark"] .word-preview {

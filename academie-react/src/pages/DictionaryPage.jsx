@@ -19,7 +19,17 @@ function DictionaryPage() {
     const [selectedDomain, setSelectedDomain] = useState('')
     const [playingAudio, setPlayingAudio] = useState(null)
     const [expandedCards, setExpandedCards] = useState(new Set())
+    const [previewLang, setPreviewLang] = useState('fr')
     const audioRef = useRef(null)
+
+    // Alterner FR/EN chaque seconde en mode Pulaar
+    useEffect(() => {
+        if (lang !== 'ff') return
+        const interval = setInterval(() => {
+            setPreviewLang(prev => prev === 'fr' ? 'en' : 'fr')
+        }, 1000)
+        return () => clearInterval(interval)
+    }, [lang])
 
     const toggleCard = useCallback((id) => {
         setExpandedCards(prev => {
@@ -278,10 +288,22 @@ function DictionaryPage() {
                             <div className="results-grid">
                                 {results.map((entry) => {
                                     const isExpanded = expandedCards.has(entry.id)
-                                    // En Pulaar : montrer FR comme aperçu (le mot est déjà en Fulfulde)
-                                    const previewTranslation = lang === 'ff'
-                                        ? (entry.translation_fr || entry.translation_en)
-                                        : getTranslation(entry)
+                                    // En Pulaar : alterner FR/EN en aperçu
+                                    let previewTranslation, previewHint
+                                    if (lang === 'ff') {
+                                        const frText = entry.translation_fr
+                                        const enText = entry.translation_en
+                                        if (previewLang === 'en' && enText) {
+                                            previewTranslation = enText
+                                            previewHint = 'EN'
+                                        } else {
+                                            previewTranslation = frText || enText
+                                            previewHint = frText ? 'FR' : 'EN'
+                                        }
+                                    } else {
+                                        previewTranslation = getTranslation(entry)
+                                        previewHint = null
+                                    }
                                     return (
                                         <article key={entry.id} className={`word-card ${isExpanded ? 'word-card--expanded' : ''}`}>
                                             {/* En-tête : mot + audio */}
@@ -309,8 +331,8 @@ function DictionaryPage() {
 
                                             {/* Traduction aperçu */}
                                             {previewTranslation && !isExpanded && (
-                                                <p className="word-preview">
-                                                    {lang === 'ff' && <span className="word-lang-hint">FR</span>}
+                                                <p className={`word-preview ${lang === 'ff' ? 'word-preview--animate' : ''}`}>
+                                                    {previewHint && <span className={`word-lang-hint word-lang-hint--${previewHint.toLowerCase()}`}>{previewHint}</span>}
                                                     {previewTranslation}
                                                 </p>
                                             )}
