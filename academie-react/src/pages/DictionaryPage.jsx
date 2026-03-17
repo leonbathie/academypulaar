@@ -284,71 +284,74 @@ function DictionaryPage() {
                                         : getTranslation(entry)
                                     return (
                                         <article key={entry.id} className={`word-card ${isExpanded ? 'word-card--expanded' : ''}`}>
-                                            <div className="word-header">
-                                                <div className="word-title-group">
-                                                    <h3 className="word-term">{entry.word}</h3>
-                                                    {entry.audio_word && (
-                                                        <button
-                                                            className={`audio-play-btn ${playingAudio === `${entry.id}-word` ? 'playing' : ''}`}
-                                                            onClick={() => playAudio(entry.audio_word, entry.id, 'word')}
-                                                            title={t('dictionary.listenPronunciation')}
-                                                        >
-                                                            {playingAudio === `${entry.id}-word` ? (
-                                                                <svg viewBox="0 0 24 24" fill="currentColor">
-                                                                    <rect x="6" y="4" width="4" height="16" />
-                                                                    <rect x="14" y="4" width="4" height="16" />
-                                                                </svg>
-                                                            ) : (
-                                                                <svg viewBox="0 0 24 24" fill="currentColor">
-                                                                    <polygon points="5 3 19 12 5 21 5 3" />
-                                                                </svg>
-                                                            )}
-                                                        </button>
-                                                    )}
-                                                </div>
-                                                <div className="word-badges">
-                                                    {entry.category && (
-                                                        <span className="word-category">{t(`dictionary.categories.${entry.category}`, entry.category)}</span>
-                                                    )}
-                                                    {entry.domain && (
-                                                        <span className="word-domain">{t(`dictionary.domains.${entry.domain}`)}</span>
-                                                    )}
-                                                </div>
+                                            {/* En-tête : mot + audio */}
+                                            <div className="word-card-top">
+                                                <h3 className="word-term">{entry.word}</h3>
+                                                {entry.audio_word && (
+                                                    <button
+                                                        className={`audio-play-btn ${playingAudio === `${entry.id}-word` ? 'playing' : ''}`}
+                                                        onClick={() => playAudio(entry.audio_word, entry.id, 'word')}
+                                                        title={t('dictionary.listenPronunciation')}
+                                                    >
+                                                        {playingAudio === `${entry.id}-word` ? (
+                                                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                                                <rect x="6" y="4" width="4" height="16" />
+                                                                <rect x="14" y="4" width="4" height="16" />
+                                                            </svg>
+                                                        ) : (
+                                                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                                                <polygon points="5 3 19 12 5 21 5 3" />
+                                                            </svg>
+                                                        )}
+                                                    </button>
+                                                )}
                                             </div>
 
-                                            {previewTranslation && (
-                                                <p className="word-translation">
-                                                    {lang === 'ff' && <span className="word-lang-hint">FR </span>}
+                                            {/* Traduction aperçu */}
+                                            {previewTranslation && !isExpanded && (
+                                                <p className="word-preview">
+                                                    {lang === 'ff' && <span className="word-lang-hint">FR</span>}
                                                     {previewTranslation}
                                                 </p>
                                             )}
 
+                                            {/* Badges */}
+                                            {(entry.category || entry.domain) && (
+                                                <div className="word-badges">
+                                                    {entry.category && (
+                                                        <span className="word-badge word-badge--cat">{t(`dictionary.categories.${entry.category}`, entry.category)}</span>
+                                                    )}
+                                                    {entry.domain && (
+                                                        <span className="word-badge word-badge--domain">{t(`dictionary.domains.${entry.domain}`)}</span>
+                                                    )}
+                                                </div>
+                                            )}
+
+                                            {/* Détails dépliés */}
                                             {isExpanded && (
                                                 <div className="word-details">
-                                                    <div className="word-translations-list">
-                                                        {entry.translation_fr && (lang === 'fr' || lang === 'ff' ? false : true) && (
-                                                            <div className="word-trans-row">
-                                                                <span className="word-trans-flag">FR</span>
-                                                                <span className="word-trans-text">{entry.translation_fr}</span>
-                                                            </div>
-                                                        )}
-                                                        {entry.translation_en && (
-                                                            <div className="word-trans-row">
-                                                                <span className="word-trans-flag">EN</span>
-                                                                <span className="word-trans-text">{entry.translation_en}</span>
-                                                            </div>
-                                                        )}
-                                                        {entry.translation_ff && (
-                                                            <div className="word-trans-row">
-                                                                <span className="word-trans-flag">FF</span>
-                                                                <span className="word-trans-text">{entry.translation_ff}</span>
-                                                            </div>
-                                                        )}
-                                                    </div>
+                                                    {entry.translation_fr && (
+                                                        <div className="word-trans-row">
+                                                            <span className="word-trans-flag word-trans-flag--fr">FR</span>
+                                                            <span className="word-trans-text">{entry.translation_fr}</span>
+                                                        </div>
+                                                    )}
+                                                    {entry.translation_en && (
+                                                        <div className="word-trans-row">
+                                                            <span className="word-trans-flag word-trans-flag--en">EN</span>
+                                                            <span className="word-trans-text">{entry.translation_en}</span>
+                                                        </div>
+                                                    )}
+                                                    {entry.translation_ff && (
+                                                        <div className="word-trans-row">
+                                                            <span className="word-trans-flag word-trans-flag--ff">FF</span>
+                                                            <span className="word-trans-text">{entry.translation_ff}</span>
+                                                        </div>
+                                                    )}
                                                     {entry.example && (
-                                                        <div className="word-example-group">
+                                                        <div className="word-example-block">
                                                             <p className="word-example">
-                                                                <span className="example-label">Ex:</span> {entry.example}
+                                                                <span className="example-label">Ex :</span> {entry.example}
                                                             </p>
                                                             {entry.audio_example && (
                                                                 <button
@@ -373,6 +376,7 @@ function DictionaryPage() {
                                                 </div>
                                             )}
 
+                                            {/* Bouton voir plus/moins */}
                                             <button className="word-toggle-btn" onClick={() => toggleCard(entry.id)}>
                                                 <span>{isExpanded ? t('admin.dictionary.seeLess') : t('admin.dictionary.seeMore')}</span>
                                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={isExpanded ? 'chevron-up' : ''}>
