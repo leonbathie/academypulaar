@@ -108,8 +108,7 @@ function UsersAdmin() {
 
     const roleLabels = {
         admin: t('admin.users.roleAdmin'),
-        moderateur: t('admin.users.roleModerator'),
-        superviseur: t('admin.users.roleSupervisor')
+        moderateur: t('admin.users.roleModerator')
     }
 
     return (
@@ -132,7 +131,6 @@ function UsersAdmin() {
                     />
                     <select value={inviteRole} onChange={(e) => setInviteRole(e.target.value)}>
                         <option value="moderateur">{t('admin.users.roleModerator')}</option>
-                        <option value="superviseur">{t('admin.users.roleSupervisor')}</option>
                         <option value="admin">{t('admin.users.roleAdmin')}</option>
                     </select>
                     <button type="submit" disabled={inviting} className="btn-invite">
@@ -223,7 +221,6 @@ function UsersAdmin() {
                                         >
                                             <option value="admin">{t('admin.users.roleAdmin')}</option>
                                             <option value="moderateur">{t('admin.users.roleModerator')}</option>
-                                            <option value="superviseur">{t('admin.users.roleSupervisor')}</option>
                                         </select>
                                     </td>
                                     <td>{u.has_google ? '✓' : '—'}</td>

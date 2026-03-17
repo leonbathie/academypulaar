@@ -42,7 +42,7 @@ const adminOnly = requireRole('admin')
 const canWrite = requireRole('admin', 'moderateur')
 
 // Lecture : tous les rôles authentifiés
-const canRead = requireRole('admin', 'moderateur', 'superviseur')
+const canRead = requireRole('admin', 'moderateur')
 
 // Middleware : valider que :id est un entier positif
 const validateId = (req, res, next) => {

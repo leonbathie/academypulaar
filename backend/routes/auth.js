@@ -234,7 +234,7 @@ router.post('/invitations', authMiddleware, requireRole('admin'), async (req, re
             return res.status(400).json({ error: 'Email requis' })
         }
 
-        const allowedRoles = ['admin', 'moderateur', 'superviseur']
+        const allowedRoles = ['admin', 'moderateur']
         const inviteRole = allowedRoles.includes(role) ? role : 'moderateur'
 
         // Vérifier si l'utilisateur existe déjà
@@ -333,7 +333,7 @@ router.put('/users/:id/role', authMiddleware, requireRole('admin'), async (req, 
 
         if (isNaN(userId)) return res.status(400).json({ error: 'ID invalide' })
 
-        const allowedRoles = ['admin', 'moderateur', 'superviseur']
+        const allowedRoles = ['admin', 'moderateur']
         if (!allowedRoles.includes(role)) {
             return res.status(400).json({ error: 'Rôle invalide' })
         }
