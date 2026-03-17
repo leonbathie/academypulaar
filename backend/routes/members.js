@@ -3,7 +3,7 @@ const router = express.Router()
 const multer = require('multer')
 const path = require('path')
 const { query } = require('../database')
-const { authMiddleware, canWrite, validateId } = require('../middleware/auth')
+const { authMiddleware, canWrite, requireRole, validateId } = require('../middleware/auth')
 
 // Configuration de l'upload d'images
 const storage = multer.diskStorage({
@@ -115,7 +115,7 @@ router.put('/:id', authMiddleware, canWrite, validateId, upload.single('image'),
 })
 
 // DELETE /api/members/:id - Supprimer un membre (Admin only)
-router.delete('/:id', authMiddleware, canWrite, validateId, async (req, res) => {
+router.delete('/:id', authMiddleware, requireRole('admin'), validateId, async (req, res) => {
     try {
         const result = await query('DELETE FROM members WHERE id = $1 RETURNING id', [req.params.id])
 

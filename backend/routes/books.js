@@ -4,7 +4,7 @@ const multer = require('multer')
 const path = require('path')
 const fs = require('fs')
 const { query } = require('../database')
-const { authMiddleware, canWrite, validateId } = require('../middleware/auth')
+const { authMiddleware, canWrite, requireRole, validateId } = require('../middleware/auth')
 
 // Configuration Multer pour l'upload de livres et images
 const storage = multer.diskStorage({
@@ -249,7 +249,7 @@ router.put('/:id', authMiddleware, canWrite, validateId, handleUpload, async (re
 })
 
 // DELETE /api/books/:id - Supprimer un livre (Admin only)
-router.delete('/:id', authMiddleware, canWrite, validateId, async (req, res) => {
+router.delete('/:id', authMiddleware, requireRole('admin'), validateId, async (req, res) => {
     try {
         const result = await query('DELETE FROM books WHERE id = $1 RETURNING *', [req.params.id])
 

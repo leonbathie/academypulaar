@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const { query } = require('../database')
-const { authMiddleware, canWrite, validateId } = require('../middleware/auth')
+const { authMiddleware, canWrite, requireRole, validateId } = require('../middleware/auth')
 
 // GET /api/questions - Récupérer toutes les questions
 router.get('/', async (req, res) => {
@@ -75,7 +75,7 @@ router.put('/:id', authMiddleware, canWrite, validateId, async (req, res) => {
 })
 
 // DELETE /api/questions/:id - Supprimer une question
-router.delete('/:id', authMiddleware, canWrite, validateId, async (req, res) => {
+router.delete('/:id', authMiddleware, requireRole('admin'), validateId, async (req, res) => {
     try {
         const result = await query('DELETE FROM language_questions WHERE id = $1 RETURNING id', [req.params.id])
 

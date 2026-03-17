@@ -5,7 +5,7 @@ const path = require('path')
 const fs = require('fs')
 const pdfjsLib = require('pdfjs-dist/legacy/build/pdf.mjs')
 const { query } = require('../database')
-const { authMiddleware, canWrite, validateId } = require('../middleware/auth')
+const { authMiddleware, canWrite, requireRole, validateId } = require('../middleware/auth')
 
 // Configuration multer pour les fichiers audio
 const storage = multer.diskStorage({
@@ -187,7 +187,7 @@ router.put('/:id', authMiddleware, canWrite, validateId, upload.fields([
 })
 
 // DELETE /api/dictionary/:id - Supprimer un mot (Admin only)
-router.delete('/:id', authMiddleware, canWrite, validateId, async (req, res) => {
+router.delete('/:id', authMiddleware, requireRole('admin'), validateId, async (req, res) => {
     try {
         const result = await query('DELETE FROM dictionary WHERE id = $1 RETURNING id', [req.params.id])
 
@@ -204,7 +204,7 @@ router.delete('/:id', authMiddleware, canWrite, validateId, async (req, res) => 
 })
 
 // POST /api/dictionary/bulk-delete - Supprimer plusieurs mots (Admin only)
-router.post('/bulk-delete', authMiddleware, canWrite, async (req, res) => {
+router.post('/bulk-delete', authMiddleware, requireRole('admin'), async (req, res) => {
     try {
         const { ids } = req.body
         if (!ids || !Array.isArray(ids) || ids.length === 0) {
