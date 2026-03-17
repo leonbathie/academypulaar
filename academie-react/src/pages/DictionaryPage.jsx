@@ -27,7 +27,7 @@ function DictionaryPage() {
         if (lang !== 'ff') return
         const interval = setInterval(() => {
             setPreviewLang(prev => prev === 'fr' ? 'en' : 'fr')
-        }, 1000)
+        }, 3000)
         return () => clearInterval(interval)
     }, [lang])
 
