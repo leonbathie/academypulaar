@@ -23,15 +23,27 @@ function ContactPage() {
         e.preventDefault()
         setStatus('sending')
 
-        // Simulate sending (in production, use EmailJS or backend)
-        setTimeout(() => {
-            console.log('Form submitted:', formData)
+        try {
+            const API_URL = import.meta.env.VITE_API_URL || ''
+            const response = await fetch(`${API_URL}/api/contact`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData)
+            })
+
+            if (!response.ok) {
+                const data = await response.json()
+                throw new Error(data.error || 'Erreur')
+            }
+
             setStatus('success')
             setFormData({ name: '', email: '', subject: '', message: '' })
-
-            // Reset status after 5 seconds
             setTimeout(() => setStatus(null), 5000)
-        }, 1500)
+        } catch (error) {
+            console.error('Contact form error:', error)
+            setStatus('error')
+            setTimeout(() => setStatus(null), 5000)
+        }
     }
 
     return (

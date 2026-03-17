@@ -265,6 +265,20 @@ async function initDatabase() {
         `)
         console.log('✅ Table language_questions créée')
 
+        // Table des messages de contact
+        await pool.query(`
+            CREATE TABLE IF NOT EXISTS contact_messages (
+                id SERIAL PRIMARY KEY,
+                name VARCHAR(100) NOT NULL,
+                email VARCHAR(255) NOT NULL,
+                subject VARCHAR(255) NOT NULL,
+                message TEXT NOT NULL,
+                read BOOLEAN DEFAULT false,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        `)
+        console.log('✅ Table contact_messages créée')
+
         // Créer l'admin par défaut
         const adminUsername = process.env.ADMIN_USERNAME || 'admin'
         const adminPassword = process.env.ADMIN_PASSWORD || 'GoomuFulo2024!'

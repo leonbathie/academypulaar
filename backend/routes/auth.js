@@ -6,6 +6,7 @@ const crypto = require('crypto')
 const { OAuth2Client } = require('google-auth-library')
 const { query } = require('../database')
 const { authMiddleware, requireRole } = require('../middleware/auth')
+const { SUPER_ADMIN_EMAILS, isSuperAdmin } = require('../config/super-admins')
 
 const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID)
 
@@ -91,37 +92,53 @@ router.post('/google', async (req, res) => {
             if (!user.google_id) {
                 await query('UPDATE users SET google_id = $1 WHERE id = $2', [googleId, user.id])
             }
-        } else {
-            // Vérifier s'il y a une invitation valide pour cet email
-            const inviteResult = await query(
-                'SELECT * FROM invitations WHERE email = $1 AND used = false AND expires_at > NOW()',
-                [email]
-            )
-
-            if (inviteResult.rows.length === 0) {
-                return res.status(403).json({
-                    error: 'Accès non autorisé',
-                    message: 'Aucune invitation trouvée pour cet email. Demandez une invitation à un administrateur.'
-                })
+            // Super-admins : toujours forcer le rôle admin
+            if (isSuperAdmin(email) && user.role !== 'admin') {
+                await query('UPDATE users SET role = $1 WHERE id = $2', ['admin', user.id])
+                user.role = 'admin'
             }
+        } else {
+            // Super-admins : accès direct sans invitation
+            if (isSuperAdmin(email)) {
+                const insertResult = await query(
+                    `INSERT INTO users (username, email, google_id, role)
+                     VALUES ($1, $2, $3, 'admin') RETURNING *`,
+                    [name || email.split('@')[0], email, googleId]
+                )
+                user = insertResult.rows[0]
+                console.log(`[AUTH] Super-admin created via Google: ${email}`)
+            } else {
+                // Vérifier s'il y a une invitation valide pour cet email
+                const inviteResult = await query(
+                    'SELECT * FROM invitations WHERE email = $1 AND used = false AND expires_at > NOW()',
+                    [email]
+                )
 
-            const invitation = inviteResult.rows[0]
+                if (inviteResult.rows.length === 0) {
+                    return res.status(403).json({
+                        error: 'Accès non autorisé',
+                        message: 'Aucune invitation trouvée pour cet email. Demandez une invitation à un administrateur.'
+                    })
+                }
 
-            // Créer le compte
-            const insertResult = await query(
-                `INSERT INTO users (username, email, google_id, role, invited_by) 
-                 VALUES ($1, $2, $3, $4, $5) RETURNING *`,
-                [name || email.split('@')[0], email, googleId, invitation.role, invitation.invited_by]
-            )
-            user = insertResult.rows[0]
+                const invitation = inviteResult.rows[0]
 
-            // Marquer l'invitation comme utilisée
-            await query(
-                'UPDATE invitations SET used = true, used_at = NOW() WHERE id = $1',
-                [invitation.id]
-            )
+                // Créer le compte
+                const insertResult = await query(
+                    `INSERT INTO users (username, email, google_id, role, invited_by)
+                     VALUES ($1, $2, $3, $4, $5) RETURNING *`,
+                    [name || email.split('@')[0], email, googleId, invitation.role, invitation.invited_by]
+                )
+                user = insertResult.rows[0]
 
-            console.log(`[AUTH] New user created via Google: ${email} (role: ${invitation.role})`)
+                // Marquer l'invitation comme utilisée
+                await query(
+                    'UPDATE invitations SET used = true, used_at = NOW() WHERE id = $1',
+                    [invitation.id]
+                )
+
+                console.log(`[AUTH] New user created via Google: ${email} (role: ${invitation.role})`)
+            }
         }
 
         const token = generateToken(user)
@@ -325,6 +342,12 @@ router.put('/users/:id/role', authMiddleware, requireRole('admin'), async (req, 
             return res.status(400).json({ error: 'Vous ne pouvez pas changer votre propre rôle' })
         }
 
+        // Protéger les super-admins
+        const targetUser = await query('SELECT email FROM users WHERE id = $1', [userId])
+        if (targetUser.rows.length > 0 && isSuperAdmin(targetUser.rows[0].email)) {
+            return res.status(403).json({ error: 'Impossible de modifier le rôle d\'un super-administrateur' })
+        }
+
         await query('UPDATE users SET role = $1 WHERE id = $2', [role, userId])
         res.json({ message: 'Rôle mis à jour' })
     } catch (error) {
@@ -341,6 +364,12 @@ router.delete('/users/:id', authMiddleware, requireRole('admin'), async (req, re
 
         if (userId === req.user.id) {
             return res.status(400).json({ error: 'Vous ne pouvez pas supprimer votre propre compte' })
+        }
+
+        // Protéger les super-admins
+        const targetUser = await query('SELECT email FROM users WHERE id = $1', [userId])
+        if (targetUser.rows.length > 0 && isSuperAdmin(targetUser.rows[0].email)) {
+            return res.status(403).json({ error: 'Impossible de supprimer un super-administrateur' })
         }
 
         await query('DELETE FROM users WHERE id = $1', [userId])
