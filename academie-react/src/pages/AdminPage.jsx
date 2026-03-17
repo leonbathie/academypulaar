@@ -199,7 +199,7 @@ function AdminPage() {
                         </div>
                         <div className="header-user">
                             <span>{t('admin.header.welcome')}, <strong>{i18n.language?.startsWith('ff') ? 'Ɗowoowo' : user?.username}</strong></span>
-                            <span className={`user-role-badge role-${user?.role}`}>{user?.role}</span>
+                            <span className={`user-role-badge role-${user?.role}`}>{user?.role === 'admin' ? t('admin.users.roleAdmin') : t('admin.users.roleModerator')}</span>
                         </div>
                     </div>
                 </header>
