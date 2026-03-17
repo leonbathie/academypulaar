@@ -81,11 +81,15 @@ jobs:
             echo "PORT=5000" >> $ENV_FILE
             echo "NODE_ENV=production" >> $ENV_FILE
             echo "GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}" >> $ENV_FILE
+            echo "SMTP_USER=${{ secrets.SMTP_USER }}" >> $ENV_FILE
+            echo "SMTP_PASSWORD=${{ secrets.SMTP_PASSWORD }}" >> $ENV_FILE
             echo ".env created"
           else
             echo ".env already exists"
             # Ensure GOOGLE_CLIENT_ID is present
             grep -q GOOGLE_CLIENT_ID $ENV_FILE || echo "GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}" >> $ENV_FILE
+            grep -q SMTP_USER $ENV_FILE || echo "SMTP_USER=${{ secrets.SMTP_USER }}" >> $ENV_FILE
+            grep -q SMTP_PASSWORD $ENV_FILE || echo "SMTP_PASSWORD=${{ secrets.SMTP_PASSWORD }}" >> $ENV_FILE
           fi
 
       - name: Install backend dependencies
@@ -124,6 +128,8 @@ jobs:
             'Environment=DATABASE_SSL=false' \
             'Environment=JWT_SECRET=${{ secrets.JWT_SECRET }}' \
             'Environment=GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}' \
+            'Environment=SMTP_USER=${{ secrets.SMTP_USER }}' \
+            'Environment=SMTP_PASSWORD=${{ secrets.SMTP_PASSWORD }}' \
             '' \
             '[Install]' \
             'WantedBy=multi-user.target' \
