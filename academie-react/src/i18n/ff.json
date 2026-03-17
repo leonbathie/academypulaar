@@ -277,7 +277,7 @@
         "accessibility": "Heɓtineede"
     },
     "admin": {
-        "loginTitle": "Ɗowoowo",
+        "loginTitle": "Jiiloowo",
         "login": {
             "username": "Innde kuutoro",
             "password": "Finnde",
@@ -293,7 +293,7 @@
             "library": "Defterdu",
             "questions": "Laaɓnde / ƴame lolluɗe",
             "viewSite": "Yiy lowre nde",
-            "users": "Huutorɓe",
+            "users": "Jiiloowo",
             "logout": "Seŋto"
         },
         "header": {
@@ -312,7 +312,7 @@
                 "questions": "Laaɓnde / ƴame lolluɗe"
             },
             "welcomeCard": {
-                "title": "A jaɓɓaama e Ɗowoowo",
+                "title": "A jaɓɓaama e Jiiloowo",
                 "text": "Huutoro doggol nanol ngol ngam leemde lowre Goomu Fulo Wiɗto :",
                 "dict": "Ɓeydude, waylude walla momtude kelme",
                 "news": "Ɓaŋŋinde kabaruuji e binndanɗe",
