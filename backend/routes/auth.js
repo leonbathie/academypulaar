@@ -108,9 +108,9 @@ router.post('/google', async (req, res) => {
                 user = insertResult.rows[0]
                 console.log(`[AUTH] Super-admin created via Google: ${email}`)
             } else {
-                // Vérifier s'il y a une invitation valide pour cet email
+                // Vérifier s'il y a une invitation valide pour cet email (pas d'expiration)
                 const inviteResult = await query(
-                    'SELECT * FROM invitations WHERE email = $1 AND used = false AND expires_at > NOW()',
+                    'SELECT * FROM invitations WHERE email = $1 AND used = false',
                     [email]
                 )
 
@@ -245,7 +245,7 @@ router.post('/invitations', authMiddleware, requireRole('admin'), async (req, re
 
         // Vérifier si une invitation active existe déjà
         const existingInvite = await query(
-            'SELECT id FROM invitations WHERE email = $1 AND used = false AND expires_at > NOW()',
+            'SELECT id FROM invitations WHERE email = $1 AND used = false',
             [email]
         )
         if (existingInvite.rows.length > 0) {
