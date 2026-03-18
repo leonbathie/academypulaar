@@ -90,6 +90,7 @@ export function AuthProvider({ children }) {
 
     const isAuthenticated = !!user
     const isAdmin = user?.role === 'admin'
+    const isSuperAdmin = !!user?.isSuperAdmin
     const canWrite = user?.role === 'admin' || user?.role === 'moderateur'
     const canRead = !!user
 
@@ -103,6 +104,7 @@ export function AuthProvider({ children }) {
             logout,
             isAuthenticated,
             isAdmin,
+            isSuperAdmin,
             canWrite,
             canRead,
             GOOGLE_CLIENT_ID

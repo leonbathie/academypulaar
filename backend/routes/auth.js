@@ -173,7 +173,8 @@ router.get('/me', authMiddleware, async (req, res) => {
         const user = result.rows[0]
         res.json({
             ...user,
-            hasGoogle: !!user.google_id
+            hasGoogle: !!user.google_id,
+            isSuperAdmin: isSuperAdmin(user.email)
         })
     } catch (error) {
         console.error('Get user error:', error)
@@ -243,29 +244,22 @@ router.post('/invitations', authMiddleware, requireRole('admin'), async (req, re
             return res.status(400).json({ error: 'Un utilisateur avec cet email existe déjà' })
         }
 
-        // Vérifier si une invitation active existe déjà
-        const existingInvite = await query(
-            'SELECT id FROM invitations WHERE email = $1 AND used = false',
-            [email]
-        )
-        if (existingInvite.rows.length > 0) {
-            return res.status(400).json({ error: 'Une invitation active existe déjà pour cet email' })
-        }
+        // Supprimer toute ancienne invitation pour cet email (éviter les doublons)
+        await query('DELETE FROM invitations WHERE email = $1', [email])
 
         const token = crypto.randomBytes(32).toString('hex')
-        const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) // 7 jours
 
         await query(
-            `INSERT INTO invitations (email, role, token, invited_by, expires_at)
-             VALUES ($1, $2, $3, $4, $5)`,
-            [email, inviteRole, token, req.user.id, expiresAt]
+            `INSERT INTO invitations (email, role, token, invited_by)
+             VALUES ($1, $2, $3, $4)`,
+            [email, inviteRole, token, req.user.id]
         )
 
         console.log(`[AUTH] Invitation created by ${req.user.username}: ${email} (role: ${inviteRole})`)
 
         res.json({
             message: 'Invitation créée avec succès',
-            invitation: { email, role: inviteRole, expiresAt: expiresAt.toISOString() }
+            invitation: { email, role: inviteRole }
         })
 
     } catch (error) {
@@ -356,9 +350,14 @@ router.put('/users/:id/role', authMiddleware, requireRole('admin'), async (req, 
     }
 })
 
-// DELETE /api/auth/users/:id
+// DELETE /api/auth/users/:id (super-admin uniquement)
 router.delete('/users/:id', authMiddleware, requireRole('admin'), async (req, res) => {
     try {
+        // Seuls les super-admins peuvent supprimer des utilisateurs
+        if (!isSuperAdmin(req.user.email)) {
+            return res.status(403).json({ error: 'Seuls les super-administrateurs peuvent supprimer des utilisateurs' })
+        }
+
         const userId = parseInt(req.params.id)
         if (isNaN(userId)) return res.status(400).json({ error: 'ID invalide' })
 
@@ -370,6 +369,11 @@ router.delete('/users/:id', authMiddleware, requireRole('admin'), async (req, re
         const targetUser = await query('SELECT email FROM users WHERE id = $1', [userId])
         if (targetUser.rows.length > 0 && isSuperAdmin(targetUser.rows[0].email)) {
             return res.status(403).json({ error: 'Impossible de supprimer un super-administrateur' })
+        }
+
+        // Supprimer aussi l'invitation associée
+        if (targetUser.rows.length > 0) {
+            await query('DELETE FROM invitations WHERE email = $1', [targetUser.rows[0].email])
         }
 
         await query('DELETE FROM users WHERE id = $1', [userId])

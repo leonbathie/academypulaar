@@ -5,7 +5,7 @@ import './UsersAdmin.css'
 
 function UsersAdmin() {
     const { t, i18n } = useTranslation()
-    const { isAdmin } = useAuth()
+    const { isAdmin, isSuperAdmin } = useAuth()
     const { apiRequest } = useApi()
 
     const [users, setUsers] = useState([])
@@ -205,7 +205,7 @@ function UsersAdmin() {
                                 <th>{t('admin.users.google')}</th>
                                 <th>{t('admin.users.invitedBy')}</th>
                                 <th>{t('admin.users.createdAt')}</th>
-                                <th>{t('admin.users.actions')}</th>
+                                {isSuperAdmin && <th>{t('admin.users.actions')}</th>}
                             </tr>
                         </thead>
                         <tbody>
@@ -226,14 +226,16 @@ function UsersAdmin() {
                                     <td>{u.has_google ? '✓' : '—'}</td>
                                     <td>{u.invited_by_name || '—'}</td>
                                     <td>{new Date(u.created_at).toLocaleDateString(i18n.language)}</td>
-                                    <td>
-                                        <button
-                                            className="btn-delete-sm"
-                                            onClick={() => handleDeleteUser(u.id, u.username)}
-                                        >
-                                            {t('admin.users.deleteBtn')}
-                                        </button>
-                                    </td>
+                                    {isSuperAdmin && (
+                                        <td>
+                                            <button
+                                                className="btn-delete-sm"
+                                                onClick={() => handleDeleteUser(u.id, u.username)}
+                                            >
+                                                {t('admin.users.deleteBtn')}
+                                            </button>
+                                        </td>
+                                    )}
                                 </tr>
                             ))}
                         </tbody>
