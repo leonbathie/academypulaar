@@ -19,7 +19,7 @@ export const membersData = [
         roleKey: "members.president",
         bio: "Linguiste spécialisé dans la grammaire du Fulfulde et auteur de nombreux ouvrages de référence.",
         bioEn: "Linguist specialized in Fulfulde grammar and author of many reference works.",
-        bioFf: "Ganndo ɗemngal keertiiɗo e nahawu Fulfulde binnduɗo defte keewɗe.",
+        bioFf: "Ganndo ɗemngal keertiiɗo e celluka Fulfulde binnduɗo defte keewɗe.",
         image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300",
         specialty: "Linguistique",
         joined: "2010"
