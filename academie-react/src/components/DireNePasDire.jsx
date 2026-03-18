@@ -68,6 +68,17 @@ function DireNePasDire() {
         return words.slice(0, 2).join(' ') + '...'
     }
 
+    const categoryMap = {
+        'Grammaire': 'sayDontSay.catGrammar',
+        'Erreurs courantes': 'sayDontSay.catCommon',
+        'Emprunts': 'sayDontSay.catBorrowings',
+        'Usage incorrect': 'sayDontSay.catIncorrect'
+    }
+
+    const translateCategory = (cat) => {
+        return categoryMap[cat] ? t(categoryMap[cat], cat) : cat
+    }
+
     const currentArticle = articles[activeIndex] || null
 
     return (
@@ -109,7 +120,7 @@ function DireNePasDire() {
                     {currentArticle && (
                         <div className="dire-card">
                             <div className="dire-card-header">
-                                <span className="dire-card-category">{currentArticle.category}</span>
+                                <span className="dire-card-category">{translateCategory(currentArticle.category)}</span>
                             </div>
                             <div className="dire-card-body">
                                 <div className="dire-item dire-item--correct">
