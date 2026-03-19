@@ -357,11 +357,6 @@ router.put('/users/:id/role', authMiddleware, requireRole('admin'), async (req, 
 // DELETE /api/auth/users/:id (super-admin uniquement)
 router.delete('/users/:id', authMiddleware, requireRole('admin'), async (req, res) => {
     try {
-        // Seuls les super-admins peuvent supprimer des utilisateurs
-        if (!isSuperAdmin(req.user.email)) {
-            return res.status(403).json({ error: 'Seuls les super-administrateurs peuvent supprimer des utilisateurs' })
-        }
-
         const userId = parseInt(req.params.id)
         if (isNaN(userId)) return res.status(400).json({ error: 'ID invalide' })
 
