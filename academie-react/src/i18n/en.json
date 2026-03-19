@@ -540,5 +540,240 @@
             "userDeleted": "User deleted",
             "invitationDeleted": "Invitation deleted"
         }
+    },
+    "legal": {
+        "title": "Legal Notice",
+        "subtitle": "Legal information about goomufulo.com and services offered by the Goomu Fulo Wiɗto Academy.",
+        "lastUpdate": "Last updated",
+        "tocTitle": "Table of contents",
+        "s1": {
+            "title": "Site Publisher",
+            "p1": "The website goomufulo.com is published by Goomu Fulo Wiɗto, a cultural and educational association dedicated to the preservation, teaching and promotion of the Fulfulde (Pulaar/Pular) language through digital tools.",
+            "name": "Name",
+            "nature": "Type",
+            "natureVal": "Non-profit cultural and educational association",
+            "purpose": "Purpose",
+            "purposeVal": "Preservation and teaching of the Fulfulde language through digital means",
+            "director": "Publication director",
+            "directorVal": "The Goomu Fulo Wiɗto leadership team",
+            "address": "Address",
+            "email": "Email",
+            "site": "Website"
+        },
+        "s2": {
+            "title": "Hosting",
+            "p1": "The website is hosted by:",
+            "provider": "Host",
+            "address": "Address",
+            "site": "Website",
+            "p2": "The host ensures the availability and technical security of the server infrastructure. The domain name goomufulo.com is managed through Cloudflare for protection and performance optimization."
+        },
+        "s3": {
+            "title": "Intellectual Property",
+            "p1": "All content on goomufulo.com — including but not limited to texts, translations, dictionary definitions, audio recordings, illustrations, logos, graphic design, software architecture and source code — is the exclusive property of Goomu Fulo Wiɗto or its contributors, and is protected by intellectual property laws.",
+            "p2": "The Fulfulde-French-English lexicographic database constituting the online dictionary represents an original work of compilation and intellectual creation protected as a work of the mind.",
+            "highlight": "Any reproduction, representation, modification, publication, or total or partial adaptation of the site's elements, regardless of the means or process used, is strictly prohibited without prior written authorization from Goomu Fulo Wiɗto.",
+            "sub1": "Permitted uses",
+            "sub1p": "The following uses are permitted without prior request:",
+            "sub1l1": "Browsing the site for personal and educational purposes",
+            "sub1l2": "Sharing links to site pages on social media",
+            "sub1l3": "Short quotations with mandatory source attribution (goomufulo.com)",
+            "sub1l4": "Use for educational purposes in school or university settings, with attribution",
+            "sub2": "Trademarks and logos",
+            "sub2p": "The name 'Goomu Fulo Wiɗto', the academy logo and all distinctive graphic elements are trademarks of the association. Their use requires express authorization."
+        },
+        "s4": {
+            "title": "Terms of Use",
+            "p1": "Access to goomufulo.com is free. Browsing the dictionary, linguistic resources, library and educational content requires no registration.",
+            "p2": "Some advanced features require creating a user account, namely:",
+            "sub1": "Features available without registration",
+            "sub1l1": "Browsing the Fulfulde-French-English dictionary",
+            "sub1l2": "Reading news and articles",
+            "sub1l3": "Accessing the resource library",
+            "sub1l4": "Browsing expressions and terminology",
+            "sub2": "Features requiring an account",
+            "sub2p": "Registration is required for:",
+            "sub2l1": "Contributing to the dictionary (adding, suggesting words)",
+            "sub2l2": "Accessing administration and moderation tools",
+            "sub2l3": "Active participation in enriching linguistic content"
+        },
+        "s5": {
+            "title": "Limitation of Liability",
+            "p1": "Goomu Fulo Wiɗto strives to provide linguistic information on the site that is as accurate as possible. However, the association cannot guarantee the accuracy, completeness or timeliness of all translations and definitions in the dictionary.",
+            "p2": "Since Fulfulde has significant dialectal variations across regions (Pulaar in Senegal, Pular in Guinea, Fulfulde in Niger/Nigeria/Cameroon), the proposed translations may not reflect the specific usage of each linguistic community.",
+            "p3": "The association shall not be held liable for any direct or indirect damage resulting from use of the site, service interruption, content errors or inability to access the site."
+        },
+        "s6": {
+            "title": "User Contributions",
+            "p1": "The site allows registered users to contribute to the enrichment of the dictionary and linguistic content. By submitting content, contributors guarantee that their contributions are original or free of rights.",
+            "p2": "Contributions are moderated by the editorial team before publication. Goomu Fulo Wiɗto reserves the right to:",
+            "l1": "Modify, correct or adapt contributions to ensure linguistic consistency",
+            "l2": "Reject contributions deemed inappropriate, incorrect or off-topic",
+            "l3": "Remove any content contrary to the values of respect and promotion of Fulani culture",
+            "l4": "Use validated contributions permanently as part of the project"
+        },
+        "s7": {
+            "title": "Hyperlinks",
+            "p1": "The site goomufulo.com may contain links to external websites. These links are provided for informational purposes and do not constitute endorsement of those sites by Goomu Fulo Wiɗto. The association has no control over third-party site content and disclaims all responsibility for their content.",
+            "p2": "Creating hyperlinks to goomufulo.com is free and requires no prior authorization, provided that framing techniques or any other integration technique infringing on the association's intellectual property rights are not used."
+        },
+        "s8": {
+            "title": "Cookies and Tracking",
+            "p1": "The site uses only strictly necessary cookies for platform operation. No advertising or marketing tracking cookies are used.",
+            "sub1": "Types of cookies used",
+            "sub1l1": "Session cookies: required for authentication and maintaining user login",
+            "sub1l2": "Preference cookies: saving the chosen display language (French, English or Fulfulde) and visual theme (light/dark)",
+            "p2": "You can configure your browser to refuse cookies, knowing that this may limit some site features. For more information, see our privacy policy."
+        },
+        "s9": {
+            "title": "Applicable Law",
+            "p1": "These legal notices are governed by Senegalese law. In case of dispute regarding use of the site, the parties agree to seek an amicable solution before any legal action.",
+            "p2": "Failing amicable resolution, the competent courts of Dakar, Senegal, shall have sole jurisdiction."
+        },
+        "s10": {
+            "title": "Contact",
+            "p1": "For any questions regarding these legal notices, you may contact us by email at contact@goomufulowidto.org or via our contact form accessible from the site."
+        },
+        "contactBox": {
+            "title": "Any questions?",
+            "text": "Feel free to contact us for any information regarding our legal notices.",
+            "form": "Contact form"
+        }
+    },
+    "privacy": {
+        "title": "Privacy Policy",
+        "subtitle": "How we protect your personal data on goomufulo.com",
+        "lastUpdate": "Last updated",
+        "tocTitle": "Table of contents",
+        "intro": "At Goomu Fulo Wiɗto, protecting your personal data is a priority. This privacy policy transparently describes what data we collect, why we use it and how we protect it. We commit to respecting your privacy and never using your information for commercial or advertising purposes.",
+        "s1": {
+            "title": "Data Controller",
+            "p1": "The data controller for personal data collected on goomufulo.com is:",
+            "name": "Organization",
+            "address": "Address",
+            "email": "Contact email",
+            "site": "Website"
+        },
+        "s2": {
+            "title": "Data Collected",
+            "p1": "We collect different categories of data depending on your use of the platform:",
+            "sub1": "Registration data",
+            "sub1p": "When creating your account, we collect:",
+            "sub1l1": "Your username (freely chosen pseudonym)",
+            "sub1l2": "Your email address (for authentication and essential communications)",
+            "sub1l3": "Your password (stored encrypted, never in plain text)",
+            "sub2": "Google login data",
+            "sub2p": "If you choose to sign in via Google OAuth, we receive:",
+            "sub2l1": "Your display name on Google",
+            "sub2l2": "Your Google email address",
+            "sub2l3": "Your Google profile picture (if available)",
+            "sub3": "Contact data",
+            "sub3p": "When using our contact form, we collect:",
+            "sub3l1": "Your name and email address",
+            "sub3l2": "Your message content",
+            "sub4": "Technical data",
+            "sub4p": "During your browsing, certain technical data is automatically collected:",
+            "sub4l1": "Language preference (French, English or Fulfulde)",
+            "sub4l2": "Visual theme preference (light or dark)",
+            "sub4l3": "Session data necessary for authentication"
+        },
+        "s3": {
+            "title": "Processing Purposes",
+            "p1": "Your data is used exclusively for the following purposes:",
+            "l1": "Managing your user account and secure authentication",
+            "l2": "Personalizing your experience (display language, visual theme)",
+            "l3": "Managing roles and permissions (administrator, moderator, member)",
+            "l4": "Processing messages sent through the contact form",
+            "l5": "Sending email invitations to join the contribution team",
+            "l6": "Continuous improvement of the platform and its linguistic content",
+            "l7": "Ensuring the security and proper technical operation of the site"
+        },
+        "s4": {
+            "title": "Legal Basis",
+            "p1": "The processing of your data is based on the following legal grounds:",
+            "l1t": "Consent",
+            "l1d": "You consent to the processing of your data when creating your account or sending a contact message.",
+            "l2t": "Contractual performance",
+            "l2d": "Processing is necessary to provide the learning service and linguistic tools you subscribed to by registering.",
+            "l3t": "Legitimate interest",
+            "l3d": "Securing the platform and improving user experience constitute a legitimate interest of Goomu Fulo Wiɗto."
+        },
+        "s5": {
+            "title": "Data Retention",
+            "p1": "Your data is retained for the following periods:",
+            "l1": "Account data: retained as long as your account is active. After account deletion, your data is erased within 30 days.",
+            "l2": "Contact messages: retained for a maximum of 12 months after processing your request.",
+            "l3": "Technical data (cookies, preferences): session duration or until you change your preferences.",
+            "p2": "Validated linguistic contributions (translations, definitions) are permanently retained in the dictionary, even after contributor account deletion, as they are an integral part of the collective linguistic heritage."
+        },
+        "s6": {
+            "title": "Data Sharing",
+            "p1": "Goomu Fulo Wiɗto never sells, rents or shares your personal data with third parties for commercial or advertising purposes.",
+            "highlight": "Your data is never sold, rented or shared for commercial purposes. Never.",
+            "p2": "Your data may only be shared in the following cases:",
+            "l1": "Technical host (Contabo): strictly within the scope of data hosting on servers",
+            "l2": "Google: only if you chose Google OAuth login, limited to authentication data",
+            "l3": "Legal obligation: if required by law (judicial requisition, regulatory obligation)"
+        },
+        "s7": {
+            "title": "Data Security",
+            "p1": "We implement robust technical and organizational measures to protect your data:",
+            "l1": "Encrypted communications via HTTPS/TLS (SSL certificate managed by Cloudflare)",
+            "l2": "Passwords hashed with bcrypt algorithm (never stored in plain text)",
+            "l3": "JWT token authentication with automatic expiration",
+            "l4": "Protection against common attacks (SQL injection, XSS, CSRF)",
+            "l5": "Data access restricted to authorized administrators only",
+            "p2": "Despite these measures, no system is infallible. In case of a data breach, we commit to notifying affected users as soon as possible."
+        },
+        "s8": {
+            "title": "Your Rights",
+            "p1": "Under applicable data protection legislation, you have the following rights:",
+            "l1t": "Right of access",
+            "l1d": "You may request to know what data we hold about you.",
+            "l2t": "Right of rectification",
+            "l2d": "You may request correction of inaccurate or incomplete data.",
+            "l3t": "Right of deletion",
+            "l3d": "You may request deletion of your personal data and account.",
+            "l4t": "Right of objection",
+            "l4d": "You may object to the processing of your data on legitimate grounds.",
+            "l5t": "Right to portability",
+            "l5d": "You may request to receive your data in a structured, commonly used format.",
+            "l6t": "Right to restriction",
+            "l6d": "You may request restriction of processing of your data in certain circumstances.",
+            "p2": "To exercise your rights, contact us at contact@goomufulowidto.org. We will respond within 30 days. You may also modify or delete your account directly from your profile settings."
+        },
+        "s9": {
+            "title": "Cookies",
+            "p1": "The site goomufulo.com exclusively uses technical cookies necessary for platform operation. We do not use any advertising, tracking or behavioral analysis cookies.",
+            "sub1": "Cookies used",
+            "sub1l1t": "Authentication cookie (JWT)",
+            "sub1l1d": "Keeps your login session active. Automatically expired for security reasons.",
+            "sub1l2t": "Preferences cookie",
+            "sub1l2d": "Saves your language choice (fr/en/ff) and theme (light/dark) to enhance your experience.",
+            "sub2": "Cookie management",
+            "sub2p": "You can configure your browser to refuse cookies. However, refusing technical cookies may prevent proper site operation (login impossible, preferences not saved)."
+        },
+        "s10": {
+            "title": "Protection of Minors",
+            "p1": "The site goomufulo.com is an educational platform with a cultural purpose, accessible to all audiences. Learning the Fulfulde language is open without age restriction.",
+            "p2": "However, creating a user account by a minor under 16 years of age requires the consent of a parent or legal guardian. If you are a parent and find that your child has registered without your consent, contact us so we can proceed with account deletion."
+        },
+        "s11": {
+            "title": "Changes to This Policy",
+            "p1": "We reserve the right to modify this privacy policy at any time. Changes will take effect upon publication on this page.",
+            "p2": "In case of substantial modifications affecting your rights or how your data is processed, we will inform you through a visible notification on the site. The last update date is indicated at the top of this page."
+        },
+        "s12": {
+            "title": "Contact Us",
+            "p1": "For any questions regarding this privacy policy or to exercise your rights, you may contact us via:",
+            "emailLabel": "Email",
+            "formLabel": "Form",
+            "formLink": "Contact page",
+            "p2": "We commit to responding to any request within a maximum of 30 business days."
+        },
+        "contactBox": {
+            "title": "Your data, your rights",
+            "text": "For any questions or requests regarding your personal data, please don't hesitate to contact us."
+        }
     }
 }

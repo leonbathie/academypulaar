@@ -544,5 +544,240 @@
             "userDeleted": "Kuutortooɗo oo momtaama",
             "invitationDeleted": "Noddaango ngoo momtaama"
         }
+    },
+    "legal": {
+        "title": "Kabaruuji Laawol",
+        "subtitle": "Kabaruuji laawol baɗɗe e lowre goomufulo.com e gollorɗe Duɗal Goomu Fulo Wiɗto.",
+        "lastUpdate": "Bayyinaango sakitiingo",
+        "tocTitle": "Doggol",
+        "s1": {
+            "title": "Baɗɗo lowre ndee",
+            "p1": "Lowre goomufulo.com ko fedde pinal e jaŋde Goomu Fulo Wiɗto waɗi nde, fedde ndee daranii ko reende, jannginde e ɓamtude ɗemngal Fulfulde (Pulaar/Pular) e nder kuutorɗe newooje.",
+            "name": "Innde",
+            "nature": "Fannu",
+            "natureVal": "Fedde pinal e jaŋde",
+            "purpose": "Faandaare",
+            "purposeVal": "Reende e jannginde ɗemngal Fulfulde e nder kuutorɗe newooje",
+            "director": "Hooreeɓe bayyinaango",
+            "directorVal": "Yiilooɓe Goomu Fulo Wiɗto",
+            "address": "Nokku",
+            "email": "Iimeel",
+            "site": "Lowre"
+        },
+        "s2": {
+            "title": "Mooftirde",
+            "p1": "Lowre ndee mooftaa ko to:",
+            "provider": "Mooftirɗo",
+            "address": "Nokku",
+            "site": "Lowre",
+            "p2": "Mooftirɗo oo tammbitii ko gollaade lowre ndee e reenude nde. Innde wonnde goomufulo.com yiilirtee ko e Cloudflare ngam reenude nde e yaawnaade nde."
+        },
+        "s3": {
+            "title": "Jeyaaɗe hakkille",
+            "p1": "Ko fof woni e lowre goomufulo.com — binndanɗe, firlanɗe, maanaaɗe saggitorde, daande moftaaɗe, nate, maantooje, mbaydi e dokkol — ko Goomu Fulo Wiɗto walla wallidiiɓe mum jeyi, laawol reeni ɗum.",
+            "p2": "Saggitorde Fulfulde-Farayse-Engele ndee ko golle hakkille tiiɗɗe reenaaɗe.",
+            "highlight": "Soɗaade, waylude, walla huutoraade ko woni e lowre ndee ina haɗaa so a heɓaani yamiroore Goomu Fulo Wiɗto.",
+            "sub1": "Ko yamiraa",
+            "sub1p": "Ɗeeɗoo kuutorɗe ina njamiree:",
+            "sub1l1": "Yuurnaade lowre ndee ngam jaŋde maa keeriiɗo",
+            "sub1l2": "Lollude jokkondire lowre ndee e laylayti",
+            "sub1l3": "Tonngude ko famɗi so tawii a hollii ɗo yaltiri (goomufulo.com)",
+            "sub1l4": "Huutoraade ngam jaŋde e nder duɗe, so tawii a hollii ɗo yaltiri",
+            "sub2": "Maantooje e nate",
+            "sub2p": "Innde « Goomu Fulo Wiɗto » e maantoore duɗal ngal e nate mum fof ko maantooje fedde ndee. Huutoraade ɗum ina naamnii yamiroore."
+        },
+        "s4": {
+            "title": "Sarɗiiji kuutorɗe",
+            "p1": "Naatde e lowre goomufulo.com alaa njobdi. Yuurnaade saggitorde, binndanɗe jaŋde e deftere naamnataako winndaade.",
+            "p2": "Yoga e gollorɗe ina naamnii sosde konte:",
+            "sub1": "Ko waɗetee so winndaaki",
+            "sub1l1": "Yuurnaade saggitorde Fulfulde-Farayse-Engele ndee",
+            "sub1l2": "Janngude kabaruuji e binndanɗe",
+            "sub1l3": "Naatde e deftere pine",
+            "sub1l4": "Yuurnaade tinndinooje e helmere",
+            "sub2": "Ko naamnii konte",
+            "sub2p": "Winndaade ina naamnii ngam:",
+            "sub2l1": "Wallitde saggitorde ndee (ɓeydude kelme)",
+            "sub2l2": "Naatde gollorɗe yiilooɓe",
+            "sub2l3": "Wallitde ɓeydude pine ɗemngal"
+        },
+        "s5": {
+            "title": "Ɗooftagol darnde",
+            "p1": "Goomu Fulo Wiɗto ina waɗa ko waawi ngam hokkaade kabaruuji ɗemngal celluɗi. Kono fedde ndee waawaa addude haɓɓere wonde firlanɗe fof ina celluɗi.",
+            "p2": "Ɗemngal Fulfulde ina woodi caggitorɗe keewɗe hono leydi fof: Pulaar e Senegaal, Pular e Gine, Fulfulde e Nijeer/Nijeriya/Kameruun. Firlanɗe ɗee mbaawaa hollirde haalirde leydi fof.",
+            "p3": "Fedde ndee waawaa ɗoofteede e ko boni so kuutoraaɗo lowre ndee walla so lowre ndee dartaaki."
+        },
+        "s6": {
+            "title": "Ballitgol kuutortooɓe",
+            "p1": "Lowre ndee ina newnanaa kuutortooɓe winndiiɓe wallitde saggitorde ndee. So neɗɗo neldii ko heɓii, ina foti tabintinde wonde ɗuum ko golle mum.",
+            "p2": "Ballitgol fof ina yuurnitee hade bayyineede. Goomu Fulo Wiɗto ina jogii laawol:",
+            "l1": "Waylude walla feewnude ballitgol ngam cellingol ɗemngal",
+            "l2": "Salaade ballitgol ngo moƴƴaani, ngo bonnii walla ngo naataani",
+            "l3": "Momtude ko luulndii pinal Fulɓe",
+            "l4": "Huutoraade ballitgol moƴƴingol e nder golle ɗee haa abada"
+        },
+        "s7": {
+            "title": "Jokkondire caggal",
+            "p1": "Lowre goomufulo.com ina waawi jogaade jokkondire feewde lowre goɗɗe. Ɗeen jokkondire ngoni ɗoo ko ngam humpitde tan, wonaa jaɓde ɗeen lowre. Fedde ndee alaa baawɗe e ko woni e lowre goɗɗe.",
+            "p2": "Waɗde jokkondire feewde goomufulo.com ina yamiraa, so tawii a huutoraaki « framing » walla feere woɗnde bonnoore jeyaaɗe hakkille fedde ndee."
+        },
+        "s8": {
+            "title": "Kukiiji e peeragol",
+            "p1": "Lowre ndee ina huutoroo kukiiji ɗi ina tilsi ngam gollaade lowre ndee. Alaa kukii coodgu walla peeragol ngol huutoraaka.",
+            "sub1": "Fannu kukiiji kuutoranaaɗi",
+            "sub1l1": "Kukiiji naatgol: naamnaaɗi ngam seŋorde e jokkude jokkondiral",
+            "sub1l2": "Kukiiji cuɓe: mooftude ɗemngal suɓangal (Farayse, Engele walla Fulfulde) e mbaydi (lewñere/niɓɓere)",
+            "p2": "A waawi hesɗitinde wanngorde maa ngam salaade kukiiji, kono ɗuum ina waawi ɗoofde yoga e gollorɗe lowre ndee."
+        },
+        "s9": {
+            "title": "Laawol kuutorangol",
+            "p1": "Ɗeeɗoo kabaruuji laawol ina njiiloo e laawol Senegaal. So luural waɗii e huutorɗe lowre ndee, banndiraaɓe ina foti daraade yiitondirde hade naatde ñaawirde.",
+            "p2": "So yiitondiral waɗaaki, ñaawirɗe Ndakaaru, Senegaal, tan njogii laawol."
+        },
+        "s10": {
+            "title": "Jokkondiral",
+            "p1": "Ngam naamnal kala baɗngal e ɗeeɗoo kabaruuji laawol, a waawi jokkondirde e amen e iimeel contact@goomufulowidto.org walla e formileer jokkondiral lowre ndee."
+        },
+        "contactBox": {
+            "title": "Naamnal ngal?",
+            "text": "Taa mettinir jokkondirde e amen ngam naamnal kala baɗngal e kabaruuji laawol.",
+            "form": "Formileer jokkondiral"
+        }
+    },
+    "privacy": {
+        "title": "Dawirgol Sutura",
+        "subtitle": "No min reenirta keɓe maa keeriiɗe e lowre goomufulo.com",
+        "lastUpdate": "Bayyinaango sakitiingo",
+        "tocTitle": "Doggol",
+        "intro": "To Goomu Fulo Wiɗto, reende keɓe maa keeriiɗe ko huunde arannde. Ndee dawirgol sutura ina hollita no laaɓndi ko min njokki, ko waɗi min njokkiri ɗum e no min reenirta ɗum. Min ina koolaa wonde min cuusataa huutoraade kabaruuji maa ngam coodgu walla yeewtere.",
+        "s1": {
+            "title": "Jiiloowo keɓe",
+            "p1": "Jiiloowo keɓe keeriiɗe mooftaaɗe e lowre goomufulo.com ko:",
+            "name": "Fedde",
+            "address": "Nokku",
+            "email": "Iimeel jokkondiral",
+            "site": "Lowre"
+        },
+        "s2": {
+            "title": "Keɓe mooftaaɗe",
+            "p1": "Min ina njokka fannu keɓe ceertuɗe hono kuutorɗe lowre ndee:",
+            "sub1": "Keɓe winndagol",
+            "sub1p": "So a woni e sosde konte maa, min ina njokki:",
+            "sub1l1": "Innde maa kuutortoongo (innde suɓaango)",
+            "sub1l2": "Iimeel maa (ngam seŋorde e neldude kabaruuji tiiɗɗi)",
+            "sub1l3": "Finnde maa (mooftaade ko tuugnaande, wonaa ko laaɓi)",
+            "sub2": "Keɓe seŋorde Google",
+            "sub2p": "So a suɓii seŋoraade Google OAuth, min ina keɓa:",
+            "sub2l1": "Innde maa hollitoonde e Google",
+            "sub2l2": "Iimeel maa Google",
+            "sub2l3": "Natal maa Google (so ina woodi)",
+            "sub3": "Keɓe jokkondiral",
+            "sub3p": "So a huutorii formileer jokkondiral amen, min ina njokki:",
+            "sub3l1": "Innde maa e iimeel maa",
+            "sub3l2": "Ko mbinndataa e nder ɓataake maa",
+            "sub4": "Keɓe kuutorgal",
+            "sub4p": "So a woni e wanngude, yoga e keɓe kuutorgal ina mooftee:",
+            "sub4l1": "Ɗemngal suɓangal (Farayse, Engele walla Fulfulde)",
+            "sub4l2": "Mbaydi suɓaandi (lewñere walla niɓɓere)",
+            "sub4l3": "Keɓe naatgol ɗe ina tilsi ngam gollaade seŋorde"
+        },
+        "s3": {
+            "title": "Faandaare jokkol",
+            "p1": "Keɓe maa ina kuutoree tan ngam ɗeeɗoo faandaare:",
+            "l1": "Yiilde konte maa e seŋorde reenaaɗo",
+            "l2": "Heertinde pinal maa (ɗemngal, mbaydi)",
+            "l3": "Yiilde darnde e jamirooje (jiiloowo, yuurnittooɗo, tergal)",
+            "l4": "Ɗooftaade ɓataake jokkondiral",
+            "l5": "Neldude noddaanɗe e iimeel ngam naatde goomu ballitooɓe",
+            "l6": "Ɓeydude moƴƴude lowre ndee e pine ɗemngal",
+            "l7": "Tabitinde kisal e gollaade kuutorgal lowre ndee"
+        },
+        "s4": {
+            "title": "Asal laawol jokkol",
+            "p1": "Jokkol keɓe maa ina tuugii e ɗeeɗoo asalluuji laawol:",
+            "l1t": "Jaɓgol",
+            "l1d": "A jaɓii jokkol keɓe maa so a sosiima konte maa walla so a neldii ɓataake jokkondiral.",
+            "l2t": "Gollal nanondiral",
+            "l2d": "Jokkol ina tilsi ngam hokkaade ma gollorɗe jaŋde e kuutorɗe ɗemngal ɗe cakkanɗaa so a winndii.",
+            "l3t": "Nafoore fooftere",
+            "l3d": "Reenude lowre ndee e moƴƴinde pinal kuutortooɗo ko nafoore fooftere Goomu Fulo Wiɗto."
+        },
+        "s5": {
+            "title": "Sahaa mooftol",
+            "p1": "Keɓe maa ina mooftee e nder ɗeeɗoo sahaaji:",
+            "l1": "Keɓe konte: mooftaaɗe faya ɗo konte maa woni. So konte maa momtaama, keɓe maa ina momtee e nder balɗe 30.",
+            "l2": "Ɓataake jokkondiral: mooftaaɗe lewru 12 caggal ɗooftaade naamnal maa.",
+            "l3": "Keɓe kuutorgal (kukiiji, cuɓe): sahaa naatgol walla faya ɗo waylataa cuɓe maa.",
+            "p2": "Ballitgol ɗemngal moƴƴingol (firlanɗe, maanaaɗe) ina mooftee haa abada e nder saggitorde ndee, hay so konte ballitɗo oo momtaama, sabu ko geɗal ngalu ɗemngal renndo."
+        },
+        "s6": {
+            "title": "Lollude keɓe",
+            "p1": "Goomu Fulo Wiɗto soottotaako, njaɓɓaataako walla lolludataa keɓe maa keeriiɗe e banndiraaɓe tataɓe ngam coodgu walla yeewtere.",
+            "highlight": "Keɓe maa cuusataake soottaade, njaɓɓaade walla lollude ngam coodgu. Abada.",
+            "p2": "Keɓe maa ina mbaawi lolleede tan e nder ɗeeɗoo:",
+            "l1": "Mooftirɗo kuutorgal (Contabo): e nder mooftol keɓe e cerwere tan",
+            "l2": "Google: tan so a suɓii seŋoraade Google OAuth, ɗooftiima keɓe seŋorde tan",
+            "l3": "Tilsaare laawol: so laawol tilsii ɗum (naamnal ñaawirde, tilsaare laawol)"
+        },
+        "s7": {
+            "title": "Kisal keɓe",
+            "p1": "Min ina njogii peeje kuutorgal e yuɓɓo tiiɗɗe ngam reenude keɓe maa:",
+            "l1": "Tuugnol jokkondire e HTTPS/TLS (seedamfaagu SSL yiilaade Cloudflare)",
+            "l2": "Pinɗe tuugnaaɗe e dokkol bcrypt (mooftaaka ko laaɓi abada)",
+            "l3": "Seŋorde jewtol JWT jogiiɗo ɗooftagol otomatik",
+            "l4": "Reenol yeddaade njannguuji ganiiɗi (injection SQL, XSS, CSRF)",
+            "l5": "Naatde keɓe ɗooftiima jiiloowo yamiraaɗo tan",
+            "p2": "Hay so ɗeeɗoo peeje ina ngoodi, alaa yuɓɓo moƴƴiingo fof. So keɓe ɗee bonnii, min ina kaalana kuutortooɓe jokkaaɓe law."
+        },
+        "s8": {
+            "title": "Jojjanɗe maa",
+            "p1": "Hono laawol reenol keɓe, a jogii ɗeeɗoo jojjanɗe:",
+            "l1t": "Jojjande naatgol",
+            "l1d": "A waawi naamnaade anndude keɓe ɗe min njogii e dow maa.",
+            "l2t": "Jojjande feewnugol",
+            "l2d": "A waawi naamnaade feewnude keɓe bonnooɗe walla timmuɗe.",
+            "l3t": "Jojjande momtugol",
+            "l3d": "A waawi naamnaade momtude keɓe maa keeriiɗe e konte maa.",
+            "l4t": "Jojjande yeddaade",
+            "l4d": "A waawi yeddaade jokkol keɓe maa ngam dalillaaji fooftiiɗi.",
+            "l5t": "Jojjande nawdol",
+            "l5d": "A waawi naamnaade heɓde keɓe maa e mbaydi yuɓɓundi.",
+            "l6t": "Jojjande ɗoofgol",
+            "l6d": "A waawi naamnaade ɗooftaade jokkol keɓe maa e yoga e sahaaji.",
+            "p2": "Ngam huutoraade jojjanɗe maa, jokkondiren e contact@goomufulowidto.org. Min ina njaaɓa e nder balɗe 30."
+        },
+        "s9": {
+            "title": "Kukiiji",
+            "p1": "Lowre goomufulo.com ina huutoroo tan kukiiji kuutorgal ɗi ina tilsi ngam gollaade lowre ndee. Min kuutoraaki hay kukii gooto coodgu, peeragol walla peeragol jikkuuji.",
+            "sub1": "Kukiiji kuutoranaaɗi",
+            "sub1l1t": "Kukii seŋorde (JWT)",
+            "sub1l1d": "Jokkude naatgol maa woni. Ɗooftotoo ko e hoore mum ngam kisal.",
+            "sub1l2t": "Kukii cuɓe",
+            "sub1l2d": "Mooftude suɓaango ɗemngal maa (fr/en/ff) e mbaydi (lewñere/niɓɓere) ngam moƴƴinde pinal maa.",
+            "sub2": "Yiilde kukiiji",
+            "sub2p": "A waawi hesɗitinde wanngorde maa ngam salaade kukiiji. Kono salaade kukiiji kuutorgal ina waawi haɗde lowre ndee gollaade no haanirta (seŋorde waawaa, cuɓe mooftataake)."
+        },
+        "s10": {
+            "title": "Reenol cukalel",
+            "p1": "Lowre goomufulo.com ko lowre jaŋde pinal, udditaande yimɓe fof. Janngude ɗemngal Fulfulde ina udditii alaa ɗoofgol duuɓi.",
+            "p2": "Kono sosde konte kuutortooɗo cukalel les duuɓi 16 ina naamnii jaɓgol jinnaaɗo walla jiimotooɗo laawol. So a ko jinnaaɗo a yiitii ɓiɗɗo maa winndii alaa jaɓgol maa, jokkondiren ngam min momta konte ngee."
+        },
+        "s11": {
+            "title": "Waylude ndee dawirgol",
+            "p1": "Min ina njogii laawol waylude ndee dawirgol sutura sahaa kala. Baylitte ɗee ina puɗɗoo gollaade so ɗe bayyanaamaɗo e ndee hello.",
+            "p2": "So baylitte mawɗe waɗaama jogiiɗe jojjanɗe maa walla no keɓe maa njokkirta, min ina kaaltane e humpito holliteteengo e lowre ndee. Ñalawma bayyinaango sakitiingo ina hollitaa dow ndee hello."
+        },
+        "s12": {
+            "title": "Jokkondiren",
+            "p1": "Ngam naamnal kala baɗngal e ndee dawirgol sutura walla ngam huutoraade jojjanɗe maa, a waawi jokkondirde e amen e:",
+            "emailLabel": "Iimeel",
+            "formLabel": "Formileer",
+            "formLink": "Hello jokkondiral",
+            "p2": "Min ina koolaa jaabaade naamnal kala e nder balɗe golle 30."
+        },
+        "contactBox": {
+            "title": "Keɓe maa, jojjanɗe maa",
+            "text": "Ngam naamnal walla naamnal baɗngal e keɓe maa keeriiɗe, taa mettinir jokkondirde e amen."
+        }
     }
 }
