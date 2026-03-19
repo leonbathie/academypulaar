@@ -266,15 +266,32 @@
     color: rgba(255, 255, 255, 0.65);
     font-size: 0.9rem;
     line-height: 1.6;
-    margin-bottom: var(--space-lg);
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    flex: 1;
+    margin-bottom: var(--space-sm);
     overflow-wrap: break-word;
     word-break: break-word;
+}
+
+.book-description.expanded {
+    margin-bottom: var(--space-sm);
+}
+
+.btn-read-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--primary-gold, #c5a55a);
+    font-weight: 600;
+    font-size: 0.85rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin-bottom: var(--space-lg);
+    transition: color 0.2s;
+}
+
+.btn-read-more:hover {
+    color: #e8c547;
 }
 
 .book-footer {

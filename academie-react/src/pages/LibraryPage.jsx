@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { API_URL } from '../config'
 import './LibraryPage.css'
@@ -9,6 +9,11 @@ function LibraryPage() {
     const [books, setBooks] = useState([])
     const [loading, setLoading] = useState(true)
     const [selectedCategory, setSelectedCategory] = useState('')
+    const [expandedBooks, setExpandedBooks] = useState({})
+
+    const toggleExpand = useCallback((bookId) => {
+        setExpandedBooks(prev => ({ ...prev, [bookId]: !prev[bookId] }))
+    }, [])
 
     useEffect(() => {
         loadBooks()
@@ -163,9 +168,26 @@ function LibraryPage() {
                                             {book.author}
                                         </p>
                                     )}
-                                    {getDescription(book) && (
-                                        <p className="book-description">{getDescription(book)}</p>
-                                    )}
+                                    {getDescription(book) && (() => {
+                                        const desc = getDescription(book)
+                                        const isExpanded = expandedBooks[book.id]
+                                        const isLong = desc.length > 120
+                                        return (
+                                            <>
+                                                <p className={`book-description${isExpanded ? ' expanded' : ''}`}>
+                                                    {isExpanded ? desc : isLong ? desc.substring(0, 120) + '...' : desc}
+                                                </p>
+                                                {isLong && (
+                                                    <button className="btn-read-more" onClick={() => toggleExpand(book.id)}>
+                                                        {isExpanded ? t('common.readLess', 'Réduire') : t('common.readMore', 'Lire la suite')}
+                                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ width: 14, height: 14 }}>
+                                                            <path d={isExpanded ? "M19 12H5M12 5l-7 7 7 7" : "M5 12h14M12 5l7 7-7 7"} />
+                                                        </svg>
+                                                    </button>
+                                                )}
+                                            </>
+                                        )
+                                    })()}
 
                                     <div className="book-footer">
                                         <div className="book-meta">

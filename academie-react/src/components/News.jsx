@@ -79,7 +79,7 @@ function News() {
         }))
     }
 
-    const truncateText = (text, maxLength = 100) => {
+    const truncateText = (text, maxLength = 150) => {
         if (!text || text.length <= maxLength) return text
         return text.substring(0, maxLength) + '...'
     }
@@ -112,8 +112,9 @@ function News() {
                             const isExpanded = expandedNews[item.id]
                             const excerpt = getExcerpt(item)
                             const content = getContent(item)
-                            const displayText = isExpanded ? (content || excerpt) : truncateText(excerpt)
-                            const hasMoreContent = !!(content && content.trim()) || (excerpt && excerpt.length > 50)
+                            const fullText = content || excerpt || ''
+                            const displayText = isExpanded ? fullText : truncateText(excerpt)
+                            const hasMoreContent = fullText.length > 150
 
                             return (
                                 <article key={item.id} className={`news-card news-card--${item.type || 'default'}`}>
