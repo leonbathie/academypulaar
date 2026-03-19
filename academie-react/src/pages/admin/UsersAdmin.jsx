@@ -164,12 +164,10 @@ function UsersAdmin() {
                                         <td>{inv.email}</td>
                                         <td><span className={`role-badge role-${inv.role}`}>{roleLabels[inv.role]}</span></td>
                                         <td>{inv.invited_by_name}</td>
-                                        <td>{new Date(inv.expires_at).toLocaleDateString(i18n.language)}</td>
+                                        <td>{inv.expires_at ? new Date(inv.expires_at).toLocaleDateString(i18n.language) : '—'}</td>
                                         <td>
                                             {inv.used ? (
                                                 <span className="status-used">{t('admin.users.statusUsed')}</span>
-                                            ) : new Date(inv.expires_at) < new Date() ? (
-                                                <span className="status-expired">{t('admin.users.statusExpired')}</span>
                                             ) : (
                                                 <span className="status-pending">{t('admin.users.statusPending')}</span>
                                             )}
@@ -214,26 +212,32 @@ function UsersAdmin() {
                                     <td className="user-name">{u.username}</td>
                                     <td>{u.email || '—'}</td>
                                     <td>
-                                        <select
-                                            value={u.role}
-                                            onChange={(e) => handleChangeRole(u.id, e.target.value)}
-                                            className={`role-select role-${u.role}`}
-                                        >
-                                            <option value="admin">{t('admin.users.roleAdmin')}</option>
-                                            <option value="moderateur">{t('admin.users.roleModerator')}</option>
-                                        </select>
+                                        {isSuperAdmin && !u.is_super_admin ? (
+                                            <select
+                                                value={u.role}
+                                                onChange={(e) => handleChangeRole(u.id, e.target.value)}
+                                                className={`role-select role-${u.role}`}
+                                            >
+                                                <option value="admin">{t('admin.users.roleAdmin')}</option>
+                                                <option value="moderateur">{t('admin.users.roleModerator')}</option>
+                                            </select>
+                                        ) : (
+                                            <span className={`role-badge role-${u.role}`}>{roleLabels[u.role]}</span>
+                                        )}
                                     </td>
                                     <td>{u.has_google ? '✓' : '—'}</td>
                                     <td>{u.invited_by_name || '—'}</td>
                                     <td>{new Date(u.created_at).toLocaleDateString(i18n.language)}</td>
                                     {isSuperAdmin && (
                                         <td>
-                                            <button
-                                                className="btn-delete-sm"
-                                                onClick={() => handleDeleteUser(u.id, u.username)}
-                                            >
-                                                {t('admin.users.deleteBtn')}
-                                            </button>
+                                            {!u.is_super_admin && (
+                                                <button
+                                                    className="btn-delete-sm"
+                                                    onClick={() => handleDeleteUser(u.id, u.username)}
+                                                >
+                                                    {t('admin.users.deleteBtn')}
+                                                </button>
+                                            )}
                                         </td>
                                     )}
                                 </tr>

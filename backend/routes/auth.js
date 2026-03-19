@@ -306,13 +306,17 @@ router.delete('/invitations/:id', authMiddleware, requireRole('admin'), async (r
 router.get('/users', authMiddleware, requireRole('admin'), async (req, res) => {
     try {
         const result = await query(`
-            SELECT u.id, u.username, u.email, u.role, u.google_id IS NOT NULL as has_google, 
+            SELECT u.id, u.username, u.email, u.role, u.google_id IS NOT NULL as has_google,
                    u.created_at, inv.username as invited_by_name
             FROM users u
             LEFT JOIN users inv ON u.invited_by = inv.id
             ORDER BY u.created_at DESC
         `)
-        res.json(result.rows)
+        const usersWithSuperAdmin = result.rows.map(u => ({
+            ...u,
+            is_super_admin: isSuperAdmin(u.email)
+        }))
+        res.json(usersWithSuperAdmin)
     } catch (error) {
         console.error('List users error:', error)
         res.status(500).json({ error: 'Erreur serveur' })
