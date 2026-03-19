@@ -211,7 +211,7 @@ function NewsAdmin() {
                                         </div>
                                     )}
                                 </td>
-                                <td><strong>{item.title_fr || item.title}</strong></td>
+                                <td style={{ maxWidth: '300px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}><strong>{item.title_fr || item.title}</strong></td>
                                 <td>{item.category}</td>
                                 <td>{item.date ? new Date(item.date).toLocaleDateString(i18n.language === 'ff' ? 'fr-FR' : i18n.language) : '-'}</td>
                                 <td className="actions-cell">
