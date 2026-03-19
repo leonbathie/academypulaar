@@ -952,41 +952,8 @@
     }
 
     /* Header responsive */
-    .admin-header {
-        padding: var(--space-sm) var(--space-md);
-        gap: var(--space-sm);
-    }
-
-    .sidebar-toggle {
-        width: 44px;
-        height: 44px;
-        min-width: 44px;
-        z-index: 10;
-    }
-
-    .sidebar-toggle svg {
-        width: 28px;
-        height: 28px;
-    }
-
-    .header-right {
-        gap: var(--space-sm);
-        flex: 1;
-        justify-content: flex-end;
-        min-width: 0;
-    }
-
     .header-user {
-        font-size: 0.75rem;
-        overflow: hidden;
-    }
-
-    .header-user span:first-child {
-        display: none;
-    }
-
-    .user-role-badge {
-        font-size: 0.65rem;
+        font-size: 0.85rem;
     }
 }
 
