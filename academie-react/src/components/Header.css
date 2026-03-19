@@ -416,8 +416,12 @@
 }
 
 @media (max-width: 768px) {
-    .header {
+    .header.scrolled {
         background: rgba(26, 26, 46, 0.98);
+    }
+
+    .header.light-page {
+        background: rgba(253, 248, 240, 0.95);
     }
 
     .header-container {
