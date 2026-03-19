@@ -29,6 +29,7 @@ function DictionaryAdmin() {
     const [words, setWords] = useState([])
     const [loading, setLoading] = useState(true)
     const [searchTerm, setSearchTerm] = useState('')
+    const [filterDomain, setFilterDomain] = useState('')
     const [expandedIds, setExpandedIds] = useState(new Set())
     const [showModal, setShowModal] = useState(false)
     const [editingWord, setEditingWord] = useState(null)
@@ -386,10 +387,30 @@ function DictionaryAdmin() {
 
     const filteredWords = words.filter(word => {
         const term = searchTerm.toLowerCase()
-        return (word.word?.toLowerCase() || '').includes(term) ||
+        const matchesSearch = (word.word?.toLowerCase() || '').includes(term) ||
                (word.translation_fr?.toLowerCase() || '').includes(term) ||
                (word.translation_en?.toLowerCase() || '').includes(term) ||
                (word.translation_ff?.toLowerCase() || '').includes(term)
+        const matchesDomain = !filterDomain || word.domain === filterDomain
+        return matchesSearch && matchesDomain
+    }).sort((a, b) => {
+        const domainA = a.domain || ''
+        const domainB = b.domain || ''
+        if (domainA !== domainB) return domainA.localeCompare(domainB)
+        return (a.word || '').localeCompare(b.word || '')
+    })
+
+    // Group words by domain for display
+    const domainGroups = {}
+    filteredWords.forEach(word => {
+        const domain = word.domain || '_none'
+        if (!domainGroups[domain]) domainGroups[domain] = []
+        domainGroups[domain].push(word)
+    })
+    const domainKeys = Object.keys(domainGroups).sort((a, b) => {
+        if (a === '_none') return 1
+        if (b === '_none') return -1
+        return a.localeCompare(b)
     })
 
     if (loading) {
@@ -414,6 +435,28 @@ function DictionaryAdmin() {
                                 onChange={(e) => setSearchTerm(e.target.value)}
                             />
                         </div>
+                        <select
+                            className="domain-filter-select"
+                            value={filterDomain}
+                            onChange={(e) => setFilterDomain(e.target.value)}
+                        >
+                            <option value="">{t('admin.dictionary.allDomains', 'Tous les domaines')}</option>
+                            <option value="scientifique">{t('admin.dictionary.domScience')}</option>
+                            <option value="mathematiques">{t('admin.dictionary.domMath')}</option>
+                            <option value="biologie">{t('admin.dictionary.domBio')}</option>
+                            <option value="philosophie">{t('admin.dictionary.domPhilo')}</option>
+                            <option value="economie">{t('admin.dictionary.domEco')}</option>
+                            <option value="droit">{t('admin.dictionary.domDroit')}</option>
+                            <option value="astronomie">{t('admin.dictionary.domAstro')}</option>
+                            <option value="informatique">{t('admin.dictionary.domInfo')}</option>
+                            <option value="botanique">{t('admin.dictionary.domBota')}</option>
+                            <option value="vivants">{t('admin.dictionary.domVivants')}</option>
+                            <option value="elevage">{t('admin.dictionary.domElevage')}</option>
+                            <option value="agriculture">{t('admin.dictionary.domAgri')}</option>
+                            <option value="peche">{t('admin.dictionary.domPeche')}</option>
+                            <option value="forge">{t('admin.dictionary.domForge')}</option>
+                            <option value="dictionnaire">{t('admin.dictionary.domDict')}</option>
+                        </select>
                         <button className="btn-add" style={{ background: 'linear-gradient(135deg, #e67e22, #d35400)' }} onClick={openPdfModal}>
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                 <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
@@ -484,86 +527,100 @@ function DictionaryAdmin() {
                         </tr>
                     </thead>
                     <tbody>
-                        {filteredWords.map(word => {
-                            const isExpanded = expandedIds.has(word.id)
-                            return (
-                                <Fragment key={word.id}>
-                                    <tr className={`${selectedIds.has(word.id) ? 'row-selected' : ''} ${isExpanded ? 'row-expanded' : ''}`}>
-                                        <td className="td-checkbox">
-                                            <input
-                                                type="checkbox"
-                                                className="bulk-checkbox"
-                                                checked={selectedIds.has(word.id)}
-                                                onChange={() => toggleSelect(word.id)}
-                                            />
-                                        </td>
-                                        <td><strong>{word.word}</strong></td>
-                                        <td className="td-truncate">{word.translation_fr || '-'}</td>
-                                        <td><span className="domain-badge">{word.domain ? t(domainKeyMap[word.domain] || word.domain) : '-'}</span></td>
-                                        <td style={{ textAlign: 'center' }}>
-                                            {word.audio_word && (
-                                                <span title={t('admin.common.audioTitle')}>🔊</span>
+                        {domainKeys.map(domainKey => (
+                            <Fragment key={domainKey}>
+                                <tr className="domain-group-header">
+                                    <td colSpan="6">
+                                        <strong>
+                                            {domainKey === '_none'
+                                                ? t('admin.dictionary.noDomain', 'Sans domaine')
+                                                : t(domainKeyMap[domainKey] || domainKey)}
+                                        </strong>
+                                        <span className="domain-group-count">({domainGroups[domainKey].length})</span>
+                                    </td>
+                                </tr>
+                                {domainGroups[domainKey].map(word => {
+                                    const isExpanded = expandedIds.has(word.id)
+                                    return (
+                                        <Fragment key={word.id}>
+                                            <tr className={`${selectedIds.has(word.id) ? 'row-selected' : ''} ${isExpanded ? 'row-expanded' : ''}`}>
+                                                <td className="td-checkbox">
+                                                    <input
+                                                        type="checkbox"
+                                                        className="bulk-checkbox"
+                                                        checked={selectedIds.has(word.id)}
+                                                        onChange={() => toggleSelect(word.id)}
+                                                    />
+                                                </td>
+                                                <td><strong>{word.word}</strong></td>
+                                                <td className="td-truncate">{word.translation_fr || '-'}</td>
+                                                <td><span className="domain-badge">{word.domain ? t(domainKeyMap[word.domain] || word.domain) : '-'}</span></td>
+                                                <td style={{ textAlign: 'center' }}>
+                                                    {word.audio_word && (
+                                                        <span title={t('admin.common.audioTitle')}>🔊</span>
+                                                    )}
+                                                </td>
+                                                <td className="actions-cell">
+                                                    <button className="btn-expand" onClick={() => toggleExpand(word.id)} title={isExpanded ? t('admin.dictionary.seeLess') : t('admin.dictionary.seeMore')}>
+                                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ transform: isExpanded ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }}>
+                                                            <polyline points="6 9 12 15 18 9" />
+                                                        </svg>
+                                                    </button>
+                                                    <button className="btn-edit" onClick={() => openModal(word)}>
+                                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                                                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                                                        </svg>
+                                                    </button>
+                                                    <button className="btn-delete" onClick={() => handleDelete(word.id)}>
+                                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                                            <polyline points="3 6 5 6 21 6" />
+                                                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                                                        </svg>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            {isExpanded && (
+                                                <tr className="row-detail">
+                                                    <td colSpan="6">
+                                                        <div className="word-detail-grid">
+                                                            <div className="word-detail-item">
+                                                                <span className="word-detail-label">{t('admin.dictionary.translationFr')}</span>
+                                                                <span className="word-detail-value">{word.translation_fr || '-'}</span>
+                                                            </div>
+                                                            <div className="word-detail-item">
+                                                                <span className="word-detail-label">{t('admin.dictionary.translationEn')}</span>
+                                                                <span className="word-detail-value">{word.translation_en || '-'}</span>
+                                                            </div>
+                                                            <div className="word-detail-item">
+                                                                <span className="word-detail-label">{t('admin.dictionary.translationFf')}</span>
+                                                                <span className="word-detail-value">{word.translation_ff || '-'}</span>
+                                                            </div>
+                                                            <div className="word-detail-item">
+                                                                <span className="word-detail-label">{t('admin.dictionary.category')}</span>
+                                                                <span className="word-detail-value">{word.category || '-'}</span>
+                                                            </div>
+                                                            {word.example && (
+                                                                <div className="word-detail-item word-detail-full">
+                                                                    <span className="word-detail-label">{t('admin.dictionary.example')}</span>
+                                                                    <span className="word-detail-value">{word.example}</span>
+                                                                </div>
+                                                            )}
+                                                            {word.example_translation && (
+                                                                <div className="word-detail-item word-detail-full">
+                                                                    <span className="word-detail-label">{t('admin.dictionary.exampleTranslation')}</span>
+                                                                    <span className="word-detail-value">{word.example_translation}</span>
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                    </td>
+                                                </tr>
                                             )}
-                                        </td>
-                                        <td className="actions-cell">
-                                            <button className="btn-expand" onClick={() => toggleExpand(word.id)} title={isExpanded ? t('admin.dictionary.seeLess') : t('admin.dictionary.seeMore')}>
-                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ transform: isExpanded ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }}>
-                                                    <polyline points="6 9 12 15 18 9" />
-                                                </svg>
-                                            </button>
-                                            <button className="btn-edit" onClick={() => openModal(word)}>
-                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-                                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
-                                                </svg>
-                                            </button>
-                                            <button className="btn-delete" onClick={() => handleDelete(word.id)}>
-                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                                    <polyline points="3 6 5 6 21 6" />
-                                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-                                                </svg>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    {isExpanded && (
-                                        <tr className="row-detail">
-                                            <td colSpan="6">
-                                                <div className="word-detail-grid">
-                                                    <div className="word-detail-item">
-                                                        <span className="word-detail-label">{t('admin.dictionary.translationFr')}</span>
-                                                        <span className="word-detail-value">{word.translation_fr || '-'}</span>
-                                                    </div>
-                                                    <div className="word-detail-item">
-                                                        <span className="word-detail-label">{t('admin.dictionary.translationEn')}</span>
-                                                        <span className="word-detail-value">{word.translation_en || '-'}</span>
-                                                    </div>
-                                                    <div className="word-detail-item">
-                                                        <span className="word-detail-label">{t('admin.dictionary.translationFf')}</span>
-                                                        <span className="word-detail-value">{word.translation_ff || '-'}</span>
-                                                    </div>
-                                                    <div className="word-detail-item">
-                                                        <span className="word-detail-label">{t('admin.dictionary.category')}</span>
-                                                        <span className="word-detail-value">{word.category || '-'}</span>
-                                                    </div>
-                                                    {word.example && (
-                                                        <div className="word-detail-item word-detail-full">
-                                                            <span className="word-detail-label">{t('admin.dictionary.example')}</span>
-                                                            <span className="word-detail-value">{word.example}</span>
-                                                        </div>
-                                                    )}
-                                                    {word.example_translation && (
-                                                        <div className="word-detail-item word-detail-full">
-                                                            <span className="word-detail-label">{t('admin.dictionary.exampleTranslation')}</span>
-                                                            <span className="word-detail-value">{word.example_translation}</span>
-                                                        </div>
-                                                    )}
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    )}
-                                </Fragment>
-                            )
-                        })}
+                                        </Fragment>
+                                    )
+                                })}
+                            </Fragment>
+                        ))}
                         {words.length === 0 && (
                             <tr>
                                 <td colSpan="6" style={{ textAlign: 'center', padding: '2rem', color: 'var(--medium-gray)' }}>

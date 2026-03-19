@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useApi } from '../../context/AuthContext'
 
 function DashboardAdmin() {
     const { t } = useTranslation()
+    const navigate = useNavigate()
     const { apiRequest } = useApi()
     const [stats, setStats] = useState({
         dictionary: 0,
@@ -57,7 +59,7 @@ function DashboardAdmin() {
             </h1>
 
             <div className="stats-grid">
-                <div className="stat-card">
+                <div className="stat-card stat-card-clickable" onClick={() => navigate('/admin/dictionnaire')}>
                     <div className="stat-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                             <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
@@ -70,7 +72,7 @@ function DashboardAdmin() {
                     </div>
                 </div>
 
-                <div className="stat-card">
+                <div className="stat-card stat-card-clickable" onClick={() => navigate('/admin/actualites')}>
                     <div className="stat-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                             <path d="M19 20H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v1" />
@@ -84,7 +86,7 @@ function DashboardAdmin() {
                     </div>
                 </div>
 
-                <div className="stat-card">
+                <div className="stat-card stat-card-clickable" onClick={() => navigate('/admin/contenu')}>
                     <div className="stat-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                             <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
@@ -97,7 +99,7 @@ function DashboardAdmin() {
                     </div>
                 </div>
 
-                <div className="stat-card">
+                <div className="stat-card stat-card-clickable" onClick={() => navigate('/admin/bibliotheque')}>
                     <div className="stat-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                             <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
@@ -110,7 +112,7 @@ function DashboardAdmin() {
                     </div>
                 </div>
 
-                <div className="stat-card">
+                <div className="stat-card stat-card-clickable" onClick={() => navigate('/admin/questions')}>
                     <div className="stat-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                             <circle cx="12" cy="12" r="10" />

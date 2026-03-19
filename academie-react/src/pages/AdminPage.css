@@ -450,6 +450,16 @@
     display: flex;
     align-items: center;
     gap: var(--space-lg);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.stat-card-clickable {
+    cursor: pointer;
+}
+
+.stat-card-clickable:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
 }
 
 .stat-icon {
@@ -1345,6 +1355,42 @@
     .pdf-drop-zone {
         padding: var(--space-lg) var(--space-md);
     }
+}
+
+/* ===== Domain Filter & Groups ===== */
+.domain-filter-select {
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--border-color, #e0e0e0);
+    border-radius: var(--radius-md);
+    background: var(--white);
+    font-size: 0.9rem;
+    color: var(--dark-gray);
+    min-width: 180px;
+}
+
+.domain-group-header td {
+    background: linear-gradient(135deg, rgba(212, 165, 55, 0.1), rgba(212, 165, 55, 0.05));
+    padding: 0.6rem 1rem !important;
+    font-size: 0.95rem;
+    color: var(--primary-gold);
+    border-left: 3px solid var(--primary-gold);
+}
+
+.domain-group-count {
+    margin-left: 0.5rem;
+    font-weight: 400;
+    font-size: 0.85rem;
+    color: var(--medium-gray);
+}
+
+.domain-badge {
+    display: inline-block;
+    padding: 0.15rem 0.5rem;
+    border-radius: var(--radius-sm);
+    background: rgba(212, 165, 55, 0.1);
+    color: var(--primary-gold);
+    font-size: 0.8rem;
+    font-weight: 500;
 }
 
 /* ===== Bulk Selection ===== */

@@ -123,6 +123,7 @@
         "listenPronunciation": "Écouter la prononciation",
         "listenExample": "Écouter l'exemple",
         "allDomains": "Tous les domaines",
+        "noDomain": "Sans domaine",
         "categories": {
             "nom": "Nom",
             "verbe": "Verbe",
