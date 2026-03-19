@@ -1,13 +1,15 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useApi } from '../../context/AuthContext'
 import { API_URL } from '../../config'
+import ConfirmDialog from '../../components/ConfirmDialog'
 
 function BooksAdmin() {
     const { t } = useTranslation()
     const { apiRequest, token } = useApi()
     const [books, setBooks] = useState([])
     const [loading, setLoading] = useState(true)
+    const [confirmDialog, setConfirmDialog] = useState({ open: false, title: '', message: '', onConfirm: null })
     const [showModal, setShowModal] = useState(false)
     const [editingBook, setEditingBook] = useState(null)
     const [activeTab, setActiveTab] = useState('fr')
@@ -247,23 +249,28 @@ function BooksAdmin() {
         }
     }
 
-    const handleDelete = async (id) => {
-        if (!window.confirm(t('admin.common.confirmDeleteBook'))) return
-
-        try {
-            const response = await fetch(`${API_URL}/api/books/${id}`, {
-                method: 'DELETE',
-                headers: {
-                    'Authorization': `Bearer ${token}`
+    const handleDelete = (id) => {
+        setConfirmDialog({
+            open: true,
+            title: t('admin.common.confirmDeleteBookTitle', 'Supprimer le livre'),
+            message: t('admin.common.confirmDeleteBook'),
+            onConfirm: async () => {
+                setConfirmDialog(prev => ({ ...prev, open: false }))
+                try {
+                    const response = await fetch(`${API_URL}/api/books/${id}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        }
+                    })
+                    if (response.ok) {
+                        loadBooks()
+                    }
+                } catch (error) {
+                    console.error('Delete book error:', error)
                 }
-            })
-
-            if (response.ok) {
-                loadBooks()
             }
-        } catch (error) {
-            console.error('Delete book error:', error)
-        }
+        })
     }
 
     const formatFileSize = (bytes) => {
@@ -554,6 +561,14 @@ function BooksAdmin() {
                     </div>
                 </div>
             )}
+            <ConfirmDialog
+                open={confirmDialog.open}
+                title={confirmDialog.title}
+                message={confirmDialog.message}
+                onConfirm={confirmDialog.onConfirm}
+                onCancel={useCallback(() => setConfirmDialog(prev => ({ ...prev, open: false })), [])}
+                confirmText={t('admin.users.deleteBtn', 'Supprimer')}
+            />
         </div>
     )
 }

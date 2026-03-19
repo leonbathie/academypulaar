@@ -1,0 +1,106 @@
+.confirm-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    animation: confirmFadeIn 0.2s ease;
+}
+
+.confirm-dialog {
+    background: var(--cream, #faf6f1);
+    border-radius: 16px;
+    padding: 2rem;
+    max-width: 420px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    animation: confirmSlideIn 0.25s ease;
+}
+
+.confirm-icon {
+    width: 56px;
+    height: 56px;
+    margin: 0 auto 1rem;
+    color: var(--accent-gold, #c5a55a);
+    background: rgba(197, 165, 90, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.confirm-icon svg {
+    width: 28px;
+    height: 28px;
+}
+
+.confirm-title {
+    font-family: var(--font-display, 'Playfair Display', serif);
+    color: var(--primary-dark, #1a2332);
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.confirm-message {
+    color: var(--text-secondary, #6b7280);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+}
+
+.confirm-actions {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+}
+
+.confirm-btn {
+    padding: 0.6rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s ease;
+}
+
+.confirm-btn-cancel {
+    background: var(--gray-100, #f3f4f6);
+    color: var(--text-secondary, #6b7280);
+    border: 1px solid var(--gray-200, #e5e7eb);
+}
+
+.confirm-btn-cancel:hover {
+    background: var(--gray-200, #e5e7eb);
+}
+
+.confirm-btn-danger {
+    background: #dc2626;
+    color: white;
+}
+
+.confirm-btn-danger:hover {
+    background: #b91c1c;
+}
+
+.confirm-btn-primary {
+    background: var(--accent-gold, #c5a55a);
+    color: white;
+}
+
+.confirm-btn-primary:hover {
+    background: var(--accent-gold-dark, #b08d3e);
+}
+
+@keyframes confirmFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes confirmSlideIn {
+    from { transform: scale(0.9) translateY(10px); opacity: 0; }
+    to { transform: scale(1) translateY(0); opacity: 1; }
+}

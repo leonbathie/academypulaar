@@ -1,12 +1,14 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAuth, useApi } from '../../context/AuthContext'
+import ConfirmDialog from '../../components/ConfirmDialog'
 import './UsersAdmin.css'
 
 function UsersAdmin() {
     const { t, i18n } = useTranslation()
     const { isAdmin, isSuperAdmin } = useAuth()
     const { apiRequest } = useApi()
+    const [confirmDialog, setConfirmDialog] = useState({ open: false, title: '', message: '', onConfirm: null })
 
     const [users, setUsers] = useState([])
     const [invitations, setInvitations] = useState([])
@@ -75,16 +77,23 @@ function UsersAdmin() {
         }
     }
 
-    const handleDeleteUser = async (userId, username) => {
-        if (!window.confirm(t('admin.users.confirmDelete', { username }))) return
-        setError('')
-        try {
-            await apiRequest(`/auth/users/${userId}`, { method: 'DELETE' })
-            setSuccess(t('admin.users.userDeleted'))
-            loadData()
-        } catch (err) {
-            setError(err.message)
-        }
+    const handleDeleteUser = (userId, username) => {
+        setConfirmDialog({
+            open: true,
+            title: t('admin.users.confirmDeleteTitle', 'Supprimer l\'utilisateur'),
+            message: t('admin.users.confirmDelete', { username }),
+            onConfirm: async () => {
+                setConfirmDialog(prev => ({ ...prev, open: false }))
+                setError('')
+                try {
+                    await apiRequest(`/auth/users/${userId}`, { method: 'DELETE' })
+                    setSuccess(t('admin.users.userDeleted'))
+                    loadData()
+                } catch (err) {
+                    setError(err.message)
+                }
+            }
+        })
     }
 
     const handleDeleteInvitation = async (invId) => {
@@ -246,6 +255,14 @@ function UsersAdmin() {
                     </table>
                 </div>
             </div>
+            <ConfirmDialog
+                open={confirmDialog.open}
+                title={confirmDialog.title}
+                message={confirmDialog.message}
+                onConfirm={confirmDialog.onConfirm}
+                onCancel={useCallback(() => setConfirmDialog(prev => ({ ...prev, open: false })), [])}
+                confirmText={t('admin.users.deleteBtn')}
+            />
         </div>
     )
 }
