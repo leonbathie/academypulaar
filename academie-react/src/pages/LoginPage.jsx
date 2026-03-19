@@ -7,7 +7,7 @@ import './LoginPage.css'
 
 function LoginPage() {
     const { login, loginWithGoogle, isAuthenticated, loading, GOOGLE_CLIENT_ID } = useAuth()
-    const { t } = useTranslation()
+    const { t, i18n } = useTranslation()
     const navigate = useNavigate()
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
@@ -46,7 +46,7 @@ function LoginPage() {
                         size: 'large',
                         width: '100%',
                         text: 'signin_with',
-                        locale: 'fr'
+                        locale: i18n.language === 'ff' ? 'fr' : i18n.language
                     })
                 }
             }
@@ -164,8 +164,11 @@ function LoginPage() {
                 {GOOGLE_CLIENT_ID && (
                     <>
                         <div className="login-divider">
-                            <span>ou</span>
+                            <span>{t('admin.login.or', 'ou')}</span>
                         </div>
+                        {i18n.language === 'ff' && (
+                            <p className="google-label-ff">{t('admin.login.googleLogin', 'Seŋoraade Google')}</p>
+                        )}
                         <div ref={googleBtnRef} className="google-btn-container"></div>
                     </>
                 )}
