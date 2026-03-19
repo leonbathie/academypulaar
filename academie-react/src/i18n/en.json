@@ -281,6 +281,7 @@
             "password": "Password",
             "connecting": "Connecting...",
             "submit": "Log in",
+            "or": "or",
             "backToSite": "Back to site"
         },
         "sidebar": {

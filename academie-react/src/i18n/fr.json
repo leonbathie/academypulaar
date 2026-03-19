@@ -283,6 +283,7 @@
             "password": "Mot de passe",
             "connecting": "Connexion...",
             "submit": "Se connecter",
+            "or": "ou",
             "backToSite": "Retour au site"
         },
         "sidebar": {
