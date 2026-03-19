@@ -212,7 +212,7 @@ function UsersAdmin() {
                                     <td className="user-name">{u.username}</td>
                                     <td>{u.email || '—'}</td>
                                     <td>
-                                        {isAdmin && !u.is_super_admin ? (
+                                        {(isSuperAdmin && !u.is_super_admin) || (isAdmin && !isSuperAdmin && u.role === 'moderateur') ? (
                                             <select
                                                 value={u.role}
                                                 onChange={(e) => handleChangeRole(u.id, e.target.value)}
@@ -230,7 +230,7 @@ function UsersAdmin() {
                                     <td>{new Date(u.created_at).toLocaleDateString(i18n.language)}</td>
                                     {isAdmin && (
                                         <td>
-                                            {!u.is_super_admin && (
+                                            {!u.is_super_admin && (isSuperAdmin || u.role !== 'admin') && (
                                                 <button
                                                     className="btn-delete-sm"
                                                     onClick={() => handleDeleteUser(u.id, u.username)}

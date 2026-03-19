@@ -341,9 +341,16 @@ router.put('/users/:id/role', authMiddleware, requireRole('admin'), async (req, 
         }
 
         // Protéger les super-admins
-        const targetUser = await query('SELECT email FROM users WHERE id = $1', [userId])
-        if (targetUser.rows.length > 0 && isSuperAdmin(targetUser.rows[0].email)) {
+        const targetUser = await query('SELECT email, role FROM users WHERE id = $1', [userId])
+        if (targetUser.rows.length === 0) {
+            return res.status(404).json({ error: 'Utilisateur non trouvé' })
+        }
+        if (isSuperAdmin(targetUser.rows[0].email)) {
             return res.status(403).json({ error: 'Impossible de modifier le rôle d\'un super-administrateur' })
+        }
+        // Un admin (non super-admin) ne peut modifier que les modérateurs
+        if (!isSuperAdmin(req.user.email) && targetUser.rows[0].role === 'admin') {
+            return res.status(403).json({ error: 'Seuls les super-administrateurs peuvent modifier le rôle d\'un admin' })
         }
 
         await query('UPDATE users SET role = $1 WHERE id = $2', [role, userId])
@@ -365,9 +372,16 @@ router.delete('/users/:id', authMiddleware, requireRole('admin'), async (req, re
         }
 
         // Protéger les super-admins
-        const targetUser = await query('SELECT email FROM users WHERE id = $1', [userId])
-        if (targetUser.rows.length > 0 && isSuperAdmin(targetUser.rows[0].email)) {
+        const targetUser = await query('SELECT email, role FROM users WHERE id = $1', [userId])
+        if (targetUser.rows.length === 0) {
+            return res.status(404).json({ error: 'Utilisateur non trouvé' })
+        }
+        if (isSuperAdmin(targetUser.rows[0].email)) {
             return res.status(403).json({ error: 'Impossible de supprimer un super-administrateur' })
+        }
+        // Un admin (non super-admin) ne peut supprimer que les modérateurs
+        if (!isSuperAdmin(req.user.email) && targetUser.rows[0].role === 'admin') {
+            return res.status(403).json({ error: 'Seuls les super-administrateurs peuvent supprimer un admin' })
         }
 
         // Supprimer aussi l'invitation associée
