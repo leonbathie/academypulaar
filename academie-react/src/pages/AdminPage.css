@@ -483,6 +483,7 @@
 .admin-table {
     width: 100%;
     border-collapse: collapse;
+    table-layout: fixed;
 }
 
 .admin-table th,
@@ -502,6 +503,18 @@
 
 .admin-table td {
     color: var(--dark-gray);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 0;
+}
+
+.admin-table td:has(strong) {
+    white-space: normal;
+    word-break: break-word;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
 }
 
 .admin-table tr:hover td {
