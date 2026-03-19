@@ -17,7 +17,6 @@ i18n
     .use(initReactI18next)
     .init({
         resources,
-        lng: 'ff',
         fallbackLng: 'ff',
         supportedLngs: ['fr', 'en', 'ff'],
 
