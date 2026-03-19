@@ -43,8 +43,8 @@ function ConfidentialitePage() {
                         <h2><span className="section-number">1</span> {t('privacy.s1.title')}</h2>
                         <p>{t('privacy.s1.p1')}</p>
                         <ul>
-                            <li><strong>{t('privacy.s1.name')}:</strong> Goomu Fulo Wi\u0257to</li>
-                            <li><strong>{t('privacy.s1.address')}:</strong> Dakar, S\u00e9n\u00e9gal</li>
+                            <li><strong>{t('privacy.s1.name')}:</strong> Goomu Fulo Wiɗto</li>
+                            <li><strong>{t('privacy.s1.address')}:</strong> Dakar, Sénégal</li>
                             <li><strong>{t('privacy.s1.email')}:</strong> contact@goomufulowidto.org</li>
                             <li><strong>{t('privacy.s1.site')}:</strong> https://goomufulo.com</li>
                         </ul>

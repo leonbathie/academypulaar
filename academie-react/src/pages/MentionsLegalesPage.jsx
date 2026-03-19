@@ -37,11 +37,11 @@ function MentionsLegalesPage() {
                         <h2><span className="section-number">1</span> {t('legal.s1.title')}</h2>
                         <p>{t('legal.s1.p1')}</p>
                         <ul>
-                            <li><strong>{t('legal.s1.name')}:</strong> Goomu Fulo Wi\u0257to</li>
+                            <li><strong>{t('legal.s1.name')}:</strong> Goomu Fulo Wiɗto</li>
                             <li><strong>{t('legal.s1.nature')}:</strong> {t('legal.s1.natureVal')}</li>
                             <li><strong>{t('legal.s1.purpose')}:</strong> {t('legal.s1.purposeVal')}</li>
                             <li><strong>{t('legal.s1.director')}:</strong> {t('legal.s1.directorVal')}</li>
-                            <li><strong>{t('legal.s1.address')}:</strong> Dakar, S\u00e9n\u00e9gal</li>
+                            <li><strong>{t('legal.s1.address')}:</strong> Dakar, Sénégal</li>
                             <li><strong>{t('legal.s1.email')}:</strong> contact@goomufulowidto.org</li>
                             <li><strong>{t('legal.s1.site')}:</strong> https://goomufulo.com</li>
                         </ul>
@@ -52,7 +52,7 @@ function MentionsLegalesPage() {
                         <p>{t('legal.s2.p1')}</p>
                         <ul>
                             <li><strong>{t('legal.s2.provider')}:</strong> Contabo GmbH</li>
-                            <li><strong>{t('legal.s2.address')}:</strong> Aschauer Stra\u00dfe 32a, 81549 Munich, Allemagne</li>
+                            <li><strong>{t('legal.s2.address')}:</strong> Aschauer Straße 32a, 81549 Munich, Allemagne</li>
                             <li><strong>{t('legal.s2.site')}:</strong> https://contabo.com</li>
                         </ul>
                         <p>{t('legal.s2.p2')}</p>
