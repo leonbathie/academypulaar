@@ -8,6 +8,7 @@ function NewsAdmin() {
     const { apiRequest, token } = useApi()
     const [news, setNews] = useState([])
     const [loading, setLoading] = useState(true)
+    const [visibleCount, setVisibleCount] = useState(5)
     const [showModal, setShowModal] = useState(false)
     const [editingNews, setEditingNews] = useState(null)
     const [activeTab, setActiveTab] = useState('fr')
@@ -195,7 +196,7 @@ function NewsAdmin() {
                         </tr>
                     </thead>
                     <tbody>
-                        {news.map(item => (
+                        {news.slice(0, visibleCount).map(item => (
                             <tr key={item.id}>
                                 <td>
                                     {item.image ? (
@@ -238,6 +239,18 @@ function NewsAdmin() {
                         )}
                     </tbody>
                 </table>
+
+                {news.length > visibleCount && (
+                    <div style={{ textAlign: 'center', padding: '1rem' }}>
+                        <button
+                            className="btn-add"
+                            onClick={() => setVisibleCount(prev => prev + 5)}
+                            style={{ margin: '0 auto' }}
+                        >
+                            {t('admin.common.seeMore', 'Voir plus')} ({visibleCount}/{news.length})
+                        </button>
+                    </div>
+                )}
             </div>
 
             {showModal && (
