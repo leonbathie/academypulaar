@@ -311,7 +311,7 @@ function BooksAdmin() {
                     <tbody>
                         {books.map(book => (
                             <tr key={book.id}>
-                                <td>
+                                <td style={{ maxWidth: '300px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                                     <strong>{book.title_fr}</strong>
                                 </td>
                                 <td>{book.category || '-'}</td>
