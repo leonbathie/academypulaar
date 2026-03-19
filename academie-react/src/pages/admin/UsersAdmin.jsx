@@ -9,6 +9,7 @@ function UsersAdmin() {
     const { isAdmin, isSuperAdmin } = useAuth()
     const { apiRequest } = useApi()
     const [confirmDialog, setConfirmDialog] = useState({ open: false, title: '', message: '', onConfirm: null })
+    const closeConfirm = useCallback(() => setConfirmDialog(prev => ({ ...prev, open: false })), [])
 
     const [users, setUsers] = useState([])
     const [invitations, setInvitations] = useState([])
@@ -260,7 +261,7 @@ function UsersAdmin() {
                 title={confirmDialog.title}
                 message={confirmDialog.message}
                 onConfirm={confirmDialog.onConfirm}
-                onCancel={useCallback(() => setConfirmDialog(prev => ({ ...prev, open: false })), [])}
+                onCancel={closeConfirm}
                 confirmText={t('admin.users.deleteBtn')}
             />
         </div>

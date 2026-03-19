@@ -10,6 +10,7 @@ function BooksAdmin() {
     const [books, setBooks] = useState([])
     const [loading, setLoading] = useState(true)
     const [confirmDialog, setConfirmDialog] = useState({ open: false, title: '', message: '', onConfirm: null })
+    const closeConfirm = useCallback(() => setConfirmDialog(prev => ({ ...prev, open: false })), [])
     const [showModal, setShowModal] = useState(false)
     const [editingBook, setEditingBook] = useState(null)
     const [activeTab, setActiveTab] = useState('fr')
@@ -566,7 +567,7 @@ function BooksAdmin() {
                 title={confirmDialog.title}
                 message={confirmDialog.message}
                 onConfirm={confirmDialog.onConfirm}
-                onCancel={useCallback(() => setConfirmDialog(prev => ({ ...prev, open: false })), [])}
+                onCancel={closeConfirm}
                 confirmText={t('admin.users.deleteBtn', 'Supprimer')}
             />
         </div>
