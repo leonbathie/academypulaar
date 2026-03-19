@@ -1,7 +1,8 @@
-import { useState, useEffect, useRef, Fragment } from 'react'
+import { useState, useEffect, useRef, Fragment, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useApi } from '../../context/AuthContext'
 import { API_URL } from '../../config'
+import ConfirmDialog from '../../components/ConfirmDialog'
 
 function DictionaryAdmin() {
     const { t, i18n } = useTranslation()
@@ -66,6 +67,8 @@ function DictionaryAdmin() {
     const [pdfPreviewing, setPdfPreviewing] = useState(false)
     const [pdfResult, setPdfResult] = useState(null)
     const pdfInputRef = useRef(null)
+    const [confirmDialog, setConfirmDialog] = useState({ open: false, title: '', message: '', onConfirm: null })
+    const closeConfirm = useCallback(() => setConfirmDialog(prev => ({ ...prev, open: false })), [])
 
     useEffect(() => {
         loadWords()
@@ -237,14 +240,21 @@ function DictionaryAdmin() {
         }
     }
 
-    const handleDelete = async (id) => {
-        if (!confirm(t('admin.common.confirmDeleteWord'))) return
-        try {
-            await apiRequest(`/dictionary/${id}`, { method: 'DELETE' })
-            loadWords()
-        } catch (error) {
-            alert(t('admin.common.errorPrefix') + error.message)
-        }
+    const handleDelete = (id) => {
+        setConfirmDialog({
+            open: true,
+            title: t('admin.common.confirmDeleteTitle', 'Confirmer la suppression'),
+            message: t('admin.common.confirmDeleteWord'),
+            onConfirm: async () => {
+                setConfirmDialog(prev => ({ ...prev, open: false }))
+                try {
+                    await apiRequest(`/dictionary/${id}`, { method: 'DELETE' })
+                    loadWords()
+                } catch (error) {
+                    alert(t('admin.common.errorPrefix') + error.message)
+                }
+            }
+        })
     }
 
     // Bulk selection functions
@@ -274,23 +284,30 @@ function DictionaryAdmin() {
         }
     }
 
-    const handleBulkDelete = async () => {
+    const handleBulkDelete = () => {
         if (selectedIds.size === 0) return
         const count = selectedIds.size
-        if (!confirm(t('admin.dictionary.confirmBulkDelete', { count }))) return
-        setBulkDeleting(true)
-        try {
-            await apiRequest('/dictionary/bulk-delete', {
-                method: 'POST',
-                body: JSON.stringify({ ids: [...selectedIds] })
-            })
-            setSelectedIds(new Set())
-            loadWords()
-        } catch (error) {
-            alert(t('admin.common.errorPrefix') + error.message)
-        } finally {
-            setBulkDeleting(false)
-        }
+        setConfirmDialog({
+            open: true,
+            title: t('admin.common.confirmDeleteTitle', 'Confirmer la suppression'),
+            message: t('admin.dictionary.confirmBulkDelete', { count }),
+            onConfirm: async () => {
+                setConfirmDialog(prev => ({ ...prev, open: false }))
+                setBulkDeleting(true)
+                try {
+                    await apiRequest('/dictionary/bulk-delete', {
+                        method: 'POST',
+                        body: JSON.stringify({ ids: [...selectedIds] })
+                    })
+                    setSelectedIds(new Set())
+                    loadWords()
+                } catch (error) {
+                    alert(t('admin.common.errorPrefix') + error.message)
+                } finally {
+                    setBulkDeleting(false)
+                }
+            }
+        })
     }
 
     // PDF Import Functions
@@ -968,6 +985,15 @@ function DictionaryAdmin() {
                     </div>
                 </div>
             )}
+
+            <ConfirmDialog
+                open={confirmDialog.open}
+                title={confirmDialog.title}
+                message={confirmDialog.message}
+                onConfirm={confirmDialog.onConfirm}
+                onCancel={closeConfirm}
+                confirmText={t('admin.common.delete', 'Supprimer')}
+            />
         </div>
     )
 }

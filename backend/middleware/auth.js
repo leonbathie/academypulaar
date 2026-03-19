@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken')
+const { query } = require('../database')
 require('dotenv').config()
 
 const authMiddleware = (req, res, next) => {
@@ -26,12 +27,26 @@ const authMiddleware = (req, res, next) => {
     }
 }
 
-// Middleware générique : vérifie que le rôle est dans la liste autorisée
-const requireRole = (...roles) => (req, res, next) => {
-    if (req.user && roles.includes(req.user.role)) {
-        next()
-    } else {
-        res.status(403).json({ error: 'Accès non autorisé pour votre rôle' })
+// Middleware générique : vérifie le rôle depuis la base de données (pas le JWT)
+const requireRole = (...roles) => async (req, res, next) => {
+    if (!req.user) {
+        return res.status(401).json({ error: 'Authentification requise' })
+    }
+    try {
+        const result = await query('SELECT role FROM users WHERE id = $1', [req.user.id])
+        if (result.rows.length === 0) {
+            return res.status(401).json({ error: 'Utilisateur introuvable' })
+        }
+        const dbRole = result.rows[0].role
+        req.user.role = dbRole
+        if (roles.includes(dbRole)) {
+            next()
+        } else {
+            res.status(403).json({ error: 'Accès non autorisé pour votre rôle' })
+        }
+    } catch (error) {
+        console.error('[AUTH] Erreur vérification rôle DB:', error.message)
+        res.status(500).json({ error: 'Erreur serveur lors de la vérification du rôle' })
     }
 }
 

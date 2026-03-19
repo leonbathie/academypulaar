@@ -146,7 +146,13 @@ router.get('/:id/download', validateId, async (req, res) => {
             return res.status(404).json({ error: 'Fichier non disponible' })
         }
 
-        const filePath = path.join(__dirname, '..', book.file_path)
+        const uploadsDir = path.resolve(__dirname, '..', 'uploads')
+        const filePath = path.resolve(__dirname, '..', book.file_path)
+
+        // Protection contre le path traversal
+        if (!filePath.startsWith(uploadsDir)) {
+            return res.status(403).json({ error: 'Accès au fichier non autorisé' })
+        }
 
         if (!fs.existsSync(filePath)) {
             return res.status(404).json({ error: 'Fichier non trouvé' })

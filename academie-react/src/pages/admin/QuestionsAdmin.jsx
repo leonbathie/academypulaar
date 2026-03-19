@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useApi } from '../../context/AuthContext'
+import ConfirmDialog from '../../components/ConfirmDialog'
 
 function QuestionsAdmin() {
     const { t, i18n } = useTranslation()
@@ -8,6 +9,8 @@ function QuestionsAdmin() {
     const { apiRequest } = useApi()
     const [items, setItems] = useState([])
     const [loading, setLoading] = useState(true)
+    const [confirmDialog, setConfirmDialog] = useState({ open: false, title: '', message: '', onConfirm: null })
+    const closeConfirm = useCallback(() => setConfirmDialog(prev => ({ ...prev, open: false })), [])
     const [showModal, setShowModal] = useState(false)
     const [editingItem, setEditingItem] = useState(null)
     const [activeTab, setActiveTab] = useState('fr')
@@ -90,14 +93,21 @@ function QuestionsAdmin() {
         }
     }
 
-    const handleDelete = async (id) => {
-        if (!confirm(t('admin.common.confirmDeleteQuestion'))) return
-        try {
-            await apiRequest(`/questions/${id}`, { method: 'DELETE' })
-            loadItems()
-        } catch (error) {
-            alert(t('admin.common.errorPrefix') + error.message)
-        }
+    const handleDelete = (id) => {
+        setConfirmDialog({
+            open: true,
+            title: t('admin.common.confirmDeleteTitle', 'Confirmer la suppression'),
+            message: t('admin.common.confirmDeleteQuestion'),
+            onConfirm: async () => {
+                setConfirmDialog(prev => ({ ...prev, open: false }))
+                try {
+                    await apiRequest(`/questions/${id}`, { method: 'DELETE' })
+                    loadItems()
+                } catch (error) {
+                    alert(t('admin.common.errorPrefix') + error.message)
+                }
+            }
+        })
     }
 
     if (loading) {
@@ -293,6 +303,15 @@ function QuestionsAdmin() {
                     </div>
                 </div>
             )}
+
+            <ConfirmDialog
+                open={confirmDialog.open}
+                title={confirmDialog.title}
+                message={confirmDialog.message}
+                onConfirm={confirmDialog.onConfirm}
+                onCancel={closeConfirm}
+                confirmText={t('admin.common.delete', 'Supprimer')}
+            />
         </div>
     )
 }

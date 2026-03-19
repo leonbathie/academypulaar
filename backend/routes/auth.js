@@ -235,6 +235,11 @@ router.post('/invitations', authMiddleware, requireRole('admin'), async (req, re
             return res.status(400).json({ error: 'Email requis' })
         }
 
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+        if (!emailRegex.test(email)) {
+            return res.status(400).json({ error: 'Format d\'email invalide' })
+        }
+
         const allowedRoles = ['admin', 'moderateur']
         const inviteRole = allowedRoles.includes(role) ? role : 'moderateur'
 

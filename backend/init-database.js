@@ -281,25 +281,26 @@ async function initDatabase() {
 
         // Créer l'admin par défaut
         const adminUsername = process.env.ADMIN_USERNAME || 'admin'
-        const adminPassword = process.env.ADMIN_PASSWORD || 'GoomuFulo2024!'
+        const adminPassword = process.env.ADMIN_PASSWORD
 
         const existingAdmin = await pool.query('SELECT id FROM users WHERE username = $1', [adminUsername])
 
         if (existingAdmin.rows.length === 0) {
-            const hashedPassword = await bcrypt.hash(adminPassword, 10)
-            await pool.query(
-                'INSERT INTO users (username, password, role) VALUES ($1, $2, $3)',
-                [adminUsername, hashedPassword, 'admin']
-            )
-            console.log(`✅ Admin créé: ${adminUsername}`)
+            if (!adminPassword) {
+                console.log('⚠️ ADMIN_PASSWORD non défini dans .env, création admin ignorée')
+            } else {
+                const hashedPassword = await bcrypt.hash(adminPassword, 10)
+                await pool.query(
+                    'INSERT INTO users (username, password, role) VALUES ($1, $2, $3)',
+                    [adminUsername, hashedPassword, 'admin']
+                )
+                console.log(`✅ Admin créé: ${adminUsername}`)
+            }
         } else {
             console.log('ℹ️ Admin existe déjà')
         }
 
         console.log('\n🎉 Base de données initialisée avec succès!')
-        console.log('📝 Credentials admin:')
-        console.log(`   Username: ${adminUsername}`)
-        console.log(`   Password: ${adminPassword}`)
 
     } catch (error) {
         console.error('❌ Erreur lors de l\'initialisation:', error)

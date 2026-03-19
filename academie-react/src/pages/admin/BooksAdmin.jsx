@@ -106,14 +106,7 @@ function BooksAdmin() {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        console.log('[BooksAdmin] handleSubmit called')
-        console.log('[BooksAdmin] formData:', JSON.stringify(formData))
-        console.log('[BooksAdmin] editingBook:', editingBook?.id || 'NEW')
-        console.log('[BooksAdmin] selectedFile:', selectedFile?.name || 'none')
-        console.log('[BooksAdmin] token present:', !!token)
-
         if (submitting) {
-            console.log('[BooksAdmin] Already submitting, ignoring')
             return
         }
 
@@ -130,28 +123,22 @@ function BooksAdmin() {
             // Cover image
             if (selectedCover) {
                 formDataToSend.append('cover', selectedCover)
-                console.log('[BooksAdmin] Cover attached:', selectedCover.name)
             } else if (editingBook?.cover_image) {
                 formDataToSend.append('existingCover', editingBook.cover_image)
-                console.log('[BooksAdmin] Keeping existing cover:', editingBook.cover_image)
             }
 
             const hasFile = !!selectedFile
             if (selectedFile) {
                 formDataToSend.append('file', selectedFile)
-                console.log('[BooksAdmin] File attached:', selectedFile.name, selectedFile.size, 'bytes', `(${(selectedFile.size / 1024 / 1024).toFixed(1)} Mo)`)
             } else if (editingBook?.file_path) {
                 formDataToSend.append('existingFile', editingBook.file_path)
                 formDataToSend.append('existingFileSize', editingBook.file_size)
-                console.log('[BooksAdmin] Keeping existing file:', editingBook.file_path)
             }
 
             const url = editingBook
                 ? `${API_URL}/api/books/${editingBook.id}`
                 : `${API_URL}/api/books`
             const method = editingBook ? 'PUT' : 'POST'
-
-            console.log('[BooksAdmin] Sending', method, url, hasFile ? '(with file upload)' : '(no file)')
 
             // Use XMLHttpRequest for upload progress tracking
             const result = await new Promise((resolve, reject) => {
@@ -161,26 +148,20 @@ function BooksAdmin() {
                 // 5 minutes for file uploads, 60s for text-only
                 const timeoutMs = hasFile ? 300000 : 60000
                 xhr.timeout = timeoutMs
-                console.log(`[BooksAdmin] Timeout set to ${timeoutMs / 1000}s`)
 
                 // Upload progress
                 xhr.upload.onprogress = (event) => {
                     if (event.lengthComputable) {
                         const pct = Math.round((event.loaded / event.total) * 100)
                         setUploadProgress(pct)
-                        if (pct % 10 === 0) {
-                            console.log(`[BooksAdmin] Upload progress: ${pct}% (${(event.loaded / 1024 / 1024).toFixed(1)}/${(event.total / 1024 / 1024).toFixed(1)} Mo)`)
-                        }
                     }
                 }
 
                 xhr.upload.onload = () => {
-                    console.log('[BooksAdmin] Upload complete, waiting for server response...')
                     setUploadProgress(100)
                 }
 
                 xhr.onload = () => {
-                    console.log('[BooksAdmin] Response received:', xhr.status, xhr.statusText)
                     resolve({ status: xhr.status, responseText: xhr.responseText })
                 }
 
@@ -195,7 +176,6 @@ function BooksAdmin() {
                 }
 
                 xhr.onabort = () => {
-                    console.log('[BooksAdmin] XHR aborted by user')
                     reject(new Error(t('admin.common.uploadCancelled')))
                 }
 
@@ -207,7 +187,6 @@ function BooksAdmin() {
             xhrRef.current = null
 
             if (result.status >= 200 && result.status < 300) {
-                console.log('[BooksAdmin] Success!')
                 await loadBooks()
                 closeModal()
             } else {
@@ -245,7 +224,6 @@ function BooksAdmin() {
 
     const cancelUpload = () => {
         if (xhrRef.current) {
-            console.log('[BooksAdmin] User cancelled upload')
             xhrRef.current.abort()
         }
     }
