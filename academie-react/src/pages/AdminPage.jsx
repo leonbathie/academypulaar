@@ -65,7 +65,7 @@ function AdminPage() {
                 onClick={() => setSidebarOpen(false)}
             />
 
-            <aside className={`admin-sidebar ${sidebarOpen ? '' : 'collapsed'}`}>
+            <aside className={`admin-sidebar ${sidebarOpen ? 'mobile-open' : 'collapsed'}`}>
                 <div className="sidebar-header">
                     <img src={logoGif} alt="Goomu Fulo Wiɗto" className="admin-sidebar-logo" />
                     <h2>Goomu Fulo Wiɗto</h2>

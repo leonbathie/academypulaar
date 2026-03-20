@@ -885,10 +885,6 @@
         left: 0;
     }
 
-    .admin-sidebar:not(.collapsed) {
-        left: 0;
-    }
-
     .admin-content {
         padding: var(--space-md);
     }
