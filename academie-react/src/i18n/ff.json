@@ -297,7 +297,13 @@
             "questions": "Laaɓnde / ƴame lolluɗe",
             "viewSite": "Yiy lowre nde",
             "users": "Yiilirde",
+            "statistics": "Limooje",
             "logout": "Seŋto"
+        },
+        "stats": {
+            "pageTitle": "Limooje",
+            "visitorsTab": "Ɓilotooɓe",
+            "searchesTab": "Ɗaɓɓitanɗe"
         },
         "header": {
             "welcome": "A jaɓɓaama",

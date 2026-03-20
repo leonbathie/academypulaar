@@ -15,16 +15,12 @@ function DashboardAdmin() {
         books: 0,
         questions: 0
     })
-    const [visitStats, setVisitStats] = useState(null)
-    const [searchStats, setSearchStats] = useState(null)
+    const [todayVisitors, setTodayVisitors] = useState(null)
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         loadStats()
-        if (isSuperAdmin) {
-            loadVisitStats()
-            loadSearchStats()
-        }
+        if (isSuperAdmin) loadQuickVisitStats()
     }, [])
 
     const loadStats = async () => {
@@ -51,21 +47,12 @@ function DashboardAdmin() {
         }
     }
 
-    const loadVisitStats = async () => {
+    const loadQuickVisitStats = async () => {
         try {
             const data = await apiRequest('/visits/stats')
-            setVisitStats(data)
+            setTodayVisitors(data.today)
         } catch (error) {
             console.error('Error loading visit stats:', error)
-        }
-    }
-
-    const loadSearchStats = async () => {
-        try {
-            const data = await apiRequest('/dictionary/search-stats')
-            setSearchStats(data)
-        } catch (error) {
-            console.error('Error loading search stats:', error)
         }
     }
 
@@ -152,157 +139,25 @@ function DashboardAdmin() {
                 </div>
             </div>
 
-            {isSuperAdmin && visitStats && (
-                <div className="admin-card visitors-panel">
-                    <h2>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ width: 24, height: 24, verticalAlign: 'middle', marginRight: 8 }}>
-                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-                            <circle cx="9" cy="7" r="4" />
-                            <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-                            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+            {isSuperAdmin && todayVisitors && (
+                <div className="stat-card stat-card-clickable stat-card-visitors" onClick={() => navigate('/admin/statistiques')}>
+                    <div className="stat-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <line x1="18" y1="20" x2="18" y2="10" />
+                            <line x1="12" y1="20" x2="12" y2="4" />
+                            <line x1="6" y1="20" x2="6" y2="14" />
                         </svg>
-                        {t('admin.dashboard.visitors.title', 'Statistiques des visiteurs')}
-                    </h2>
-
-                    <div className="visitors-stats-grid">
-                        <div className="visitor-stat-card visitor-today">
-                            <div className="visitor-stat-number">{visitStats.today.uniqueVisitors}</div>
-                            <div className="visitor-stat-label">{t('admin.dashboard.visitors.today', "Aujourd'hui")}</div>
-                            <div className="visitor-stat-detail">{visitStats.today.visits} {t('admin.dashboard.visitors.pageViews', 'pages vues')}</div>
-                        </div>
-                        <div className="visitor-stat-card visitor-week">
-                            <div className="visitor-stat-number">{visitStats.week}</div>
-                            <div className="visitor-stat-label">{t('admin.dashboard.visitors.thisWeek', 'Cette semaine')}</div>
-                        </div>
-                        <div className="visitor-stat-card visitor-month">
-                            <div className="visitor-stat-number">{visitStats.month}</div>
-                            <div className="visitor-stat-label">{t('admin.dashboard.visitors.thisMonth', 'Ce mois')}</div>
-                        </div>
-                        <div className="visitor-stat-card visitor-total">
-                            <div className="visitor-stat-number">{visitStats.total.uniqueVisitors}</div>
-                            <div className="visitor-stat-label">{t('admin.dashboard.visitors.totalUnique', 'Visiteurs uniques')}</div>
-                            <div className="visitor-stat-detail">{visitStats.total.visits} {t('admin.dashboard.visitors.totalVisits', 'visites totales')}</div>
-                        </div>
                     </div>
-
-                    {visitStats.dailyStats.length > 0 && (
-                        <div className="visitors-chart">
-                            <h3>{t('admin.dashboard.visitors.last30days', '30 derniers jours')}</h3>
-                            <div className="chart-bars">
-                                {visitStats.dailyStats.map((day, i) => {
-                                    const maxVisits = Math.max(...visitStats.dailyStats.map(d => d.visits), 1)
-                                    const height = Math.max((day.visits / maxVisits) * 100, 4)
-                                    const date = new Date(day.date)
-                                    const label = `${date.getDate()}/${date.getMonth() + 1}`
-                                    return (
-                                        <div key={i} className="chart-bar-wrapper" title={`${label}: ${day.unique_visitors} visiteurs, ${day.visits} pages`}>
-                                            <div className="chart-bar" style={{ height: `${height}%` }}>
-                                                <span className="chart-bar-value">{day.unique_visitors}</span>
-                                            </div>
-                                            {i % 5 === 0 && <span className="chart-bar-label">{label}</span>}
-                                        </div>
-                                    )
-                                })}
-                            </div>
-                        </div>
-                    )}
-
-                    {visitStats.topPages.length > 0 && (
-                        <div className="visitors-top-pages">
-                            <h3>{t('admin.dashboard.visitors.topPages', 'Pages les plus visitées')}</h3>
-                            <div className="top-pages-list">
-                                {visitStats.topPages.map((page, i) => {
-                                    const maxCount = visitStats.topPages[0]?.count || 1
-                                    return (
-                                        <div key={i} className="top-page-item">
-                                            <span className="top-page-rank">#{i + 1}</span>
-                                            <span className="top-page-name">{page.page === '/' ? t('admin.dashboard.visitors.homePage', 'Accueil') : page.page}</span>
-                                            <div className="top-page-bar-bg">
-                                                <div className="top-page-bar" style={{ width: `${(page.count / maxCount) * 100}%` }}></div>
-                                            </div>
-                                            <span className="top-page-count">{page.unique_count} <small>{t('admin.dashboard.visitors.visitors', 'visiteurs')}</small></span>
-                                        </div>
-                                    )
-                                })}
-                            </div>
-                        </div>
-                    )}
-                </div>
-            )}
-
-            {isSuperAdmin && searchStats && (
-                <div className="admin-card search-stats-panel">
-                    <h2>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ width: 24, height: 24, verticalAlign: 'middle', marginRight: 8 }}>
-                            <circle cx="11" cy="11" r="8" />
-                            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                    <div className="stat-info">
+                        <h3>{todayVisitors.uniqueVisitors}</h3>
+                        <p>{t('admin.dashboard.visitors.today', "Aujourd'hui")}</p>
+                        <small style={{ color: 'var(--medium-gray)' }}>{todayVisitors.visits} {t('admin.dashboard.visitors.pageViews', 'pages vues')}</small>
+                    </div>
+                    <span className="stat-card-arrow">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ width: 18, height: 18 }}>
+                            <polyline points="9 18 15 12 9 6" />
                         </svg>
-                        {t('admin.dashboard.search.title', 'Recherches & mots populaires')}
-                        <span className="search-total-badge">{searchStats.totalSearches} {t('admin.dashboard.search.totalSearches', 'recherches')}</span>
-                    </h2>
-
-                    <div className="search-stats-columns">
-                        {/* Top recherches */}
-                        <div className="search-stats-col">
-                            <h3>{t('admin.dashboard.search.topSearches', 'Termes les plus recherchés')}</h3>
-                            {searchStats.topSearches.length > 0 ? (
-                                <div className="search-list">
-                                    {searchStats.topSearches.map((s, i) => (
-                                        <div key={i} className="search-list-item">
-                                            <span className="search-rank">#{i + 1}</span>
-                                            <span className="search-term">"{s.term}"</span>
-                                            <span className="search-count">{s.count}x</span>
-                                        </div>
-                                    ))}
-                                </div>
-                            ) : (
-                                <p className="search-empty">{t('admin.dashboard.search.noData', 'Pas encore de données')}</p>
-                            )}
-                        </div>
-
-                        {/* Mots les plus consultés */}
-                        <div className="search-stats-col">
-                            <h3>{t('admin.dashboard.search.topWords', 'Mots les plus consultés')}</h3>
-                            {searchStats.topWords.length > 0 ? (
-                                <div className="search-list">
-                                    {searchStats.topWords.map((w, i) => (
-                                        <div key={i} className="search-list-item">
-                                            <span className="search-rank">#{i + 1}</span>
-                                            <span className="search-term">
-                                                <strong>{w.word}</strong>
-                                                {w.translation_fr && <small> — {w.translation_fr}</small>}
-                                            </span>
-                                            <span className="search-count">{w.view_count}x</span>
-                                        </div>
-                                    ))}
-                                </div>
-                            ) : (
-                                <p className="search-empty">{t('admin.dashboard.search.noData', 'Pas encore de données')}</p>
-                            )}
-                        </div>
-
-                        {/* Recherches récentes */}
-                        <div className="search-stats-col">
-                            <h3>{t('admin.dashboard.search.recentSearches', 'Recherches récentes')}</h3>
-                            {searchStats.recentSearches.length > 0 ? (
-                                <div className="search-list search-list-recent">
-                                    {searchStats.recentSearches.map((s, i) => (
-                                        <div key={i} className="search-list-item search-recent-item">
-                                            <span className="search-term">"{s.term}"</span>
-                                            <span className="search-results-count">
-                                                {s.results_count} {t('admin.dashboard.search.results', 'résultats')}
-                                            </span>
-                                            <span className="search-time">
-                                                {new Date(s.created_at).toLocaleString()}
-                                            </span>
-                                        </div>
-                                    ))}
-                                </div>
-                            ) : (
-                                <p className="search-empty">{t('admin.dashboard.search.noData', 'Pas encore de données')}</p>
-                            )}
-                        </div>
-                    </div>
+                    </span>
                 </div>
             )}
 

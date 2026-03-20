@@ -296,7 +296,13 @@
             "questions": "Questions Fréquentes",
             "viewSite": "Voir le site",
             "users": "Administration",
+            "statistics": "Statistiques",
             "logout": "Déconnexion"
+        },
+        "stats": {
+            "pageTitle": "Statistiques",
+            "visitorsTab": "Visiteurs",
+            "searchesTab": "Recherches"
         },
         "header": {
             "welcome": "Bienvenue",

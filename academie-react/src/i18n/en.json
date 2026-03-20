@@ -294,7 +294,13 @@
             "questions": "Frequently Asked Questions (FAQ)",
             "viewSite": "View Site",
             "users": "Administration",
+            "statistics": "Statistics",
             "logout": "Logout"
+        },
+        "stats": {
+            "pageTitle": "Statistics",
+            "visitorsTab": "Visitors",
+            "searchesTab": "Searches"
         },
         "header": {
             "welcome": "Welcome",
