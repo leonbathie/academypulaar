@@ -313,6 +313,15 @@
                 "books": "Livres dans la bibliothèque",
                 "questions": "Questions Fréquentes"
             },
+            "search": {
+                "title": "Recherches & mots populaires",
+                "totalSearches": "recherches",
+                "topSearches": "Termes les plus recherchés",
+                "topWords": "Mots les plus consultés",
+                "recentSearches": "Recherches récentes",
+                "results": "résultats",
+                "noData": "Pas encore de données"
+            },
             "visitors": {
                 "title": "Statistiques des visiteurs",
                 "today": "Aujourd'hui",

@@ -6,7 +6,12 @@ const fs = require('fs')
 const pdfjsLib = require('pdfjs-dist/legacy/build/pdf.mjs')
 const { query } = require('../database')
 const { authMiddleware, canWrite, requireRole, validateId } = require('../middleware/auth')
+const crypto = require('crypto')
 const { isSuperAdmin } = require('../config/super-admins')
+
+function hashIP(ip) {
+    return crypto.createHash('sha256').update(ip + 'goomufulo-salt').digest('hex').substring(0, 16)
+}
 
 // Configuration multer pour les fichiers audio
 const storage = multer.diskStorage({
@@ -358,6 +363,105 @@ router.post('/delete-request/:id/cancel', authMiddleware, requireRole('admin'), 
 
     } catch (error) {
         console.error('Cancel delete error:', error)
+        res.status(500).json({ error: 'Erreur serveur' })
+    }
+})
+
+// ============================================================
+// TRACKING : recherches et mots consultés
+// ============================================================
+
+// POST /api/dictionary/track-search - Enregistrer une recherche (public)
+router.post('/track-search', async (req, res) => {
+    try {
+        const { term, resultsCount } = req.body
+        if (!term || term.length < 1 || term.length > 255) {
+            return res.json({ tracked: false })
+        }
+
+        const ip = req.ip || req.connection.remoteAddress || 'unknown'
+        const ipHash = hashIP(ip)
+
+        // Anti-doublon : même terme + même IP dans les 5 dernières minutes
+        const recent = await query(
+            "SELECT id FROM dictionary_searches WHERE LOWER(term) = LOWER($1) AND ip_hash = $2 AND created_at > NOW() - INTERVAL '5 minutes'",
+            [term.trim(), ipHash]
+        )
+        if (recent.rows.length > 0) {
+            return res.json({ tracked: false })
+        }
+
+        await query(
+            'INSERT INTO dictionary_searches (term, results_count, ip_hash) VALUES ($1, $2, $3)',
+            [term.trim(), resultsCount || 0, ipHash]
+        )
+
+        res.json({ tracked: true })
+    } catch (error) {
+        console.error('Track search error:', error)
+        res.json({ tracked: false })
+    }
+})
+
+// POST /api/dictionary/track-view/:id - Incrémenter le compteur de vues d'un mot (public)
+router.post('/track-view/:id', validateId, async (req, res) => {
+    try {
+        await query(
+            'UPDATE dictionary SET view_count = COALESCE(view_count, 0) + 1 WHERE id = $1',
+            [req.params.id]
+        )
+        res.json({ tracked: true })
+    } catch (error) {
+        console.error('Track view error:', error)
+        res.json({ tracked: false })
+    }
+})
+
+// GET /api/dictionary/search-stats - Stats des recherches (super-admin only)
+router.get('/search-stats', authMiddleware, requireRole('admin'), async (req, res) => {
+    try {
+        const email = await getUserEmail(req.user.id)
+        if (!isSuperAdmin(email)) {
+            return res.status(403).json({ error: 'Accès réservé aux super-administrateurs' })
+        }
+
+        const [topSearches, recentSearches, topWords, totalSearches] = await Promise.all([
+            // Top 15 termes les plus recherchés (30 derniers jours)
+            query(`
+                SELECT LOWER(term) as term, COUNT(*) as count
+                FROM dictionary_searches
+                WHERE created_at >= CURRENT_DATE - INTERVAL '30 days'
+                GROUP BY LOWER(term)
+                ORDER BY count DESC
+                LIMIT 15
+            `),
+            // 20 dernières recherches
+            query(`
+                SELECT term, results_count, created_at
+                FROM dictionary_searches
+                ORDER BY created_at DESC
+                LIMIT 20
+            `),
+            // Top 15 mots les plus consultés
+            query(`
+                SELECT id, word, translation_fr, domain, COALESCE(view_count, 0) as view_count
+                FROM dictionary
+                WHERE COALESCE(view_count, 0) > 0
+                ORDER BY view_count DESC
+                LIMIT 15
+            `),
+            // Total recherches
+            query('SELECT COUNT(*) as count FROM dictionary_searches')
+        ])
+
+        res.json({
+            topSearches: topSearches.rows,
+            recentSearches: recentSearches.rows,
+            topWords: topWords.rows,
+            totalSearches: parseInt(totalSearches.rows[0].count)
+        })
+    } catch (error) {
+        console.error('Search stats error:', error)
         res.status(500).json({ error: 'Erreur serveur' })
     }
 })

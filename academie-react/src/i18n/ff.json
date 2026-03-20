@@ -314,6 +314,15 @@
                 "books": "Defte e nder Defterdu",
                 "questions": "Laaɓnde / ƴame lolluɗe"
             },
+            "search": {
+                "title": "Ɗaɓɓitanɗe & kelme ɓurɗe huutoreede",
+                "totalSearches": "ɗaɓɓitanɗe",
+                "topSearches": "Kelme ɓurɗe ɗaɓɓiteede",
+                "topWords": "Kelme ɓurɗe ndaareede",
+                "recentSearches": "Ɗaɓɓitanɗe cakitiiɗe",
+                "results": "njaltudi",
+                "noData": "Alaa keɓe tawo"
+            },
             "visitors": {
                 "title": "Limooje yillotooɓe",
                 "today": "Hannde",

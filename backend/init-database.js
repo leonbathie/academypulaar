@@ -313,6 +313,29 @@ async function initDatabase() {
         `).catch(() => {})
         console.log('✅ Table visits créée')
 
+        // Table de suivi des recherches dictionnaire
+        await pool.query(`
+            CREATE TABLE IF NOT EXISTS dictionary_searches (
+                id SERIAL PRIMARY KEY,
+                term VARCHAR(255) NOT NULL,
+                results_count INTEGER DEFAULT 0,
+                ip_hash VARCHAR(64),
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        `)
+        await pool.query(`
+            CREATE INDEX IF NOT EXISTS idx_dict_searches_term ON dictionary_searches(LOWER(term))
+        `).catch(() => {})
+        await pool.query(`
+            CREATE INDEX IF NOT EXISTS idx_dict_searches_date ON dictionary_searches(created_at)
+        `).catch(() => {})
+        console.log('✅ Table dictionary_searches créée')
+
+        // Colonne view_count sur dictionary
+        await pool.query(
+            'ALTER TABLE dictionary ADD COLUMN IF NOT EXISTS view_count INTEGER DEFAULT 0'
+        ).catch(() => {})
+
         // Créer l'admin par défaut
         const adminUsername = process.env.ADMIN_USERNAME || 'admin'
         const adminPassword = process.env.ADMIN_PASSWORD

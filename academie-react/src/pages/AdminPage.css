@@ -1804,4 +1804,109 @@
     .visitor-stat-number { font-size: 1.6rem; }
     .top-page-name { width: 100px; }
     .chart-bars { height: 100px; }
+    .search-stats-columns { grid-template-columns: 1fr; }
 }
+
+/* ===== Search Stats Panel (Super-Admin Dashboard) ===== */
+.search-stats-panel h2 {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: var(--space-lg);
+}
+.search-total-badge {
+    display: inline-block;
+    padding: 3px 12px;
+    background: rgba(201, 162, 39, 0.12);
+    color: var(--primary-gold);
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-left: auto;
+}
+.search-stats-columns {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-lg);
+}
+.search-stats-col h3 {
+    font-size: 0.9rem;
+    color: var(--dark-gray);
+    margin-bottom: var(--space-md);
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--light-gray);
+}
+.search-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+.search-list-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    border-radius: var(--radius-md);
+    transition: background 0.15s;
+}
+.search-list-item:hover {
+    background: rgba(201, 162, 39, 0.06);
+}
+.search-rank {
+    font-weight: 700;
+    color: var(--primary-gold);
+    font-size: 0.8rem;
+    width: 28px;
+    flex-shrink: 0;
+}
+.search-term {
+    flex: 1;
+    font-size: 0.9rem;
+    color: var(--dark-gray);
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.search-term small {
+    color: var(--medium-gray);
+    font-weight: 400;
+}
+.search-count {
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--primary-dark);
+    background: rgba(201, 162, 39, 0.1);
+    padding: 2px 8px;
+    border-radius: 10px;
+    flex-shrink: 0;
+}
+.search-empty {
+    color: var(--medium-gray);
+    font-style: italic;
+    font-size: 0.9rem;
+    padding: var(--space-md);
+}
+
+/* Recent searches */
+.search-recent-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+    padding: 6px 10px;
+}
+.search-results-count {
+    font-size: 0.75rem;
+    color: var(--medium-gray);
+}
+.search-time {
+    font-size: 0.7rem;
+    color: var(--medium-gray);
+}
+
+[data-theme="dark"] .search-term { color: #ddd; }
+[data-theme="dark"] .search-count { color: var(--primary-gold); }
+[data-theme="dark"] .search-stats-col h3 { color: #ccc; border-color: rgba(255,255,255,0.1); }

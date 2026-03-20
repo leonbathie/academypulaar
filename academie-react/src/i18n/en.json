@@ -311,6 +311,15 @@
                 "books": "Books in library",
                 "questions": "Frequently Asked Questions (FAQ)"
             },
+            "search": {
+                "title": "Searches & popular words",
+                "totalSearches": "searches",
+                "topSearches": "Most searched terms",
+                "topWords": "Most viewed words",
+                "recentSearches": "Recent searches",
+                "results": "results",
+                "noData": "No data yet"
+            },
             "visitors": {
                 "title": "Visitor Statistics",
                 "today": "Today",

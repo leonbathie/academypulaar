@@ -34,8 +34,13 @@ function DictionaryPage() {
     const toggleCard = useCallback((id) => {
         setExpandedCards(prev => {
             const next = new Set(prev)
-            if (next.has(id)) next.delete(id)
-            else next.add(id)
+            if (next.has(id)) {
+                next.delete(id)
+            } else {
+                next.add(id)
+                // Tracker la consultation du mot
+                fetch(`${API_URL}/api/dictionary/track-view/${id}`, { method: 'POST' }).catch(() => {})
+            }
             return next
         })
     }, [])
@@ -77,6 +82,19 @@ function DictionaryPage() {
             setLoading(false)
         }
     }
+
+    // Tracker une recherche (avec debounce long pour éviter le spam)
+    useEffect(() => {
+        if (searchTerm.length < 2) return
+        const trackTimer = setTimeout(() => {
+            fetch(`${API_URL}/api/dictionary/track-search`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ term: searchTerm, resultsCount: results.length })
+            }).catch(() => {})
+        }, 2000)
+        return () => clearTimeout(trackTimer)
+    }, [searchTerm, results.length])
 
     // Recherche dans les mots (Fulfulde, Français, Anglais, Définition Fulfulde)
     useEffect(() => {

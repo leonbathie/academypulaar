@@ -16,11 +16,15 @@ function DashboardAdmin() {
         questions: 0
     })
     const [visitStats, setVisitStats] = useState(null)
+    const [searchStats, setSearchStats] = useState(null)
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         loadStats()
-        if (isSuperAdmin) loadVisitStats()
+        if (isSuperAdmin) {
+            loadVisitStats()
+            loadSearchStats()
+        }
     }, [])
 
     const loadStats = async () => {
@@ -53,6 +57,15 @@ function DashboardAdmin() {
             setVisitStats(data)
         } catch (error) {
             console.error('Error loading visit stats:', error)
+        }
+    }
+
+    const loadSearchStats = async () => {
+        try {
+            const data = await apiRequest('/dictionary/search-stats')
+            setSearchStats(data)
+        } catch (error) {
+            console.error('Error loading search stats:', error)
         }
     }
 
@@ -214,6 +227,82 @@ function DashboardAdmin() {
                             </div>
                         </div>
                     )}
+                </div>
+            )}
+
+            {isSuperAdmin && searchStats && (
+                <div className="admin-card search-stats-panel">
+                    <h2>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ width: 24, height: 24, verticalAlign: 'middle', marginRight: 8 }}>
+                            <circle cx="11" cy="11" r="8" />
+                            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                        </svg>
+                        {t('admin.dashboard.search.title', 'Recherches & mots populaires')}
+                        <span className="search-total-badge">{searchStats.totalSearches} {t('admin.dashboard.search.totalSearches', 'recherches')}</span>
+                    </h2>
+
+                    <div className="search-stats-columns">
+                        {/* Top recherches */}
+                        <div className="search-stats-col">
+                            <h3>{t('admin.dashboard.search.topSearches', 'Termes les plus recherchés')}</h3>
+                            {searchStats.topSearches.length > 0 ? (
+                                <div className="search-list">
+                                    {searchStats.topSearches.map((s, i) => (
+                                        <div key={i} className="search-list-item">
+                                            <span className="search-rank">#{i + 1}</span>
+                                            <span className="search-term">"{s.term}"</span>
+                                            <span className="search-count">{s.count}x</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            ) : (
+                                <p className="search-empty">{t('admin.dashboard.search.noData', 'Pas encore de données')}</p>
+                            )}
+                        </div>
+
+                        {/* Mots les plus consultés */}
+                        <div className="search-stats-col">
+                            <h3>{t('admin.dashboard.search.topWords', 'Mots les plus consultés')}</h3>
+                            {searchStats.topWords.length > 0 ? (
+                                <div className="search-list">
+                                    {searchStats.topWords.map((w, i) => (
+                                        <div key={i} className="search-list-item">
+                                            <span className="search-rank">#{i + 1}</span>
+                                            <span className="search-term">
+                                                <strong>{w.word}</strong>
+                                                {w.translation_fr && <small> — {w.translation_fr}</small>}
+                                            </span>
+                                            <span className="search-count">{w.view_count}x</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            ) : (
+                                <p className="search-empty">{t('admin.dashboard.search.noData', 'Pas encore de données')}</p>
+                            )}
+                        </div>
+
+                        {/* Recherches récentes */}
+                        <div className="search-stats-col">
+                            <h3>{t('admin.dashboard.search.recentSearches', 'Recherches récentes')}</h3>
+                            {searchStats.recentSearches.length > 0 ? (
+                                <div className="search-list search-list-recent">
+                                    {searchStats.recentSearches.map((s, i) => (
+                                        <div key={i} className="search-list-item search-recent-item">
+                                            <span className="search-term">"{s.term}"</span>
+                                            <span className="search-results-count">
+                                                {s.results_count} {t('admin.dashboard.search.results', 'résultats')}
+                                            </span>
+                                            <span className="search-time">
+                                                {new Date(s.created_at).toLocaleString()}
+                                            </span>
+                                        </div>
+                                    ))}
+                                </div>
+                            ) : (
+                                <p className="search-empty">{t('admin.dashboard.search.noData', 'Pas encore de données')}</p>
+                            )}
+                        </div>
+                    </div>
                 </div>
             )}
 
