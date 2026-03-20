@@ -38,12 +38,11 @@ function DictionaryPage() {
                 next.delete(id)
             } else {
                 next.add(id)
-                // Tracker la consultation du mot
-                fetch(`${API_URL}/api/dictionary/track-view/${id}`, { method: 'POST' }).catch(() => {})
+                trackWordInteraction(id)
             }
             return next
         })
-    }, [])
+    }, [trackWordInteraction])
 
     // Lire les paramètres URL au chargement
     useEffect(() => {
@@ -156,8 +155,21 @@ function DictionaryPage() {
         }
     }
 
+    // Tracker une interaction avec un mot (éviter doublons rapides)
+    const trackedWords = useRef(new Set())
+    const trackWordInteraction = useCallback((id) => {
+        if (trackedWords.current.has(id)) return
+        trackedWords.current.add(id)
+        fetch(`${API_URL}/api/dictionary/track-view/${id}`, { method: 'POST' }).catch(() => {})
+        // Permettre un nouveau tracking après 30s
+        setTimeout(() => trackedWords.current.delete(id), 30000)
+    }, [])
+
     const playAudio = (audioUrl, entryId, type) => {
         const fullUrl = `${API_URL}${audioUrl}`
+
+        // Tracker l'écoute audio
+        trackWordInteraction(entryId)
 
         // Si on clique sur le même audio en cours de lecture, on l'arrête
         if (playingAudio === `${entryId}-${type}`) {
@@ -326,7 +338,7 @@ function DictionaryPage() {
                                         <article key={entry.id} className={`word-card ${isExpanded ? 'word-card--expanded' : ''}`}>
                                             {/* En-tête : mot + audio */}
                                             <div className="word-card-top">
-                                                <h3 className="word-term">{entry.word}</h3>
+                                                <h3 className="word-term" onClick={() => { trackWordInteraction(entry.id); toggleCard(entry.id) }} style={{ cursor: 'pointer' }}>{entry.word}</h3>
                                                 {entry.audio_word && (
                                                     <button
                                                         className={`audio-play-btn ${playingAudio === `${entry.id}-word` ? 'playing' : ''}`}
