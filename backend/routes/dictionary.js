@@ -6,6 +6,7 @@ const fs = require('fs')
 const pdfjsLib = require('pdfjs-dist/legacy/build/pdf.mjs')
 const { query } = require('../database')
 const { authMiddleware, canWrite, requireRole, validateId } = require('../middleware/auth')
+const { isSuperAdmin } = require('../config/super-admins')
 
 // Configuration multer pour les fichiers audio
 const storage = multer.diskStorage({
@@ -186,45 +187,186 @@ router.put('/:id', authMiddleware, canWrite, validateId, upload.fields([
     }
 })
 
-// DELETE /api/dictionary/:id - Supprimer un mot (Admin only)
-router.delete('/:id', authMiddleware, requireRole('admin'), validateId, async (req, res) => {
-    try {
-        const result = await query('DELETE FROM dictionary WHERE id = $1 RETURNING id', [req.params.id])
+// ============================================================
+// SYSTÈME DE DOUBLE VALIDATION SUPER-ADMIN POUR SUPPRESSIONS
+// Un super-admin demande la suppression, un 2e super-admin approuve
+// ============================================================
 
-        if (result.rows.length === 0) {
-            return res.status(404).json({ error: 'Mot non trouvé' })
+// Helper: récupérer l'email de l'utilisateur depuis la DB
+async function getUserEmail(userId) {
+    const result = await query('SELECT email FROM users WHERE id = $1', [userId])
+    return result.rows[0]?.email || null
+}
+
+// POST /api/dictionary/delete-request - Demander la suppression d'un mot (super-admin only)
+router.post('/delete-request', authMiddleware, requireRole('admin'), async (req, res) => {
+    try {
+        const email = await getUserEmail(req.user.id)
+        if (!isSuperAdmin(email)) {
+            return res.status(403).json({ error: 'Seuls les super-administrateurs peuvent demander une suppression du dictionnaire' })
         }
 
-        res.json({ message: 'Mot supprimé avec succès' })
+        const { wordIds } = req.body
+        if (!wordIds || !Array.isArray(wordIds) || wordIds.length === 0) {
+            return res.status(400).json({ error: 'Aucun mot sélectionné' })
+        }
+
+        // Valider que les IDs sont des entiers
+        const validIds = wordIds.filter(id => Number.isInteger(id) && id > 0)
+        if (validIds.length === 0) {
+            return res.status(400).json({ error: 'IDs invalides' })
+        }
+
+        let created = 0
+        let alreadyPending = 0
+
+        for (const wordId of validIds) {
+            // Vérifier que le mot existe
+            const wordExists = await query('SELECT id FROM dictionary WHERE id = $1', [wordId])
+            if (wordExists.rows.length === 0) continue
+
+            // Vérifier s'il y a déjà une demande en attente pour ce mot
+            const existing = await query(
+                "SELECT id FROM dictionary_delete_requests WHERE word_id = $1 AND status = 'pending'",
+                [wordId]
+            )
+            if (existing.rows.length > 0) {
+                alreadyPending++
+                continue
+            }
+
+            await query(
+                'INSERT INTO dictionary_delete_requests (word_id, requested_by) VALUES ($1, $2)',
+                [wordId, req.user.id]
+            )
+            created++
+        }
+
+        res.json({
+            message: `${created} demande(s) de suppression créée(s)`,
+            created,
+            alreadyPending
+        })
 
     } catch (error) {
-        console.error('Delete word error:', error)
+        console.error('Delete request error:', error)
         res.status(500).json({ error: 'Erreur serveur' })
     }
 })
 
-// POST /api/dictionary/bulk-delete - Supprimer plusieurs mots (Admin only)
-router.post('/bulk-delete', authMiddleware, requireRole('admin'), async (req, res) => {
+// GET /api/dictionary/delete-requests - Lister les demandes de suppression (super-admin only)
+router.get('/delete-requests', authMiddleware, requireRole('admin'), async (req, res) => {
     try {
-        const { ids } = req.body
-        if (!ids || !Array.isArray(ids) || ids.length === 0) {
-            return res.status(400).json({ error: 'Aucun ID fourni' })
+        const email = await getUserEmail(req.user.id)
+        if (!isSuperAdmin(email)) {
+            return res.status(403).json({ error: 'Accès réservé aux super-administrateurs' })
         }
 
-        // Build parameterized query for safe bulk delete
-        const placeholders = ids.map((_, i) => `$${i + 1}`).join(', ')
-        const result = await query(
-            `DELETE FROM dictionary WHERE id IN (${placeholders}) RETURNING id`,
-            ids
+        const result = await query(`
+            SELECT dr.id, dr.word_id, dr.status, dr.created_at, dr.resolved_at,
+                   d.word, d.translation_fr, d.translation_en, d.domain,
+                   u1.username AS requested_by_name, u1.email AS requested_by_email,
+                   u2.username AS approved_by_name
+            FROM dictionary_delete_requests dr
+            JOIN dictionary d ON dr.word_id = d.id
+            JOIN users u1 ON dr.requested_by = u1.id
+            LEFT JOIN users u2 ON dr.approved_by = u2.id
+            ORDER BY dr.status = 'pending' DESC, dr.created_at DESC
+        `)
+
+        res.json(result.rows)
+
+    } catch (error) {
+        console.error('Get delete requests error:', error)
+        res.status(500).json({ error: 'Erreur serveur' })
+    }
+})
+
+// POST /api/dictionary/delete-request/:id/approve - Approuver une suppression (2e super-admin)
+router.post('/delete-request/:id/approve', authMiddleware, requireRole('admin'), validateId, async (req, res) => {
+    try {
+        const email = await getUserEmail(req.user.id)
+        if (!isSuperAdmin(email)) {
+            return res.status(403).json({ error: 'Seuls les super-administrateurs peuvent approuver' })
+        }
+
+        // Récupérer la demande
+        const request = await query(
+            "SELECT * FROM dictionary_delete_requests WHERE id = $1 AND status = 'pending'",
+            [req.params.id]
+        )
+        if (request.rows.length === 0) {
+            return res.status(404).json({ error: 'Demande non trouvée ou déjà traitée' })
+        }
+
+        const deleteRequest = request.rows[0]
+
+        // Vérifier que ce n'est PAS le même super-admin qui a fait la demande
+        if (deleteRequest.requested_by === req.user.id) {
+            return res.status(403).json({ error: 'Vous ne pouvez pas approuver votre propre demande de suppression. Un autre super-administrateur doit valider.' })
+        }
+
+        // Supprimer le mot du dictionnaire
+        const deleted = await query('DELETE FROM dictionary WHERE id = $1 RETURNING *', [deleteRequest.word_id])
+
+        // Marquer la demande comme approuvée
+        await query(
+            "UPDATE dictionary_delete_requests SET status = 'approved', approved_by = $1, resolved_at = CURRENT_TIMESTAMP WHERE id = $2",
+            [req.user.id, req.params.id]
         )
 
         res.json({
-            message: `${result.rows.length} mot(s) supprimé(s)`,
-            deleted: result.rows.length
+            message: `Mot "${deleted.rows[0]?.word || ''}" supprimé après double validation`,
+            word: deleted.rows[0]
         })
 
     } catch (error) {
-        console.error('Bulk delete error:', error)
+        console.error('Approve delete error:', error)
+        res.status(500).json({ error: 'Erreur serveur' })
+    }
+})
+
+// POST /api/dictionary/delete-request/:id/reject - Rejeter une demande de suppression
+router.post('/delete-request/:id/reject', authMiddleware, requireRole('admin'), validateId, async (req, res) => {
+    try {
+        const email = await getUserEmail(req.user.id)
+        if (!isSuperAdmin(email)) {
+            return res.status(403).json({ error: 'Seuls les super-administrateurs peuvent rejeter' })
+        }
+
+        const result = await query(
+            "UPDATE dictionary_delete_requests SET status = 'rejected', approved_by = $1, resolved_at = CURRENT_TIMESTAMP WHERE id = $2 AND status = 'pending' RETURNING *",
+            [req.user.id, req.params.id]
+        )
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({ error: 'Demande non trouvée ou déjà traitée' })
+        }
+
+        res.json({ message: 'Demande de suppression rejetée' })
+
+    } catch (error) {
+        console.error('Reject delete error:', error)
+        res.status(500).json({ error: 'Erreur serveur' })
+    }
+})
+
+// POST /api/dictionary/delete-request/:id/cancel - Annuler sa propre demande
+router.post('/delete-request/:id/cancel', authMiddleware, requireRole('admin'), validateId, async (req, res) => {
+    try {
+        const result = await query(
+            "UPDATE dictionary_delete_requests SET status = 'cancelled', resolved_at = CURRENT_TIMESTAMP WHERE id = $1 AND status = 'pending' AND requested_by = $2 RETURNING *",
+            [req.params.id, req.user.id]
+        )
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({ error: 'Demande non trouvée ou vous n\'êtes pas l\'auteur' })
+        }
+
+        res.json({ message: 'Demande annulée' })
+
+    } catch (error) {
+        console.error('Cancel delete error:', error)
         res.status(500).json({ error: 'Erreur serveur' })
     }
 })

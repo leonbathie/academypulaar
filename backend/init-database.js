@@ -279,6 +279,20 @@ async function initDatabase() {
         `)
         console.log('✅ Table contact_messages créée')
 
+        // Table des demandes de suppression dictionnaire (double validation super-admin)
+        await pool.query(`
+            CREATE TABLE IF NOT EXISTS dictionary_delete_requests (
+                id SERIAL PRIMARY KEY,
+                word_id INTEGER NOT NULL REFERENCES dictionary(id) ON DELETE CASCADE,
+                requested_by INTEGER NOT NULL REFERENCES users(id),
+                approved_by INTEGER REFERENCES users(id),
+                status VARCHAR(20) DEFAULT 'pending',
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                resolved_at TIMESTAMP
+            )
+        `)
+        console.log('✅ Table dictionary_delete_requests créée')
+
         // Créer l'admin par défaut
         const adminUsername = process.env.ADMIN_USERNAME || 'admin'
         const adminPassword = process.env.ADMIN_PASSWORD

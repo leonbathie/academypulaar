@@ -1,12 +1,13 @@
 import { useState, useEffect, useRef, Fragment, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useApi } from '../../context/AuthContext'
+import { useApi, useAuth } from '../../context/AuthContext'
 import { API_URL } from '../../config'
 import ConfirmDialog from '../../components/ConfirmDialog'
 
 function DictionaryAdmin() {
     const { t, i18n } = useTranslation()
     const { apiRequest, token } = useApi()
+    const { isSuperAdmin } = useAuth()
 
     // Map stored domain values to i18n keys
     const domainKeyMap = {
@@ -68,11 +69,16 @@ function DictionaryAdmin() {
     const [pdfPreviewing, setPdfPreviewing] = useState(false)
     const [pdfResult, setPdfResult] = useState(null)
     const pdfInputRef = useRef(null)
+    // Delete requests (double validation super-admin)
+    const [deleteRequests, setDeleteRequests] = useState([])
+    const [showDeleteRequests, setShowDeleteRequests] = useState(false)
+
     const [confirmDialog, setConfirmDialog] = useState({ open: false, title: '', message: '', onConfirm: null })
     const closeConfirm = useCallback(() => setConfirmDialog(prev => ({ ...prev, open: false })), [])
 
     useEffect(() => {
         loadWords()
+        if (isSuperAdmin) loadDeleteRequests()
     }, [])
 
     const loadWords = async () => {
@@ -83,6 +89,15 @@ function DictionaryAdmin() {
             console.error('Error loading words:', error)
         } finally {
             setLoading(false)
+        }
+    }
+
+    const loadDeleteRequests = async () => {
+        try {
+            const data = await apiRequest('/dictionary/delete-requests')
+            setDeleteRequests(data)
+        } catch (error) {
+            console.error('Error loading delete requests:', error)
         }
     }
 
@@ -242,15 +257,19 @@ function DictionaryAdmin() {
     }
 
     const handleDelete = (id) => {
+        if (!isSuperAdmin) return
         setConfirmDialog({
             open: true,
-            title: t('admin.common.confirmDeleteTitle', 'Confirmer la suppression'),
-            message: t('admin.common.confirmDeleteWord'),
+            title: t('admin.dictionary.deleteRequestTitle', 'Demande de suppression'),
+            message: t('admin.dictionary.deleteRequestConfirm', 'Cette demande devra être validée par un autre super-administrateur avant la suppression effective.'),
             onConfirm: async () => {
                 setConfirmDialog(prev => ({ ...prev, open: false }))
                 try {
-                    await apiRequest(`/dictionary/${id}`, { method: 'DELETE' })
-                    loadWords()
+                    await apiRequest('/dictionary/delete-request', {
+                        method: 'POST',
+                        body: JSON.stringify({ wordIds: [id] })
+                    })
+                    loadDeleteRequests()
                 } catch (error) {
                     alert(t('admin.common.errorPrefix') + error.message)
                 }
@@ -286,22 +305,22 @@ function DictionaryAdmin() {
     }
 
     const handleBulkDelete = () => {
-        if (selectedIds.size === 0) return
+        if (selectedIds.size === 0 || !isSuperAdmin) return
         const count = selectedIds.size
         setConfirmDialog({
             open: true,
-            title: t('admin.common.confirmDeleteTitle', 'Confirmer la suppression'),
-            message: t('admin.dictionary.confirmBulkDelete', { count }),
+            title: t('admin.dictionary.deleteRequestTitle', 'Demande de suppression'),
+            message: t('admin.dictionary.bulkDeleteRequestConfirm', { count }),
             onConfirm: async () => {
                 setConfirmDialog(prev => ({ ...prev, open: false }))
                 setBulkDeleting(true)
                 try {
-                    await apiRequest('/dictionary/bulk-delete', {
+                    await apiRequest('/dictionary/delete-request', {
                         method: 'POST',
-                        body: JSON.stringify({ ids: [...selectedIds] })
+                        body: JSON.stringify({ wordIds: [...selectedIds] })
                     })
                     setSelectedIds(new Set())
-                    loadWords()
+                    loadDeleteRequests()
                 } catch (error) {
                     alert(t('admin.common.errorPrefix') + error.message)
                 } finally {
@@ -309,6 +328,34 @@ function DictionaryAdmin() {
                 }
             }
         })
+    }
+
+    const handleApproveDelete = async (requestId) => {
+        try {
+            await apiRequest(`/dictionary/delete-request/${requestId}/approve`, { method: 'POST' })
+            loadWords()
+            loadDeleteRequests()
+        } catch (error) {
+            alert(t('admin.common.errorPrefix') + error.message)
+        }
+    }
+
+    const handleRejectDelete = async (requestId) => {
+        try {
+            await apiRequest(`/dictionary/delete-request/${requestId}/reject`, { method: 'POST' })
+            loadDeleteRequests()
+        } catch (error) {
+            alert(t('admin.common.errorPrefix') + error.message)
+        }
+    }
+
+    const handleCancelDelete = async (requestId) => {
+        try {
+            await apiRequest(`/dictionary/delete-request/${requestId}/cancel`, { method: 'POST' })
+            loadDeleteRequests()
+        } catch (error) {
+            alert(t('admin.common.errorPrefix') + error.message)
+        }
     }
 
     // PDF Import Functions
@@ -476,8 +523,48 @@ function DictionaryAdmin() {
                     </div>
                 </div>
 
+                {/* Panneau des demandes de suppression en attente */}
+                {isSuperAdmin && deleteRequests.filter(r => r.status === 'pending').length > 0 && (
+                    <div className="delete-requests-banner" onClick={() => setShowDeleteRequests(!showDeleteRequests)}>
+                        <span className="delete-requests-badge">
+                            {deleteRequests.filter(r => r.status === 'pending').length}
+                        </span>
+                        <span>{t('admin.dictionary.pendingDeleteRequests', 'Demandes de suppression en attente')}</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ width: 18, height: 18, marginLeft: 'auto', transform: showDeleteRequests ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }}>
+                            <polyline points="6 9 12 15 18 9" />
+                        </svg>
+                    </div>
+                )}
+                {isSuperAdmin && showDeleteRequests && deleteRequests.filter(r => r.status === 'pending').length > 0 && (
+                    <div className="delete-requests-panel">
+                        {deleteRequests.filter(r => r.status === 'pending').map(req => (
+                            <div key={req.id} className="delete-request-item">
+                                <div className="delete-request-info">
+                                    <strong>{req.word}</strong>
+                                    <span className="delete-request-meta">
+                                        {req.translation_fr && ` — ${req.translation_fr}`}
+                                        {req.domain && ` (${t(domainKeyMap[req.domain] || req.domain)})`}
+                                    </span>
+                                    <span className="delete-request-by">
+                                        {t('admin.dictionary.requestedBy', 'Demandé par')} <strong>{req.requested_by_name}</strong>
+                                        {' — '}{new Date(req.created_at).toLocaleDateString()}
+                                    </span>
+                                </div>
+                                <div className="delete-request-actions">
+                                    <button className="btn-approve" onClick={(e) => { e.stopPropagation(); handleApproveDelete(req.id) }} title={t('admin.dictionary.approveDelete', 'Approuver la suppression')}>
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12" /></svg>
+                                    </button>
+                                    <button className="btn-reject" onClick={(e) => { e.stopPropagation(); handleRejectDelete(req.id) }} title={t('admin.dictionary.rejectDelete', 'Rejeter')}>
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
+                                    </button>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                )}
+
                 {/* Bulk action bar */}
-                {selectedIds.size > 0 && (
+                {selectedIds.size > 0 && isSuperAdmin && (
                     <div className="bulk-action-bar">
                         <span className="bulk-action-count">
                             {t('admin.dictionary.selectedCount', { count: selectedIds.size })}
@@ -511,6 +598,7 @@ function DictionaryAdmin() {
                 <table className="admin-table">
                     <thead>
                         <tr>
+                            {isSuperAdmin && (
                             <th className="th-checkbox">
                                 <input
                                     type="checkbox"
@@ -519,6 +607,7 @@ function DictionaryAdmin() {
                                     onChange={toggleSelectAll}
                                 />
                             </th>
+                            )}
                             <th>{t('admin.dictionary.wordFulfulde')}</th>
                             <th>{t('admin.dictionary.translationFr')}</th>
                             <th>{t('admin.dictionary.domain')}</th>
@@ -544,6 +633,7 @@ function DictionaryAdmin() {
                                     return (
                                         <Fragment key={word.id}>
                                             <tr className={`${selectedIds.has(word.id) ? 'row-selected' : ''} ${isExpanded ? 'row-expanded' : ''}`}>
+                                                {isSuperAdmin && (
                                                 <td className="td-checkbox">
                                                     <input
                                                         type="checkbox"
@@ -552,6 +642,7 @@ function DictionaryAdmin() {
                                                         onChange={() => toggleSelect(word.id)}
                                                     />
                                                 </td>
+                                                )}
                                                 <td><strong>{word.word}</strong></td>
                                                 <td className="td-truncate">{word.translation_fr || '-'}</td>
                                                 <td><span className="domain-badge">{word.domain ? t(domainKeyMap[word.domain] || word.domain) : '-'}</span></td>
@@ -572,12 +663,14 @@ function DictionaryAdmin() {
                                                             <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
                                                         </svg>
                                                     </button>
-                                                    <button className="btn-delete" onClick={() => handleDelete(word.id)}>
+                                                    {isSuperAdmin && (
+                                                    <button className="btn-delete" onClick={() => handleDelete(word.id)} title={t('admin.dictionary.requestDelete', 'Demander la suppression')}>
                                                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                                             <polyline points="3 6 5 6 21 6" />
                                                             <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
                                                         </svg>
                                                     </button>
+                                                    )}
                                                 </td>
                                             </tr>
                                             {isExpanded && (
@@ -1049,7 +1142,7 @@ function DictionaryAdmin() {
                 message={confirmDialog.message}
                 onConfirm={confirmDialog.onConfirm}
                 onCancel={closeConfirm}
-                confirmText={t('admin.common.delete', 'Supprimer')}
+                confirmText={t('admin.dictionary.sendRequest', 'Envoyer la demande')}
             />
         </div>
     )

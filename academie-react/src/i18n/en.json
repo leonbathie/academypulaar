@@ -427,8 +427,17 @@
             "pdfDuplicates": "Duplicates",
             "confirmBulkDelete": "Delete {{count}} selected word(s)?",
             "selectedCount": "{{count}} word(s) selected",
-            "deleteSelected": "Delete selected",
-            "deselectAll": "Deselect all"
+            "deleteSelected": "Request deletion",
+            "deselectAll": "Deselect all",
+            "deleteRequestTitle": "Deletion request",
+            "deleteRequestConfirm": "This request must be validated by another super-administrator before the deletion takes effect.",
+            "bulkDeleteRequestConfirm": "Create a deletion request for {{count}} word(s)? Another super-administrator must approve.",
+            "pendingDeleteRequests": "Pending deletion requests",
+            "requestedBy": "Requested by",
+            "approveDelete": "Approve deletion",
+            "rejectDelete": "Reject",
+            "requestDelete": "Request deletion",
+            "sendRequest": "Send request"
         },
         "books": {
             "title": "Library",

@@ -430,8 +430,17 @@
             "pdfDuplicates": "Ɗiɗaɓe",
             "confirmBulkDelete": "Momtude {{count}} helmere/kelme cuɓaaɗe ?",
             "selectedCount": "{{count}} helmere/kelme cuɓaaɗe",
-            "deleteSelected": "Momtude cuɓaaɗe",
-            "deselectAll": "Ittude cuɓe fof"
+            "deleteSelected": "Ɗaɓɓude momtugol",
+            "deselectAll": "Ittude cuɓe fof",
+            "deleteRequestTitle": "Ɗaɓɓaande momtugol",
+            "deleteRequestConfirm": "Ɗaɓɓaande ndee foti jaɓeede e goɗɗo jiiloowo mawɗo hade momtugol.",
+            "bulkDeleteRequestConfirm": "Waɗde ɗaɓɓaande momtugol {{count}} helmere/kelme ? Goɗɗo jiiloowo mawɗo foti jaɓde.",
+            "pendingDeleteRequests": "Ɗaɓɓule momtugol paddiiɗe",
+            "requestedBy": "Ɗaɓɓuɗo",
+            "approveDelete": "Jaɓde momtugol",
+            "rejectDelete": "Salde",
+            "requestDelete": "Ɗaɓɓude momtugol",
+            "sendRequest": "Neldu ɗaɓɓaande"
         },
         "books": {
             "title": "Defterdu",

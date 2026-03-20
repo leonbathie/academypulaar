@@ -429,8 +429,17 @@
             "pdfDuplicates": "Doublons",
             "confirmBulkDelete": "Supprimer {{count}} mot(s) sélectionné(s) ?",
             "selectedCount": "{{count}} mot(s) sélectionné(s)",
-            "deleteSelected": "Supprimer la sélection",
-            "deselectAll": "Tout désélectionner"
+            "deleteSelected": "Demander la suppression",
+            "deselectAll": "Tout désélectionner",
+            "deleteRequestTitle": "Demande de suppression",
+            "deleteRequestConfirm": "Cette demande devra être validée par un autre super-administrateur avant la suppression effective.",
+            "bulkDeleteRequestConfirm": "Créer une demande de suppression pour {{count}} mot(s) ? Un autre super-administrateur devra approuver.",
+            "pendingDeleteRequests": "Demandes de suppression en attente",
+            "requestedBy": "Demandé par",
+            "approveDelete": "Approuver la suppression",
+            "rejectDelete": "Rejeter",
+            "requestDelete": "Demander la suppression",
+            "sendRequest": "Envoyer la demande"
         },
         "books": {
             "title": "Bibliothèque",

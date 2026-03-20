@@ -1,0 +1,710 @@
+{
+    "_DESCRIPTION": "Traductions Français ↔ Fulfulde des pages Mentions Légales et Politique de Confidentialité de goomufulo.com",
+    "_NOTES": "Ce fichier sert de référence pour la vérification et la correction des traductions. Chaque entrée contient le français (fr), le fulfulde (ff) et un commentaire explicatif (_comment).",
+
+    "========================================": "PARTIE 1 : MENTIONS LÉGALES (legal)",
+    "=========================================": "Page /mentions-legales",
+
+    "legal": {
+
+        "title": {
+            "fr": "Mentions Légales",
+            "ff": "Kabaruuji Laawol",
+            "_comment": "Kabaruuji = informations/nouvelles. Laawol = chemin/loi/règle. Littéralement : 'Informations de la loi/règle'."
+        },
+
+        "subtitle": {
+            "fr": "Informations légales relatives au site goomufulo.com et aux services proposés par l'Académie Goomu Fulo Wiɗto.",
+            "ff": "Kabaruuji laawol baɗɗe e lowre goomufulo.com e gollorɗe Duɗal Goomu Fulo Wiɗto.",
+            "_comment": "baɗɗe e = relatives à. lowre = site web. gollorɗe = services/outils de travail. Duɗal = académie/école."
+        },
+
+        "lastUpdate": {
+            "fr": "Dernière mise à jour",
+            "ff": "Bayyinaango sakitiingo",
+            "_comment": "Bayyinaango = publication/annonce. sakitiingo = dernier/le plus récent."
+        },
+
+        "tocTitle": {
+            "fr": "Sommaire",
+            "ff": "Doggol",
+            "_comment": "Doggol = table des matières, liste ordonnée. Vient du verbe dogde = courir/suivre dans l'ordre."
+        },
+
+        "_SECTION_1": "=== SECTION 1 : Éditeur du site ===",
+
+        "s1.title": {
+            "fr": "Éditeur du site",
+            "ff": "Baɗɗo lowre ndee",
+            "_comment": "Baɗɗo = celui qui a fait/créé. lowre ndee = ce site. Littéralement : 'Celui qui a fait ce site'."
+        },
+
+        "s1.p1": {
+            "fr": "Le site goomufulo.com est édité par l'association culturelle et éducative Goomu Fulo Wiɗto, dédiée à la préservation, l'enseignement et la promotion de la langue Fulfulde (Pulaar/Pular) à travers les outils numériques.",
+            "ff": "Lowre goomufulo.com ko fedde pinal e jaŋde Goomu Fulo Wiɗto waɗi nde, fedde ndee daranii ko reende, jannginde e ɓamtude ɗemngal Fulfulde (Pulaar/Pular) e nder kuutorɗe newooje.",
+            "_comment": "fedde = association/groupe. pinal = culture. jaŋde = éducation/apprentissage. daranii = se consacre à. reende = préserver/garder. jannginde = enseigner (causatif de janngude). ɓamtude = promouvoir/développer. ɗemngal = langue. kuutorɗe newooje = outils numériques/modernes (newooje vient de hesde = être nouveau)."
+        },
+
+        "s1.name": {
+            "fr": "Nom",
+            "ff": "Innde",
+            "_comment": "Innde = nom. Mot fondamental en Fulfulde, classe nde."
+        },
+
+        "s1.nature": {
+            "fr": "Nature",
+            "ff": "Fannu",
+            "_comment": "Fannu = type, genre, catégorie, domaine."
+        },
+
+        "s1.natureVal": {
+            "fr": "Association culturelle et éducative à but non lucratif",
+            "ff": "Fedde pinal e jaŋde",
+            "_comment": "Version simplifiée en Fulfulde. fedde = association. pinal = culture. jaŋde = éducation. Le concept 'but non lucratif' n'a pas d'équivalent direct courant en Fulfulde."
+        },
+
+        "s1.purpose": {
+            "fr": "Objet",
+            "ff": "Faandaare",
+            "_comment": "Faandaare = objectif, but, intention. Vient du verbe faandaade = viser, avoir pour objectif."
+        },
+
+        "s1.purposeVal": {
+            "fr": "Préservation et enseignement de la langue Fulfulde à travers le numérique",
+            "ff": "Reende e jannginde ɗemngal Fulfulde e nder kuutorɗe newooje",
+            "_comment": "Reende = préserver, garder, protéger. jannginde = enseigner (forme causative). e nder = à travers, dans."
+        },
+
+        "s1.director": {
+            "fr": "Directeur de publication",
+            "ff": "Hooreeɓe bayyinaango",
+            "_comment": "Hooreeɓe = chefs, responsables (pluriel de hooreejo). bayyinaango = publication. Littéralement : 'Responsables de la publication'."
+        },
+
+        "s1.directorVal": {
+            "fr": "L'équipe dirigeante de Goomu Fulo Wiɗto",
+            "ff": "Yiilooɓe Goomu Fulo Wiɗto",
+            "_comment": "Yiilooɓe = ceux qui dirigent/gèrent (pluriel de jiiloowo). Du verbe yiilde = gérer, diriger."
+        },
+
+        "s1.address": {
+            "fr": "Adresse",
+            "ff": "Nokku",
+            "_comment": "Nokku = lieu, endroit, place. En contexte formel, utilisé pour 'adresse'."
+        },
+
+        "s1.email": {
+            "fr": "Email",
+            "ff": "Iimeel",
+            "_comment": "Emprunt phonétique du mot anglais 'email', adapté à la phonologie Fulfulde."
+        },
+
+        "s1.site": {
+            "fr": "Site web",
+            "ff": "Lowre",
+            "_comment": "Lowre = site web. Néologisme Fulfulde pour désigner un site internet. Peut aussi s'écrire 'lowe' selon les variantes."
+        },
+
+        "_SECTION_2": "=== SECTION 2 : Hébergement ===",
+
+        "s2.title": {
+            "fr": "Hébergement",
+            "ff": "Mooftirde",
+            "_comment": "Mooftirde = lieu de stockage/conservation. Du verbe mooftude = stocker, conserver, garder. Le suffixe -irde indique le lieu."
+        },
+
+        "s2.p1": {
+            "fr": "Le site est hébergé par :",
+            "ff": "Lowre ndee mooftaa ko to:",
+            "_comment": "mooftaa = est stocké/hébergé (passif de mooftude). ko to = c'est chez/à."
+        },
+
+        "s2.provider": {
+            "fr": "Hébergeur",
+            "ff": "Mooftirɗo",
+            "_comment": "Mooftirɗo = celui qui héberge/stocke. Forme agentive de mooftude avec suffixe -ɗo (classe o)."
+        },
+
+        "s2.p2": {
+            "fr": "L'hébergeur assure la disponibilité et la sécurité technique de l'infrastructure serveur. Le nom de domaine goomufulo.com est géré via Cloudflare pour la protection et l'optimisation des performances.",
+            "ff": "Mooftirɗo oo tammbitii ko gollaade lowre ndee e reenude nde. Innde wonnde goomufulo.com yiilirtee ko e Cloudflare ngam reenude nde e yaawnaade nde.",
+            "_comment": "tammbitii = a pris en charge, s'est engagé. gollaade = faire fonctionner. reenude = protéger. yiilirtee = est géré (passif de yiilde). yaawnaade = accélérer, rendre rapide."
+        },
+
+        "_SECTION_3": "=== SECTION 3 : Propriété intellectuelle ===",
+
+        "s3.title": {
+            "fr": "Propriété intellectuelle",
+            "ff": "Jeyaaɗe hakkille",
+            "_comment": "Jeyaaɗe = propriété, ce qui est possédé (de jeyde = posséder). hakkille = intelligence, esprit. Littéralement : 'Propriété de l'esprit'."
+        },
+
+        "s3.p1": {
+            "fr": "L'ensemble du contenu présent sur le site goomufulo.com — incluant mais ne se limitant pas aux textes, traductions, définitions du dictionnaire, enregistrements audio, illustrations, logos, design graphique, architecture logicielle et code source — est la propriété exclusive de Goomu Fulo Wiɗto ou de ses contributeurs, et est protégé par les lois relatives à la propriété intellectuelle.",
+            "ff": "Ko fof woni e lowre goomufulo.com — binndanɗe, firlanɗe, maanaaɗe saggitorde, daande moftaaɗe, nate, maantooje, mbaydi e dokkol — ko Goomu Fulo Wiɗto walla wallidiiɓe mum jeyi, laawol reeni ɗum.",
+            "_comment": "Ko fof = tout ce qui. binndanɗe = textes/écrits. firlanɗe = traductions (de firtude = traduire). maanaaɗe = définitions/sens. saggitorde = dictionnaire. daande moftaaɗe = voix/sons enregistrés. nate = images. maantooje = logos/marques. mbaydi = design/forme. dokkol = code. wallidiiɓe = contributeurs (de wallude = aider). jeyi = possède. laawol reeni = la loi protège."
+        },
+
+        "s3.p2": {
+            "fr": "La base de données lexicographique Fulfulde-Français-Anglais, constituant le dictionnaire en ligne, représente un travail original de compilation et de création intellectuelle protégé en tant qu'œuvre de l'esprit.",
+            "ff": "Saggitorde Fulfulde-Farayse-Engele ndee ko golle hakkille tiiɗɗe reenaaɗe.",
+            "_comment": "Saggitorde = dictionnaire (de saggude = chercher). golle hakkille = travail intellectuel. tiiɗɗe = solides/précieuses. reenaaɗe = protégées."
+        },
+
+        "s3.highlight": {
+            "fr": "Toute reproduction, représentation, modification, publication, adaptation totale ou partielle des éléments du site, quel que soit le moyen ou le procédé utilisé, est strictement interdite sans autorisation écrite préalable de Goomu Fulo Wiɗto.",
+            "ff": "Soɗaade, waylude, walla huutoraade ko woni e lowre ndee ina haɗaa so a heɓaani yamiroore Goomu Fulo Wiɗto.",
+            "_comment": "Soɗaade = copier. waylude = modifier/changer. huutoraade = utiliser. ina haɗaa = est interdit. heɓaani = n'a pas obtenu. yamiroore = autorisation/permission."
+        },
+
+        "s3.sub1": {
+            "fr": "Utilisations autorisées",
+            "ff": "Ko yamiraa",
+            "_comment": "Ko yamiraa = Ce qui est autorisé. yamiraa = passif de yamirde = autoriser/permettre."
+        },
+
+        "s3.sub1p": {
+            "fr": "Sont autorisées sans demande préalable les utilisations suivantes :",
+            "ff": "Ɗeeɗoo kuutorɗe ina njamiree:",
+            "_comment": "Ɗeeɗoo = celles-ci (démonstratif pluriel). kuutorɗe = utilisations. ina njamiree = sont autorisées."
+        },
+
+        "s3.sub1l1": {
+            "fr": "La consultation du site à des fins personnelles et éducatives",
+            "ff": "Yuurnaade lowre ndee ngam jaŋde maa keeriiɗo",
+            "_comment": "Yuurnaade = consulter/regarder. ngam = pour. jaŋde maa keeriiɗo = ton apprentissage personnel."
+        },
+
+        "s3.sub1l2": {
+            "fr": "Le partage de liens vers les pages du site sur les réseaux sociaux",
+            "ff": "Lollude jokkondire lowre ndee e laylayti",
+            "_comment": "Lollude = partager/diffuser. jokkondire = liens/connexions. laylayti = réseaux sociaux (néologisme)."
+        },
+
+        "s3.sub1l3": {
+            "fr": "La citation courte avec mention obligatoire de la source (goomufulo.com)",
+            "ff": "Tonngude ko famɗi so tawii a hollii ɗo yaltiri (goomufulo.com)",
+            "_comment": "Tonngude = citer/résumer. ko famɗi = ce qui est court/peu. so tawii = à condition que. a hollii = tu montres. ɗo yaltiri = d'où ça vient (la source)."
+        },
+
+        "s3.sub1l4": {
+            "fr": "L'utilisation à des fins pédagogiques dans un cadre scolaire ou universitaire, avec attribution",
+            "ff": "Huutoraade ngam jaŋde e nder duɗe, so tawii a hollii ɗo yaltiri",
+            "_comment": "Huutoraade = utiliser. duɗe = écoles (pluriel de duɗal). so tawii a hollii ɗo yaltiri = à condition de montrer la source."
+        },
+
+        "s3.sub2": {
+            "fr": "Marques et logos",
+            "ff": "Maantooje e nate",
+            "_comment": "Maantooje = marques/symboles (pluriel de maantoore). nate = images/dessins."
+        },
+
+        "s3.sub2p": {
+            "fr": "Le nom « Goomu Fulo Wiɗto », le logo de l'académie et l'ensemble des éléments graphiques distinctifs sont des marques de l'association. Leur utilisation nécessite une autorisation expresse.",
+            "ff": "Innde « Goomu Fulo Wiɗto » e maantoore duɗal ngal e nate mum fof ko maantooje fedde ndee. Huutoraade ɗum ina naamnii yamiroore.",
+            "_comment": "maantoore = logo/marque. duɗal ngal = cette académie. nate mum fof = toutes ses images. ina naamnii = nécessite. yamiroore = autorisation."
+        },
+
+        "_SECTION_4": "=== SECTION 4 : Conditions d'utilisation ===",
+
+        "s4.title": {
+            "fr": "Conditions d'utilisation",
+            "ff": "Sarɗiiji kuutorɗe",
+            "_comment": "Sarɗiiji = conditions/règles (pluriel de sarɗi). kuutorɗe = d'utilisation."
+        },
+
+        "s4.p1": {
+            "fr": "L'accès au site goomufulo.com est libre et gratuit. La consultation du dictionnaire, des ressources linguistiques, de la bibliothèque et des contenus pédagogiques ne nécessite aucune inscription.",
+            "ff": "Naatde e lowre goomufulo.com alaa njobdi. Yuurnaade saggitorde, binndanɗe jaŋde e deftere naamnataako winndaade.",
+            "_comment": "Naatde = entrer/accéder. alaa njobdi = pas de prix (gratuit). Yuurnaade = consulter. naamnataako = n'est pas demandé. winndaade = s'inscrire."
+        },
+
+        "s4.sub1": {
+            "fr": "Fonctionnalités accessibles sans inscription",
+            "ff": "Ko waɗetee so winndaaki",
+            "_comment": "Ko waɗetee = ce qui peut être fait. so winndaaki = sans s'inscrire."
+        },
+
+        "s4.sub1l1": {
+            "fr": "Consultation du dictionnaire Fulfulde-Français-Anglais",
+            "ff": "Yuurnaade saggitorde Fulfulde-Farayse-Engele ndee",
+            "_comment": "Farayse = Français. Engele = Anglais. Adaptations phonologiques des noms de langues."
+        },
+
+        "s4.sub1l2": {
+            "fr": "Lecture des actualités et articles",
+            "ff": "Janngude kabaruuji e binndanɗe",
+            "_comment": "Janngude = lire/apprendre. kabaruuji = nouvelles/actualités. binndanɗe = articles/écrits."
+        },
+
+        "s4.sub1l3": {
+            "fr": "Accès à la bibliothèque de ressources",
+            "ff": "Naatde e deftere pine",
+            "_comment": "deftere = livre/bibliothèque. pine = ressources/cultures. Sens contextuel : bibliothèque de ressources."
+        },
+
+        "s4.sub1l4": {
+            "fr": "Consultation des expressions et de la terminologie",
+            "ff": "Yuurnaade tinndinooje e helmere",
+            "_comment": "tinndinooje = expressions/proverbes. helmere = terminologie (de helmere = mot/terme)."
+        },
+
+        "s4.sub2": {
+            "fr": "Fonctionnalités nécessitant un compte",
+            "ff": "Ko naamnii konte",
+            "_comment": "Ko naamnii = ce qui nécessite. konte = compte (emprunt adapté)."
+        },
+
+        "s4.sub2l1": {
+            "fr": "La contribution au dictionnaire (ajout, suggestion de mots)",
+            "ff": "Wallitde saggitorde ndee (ɓeydude kelme)",
+            "_comment": "Wallitde = aider/contribuer. ɓeydude = ajouter. kelme = mots (pluriel de helmere)."
+        },
+
+        "s4.sub2l2": {
+            "fr": "L'accès aux outils d'administration et de modération",
+            "ff": "Naatde gollorɗe yiilooɓe",
+            "_comment": "gollorɗe = outils de travail. yiilooɓe = administrateurs/gestionnaires."
+        },
+
+        "s4.sub2l3": {
+            "fr": "La participation active à l'enrichissement des contenus linguistiques",
+            "ff": "Wallitde ɓeydude pine ɗemngal",
+            "_comment": "Wallitde = contribuer/aider. ɓeydude = enrichir/ajouter. pine ɗemngal = contenus/richesses linguistiques."
+        },
+
+        "_SECTION_5": "=== SECTION 5 : Limitation de responsabilité ===",
+
+        "s5.title": {
+            "fr": "Limitation de responsabilité",
+            "ff": "Ɗooftagol darnde",
+            "_comment": "Ɗooftagol = limitation/restriction. darnde = responsabilité/position. Littéralement : 'Limitation de la responsabilité'."
+        },
+
+        "s5.p1": {
+            "fr": "Goomu Fulo Wiɗto s'efforce de fournir sur le site des informations linguistiques aussi précises que possible. Toutefois, l'association ne peut garantir l'exactitude, la complétude ou l'actualité de l'ensemble des traductions et définitions présentes dans le dictionnaire.",
+            "ff": "Goomu Fulo Wiɗto ina waɗa ko waawi ngam hokkaade kabaruuji ɗemngal celluɗi. Kono fedde ndee waawaa addude haɓɓere wonde firlanɗe fof ina celluɗi.",
+            "_comment": "ina waɗa ko waawi = fait ce qu'il peut. hokkaade = donner/fournir. celluɗi = précis/justes. waawaa addude haɓɓere = ne peut pas apporter la garantie. firlanɗe = traductions."
+        },
+
+        "s5.p2": {
+            "fr": "La langue Fulfulde connaissant des variations dialectales significatives selon les régions (Pulaar au Sénégal, Pular en Guinée, Fulfulde au Niger/Nigeria/Cameroun), les traductions proposées peuvent ne pas refléter l'usage spécifique de chaque communauté linguistique.",
+            "ff": "Ɗemngal Fulfulde ina woodi caggitorɗe keewɗe hono leydi fof: Pulaar e Senegaal, Pular e Gine, Fulfulde e Nijeer/Nijeriya/Kameruun. Firlanɗe ɗee mbaawaa hollirde haalirde leydi fof.",
+            "_comment": "caggitorɗe = variations/dialectes. keewɗe = nombreuses. hono leydi fof = selon chaque pays. haalirde = dialecte/façon de parler. mbaawaa hollirde = ne peuvent pas refléter."
+        },
+
+        "s5.p3": {
+            "fr": "L'association ne saurait être tenue responsable des dommages directs ou indirects résultant de l'utilisation du site, d'une interruption de service, d'erreurs dans les contenus ou de l'impossibilité d'accéder au site.",
+            "ff": "Fedde ndee waawaa ɗoofteede e ko boni so kuutoraaɗo lowre ndee walla so lowre ndee dartaaki.",
+            "_comment": "waawaa ɗoofteede = ne peut pas être tenue responsable. ko boni = ce qui est mauvais/dommage. kuutoraaɗo = est utilisé. dartaaki = s'est arrêté (interruption)."
+        },
+
+        "_SECTION_6": "=== SECTION 6 : Contributions des utilisateurs ===",
+
+        "s6.title": {
+            "fr": "Contributions des utilisateurs",
+            "ff": "Ballitgol kuutortooɓe",
+            "_comment": "Ballitgol = contribution/aide (nom verbal de ballitde). kuutortooɓe = utilisateurs (pluriel de kuutortooɗo)."
+        },
+
+        "s6.l1": {
+            "fr": "Modifier, corriger ou adapter les contributions pour assurer la cohérence linguistique",
+            "ff": "Waylude walla feewnude ballitgol ngam cellingol ɗemngal",
+            "_comment": "Waylude = modifier. feewnude = corriger/arranger. cellingol = cohérence/justesse (de sellunde = être juste/correct)."
+        },
+
+        "s6.l2": {
+            "fr": "Refuser une contribution jugée inappropriée, incorrecte ou hors sujet",
+            "ff": "Salaade ballitgol ngo moƴƴaani, ngo bonnii walla ngo naataani",
+            "_comment": "Salaade = refuser. moƴƴaani = n'est pas bon/approprié. bonnii = est mauvais. naataani = n'entre pas (hors sujet)."
+        },
+
+        "s6.l3": {
+            "fr": "Supprimer tout contenu contraire aux valeurs de respect et de promotion de la culture peule",
+            "ff": "Momtude ko luulndii pinal Fulɓe",
+            "_comment": "Momtude = supprimer/effacer. luulndii = s'oppose à/est contraire à. pinal Fulɓe = culture des Peuls."
+        },
+
+        "_SECTION_7": "=== SECTION 7 : Liens hypertextes ===",
+
+        "s7.title": {
+            "fr": "Liens hypertextes",
+            "ff": "Jokkondire caggal",
+            "_comment": "Jokkondire = liens/connexions (de jokkondirde = se connecter). caggal = extérieurs/dehors. Liens vers l'extérieur."
+        },
+
+        "_SECTION_8": "=== SECTION 8 : Cookies ===",
+
+        "s8.title": {
+            "fr": "Cookies et technologies de suivi",
+            "ff": "Kukiiji e peeragol",
+            "_comment": "Kukiiji = cookies (emprunt phonétique adapté au pluriel Fulfulde). peeragol = suivi/traçage (de feerde = suivre le chemin)."
+        },
+
+        "s8.sub1l1": {
+            "fr": "Cookies de session : nécessaires à l'authentification et au maintien de la connexion utilisateur",
+            "ff": "Kukiiji naatgol: naamnaaɗi ngam seŋorde e jokkude jokkondiral",
+            "_comment": "naatgol = entrée/session. naamnaaɗi = nécessaires. seŋorde = se connecter. jokkude jokkondiral = maintenir la connexion."
+        },
+
+        "s8.sub1l2": {
+            "fr": "Cookies de préférences : sauvegarde de la langue d'affichage choisie (Français, Anglais ou Fulfulde) et du thème visuel (clair/sombre)",
+            "ff": "Kukiiji cuɓe: mooftude ɗemngal suɓangal (Farayse, Engele walla Fulfulde) e mbaydi (lewñere/niɓɓere)",
+            "_comment": "cuɓe = choix/préférences (de suɓaade = choisir). suɓangal = choisi. lewñere = clair/lumineux. niɓɓere = sombre/obscur."
+        },
+
+        "_SECTION_9": "=== SECTION 9 : Droit applicable ===",
+
+        "s9.title": {
+            "fr": "Droit applicable",
+            "ff": "Laawol kuutorangol",
+            "_comment": "Laawol = loi/droit/chemin. kuutorangol = applicable/utilisable."
+        },
+
+        "s9.p2": {
+            "fr": "À défaut de règlement amiable, les tribunaux compétents de Dakar, Sénégal, seront seuls compétents pour connaître du litige.",
+            "ff": "So yiitondiral waɗaaki, ñaawirɗe Ndakaaru, Senegaal, tan njogii laawol.",
+            "_comment": "yiitondiral = accord/entente mutuelle. waɗaaki = n'a pas eu lieu. ñaawirɗe = tribunaux (de ñaawde = juger). Ndakaaru = Dakar (forme Fulfulde). njogii laawol = ont l'autorité."
+        },
+
+        "_SECTION_10": "=== SECTION 10 : Contact ===",
+
+        "s10.title": {
+            "fr": "Contact",
+            "ff": "Jokkondiral",
+            "_comment": "Jokkondiral = contact/communication (de jokkondirde = se mettre en contact). Nom verbal classe ngal."
+        },
+
+        "contactBox.title": {
+            "fr": "Une question ?",
+            "ff": "Naamnal ngal?",
+            "_comment": "Naamnal = question (de naamnaade = demander). ngal = déterminant classe ngal."
+        },
+
+        "contactBox.form": {
+            "fr": "Formulaire de contact",
+            "ff": "Formileer jokkondiral",
+            "_comment": "Formileer = formulaire (emprunt phonétique). jokkondiral = contact."
+        }
+    },
+
+    "==========================================": "PARTIE 2 : POLITIQUE DE CONFIDENTIALITÉ (privacy)",
+    "===========================================": "Page /confidentialite",
+
+    "privacy": {
+
+        "title": {
+            "fr": "Politique de Confidentialité",
+            "ff": "Dawirgol Sutura",
+            "_comment": "Dawirgol = politique/règle de conduite (de dawde = commencer/mener). Sutura = confidentialité/pudeur/secret. Concept important dans la culture Peule : le sutura représente la discrétion, le respect de la vie privée."
+        },
+
+        "subtitle": {
+            "fr": "Comment nous protégeons vos données personnelles sur goomufulo.com",
+            "ff": "No min reenirta keɓe maa keeriiɗe e lowre goomufulo.com",
+            "_comment": "No = comment. min = nous. reenirta = protégeons (de reende = protéger). keɓe = données/informations. keeriiɗe = personnelles/privées."
+        },
+
+        "intro": {
+            "fr": "Chez Goomu Fulo Wiɗto, la protection de vos données personnelles est une priorité. Cette politique de confidentialité décrit de façon transparente quelles données nous collectons, pourquoi nous les utilisons et comment nous les protégeons. Nous nous engageons à respecter votre vie privée et à ne jamais utiliser vos informations à des fins commerciales ou publicitaires.",
+            "ff": "To Goomu Fulo Wiɗto, reende keɓe maa keeriiɗe ko huunde arannde. Ndee dawirgol sutura ina hollita no laaɓndi ko min njokki, ko waɗi min njokkiri ɗum e no min reenirta ɗum. Min ina koolaa wonde min cuusataa huutoraade kabaruuji maa ngam coodgu walla yeewtere.",
+            "_comment": "To = chez. huunde arannde = chose prioritaire/première. ina hollita = montre/décrit. no laaɓndi = clairement/de façon transparente. njokki = collectons (de jokkude = suivre/collecter). ina koolaa = promettons. cuusataa = n'oserons jamais. coodgu = commerce. yeewtere = publicité."
+        },
+
+        "_SECTION_1": "=== Responsable du traitement ===",
+
+        "s1.title": {
+            "fr": "Responsable du traitement",
+            "ff": "Jiiloowo keɓe",
+            "_comment": "Jiiloowo = celui qui gère/dirige (de yiilde = gérer). keɓe = données. Littéralement : 'Gestionnaire des données'."
+        },
+
+        "_SECTION_2": "=== Données collectées ===",
+
+        "s2.title": {
+            "fr": "Données collectées",
+            "ff": "Keɓe mooftaaɗe",
+            "_comment": "Keɓe = données/informations (de heɓude = obtenir). mooftaaɗe = stockées/conservées (de mooftude = conserver)."
+        },
+
+        "s2.sub1": {
+            "fr": "Données d'inscription",
+            "ff": "Keɓe winndagol",
+            "_comment": "winndagol = inscription (de winndaade = s'inscrire/écrire)."
+        },
+
+        "s2.sub1l1": {
+            "fr": "Votre nom d'utilisateur (pseudonyme choisi librement)",
+            "ff": "Innde maa kuutortoongo (innde suɓaango)",
+            "_comment": "Innde maa = ton nom. kuutortoongo = d'utilisateur (que tu utilises). suɓaango = choisi."
+        },
+
+        "s2.sub1l3": {
+            "fr": "Votre mot de passe (stocké sous forme chiffrée, jamais en clair)",
+            "ff": "Finnde maa (mooftaade ko tuugnaande, wonaa ko laaɓi)",
+            "_comment": "Finnde = mot de passe/secret (de suuɗude = cacher). mooftaade ko tuugnaande = stocké de façon chiffrée. wonaa ko laaɓi = pas en clair. Note : finnde est un néologisme, parfois aussi 'fiɓnde'."
+        },
+
+        "s2.sub2": {
+            "fr": "Données de connexion via Google",
+            "ff": "Keɓe seŋorde Google",
+            "_comment": "seŋorde = connexion (de seŋoraade = se connecter). Le verbe seŋoraade est utilisé pour 'se connecter' à un service en ligne."
+        },
+
+        "s2.sub3": {
+            "fr": "Données de contact",
+            "ff": "Keɓe jokkondiral",
+            "_comment": "jokkondiral = contact/communication."
+        },
+
+        "s2.sub3l2": {
+            "fr": "Le contenu de votre message",
+            "ff": "Ko mbinndataa e nder ɓataake maa",
+            "_comment": "Ko mbinndataa = ce que tu écris. e nder = dans. ɓataake = message/lettre."
+        },
+
+        "s2.sub4": {
+            "fr": "Données techniques",
+            "ff": "Keɓe kuutorgal",
+            "_comment": "kuutorgal = technique/outil (de kuutoraade = utiliser). Littéralement : 'données de l'outil'."
+        },
+
+        "s2.sub4l2": {
+            "fr": "Préférence de thème visuel (clair ou sombre)",
+            "ff": "Mbaydi suɓaandi (lewñere walla niɓɓere)",
+            "_comment": "Mbaydi = apparence/thème. suɓaandi = choisie. lewñere = clarté/lumière (de lewñude = éclairer). niɓɓere = obscurité/sombre (de niɓɓude = être sombre)."
+        },
+
+        "_SECTION_3": "=== Finalités du traitement ===",
+
+        "s3.title": {
+            "fr": "Finalités du traitement",
+            "ff": "Faandaare jokkol",
+            "_comment": "Faandaare = objectif/finalité. jokkol = traitement/collecte (de jokkude = suivre)."
+        },
+
+        "s3.l1": {
+            "fr": "Gestion de votre compte utilisateur et authentification sécurisée",
+            "ff": "Yiilde konte maa e seŋorde reenaaɗo",
+            "_comment": "Yiilde = gérer. seŋorde reenaaɗo = connexion protégée/sécurisée."
+        },
+
+        "s3.l3": {
+            "fr": "Gestion des rôles et permissions (administrateur, modérateur, membre)",
+            "ff": "Yiilde darnde e jamirooje (jiiloowo, yuurnittooɗo, tergal)",
+            "_comment": "darnde = rôle/position. jamirooje = permissions. jiiloowo = administrateur (celui qui gère). yuurnittooɗo = modérateur (celui qui examine). tergal = membre."
+        },
+
+        "s3.l7": {
+            "fr": "Assurer la sécurité et le bon fonctionnement technique du site",
+            "ff": "Tabitinde kisal e gollaade kuutorgal lowre ndee",
+            "_comment": "Tabitinde = assurer/garantir. kisal = sécurité/sûreté. gollaade = fonctionnement."
+        },
+
+        "_SECTION_4": "=== Base légale ===",
+
+        "s4.title": {
+            "fr": "Base légale du traitement",
+            "ff": "Asal laawol jokkol",
+            "_comment": "Asal = base/fondement. laawol = loi/droit. jokkol = traitement."
+        },
+
+        "s4.l1t": {
+            "fr": "Consentement",
+            "ff": "Jaɓgol",
+            "_comment": "Jaɓgol = consentement/acceptation (de jaɓde = accepter)."
+        },
+
+        "s4.l2t": {
+            "fr": "Exécution contractuelle",
+            "ff": "Gollal nanondiral",
+            "_comment": "Gollal = exécution/action (de gollude = travailler). nanondiral = accord/contrat (de nanondirde = s'entendre mutuellement)."
+        },
+
+        "s4.l3t": {
+            "fr": "Intérêt légitime",
+            "ff": "Nafoore fooftere",
+            "_comment": "Nafoore = intérêt/utilité (de nafude = être utile). fooftere = légitime/justifiée."
+        },
+
+        "_SECTION_5": "=== Durée de conservation ===",
+
+        "s5.title": {
+            "fr": "Durée de conservation",
+            "ff": "Sahaa mooftol",
+            "_comment": "Sahaa = durée/période/moment. mooftol = conservation/stockage."
+        },
+
+        "s5.l1": {
+            "fr": "Données de compte : conservées tant que votre compte est actif. Après suppression de votre compte, vos données sont effacées sous 30 jours.",
+            "ff": "Keɓe konte: mooftaaɗe faya ɗo konte maa woni. So konte maa momtaama, keɓe maa ina momtee e nder balɗe 30.",
+            "_comment": "mooftaaɗe faya ɗo = conservées aussi longtemps que. woni = est (actif). momtaama = a été supprimé. momtee = seront effacées. balɗe 30 = 30 jours."
+        },
+
+        "s5.p2": {
+            "fr": "Les contributions linguistiques validées (traductions, définitions) sont conservées de façon permanente dans le dictionnaire, même après suppression du compte contributeur, car elles font partie intégrante du patrimoine linguistique collectif.",
+            "ff": "Ballitgol ɗemngal moƴƴingol (firlanɗe, maanaaɗe) ina mooftee haa abada e nder saggitorde ndee, hay so konte ballitɗo oo momtaama, sabu ko geɗal ngalu ɗemngal renndo.",
+            "_comment": "moƴƴingol = validé/approuvé. haa abada = pour toujours/permanent. hay so = même si. ballitɗo = contributeur. geɗal = partie. ngalu = richesse/patrimoine. renndo = communauté/collectif."
+        },
+
+        "_SECTION_6": "=== Partage des données ===",
+
+        "s6.title": {
+            "fr": "Partage des données",
+            "ff": "Lollude keɓe",
+            "_comment": "Lollude = partager/diffuser. Important culturellement : le concept de sutura (discrétion) est central ici."
+        },
+
+        "s6.highlight": {
+            "fr": "Vos données ne sont jamais vendues, louées ou partagées à des fins commerciales. Jamais.",
+            "ff": "Keɓe maa cuusataake soottaade, njaɓɓaade walla lollude ngam coodgu. Abada.",
+            "_comment": "cuusataake = on n'osera jamais (forme forte d'engagement). soottaade = vendre. njaɓɓaade = louer. Abada = Jamais (mot fort et définitif en Fulfulde)."
+        },
+
+        "_SECTION_7": "=== Sécurité des données ===",
+
+        "s7.title": {
+            "fr": "Sécurité des données",
+            "ff": "Kisal keɓe",
+            "_comment": "Kisal = sécurité/protection (de hisde = être en sécurité). Concept fondamental : la sécurité des biens et des personnes est très valorisée dans la culture Peule."
+        },
+
+        "s7.l2": {
+            "fr": "Mots de passe hachés avec l'algorithme bcrypt (jamais stockés en clair)",
+            "ff": "Pinɗe tuugnaaɗe e dokkol bcrypt (mooftaaka ko laaɓi abada)",
+            "_comment": "Pinɗe = mots de passe (pluriel). tuugnaaɗe = chiffrés/codés. dokkol = algorithme/code. mooftaaka ko laaɓi = jamais stocké en clair. Note : termes techniques souvent gardés en emprunt."
+        },
+
+        "s7.l3": {
+            "fr": "Authentification par jetons JWT avec expiration automatique",
+            "ff": "Seŋorde jewtol JWT jogiiɗo ɗooftagol otomatik",
+            "_comment": "Seŋorde = connexion. jewtol = jeton/token. jogiiɗo = qui possède/qui a. ɗooftagol = expiration. otomatik = automatique (emprunt)."
+        },
+
+        "_SECTION_8": "=== Vos droits ===",
+
+        "s8.title": {
+            "fr": "Vos droits",
+            "ff": "Jojjanɗe maa",
+            "_comment": "Jojjanɗe = droits (pluriel de jojjande). maa = tes/vos. De jojjude = être juste, mériter. Concept de justice intrinsèque en Fulfulde."
+        },
+
+        "s8.l1t": {
+            "fr": "Droit d'accès",
+            "ff": "Jojjande naatgol",
+            "_comment": "naatgol = accès/entrée (de naatde = entrer)."
+        },
+
+        "s8.l2t": {
+            "fr": "Droit de rectification",
+            "ff": "Jojjande feewnugol",
+            "_comment": "feewnugol = correction/rectification (de feewnude = corriger/arranger)."
+        },
+
+        "s8.l3t": {
+            "fr": "Droit de suppression",
+            "ff": "Jojjande momtugol",
+            "_comment": "momtugol = suppression/effacement (de momtude = effacer/supprimer)."
+        },
+
+        "s8.l4t": {
+            "fr": "Droit d'opposition",
+            "ff": "Jojjande yeddaade",
+            "_comment": "yeddaade = s'opposer/refuser (de yeddude = nier/contester)."
+        },
+
+        "s8.l5t": {
+            "fr": "Droit à la portabilité",
+            "ff": "Jojjande nawdol",
+            "_comment": "nawdol = transport/portabilité (de nawde = emporter). Le droit d'emporter ses données."
+        },
+
+        "s8.l6t": {
+            "fr": "Droit de limitation",
+            "ff": "Jojjande ɗoofgol",
+            "_comment": "ɗoofgol = limitation/restriction (de ɗoofde = limiter/restreindre)."
+        },
+
+        "_SECTION_9": "=== Cookies ===",
+
+        "s9.sub1l1t": {
+            "fr": "Cookie d'authentification (JWT)",
+            "ff": "Kukii seŋorde (JWT)",
+            "_comment": "Kukii = cookie (singulier, adapté phonétiquement). seŋorde = connexion."
+        },
+
+        "s9.sub1l2t": {
+            "fr": "Cookie de préférences",
+            "ff": "Kukii cuɓe",
+            "_comment": "cuɓe = préférences/choix (de suɓaade = choisir)."
+        },
+
+        "_SECTION_10": "=== Protection des mineurs ===",
+
+        "s10.title": {
+            "fr": "Protection des mineurs",
+            "ff": "Reenol cukalel",
+            "_comment": "Reenol = protection (de reende = protéger). cukalel = mineur/enfant (diminutif affectueux). Le respect et la protection des enfants sont des valeurs cardinales de la culture Peule (enɗam = lien maternel sacré)."
+        },
+
+        "s10.p2": {
+            "fr": "Cependant, la création d'un compte utilisateur par un mineur de moins de 16 ans requiert le consentement d'un parent ou tuteur légal. Si vous êtes parent et que vous constatez que votre enfant s'est inscrit sans votre consentement, contactez-nous pour que nous procédions à la suppression du compte.",
+            "ff": "Kono sosde konte kuutortooɗo cukalel les duuɓi 16 ina naamnii jaɓgol jinnaaɗo walla jiimotooɗo laawol. So a ko jinnaaɗo a yiitii ɓiɗɗo maa winndii alaa jaɓgol maa, jokkondiren ngam min momta konte ngee.",
+            "_comment": "sosde = créer. les duuɓi 16 = moins de 16 ans. jinnaaɗo = parent. jiimotooɗo laawol = tuteur légal. ɓiɗɗo maa = ton enfant. winndii = s'est inscrit. alaa jaɓgol maa = sans ton consentement. jokkondiren = contactez-nous."
+        },
+
+        "_SECTION_11": "=== Modifications ===",
+
+        "s11.title": {
+            "fr": "Modifications de cette politique",
+            "ff": "Waylude ndee dawirgol",
+            "_comment": "Waylude = modifier/changer. ndee = cette. dawirgol = politique/règle."
+        },
+
+        "_SECTION_12": "=== Contact ===",
+
+        "s12.title": {
+            "fr": "Nous contacter",
+            "ff": "Jokkondiren",
+            "_comment": "Jokkondiren = contactez-nous (impératif inclusif de jokkondirde). Forme qui inclut le locuteur et l'interlocuteur dans l'action."
+        },
+
+        "contactBox.title": {
+            "fr": "Vos données, vos droits",
+            "ff": "Keɓe maa, jojjanɗe maa",
+            "_comment": "Keɓe maa = tes données. jojjanɗe maa = tes droits. Structure parallèle qui souligne l'appartenance personnelle."
+        }
+    },
+
+    "_GLOSSAIRE": "=== GLOSSAIRE DES TERMES JURIDIQUES FULFULDE ===",
+    "_glossaire_note": "Vocabulaire juridique et technique Fulfulde utilisé dans ces traductions",
+
+    "glossaire": {
+        "laawol": "Loi, droit, chemin, règle (concept central reliant la voie juste et la loi)",
+        "sutura": "Confidentialité, pudeur, discrétion (valeur culturelle fondamentale chez les Peuls)",
+        "kisal": "Sécurité, protection, sûreté",
+        "jojjande": "Droit (ce qui est juste, ce qui est mérité)",
+        "yamiroore": "Autorisation, permission",
+        "jaɓgol": "Consentement, acceptation",
+        "reende": "Protéger, préserver, garder",
+        "mooftude": "Stocker, conserver, héberger",
+        "momtude": "Supprimer, effacer, enlever",
+        "jokkondirde": "Se mettre en contact, communiquer",
+        "yiilde": "Gérer, diriger, administrer",
+        "winndaade": "S'inscrire (réfléchi de winndude = écrire)",
+        "seŋoraade": "Se connecter (à un service en ligne)",
+        "huutoraade": "Utiliser",
+        "soɗaade": "Copier, reproduire",
+        "waylude": "Modifier, changer",
+        "firlude": "Traduire (de firtude)",
+        "saggitorde": "Dictionnaire (de saggude = chercher)",
+        "fedde": "Association, groupe, organisation",
+        "duɗal": "Académie, école, centre d'apprentissage",
+        "lowre": "Site web (néologisme)",
+        "kukii/kukiiji": "Cookie/cookies (emprunt adapté)",
+        "iimeel": "Email (emprunt phonétique)",
+        "konte": "Compte utilisateur (emprunt adapté)",
+        "formileer": "Formulaire (emprunt phonétique)",
+        "laylayti": "Réseaux sociaux (néologisme)"
+    }
+}
