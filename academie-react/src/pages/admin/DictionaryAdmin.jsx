@@ -566,32 +566,35 @@ function DictionaryAdmin() {
                 {/* Bulk action bar */}
                 {selectedIds.size > 0 && isAdmin && (
                     <div className="bulk-action-bar">
-                        <span className="bulk-action-count">
+                        <div className="bulk-action-count">
+                            <span className="bulk-count-badge">{selectedIds.size}</span>
                             {t('admin.dictionary.selectedCount', { count: selectedIds.size })}
-                        </span>
-                        <button
-                            className="btn-delete bulk-delete-btn"
-                            onClick={handleBulkDelete}
-                            disabled={bulkDeleting}
-                        >
-                            {bulkDeleting ? (
-                                <div className="btn-spinner"></div>
-                            ) : (
-                                <>
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                        <polyline points="3 6 5 6 21 6" />
-                                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-                                    </svg>
-                                    {t('admin.dictionary.deleteSelected')}
-                                </>
-                            )}
-                        </button>
-                        <button
-                            className="btn-cancel"
-                            onClick={() => setSelectedIds(new Set())}
-                        >
-                            {t('admin.dictionary.deselectAll')}
-                        </button>
+                        </div>
+                        <div className="bulk-action-buttons">
+                            <button
+                                className="bulk-delete-btn"
+                                onClick={handleBulkDelete}
+                                disabled={bulkDeleting}
+                            >
+                                {bulkDeleting ? (
+                                    <div className="btn-spinner"></div>
+                                ) : (
+                                    <>
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                            <polyline points="3 6 5 6 21 6" />
+                                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                                        </svg>
+                                        {t('admin.dictionary.deleteSelected')}
+                                    </>
+                                )}
+                            </button>
+                            <button
+                                className="bulk-deselect-btn"
+                                onClick={() => setSelectedIds(new Set())}
+                            >
+                                {t('admin.dictionary.deselectAll')}
+                            </button>
+                        </div>
                     </div>
                 )}
 
