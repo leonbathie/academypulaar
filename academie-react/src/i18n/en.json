@@ -311,6 +311,19 @@
                 "books": "Books in library",
                 "questions": "Frequently Asked Questions (FAQ)"
             },
+            "visitors": {
+                "title": "Visitor Statistics",
+                "today": "Today",
+                "thisWeek": "This week",
+                "thisMonth": "This month",
+                "totalUnique": "Unique visitors",
+                "totalVisits": "total visits",
+                "pageViews": "page views",
+                "last30days": "Last 30 days",
+                "topPages": "Most visited pages",
+                "homePage": "Home",
+                "visitors": "visitors"
+            },
             "welcomeCard": {
                 "title": "Welcome to administration",
                 "text": "Use the left menu to manage Goomu Fulo Wiɗto content:",

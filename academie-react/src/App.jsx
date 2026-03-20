@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { ThemeProvider } from './context/ThemeContext'
 import { AuthProvider } from './context/AuthContext'
 import ScrollToHash from './components/ScrollToHash'
+import PageTracker from './components/PageTracker'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import HomePage from './pages/HomePage'
@@ -32,6 +33,7 @@ function App() {
       <ThemeProvider>
         <BrowserRouter>
           <ScrollToHash />
+          <PageTracker />
           <Routes>
             {/* Routes publiques */}
             <Route path="/" element={

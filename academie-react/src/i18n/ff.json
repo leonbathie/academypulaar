@@ -314,6 +314,19 @@
                 "books": "Defte e nder Defterdu",
                 "questions": "Laaɓnde / ƴame lolluɗe"
             },
+            "visitors": {
+                "title": "Limooje yillotooɓe",
+                "today": "Hannde",
+                "thisWeek": "Yontere ndee",
+                "thisMonth": "Lewru nduu",
+                "totalUnique": "Yillotooɓe gooto-gootol",
+                "totalVisits": "yillaade fof",
+                "pageViews": "kelle ndaaraama",
+                "last30days": "Balɗe 30 sakitiiɗe",
+                "topPages": "Kelle ɓurɗe yilleede",
+                "homePage": "Damal",
+                "visitors": "yillotooɓe"
+            },
             "welcomeCard": {
                 "title": "A jaɓɓaama e Yiilirde",
                 "text": "Huutoro doggol nanol ngol ngam leemde lowre Goomu Fulo Wiɗto :",

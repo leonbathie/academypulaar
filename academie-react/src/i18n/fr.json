@@ -313,6 +313,19 @@
                 "books": "Livres dans la bibliothèque",
                 "questions": "Questions Fréquentes"
             },
+            "visitors": {
+                "title": "Statistiques des visiteurs",
+                "today": "Aujourd'hui",
+                "thisWeek": "Cette semaine",
+                "thisMonth": "Ce mois",
+                "totalUnique": "Visiteurs uniques",
+                "totalVisits": "visites totales",
+                "pageViews": "pages vues",
+                "last30days": "30 derniers jours",
+                "topPages": "Pages les plus visitées",
+                "homePage": "Accueil",
+                "visitors": "visiteurs"
+            },
             "welcomeCard": {
                 "title": "Bienvenue dans l'administration",
                 "text": "Utilisez le menu de gauche pour gérer le contenu du site Goomu Fulo Wiɗto :",

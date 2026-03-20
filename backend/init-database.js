@@ -293,6 +293,26 @@ async function initDatabase() {
         `)
         console.log('✅ Table dictionary_delete_requests créée')
 
+        // Table de suivi des visiteurs
+        await pool.query(`
+            CREATE TABLE IF NOT EXISTS visits (
+                id SERIAL PRIMARY KEY,
+                ip_hash VARCHAR(64) NOT NULL,
+                page VARCHAR(255) NOT NULL DEFAULT '/',
+                user_agent TEXT,
+                country VARCHAR(10),
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        `)
+        // Index pour les requêtes de stats par date
+        await pool.query(`
+            CREATE INDEX IF NOT EXISTS idx_visits_created_at ON visits(created_at)
+        `).catch(() => {})
+        await pool.query(`
+            CREATE INDEX IF NOT EXISTS idx_visits_ip_date ON visits(ip_hash, created_at)
+        `).catch(() => {})
+        console.log('✅ Table visits créée')
+
         // Créer l'admin par défaut
         const adminUsername = process.env.ADMIN_USERNAME || 'admin'
         const adminPassword = process.env.ADMIN_PASSWORD

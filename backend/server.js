@@ -96,6 +96,7 @@ app.use('/api/news', adminLimiter, require('./routes/news'))
 app.use('/api/content', adminLimiter, require('./routes/content'))
 app.use('/api/books', adminLimiter, require('./routes/books'))
 app.use('/api/questions', adminLimiter, require('./routes/questions'))
+app.use('/api/visits', require('./routes/visits'))
 app.use('/api/contact', rateLimit({
     windowMs: 15 * 60 * 1000,
     max: 5,
