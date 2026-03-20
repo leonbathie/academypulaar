@@ -31,6 +31,15 @@ function DictionaryPage() {
         return () => clearInterval(interval)
     }, [lang])
 
+    // Tracker une interaction avec un mot (éviter doublons rapides)
+    const trackedWords = useRef(new Set())
+    const trackWordInteraction = useCallback((id) => {
+        if (trackedWords.current.has(id)) return
+        trackedWords.current.add(id)
+        fetch(`${API_URL}/api/dictionary/track-view/${id}`, { method: 'POST' }).catch(() => {})
+        setTimeout(() => trackedWords.current.delete(id), 30000)
+    }, [])
+
     const toggleCard = useCallback((id) => {
         setExpandedCards(prev => {
             const next = new Set(prev)
@@ -154,16 +163,6 @@ function DictionaryPage() {
             default: return entry.translation_fr
         }
     }
-
-    // Tracker une interaction avec un mot (éviter doublons rapides)
-    const trackedWords = useRef(new Set())
-    const trackWordInteraction = useCallback((id) => {
-        if (trackedWords.current.has(id)) return
-        trackedWords.current.add(id)
-        fetch(`${API_URL}/api/dictionary/track-view/${id}`, { method: 'POST' }).catch(() => {})
-        // Permettre un nouveau tracking après 30s
-        setTimeout(() => trackedWords.current.delete(id), 30000)
-    }, [])
 
     const playAudio = (audioUrl, entryId, type) => {
         const fullUrl = `${API_URL}${audioUrl}`
