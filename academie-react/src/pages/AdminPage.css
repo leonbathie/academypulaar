@@ -876,13 +876,24 @@
     .admin-sidebar {
         position: fixed;
         left: -260px;
+        width: 260px !important;
         z-index: 100;
         height: 100vh;
         transition: left var(--transition-base);
     }
 
+    .admin-sidebar.collapsed {
+        left: -260px;
+        width: 260px !important;
+    }
+
     .admin-sidebar.mobile-open {
         left: 0;
+    }
+
+    .admin-main {
+        margin-left: 0 !important;
+        width: 100% !important;
     }
 
     .admin-content {
@@ -965,7 +976,18 @@
 
 @media (max-width: 480px) {
     .admin-header {
-        padding: var(--space-md);
+        padding: var(--space-sm) var(--space-md);
+    }
+
+    .sidebar-toggle {
+        min-width: 44px;
+        min-height: 44px;
+        flex-shrink: 0;
+    }
+
+    .header-right {
+        gap: var(--space-sm);
+        overflow: hidden;
     }
 
     .lang-tab {
