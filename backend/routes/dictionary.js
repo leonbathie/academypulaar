@@ -78,6 +78,55 @@ router.get('/', async (req, res) => {
     }
 })
 
+// GET /api/dictionary/search-stats - Stats des recherches (super-admin only)
+router.get('/search-stats', authMiddleware, requireRole('admin'), async (req, res) => {
+    try {
+        const email = await getUserEmail(req.user.id)
+        if (!isSuperAdmin(email)) {
+            return res.status(403).json({ error: 'Accès réservé aux super-administrateurs' })
+        }
+
+        const [topSearches, recentSearches, topWords, totalSearches] = await Promise.all([
+            // Top 15 termes les plus recherchés (30 derniers jours)
+            query(`
+                SELECT LOWER(term) as term, COUNT(*) as count
+                FROM dictionary_searches
+                WHERE created_at >= CURRENT_DATE - INTERVAL '30 days'
+                GROUP BY LOWER(term)
+                ORDER BY count DESC
+                LIMIT 15
+            `),
+            // 20 dernières recherches
+            query(`
+                SELECT term, results_count, created_at
+                FROM dictionary_searches
+                ORDER BY created_at DESC
+                LIMIT 20
+            `),
+            // Top 15 mots les plus consultés
+            query(`
+                SELECT id, word, translation_fr, domain, COALESCE(view_count, 0) as view_count
+                FROM dictionary
+                WHERE COALESCE(view_count, 0) > 0
+                ORDER BY view_count DESC
+                LIMIT 15
+            `),
+            // Total recherches
+            query('SELECT COUNT(*) as count FROM dictionary_searches')
+        ])
+
+        res.json({
+            topSearches: topSearches.rows,
+            recentSearches: recentSearches.rows,
+            topWords: topWords.rows,
+            totalSearches: parseInt(totalSearches.rows[0].count)
+        })
+    } catch (error) {
+        console.error('Search stats error:', error)
+        res.status(500).json({ error: 'Erreur serveur' })
+    }
+})
+
 // GET /api/dictionary/:id - Récupérer un mot
 router.get('/:id', validateId, async (req, res) => {
     try {
@@ -414,55 +463,6 @@ router.post('/track-view/:id', validateId, async (req, res) => {
     } catch (error) {
         console.error('Track view error:', error)
         res.json({ tracked: false })
-    }
-})
-
-// GET /api/dictionary/search-stats - Stats des recherches (super-admin only)
-router.get('/search-stats', authMiddleware, requireRole('admin'), async (req, res) => {
-    try {
-        const email = await getUserEmail(req.user.id)
-        if (!isSuperAdmin(email)) {
-            return res.status(403).json({ error: 'Accès réservé aux super-administrateurs' })
-        }
-
-        const [topSearches, recentSearches, topWords, totalSearches] = await Promise.all([
-            // Top 15 termes les plus recherchés (30 derniers jours)
-            query(`
-                SELECT LOWER(term) as term, COUNT(*) as count
-                FROM dictionary_searches
-                WHERE created_at >= CURRENT_DATE - INTERVAL '30 days'
-                GROUP BY LOWER(term)
-                ORDER BY count DESC
-                LIMIT 15
-            `),
-            // 20 dernières recherches
-            query(`
-                SELECT term, results_count, created_at
-                FROM dictionary_searches
-                ORDER BY created_at DESC
-                LIMIT 20
-            `),
-            // Top 15 mots les plus consultés
-            query(`
-                SELECT id, word, translation_fr, domain, COALESCE(view_count, 0) as view_count
-                FROM dictionary
-                WHERE COALESCE(view_count, 0) > 0
-                ORDER BY view_count DESC
-                LIMIT 15
-            `),
-            // Total recherches
-            query('SELECT COUNT(*) as count FROM dictionary_searches')
-        ])
-
-        res.json({
-            topSearches: topSearches.rows,
-            recentSearches: recentSearches.rows,
-            topWords: topWords.rows,
-            totalSearches: parseInt(totalSearches.rows[0].count)
-        })
-    } catch (error) {
-        console.error('Search stats error:', error)
-        res.status(500).json({ error: 'Erreur serveur' })
     }
 })
 
