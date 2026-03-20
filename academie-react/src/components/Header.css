@@ -426,22 +426,62 @@
 
     .header-container {
         padding: var(--space-sm) var(--space-md);
+        position: relative;
     }
 
     .mobile-menu-btn {
         display: flex;
-        order: 3;
+        order: -1;
+        flex-shrink: 0;
+        width: 44px;
+        height: 44px;
+    }
+
+    .logo {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        flex: none;
+        min-width: 0;
+        max-width: 60%;
+        overflow: hidden;
+    }
+
+    .logo-icon {
+        width: 45px;
+        height: 45px;
+        flex-shrink: 0;
+    }
+
+    .logo-text {
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+    }
+
+    .logo-title {
+        font-size: 1.1rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .logo-subtitle {
+        font-size: 0.7rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .header-actions {
         gap: var(--space-xs);
-        margin-left: 0;
+        margin-left: auto;
         flex-shrink: 0;
     }
 
     .theme-toggle {
-        width: 36px;
-        height: 36px;
+        width: 34px;
+        height: 34px;
     }
 
     .lang-btn {
@@ -550,38 +590,6 @@
         color: var(--primary-gold) !important;
     }
 
-    .logo {
-        flex: 1;
-        min-width: 0;
-        overflow: hidden;
-    }
-
-    .logo-text {
-        display: flex;
-        flex-direction: column;
-        min-width: 0;
-    }
-
-    .logo-title {
-        font-size: 1.2rem;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-    .logo-subtitle {
-        font-size: 0.75rem;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-    .logo-icon {
-        width: 50px;
-        height: 50px;
-        flex-shrink: 0;
-    }
-
     .search-btn {
         display: none;
     }
@@ -612,12 +620,11 @@
 @media (max-width: 480px) {
     .header-container {
         padding: var(--space-xs) var(--space-sm);
-        gap: var(--space-xs);
     }
 
     .logo-icon {
-        width: 42px;
-        height: 42px;
+        width: 38px;
+        height: 38px;
     }
 
     .logo-title {
@@ -629,8 +636,8 @@
     }
 
     .mobile-menu-btn {
-        width: 44px;
-        height: 44px;
+        width: 40px;
+        height: 40px;
         padding: 8px;
         flex-shrink: 0;
     }
