@@ -430,7 +430,10 @@
 
     .mobile-menu-btn {
         display: flex;
-        order: 3;
+        order: -1;
+        flex-shrink: 0;
+        width: 44px;
+        height: 44px;
     }
 
     .header-actions {
@@ -440,8 +443,8 @@
     }
 
     .theme-toggle {
-        width: 36px;
-        height: 36px;
+        width: 34px;
+        height: 34px;
     }
 
     .lang-btn {
@@ -552,6 +555,7 @@
 
     .logo {
         flex: 1;
+        justify-content: center;
         min-width: 0;
         overflow: hidden;
     }
@@ -563,22 +567,22 @@
     }
 
     .logo-title {
-        font-size: 1.2rem;
+        font-size: 1.15rem;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
     }
 
     .logo-subtitle {
-        font-size: 0.75rem;
+        font-size: 0.7rem;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
     }
 
     .logo-icon {
-        width: 50px;
-        height: 50px;
+        width: 55px;
+        height: 55px;
         flex-shrink: 0;
     }
 
@@ -616,12 +620,12 @@
     }
 
     .logo-icon {
-        width: 42px;
-        height: 42px;
+        width: 45px;
+        height: 45px;
     }
 
     .logo-title {
-        font-size: 0.95rem;
+        font-size: 1rem;
     }
 
     .logo-subtitle {
@@ -629,14 +633,14 @@
     }
 
     .mobile-menu-btn {
-        width: 44px;
-        height: 44px;
+        width: 40px;
+        height: 40px;
         padding: 8px;
         flex-shrink: 0;
     }
 
     .mobile-menu-btn span {
-        width: 20px;
+        width: 18px;
     }
 
     .lang-btn {
