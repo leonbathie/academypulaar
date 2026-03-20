@@ -324,7 +324,9 @@
                 "topWords": "Most viewed words",
                 "recentSearches": "Recent searches",
                 "results": "results",
-                "noData": "No data yet"
+                "noData": "No data yet",
+                "notFound": "Terms not found",
+                "allFound": "All terms had results"
             },
             "visitors": {
                 "title": "Visitor Statistics",

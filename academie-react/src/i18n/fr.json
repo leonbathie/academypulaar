@@ -326,7 +326,9 @@
                 "topWords": "Mots les plus consultés",
                 "recentSearches": "Recherches récentes",
                 "results": "résultats",
-                "noData": "Pas encore de données"
+                "noData": "Pas encore de données",
+                "notFound": "Termes non trouvés",
+                "allFound": "Tous les termes ont eu des résultats"
             },
             "visitors": {
                 "title": "Statistiques des visiteurs",

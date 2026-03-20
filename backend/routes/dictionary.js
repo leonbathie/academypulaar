@@ -86,7 +86,7 @@ router.get('/search-stats', authMiddleware, requireRole('admin'), async (req, re
             return res.status(403).json({ error: 'Accès réservé aux super-administrateurs' })
         }
 
-        const [topSearches, recentSearches, topWords, totalSearches] = await Promise.all([
+        const [topSearches, recentSearches, topWords, totalSearches, notFoundSearches] = await Promise.all([
             // Top 15 termes les plus recherchés (30 derniers jours)
             query(`
                 SELECT LOWER(term) as term, COUNT(*) as count
@@ -112,14 +112,25 @@ router.get('/search-stats', authMiddleware, requireRole('admin'), async (req, re
                 LIMIT 15
             `),
             // Total recherches
-            query('SELECT COUNT(*) as count FROM dictionary_searches')
+            query('SELECT COUNT(*) as count FROM dictionary_searches'),
+            // Top 15 termes recherchés sans résultats (30 derniers jours)
+            query(`
+                SELECT LOWER(term) as term, COUNT(*) as count
+                FROM dictionary_searches
+                WHERE results_count = 0
+                AND created_at >= CURRENT_DATE - INTERVAL '30 days'
+                GROUP BY LOWER(term)
+                ORDER BY count DESC
+                LIMIT 15
+            `)
         ])
 
         res.json({
             topSearches: topSearches.rows,
             recentSearches: recentSearches.rows,
             topWords: topWords.rows,
-            totalSearches: parseInt(totalSearches.rows[0].count)
+            totalSearches: parseInt(totalSearches.rows[0].count),
+            notFoundSearches: notFoundSearches.rows
         })
     } catch (error) {
         console.error('Search stats error:', error)

@@ -1822,6 +1822,9 @@
     .visitor-stat-number { font-size: 1.6rem; }
     .top-page-name { width: 100px; }
     .chart-bars { height: 100px; }
+    .search-stats-columns { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 480px) {
     .search-stats-columns { grid-template-columns: 1fr; }
 }
 
@@ -1845,7 +1848,7 @@
 }
 .search-stats-columns {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: var(--space-lg);
 }
 .search-stats-col h3 {
@@ -2026,6 +2029,15 @@
     margin-bottom: var(--space-md);
     padding-bottom: var(--space-sm);
     border-bottom: 1px solid var(--light-gray);
+}
+
+.search-term--notfound {
+    color: #c0392b;
+}
+.search-notfound-item {
+    background: rgba(192, 57, 43, 0.05);
+    border-radius: var(--radius-sm);
+    padding: var(--space-xs) var(--space-sm);
 }
 
 /* Dark mode stats */

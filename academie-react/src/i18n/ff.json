@@ -327,7 +327,9 @@
                 "topWords": "Kelme ɓurɗe ndaareede",
                 "recentSearches": "Ɗaɓɓitanɗe cakitiiɗe",
                 "results": "njaltudi",
-                "noData": "Alaa keɓe tawo"
+                "noData": "Alaa keɓe tawo",
+                "notFound": "Kelme ɗe njiytaaka",
+                "allFound": "Kelme fof keɓii njaltudi"
             },
             "visitors": {
                 "title": "Limooje yillotooɓe",
