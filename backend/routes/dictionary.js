@@ -198,13 +198,9 @@ async function getUserEmail(userId) {
     return result.rows[0]?.email || null
 }
 
-// POST /api/dictionary/delete-request - Demander la suppression d'un mot (super-admin only)
+// POST /api/dictionary/delete-request - Demander la suppression d'un mot (admin + super-admin)
 router.post('/delete-request', authMiddleware, requireRole('admin'), async (req, res) => {
     try {
-        const email = await getUserEmail(req.user.id)
-        if (!isSuperAdmin(email)) {
-            return res.status(403).json({ error: 'Seuls les super-administrateurs peuvent demander une suppression du dictionnaire' })
-        }
 
         const { wordIds } = req.body
         if (!wordIds || !Array.isArray(wordIds) || wordIds.length === 0) {
@@ -254,14 +250,9 @@ router.post('/delete-request', authMiddleware, requireRole('admin'), async (req,
     }
 })
 
-// GET /api/dictionary/delete-requests - Lister les demandes de suppression (super-admin only)
+// GET /api/dictionary/delete-requests - Lister les demandes de suppression (admin + super-admin)
 router.get('/delete-requests', authMiddleware, requireRole('admin'), async (req, res) => {
     try {
-        const email = await getUserEmail(req.user.id)
-        if (!isSuperAdmin(email)) {
-            return res.status(403).json({ error: 'Accès réservé aux super-administrateurs' })
-        }
-
         const result = await query(`
             SELECT dr.id, dr.word_id, dr.status, dr.created_at, dr.resolved_at,
                    d.word, d.translation_fr, d.translation_en, d.domain,

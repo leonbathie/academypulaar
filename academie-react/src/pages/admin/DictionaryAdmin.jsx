@@ -7,7 +7,7 @@ import ConfirmDialog from '../../components/ConfirmDialog'
 function DictionaryAdmin() {
     const { t, i18n } = useTranslation()
     const { apiRequest, token } = useApi()
-    const { isSuperAdmin } = useAuth()
+    const { isSuperAdmin, isAdmin } = useAuth()
 
     // Map stored domain values to i18n keys
     const domainKeyMap = {
@@ -78,7 +78,7 @@ function DictionaryAdmin() {
 
     useEffect(() => {
         loadWords()
-        if (isSuperAdmin) loadDeleteRequests()
+        if (isAdmin) loadDeleteRequests()
     }, [])
 
     const loadWords = async () => {
@@ -257,7 +257,7 @@ function DictionaryAdmin() {
     }
 
     const handleDelete = (id) => {
-        if (!isSuperAdmin) return
+        if (!isAdmin) return
         setConfirmDialog({
             open: true,
             title: t('admin.dictionary.deleteRequestTitle', 'Demande de suppression'),
@@ -305,7 +305,7 @@ function DictionaryAdmin() {
     }
 
     const handleBulkDelete = () => {
-        if (selectedIds.size === 0 || !isSuperAdmin) return
+        if (selectedIds.size === 0 || !isAdmin) return
         const count = selectedIds.size
         setConfirmDialog({
             open: true,
@@ -564,7 +564,7 @@ function DictionaryAdmin() {
                 )}
 
                 {/* Bulk action bar */}
-                {selectedIds.size > 0 && isSuperAdmin && (
+                {selectedIds.size > 0 && isAdmin && (
                     <div className="bulk-action-bar">
                         <span className="bulk-action-count">
                             {t('admin.dictionary.selectedCount', { count: selectedIds.size })}
@@ -598,7 +598,7 @@ function DictionaryAdmin() {
                 <table className="admin-table">
                     <thead>
                         <tr>
-                            {isSuperAdmin && (
+                            {isAdmin && (
                             <th className="th-checkbox">
                                 <input
                                     type="checkbox"
@@ -633,7 +633,7 @@ function DictionaryAdmin() {
                                     return (
                                         <Fragment key={word.id}>
                                             <tr className={`${selectedIds.has(word.id) ? 'row-selected' : ''} ${isExpanded ? 'row-expanded' : ''}`}>
-                                                {isSuperAdmin && (
+                                                {isAdmin && (
                                                 <td className="td-checkbox">
                                                     <input
                                                         type="checkbox"
@@ -663,7 +663,7 @@ function DictionaryAdmin() {
                                                             <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
                                                         </svg>
                                                     </button>
-                                                    {isSuperAdmin && (
+                                                    {isAdmin && (
                                                     <button className="btn-delete" onClick={() => handleDelete(word.id)} title={t('admin.dictionary.requestDelete', 'Demander la suppression')}>
                                                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                                             <polyline points="3 6 5 6 21 6" />
