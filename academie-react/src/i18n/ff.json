@@ -1,21 +1,21 @@
 {
     "common": {
         "siteName": "Goomu Fulo & Wiɗto",
-        "siteSlogan": "Hentordu Ɗemngal Fulfulde",
+        "siteSlogan": "Hentordu Ɗemngal Pulaar",
         "since": "Gila 2016",
         "discover": "Ƴeew",
         "readMore": "Jokku",
         "learnMore": "Ɓeydo Humpitaade",
         "search": "Yiylo",
         "submit": "Neldu",
-        "contact": "Jokkondir",
+        "contact": "Jokkondirde",
         "library": "Defterdu",
         "noNewsAvailable": "Alaa kabaaru goodɗo",
         "readLess": "Ustu"
     },
     "nav": {
         "home": "Jaɓɓorgo",
-        "institution": "Hentordu ndu",
+        "institution": "Goomu Fulo & Wiɗto",
         "history": "Ciimtol Goomu Fulo & Wiɗto",
         "missions": "Paandaale",
         "organization": "Lowe Golle",
@@ -27,7 +27,7 @@
         "speeches": "Kaalanɗe",
         "language": "Ɗemngal Fulfulde",
         "frenchToday": "Fulfulde Hannde",
-        "languageQuestions": "Laaɓnde / ƴame lolluɗe",
+        "languageQuestions": "Naamne lolluɗe",
         "terminology": "Kelmeendi",
         "sayDontSay": "Selli, Sellaani",
         "dictionary": "Saggitorde",
@@ -53,12 +53,12 @@
         "scroll": "Tello"
     },
     "features": {
-        "sectionLabel": "Paandaale amen",
+        "sectionLabel": "Paandaale amin",
         "title": "Gollande",
         "titleHighlight": "Ɗemngal Fulfulde",
         "description": "Goomu Fulo & Wiɗto daranii ko Fulde kelme ganndinal e wiɗtude ngam ƴellitde ɗemngal Fulfulde.",
         "institution": {
-            "title": "Hentordu ndu",
+            "title": "Goomu Fulo & Wiɗto",
             "description": "Goomu Fulo & Wiɗto ko hentordu ngam ƴellitde ɗemngal Fulfulde, ."
         },
         "dictionary": {
@@ -86,12 +86,12 @@
     },
     "sayDontSay": {
         "sectionLabel": "Ɗemngal Fulfulde",
-        "title": "Selli, ",
+        "title": "Wiy, ",
         "titleHighlight": "Sellaani",
         "intro": "Ɗum ko haala celluka e ka sellaani",
         "discoverSection": "Ƴeew taƴre ndee",
-        "weSay": "Selli",
-        "weDontSay": "Sellaani",
+        "weSay": "Wiyatee",
+        "weDontSay": "Wiyataake",
         "faultyUsage": "Haala ka sellaani",
         "anglicisms": "Kelme jiggaaɗe",
         "abusiveExtensions": "Kuutoragol bonngol",
@@ -181,7 +181,7 @@
         "title": "Jokkondiral",
         "subtitle": "Jokkondir e amin",
         "infoTitle": "Jokkorɗe",
-        "address": "Ňiiɓirde",
+        "address": "Ñiiɓirde",
         "phone": "Tonngoode",
         "form": {
             "name": "Innde timmunde",
@@ -266,7 +266,7 @@
     "footer": {
         "contactTitle": "Jokkorde",
         "description": "Goomu Fulo & Wiɗto ko fedde toppitiinde reɓɓude, ɓaŋŋinde e ɓeydude Ɖemngal Fulfulde.",
-        "institution": "Fedde ndee",
+        "institution": "Goomu Fulo & Wiɗto",
         "language": "Ɗemngal ngal",
         "services": "Balluuji",
         "stayInformed": "Heɓu kabaruuji",

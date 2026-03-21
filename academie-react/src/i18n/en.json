@@ -1,7 +1,7 @@
 {
     "common": {
         "siteName": "Goomu Fulo & Wiɗto",
-        "siteSlogan": "Fulfulde Language Academy",
+        "siteSlogan": "Pulaar Language Academy",
         "since": "Since 2016",
         "discover": "Discover",
         "readMore": "Read more",
@@ -15,7 +15,7 @@
     },
     "nav": {
         "home": "Home",
-        "institution": "The Institution",
+        "institution": "GFW Association",
         "history": "History",
         "missions": "Missions",
         "organization": "Organization",
@@ -27,7 +27,7 @@
         "speeches": "Speeches",
         "language": "Fulfulde Language",
         "frenchToday": "Fulfulde Today",
-        "languageQuestions": "Frequently Asked Questions (FAQ)",
+        "languageQuestions": "Language Questions",
         "terminology": "Terminology",
         "sayDontSay": "Correct, Incorrect",
         "dictionary": "The Dictionary",
@@ -58,7 +58,7 @@
         "titleHighlight": "Fulfulde language",
         "description": "Goomu Fulo & Wiɗto has as mission to translate scientific terms into Fulfulde and conduct research to develop Fulfulde language.",
         "institution": {
-            "title": "The Institution",
+            "title": "GFW Association",
             "description": "Founded for the Fulfulde language, Goomu Fulo Wiɗto is an organization of language guardians."
         },
         "dictionary": {
@@ -87,7 +87,7 @@
     "sayDontSay": {
         "sectionLabel": "Fulfulde Language",
         "title": "Say, ",
-        "titleHighlight": "Don't Say",
+        "titleHighlight": "Incorrect",
         "intro": "Goomu Fulo Wiɗto guides you in the correct use of the Fulfulde language.",
         "discoverSection": "Discover the section",
         "weSay": "We say",
@@ -264,7 +264,7 @@
     },    "footer": {
         "contactTitle": "Contact",
         "description": "Goomu Fulo & Wiɗto is an organization dedicated to the preservation, promotion and development of the Fulfulde language.",
-        "institution": "The Institution",
+        "institution": "GFW Association",
         "language": "The Language",
         "services": "Services",
         "stayInformed": "Stay informed",
