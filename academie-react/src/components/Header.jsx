@@ -23,8 +23,8 @@ function Header() {
     const currentLang = languages.find(l => l.code === i18n.language) || languages[0]
 
     // Pages with light backgrounds need dark header text
-    const lightPages = ['/dire', '/contact', '/a-propos', '/dictionnaire', '/terminologie']
-    const isLightPage = lightPages.includes(location.pathname)
+    const darkPages = ['/', '/admin']
+    const isLightPage = !darkPages.some(p => location.pathname === p || (p === '/admin' && location.pathname.startsWith('/admin')))
 
     const menuItems = [
         {
