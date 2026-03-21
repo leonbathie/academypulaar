@@ -15,13 +15,13 @@
 }
 
 /* Nav mobile — hors du header, z-index indépendant */
-.nav-mobile {
-    display: none;
+.nav.nav-mobile {
+    display: none !important;
 }
 
 @media (max-width: 768px) {
-    .nav-mobile {
-        display: block;
+    .nav.nav-mobile {
+        display: block !important;
         position: fixed;
         top: 0;
         left: 0;
