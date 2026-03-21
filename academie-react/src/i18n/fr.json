@@ -15,7 +15,7 @@
     },
     "nav": {
         "home": "Accueil",
-        "institution": "L'Association GFW",
+        "institution": "L'institution",
         "history": "L'histoire",
         "missions": "Les missions",
         "organization": "L'organisation",
@@ -58,7 +58,7 @@
         "titleHighlight": "langue Fulfulde",
         "description": "Goomu Fulo & Wiɗto a pour mission de traduire les mots scientifiques et faire des recherches pour développer la langue Fulfulde.",
         "institution": {
-            "title": "L'Association GFW",
+            "title": "L'institution",
             "description": "Fondée pour la langue Fulfulde, Goomu Fulo Wiɗto est une organisation de gardiens de la langue."
         },
         "dictionary": {
@@ -266,7 +266,7 @@
     "footer": {
         "contactTitle": "Contact",
         "description": "Goomu Fulo & Wiɗto est une organisation dédiée à la préservation, la promotion et le développement de la langue Fulfulde.",
-        "institution": "L'Association GFW",
+        "institution": "L'institution",
         "language": "La Langue",
         "services": "Services",
         "stayInformed": "Restez informé",
