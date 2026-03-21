@@ -5,8 +5,7 @@ import './Hero.css'
 const slides = [
     {
         image: "https://images.unsplash.com/photo-1568667256549-094345857637?w=1920",
-        titleKey: "hero.title2",
-        subtitleKey: "hero.subtitle2"
+        titleKey: "hero.title2"
     },
     {
         image: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=1920",
@@ -50,9 +49,11 @@ function Hero() {
                     <h1 className="hero-title">
                         {t(slides[currentSlide].titleKey)}
                     </h1>
-                    <p className="hero-subtitle">
-                        {t(slides[currentSlide].subtitleKey)}
-                    </p>
+                    {slides[currentSlide].subtitleKey && (
+                        <p className="hero-subtitle">
+                            {t(slides[currentSlide].subtitleKey)}
+                        </p>
+                    )}
                     <div className="hero-buttons">
                         <a href="#decouvrir" className="btn btn-primary">
                             {t('common.discover')}
