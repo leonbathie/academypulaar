@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom'
 import { ThemeProvider } from './context/ThemeContext'
 import { AuthProvider } from './context/AuthContext'
 import ScrollToHash from './components/ScrollToHash'
@@ -28,11 +28,11 @@ import StatsAdmin from './pages/admin/StatsAdmin'
 import UsersAdmin from './pages/admin/UsersAdmin'
 import './App.css'
 
-function PublicLayout({ children }) {
+function PublicLayout() {
   return (
     <div className="app">
       <Header />
-      <main>{children}</main>
+      <main><Outlet /></main>
       <Footer />
     </div>
   )
@@ -46,17 +46,20 @@ function App() {
           <ScrollToHash />
           <PageTracker />
           <Routes>
-            {/* Routes publiques */}
-            <Route path="/" element={<PublicLayout><HomePage /></PublicLayout>} />
-            <Route path="/dictionnaire" element={<PublicLayout><DictionaryPage /></PublicLayout>} />
-            <Route path="/contact" element={<PublicLayout><ContactPage /></PublicLayout>} />
-            <Route path="/a-propos" element={<PublicLayout><AboutPage /></PublicLayout>} />
-            <Route path="/bibliotheque" element={<PublicLayout><LibraryPage /></PublicLayout>} />
-            <Route path="/questions-langue" element={<PublicLayout><LanguageQuestionsPage /></PublicLayout>} />
-            <Route path="/terminologie" element={<PublicLayout><TerminologyPage /></PublicLayout>} />
-            <Route path="/dire" element={<PublicLayout><DireNePasDirePage /></PublicLayout>} />
-            <Route path="/mentions-legales" element={<PublicLayout><MentionsLegalesPage /></PublicLayout>} />
-            <Route path="/confidentialite" element={<PublicLayout><ConfidentialitePage /></PublicLayout>} />
+            {/* Routes publiques — même Header/Footer partagé */}
+            <Route element={<PublicLayout />}>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/dictionnaire" element={<DictionaryPage />} />
+              <Route path="/contact" element={<ContactPage />} />
+              <Route path="/a-propos" element={<AboutPage />} />
+              <Route path="/bibliotheque" element={<LibraryPage />} />
+              <Route path="/questions-langue" element={<LanguageQuestionsPage />} />
+              <Route path="/terminologie" element={<TerminologyPage />} />
+              <Route path="/dire" element={<DireNePasDirePage />} />
+              <Route path="/mentions-legales" element={<MentionsLegalesPage />} />
+              <Route path="/confidentialite" element={<ConfidentialitePage />} />
+              <Route path="*" element={<NotFoundPage />} />
+            </Route>
 
             {/* Routes admin */}
             <Route path="/login" element={<LoginPage />} />
@@ -70,9 +73,6 @@ function App() {
               <Route path="utilisateurs" element={<UsersAdmin />} />
               <Route path="statistiques" element={<StatsAdmin />} />
             </Route>
-
-            {/* 404 */}
-            <Route path="*" element={<PublicLayout><NotFoundPage /></PublicLayout>} />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>
