@@ -14,10 +14,36 @@
     max-width: 100vw;
 }
 
-.header.scrolled {
+.header.scrolled,
+.header.scrolled.light-page {
     background: rgba(26, 26, 46, 0.98);
     backdrop-filter: blur(10px);
     box-shadow: var(--shadow-lg);
+}
+
+.header.scrolled .mobile-menu-btn span {
+    background: var(--white);
+}
+
+.header.scrolled .logo {
+    color: var(--white);
+}
+
+.header.scrolled .logo-subtitle {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.header.scrolled .nav-link {
+    color: var(--white);
+}
+
+.header.scrolled .theme-toggle {
+    color: var(--white);
+}
+
+.header.scrolled .lang-btn {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--white);
 }
 
 /* Light page header - dark text on light background */
