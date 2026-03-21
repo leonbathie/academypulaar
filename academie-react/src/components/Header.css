@@ -21,8 +21,8 @@
     box-shadow: var(--shadow-lg);
 }
 
-.header.scrolled .mobile-menu-btn span {
-    background: var(--white);
+.header.scrolled .mobile-menu-btn {
+    background: rgba(255, 255, 255, 0.15);
 }
 
 .header.scrolled .logo {
@@ -88,8 +88,8 @@
     background: rgba(0, 0, 0, 0.1);
 }
 
-.header.light-page .mobile-menu-btn span {
-    background: var(--dark-gray);
+.header.light-page .mobile-menu-btn {
+    background: rgba(26, 26, 46, 0.7);
 }
 
 .header-container {
@@ -398,17 +398,18 @@
     align-items: center;
     justify-content: center;
     gap: 5px;
-    z-index: 1001;
-    background: transparent;
+    z-index: 1002;
+    background: rgba(26, 26, 46, 0.7);
     border: none;
+    border-radius: 8px;
     cursor: pointer;
     padding: 10px;
 }
 
 .mobile-menu-btn span {
     width: 22px;
-    height: 2px;
-    background: var(--white);
+    height: 2.5px;
+    background: #fff !important;
     border-radius: 2px;
     transition: all var(--transition-fast);
     display: block;
