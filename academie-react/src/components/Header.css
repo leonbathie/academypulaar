@@ -143,8 +143,8 @@
 }
 
 .logo-icon {
-    width: 70px;
-    height: 70px;
+    width: 85px;
+    height: 85px;
     color: var(--primary-gold);
 }
 
@@ -627,8 +627,8 @@
     }
 
     .logo-icon {
-        width: 75px;
-        height: 75px;
+        width: 80px;
+        height: 80px;
         flex-shrink: 0;
     }
 
@@ -666,8 +666,8 @@
     }
 
     .logo-icon {
-        width: 55px;
-        height: 55px;
+        width: 65px;
+        height: 65px;
     }
 
     .logo-title {
@@ -737,8 +737,8 @@
     }
 
     .logo-icon {
-        width: 45px;
-        height: 45px;
+        width: 55px;
+        height: 55px;
     }
 
     .logo-title {
