@@ -7,7 +7,7 @@
     top: 0;
     left: 0;
     right: 0;
-    z-index: 1000;
+    z-index: 1001;
     background: transparent;
     transition: all var(--transition-base);
     overflow: visible;
@@ -470,13 +470,15 @@
         transition: transform var(--transition-base);
         overflow-y: auto;
         overflow-x: hidden;
-        z-index: 1000;
+        z-index: 999;
         max-width: 100vw;
         width: 100%;
+        visibility: hidden;
     }
 
     .nav.open {
         transform: translateX(0);
+        visibility: visible;
     }
 
     .nav-list {
