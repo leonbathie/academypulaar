@@ -28,6 +28,16 @@ import StatsAdmin from './pages/admin/StatsAdmin'
 import UsersAdmin from './pages/admin/UsersAdmin'
 import './App.css'
 
+function PublicLayout({ children }) {
+  return (
+    <div className="app">
+      <Header />
+      <main>{children}</main>
+      <Footer />
+    </div>
+  )
+}
+
 function App() {
   return (
     <AuthProvider>
@@ -37,77 +47,16 @@ function App() {
           <PageTracker />
           <Routes>
             {/* Routes publiques */}
-            <Route path="/" element={
-              <div className="app">
-                <Header />
-                <main><HomePage /></main>
-                <Footer />
-              </div>
-            } />
-            <Route path="/dictionnaire" element={
-              <div className="app">
-                <Header />
-                <main><DictionaryPage /></main>
-                <Footer />
-              </div>
-            } />
-            <Route path="/contact" element={
-              <div className="app">
-                <Header />
-                <main><ContactPage /></main>
-                <Footer />
-              </div>
-            } />
-            <Route path="/a-propos" element={
-              <div className="app">
-                <Header />
-                <main><AboutPage /></main>
-                <Footer />
-              </div>
-            } />
-            <Route path="/bibliotheque" element={
-              <div className="app">
-                <Header />
-                <main><LibraryPage /></main>
-                <Footer />
-              </div>
-            } />
-            <Route path="/questions-langue" element={
-              <div className="app">
-                <Header />
-                <main><LanguageQuestionsPage /></main>
-                <Footer />
-              </div>
-            } />
-            <Route path="/terminologie" element={
-              <div className="app">
-                <Header />
-                <main><TerminologyPage /></main>
-                <Footer />
-              </div>
-            } />
-            <Route path="/dire" element={
-              <div className="app">
-                <Header />
-                <main><DireNePasDirePage /></main>
-                <Footer />
-              </div>
-            } />
-
-            <Route path="/mentions-legales" element={
-              <div className="app">
-                <Header />
-                <main><MentionsLegalesPage /></main>
-                <Footer />
-              </div>
-            } />
-            <Route path="/confidentialite" element={
-              <div className="app">
-                <Header />
-                <main><ConfidentialitePage /></main>
-                <Footer />
-              </div>
-            } />
+            <Route path="/" element={<PublicLayout><HomePage /></PublicLayout>} />
+            <Route path="/dictionnaire" element={<PublicLayout><DictionaryPage /></PublicLayout>} />
+            <Route path="/contact" element={<PublicLayout><ContactPage /></PublicLayout>} />
+            <Route path="/a-propos" element={<PublicLayout><AboutPage /></PublicLayout>} />
+            <Route path="/bibliotheque" element={<PublicLayout><LibraryPage /></PublicLayout>} />
+            <Route path="/questions-langue" element={<PublicLayout><LanguageQuestionsPage /></PublicLayout>} />
+            <Route path="/terminologie" element={<PublicLayout><TerminologyPage /></PublicLayout>} />
+            <Route path="/dire" element={<PublicLayout><DireNePasDirePage /></PublicLayout>} />
+            <Route path="/mentions-legales" element={<PublicLayout><MentionsLegalesPage /></PublicLayout>} />
+            <Route path="/confidentialite" element={<PublicLayout><ConfidentialitePage /></PublicLayout>} />
 
             {/* Routes admin */}
             <Route path="/login" element={<LoginPage />} />
@@ -123,13 +72,7 @@ function App() {
             </Route>
 
             {/* 404 */}
-            <Route path="*" element={
-              <div className="app">
-                <Header />
-                <main><NotFoundPage /></main>
-                <Footer />
-              </div>
-            } />
+            <Route path="*" element={<PublicLayout><NotFoundPage /></PublicLayout>} />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>
