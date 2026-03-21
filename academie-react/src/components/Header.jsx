@@ -81,116 +81,154 @@ function Header() {
     }
 
     return (
-        <header className={`header ${isScrolled ? 'scrolled' : ''} ${isLightPage && !isDark ? 'light-page' : ''}`}>
-            <div className="header-container">
-                <Link to="/" className="logo">
-                    <div className="logo-icon">
-                        <img src={logoGif} alt="Goomu Fulo Wiɗto" className="logo-image" />
-                    </div>
-                    <div className="logo-text">
-                        <span className="logo-title">{t('common.siteName')}</span>
-                        <span className="logo-subtitle">{t('common.siteSlogan')}</span>
-                    </div>
-                </Link>
+        <>
+            <header className={`header ${isScrolled ? 'scrolled' : ''} ${isLightPage && !isDark ? 'light-page' : ''}`}>
+                <div className="header-container">
+                    <Link to="/" className="logo">
+                        <div className="logo-icon">
+                            <img src={logoGif} alt="Goomu Fulo Wiɗto" className="logo-image" />
+                        </div>
+                        <div className="logo-text">
+                            <span className="logo-title">{t('common.siteName')}</span>
+                            <span className="logo-subtitle">{t('common.siteSlogan')}</span>
+                        </div>
+                    </Link>
 
-                <nav className={`nav ${isMobileMenuOpen ? 'open' : ''}`}>
-                    <ul className="nav-list">
-                        {menuItems.map((item, index) => (
-                            <li
-                                key={index}
-                                className={`nav-item ${item.submenu ? 'has-submenu' : ''}`}
-                                onMouseEnter={() => !isMobileMenuOpen && item.submenu && setActiveSubmenu(index)}
-                                onMouseLeave={() => !isMobileMenuOpen && setActiveSubmenu(null)}
-                            >
-                                {item.submenu ? (
-                                    <>
-                                        <button
-                                            className="nav-link"
-                                            onClick={() => handleSubmenuToggle(index)}
-                                            aria-expanded={activeSubmenu === index}
-                                        >
-                                            {item.title}
-                                            <svg className="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                                <path d="M6 9l6 6 6-6" />
-                                            </svg>
-                                        </button>
-                                        <ul className={`submenu ${activeSubmenu === index ? 'open' : ''}`}>
-                                            {item.submenu.map((subItem, subIndex) => (
-                                                <li key={subIndex}>
-                                                    <Link to={subItem.link} className="submenu-link">
-                                                        {subItem.title}
-                                                    </Link>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </>
-                                ) : (
-                                    <Link to={item.link} className="nav-link">{item.title}</Link>
-                                )}
-                            </li>
-                        ))}
-                    </ul>
-                </nav>
-
-                <div className="header-actions">
-                    {/* Theme Toggle */}
-                    <button
-                        className="theme-toggle"
-                        onClick={toggleTheme}
-                        aria-label={isDark ? 'Mode clair' : 'Mode sombre'}
-                    >
-                        {isDark ? (
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                <circle cx="12" cy="12" r="5" />
-                                <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
-                            </svg>
-                        ) : (
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-                            </svg>
-                        )}
-                    </button>
-
-                    {/* Language Selector */}
-                    <div className="lang-selector">
-                        <button
-                            className="lang-btn"
-                            onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}
-                            aria-label="Changer la langue"
-                        >
-                            <span className="lang-flag">{currentLang.flag}</span>
-                            <span className="lang-code">{currentLang.code.toUpperCase()}</span>
-                            <svg className={`chevron ${isLangMenuOpen ? 'open' : ''}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                <path d="M6 9l6 6 6-6" />
-                            </svg>
-                        </button>
-                        <ul className={`lang-menu ${isLangMenuOpen ? 'open' : ''}`}>
-                            {languages.map((lang) => (
-                                <li key={lang.code}>
-                                    <button
-                                        className={`lang-option ${i18n.language === lang.code ? 'active' : ''}`}
-                                        onClick={() => changeLanguage(lang.code)}
-                                    >
-                                        <span className="lang-flag">{lang.flag}</span>
-                                        <span className="lang-name">{lang.name}</span>
-                                    </button>
+                    <nav className="nav nav-desktop">
+                        <ul className="nav-list">
+                            {menuItems.map((item, index) => (
+                                <li
+                                    key={index}
+                                    className={`nav-item ${item.submenu ? 'has-submenu' : ''}`}
+                                    onMouseEnter={() => item.submenu && setActiveSubmenu(index)}
+                                    onMouseLeave={() => setActiveSubmenu(null)}
+                                >
+                                    {item.submenu ? (
+                                        <>
+                                            <button
+                                                className="nav-link"
+                                                onClick={() => handleSubmenuToggle(index)}
+                                                aria-expanded={activeSubmenu === index}
+                                            >
+                                                {item.title}
+                                                <svg className="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                                    <path d="M6 9l6 6 6-6" />
+                                                </svg>
+                                            </button>
+                                            <ul className={`submenu ${activeSubmenu === index ? 'open' : ''}`}>
+                                                {item.submenu.map((subItem, subIndex) => (
+                                                    <li key={subIndex}>
+                                                        <Link to={subItem.link} className="submenu-link">
+                                                            {subItem.title}
+                                                        </Link>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </>
+                                    ) : (
+                                        <Link to={item.link} className="nav-link">{item.title}</Link>
+                                    )}
                                 </li>
                             ))}
                         </ul>
-                    </div>
+                    </nav>
 
-                    <button
-                        className={`mobile-menu-btn ${isMobileMenuOpen ? 'open' : ''}`}
-                        onClick={toggleMobileMenu}
-                        aria-label="Menu"
-                    >
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </button>
+                    <div className="header-actions">
+                        <button
+                            className="theme-toggle"
+                            onClick={toggleTheme}
+                            aria-label={isDark ? 'Mode clair' : 'Mode sombre'}
+                        >
+                            {isDark ? (
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                    <circle cx="12" cy="12" r="5" />
+                                    <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+                                </svg>
+                            ) : (
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                                </svg>
+                            )}
+                        </button>
+
+                        <div className="lang-selector">
+                            <button
+                                className="lang-btn"
+                                onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}
+                                aria-label="Changer la langue"
+                            >
+                                <span className="lang-flag">{currentLang.flag}</span>
+                                <span className="lang-code">{currentLang.code.toUpperCase()}</span>
+                                <svg className={`chevron ${isLangMenuOpen ? 'open' : ''}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                    <path d="M6 9l6 6 6-6" />
+                                </svg>
+                            </button>
+                            <ul className={`lang-menu ${isLangMenuOpen ? 'open' : ''}`}>
+                                {languages.map((lang) => (
+                                    <li key={lang.code}>
+                                        <button
+                                            className={`lang-option ${i18n.language === lang.code ? 'active' : ''}`}
+                                            onClick={() => changeLanguage(lang.code)}
+                                        >
+                                            <span className="lang-flag">{lang.flag}</span>
+                                            <span className="lang-name">{lang.name}</span>
+                                        </button>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+
+                        <button
+                            className={`mobile-menu-btn ${isMobileMenuOpen ? 'open' : ''}`}
+                            onClick={toggleMobileMenu}
+                            aria-label="Menu"
+                        >
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </button>
+                    </div>
                 </div>
-            </div>
-        </header>
+            </header>
+
+            {/* Nav mobile HORS du header pour éviter le stacking context */}
+            <nav className={`nav nav-mobile ${isMobileMenuOpen ? 'open' : ''}`}>
+                <ul className="nav-list">
+                    {menuItems.map((item, index) => (
+                        <li
+                            key={index}
+                            className={`nav-item ${item.submenu ? 'has-submenu' : ''}`}
+                        >
+                            {item.submenu ? (
+                                <>
+                                    <button
+                                        className="nav-link"
+                                        onClick={() => handleSubmenuToggle(index)}
+                                        aria-expanded={activeSubmenu === index}
+                                    >
+                                        {item.title}
+                                        <svg className="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                            <path d="M6 9l6 6 6-6" />
+                                        </svg>
+                                    </button>
+                                    <ul className={`submenu ${activeSubmenu === index ? 'open' : ''}`}>
+                                        {item.submenu.map((subItem, subIndex) => (
+                                            <li key={subIndex}>
+                                                <Link to={subItem.link} className="submenu-link" onClick={() => setIsMobileMenuOpen(false)}>
+                                                    {subItem.title}
+                                                </Link>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </>
+                            ) : (
+                                <Link to={item.link} className="nav-link" onClick={() => setIsMobileMenuOpen(false)}>{item.title}</Link>
+                            )}
+                        </li>
+                    ))}
+                </ul>
+            </nav>
+        </>
     )
 }
 
