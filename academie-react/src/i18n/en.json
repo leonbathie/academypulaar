@@ -406,6 +406,7 @@
             "example": "Usage example",
             "audioWord": "Word pronunciation",
             "audioExample": "Example pronunciation",
+            "allDomains": "All domains",
             "noWords": "No words in the dictionary",
             "seeMore": "See more",
             "seeLess": "See less",
