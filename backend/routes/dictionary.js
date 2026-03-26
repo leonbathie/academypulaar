@@ -138,6 +138,29 @@ router.get('/search-stats', authMiddleware, requireRole('admin'), async (req, re
     }
 })
 
+// GET /api/dictionary/delete-requests - Lister les demandes de suppression (admin + super-admin)
+router.get('/delete-requests', authMiddleware, requireRole('admin'), async (req, res) => {
+    try {
+        const result = await query(`
+            SELECT dr.id, dr.word_id, dr.status, dr.created_at, dr.resolved_at,
+                   d.word, d.translation_fr, d.translation_en, d.domain,
+                   u1.username AS requested_by_name, u1.email AS requested_by_email,
+                   u2.username AS approved_by_name
+            FROM dictionary_delete_requests dr
+            JOIN dictionary d ON dr.word_id = d.id
+            JOIN users u1 ON dr.requested_by = u1.id
+            LEFT JOIN users u2 ON dr.approved_by = u2.id
+            ORDER BY dr.status = 'pending' DESC, dr.created_at DESC
+        `)
+
+        res.json(result.rows)
+
+    } catch (error) {
+        console.error('Get delete requests error:', error)
+        res.status(500).json({ error: 'Erreur serveur' })
+    }
+})
+
 // GET /api/dictionary/:id - Récupérer un mot
 router.get('/:id', validateId, async (req, res) => {
     try {
@@ -311,29 +334,6 @@ router.post('/delete-request', authMiddleware, requireRole('admin'), async (req,
 
     } catch (error) {
         console.error('Delete request error:', error)
-        res.status(500).json({ error: 'Erreur serveur' })
-    }
-})
-
-// GET /api/dictionary/delete-requests - Lister les demandes de suppression (admin + super-admin)
-router.get('/delete-requests', authMiddleware, requireRole('admin'), async (req, res) => {
-    try {
-        const result = await query(`
-            SELECT dr.id, dr.word_id, dr.status, dr.created_at, dr.resolved_at,
-                   d.word, d.translation_fr, d.translation_en, d.domain,
-                   u1.username AS requested_by_name, u1.email AS requested_by_email,
-                   u2.username AS approved_by_name
-            FROM dictionary_delete_requests dr
-            JOIN dictionary d ON dr.word_id = d.id
-            JOIN users u1 ON dr.requested_by = u1.id
-            LEFT JOIN users u2 ON dr.approved_by = u2.id
-            ORDER BY dr.status = 'pending' DESC, dr.created_at DESC
-        `)
-
-        res.json(result.rows)
-
-    } catch (error) {
-        console.error('Get delete requests error:', error)
         res.status(500).json({ error: 'Erreur serveur' })
     }
 })
