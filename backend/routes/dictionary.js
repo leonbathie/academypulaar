@@ -10,7 +10,8 @@ const crypto = require('crypto')
 const { isSuperAdmin } = require('../config/super-admins')
 
 function hashIP(ip) {
-    return crypto.createHash('sha256').update(ip + 'goomufulo-salt').digest('hex').substring(0, 16)
+    const salt = process.env.IP_HASH_SALT || 'goomufulo-salt'
+    return crypto.createHash('sha256').update(ip + salt).digest('hex').substring(0, 16)
 }
 
 // Configuration multer pour les fichiers audio
@@ -244,6 +245,8 @@ router.put('/:id', authMiddleware, canWrite, validateId, upload.fields([
 
         let audioWordPath = existing.rows.length > 0 ? existing.rows[0].audio_word : null
         let audioExamplePath = existing.rows.length > 0 ? existing.rows[0].audio_example : null
+        const oldAudioWord = audioWordPath
+        const oldAudioExample = audioExamplePath
 
         if (req.files) {
             if (req.files['audio_word'] && req.files['audio_word'][0]) {
@@ -265,6 +268,16 @@ router.put('/:id', authMiddleware, canWrite, validateId, upload.fields([
 
         if (result.rows.length === 0) {
             return res.status(404).json({ error: 'Mot non trouvé' })
+        }
+
+        // Supprimer les anciens fichiers audio si remplacés
+        if (req.files?.['audio_word'] && oldAudioWord) {
+            const oldPath = path.join(__dirname, '..', oldAudioWord)
+            if (fs.existsSync(oldPath)) fs.unlink(oldPath, () => {})
+        }
+        if (req.files?.['audio_example'] && oldAudioExample) {
+            const oldPath = path.join(__dirname, '..', oldAudioExample)
+            if (fs.existsSync(oldPath)) fs.unlink(oldPath, () => {})
         }
 
         res.json(result.rows[0])
@@ -372,6 +385,17 @@ router.post('/delete-request/:id/approve', authMiddleware, requireRole('admin'),
                 [req.user.id, req.params.id]
             )
             return res.json({ message: 'Le mot avait déjà été supprimé. Demande marquée comme approuvée.' })
+        }
+
+        // Supprimer les fichiers audio associés
+        const deletedWord = deleted.rows[0]
+        if (deletedWord.audio_word) {
+            const audioPath = path.join(__dirname, '..', deletedWord.audio_word)
+            if (fs.existsSync(audioPath)) fs.unlink(audioPath, () => {})
+        }
+        if (deletedWord.audio_example) {
+            const audioPath = path.join(__dirname, '..', deletedWord.audio_example)
+            if (fs.existsSync(audioPath)) fs.unlink(audioPath, () => {})
         }
 
         // Marquer la demande comme approuvée

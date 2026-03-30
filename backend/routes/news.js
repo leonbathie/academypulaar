@@ -172,10 +172,17 @@ router.put('/:id', authMiddleware, canWrite, validateId, upload.single('image'),
 // DELETE /api/news/:id - Supprimer une actualité (Admin only)
 router.delete('/:id', authMiddleware, requireRole('admin'), validateId, async (req, res) => {
     try {
-        const result = await query('DELETE FROM news WHERE id = $1 RETURNING id', [req.params.id])
+        const result = await query('DELETE FROM news WHERE id = $1 RETURNING *', [req.params.id])
 
         if (result.rows.length === 0) {
             return res.status(404).json({ error: 'Actualité non trouvée' })
+        }
+
+        // Supprimer l'image associée du disque
+        const newsItem = result.rows[0]
+        if (newsItem.image) {
+            const imagePath = path.join(__dirname, '..', newsItem.image)
+            if (fs.existsSync(imagePath)) fs.unlink(imagePath, () => {})
         }
 
         res.json({ message: 'Actualité supprimée avec succès' })

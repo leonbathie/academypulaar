@@ -1,9 +1,19 @@
 const express = require('express')
 const router = express.Router()
 const nodemailer = require('nodemailer')
+const rateLimit = require('express-rate-limit')
 const { query } = require('../database')
 const { authMiddleware, requireRole } = require('../middleware/auth')
 const { SUPER_ADMIN_EMAILS } = require('../config/super-admins')
+
+// Rate limiter strict pour le formulaire public uniquement
+const contactFormLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 5,
+    message: { error: 'Trop de messages envoyés. Réessayez dans 15 minutes.' },
+    standardHeaders: true,
+    legacyHeaders: false
+})
 
 // Transporter SMTP (Gmail App Password)
 let transporter = null
@@ -25,8 +35,8 @@ function escapeHtml(str) {
     return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
 }
 
-// POST /api/contact - Stocker + envoyer par email
-router.post('/', async (req, res) => {
+// POST /api/contact - Stocker + envoyer par email (rate limité pour le public)
+router.post('/', contactFormLimiter, async (req, res) => {
     try {
         const { name, email, subject, message } = req.body
 

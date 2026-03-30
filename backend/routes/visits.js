@@ -7,7 +7,8 @@ const { isSuperAdmin } = require('../config/super-admins')
 
 // Hash l'IP pour anonymiser (RGPD)
 function hashIP(ip) {
-    return crypto.createHash('sha256').update(ip + 'goomufulo-salt').digest('hex').substring(0, 16)
+    const salt = process.env.IP_HASH_SALT || 'goomufulo-salt'
+    return crypto.createHash('sha256').update(ip + salt).digest('hex').substring(0, 16)
 }
 
 // POST /api/visits/track - Enregistrer une visite (public, appelé par le frontend)

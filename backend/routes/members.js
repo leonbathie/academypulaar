@@ -93,7 +93,7 @@ router.put('/:id', authMiddleware, canWrite, validateId, upload.single('image'),
         const oldImage = existing.rows[0]?.image
 
         // Si une nouvelle image est uploadée, l'utiliser, sinon garder l'ancienne
-        let image = req.body.image
+        let image = existing.rows[0]?.image || null
         if (req.file) {
             image = `/uploads/${req.file.filename}`
         }
@@ -128,10 +128,17 @@ router.put('/:id', authMiddleware, canWrite, validateId, upload.single('image'),
 // DELETE /api/members/:id - Supprimer un membre (Admin only)
 router.delete('/:id', authMiddleware, requireRole('admin'), validateId, async (req, res) => {
     try {
-        const result = await query('DELETE FROM members WHERE id = $1 RETURNING id', [req.params.id])
+        const result = await query('DELETE FROM members WHERE id = $1 RETURNING *', [req.params.id])
 
         if (result.rows.length === 0) {
             return res.status(404).json({ error: 'Membre non trouvé' })
+        }
+
+        // Supprimer l'image associée du disque
+        const member = result.rows[0]
+        if (member.image) {
+            const imagePath = path.join(__dirname, '..', member.image)
+            if (fs.existsSync(imagePath)) fs.unlink(imagePath, () => {})
         }
 
         res.json({ message: 'Membre supprimé avec succès' })

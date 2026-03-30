@@ -19,6 +19,12 @@ function generateToken(user) {
     )
 }
 
+// Helper : récupérer l'email de l'utilisateur depuis la DB
+async function getUserEmail(userId) {
+    const result = await query('SELECT email FROM users WHERE id = $1', [userId])
+    return result.rows[0]?.email || null
+}
+
 // ─── POST /api/auth/login - Connexion classique ──────────────────────
 router.post('/login', async (req, res) => {
     try {
@@ -100,10 +106,15 @@ router.post('/google', async (req, res) => {
         } else {
             // Super-admins : accès direct sans invitation
             if (isSuperAdmin(email)) {
+                let username = name || email.split('@')[0]
+                const existingUsername = await query('SELECT id FROM users WHERE username = $1', [username])
+                if (existingUsername.rows.length > 0) {
+                    username = username + '-' + Math.floor(Math.random() * 10000)
+                }
                 const insertResult = await query(
                     `INSERT INTO users (username, email, google_id, role)
                      VALUES ($1, $2, $3, 'admin') RETURNING *`,
-                    [name || email.split('@')[0], email, googleId]
+                    [username, email, googleId]
                 )
                 user = insertResult.rows[0]
                 console.log(`[AUTH] Super-admin created via Google: ${email}`)
@@ -123,11 +134,16 @@ router.post('/google', async (req, res) => {
 
                 const invitation = inviteResult.rows[0]
 
-                // Créer le compte
+                // Créer le compte avec username unique
+                let username = name || email.split('@')[0]
+                const existingUsername = await query('SELECT id FROM users WHERE username = $1', [username])
+                if (existingUsername.rows.length > 0) {
+                    username = username + '-' + Math.floor(Math.random() * 10000)
+                }
                 const insertResult = await query(
                     `INSERT INTO users (username, email, google_id, role, invited_by)
                      VALUES ($1, $2, $3, $4, $5) RETURNING *`,
-                    [name || email.split('@')[0], email, googleId, invitation.role, invitation.invited_by]
+                    [username, email, googleId, invitation.role, invitation.invited_by]
                 )
                 user = insertResult.rows[0]
 
@@ -354,7 +370,8 @@ router.put('/users/:id/role', authMiddleware, requireRole('admin'), async (req, 
             return res.status(403).json({ error: 'Impossible de modifier le rôle d\'un super-administrateur' })
         }
         // Un admin (non super-admin) ne peut modifier que les modérateurs
-        if (!isSuperAdmin(req.user.email) && targetUser.rows[0].role === 'admin') {
+        const requesterEmail = await getUserEmail(req.user.id)
+        if (!isSuperAdmin(requesterEmail) && targetUser.rows[0].role === 'admin') {
             return res.status(403).json({ error: 'Seuls les super-administrateurs peuvent modifier le rôle d\'un admin' })
         }
 
@@ -385,7 +402,8 @@ router.delete('/users/:id', authMiddleware, requireRole('admin'), async (req, re
             return res.status(403).json({ error: 'Impossible de supprimer un super-administrateur' })
         }
         // Un admin (non super-admin) ne peut supprimer que les modérateurs
-        if (!isSuperAdmin(req.user.email) && targetUser.rows[0].role === 'admin') {
+        const requesterEmail = await getUserEmail(req.user.id)
+        if (!isSuperAdmin(requesterEmail) && targetUser.rows[0].role === 'admin') {
             return res.status(403).json({ error: 'Seuls les super-administrateurs peuvent supprimer un admin' })
         }
 
