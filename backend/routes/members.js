@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const multer = require('multer')
 const path = require('path')
+const fs = require('fs')
 const { query } = require('../database')
 const { authMiddleware, canWrite, requireRole, validateId } = require('../middleware/auth')
 
@@ -87,6 +88,10 @@ router.put('/:id', authMiddleware, canWrite, validateId, upload.single('image'),
     try {
         const { name, role_fr, role_en, role_ff, specialty, bio_fr, bio_en, bio_ff, joined, facebook, twitter, linkedin, website, email } = req.body
 
+        // Récupérer l'ancienne image pour nettoyage
+        const existing = await query('SELECT image FROM members WHERE id = $1', [req.params.id])
+        const oldImage = existing.rows[0]?.image
+
         // Si une nouvelle image est uploadée, l'utiliser, sinon garder l'ancienne
         let image = req.body.image
         if (req.file) {
@@ -104,6 +109,12 @@ router.put('/:id', authMiddleware, canWrite, validateId, upload.single('image'),
 
         if (result.rows.length === 0) {
             return res.status(404).json({ error: 'Membre non trouvé' })
+        }
+
+        // Supprimer l'ancienne image si remplacée
+        if (req.file && oldImage) {
+            const oldPath = path.join(__dirname, '..', oldImage)
+            if (fs.existsSync(oldPath)) fs.unlink(oldPath, () => {})
         }
 
         res.json(result.rows[0])

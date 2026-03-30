@@ -34,6 +34,10 @@ router.post('/', async (req, res) => {
             return res.status(400).json({ error: 'Tous les champs sont requis' })
         }
 
+        if (name.length > 100 || email.length > 255 || subject.length > 255 || message.length > 5000) {
+            return res.status(400).json({ error: 'Un ou plusieurs champs dépassent la longueur maximale autorisée' })
+        }
+
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
             return res.status(400).json({ error: 'Email invalide' })
         }

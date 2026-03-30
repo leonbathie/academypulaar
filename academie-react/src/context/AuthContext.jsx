@@ -128,8 +128,12 @@ export function useApi() {
 
     const apiRequest = async (endpoint, options = {}, retries = 2) => {
         const headers = {
-            'Content-Type': 'application/json',
             ...options.headers
+        }
+
+        // Ne pas forcer Content-Type pour les FormData (uploads multipart)
+        if (!(options.body instanceof FormData)) {
+            headers['Content-Type'] = headers['Content-Type'] || 'application/json'
         }
 
         if (token) {

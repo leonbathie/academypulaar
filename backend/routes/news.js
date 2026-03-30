@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const multer = require('multer')
 const path = require('path')
+const fs = require('fs')
 const { query } = require('../database')
 const { authMiddleware, canWrite, requireRole, validateId } = require('../middleware/auth')
 
@@ -130,6 +131,10 @@ router.put('/:id', authMiddleware, canWrite, validateId, upload.single('image'),
             link, contact_email, contact_phone
         } = req.body
 
+        // Récupérer l'ancienne image pour nettoyage
+        const existing = await query('SELECT image FROM news WHERE id = $1', [req.params.id])
+        const oldImage = existing.rows[0]?.image
+
         let image = req.body.existingImage || null
         if (req.file) {
             image = `/uploads/${req.file.filename}`
@@ -148,6 +153,12 @@ router.put('/:id', authMiddleware, canWrite, validateId, upload.single('image'),
 
         if (result.rows.length === 0) {
             return res.status(404).json({ error: 'Actualité non trouvée' })
+        }
+
+        // Supprimer l'ancienne image si remplacée
+        if (req.file && oldImage) {
+            const oldPath = path.join(__dirname, '..', oldImage)
+            if (fs.existsSync(oldPath)) fs.unlink(oldPath, () => {})
         }
 
         res.json(result.rows[0])

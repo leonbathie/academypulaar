@@ -13,7 +13,7 @@ function hashIP(ip) {
 // POST /api/visits/track - Enregistrer une visite (public, appelé par le frontend)
 router.post('/track', async (req, res) => {
     try {
-        const ip = req.ip || req.connection.remoteAddress || 'unknown'
+        const ip = req.ip || req.socket?.remoteAddress || 'unknown'
         const ipHash = hashIP(ip)
         const page = (req.body.page || '/').substring(0, 255)
         const userAgent = (req.headers['user-agent'] || '').substring(0, 500)

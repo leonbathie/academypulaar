@@ -43,11 +43,14 @@ async function initDatabase() {
                 invited_by INTEGER REFERENCES users(id) NOT NULL,
                 used BOOLEAN DEFAULT false,
                 used_at TIMESTAMP,
-                expires_at TIMESTAMP NOT NULL,
+                expires_at TIMESTAMP,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
         `)
         console.log('✅ Table invitations créée')
+
+        // Migration: rendre expires_at nullable si la table existait déjà
+        await pool.query('ALTER TABLE invitations ALTER COLUMN expires_at DROP NOT NULL').catch(() => {})
 
         // Table du dictionnaire
         await pool.query(`

@@ -37,9 +37,11 @@ const upload = multer({
             }
             cb(new Error('Seules les images sont acceptées pour la couverture'))
         } else {
-            const allowedTypes = /pdf|epub|mobi|doc|docx/
-            const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase())
-            if (extname) {
+            const allowedExts = /pdf|epub|mobi|doc|docx/
+            const allowedMimes = /application\/pdf|application\/epub\+zip|application\/x-mobipocket-ebook|application\/msword|application\/vnd\.openxmlformats-officedocument\.wordprocessingml\.document/
+            const extname = allowedExts.test(path.extname(file.originalname).toLowerCase())
+            const mimetype = allowedMimes.test(file.mimetype)
+            if (extname && mimetype) {
                 return cb(null, true)
             }
             cb(new Error('Formats acceptés: PDF, EPUB, MOBI, DOC, DOCX'))
@@ -220,6 +222,11 @@ router.put('/:id', authMiddleware, canWrite, validateId, handleUpload, async (re
             category, year, published, price, is_free, payment_link
         } = req.body
 
+        // Récupérer les anciens fichiers pour nettoyage
+        const existing = await query('SELECT cover_image, file_path FROM books WHERE id = $1', [req.params.id])
+        const oldCover = existing.rows[0]?.cover_image
+        const oldFile = existing.rows[0]?.file_path
+
         let cover_image = req.body.existingCover || null
         let file_path = req.body.existingFile || null
         let file_size = req.body.existingFileSize || null
@@ -244,6 +251,16 @@ router.put('/:id', authMiddleware, canWrite, validateId, handleUpload, async (re
 
         if (result.rows.length === 0) {
             return res.status(404).json({ error: 'Livre non trouvé' })
+        }
+
+        // Supprimer les anciens fichiers si remplacés
+        if (req.files?.cover?.[0] && oldCover) {
+            const oldPath = path.join(__dirname, '..', oldCover)
+            if (fs.existsSync(oldPath)) fs.unlink(oldPath, () => {})
+        }
+        if (req.files?.file?.[0] && oldFile) {
+            const oldPath = path.join(__dirname, '..', oldFile)
+            if (fs.existsSync(oldPath)) fs.unlink(oldPath, () => {})
         }
 
         res.json(result.rows[0])

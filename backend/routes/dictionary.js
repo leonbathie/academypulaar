@@ -365,6 +365,15 @@ router.post('/delete-request/:id/approve', authMiddleware, requireRole('admin'),
         // Supprimer le mot du dictionnaire
         const deleted = await query('DELETE FROM dictionary WHERE id = $1 RETURNING *', [deleteRequest.word_id])
 
+        if (deleted.rows.length === 0) {
+            // Le mot a déjà été supprimé entre-temps
+            await query(
+                "UPDATE dictionary_delete_requests SET status = 'approved', approved_by = $1, resolved_at = CURRENT_TIMESTAMP WHERE id = $2",
+                [req.user.id, req.params.id]
+            )
+            return res.json({ message: 'Le mot avait déjà été supprimé. Demande marquée comme approuvée.' })
+        }
+
         // Marquer la demande comme approuvée
         await query(
             "UPDATE dictionary_delete_requests SET status = 'approved', approved_by = $1, resolved_at = CURRENT_TIMESTAMP WHERE id = $2",
@@ -372,7 +381,7 @@ router.post('/delete-request/:id/approve', authMiddleware, requireRole('admin'),
         )
 
         res.json({
-            message: `Mot "${deleted.rows[0]?.word || ''}" supprimé après double validation`,
+            message: `Mot "${deleted.rows[0].word}" supprimé après double validation`,
             word: deleted.rows[0]
         })
 
@@ -439,7 +448,7 @@ router.post('/track-search', async (req, res) => {
             return res.json({ tracked: false })
         }
 
-        const ip = req.ip || req.connection.remoteAddress || 'unknown'
+        const ip = req.ip || req.socket?.remoteAddress || 'unknown'
         const ipHash = hashIP(ip)
 
         // Anti-doublon : même terme + même IP dans les 5 dernières minutes
