@@ -135,7 +135,7 @@ router.put('/:id', authMiddleware, canWrite, validateId, upload.single('image'),
         const existing = await query('SELECT image FROM news WHERE id = $1', [req.params.id])
         const oldImage = existing.rows[0]?.image
 
-        let image = req.body.existingImage || null
+        let image = existing.rows[0]?.image || null
         if (req.file) {
             image = `/uploads/${req.file.filename}`
         }

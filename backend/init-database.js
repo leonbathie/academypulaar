@@ -339,6 +339,19 @@ async function initDatabase() {
             'ALTER TABLE dictionary ADD COLUMN IF NOT EXISTS view_count INTEGER DEFAULT 0'
         ).catch(() => {})
 
+        // Table anti-abus vues dictionnaire
+        await pool.query(`
+            CREATE TABLE IF NOT EXISTS dictionary_views (
+                id SERIAL PRIMARY KEY,
+                word_id INTEGER NOT NULL,
+                ip_hash VARCHAR(64) NOT NULL,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        `)
+        await pool.query(`
+            CREATE INDEX IF NOT EXISTS idx_dict_views_word_ip ON dictionary_views(word_id, ip_hash, created_at)
+        `).catch(() => {})
+
         // Créer l'admin par défaut
         const adminUsername = process.env.ADMIN_USERNAME || 'admin'
         const adminPassword = process.env.ADMIN_PASSWORD

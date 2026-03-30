@@ -207,7 +207,7 @@ router.post('/', authMiddleware, canWrite, handleUpload, async (req, res) => {
 
     } catch (error) {
         console.error('[BOOKS] POST ERROR:', error.message, error.stack)
-        res.status(500).json({ error: 'Erreur serveur', message: error.message })
+        res.status(500).json({ error: 'Erreur serveur' })
     }
 })
 
@@ -227,9 +227,9 @@ router.put('/:id', authMiddleware, canWrite, validateId, handleUpload, async (re
         const oldCover = existing.rows[0]?.cover_image
         const oldFile = existing.rows[0]?.file_path
 
-        let cover_image = req.body.existingCover || null
-        let file_path = req.body.existingFile || null
-        let file_size = req.body.existingFileSize || null
+        let cover_image = existing.rows[0]?.cover_image || null
+        let file_path = existing.rows[0]?.file_path || null
+        let file_size = existing.rows[0]?.file_size || null
 
         if (req.files?.cover?.[0]) {
             cover_image = `/uploads/${req.files.cover[0].filename}`
@@ -267,7 +267,7 @@ router.put('/:id', authMiddleware, canWrite, validateId, handleUpload, async (re
 
     } catch (error) {
         console.error('[BOOKS] PUT ERROR:', error.message, error.stack)
-        res.status(500).json({ error: 'Erreur serveur', message: error.message })
+        res.status(500).json({ error: 'Erreur serveur' })
     }
 })
 

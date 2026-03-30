@@ -499,10 +499,28 @@ router.post('/track-search', async (req, res) => {
 // POST /api/dictionary/track-view/:id - Incrémenter le compteur de vues d'un mot (public)
 router.post('/track-view/:id', validateId, async (req, res) => {
     try {
+        const ip = req.ip || req.socket?.remoteAddress || 'unknown'
+        const ipHash = hashIP(ip)
+
+        // Anti-abus : même mot + même IP dans les 5 dernières minutes
+        const recent = await query(
+            "SELECT id FROM dictionary_views WHERE word_id = $1 AND ip_hash = $2 AND created_at > NOW() - INTERVAL '5 minutes'",
+            [req.params.id, ipHash]
+        )
+        if (recent.rows.length > 0) {
+            return res.json({ tracked: false })
+        }
+
         await query(
             'UPDATE dictionary SET view_count = COALESCE(view_count, 0) + 1 WHERE id = $1',
             [req.params.id]
         )
+        // Enregistrer la vue pour anti-abus (table optionnelle, ignorer si n'existe pas)
+        await query(
+            'INSERT INTO dictionary_views (word_id, ip_hash) VALUES ($1, $2)',
+            [req.params.id, ipHash]
+        ).catch(() => {})
+
         res.json({ tracked: true })
     } catch (error) {
         console.error('Track view error:', error)

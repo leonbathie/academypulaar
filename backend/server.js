@@ -48,14 +48,7 @@ app.use(cors({
     origin: [
         'http://localhost:5173', 
         'http://localhost:3000',
-        'http://173.249.2.195',
-        'https://173.249.2.195',
-        'http://goomufulo.com',
-        'https://goomufulo.com',
-        'http://www.goomufulo.com',
-        'https://www.goomufulo.com',
-        'http://goomunfulawidto.serveblog.net',
-        'https://goomunfulawidto.serveblog.net'
+        'https://goomufulo.com'
     ],
     credentials: true
 }))
