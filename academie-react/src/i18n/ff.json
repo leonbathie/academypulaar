@@ -295,10 +295,25 @@
             "content": "Selli, Sellaani",
             "library": "Defterdu",
             "questions": "Laaɓnde / ƴame lolluɗe",
+            "messages": "Ɓataake",
             "viewSite": "Yiy lowre nde",
             "users": "Yiilirde",
             "statistics": "Limooje",
             "logout": "Seŋto"
+        },
+        "contact": {
+            "title": "Ɓataake jokkondiral",
+            "unread": "tarjaaka",
+            "filterAll": "Fof",
+            "filterUnread": "Tarjaaka",
+            "filterRead": "Tarjaaɗi",
+            "noMessages": "Alaa ɓataake",
+            "from": "Iwdi",
+            "subject": "Tiitorde",
+            "date": "Ñalnde",
+            "reply": "Jaabu",
+            "confirmDeleteTitle": "Momtu ɓataake nde",
+            "confirmDeleteMessage": "Aɗa yiɗi momtude ɓataake nde?"
         },
         "stats": {
             "pageTitle": "Limooje",

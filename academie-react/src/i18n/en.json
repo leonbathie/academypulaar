@@ -292,10 +292,25 @@
             "content": "Correct, Incorrect",
             "library": "Library",
             "questions": "Frequently Asked Questions (FAQ)",
+            "messages": "Messages",
             "viewSite": "View Site",
             "users": "Administration",
             "statistics": "Statistics",
             "logout": "Logout"
+        },
+        "contact": {
+            "title": "Contact Messages",
+            "unread": "unread",
+            "filterAll": "All",
+            "filterUnread": "Unread",
+            "filterRead": "Read",
+            "noMessages": "No messages",
+            "from": "From",
+            "subject": "Subject",
+            "date": "Date",
+            "reply": "Reply",
+            "confirmDeleteTitle": "Delete message",
+            "confirmDeleteMessage": "Are you sure you want to delete this message?"
         },
         "stats": {
             "pageTitle": "Statistics",

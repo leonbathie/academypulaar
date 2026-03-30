@@ -26,6 +26,7 @@ import BooksAdmin from './pages/admin/BooksAdmin'
 import QuestionsAdmin from './pages/admin/QuestionsAdmin'
 import StatsAdmin from './pages/admin/StatsAdmin'
 import UsersAdmin from './pages/admin/UsersAdmin'
+import ContactAdmin from './pages/admin/ContactAdmin'
 import './App.css'
 
 function PublicLayout() {
@@ -70,6 +71,7 @@ function App() {
               <Route path="contenu" element={<ContentAdmin />} />
               <Route path="bibliotheque" element={<BooksAdmin />} />
               <Route path="questions" element={<QuestionsAdmin />} />
+              <Route path="messages" element={<ContactAdmin />} />
               <Route path="utilisateurs" element={<UsersAdmin />} />
               <Route path="statistiques" element={<StatsAdmin />} />
             </Route>

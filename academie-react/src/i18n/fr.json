@@ -294,10 +294,25 @@
             "content": "Correct, Incorrect",
             "library": "Bibliothèque",
             "questions": "Questions Fréquentes",
+            "messages": "Messages",
             "viewSite": "Voir le site",
             "users": "Administration",
             "statistics": "Statistiques",
             "logout": "Déconnexion"
+        },
+        "contact": {
+            "title": "Messages de contact",
+            "unread": "non lu(s)",
+            "filterAll": "Tous",
+            "filterUnread": "Non lus",
+            "filterRead": "Lus",
+            "noMessages": "Aucun message",
+            "from": "De",
+            "subject": "Sujet",
+            "date": "Date",
+            "reply": "Répondre",
+            "confirmDeleteTitle": "Supprimer le message",
+            "confirmDeleteMessage": "Voulez-vous vraiment supprimer ce message ?"
         },
         "stats": {
             "pageTitle": "Statistiques",
