@@ -31,25 +31,25 @@ function LoginPage() {
     useEffect(() => {
         if (!GOOGLE_CLIENT_ID || isAuthenticated) return
 
+        const renderGoogleButton = () => {
+            if (!window.google?.accounts?.id || !googleBtnRef.current) return
+            window.google.accounts.id.initialize({
+                client_id: GOOGLE_CLIENT_ID,
+                callback: handleGoogleCallback
+            })
+            window.google.accounts.id.renderButton(googleBtnRef.current, {
+                theme: 'outline',
+                size: 'large',
+                width: Math.min(googleBtnRef.current.offsetWidth || 320, 400),
+                text: 'signin_with',
+                locale: i18n.language === 'ff' ? 'fr' : i18n.language
+            })
+        }
+
         // Load Google Identity Services script
         const existingScript = document.getElementById('google-gsi')
         if (existingScript) {
-            // Script already loaded, init directly
-            if (window.google?.accounts?.id) {
-                window.google.accounts.id.initialize({
-                    client_id: GOOGLE_CLIENT_ID,
-                    callback: handleGoogleCallback
-                })
-                if (googleBtnRef.current) {
-                    window.google.accounts.id.renderButton(googleBtnRef.current, {
-                        theme: 'outline',
-                        size: 'large',
-                        width: '100%',
-                        text: 'signin_with',
-                        locale: i18n.language === 'ff' ? 'fr' : i18n.language
-                    })
-                }
-            }
+            renderGoogleButton()
             return
         }
 
@@ -58,23 +58,10 @@ function LoginPage() {
         script.id = 'google-gsi'
         script.async = true
         script.defer = true
-        script.onload = () => {
-            window.google.accounts.id.initialize({
-                client_id: GOOGLE_CLIENT_ID,
-                callback: handleGoogleCallback
-            })
-            if (googleBtnRef.current) {
-                window.google.accounts.id.renderButton(googleBtnRef.current, {
-                    theme: 'outline',
-                    size: 'large',
-                    width: '100%',
-                    text: 'signin_with',
-                    locale: 'fr'
-                })
-            }
-        }
+        script.onload = renderGoogleButton
+        script.onerror = () => console.error('Failed to load Google Sign-In')
         document.head.appendChild(script)
-    }, [GOOGLE_CLIENT_ID, isAuthenticated, handleGoogleCallback])
+    }, [GOOGLE_CLIENT_ID, isAuthenticated, handleGoogleCallback, i18n.language])
 
     if (loading) {
         return <div className="login-loading">Chargement...</div>
