@@ -33,6 +33,8 @@ function LoginPage() {
 
         const renderGoogleButton = () => {
             if (!window.google?.accounts?.id || !googleBtnRef.current) return
+            // Vider le conteneur avant re-render (GSI ne supporte pas le re-render sur un div déjà rendu)
+            googleBtnRef.current.innerHTML = ''
             window.google.accounts.id.initialize({
                 client_id: GOOGLE_CLIENT_ID,
                 callback: handleGoogleCallback
