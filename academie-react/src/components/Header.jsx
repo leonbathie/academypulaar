@@ -7,7 +7,7 @@ import './Header.css'
 
 const languages = [
     { code: 'fr', name: 'Français', flag: 'FR' },
-    { code: 'en', name: 'English', flag: 'GB' },
+    { code: 'en', name: 'English', flag: 'En' },
     { code: 'ff', name: 'Fulfulde', flag: 'FF' }
 ]
 

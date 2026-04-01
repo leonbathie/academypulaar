@@ -423,7 +423,7 @@ function BooksAdmin() {
                                         🇫🇷 {t('admin.dictionary.translationFr')}
                                     </button>
                                     <button type="button" className={`lang-tab ${activeTab === 'en' ? 'active' : ''}`} onClick={() => setActiveTab('en')}>
-                                        🇬🇧 {t('admin.dictionary.translationEn')}
+                                        En {t('admin.dictionary.translationEn')}
                                     </button>
                                     <button type="button" className={`lang-tab ${activeTab === 'ff' ? 'active' : ''}`} onClick={() => setActiveTab('ff')}>
                                         SN {t('admin.dictionary.translationFf')}

@@ -849,7 +849,7 @@ function DictionaryAdmin() {
                                         className={`lang-tab ${activeTab === 'en' ? 'active' : ''}`}
                                         onClick={() => setActiveTab('en')}
                                     >
-                                        🇬🇧 {t('admin.dictionary.translationEn')}
+                                        En {t('admin.dictionary.translationEn')}
                                     </button>
                                     <button
                                         type="button"
