@@ -145,8 +145,8 @@ function BooksAdmin() {
                 const xhr = new XMLHttpRequest()
                 xhrRef.current = xhr
 
-                // 5 minutes for file uploads, 60s for text-only
-                const timeoutMs = hasFile ? 300000 : 60000
+                // 15 minutes for file uploads, 60s for text-only
+                const timeoutMs = hasFile ? 900000 : 60000
                 xhr.timeout = timeoutMs
 
                 // Upload progress
