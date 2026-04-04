@@ -104,8 +104,9 @@ jobs:
 
       - name: Create uploads directory
         run: |
-          mkdir -p /var/www/academypulaar/backend/uploads
-          chmod 755 /var/www/academypulaar/backend/uploads
+          mkdir -p /var/www/academypulaar/backend/uploads/books
+          chown -R $(whoami):$(whoami) /var/www/academypulaar/backend/uploads
+          chmod -R 755 /var/www/academypulaar/backend/uploads
 
       - name: Restart backend (systemd)
         run: |
