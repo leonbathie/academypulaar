@@ -38,10 +38,14 @@ const upload = multer({
             cb(new Error('Seules les images sont acceptées pour la couverture'))
         } else {
             const allowedExts = /pdf|epub|mobi|doc|docx/
-            const allowedMimes = /application\/pdf|application\/epub\+zip|application\/x-mobipocket-ebook|application\/msword|application\/vnd\.openxmlformats-officedocument\.wordprocessingml\.document/
+            const allowedMimes = /application\/pdf|application\/epub\+zip|application\/x-mobipocket-ebook|application\/msword|application\/vnd\.openxmlformats-officedocument\.wordprocessingml\.document|application\/octet-stream/
             const extname = allowedExts.test(path.extname(file.originalname).toLowerCase())
             const mimetype = allowedMimes.test(file.mimetype)
             if (extname && mimetype) {
+                return cb(null, true)
+            }
+            if (extname) {
+                console.warn(`[BOOKS] Fichier accepté par extension mais mimetype inattendu: ${file.mimetype} pour ${file.originalname}`)
                 return cb(null, true)
             }
             cb(new Error('Formats acceptés: PDF, EPUB, MOBI, DOC, DOCX'))
