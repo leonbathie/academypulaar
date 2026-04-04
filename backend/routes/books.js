@@ -28,25 +28,26 @@ const upload = multer({
     storage: storage,
     limits: { fileSize: 100 * 1024 * 1024 }, // 100MB max pour les livres
     fileFilter: (req, file, cb) => {
+        const ext = path.extname(file.originalname).toLowerCase()
+        console.log(`[BOOKS] fileFilter: fieldname=${file.fieldname}, originalname=${file.originalname}, ext=${ext}, mimetype=${file.mimetype}, size=${file.size}`)
         if (file.fieldname === 'cover') {
-            const allowedTypes = /jpeg|jpg|png|gif|webp/
-            const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase())
-            const mimetype = allowedTypes.test(file.mimetype)
-            if (extname && mimetype) {
+            // Accepter images par extension OU par mimetype commençant par image/
+            const allowedExts = /\.(jpeg|jpg|png|gif|webp|bmp|tiff|tif|svg|jfif|avif|ico)$/
+            if (allowedExts.test(ext) || file.mimetype.startsWith('image/')) {
                 return cb(null, true)
             }
-            if (extname) {
-                console.warn(`[BOOKS] Cover acceptée par extension mais mimetype inattendu: ${file.mimetype} pour ${file.originalname}`)
+            console.error(`[BOOKS] Cover REJETÉE: ext=${ext}, mimetype=${file.mimetype}`)
+            cb(new Error(`Image non acceptée: extension=${ext}, type=${file.mimetype}`))
+        } else if (file.fieldname === 'file') {
+            const allowedExts = /\.(pdf|epub|mobi|doc|docx)$/
+            if (allowedExts.test(ext)) {
                 return cb(null, true)
             }
-            cb(new Error('Seules les images sont acceptées pour la couverture (JPEG, PNG, GIF, WebP)'))
+            console.error(`[BOOKS] Fichier REJETÉ: ext=${ext}, mimetype=${file.mimetype}`)
+            cb(new Error(`Format non accepté: extension=${ext}. Formats acceptés: PDF, EPUB, MOBI, DOC, DOCX`))
         } else {
-            const allowedExts = /pdf|epub|mobi|doc|docx/
-            const extname = allowedExts.test(path.extname(file.originalname).toLowerCase())
-            if (extname) {
-                return cb(null, true)
-            }
-            cb(new Error('Formats acceptés: PDF, EPUB, MOBI, DOC, DOCX'))
+            console.error(`[BOOKS] Champ fichier inattendu: fieldname=${file.fieldname}`)
+            cb(new Error(`Champ fichier inattendu: ${file.fieldname}`))
         }
     }
 })
