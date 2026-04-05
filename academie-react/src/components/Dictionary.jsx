@@ -132,7 +132,7 @@ function Dictionary() {
                         <span className="stat-label">{t('dictionary.wordsDefined')}</span>
                     </div>
                     <div className="stat-card">
-                        <span className="stat-number">5</span>
+                        <span className="stat-number">10</span>
                         <span className="stat-label">{t('dictionary.yearsOfWork')}</span>
                     </div>
                     <div className="stat-card">
