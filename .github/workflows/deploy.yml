@@ -121,6 +121,7 @@ jobs:
             'Type=simple' \
             'User=gha' \
             'WorkingDirectory=/var/www/academypulaar/backend' \
+            'ExecStartPre=+/bin/bash -c "mkdir -p /var/www/academypulaar/backend/uploads/books && chown -R gha:gha /var/www/academypulaar/backend/uploads && chmod -R 775 /var/www/academypulaar/backend/uploads"' \
             'ExecStart=/usr/bin/node server.js' \
             'Restart=always' \
             'RestartSec=5' \
