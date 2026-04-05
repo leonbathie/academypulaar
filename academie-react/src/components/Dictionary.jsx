@@ -10,6 +10,7 @@ function Dictionary() {
     const [searchTerm, setSearchTerm] = useState('')
     const [searchType, setSearchType] = useState('prefix')
     const [wordCount, setWordCount] = useState(0)
+    const [definedCount, setDefinedCount] = useState(0)
 
     // Charger le nombre de mots au démarrage
     useEffect(() => {
@@ -22,6 +23,7 @@ function Dictionary() {
             if (response.ok) {
                 const data = await response.json()
                 setWordCount(data.length)
+                setDefinedCount(data.filter(w => w.translation_ff && w.translation_ff.trim() !== '').length)
             }
         } catch (error) {
             console.error('Error loading word count:', error)
@@ -126,7 +128,7 @@ function Dictionary() {
                         <span className="stat-label">{t('dictionary.editions')}</span>
                     </div>
                     <div className="stat-card">
-                        <span className="stat-number">{wordCount > 0 ? formatNumber(wordCount) : '...'}</span>
+                        <span className="stat-number">{definedCount > 0 ? formatNumber(definedCount) : '...'}</span>
                         <span className="stat-label">{t('dictionary.wordsDefined')}</span>
                     </div>
                     <div className="stat-card">
