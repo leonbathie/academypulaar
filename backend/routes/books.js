@@ -7,13 +7,20 @@ const { query } = require('../database')
 const { authMiddleware, canWrite, requireRole, validateId } = require('../middleware/auth')
 
 // Configuration Multer pour l'upload de livres et images
+const uploadsDir = path.resolve(__dirname, '..', 'uploads')
+const booksDir = path.resolve(uploadsDir, 'books')
+
+// Créer les dossiers au chargement du module
+for (const dir of [uploadsDir, booksDir]) {
+    if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true, mode: 0o775 })
+        console.log(`[BOOKS] Dossier créé: ${dir}`)
+    }
+}
+
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        const folder = file.fieldname === 'cover' ? 'uploads/' : 'uploads/books/'
-        // Créer le dossier s'il n'existe pas
-        if (!fs.existsSync(folder)) {
-            fs.mkdirSync(folder, { recursive: true })
-        }
+        const folder = file.fieldname === 'cover' ? uploadsDir : booksDir
         cb(null, folder)
     },
     filename: function (req, file, cb) {
@@ -75,6 +82,14 @@ const handleUpload = (req, res, next) => {
                 return res.status(400).json({
                     error: 'Erreur upload',
                     message: err.message
+                })
+            }
+            // EACCES = problème serveur, pas un rejet de fichier
+            if (err.code === 'EACCES') {
+                console.error(`[BOOKS] PERMISSION ERROR: ${err.message}`)
+                return res.status(500).json({
+                    error: 'Erreur serveur',
+                    message: 'Erreur de permissions sur le serveur. Contactez l\'administrateur.'
                 })
             }
             // Erreur custom (fileFilter rejection)
