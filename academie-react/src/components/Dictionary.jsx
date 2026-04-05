@@ -122,7 +122,7 @@ function Dictionary() {
 
                 <div className="dictionary-stats">
                     <div className="stat-card">
-                        <span className="stat-number">1</span>
+                        <span className="stat-number">{wordCount > 0 ? formatNumber(wordCount) : '...'}</span>
                         <span className="stat-label">{t('dictionary.editions')}</span>
                     </div>
                     <div className="stat-card">
