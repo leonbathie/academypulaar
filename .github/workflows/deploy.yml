@@ -114,34 +114,44 @@ jobs:
           echo "Write test:"
           sudo -u gha touch /var/www/academypulaar/backend/uploads/.write-test && echo "OK" && rm -f /var/www/academypulaar/backend/uploads/.write-test || echo "FAILED"
 
+      - name: Create fix-uploads script
+        run: |
+          sudo tee /usr/local/bin/fix-academypulaar-uploads.sh > /dev/null << 'FIXSCRIPT'
+          #!/bin/bash
+          mkdir -p /var/www/academypulaar/backend/uploads/books
+          chown -R gha:gha /var/www/academypulaar/backend/uploads
+          chmod -R 777 /var/www/academypulaar/backend/uploads
+          FIXSCRIPT
+          sudo chmod +x /usr/local/bin/fix-academypulaar-uploads.sh
+
       - name: Restart backend (systemd)
         run: |
           echo "=== Create systemd service for backend ==="
-          sudo bash -c 'cat > /etc/systemd/system/academypulaar-api.service << ENDOFSERVICE
-[Unit]
-Description=GoomuFuloWidto API Backend
-After=network.target postgresql.service
-
-[Service]
-Type=simple
-User=gha
-WorkingDirectory=/var/www/academypulaar/backend
-ExecStartPre=+/bin/bash -c "mkdir -p /var/www/academypulaar/backend/uploads/books && chown -R gha:gha /var/www/academypulaar/backend/uploads && chmod -R 777 /var/www/academypulaar/backend/uploads"
-ExecStart=/usr/bin/node server.js
-Restart=always
-RestartSec=5
-Environment=NODE_ENV=production
-Environment=PORT=5000
-Environment=DATABASE_URL=postgresql://academypulaar:${{ secrets.DB_PASSWORD }}@localhost:5432/academypulaar
-Environment=DATABASE_SSL=false
-Environment=JWT_SECRET=${{ secrets.JWT_SECRET }}
-Environment=GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}
-Environment=SMTP_USER=${{ secrets.SMTP_USER }}
-Environment=SMTP_PASSWORD=${{ secrets.SMTP_PASSWORD }}
-
-[Install]
-WantedBy=multi-user.target
-ENDOFSERVICE'
+          printf '%s\n' \
+            '[Unit]' \
+            'Description=GoomuFuloWidto API Backend' \
+            'After=network.target postgresql.service' \
+            '' \
+            '[Service]' \
+            'Type=simple' \
+            'User=gha' \
+            'WorkingDirectory=/var/www/academypulaar/backend' \
+            'ExecStartPre=+/usr/local/bin/fix-academypulaar-uploads.sh' \
+            'ExecStart=/usr/bin/node server.js' \
+            'Restart=always' \
+            'RestartSec=5' \
+            'Environment=NODE_ENV=production' \
+            'Environment=PORT=5000' \
+            'Environment=DATABASE_URL=postgresql://academypulaar:${{ secrets.DB_PASSWORD }}@localhost:5432/academypulaar' \
+            'Environment=DATABASE_SSL=false' \
+            'Environment=JWT_SECRET=${{ secrets.JWT_SECRET }}' \
+            'Environment=GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}' \
+            'Environment=SMTP_USER=${{ secrets.SMTP_USER }}' \
+            'Environment=SMTP_PASSWORD=${{ secrets.SMTP_PASSWORD }}' \
+            '' \
+            '[Install]' \
+            'WantedBy=multi-user.target' \
+            | sudo tee /etc/systemd/system/academypulaar-api.service > /dev/null
 
           echo "=== Verify service file ==="
           cat /etc/systemd/system/academypulaar-api.service
