@@ -156,6 +156,16 @@ function DomainPage() {
     // Letters available
     const letters = [...new Set(filtered.map(w => w.word.charAt(0).toUpperCase()))].sort()
 
+    const definedCount = words.filter(w => w.translation_ff && w.translation_ff.trim()).length
+    const definedPercent = words.length > 0 ? Math.round((definedCount / words.length) * 100) : 0
+
+    const [showScrollTop, setShowScrollTop] = useState(false)
+    useEffect(() => {
+        const onScroll = () => setShowScrollTop(window.scrollY > 400)
+        window.addEventListener('scroll', onScroll)
+        return () => window.removeEventListener('scroll', onScroll)
+    }, [])
+
     return (
         <div className="domain-page">
             <div className="domain-page-header" style={{ '--domain-color': config.color }}>
@@ -170,7 +180,7 @@ function DomainPage() {
                             <span className="domain-stat-label">{t('dictionary.editions')}</span>
                         </div>
                         <div className="domain-stat">
-                            <span className="domain-stat-number">{words.filter(w => w.translation_ff && w.translation_ff.trim()).length}</span>
+                            <span className="domain-stat-number">{definedCount}</span>
                             <span className="domain-stat-label">{t('dictionary.wordsDefined')}</span>
                         </div>
                         <div className="domain-stat">
@@ -178,6 +188,17 @@ function DomainPage() {
                             <span className="domain-stat-label">{lang === 'ff' ? 'Cate' : lang === 'en' ? 'Sub-domains' : 'Sous-domaines'}</span>
                         </div>
                     </div>
+                    {words.length > 0 && (
+                        <div className="domain-progress">
+                            <div className="domain-progress-label">
+                                <span>{lang === 'ff' ? 'Ɓeydagol Fulfulde' : lang === 'en' ? 'Fulfulde coverage' : 'Couverture Fulfulde'}</span>
+                                <span className="domain-progress-pct">{definedPercent}%</span>
+                            </div>
+                            <div className="domain-progress-bar">
+                                <div className="domain-progress-fill" style={{ width: `${definedPercent}%` }} />
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
 
@@ -186,6 +207,7 @@ function DomainPage() {
                 <nav className="domain-tabs">
                     <button className={`domain-tab ${activeTab === 'words' ? 'active' : ''}`} onClick={() => setActiveTab('words')}>
                         📖 {lang === 'ff' ? 'Kelme' : lang === 'en' ? 'Dictionary' : 'Dictionnaire'}
+                        <span className="domain-tab-badge">{words.length}</span>
                     </button>
                     <button className={`domain-tab ${activeTab === 'learn' ? 'active' : ''}`} onClick={() => setActiveTab('learn')}>
                         🎓 {lang === 'ff' ? 'Ekkitol' : lang === 'en' ? 'Learn' : 'Apprendre'}
@@ -350,7 +372,16 @@ function DomainPage() {
                         {/* Words grouped by letter */}
                         {filtered.length === 0 ? (
                             <div className="domain-empty">
-                                <p>{t('dictionary.noResults')}</p>
+                                <span className="domain-empty-icon">🔍</span>
+                                <h3 className="domain-empty-title">{t('dictionary.noResults')}</h3>
+                                <p className="domain-empty-text">
+                                    {lang === 'ff' ? 'Etee helmere woɗnde' : lang === 'en' ? 'Try a different search term' : 'Essayez un autre terme de recherche'}
+                                </p>
+                                {(searchTerm || selectedSub) && (
+                                    <button className="domain-empty-reset" onClick={() => { setSearchTerm(''); setSelectedSub('') }}>
+                                        {lang === 'ff' ? 'Momtu cakkitle' : lang === 'en' ? 'Reset filters' : 'Réinitialiser les filtres'}
+                                    </button>
+                                )}
                             </div>
                         ) : (
                             letters.map(letter => {
@@ -465,6 +496,17 @@ function DomainPage() {
                 </>
                 )}
             </div>
+
+            {/* Scroll to top */}
+            {showScrollTop && (
+                <button
+                    className="domain-scroll-top"
+                    onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                    aria-label="Scroll to top"
+                >
+                    ↑
+                </button>
+            )}
         </div>
     )
 }
