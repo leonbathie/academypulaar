@@ -265,19 +265,24 @@ function DomainPage() {
                                                     <article key={entry.id} className={`domain-word-card ${isExpanded ? 'domain-word-card--expanded' : ''}`}>
                                                         <div className="domain-word-top">
                                                             <h3 className="domain-word-term" onClick={() => toggleCard(entry.id)}>{entry.word}</h3>
-                                                            {entry.audio_word && (
-                                                                <button
-                                                                    className={`domain-audio-btn ${playingAudio === `${entry.id}-word` ? 'playing' : ''}`}
-                                                                    onClick={() => playAudio(entry.audio_word, entry.id, 'word')}
-                                                                    title={t('dictionary.listenPronunciation')}
-                                                                >
-                                                                    {playingAudio === `${entry.id}-word` ? (
-                                                                        <svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16" /><rect x="14" y="4" width="4" height="16" /></svg>
-                                                                    ) : (
-                                                                        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3" /></svg>
-                                                                    )}
+                                                            <div className="domain-word-actions">
+                                                                {entry.audio_word && (
+                                                                    <button
+                                                                        className={`domain-audio-btn ${playingAudio === `${entry.id}-word` ? 'playing' : ''}`}
+                                                                        onClick={() => playAudio(entry.audio_word, entry.id, 'word')}
+                                                                        title={t('dictionary.listenPronunciation')}
+                                                                    >
+                                                                        {playingAudio === `${entry.id}-word` ? (
+                                                                            <svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16" /><rect x="14" y="4" width="4" height="16" /></svg>
+                                                                        ) : (
+                                                                            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3" /></svg>
+                                                                        )}
+                                                                    </button>
+                                                                )}
+                                                                <button className="domain-toggle-btn" onClick={() => toggleCard(entry.id)}>
+                                                                    <span>{isExpanded ? '−' : '+'}</span>
                                                                 </button>
-                                                            )}
+                                                            </div>
                                                         </div>
 
                                                         {previewTranslation && !isExpanded && (
@@ -334,9 +339,6 @@ function DomainPage() {
                                                             </div>
                                                         )}
 
-                                                        <button className="domain-toggle-btn" onClick={() => toggleCard(entry.id)}>
-                                                            <span>{isExpanded ? '−' : '+'}</span>
-                                                        </button>
                                                     </article>
                                                 )
                                             })}
