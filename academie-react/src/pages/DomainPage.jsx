@@ -198,6 +198,9 @@ function DomainPage() {
                                     placeholder={t('dictionary.searchPlaceholder')}
                                     className="domain-search-input"
                                 />
+                                {searchTerm && (
+                                    <button className="domain-search-clear" onClick={() => setSearchTerm('')} aria-label="Clear">×</button>
+                                )}
                             </div>
                             {subDomains.length > 1 && (
                                 <div className="domain-sub-filters">
