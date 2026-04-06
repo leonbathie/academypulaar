@@ -1,16 +1,21 @@
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import './TerminologyPage.css'
 
 function TerminologyPage() {
     const { t } = useTranslation()
+    const navigate = useNavigate()
 
     const domains = [
-        { key: 'domScience', icon: '🔬' },
-        { key: 'domSociety', icon: '⚖️' },
-        { key: 'domHealth', icon: '🏥' },
-        { key: 'domEdu', icon: '📚' }
+        { key: 'domScience', icon: '🔬', filters: ['scientifique', 'mathematiques', 'biologie', 'informatique', 'astronomie', 'botanique'] },
+        { key: 'domSociety', icon: '⚖️', filters: ['droit', 'economie', 'philosophie'] },
+        { key: 'domHealth', icon: '🏥', filters: ['sante'] },
+        { key: 'domEdu', icon: '📚', filters: ['dictionnaire', 'elevage', 'agriculture', 'peche', 'forge', 'vivants'] }
     ]
+
+    const handleDomainClick = (domain) => {
+        navigate(`/dictionnaire?domaines=${domain.filters.join(',')}`)
+    }
 
     return (
         <div className="term-page">
@@ -41,7 +46,7 @@ function TerminologyPage() {
                     <h2>{t('terminology.domains')}</h2>
                     <div className="term-domains-grid">
                         {domains.map((dom) => (
-                            <div key={dom.key} className="term-domain-card">
+                            <div key={dom.key} className="term-domain-card" onClick={() => handleDomainClick(dom)} style={{ cursor: 'pointer' }}>
                                 <span className="term-domain-icon">{dom.icon}</span>
                                 <h3>{t(`terminology.${dom.key}`)}</h3>
                                 <p>{t(`terminology.${dom.key}Desc`)}</p>
