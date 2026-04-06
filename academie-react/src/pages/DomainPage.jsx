@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { API_URL } from '../config'
+import domainContent from '../data/domainContent'
 import './DomainPage.css'
 
 const DOMAIN_CONFIG = {
@@ -48,7 +49,10 @@ function DomainPage() {
     const [expandedCards, setExpandedCards] = useState(new Set())
     const [playingAudio, setPlayingAudio] = useState(null)
     const [previewLang, setPreviewLang] = useState('fr')
+    const [activeTab, setActiveTab] = useState('words')
     const audioRef = useRef(null)
+
+    const content = domainContent[domain]?.[lang] || domainContent[domain]?.fr
 
     // Alterner FR/EN en mode Pulaar
     useEffect(() => {
@@ -178,6 +182,112 @@ function DomainPage() {
             </div>
 
             <div className="container">
+                {/* Tab navigation */}
+                <nav className="domain-tabs">
+                    <button className={`domain-tab ${activeTab === 'words' ? 'active' : ''}`} onClick={() => setActiveTab('words')}>
+                        📖 {lang === 'ff' ? 'Kelme' : lang === 'en' ? 'Dictionary' : 'Dictionnaire'}
+                    </button>
+                    <button className={`domain-tab ${activeTab === 'learn' ? 'active' : ''}`} onClick={() => setActiveTab('learn')}>
+                        🎓 {lang === 'ff' ? 'Ekkitol' : lang === 'en' ? 'Learn' : 'Apprendre'}
+                    </button>
+                    <button className={`domain-tab ${activeTab === 'pronunciation' ? 'active' : ''}`} onClick={() => setActiveTab('pronunciation')}>
+                        🔊 {lang === 'ff' ? 'Cifol' : lang === 'en' ? 'Pronunciation' : 'Prononciation'}
+                    </button>
+                </nav>
+
+                {/* LEARN TAB */}
+                {activeTab === 'learn' && content && (
+                    <div className="domain-learn-tab">
+                        {/* Introduction */}
+                        <section className="domain-intro-section">
+                            <h2 className="domain-section-title">{content.introduction.title}</h2>
+                            {content.introduction.paragraphs.map((p, i) => (
+                                <p key={i} className="domain-intro-text">{p}</p>
+                            ))}
+                        </section>
+
+                        {/* Did You Know */}
+                        <section className="domain-dyk-section">
+                            <h2 className="domain-section-title">
+                                💡 {lang === 'ff' ? 'Aɗa anndi ?' : lang === 'en' ? 'Did you know?' : 'Le saviez-vous ?'}
+                            </h2>
+                            <div className="domain-dyk-grid">
+                                {content.didYouKnow.map((item, i) => (
+                                    <div key={i} className="domain-dyk-card">
+                                        <span className="domain-dyk-icon">{item.icon}</span>
+                                        <h3 className="domain-dyk-title">{item.title}</h3>
+                                        <p className="domain-dyk-text">{item.text}</p>
+                                    </div>
+                                ))}
+                            </div>
+                        </section>
+
+                        {/* Example Sentences */}
+                        <section className="domain-examples-section">
+                            <h2 className="domain-section-title">
+                                💬 {lang === 'ff' ? 'Yeru kelme' : lang === 'en' ? 'Example Sentences' : 'Exemples de phrases'}
+                            </h2>
+                            <div className="domain-examples-list">
+                                {content.exampleSentences.map((ex, i) => (
+                                    <div key={i} className="domain-example-card">
+                                        <div className="domain-example-context">{ex.context}</div>
+                                        <div className="domain-example-sentence domain-example-sentence--ff">
+                                            <span className="domain-example-lang">𞤊𞤵𞤤</span>
+                                            <span>{ex.ff}</span>
+                                        </div>
+                                        <div className="domain-example-sentence domain-example-sentence--tr">
+                                            <span className="domain-example-lang">{lang === 'en' ? 'EN' : 'FR'}</span>
+                                            <span>{ex[lang === 'en' ? 'en' : 'fr'] || ex.fr}</span>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </section>
+
+                        {/* Methodology */}
+                        <section className="domain-method-section">
+                            <h2 className="domain-section-title">⚙️ {content.methodology.title}</h2>
+                            <div className="domain-method-steps">
+                                {content.methodology.steps.map((step) => (
+                                    <div key={step.num} className="domain-method-step">
+                                        <div className="domain-method-num">{step.num}</div>
+                                        <div className="domain-method-content">
+                                            <h3 className="domain-method-step-title">{step.title}</h3>
+                                            <p className="domain-method-step-desc">{step.desc}</p>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </section>
+                    </div>
+                )}
+
+                {/* PRONUNCIATION TAB */}
+                {activeTab === 'pronunciation' && content && (
+                    <div className="domain-pronunciation-tab">
+                        <section className="domain-pronun-section">
+                            <h2 className="domain-section-title">🔊 {content.pronunciation.title}</h2>
+                            <p className="domain-pronun-intro">{content.pronunciation.intro}</p>
+                            <div className="domain-pronun-grid">
+                                {content.pronunciation.sounds.map((s, i) => (
+                                    <div key={i} className="domain-pronun-card">
+                                        <div className="domain-pronun-symbol">{s.symbol}</div>
+                                        <div className="domain-pronun-info">
+                                            <p className="domain-pronun-desc">{s.description}</p>
+                                            <p className="domain-pronun-example">
+                                                <strong>{lang === 'ff' ? 'Yeru' : lang === 'en' ? 'Example' : 'Exemple'} :</strong> {s.example}
+                                            </p>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </section>
+                    </div>
+                )}
+
+                {/* WORDS TAB */}
+                {activeTab === 'words' && (
+                <>
                 {loading ? (
                     <div style={{ textAlign: 'center', padding: '4rem 0' }}>
                         <div className="spinner"></div>
@@ -351,6 +461,8 @@ function DomainPage() {
                             })
                         )}
                     </>
+                )}
+                </>
                 )}
             </div>
         </div>
