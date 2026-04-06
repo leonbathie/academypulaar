@@ -254,7 +254,7 @@ function DomainPage() {
                                     <div key={i} className="domain-example-card">
                                         <div className="domain-example-context">{ex.context}</div>
                                         <div className="domain-example-sentence domain-example-sentence--ff">
-                                            <span className="domain-example-lang">𞤊𞤵𞤤</span>
+                                            <span className="domain-example-lang">FF</span>
                                             <span>{ex.ff}</span>
                                         </div>
                                         <div className="domain-example-sentence domain-example-sentence--tr">
