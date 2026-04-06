@@ -57,15 +57,11 @@ function DictionaryPage() {
     useEffect(() => {
         const urlSearch = searchParams.get('search')
         const urlType = searchParams.get('type')
-        const urlDomaines = searchParams.get('domaines')
         if (urlSearch) {
             setSearchTerm(urlSearch)
         }
         if (urlType && (urlType === 'prefix' || urlType === 'similar')) {
             setSearchType(urlType)
-        }
-        if (urlDomaines) {
-            setSelectedDomain(urlDomaines)
         }
     }, [searchParams])
 
@@ -108,12 +104,6 @@ function DictionaryPage() {
         return () => clearTimeout(trackTimer)
     }, [searchTerm, results.length])
 
-    const domainMatches = (wordDomain) => {
-        if (!selectedDomain) return true
-        const domains = selectedDomain.split(',')
-        return domains.includes(wordDomain)
-    }
-
     // Recherche dans les mots (Fulfulde, Français, Anglais, Définition Fulfulde)
     useEffect(() => {
         if (searchTerm.length >= 1) {
@@ -139,7 +129,7 @@ function DictionaryPage() {
                     }
                 })
                 if (selectedDomain) {
-                    filtered = filtered.filter(w => domainMatches(w.domain))
+                    filtered = filtered.filter(w => w.domain === selectedDomain)
                 }
                 setResults(filtered)
                 setIsSearching(false)
@@ -150,11 +140,11 @@ function DictionaryPage() {
                 word.word.charAt(0).toUpperCase() === selectedLetter
             )
             if (selectedDomain) {
-                filtered = filtered.filter(w => domainMatches(w.domain))
+                filtered = filtered.filter(w => w.domain === selectedDomain)
             }
             setResults(filtered)
         } else if (selectedDomain) {
-            const filtered = allWords.filter(w => domainMatches(w.domain))
+            const filtered = allWords.filter(w => w.domain === selectedDomain)
             setResults(filtered)
         } else {
             setResults([])
@@ -249,12 +239,10 @@ function DictionaryPage() {
                         {['scientifique', 'mathematiques', 'biologie', 'philosophie', 'economie', 'droit', 'astronomie', 'informatique', 'botanique', 'vivants', 'elevage', 'agriculture', 'peche', 'forge', 'dictionnaire'].map(domain => {
                             const count = allWords.filter(w => w.domain === domain).length
                             if (count === 0) return null
-                            const activeDomains = selectedDomain ? selectedDomain.split(',') : []
-                            const isActive = activeDomains.includes(domain)
                             return (
                                 <button
                                     key={domain}
-                                    className={`domain-btn ${isActive ? 'active' : ''}`}
+                                    className={`domain-btn ${selectedDomain === domain ? 'active' : ''}`}
                                     onClick={() => setSelectedDomain(domain)}
                                 >
                                     {t(`dictionary.domains.${domain}`)} <span className="domain-count">{count}</span>
