@@ -10,29 +10,43 @@ const DOMAIN_CONFIG = {
         icon: '🔬',
         titleKey: 'domScience',
         descKey: 'domScienceDesc',
-        filters: ['scientifique', 'mathematiques', 'biologie', 'informatique', 'astronomie', 'botanique'],
+        filters: ['scientifique', 'mathematiques', 'informatique', 'astronomie'],
         color: '#2563eb'
-    },
-    'societe-droit': {
-        icon: '⚖️',
-        titleKey: 'domSociety',
-        descKey: 'domSocietyDesc',
-        filters: ['droit', 'economie', 'philosophie'],
-        color: '#d97706'
     },
     'sante-medecine': {
         icon: '🏥',
         titleKey: 'domHealth',
         descKey: 'domHealthDesc',
-        filters: ['sante', 'biologie'],
+        filters: ['biologie', 'vivants'],
         color: '#dc2626'
+    },
+    'sciences-humaines': {
+        icon: '⚖️',
+        titleKey: 'domHuman',
+        descKey: 'domHumanDesc',
+        filters: ['philosophie', 'economie', 'droit'],
+        color: '#d97706'
     },
     'education': {
         icon: '📚',
         titleKey: 'domEdu',
         descKey: 'domEduDesc',
-        filters: ['dictionnaire', 'elevage', 'agriculture', 'peche', 'forge', 'vivants'],
+        filters: ['dictionnaire'],
         color: '#16a34a'
+    },
+    'agriculture-environnement': {
+        icon: '🌾',
+        titleKey: 'domAgri',
+        descKey: 'domAgriDesc',
+        filters: ['agriculture', 'botanique', 'vivants', 'elevage', 'peche'],
+        color: '#059669'
+    },
+    'metiers-artisanat': {
+        icon: '🔨',
+        titleKey: 'domCrafts',
+        descKey: 'domCraftsDesc',
+        filters: ['forge'],
+        color: '#7c3aed'
     }
 }
 

@@ -200,7 +200,7 @@ const domainContent = {
         }
     },
 
-    'societe-droit': {
+    'sciences-humaines': {
         fr: {
             introduction: {
                 title: 'Le droit et la société en Fulfulde',
@@ -762,6 +762,384 @@ const domainContent = {
                     { num: 2, title: 'Ganndal hoɗɓe', desc: 'Min njowta ganndal aynaaɓe, remooɓe e cuɓɗiyaŋkooɓe nder kelme jaŋde.' },
                     { num: 3, title: 'Ƴeewndagol jaŋdirde', desc: 'Kelme kese ina ndaɗɗee nder jaŋdirɗe yiilotooɗi ngam ñaagaade sukaaɓe faamii.' },
                     { num: 4, title: 'Defte jaŋde', desc: 'Kelme yaafaaɗe ɗee cokketee nder defte jaŋde e kuutorɗe jaŋde Fulfulde.' }
+                ]
+            }
+        }
+    },
+
+    'agriculture-environnement': {
+        fr: {
+            introduction: {
+                title: "L'agriculture et l'environnement en Fulfulde",
+                paragraphs: [
+                    "L'agriculture, l'élevage et la pêche sont au cœur de la vie des communautés Fulɓe. Depuis des siècles, les Peuls ont développé un savoir-faire pastoral et agricole exceptionnel, avec un vocabulaire d'une richesse remarquable pour décrire les animaux, les plantes et les techniques de culture.",
+                    "La terminologie agricole et environnementale en Fulfulde permet de transmettre ces connaissances ancestrales tout en intégrant les innovations modernes — irrigation, agroécologie, conservation des sols — dans la langue maternelle."
+                ]
+            },
+            didYouKnow: [
+                {
+                    icon: '🐄',
+                    title: 'Le vocabulaire du bétail',
+                    text: "Les Peuls disposent de plus de 80 termes pour décrire la robe d'une vache — couleur, motifs, nuances. Ce lexique bovin est l'un des plus riches au monde."
+                },
+                {
+                    icon: '🌳',
+                    title: 'Les arbres sacrés',
+                    text: "Le balanites (tanni) et le karité (kareehi) ont des dizaines de noms selon leur âge, taille ou usage. Le bois, les fruits et les feuilles ont chacun leur terme spécifique."
+                },
+                {
+                    icon: '🐟',
+                    title: 'La pêche fluviale',
+                    text: "Les communautés Fulɓe vivant près des fleuves ont un vocabulaire très détaillé pour les espèces de poissons, les techniques de nasse et les saisons de pêche."
+                }
+            ],
+            exampleSentences: [
+                {
+                    ff: "Nagge am ina ɗomɗi, mi yaha mi yarna nge.",
+                    fr: "Ma vache a soif, je vais l'abreuver.",
+                    context: "Élevage — soin quotidien du bétail"
+                },
+                {
+                    ff: "Gese amen ina ndema makka e maaro.",
+                    fr: "Nos champs cultivent du mil et du riz.",
+                    context: "Agriculture — cultures vivrières"
+                },
+                {
+                    ff: "Lekki njaareendi ki ina hokka ɓiɓɓe.",
+                    fr: "Le karité donne des fruits.",
+                    context: "Botanique — arbres utiles"
+                }
+            ],
+            pronunciation: {
+                title: 'Prononciation des termes agricoles',
+                intro: "Les termes agricoles Fulfulde reflètent la richesse sonore de la langue. Voici les sons essentiels :",
+                sounds: [
+                    { symbol: 'nd', description: "Prénasalisée — le 'n' précède un 'd' sonore", example: 'ndema (agriculture)' },
+                    { symbol: 'ng', description: "Prénasalisée — nasale vélaire suivie de 'g'", example: 'ngaynaaka (élevage)' },
+                    { symbol: 'mb', description: "Prénasalisée — le 'm' précède un 'b' sonore", example: 'mbayla (forge)' },
+                    { symbol: 'ɲ', description: "Nasale palatale — comme 'gn' dans 'peigne'", example: 'ɲiiwa (éléphant)' }
+                ]
+            },
+            methodology: {
+                title: 'Comment la terminologie agricole est créée',
+                steps: [
+                    { num: 1, title: 'Recueil du savoir local', desc: "Les termes traditionnels des éleveurs, cultivateurs et pêcheurs sont documentés lors d'enquêtes de terrain." },
+                    { num: 2, title: 'Analyse des racines', desc: "Les racines Fulfulde existantes (ndema, ngaynaaka, awo) sont examinées pour créer de nouveaux termes par dérivation." },
+                    { num: 3, title: 'Adaptation moderne', desc: "Les concepts modernes (agroécologie, irrigation, conservation) sont exprimés à partir des morphèmes existants." },
+                    { num: 4, title: 'Validation et diffusion', desc: "Les termes sont testés auprès des communautés rurales puis intégrés aux guides et manuels agricoles." }
+                ]
+            }
+        },
+        en: {
+            introduction: {
+                title: 'Agriculture and environment in Fulfulde',
+                paragraphs: [
+                    "Agriculture, livestock breeding and fishing are at the heart of Fulɓe communities. For centuries, the Fulani have developed exceptional pastoral and agricultural expertise, with remarkably rich vocabulary to describe animals, plants and farming techniques.",
+                    "Agricultural and environmental terminology in Fulfulde allows the transmission of this ancestral knowledge while integrating modern innovations — irrigation, agroecology, soil conservation — in the mother tongue."
+                ]
+            },
+            didYouKnow: [
+                {
+                    icon: '🐄',
+                    title: 'Cattle vocabulary',
+                    text: "The Fulani have over 80 terms to describe a cow's coat — color, patterns, shades. This bovine lexicon is one of the richest in the world."
+                },
+                {
+                    icon: '🌳',
+                    title: 'Sacred trees',
+                    text: "The balanites (tanni) and shea tree (kareehi) have dozens of names depending on age, size or use. Wood, fruits and leaves each have their own specific term."
+                },
+                {
+                    icon: '🐟',
+                    title: 'River fishing',
+                    text: "Fulɓe communities living near rivers have very detailed vocabulary for fish species, trap techniques and fishing seasons."
+                }
+            ],
+            exampleSentences: [
+                {
+                    ff: "Nagge am ina ɗomɗi, mi yaha mi yarna nge.",
+                    en: "My cow is thirsty, I will go water her.",
+                    context: "Breeding — daily cattle care"
+                },
+                {
+                    ff: "Gese amen ina ndema makka e maaro.",
+                    en: "Our fields grow millet and rice.",
+                    context: "Agriculture — food crops"
+                },
+                {
+                    ff: "Lekki njaareendi ki ina hokka ɓiɓɓe.",
+                    en: "The shea tree bears fruit.",
+                    context: "Botany — useful trees"
+                }
+            ],
+            pronunciation: {
+                title: 'Agricultural terms pronunciation',
+                intro: "Fulfulde agricultural terms reflect the rich sound system of the language. Here are essential sounds:",
+                sounds: [
+                    { symbol: 'nd', description: "Prenasalized — 'n' precedes a voiced 'd'", example: 'ndema (agriculture)' },
+                    { symbol: 'ng', description: "Prenasalized — velar nasal followed by 'g'", example: 'ngaynaaka (breeding)' },
+                    { symbol: 'mb', description: "Prenasalized — 'm' precedes a voiced 'b'", example: 'mbayla (blacksmithing)' },
+                    { symbol: 'ɲ', description: "Palatal nasal — like 'ny' in 'canyon'", example: 'ɲiiwa (elephant)' }
+                ]
+            },
+            methodology: {
+                title: 'How agricultural terminology is created',
+                steps: [
+                    { num: 1, title: 'Local knowledge collection', desc: 'Traditional terms from herders, farmers and fishermen are documented through field surveys.' },
+                    { num: 2, title: 'Root analysis', desc: 'Existing Fulfulde roots (ndema, ngaynaaka, awo) are examined to create new terms through derivation.' },
+                    { num: 3, title: 'Modern adaptation', desc: 'Modern concepts (agroecology, irrigation, conservation) are expressed using existing morphemes.' },
+                    { num: 4, title: 'Validation and dissemination', desc: 'Terms are tested with rural communities then integrated into agricultural guides and manuals.' }
+                ]
+            }
+        },
+        ff: {
+            introduction: {
+                title: 'Ndema e Tagoore e Fulfulde',
+                paragraphs: [
+                    "Ndema, ngaynaaka e awo ko ɓerɗe nguurndam renndo Fulɓe. Gila jamaanu, Fulɓe ina njogii ganndal dowrungal e ndema e ngaynaaka, e kelmeendi keewndi ngam hollirde kulle, puɗi e feere-golle.",
+                    "Kelmeendi ndema e tagoore e Fulfulde ina newnan yaltinde ganndal aadee ngal tawa ina naattinee kese — njaareendi, nguum-leydi, moƴƴitingol leydi — nder ɗemngal neene."
+                ]
+            },
+            didYouKnow: [
+                {
+                    icon: '🐄',
+                    title: 'Kelmeendi nagge',
+                    text: "Fulɓe ina njogii ko ɓuri 80 helmere ngam hollirde mbaadi nagge — noordi, gaawe, ɓenndi. Kelmeendi nay\'i Fulɓe ko ɓurndi heewde nder aduna oo."
+                },
+                {
+                    icon: '🌳',
+                    title: 'Lekɗe tedduɗe',
+                    text: "Tanni e kareehi ina njogii inɗe keewɗe rewrude e duuɓi, mawngu walla kuutoragol. Leɗɗe, ɓiɓɓe e haako fof ina njogii helmere mum keeriiɗe."
+                },
+                {
+                    icon: '🐟',
+                    title: 'Awo maayo',
+                    text: "Renndo Fulɓe hoɗɓe daande maayo ina njogii kelmeendi laaɓtuɗi ngam semmbe liɗɗi, peeje awo e dumunnaaji awo."
+                }
+            ],
+            exampleSentences: [
+                {
+                    ff: "Nagge am ina ɗomɗi, mi yaha mi yarna nge.",
+                    fr: "Ma vache a soif, je vais l'abreuver.",
+                    context: "Ngaynaaka — ndeenka nagge"
+                },
+                {
+                    ff: "Gese amen ina ndema makka e maaro.",
+                    fr: "Nos champs cultivent du mil et du riz.",
+                    context: "Ndema — gese nguurndam"
+                },
+                {
+                    ff: "Lekki njaareendi ki ina hokka ɓiɓɓe.",
+                    fr: "Le karité donne des fruits.",
+                    context: "Lekɗe — lekɗe nafooje"
+                }
+            ],
+            pronunciation: {
+                title: 'No kelme ndema kaalirtee',
+                intro: "Kelme ndema Fulfulde ina njogor-jogorii daande ɗemngal ngal. Inan daande teeŋtuɗe:",
+                sounds: [
+                    { symbol: 'nd', description: "Hunnduko-hinere — 'n' artata ko adii 'd'", example: 'ndema (ndema)' },
+                    { symbol: 'ng', description: "Hunnduko-hinere — hinere artata ko adii 'g'", example: 'ngaynaaka (ngaynaaka)' },
+                    { symbol: 'mb', description: "Hunnduko-hinere — 'm' artata ko adii 'b'", example: 'mbayla (mbayla)' },
+                    { symbol: 'ɲ', description: "Hinere-daande — wa 'gn' nder Farayse", example: 'ɲiiwa (ɲiiwa)' }
+                ]
+            },
+            methodology: {
+                title: 'No kelmeendi ndema sosirtee',
+                steps: [
+                    { num: 1, title: 'Roƴƴude ganndal nokku', desc: "Kelme ganni aynaaɓe, remooɓe e subalɓe ina mbinndee haa nder wiɗtooji nokku." },
+                    { num: 2, title: 'Ƴeewde daaɗe', desc: "Daaɗe Fulfulde goodɗe (ndema, ngaynaaka, awo) ina ƴeewee ngam sosde kelme kese." },
+                    { num: 3, title: 'Moƴƴitinde kese', desc: "Miijooji kesi (agroecologie, njaareendi, moƴƴitingol leydi) ina kaalirtee e daaɗe goodɗe." },
+                    { num: 4, title: 'Jaɓɓingol e saakitgol', desc: "Kelme ina ñaagetee haa renndo ladde caggal ɗum naattinee nder defte ndema." }
+                ]
+            }
+        }
+    },
+
+    'metiers-artisanat': {
+        fr: {
+            introduction: {
+                title: "Les métiers traditionnels en Fulfulde",
+                paragraphs: [
+                    "L'artisanat occupe une place centrale dans la culture Peule. Les forgerons (waylooɓe), les bijoutiers et les tisserands possèdent un savoir-faire transmis de génération en génération, accompagné d'un vocabulaire technique extrêmement précis.",
+                    "La terminologie des métiers en Fulfulde vise à préserver ces connaissances artisanales tout en les ouvrant au monde moderne — métallurgie, orfèvrerie, techniques contemporaines."
+                ]
+            },
+            didYouKnow: [
+                {
+                    icon: '🔥',
+                    title: 'La forge sacrée',
+                    text: "Chez les Peuls, le forgeron (baylo) occupe un statut social particulier. Son atelier est un lieu de savoir où se transmettent des techniques millénaires de transformation du fer (njamndi)."
+                },
+                {
+                    icon: '💍',
+                    title: 'L\'art de la bijouterie',
+                    text: "Les bijoux Peuls — boucles d'oreilles (liggey), bracelets (junngo) et colliers — sont reconnaissables à leurs motifs géométriques complexes, chacun portant une signification culturelle."
+                },
+                {
+                    icon: '🧵',
+                    title: 'Le tissage',
+                    text: "Le tissage traditionnel Peul utilise un vocabulaire spécifique pour chaque type de fil, de motif et de métier à tisser. Les pagnes tissés sont des œuvres d'art portées lors des cérémonies."
+                }
+            ],
+            exampleSentences: [
+                {
+                    ff: "Baylo oo ina fewa njamndi.",
+                    fr: "Le forgeron travaille le fer.",
+                    context: "Forge — travail du métal"
+                },
+                {
+                    ff: "Debbo oo ina ɓoornii kaalis-kaɓirɗi.",
+                    fr: "La femme porte des bijoux.",
+                    context: "Bijouterie — parure traditionnelle"
+                },
+                {
+                    ff: "O waɗi comci moƴƴi sanne.",
+                    fr: "Il a fait de très beaux habits.",
+                    context: "Artisanat — création textile"
+                }
+            ],
+            pronunciation: {
+                title: 'Prononciation des termes artisanaux',
+                intro: "Le vocabulaire des métiers utilise des sons caractéristiques du Fulfulde :",
+                sounds: [
+                    { symbol: 'mb', description: "Prénasalisée labiale — le 'm' précède le 'b'", example: 'mbayla (forge)' },
+                    { symbol: 'nj', description: "Prénasalisée palatale — nasale suivie de 'j'", example: 'njamndi (fer)' },
+                    { symbol: 'w', description: "Semi-voyelle labiale — comme 'w' en anglais", example: 'waylooɓe (forgerons)' },
+                    { symbol: 'ɓ', description: "B implosif — son aspiré vers l'intérieur", example: 'ɓoornii (porte/habillé)' }
+                ]
+            },
+            methodology: {
+                title: 'Comment la terminologie artisanale est créée',
+                steps: [
+                    { num: 1, title: 'Enquête auprès des artisans', desc: "Les termes techniques sont recueillis directement auprès des forgerons, bijoutiers et tisserands dans leurs ateliers." },
+                    { num: 2, title: 'Classification du vocabulaire', desc: "Les outils, matériaux, gestes et produits finis sont classés en catégories lexicales cohérentes." },
+                    { num: 3, title: 'Création de termes modernes', desc: "Pour les techniques contemporaines (soudure, galvanisation), des néologismes sont créés à partir des racines existantes." },
+                    { num: 4, title: 'Transmission et formation', desc: "Les termes validés sont intégrés dans des glossaires professionnels et des supports de formation artisanale." }
+                ]
+            }
+        },
+        en: {
+            introduction: {
+                title: 'Traditional crafts in Fulfulde',
+                paragraphs: [
+                    "Craftsmanship holds a central place in Fulani culture. Blacksmiths (waylooɓe), jewelers and weavers possess know-how passed down through generations, accompanied by extremely precise technical vocabulary.",
+                    "Crafts terminology in Fulfulde aims to preserve this artisanal knowledge while opening it up to the modern world — metallurgy, goldsmithing, contemporary techniques."
+                ]
+            },
+            didYouKnow: [
+                {
+                    icon: '🔥',
+                    title: 'The sacred forge',
+                    text: "Among the Fulani, the blacksmith (baylo) holds a special social status. His workshop is a place of knowledge where millennia-old iron-working techniques are transmitted."
+                },
+                {
+                    icon: '💍',
+                    title: 'The art of jewelry',
+                    text: "Fulani jewelry — earrings (liggey), bracelets (junngo) and necklaces — are recognizable by their complex geometric patterns, each carrying cultural significance."
+                },
+                {
+                    icon: '🧵',
+                    title: 'Weaving',
+                    text: "Traditional Fulani weaving uses specific vocabulary for each type of thread, pattern and loom. Woven wraps are works of art worn during ceremonies."
+                }
+            ],
+            exampleSentences: [
+                {
+                    ff: "Baylo oo ina fewa njamndi.",
+                    en: "The blacksmith works the iron.",
+                    context: "Blacksmithing — metalwork"
+                },
+                {
+                    ff: "Debbo oo ina ɓoornii kaalis-kaɓirɗi.",
+                    en: "The woman wears jewelry.",
+                    context: "Jewelry — traditional adornment"
+                },
+                {
+                    ff: "O waɗi comci moƴƴi sanne.",
+                    en: "He made very beautiful clothes.",
+                    context: "Craftsmanship — textile creation"
+                }
+            ],
+            pronunciation: {
+                title: 'Craft terms pronunciation',
+                intro: "Craft vocabulary uses characteristic Fulfulde sounds:",
+                sounds: [
+                    { symbol: 'mb', description: "Prenasalized labial — 'm' precedes 'b'", example: 'mbayla (forge)' },
+                    { symbol: 'nj', description: "Prenasalized palatal — nasal followed by 'j'", example: 'njamndi (iron)' },
+                    { symbol: 'w', description: "Labial glide — like 'w' in English", example: 'waylooɓe (blacksmiths)' },
+                    { symbol: 'ɓ', description: "Implosive B — inward airflow sound", example: 'ɓoornii (wears/dressed)' }
+                ]
+            },
+            methodology: {
+                title: 'How craft terminology is created',
+                steps: [
+                    { num: 1, title: 'Artisan surveys', desc: 'Technical terms are collected directly from blacksmiths, jewelers and weavers in their workshops.' },
+                    { num: 2, title: 'Vocabulary classification', desc: 'Tools, materials, gestures and finished products are classified into coherent lexical categories.' },
+                    { num: 3, title: 'Modern term creation', desc: 'For contemporary techniques (welding, galvanization), neologisms are created from existing roots.' },
+                    { num: 4, title: 'Transmission and training', desc: 'Validated terms are integrated into professional glossaries and artisanal training materials.' }
+                ]
+            }
+        },
+        ff: {
+            introduction: {
+                title: 'Golle juuɗe e Fulfulde',
+                paragraphs: [
+                    "Golle juuɗe ko huunde teeŋtunde nder pinal Fulɓe. Waylooɓe, soƴƴooɓe e saŋŋooɓe ina njogii ganndal dowtingal piltingal gila jamaanu, e kelmeendi keeriindi sanne.",
+                    "Kelmeendi golle juuɗe e Fulfulde ina faanditi reɓɓude ganndal ngal tawa ina uddita ɗum e aduna keso — tafngo kaŋŋe, soƴƴoore kesere e peeje hannde."
+                ]
+            },
+            didYouKnow: [
+                {
+                    icon: '🔥',
+                    title: 'Mbayla tedduɗo',
+                    text: "Haa Fulɓe, baylo ina jogii daraja keeriiɗo nder renndo. Mbayla makko ko nokku ganndal ɗo peeje feɲɲinde njamndi piltintee."
+                },
+                {
+                    icon: '💍',
+                    title: 'Njeenaari soƴƴoore',
+                    text: "Kaalis-kaɓirɗi Fulɓe — loppitooɗe, junngooji e kaalaaje — ko anndaaɗe sabu gaawe mum'en ceertuɗe, gooto fof jogiiɗo maanaa pinal."
+                },
+                {
+                    icon: '🧵',
+                    title: 'Saŋŋitordu',
+                    text: "Saŋŋitordu Fulɓe ina huutoroo kelme keeriiɗe ngam kala semmbe, gaawe e masiŋ. Comci saŋŋaaɗi ko jeyi njeenaari ɓoorneteeɗi nder kulol."
+                }
+            ],
+            exampleSentences: [
+                {
+                    ff: "Baylo oo ina fewa njamndi.",
+                    fr: "Le forgeron travaille le fer.",
+                    context: "Mbayla — golle njamndi"
+                },
+                {
+                    ff: "Debbo oo ina ɓoornii kaalis-kaɓirɗi.",
+                    fr: "La femme porte des bijoux.",
+                    context: "Soƴƴoore — ɓoornagol aada"
+                },
+                {
+                    ff: "O waɗi comci moƴƴi sanne.",
+                    fr: "Il a fait de très beaux habits.",
+                    context: "Golle juuɗe — njeenaari comci"
+                }
+            ],
+            pronunciation: {
+                title: 'No kelme golle juuɗe kaalirtee',
+                intro: "Kelmeendi golle juuɗe ina kuutoroo daande keeriiɗe Fulfulde:",
+                sounds: [
+                    { symbol: 'mb', description: "Hunnduko-hinere — 'm' artata ko adii 'b'", example: 'mbayla (mbayla)' },
+                    { symbol: 'nj', description: "Hunnduko-hinere — hinere artata ko adii 'j'", example: 'njamndi (njamndi)' },
+                    { symbol: 'w', description: "Daande leɗɗeere — wa 'w' nder Engeleere", example: 'waylooɓe (waylooɓe)' },
+                    { symbol: 'ɓ', description: "Ɓ implosif — daande mooftunde", example: 'ɓoornii (ɓoornii)' }
+                ]
+            },
+            methodology: {
+                title: 'No kelmeendi golle juuɗe sosirtee',
+                steps: [
+                    { num: 1, title: 'Naamnaade gollooɓe', desc: "Kelme keeriɗe ina roƴƴee sara waylooɓe, soƴƴooɓe e saŋŋooɓe nder gollirɗe mum'en." },
+                    { num: 2, title: 'Tonngude kelme', desc: "Kuutorɗe, aɗe, golle e geɗe timmuɗe ina tonngee nder pecce kelmeendi laaɓtuɗe." },
+                    { num: 3, title: 'Sosde kelme kese', desc: "Ngam peeje hannde (soƴƴoore, moƴƴitingol), kelme kese ina sosee e daaɗe goodɗe." },
+                    { num: 4, title: 'Piltingol e nehdi', desc: "Kelme jaɓaaɗe ɗee naattinee nder defte golle e kuutorɗe nehdi golle juuɗe." }
                 ]
             }
         }

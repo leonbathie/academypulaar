@@ -7,9 +7,11 @@ function TerminologyPage() {
 
     const domains = [
         { key: 'domScience', icon: '🔬', slug: 'sciences-technologie' },
-        { key: 'domSociety', icon: '⚖️', slug: 'societe-droit' },
         { key: 'domHealth', icon: '🏥', slug: 'sante-medecine' },
-        { key: 'domEdu', icon: '📚', slug: 'education' }
+        { key: 'domHuman', icon: '⚖️', slug: 'sciences-humaines' },
+        { key: 'domEdu', icon: '📚', slug: 'education' },
+        { key: 'domAgri', icon: '🌾', slug: 'agriculture-environnement' },
+        { key: 'domCrafts', icon: '🔨', slug: 'metiers-artisanat' }
     ]
 
     return (
