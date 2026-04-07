@@ -146,7 +146,7 @@
             "agriculture": "Agriculture",
             "peche": "Fishing",
             "forge": "Blacksmithing",
-            "dictionnaire": "Dictionary"
+            "dictionnaire": "Education"
         }
     },
     "about": {
@@ -456,7 +456,7 @@
             "domAgri": "Agriculture",
             "domPeche": "Fishing",
             "domForge": "Blacksmithing",
-            "domDict": "Dictionary",
+            "domDict": "Education",
             "importPdf": "Import PDF",
             "pdfFile": "PDF File",
             "pdfClickToSelect": "Click to select a PDF file",

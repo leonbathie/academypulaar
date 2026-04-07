@@ -146,7 +146,7 @@
             "agriculture": "Agriculture",
             "peche": "Pêche",
             "forge": "Forge / Bijouterie",
-            "dictionnaire": "Dictionnaire"
+            "dictionnaire": "Éducation"
         }
     },
     "about": {
@@ -458,7 +458,7 @@
             "domAgri": "Agriculture",
             "domPeche": "Pêche",
             "domForge": "Forge / Bijouterie",
-            "domDict": "Dictionnaire",
+            "domDict": "Éducation",
             "importPdf": "Importer PDF",
             "pdfFile": "Fichier PDF",
             "pdfClickToSelect": "Cliquez pour sélectionner un fichier PDF",
