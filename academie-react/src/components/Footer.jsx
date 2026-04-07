@@ -45,12 +45,6 @@ function Footer() {
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link to="/dire">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg>
-                                        {t('nav.sayDontSay')}
-                                    </Link>
-                                </li>
-                                <li>
                                     <Link to="/questions-langue">
                                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" /></svg>
                                         {t('nav.languageQuestions')}

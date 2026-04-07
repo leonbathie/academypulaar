@@ -1030,99 +1030,6 @@
     color: rgba(255, 255, 255, 0.6);
 }
 
-/* ══════════════════════════════════════════
-   PRONUNCIATION TAB
-   ══════════════════════════════════════════ */
-
-.domain-pronunciation-tab {
-    animation: fadeInTab 0.4s ease;
-}
-
-.domain-pronun-section {
-    margin-bottom: var(--space-3xl);
-}
-
-.domain-pronun-intro {
-    font-size: 1.05rem;
-    line-height: 1.7;
-    color: var(--dark-gray);
-    margin-bottom: var(--space-xl);
-    max-width: 700px;
-}
-
-[data-theme="dark"] .domain-pronun-intro {
-    color: rgba(255, 255, 255, 0.8);
-}
-
-.domain-pronun-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: var(--space-lg);
-}
-
-.domain-pronun-card {
-    display: flex;
-    gap: var(--space-lg);
-    background: var(--white);
-    border-radius: var(--radius-xl);
-    padding: var(--space-xl);
-    box-shadow: var(--shadow-sm);
-    border: 1px solid var(--light-gray);
-    transition: all 0.25s;
-    align-items: flex-start;
-}
-
-.domain-pronun-card:hover {
-    box-shadow: var(--shadow-md);
-}
-
-[data-theme="dark"] .domain-pronun-card {
-    background: rgba(255, 255, 255, 0.04);
-    border-color: rgba(255, 255, 255, 0.08);
-}
-
-.domain-pronun-symbol {
-    font-family: var(--font-display);
-    font-size: 2rem;
-    font-weight: 700;
-    color: var(--gold);
-    background: rgba(var(--gold-rgb, 191, 155, 48), 0.08);
-    width: 60px;
-    height: 60px;
-    border-radius: var(--radius-lg);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    border: 2px solid rgba(var(--gold-rgb, 191, 155, 48), 0.2);
-}
-
-.domain-pronun-info {
-    flex: 1;
-}
-
-.domain-pronun-desc {
-    font-size: 0.95rem;
-    line-height: 1.6;
-    color: var(--dark-gray);
-    margin: 0 0 6px;
-}
-
-[data-theme="dark"] .domain-pronun-desc {
-    color: rgba(255, 255, 255, 0.85);
-}
-
-.domain-pronun-example {
-    font-size: 0.88rem;
-    color: var(--medium-gray);
-    margin: 0;
-    font-style: italic;
-}
-
-[data-theme="dark"] .domain-pronun-example {
-    color: rgba(255, 255, 255, 0.55);
-}
-
 /* ── Responsive ── */
 @media (max-width: 768px) {
     .domain-page-title { font-size: 1.8rem; }
@@ -1139,7 +1046,6 @@
     .domain-tab { font-size: 0.9rem; padding: 10px 16px; }
     .domain-section-title { font-size: 1.3rem; }
     .domain-dyk-grid { grid-template-columns: 1fr; }
-    .domain-pronun-grid { grid-template-columns: 1fr; }
     .domain-intro-section { padding: var(--space-lg); }
     .domain-method-steps::before { left: 20px; }
     .domain-method-num { width: 42px; height: 42px; font-size: 1.1rem; }
@@ -1152,6 +1058,4 @@
     .domain-page-desc { font-size: 0.95rem; }
     .domain-page-stats { flex-wrap: wrap; gap: var(--space-md); }
     .domain-scroll-top { bottom: 20px; right: 20px; width: 42px; height: 42px; }
-    .domain-pronun-card { flex-direction: column; }
-    .domain-pronun-symbol { width: 50px; height: 50px; font-size: 1.5rem; }
 }

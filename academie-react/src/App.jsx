@@ -13,7 +13,6 @@ import LibraryPage from './pages/LibraryPage'
 import LanguageQuestionsPage from './pages/LanguageQuestionsPage'
 import TerminologyPage from './pages/TerminologyPage'
 import DomainPage from './pages/DomainPage'
-import DireNePasDirePage from './pages/DireNePasDirePage'
 import MentionsLegalesPage from './pages/MentionsLegalesPage'
 import ConfidentialitePage from './pages/ConfidentialitePage'
 import NotFoundPage from './pages/NotFoundPage'
@@ -58,7 +57,6 @@ function App() {
               <Route path="/questions-langue" element={<LanguageQuestionsPage />} />
               <Route path="/terminologie" element={<TerminologyPage />} />
               <Route path="/terminologie/:domain" element={<DomainPage />} />
-              <Route path="/dire" element={<DireNePasDirePage />} />
               <Route path="/mentions-legales" element={<MentionsLegalesPage />} />
               <Route path="/confidentialite" element={<ConfidentialitePage />} />
               <Route path="*" element={<NotFoundPage />} />

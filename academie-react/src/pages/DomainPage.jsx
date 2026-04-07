@@ -214,9 +214,6 @@ function DomainPage() {
                     <button className={`domain-tab ${activeTab === 'learn' ? 'active' : ''}`} onClick={() => setActiveTab('learn')}>
                         🎓 {lang === 'ff' ? 'Ekkitol' : lang === 'en' ? 'Learn' : 'Apprendre'}
                     </button>
-                    <button className={`domain-tab ${activeTab === 'pronunciation' ? 'active' : ''}`} onClick={() => setActiveTab('pronunciation')}>
-                        🔊 {lang === 'ff' ? 'Cifol' : lang === 'en' ? 'Pronunciation' : 'Prononciation'}
-                    </button>
                 </nav>
 
                 {/* LEARN TAB */}
@@ -278,29 +275,6 @@ function DomainPage() {
                                         <div className="domain-method-content">
                                             <h3 className="domain-method-step-title">{step.title}</h3>
                                             <p className="domain-method-step-desc">{step.desc}</p>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </section>
-                    </div>
-                )}
-
-                {/* PRONUNCIATION TAB */}
-                {activeTab === 'pronunciation' && content && (
-                    <div className="domain-pronunciation-tab">
-                        <section className="domain-pronun-section">
-                            <h2 className="domain-section-title">🔊 {content.pronunciation.title}</h2>
-                            <p className="domain-pronun-intro">{content.pronunciation.intro}</p>
-                            <div className="domain-pronun-grid">
-                                {content.pronunciation.sounds.map((s, i) => (
-                                    <div key={i} className="domain-pronun-card">
-                                        <div className="domain-pronun-symbol">{s.symbol}</div>
-                                        <div className="domain-pronun-info">
-                                            <p className="domain-pronun-desc">{s.description}</p>
-                                            <p className="domain-pronun-example">
-                                                <strong>{lang === 'ff' ? 'Yeru' : lang === 'en' ? 'Example' : 'Exemple'} :</strong> {s.example}
-                                            </p>
                                         </div>
                                     </div>
                                 ))}
