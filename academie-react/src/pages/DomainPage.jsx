@@ -171,7 +171,6 @@ function DomainPage() {
     const letters = [...new Set(filtered.map(w => w.word.charAt(0).toUpperCase()))].sort()
 
     const definedCount = words.filter(w => w.translation_ff && w.translation_ff.trim()).length
-    const definedPercent = words.length > 0 ? Math.round((definedCount / words.length) * 100) : 0
 
     const [showScrollTop, setShowScrollTop] = useState(false)
     useEffect(() => {
@@ -202,17 +201,6 @@ function DomainPage() {
                             <span className="domain-stat-label">{lang === 'ff' ? 'Cate' : lang === 'en' ? 'Sub-domains' : 'Sous-domaines'}</span>
                         </div>
                     </div>
-                    {words.length > 0 && (
-                        <div className="domain-progress">
-                            <div className="domain-progress-label">
-                                <span>{lang === 'ff' ? 'Ɓeydagol Fulfulde' : lang === 'en' ? 'Fulfulde coverage' : 'Couverture Fulfulde'}</span>
-                                <span className="domain-progress-pct">{definedPercent}%</span>
-                            </div>
-                            <div className="domain-progress-bar">
-                                <div className="domain-progress-fill" style={{ width: `${definedPercent}%` }} />
-                            </div>
-                        </div>
-                    )}
                 </div>
             </div>
 
@@ -422,8 +410,8 @@ function DomainPage() {
                                                 return (
                                                     <article key={entry.id} className={`domain-word-card ${isExpanded ? 'domain-word-card--expanded' : ''}`}>
                                                         <div className="domain-word-top">
-                                                            <h3 className="domain-word-term" onClick={() => toggleCard(entry.id)}>{entry.word}</h3>
-                                                            <div className="domain-word-actions">
+                                                            <div className="domain-word-name">
+                                                                <h3 className="domain-word-term" onClick={() => toggleCard(entry.id)}>{entry.word}</h3>
                                                                 {entry.audio_word && (
                                                                     <button
                                                                         className={`domain-audio-btn ${playingAudio === `${entry.id}-word` ? 'playing' : ''}`}
@@ -433,14 +421,14 @@ function DomainPage() {
                                                                         {playingAudio === `${entry.id}-word` ? (
                                                                             <svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16" /><rect x="14" y="4" width="4" height="16" /></svg>
                                                                         ) : (
-                                                                            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3" /></svg>
+                                                                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8.5v7a4.5 4.5 0 0 0 2.5-3.5z"/></svg>
                                                                         )}
                                                                     </button>
                                                                 )}
-                                                                <button className="domain-toggle-btn" onClick={() => toggleCard(entry.id)}>
-                                                                    <span>{isExpanded ? '−' : '+'}</span>
-                                                                </button>
                                                             </div>
+                                                            <button className="domain-toggle-btn" onClick={() => toggleCard(entry.id)}>
+                                                                <span>{isExpanded ? '−' : '+'}</span>
+                                                            </button>
                                                         </div>
 
                                                         {previewTranslation && !isExpanded && (

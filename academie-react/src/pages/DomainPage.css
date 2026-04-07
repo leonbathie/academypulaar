@@ -102,41 +102,6 @@
     letter-spacing: 0.5px;
 }
 
-/* ── Progress bar ── */
-.domain-progress {
-    max-width: 320px;
-    margin: var(--space-xl) auto 0;
-}
-
-.domain-progress-label {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.78rem;
-    opacity: 0.85;
-    margin-bottom: 6px;
-    text-transform: uppercase;
-    letter-spacing: 0.3px;
-}
-
-.domain-progress-pct {
-    font-weight: 700;
-    color: var(--gold);
-}
-
-.domain-progress-bar {
-    height: 6px;
-    background: rgba(255, 255, 255, 0.15);
-    border-radius: 3px;
-    overflow: hidden;
-}
-
-.domain-progress-fill {
-    height: 100%;
-    background: var(--gradient-gold, var(--gold));
-    border-radius: 3px;
-    transition: width 1s ease-out;
-}
-
 /* ── Filters bar ── */
 .domain-filters-bar {
     padding: var(--space-xl) 0;
@@ -332,11 +297,11 @@
     margin-bottom: 4px;
 }
 
-.domain-word-actions {
+.domain-word-name {
     display: flex;
     align-items: center;
-    gap: 6px;
-    flex-shrink: 0;
+    gap: 8px;
+    min-width: 0;
 }
 
 .domain-word-term {
@@ -360,17 +325,18 @@
 /* ── Audio button ── */
 .domain-audio-btn {
     flex-shrink: 0;
-    width: 32px;
-    height: 32px;
+    width: 26px;
+    height: 26px;
     border-radius: 50%;
     border: none;
-    background: rgba(var(--gold-rgb, 191, 155, 48), 0.1);
-    color: var(--gold);
+    background: transparent;
+    color: var(--medium-gray);
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: all 0.2s;
+    opacity: 0.5;
 }
 
 .domain-audio-btn svg {
@@ -379,24 +345,24 @@
 }
 
 .domain-audio-btn:hover {
-    background: var(--gold);
-    color: white;
+    color: var(--gold);
+    opacity: 1;
 }
 
 .domain-audio-btn.playing {
-    background: var(--gold);
-    color: white;
+    color: var(--gold);
+    opacity: 1;
     animation: pulse-audio 1s infinite;
 }
 
 .domain-audio-btn--sm {
-    width: 26px;
-    height: 26px;
+    width: 22px;
+    height: 22px;
 }
 
 .domain-audio-btn--sm svg {
-    width: 12px;
-    height: 12px;
+    width: 11px;
+    height: 11px;
 }
 
 @keyframes pulse-audio {
