@@ -25,7 +25,8 @@ function DictionaryAdmin() {
         agriculture: 'admin.dictionary.domAgri',
         peche: 'admin.dictionary.domPeche',
         forge: 'admin.dictionary.domForge',
-        dictionnaire: 'admin.dictionary.domDict'
+        dictionnaire: 'admin.dictionary.domDict',
+        general: 'admin.dictionary.domGeneral'
     }
     const [words, setWords] = useState([])
     const [loading, setLoading] = useState(true)
@@ -503,6 +504,7 @@ function DictionaryAdmin() {
                             <option value="peche">{t('admin.dictionary.domPeche')}</option>
                             <option value="forge">{t('admin.dictionary.domForge')}</option>
                             <option value="dictionnaire">{t('admin.dictionary.domDict')}</option>
+                            <option value="general">{t('admin.dictionary.domGeneral')}</option>
                         </select>
                         <button className="btn-add" style={{ background: 'linear-gradient(135deg, #e67e22, #d35400)' }} onClick={openPdfModal}>
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -791,6 +793,7 @@ function DictionaryAdmin() {
                                         <option value="peche">{t('admin.dictionary.domPeche')}</option>
                                         <option value="forge">{t('admin.dictionary.domForge')}</option>
                                         <option value="dictionnaire">{t('admin.dictionary.domDict')}</option>
+                                        <option value="general">{t('admin.dictionary.domGeneral')}</option>
                                     </select>
                                 </div>
 
@@ -1033,6 +1036,7 @@ function DictionaryAdmin() {
                                         <option value="peche">{t('admin.dictionary.domPeche')}</option>
                                         <option value="forge">{t('admin.dictionary.domForge')}</option>
                                         <option value="dictionnaire">{t('admin.dictionary.domDict')}</option>
+                                        <option value="general">{t('admin.dictionary.domGeneral')}</option>
                                     </select>
                                 </div>
 

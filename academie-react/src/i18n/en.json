@@ -457,6 +457,7 @@
             "domPeche": "Fishing",
             "domForge": "Blacksmithing",
             "domDict": "Education",
+            "domGeneral": "General",
             "importPdf": "Import PDF",
             "pdfFile": "PDF File",
             "pdfClickToSelect": "Click to select a PDF file",
