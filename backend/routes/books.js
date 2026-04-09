@@ -168,7 +168,8 @@ router.get('/:id/download', validateId, async (req, res) => {
         }
 
         const uploadsDir = path.resolve(__dirname, '..', 'uploads')
-        const filePath = path.resolve(__dirname, '..', book.file_path)
+        const relativePath = book.file_path.replace(/^\/+/, '').replace(/^uploads[\/\\]/, '')
+        const filePath = path.resolve(uploadsDir, relativePath)
 
         // Protection contre le path traversal
         if (!filePath.startsWith(uploadsDir)) {
