@@ -146,7 +146,8 @@
             "agriculture": "Agriculture",
             "peche": "Fishing",
             "forge": "Blacksmithing",
-            "dictionnaire": "Education"
+            "dictionnaire": "Education",
+            "general": "General"
         }
     },
     "about": {

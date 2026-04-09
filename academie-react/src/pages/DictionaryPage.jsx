@@ -236,7 +236,10 @@ function DictionaryPage() {
                         >
                             {t('dictionary.allDomains')}
                         </button>
-                        {['scientifique', 'mathematiques', 'biologie', 'philosophie', 'economie', 'droit', 'astronomie', 'informatique', 'botanique', 'vivants', 'elevage', 'agriculture', 'peche', 'forge', 'dictionnaire'].map(domain => {
+                        {['scientifique', 'mathematiques', 'biologie', 'philosophie', 'economie', 'droit', 'astronomie', 'informatique', 'botanique', 'vivants', 'elevage', 'agriculture', 'peche', 'forge', 'dictionnaire', 'general']
+                            .map(d => ({ key: d, label: t(`dictionary.domains.${d}`) }))
+                            .sort((a, b) => a.label.localeCompare(b.label, undefined, { sensitivity: 'base' }))
+                            .map(({ key: domain }) => {
                             const count = allWords.filter(w => w.domain === domain).length
                             if (count === 0) return null
                             return (
