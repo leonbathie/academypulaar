@@ -21,9 +21,8 @@ i18n
         supportedLngs: ['fr', 'en', 'ff'],
 
         detection: {
-            // Ordre de détection de la langue
-            order: ['localStorage', 'navigator', 'htmlTag', 'querystring'],
-            // Où sauvegarder la langue choisie
+            // Ordre de détection : localStorage uniquement (pas navigator)
+            order: ['localStorage'],
             lookupLocalStorage: 'i18nextLng',
             caches: ['localStorage']
         },
