@@ -159,13 +159,24 @@
 }
 
 @media (max-width: 968px) {
+    .hero {
+        height: auto;
+        min-height: 100vh;
+        padding-bottom: var(--space-2xl);
+    }
+
     .hero-scholar {
         position: relative;
         right: auto;
         bottom: auto;
         max-width: 100%;
-        margin-top: var(--space-lg);
+        margin-top: var(--space-xl);
         order: 10;
+    }
+
+    .hero-content {
+        padding-top: var(--space-2xl);
+        padding-bottom: var(--space-xl);
     }
 
     .hero-scholar-image {
