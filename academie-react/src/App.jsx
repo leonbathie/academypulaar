@@ -15,6 +15,7 @@ import TerminologyPage from './pages/TerminologyPage'
 import DomainPage from './pages/DomainPage'
 import MentionsLegalesPage from './pages/MentionsLegalesPage'
 import ConfidentialitePage from './pages/ConfidentialitePage'
+import DireNePasDirePage from './pages/DireNePasDirePage'
 import NotFoundPage from './pages/NotFoundPage'
 import LoginPage from './pages/LoginPage'
 import AdminPage from './pages/AdminPage'
@@ -55,6 +56,7 @@ function App() {
               <Route path="/a-propos" element={<AboutPage />} />
               <Route path="/bibliotheque" element={<LibraryPage />} />
               <Route path="/questions-langue" element={<LanguageQuestionsPage />} />
+              <Route path="/dire" element={<DireNePasDirePage />} />
               <Route path="/terminologie" element={<TerminologyPage />} />
               <Route path="/terminologie/:domain" element={<DomainPage />} />
               <Route path="/mentions-legales" element={<MentionsLegalesPage />} />
