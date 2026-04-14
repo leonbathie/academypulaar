@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import scholars from '../data/scholars'
 import './Hero.css'
 
 const slides = [
@@ -16,10 +15,8 @@ const slides = [
 ]
 
 function Hero() {
-    const { t, i18n } = useTranslation()
+    const { t } = useTranslation()
     const [currentSlide, setCurrentSlide] = useState(0)
-    const [scholar, setScholar] = useState(null)
-    const lang = ['fr', 'en', 'ff'].includes(i18n.language) ? i18n.language : 'fr'
 
     useEffect(() => {
         const timer = setInterval(() => {
@@ -27,18 +24,6 @@ function Hero() {
         }, 6000)
         return () => clearInterval(timer)
     }, [])
-
-    useEffect(() => {
-        setScholar(scholars[Math.floor(Math.random() * scholars.length)])
-    }, [])
-
-    const pickAnotherScholar = () => {
-        let next = scholars[Math.floor(Math.random() * scholars.length)]
-        while (scholars.length > 1 && next.id === scholar?.id) {
-            next = scholars[Math.floor(Math.random() * scholars.length)]
-        }
-        setScholar(next)
-    }
 
     const goToSlide = (index) => {
         setCurrentSlide(index)
@@ -81,28 +66,6 @@ function Hero() {
                         </a>
                     </div>
                 </div>
-
-                {scholar && (
-                    <div className="hero-scholar">
-                        <div className="hero-scholar-image">
-                            <img
-                                src={scholar.image}
-                                alt={scholar.name}
-                                onError={(e) => { e.target.src = 'https://via.placeholder.com/300x400/1a1f3a/d4af37?text=' + encodeURIComponent(scholar.name) }}
-                            />
-                        </div>
-                        <div className="hero-scholar-info">
-                            <span className="hero-scholar-label">{t('scholars.label', 'Patrimoine')}</span>
-                            <h3 className="hero-scholar-name">{scholar.name}</h3>
-                            <span className="hero-scholar-years">{scholar.years}</span>
-                            <p className="hero-scholar-bio">{scholar.bio[lang] || scholar.bio.fr}</p>
-                            <button className="hero-scholar-next" onClick={pickAnotherScholar}>
-                                {t('scholars.next', 'Découvrir un autre savant')}
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
-                            </button>
-                        </div>
-                    </div>
-                )}
 
                 <div className="hero-indicators">
                     {slides.map((_, index) => (
