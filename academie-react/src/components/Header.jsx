@@ -35,15 +35,16 @@ function Header() {
             ]
         },
         {
-            title: t('nav.language'),
-            submenu: [
-                { title: t('nav.languageQuestions'), link: "/questions-langue" },
-                { title: t('nav.terminology'), link: "/terminologie" }
-            ]
-        },
-        {
             title: t('nav.dictionary'),
             link: "/dictionnaire"
+        },
+        {
+            title: t('nav.terminology'),
+            link: "/terminologie"
+        },
+        {
+            title: t('nav.languageQuestions'),
+            link: "/questions-langue"
         },
         {
             title: t('common.library'),
