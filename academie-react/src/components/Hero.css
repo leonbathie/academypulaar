@@ -162,12 +162,20 @@
     .hero {
         height: auto;
         min-height: 100vh;
-        padding-bottom: var(--space-2xl);
-        align-items: flex-start;
+        padding: var(--space-2xl) 0;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: stretch;
     }
 
     .hero-content {
-        padding-top: var(--space-2xl);
+        padding: 0 var(--space-xl);
+        align-items: center;
+        text-align: center;
+    }
+
+    .hero-text {
+        max-width: 100%;
     }
 
     .hero-scholar {
