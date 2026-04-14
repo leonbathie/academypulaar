@@ -39,12 +39,8 @@ function Header() {
             link: "/dictionnaire"
         },
         {
-            title: t('nav.terminology'),
-            link: "/terminologie"
-        },
-        {
-            title: t('nav.languageQuestions'),
-            link: "/questions-langue"
+            title: t('nav.sayDontSay'),
+            link: "/dire"
         },
         {
             title: t('common.library'),
