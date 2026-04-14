@@ -58,6 +58,28 @@ function Hero() {
                 ))}
             </div>
 
+            {scholar && (
+                <div className="hero-scholar">
+                    <div className="hero-scholar-image">
+                        <img
+                            src={scholar.image}
+                            alt={scholar.name}
+                            onError={(e) => { e.target.src = 'https://via.placeholder.com/300x400/1a1f3a/d4af37?text=' + encodeURIComponent(scholar.name) }}
+                        />
+                    </div>
+                    <div className="hero-scholar-info">
+                        <span className="hero-scholar-label">{t('scholars.label', 'Patrimoine')}</span>
+                        <h3 className="hero-scholar-name">{scholar.name}</h3>
+                        <span className="hero-scholar-years">{scholar.years}</span>
+                        <p className="hero-scholar-bio">{scholar.bio[lang] || scholar.bio.fr}</p>
+                        <button className="hero-scholar-next" onClick={pickAnotherScholar}>
+                            {t('scholars.next', 'Découvrir un autre savant')}
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+                        </button>
+                    </div>
+                </div>
+            )}
+
             <div className="hero-content">
                 <div className="hero-text">
                     <span className="hero-badge">{t('common.since')}</span>
@@ -81,28 +103,6 @@ function Hero() {
                         </a>
                     </div>
                 </div>
-
-                {scholar && (
-                    <div className="hero-scholar">
-                        <div className="hero-scholar-image">
-                            <img
-                                src={scholar.image}
-                                alt={scholar.name}
-                                onError={(e) => { e.target.src = 'https://via.placeholder.com/300x400/1a1f3a/d4af37?text=' + encodeURIComponent(scholar.name) }}
-                            />
-                        </div>
-                        <div className="hero-scholar-info">
-                            <span className="hero-scholar-label">{t('scholars.label', 'Patrimoine')}</span>
-                            <h3 className="hero-scholar-name">{scholar.name}</h3>
-                            <span className="hero-scholar-years">{scholar.years}</span>
-                            <p className="hero-scholar-bio">{scholar.bio[lang] || scholar.bio.fr}</p>
-                            <button className="hero-scholar-next" onClick={pickAnotherScholar}>
-                                {t('scholars.next', 'Découvrir un autre savant')}
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
-                            </button>
-                        </div>
-                    </div>
-                )}
 
                 <div className="hero-indicators">
                     {slides.map((_, index) => (

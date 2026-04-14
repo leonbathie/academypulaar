@@ -162,21 +162,23 @@
     .hero {
         height: auto;
         min-height: 100vh;
-        padding-bottom: var(--space-2xl);
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: flex-start;
+        padding: var(--space-2xl) 0;
+    }
+
+    .hero-content {
+        padding: var(--space-xl);
     }
 
     .hero-scholar {
         position: relative;
         right: auto;
         bottom: auto;
-        max-width: 100%;
-        margin-top: var(--space-xl);
-        order: 10;
-    }
-
-    .hero-content {
-        padding-top: var(--space-2xl);
-        padding-bottom: var(--space-xl);
+        max-width: calc(100% - var(--space-xl) * 2);
+        margin: var(--space-xl) auto 0;
     }
 
     .hero-scholar-image {
