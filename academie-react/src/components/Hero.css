@@ -159,35 +159,8 @@
 }
 
 @media (max-width: 968px) {
-    .hero {
-        height: auto;
-        min-height: 100vh;
-        padding: var(--space-2xl) 0;
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: stretch;
-    }
-
-    .hero-content {
-        padding: 0 var(--space-xl);
-        align-items: center;
-        text-align: center;
-    }
-
-    .hero-text {
-        max-width: 100%;
-    }
-
     .hero-scholar {
-        position: relative;
-        right: auto;
-        bottom: auto;
-        max-width: calc(100% - var(--space-xl) * 2);
-        margin: var(--space-xl) auto 0;
-    }
-
-    .hero-scholar-image {
-        height: 200px;
+        display: none;
     }
 }
 

@@ -3,6 +3,7 @@ import Hero from '../components/Hero'
 import Features from '../components/Features'
 import News from '../components/News'
 import Dictionary from '../components/Dictionary'
+import Scholars from '../components/Scholars'
 
 function HomePage() {
     return (
@@ -11,6 +12,7 @@ function HomePage() {
             <Features />
             <News />
             <Dictionary />
+            <Scholars />
         </>
     )
 }
