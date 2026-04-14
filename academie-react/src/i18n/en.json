@@ -84,6 +84,13 @@
         "event": "Event",
         "general": "News"
     },
+    "scholars": {
+        "label": "Heritage",
+        "title": "Our",
+        "titleHighlight": "Fulɓe scholars",
+        "subtitle": "Men of knowledge who shaped the history of the Fulfulde language and of Africa.",
+        "next": "Discover another scholar"
+    },
     "sayDontSay": {
         "sectionLabel": "Fulfulde Language",
         "title": "Say, ",

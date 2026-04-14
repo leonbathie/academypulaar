@@ -84,6 +84,13 @@
         "event": "Pottital",
         "general": "Kabaaru"
     },
+    "scholars": {
+        "label": "Ngalu pinal",
+        "title": "Ganndoɓe men",
+        "titleHighlight": "Fulɓe",
+        "subtitle": "Worɓe ganndal taƴi daartol ɗemngal Fulfulde e Afirik.",
+        "next": "Yiyto ganndo goɗɗo"
+    },
     "sayDontSay": {
         "sectionLabel": "Ɗemngal Fulfulde",
         "title": "Wiy, ",

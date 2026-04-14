@@ -84,6 +84,13 @@
         "event": "Événement",
         "general": "Actualité"
     },
+    "scholars": {
+        "label": "Patrimoine",
+        "title": "Nos savants",
+        "titleHighlight": "Fulɓe",
+        "subtitle": "Des hommes de savoir qui ont marqué l'histoire de la langue Fulfulde et de l'Afrique.",
+        "next": "Découvrir un autre savant"
+    },
     "sayDontSay": {
         "sectionLabel": "La langue Fulfulde",
         "title": "Dire, ",
