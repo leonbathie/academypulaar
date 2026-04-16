@@ -359,6 +359,7 @@ async function initDatabase() {
                 name VARCHAR(255) NOT NULL,
                 years VARCHAR(100),
                 image VARCHAR(500),
+                image_position VARCHAR(20) DEFAULT '50% 20%',
                 bio_fr TEXT,
                 bio_en TEXT,
                 bio_ff TEXT,
@@ -368,6 +369,14 @@ async function initDatabase() {
             )
         `)
         console.log('✅ Table scholars créée')
+
+        // Migrations scholars
+        const scholarsMigrations = [
+            "ALTER TABLE scholars ADD COLUMN IF NOT EXISTS image_position VARCHAR(20) DEFAULT '50% 20%'"
+        ]
+        for (const sql of scholarsMigrations) {
+            try { await pool.query(sql) } catch (e) {}
+        }
 
         // Table des slides Hero
         await pool.query(`

@@ -80,15 +80,15 @@ router.get('/:id', validateId, async (req, res) => {
 // POST /api/scholars - Créer (admin)
 router.post('/', authMiddleware, canWrite, upload.single('image'), async (req, res) => {
     try {
-        const { name, years, bio_fr, bio_en, bio_ff, published } = req.body
+        const { name, years, bio_fr, bio_en, bio_ff, published, image_position } = req.body
         if (!name) return res.status(400).json({ error: 'Le nom est requis' })
 
         const image = req.file ? `/uploads/scholars/${req.file.filename}` : null
 
         const result = await query(
-            `INSERT INTO scholars (name, years, image, bio_fr, bio_en, bio_ff, published)
-             VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *`,
-            [name, years || null, image, bio_fr || null, bio_en || null, bio_ff || null, published !== 'false']
+            `INSERT INTO scholars (name, years, image, image_position, bio_fr, bio_en, bio_ff, published)
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *`,
+            [name, years || null, image, image_position || '50% 20%', bio_fr || null, bio_en || null, bio_ff || null, published !== 'false']
         )
         res.status(201).json(result.rows[0])
     } catch (error) {
@@ -100,7 +100,7 @@ router.post('/', authMiddleware, canWrite, upload.single('image'), async (req, r
 // PUT /api/scholars/:id - Modifier (admin)
 router.put('/:id', authMiddleware, canWrite, validateId, upload.single('image'), async (req, res) => {
     try {
-        const { name, years, bio_fr, bio_en, bio_ff, published } = req.body
+        const { name, years, bio_fr, bio_en, bio_ff, published, image_position } = req.body
         const existing = await query('SELECT image FROM scholars WHERE id = $1', [req.params.id])
         if (existing.rows.length === 0) return res.status(404).json({ error: 'Savant non trouvé' })
 
@@ -117,9 +117,9 @@ router.put('/:id', authMiddleware, canWrite, validateId, upload.single('image'),
         }
 
         const result = await query(
-            `UPDATE scholars SET name = $1, years = $2, image = $3, bio_fr = $4, bio_en = $5, bio_ff = $6,
-             published = $7, updated_at = CURRENT_TIMESTAMP WHERE id = $8 RETURNING *`,
-            [name, years || null, image, bio_fr || null, bio_en || null, bio_ff || null, published !== 'false', req.params.id]
+            `UPDATE scholars SET name = $1, years = $2, image = $3, image_position = $4, bio_fr = $5, bio_en = $6,
+             bio_ff = $7, published = $8, updated_at = CURRENT_TIMESTAMP WHERE id = $9 RETURNING *`,
+            [name, years || null, image, image_position || '50% 20%', bio_fr || null, bio_en || null, bio_ff || null, published !== 'false', req.params.id]
         )
         res.json(result.rows[0])
     } catch (error) {

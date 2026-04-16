@@ -586,7 +586,9 @@
             "unpublish": "Unpublish",
             "status": "Status",
             "clickToAddPhoto": "Click to add a photo",
+            "changePhoto": "Change photo",
             "removePhoto": "Remove photo",
+            "focalPointHint": "Click on the image to choose the display framing",
             "confirmDelete": "Delete this scholar?",
             "confirmDeleteMessage": "Delete \"{{name}}\" permanently?"
         },

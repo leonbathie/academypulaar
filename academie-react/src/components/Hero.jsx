@@ -176,6 +176,7 @@ function Hero() {
                         <img
                             src={scholar.image ? `${API_URL}${scholar.image}` : `https://via.placeholder.com/300x400/1a1f3a/d4af37?text=${encodeURIComponent(scholar.name)}`}
                             alt={scholar.name}
+                            style={{ objectPosition: scholar.image_position || '50% 20%' }}
                             onError={(e) => { e.target.src = 'https://via.placeholder.com/300x400/1a1f3a/d4af37?text=' + encodeURIComponent(scholar.name) }}
                         />
                     </div>

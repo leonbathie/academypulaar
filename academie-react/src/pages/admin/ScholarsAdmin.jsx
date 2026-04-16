@@ -14,6 +14,7 @@ function ScholarsAdmin() {
     const [activeTab, setActiveTab] = useState('fr')
     const [imagePreview, setImagePreview] = useState(null)
     const [selectedImage, setSelectedImage] = useState(null)
+    const [imagePosition, setImagePosition] = useState('50% 20%')
     const [saving, setSaving] = useState(false)
     const fileInputRef = useRef(null)
     const [confirmDialog, setConfirmDialog] = useState({ open: false, title: '', message: '', onConfirm: null })
@@ -24,7 +25,8 @@ function ScholarsAdmin() {
         bio_fr: '',
         bio_en: '',
         bio_ff: '',
-        published: true
+        published: true,
+        image_position: '50% 20%'
     })
 
     useEffect(() => { loadScholars() }, [])
@@ -43,18 +45,22 @@ function ScholarsAdmin() {
     const openModal = (item = null) => {
         if (item) {
             setEditing(item)
+            const pos = item.image_position || '50% 20%'
             setFormData({
                 name: item.name || '',
                 years: item.years || '',
                 bio_fr: item.bio_fr || '',
                 bio_en: item.bio_en || '',
                 bio_ff: item.bio_ff || '',
-                published: item.published !== false
+                published: item.published !== false,
+                image_position: pos
             })
+            setImagePosition(pos)
             setImagePreview(item.image ? `${API_URL}${item.image}` : null)
         } else {
             setEditing(null)
-            setFormData({ name: '', years: '', bio_fr: '', bio_en: '', bio_ff: '', published: true })
+            setFormData({ name: '', years: '', bio_fr: '', bio_en: '', bio_ff: '', published: true, image_position: '50% 20%' })
+            setImagePosition('50% 20%')
             setImagePreview(null)
         }
         setSelectedImage(null)
@@ -76,6 +82,16 @@ function ScholarsAdmin() {
         const reader = new FileReader()
         reader.onloadend = () => setImagePreview(reader.result)
         reader.readAsDataURL(file)
+    }
+
+    const handleFocalPoint = (e) => {
+        if (!imagePreview) return
+        const rect = e.currentTarget.getBoundingClientRect()
+        const x = Math.round(((e.clientX - rect.left) / rect.width) * 100)
+        const y = Math.round(((e.clientY - rect.top) / rect.height) * 100)
+        const pos = `${x}% ${y}%`
+        setImagePosition(pos)
+        setFormData(prev => ({ ...prev, image_position: pos }))
     }
 
     const handleSubmit = async (e) => {
@@ -263,19 +279,69 @@ function ScholarsAdmin() {
                                 {/* Photo */}
                                 <div className="form-group">
                                     <label>{t('admin.scholars.photoLabel')}</label>
-                                    <div
-                                        onClick={() => fileInputRef.current?.click()}
-                                        style={{
-                                            width: '100%', height: 160, borderRadius: 8, cursor: 'pointer',
-                                            border: '2px dashed var(--medium-gray)',
-                                            background: imagePreview ? `url(${imagePreview}) center/cover` : 'var(--light-gray)',
-                                            display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                            color: imagePreview ? 'transparent' : 'var(--medium-gray)',
-                                            transition: 'border-color 0.2s',
-                                            position: 'relative', overflow: 'hidden'
-                                        }}
-                                    >
-                                        {!imagePreview && (
+                                    {imagePreview ? (
+                                        <div style={{ position: 'relative' }}>
+                                            {/* Zone de cadrage — cliquer pour définir le point focal */}
+                                            <div
+                                                onClick={handleFocalPoint}
+                                                style={{
+                                                    width: '100%', height: 200, borderRadius: 8,
+                                                    overflow: 'hidden', cursor: 'crosshair',
+                                                    border: '2px solid var(--primary-gold)',
+                                                    position: 'relative', userSelect: 'none'
+                                                }}
+                                                title={t('admin.scholars.focalPointHint', 'Cliquer pour choisir le cadrage')}
+                                            >
+                                                <img
+                                                    src={imagePreview}
+                                                    alt="preview"
+                                                    style={{
+                                                        width: '100%', height: '100%',
+                                                        objectFit: 'cover',
+                                                        objectPosition: imagePosition,
+                                                        display: 'block',
+                                                        pointerEvents: 'none'
+                                                    }}
+                                                />
+                                                {/* Point focal visuel */}
+                                                <div style={{
+                                                    position: 'absolute',
+                                                    left: imagePosition.split(' ')[0],
+                                                    top: imagePosition.split(' ')[1],
+                                                    transform: 'translate(-50%, -50%)',
+                                                    width: 22, height: 22,
+                                                    border: '2.5px solid white',
+                                                    borderRadius: '50%',
+                                                    boxShadow: '0 0 0 2px rgba(0,0,0,0.6)',
+                                                    pointerEvents: 'none',
+                                                    zIndex: 2
+                                                }} />
+                                            </div>
+                                            <p style={{ fontSize: '0.78rem', color: 'var(--medium-gray)', marginTop: 4 }}>
+                                                {t('admin.scholars.focalPointHint', 'Cliquer sur l\'image pour choisir le cadrage affiché')}
+                                            </p>
+                                            <div style={{ display: 'flex', gap: 8, marginTop: 4 }}>
+                                                <button type="button" onClick={() => fileInputRef.current?.click()}
+                                                    style={{ padding: '4px 12px', borderRadius: 6, border: '1px solid var(--medium-gray)', background: 'transparent', fontSize: '0.8rem', cursor: 'pointer' }}>
+                                                    {t('admin.scholars.changePhoto', 'Changer la photo')}
+                                                </button>
+                                                <button type="button"
+                                                    onClick={() => { setImagePreview(null); setSelectedImage(null); if (fileInputRef.current) fileInputRef.current.value = '' }}
+                                                    style={{ padding: '4px 12px', borderRadius: 6, border: 'none', background: 'rgba(239,68,68,0.1)', color: '#dc2626', fontSize: '0.8rem', cursor: 'pointer', fontWeight: 600 }}>
+                                                    {t('admin.scholars.removePhoto')}
+                                                </button>
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        <div
+                                            onClick={() => fileInputRef.current?.click()}
+                                            style={{
+                                                width: '100%', height: 160, borderRadius: 8, cursor: 'pointer',
+                                                border: '2px dashed var(--medium-gray)', background: 'var(--light-gray)',
+                                                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                                color: 'var(--medium-gray)', transition: 'border-color 0.2s'
+                                            }}
+                                        >
                                             <div style={{ textAlign: 'center' }}>
                                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"
                                                     style={{ width: 32, height: 32, marginBottom: 8 }}>
@@ -285,8 +351,8 @@ function ScholarsAdmin() {
                                                 </svg>
                                                 <p style={{ fontSize: '0.85rem' }}>{t('admin.scholars.clickToAddPhoto')}</p>
                                             </div>
-                                        )}
-                                    </div>
+                                        </div>
+                                    )}
                                     <input
                                         ref={fileInputRef}
                                         type="file"
@@ -294,19 +360,6 @@ function ScholarsAdmin() {
                                         onChange={handleImageChange}
                                         style={{ display: 'none' }}
                                     />
-                                    {imagePreview && (
-                                        <button
-                                            type="button"
-                                            onClick={() => { setImagePreview(null); setSelectedImage(null); if (fileInputRef.current) fileInputRef.current.value = '' }}
-                                            style={{
-                                                marginTop: 6, padding: '4px 12px', borderRadius: 6, border: 'none',
-                                                background: 'rgba(239,68,68,0.1)', color: '#dc2626',
-                                                fontSize: '0.8rem', cursor: 'pointer', fontWeight: 600
-                                            }}
-                                        >
-                                            {t('admin.scholars.removePhoto')}
-                                        </button>
-                                    )}
                                 </div>
 
                                 {/* Nom + Années */}

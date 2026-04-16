@@ -588,7 +588,9 @@
             "unpublish": "Dépublier",
             "status": "Statut",
             "clickToAddPhoto": "Cliquer pour ajouter une photo",
+            "changePhoto": "Changer la photo",
             "removePhoto": "Supprimer la photo",
+            "focalPointHint": "Cliquer sur l'image pour choisir le cadrage affiché",
             "confirmDelete": "Supprimer ce savant ?",
             "confirmDeleteMessage": "Supprimer \"{{name}}\" définitivement ?"
         },

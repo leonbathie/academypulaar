@@ -590,7 +590,9 @@
             "unpublish": "Ittude ɓaŋŋingol",
             "status": "Haaɗtugol",
             "clickToAddPhoto": "Dobo ngam ɓeydude foto",
+            "changePhoto": "Waylude foto",
             "removePhoto": "Momtu foto",
+            "focalPointHint": "Dobo e natal ngam suɓaade ko fiyaama",
             "confirmDelete": "Momtude oo aranminoo?",
             "confirmDeleteMessage": "Momtude \"{{name}}\" fof?"
         },
