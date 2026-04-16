@@ -196,6 +196,11 @@
     height: 14px;
 }
 
+/* Scroll horizontal mobile — caché sur desktop */
+.hero-scholars-scroll {
+    display: none;
+}
+
 @media (max-width: 968px) {
     .hero {
         height: auto;
@@ -219,16 +224,41 @@
         max-width: 100%;
     }
 
+    /* Masquer la carte desktop sur mobile */
     .hero-scholar {
-        position: relative;
-        right: auto;
-        bottom: auto;
-        max-width: calc(100% - var(--space-xl) * 2);
-        margin: var(--space-xl) auto 0;
+        display: none;
     }
 
-    .hero-scholar-image {
-        height: 270px;
+    /* Afficher le scroll horizontal */
+    .hero-scholars-scroll {
+        display: flex;
+        flex-direction: row;
+        gap: 12px;
+        overflow-x: auto;
+        overflow-y: visible;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        padding: var(--space-xl) var(--space-xl) var(--space-lg);
+        scrollbar-width: none;
+    }
+
+    .hero-scholars-scroll::-webkit-scrollbar {
+        display: none;
+    }
+
+    .hero-scholars-scroll .hero-scholar {
+        display: block;
+        position: static;
+        flex: 0 0 280px;
+        width: 280px;
+        max-width: 280px;
+        margin: 0;
+        scroll-snap-align: start;
+        animation: none;
+    }
+
+    .hero-scholars-scroll .hero-scholar-image {
+        height: 240px;
     }
 }
 
