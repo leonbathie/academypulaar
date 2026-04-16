@@ -13,7 +13,8 @@
         "noNewsAvailable": "Aucune actualité disponible",
         "readLess": "Réduire",
         "seeMore": "Voir plus",
-        "seeLess": "Voir moins"
+        "seeLess": "Voir moins",
+        "noTranslation": "Texte non disponible dans cette langue"
     },
     "nav": {
         "home": "Accueil",

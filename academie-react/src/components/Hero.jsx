@@ -183,10 +183,11 @@ function Hero() {
                         <span className="hero-scholar-label">{t('scholars.label', 'Patrimoine')}</span>
                         <h3 className="hero-scholar-name">{scholar.name}</h3>
                         <span className="hero-scholar-years">{scholar.years}</span>
-                        <p className={`hero-scholar-bio ${bioExpanded ? 'expanded' : ''}`}>
-                            {scholar[`bio_${lang}`] || scholar.bio_fr}
+                        <p className={`hero-scholar-bio ${bioExpanded ? 'expanded' : ''}`}
+                            style={!scholar[`bio_${lang}`] && lang !== 'fr' ? { color: 'rgba(255,255,255,0.45)', fontStyle: 'italic' } : {}}>
+                            {scholar[`bio_${lang}`] || (lang !== 'fr' ? t('common.noTranslation') : scholar.bio_fr)}
                         </p>
-                        {(scholar[`bio_${lang}`] || scholar.bio_fr) && (
+                        {scholar[`bio_${lang}`] && (
                             <button className="hero-scholar-toggle" onClick={() => setBioExpanded(v => !v)}>
                                 {bioExpanded ? t('common.seeLess', 'Voir moins') : t('common.seeMore', 'Voir plus')}
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
