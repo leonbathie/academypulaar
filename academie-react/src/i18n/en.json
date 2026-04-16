@@ -11,7 +11,9 @@
         "contact": "Contact",
         "library": "Library",
         "noNewsAvailable": "No news available",
-        "readLess": "Show less"
+        "readLess": "Show less",
+        "seeMore": "See more",
+        "seeLess": "See less"
     },
     "nav": {
         "home": "Home",
