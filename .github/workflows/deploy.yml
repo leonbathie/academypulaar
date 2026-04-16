@@ -106,6 +106,7 @@ jobs:
         run: |
           echo "=== Fix uploads permissions ==="
           sudo mkdir -p /var/www/academypulaar/backend/uploads/books
+          sudo mkdir -p /var/www/academypulaar/backend/uploads/hero
           sudo chown -R gha:gha /var/www/academypulaar/backend/uploads
           sudo chmod -R 777 /var/www/academypulaar/backend/uploads
           echo "Permissions after fix:"
@@ -119,6 +120,7 @@ jobs:
           sudo tee /usr/local/bin/fix-academypulaar-uploads.sh > /dev/null << 'FIXSCRIPT'
           #!/bin/bash
           mkdir -p /var/www/academypulaar/backend/uploads/books
+          mkdir -p /var/www/academypulaar/backend/uploads/hero
           chown -R gha:gha /var/www/academypulaar/backend/uploads
           chmod -R 777 /var/www/academypulaar/backend/uploads
           FIXSCRIPT

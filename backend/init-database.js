@@ -352,6 +352,42 @@ async function initDatabase() {
             CREATE INDEX IF NOT EXISTS idx_dict_views_word_ip ON dictionary_views(word_id, ip_hash, created_at)
         `).catch(() => {})
 
+        // Table savants Fulɓe
+        await pool.query(`
+            CREATE TABLE IF NOT EXISTS scholars (
+                id SERIAL PRIMARY KEY,
+                name VARCHAR(255) NOT NULL,
+                years VARCHAR(100),
+                image VARCHAR(500),
+                bio_fr TEXT,
+                bio_en TEXT,
+                bio_ff TEXT,
+                published BOOLEAN DEFAULT TRUE,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        `)
+        console.log('✅ Table scholars créée')
+
+        // Table des slides Hero
+        await pool.query(`
+            CREATE TABLE IF NOT EXISTS hero_slides (
+                id SERIAL PRIMARY KEY,
+                title_fr VARCHAR(500),
+                title_en VARCHAR(500),
+                title_ff VARCHAR(500),
+                subtitle_fr TEXT,
+                subtitle_en TEXT,
+                subtitle_ff TEXT,
+                image VARCHAR(500),
+                sort_order INTEGER DEFAULT 0,
+                published BOOLEAN DEFAULT TRUE,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        `)
+        console.log('✅ Table hero_slides créée')
+
         // Créer l'admin par défaut
         const adminUsername = process.env.ADMIN_USERNAME || 'admin'
         const adminPassword = process.env.ADMIN_PASSWORD

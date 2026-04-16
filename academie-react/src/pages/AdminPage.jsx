@@ -81,6 +81,15 @@ function AdminPage() {
                         <span>{t('admin.sidebar.dashboard')}</span>
                     </NavLink>
 
+                    <NavLink to="/admin/hero" className="nav-item" onClick={closeSidebarMobile}>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
+                            <path d="M8 21h8" />
+                            <path d="M12 17v4" />
+                        </svg>
+                        <span>Slides Hero</span>
+                    </NavLink>
+
                     <NavLink to="/admin/dictionnaire" className="nav-item" onClick={closeSidebarMobile}>
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                             <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
@@ -113,6 +122,14 @@ function AdminPage() {
                             <path d="M8 7h8M8 11h8M8 15h4" />
                         </svg>
                         <span>{t('admin.sidebar.library')}</span>
+                    </NavLink>
+
+                    <NavLink to="/admin/savants" className="nav-item" onClick={closeSidebarMobile}>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                            <circle cx="12" cy="7" r="4" />
+                        </svg>
+                        <span>Savants Fulɓe</span>
                     </NavLink>
 
                     <NavLink to="/admin/questions" className="nav-item" onClick={closeSidebarMobile}>

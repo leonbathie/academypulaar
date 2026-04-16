@@ -24,6 +24,8 @@ import DictionaryAdmin from './pages/admin/DictionaryAdmin'
 import NewsAdmin from './pages/admin/NewsAdmin'
 import ContentAdmin from './pages/admin/ContentAdmin'
 import BooksAdmin from './pages/admin/BooksAdmin'
+import ScholarsAdmin from './pages/admin/ScholarsAdmin'
+import HeroAdmin from './pages/admin/HeroAdmin'
 import QuestionsAdmin from './pages/admin/QuestionsAdmin'
 import StatsAdmin from './pages/admin/StatsAdmin'
 import UsersAdmin from './pages/admin/UsersAdmin'
@@ -72,6 +74,8 @@ function App() {
               <Route path="actualites" element={<NewsAdmin />} />
               <Route path="contenu" element={<ContentAdmin />} />
               <Route path="bibliotheque" element={<BooksAdmin />} />
+              <Route path="savants" element={<ScholarsAdmin />} />
+              <Route path="hero" element={<HeroAdmin />} />
               <Route path="questions" element={<QuestionsAdmin />} />
               <Route path="messages" element={<ContactAdmin />} />
               <Route path="utilisateurs" element={<UsersAdmin />} />
