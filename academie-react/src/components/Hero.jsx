@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { API_URL } from '../config'
 import './Hero.css'
@@ -65,11 +65,18 @@ function Hero() {
     const [activeIdx, setActiveIdx] = useState(0)
     const [bioExpanded, setBioExpanded] = useState(false)
     const lang = ['fr', 'en', 'ff'].includes(i18n.language) ? i18n.language : 'fr'
+    const scrollRef = useRef(null)
+
+    // Triple le tableau pour le carrousel infini
+    const loopScholars = useMemo(
+        () => scholars.length > 0 ? [...scholars, ...scholars, ...scholars] : [],
+        [scholars]
+    )
 
     useEffect(() => {
         if (slides.length <= 1) return
         const timer = setInterval(() => {
-            setCurrentSlide((prev) => (prev + 1) % slides.length)
+            setCurrentSlide(prev => (prev + 1) % slides.length)
         }, 6000)
         return () => clearInterval(timer)
     }, [])
@@ -79,36 +86,54 @@ function Hero() {
             .then(r => r.ok ? r.json() : [])
             .then(data => {
                 if (Array.isArray(data) && data.length > 0) {
-                    const shuffled = [...data].sort(() => Math.random() - 0.5)
-                    setScholars(shuffled)
+                    setScholars([...data].sort(() => Math.random() - 0.5))
                 }
             })
             .catch(() => {})
     }, [])
 
-    const scholar = scholars[activeIdx] || null
-    const scrollRef = useRef(null)
+    // Initialiser le scroll au milieu (2e copie) dès que les savants sont chargés
+    useEffect(() => {
+        const el = scrollRef.current
+        if (!el || scholars.length === 0) return
+        // Aller directement au début de la copie du milieu, sans animation
+        el.style.scrollBehavior = 'auto'
+        el.scrollLeft = scholars.length * el.clientWidth
+    }, [scholars.length])
 
-    // Effet rotation cubique au scroll
+    // Effet cube 3D + boucle infinie
     useEffect(() => {
         const el = scrollRef.current
         if (!el || scholars.length === 0) return
 
-        const updateCube = () => {
+        const n = scholars.length
+
+        const handleScroll = () => {
             const W = el.clientWidth
             if (W === 0) return
-            const slides = el.querySelectorAll('.hero-scholar-slide')
-            slides.forEach((slide, i) => {
-                const offset = el.scrollLeft / W - i   // -1..0..1
-                const angle = offset * 90               // -90..0..90 degrés
-                slide.style.transform = `rotateY(${-angle}deg)`
+
+            // Effet rotation cubique
+            el.querySelectorAll('.hero-scholar-slide').forEach((slide, i) => {
+                const offset = el.scrollLeft / W - i
+                slide.style.transform = `rotateY(${-offset * 90}deg)`
             })
+
+            // Boucle infinie : saut invisible quand on approche des bords
+            if (el.scrollLeft < n * W * 0.5) {
+                el.style.scrollBehavior = 'auto'
+                el.scrollLeft += n * W
+            } else if (el.scrollLeft > n * W * 2.5) {
+                el.style.scrollBehavior = 'auto'
+                el.scrollLeft -= n * W
+            }
         }
 
-        el.addEventListener('scroll', updateCube, { passive: true })
-        updateCube()
-        return () => el.removeEventListener('scroll', updateCube)
+        el.addEventListener('scroll', handleScroll, { passive: true })
+        handleScroll()
+        return () => el.removeEventListener('scroll', handleScroll)
     }, [scholars.length])
+
+    const scholar = scholars[activeIdx] || null
 
     const pickNext = () => {
         setBioExpanded(false)
@@ -178,11 +203,11 @@ function Hero() {
                 />
             )}
 
-            {/* Mobile : scroll horizontal avec effet cube */}
-            {scholars.length > 0 && (
+            {/* Mobile : carrousel infini avec effet cube */}
+            {loopScholars.length > 0 && (
                 <div className="hero-scholars-scroll" ref={scrollRef}>
-                    {scholars.map(s => (
-                        <div key={s.id} className="hero-scholar-slide">
+                    {loopScholars.map((s, i) => (
+                        <div key={i} className="hero-scholar-slide">
                             <ScholarCard
                                 scholar={s}
                                 lang={lang}
