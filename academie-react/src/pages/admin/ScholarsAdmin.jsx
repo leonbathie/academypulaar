@@ -1,9 +1,11 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useApi } from '../../context/AuthContext'
 import { API_URL } from '../../config'
 import ConfirmDialog from '../../components/ConfirmDialog'
 
 function ScholarsAdmin() {
+    const { t } = useTranslation()
     const { apiRequest, token } = useApi()
     const [scholars, setScholars] = useState([])
     const [loading, setLoading] = useState(true)
@@ -107,8 +109,8 @@ function ScholarsAdmin() {
     const handleDelete = (item) => {
         setConfirmDialog({
             open: true,
-            title: 'Supprimer ce savant ?',
-            message: `Supprimer "${item.name}" définitivement ?`,
+            title: t('admin.scholars.confirmDelete'),
+            message: t('admin.scholars.confirmDeleteMessage', { name: item.name }),
             onConfirm: async () => {
                 try {
                     await apiRequest(`/scholars/${item.id}`, { method: 'DELETE' })
@@ -141,22 +143,22 @@ function ScholarsAdmin() {
         }
     }
 
-    if (loading) return <div className="admin-loading">Chargement...</div>
+    if (loading) return <div className="admin-loading">{t('admin.header.loading')}</div>
 
     return (
         <div className="admin-page">
             <div className="admin-card-header-actions">
                 <div>
-                    <h2>Savants Fulɓe</h2>
+                    <h2>{t('admin.scholars.title')}</h2>
                     <p style={{ color: 'var(--medium-gray)', fontSize: '0.9rem', marginTop: '0.25rem' }}>
-                        Gérer les savants affichés dans le carrousel de la page d'accueil
+                        {t('admin.scholars.subtitle')}
                     </p>
                 </div>
                 <button className="btn-add" onClick={() => openModal()}>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                         <path d="M12 5v14M5 12h14" />
                     </svg>
-                    Ajouter un savant
+                    {t('admin.scholars.add')}
                 </button>
             </div>
 
@@ -164,19 +166,19 @@ function ScholarsAdmin() {
                 <table className="admin-table">
                     <thead>
                         <tr>
-                            <th style={{ width: 60 }}>Photo</th>
-                            <th>Nom</th>
-                            <th>Années</th>
-                            <th>Biographie (FR)</th>
-                            <th style={{ width: 90 }}>Statut</th>
-                            <th style={{ width: 100 }}>Actions</th>
+                            <th style={{ width: 60 }}>{t('admin.scholars.photoLabel')}</th>
+                            <th>{t('admin.scholars.nameLabel')}</th>
+                            <th>{t('admin.scholars.yearsLabel')}</th>
+                            <th>{t('admin.scholars.bioPreview')}</th>
+                            <th style={{ width: 90 }}>{t('admin.scholars.status')}</th>
+                            <th style={{ width: 100 }}>{t('admin.common.actions')}</th>
                         </tr>
                     </thead>
                     <tbody>
                         {scholars.length === 0 ? (
                             <tr>
                                 <td colSpan="6" style={{ textAlign: 'center', padding: '2rem', color: 'var(--medium-gray)' }}>
-                                    Aucun savant enregistré.
+                                    {t('admin.scholars.noScholars')}
                                 </td>
                             </tr>
                         ) : scholars.map(s => (
@@ -217,20 +219,20 @@ function ScholarsAdmin() {
                                             background: s.published ? 'rgba(34,197,94,0.12)' : 'rgba(239,68,68,0.12)',
                                             color: s.published ? '#16a34a' : '#dc2626'
                                         }}
-                                        title={s.published ? 'Dépublier' : 'Publier'}
+                                        title={s.published ? t('admin.scholars.unpublish') : t('admin.scholars.publish')}
                                     >
-                                        {s.published ? '● Publié' : '○ Brouillon'}
+                                        {s.published ? `● ${t('admin.scholars.published')}` : `○ ${t('admin.scholars.draft')}`}
                                     </button>
                                 </td>
                                 <td>
                                     <div className="actions-cell">
-                                        <button className="btn-icon" onClick={() => openModal(s)} title="Modifier">
+                                        <button className="btn-icon" onClick={() => openModal(s)} title={t('admin.common.edit')}>
                                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                                 <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
                                                 <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
                                             </svg>
                                         </button>
-                                        <button className="btn-icon btn-danger" onClick={() => handleDelete(s)} title="Supprimer">
+                                        <button className="btn-icon btn-danger" onClick={() => handleDelete(s)} title={t('admin.common.delete')}>
                                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                                 <polyline points="3 6 5 6 21 6" />
                                                 <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
@@ -248,7 +250,7 @@ function ScholarsAdmin() {
                 <div className="modal-overlay" onClick={closeModal}>
                     <div className="modal modal-large" onClick={(e) => e.stopPropagation()}>
                         <div className="modal-header">
-                            <h3>{editing ? 'Modifier' : 'Ajouter'} un savant</h3>
+                            <h3>{editing ? t('admin.scholars.edit') : t('admin.scholars.add')}</h3>
                             <button className="modal-close" onClick={closeModal}>
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                     <line x1="18" y1="6" x2="6" y2="18" />
@@ -260,7 +262,7 @@ function ScholarsAdmin() {
                             <div className="modal-body">
                                 {/* Photo */}
                                 <div className="form-group">
-                                    <label>Photo</label>
+                                    <label>{t('admin.scholars.photoLabel')}</label>
                                     <div
                                         onClick={() => fileInputRef.current?.click()}
                                         style={{
@@ -281,7 +283,7 @@ function ScholarsAdmin() {
                                                     <circle cx="8.5" cy="8.5" r="1.5" />
                                                     <path d="M21 15l-5-5L5 21" />
                                                 </svg>
-                                                <p style={{ fontSize: '0.85rem' }}>Cliquer pour ajouter une photo</p>
+                                                <p style={{ fontSize: '0.85rem' }}>{t('admin.scholars.clickToAddPhoto')}</p>
                                             </div>
                                         )}
                                     </div>
@@ -302,7 +304,7 @@ function ScholarsAdmin() {
                                                 fontSize: '0.8rem', cursor: 'pointer', fontWeight: 600
                                             }}
                                         >
-                                            Supprimer la photo
+                                            {t('admin.scholars.removePhoto')}
                                         </button>
                                     )}
                                 </div>
@@ -310,20 +312,20 @@ function ScholarsAdmin() {
                                 {/* Nom + Années */}
                                 <div className="form-row">
                                     <div className="form-group">
-                                        <label>Nom *</label>
+                                        <label>{t('admin.scholars.nameRequired')}</label>
                                         <input
                                             type="text"
                                             required
-                                            placeholder="Ex: Usman ɗan Fodio"
+                                            placeholder={t('admin.scholars.namePlaceholder')}
                                             value={formData.name}
                                             onChange={e => setFormData({ ...formData, name: e.target.value })}
                                         />
                                     </div>
                                     <div className="form-group">
-                                        <label>Années</label>
+                                        <label>{t('admin.scholars.yearsLabel')}</label>
                                         <input
                                             type="text"
-                                            placeholder="Ex: 1754 – 1817"
+                                            placeholder={t('admin.scholars.yearsPlaceholder')}
                                             value={formData.years}
                                             onChange={e => setFormData({ ...formData, years: e.target.value })}
                                         />
@@ -346,10 +348,10 @@ function ScholarsAdmin() {
 
                                 {activeTab === 'fr' && (
                                     <div className="form-group">
-                                        <label>Biographie (Français)</label>
+                                        <label>{t('admin.scholars.bioFr')}</label>
                                         <textarea
                                             rows={5}
-                                            placeholder="Biographie en français..."
+                                            placeholder={t('admin.scholars.bioFrPlaceholder')}
                                             value={formData.bio_fr}
                                             onChange={e => setFormData({ ...formData, bio_fr: e.target.value })}
                                         />
@@ -357,10 +359,10 @@ function ScholarsAdmin() {
                                 )}
                                 {activeTab === 'en' && (
                                     <div className="form-group">
-                                        <label>Biography (English)</label>
+                                        <label>{t('admin.scholars.bioEn')}</label>
                                         <textarea
                                             rows={5}
-                                            placeholder="Biography in English..."
+                                            placeholder={t('admin.scholars.bioEnPlaceholder')}
                                             value={formData.bio_en}
                                             onChange={e => setFormData({ ...formData, bio_en: e.target.value })}
                                         />
@@ -368,10 +370,10 @@ function ScholarsAdmin() {
                                 )}
                                 {activeTab === 'ff' && (
                                     <div className="form-group">
-                                        <label>Daartol (Fulfulde)</label>
+                                        <label>{t('admin.scholars.bioFf')}</label>
                                         <textarea
                                             rows={5}
-                                            placeholder="Daartol e fulfulde..."
+                                            placeholder={t('admin.scholars.bioFfPlaceholder')}
                                             value={formData.bio_ff}
                                             onChange={e => setFormData({ ...formData, bio_ff: e.target.value })}
                                         />
@@ -387,15 +389,15 @@ function ScholarsAdmin() {
                                             onChange={e => setFormData({ ...formData, published: e.target.checked })}
                                             style={{ width: 'auto' }}
                                         />
-                                        Publié (visible dans le carrousel)
+                                        {t('admin.scholars.publishedLabel')}
                                     </label>
                                 </div>
                             </div>
 
                             <div className="modal-footer">
-                                <button type="button" className="btn-cancel" onClick={closeModal}>Annuler</button>
+                                <button type="button" className="btn-cancel" onClick={closeModal}>{t('admin.common.cancel')}</button>
                                 <button type="submit" className="btn-save" disabled={saving}>
-                                    {saving ? 'Enregistrement...' : (editing ? 'Enregistrer' : 'Ajouter')}
+                                    {saving ? t('admin.header.loading') : (editing ? t('admin.common.save') : t('admin.scholars.add'))}
                                 </button>
                             </div>
                         </form>
