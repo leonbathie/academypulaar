@@ -1,131 +1,62 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { API_URL } from '../config'
 import './Hero.css'
 
-// Slides par défaut si aucune n'est configurée en base
-const defaultSlides = [
-    {
-        image: "https://images.unsplash.com/photo-1568667256549-094345857637?w=1920",
-        title_fr: null,
-        title_en: null,
-        title_ff: null,
-        titleKey: "hero.title2"
-    },
-    {
-        image: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=1920",
-        title_fr: null,
-        title_en: null,
-        title_ff: null,
-        titleKey: "hero.title3",
-        subtitleKey: "hero.subtitle3"
-    }
-]
-
 function Hero() {
     const { t, i18n } = useTranslation()
     const [currentSlide, setCurrentSlide] = useState(0)
-    const [scholar, setScholar] = useState(null)
-    const [slides, setSlides] = useState(defaultSlides)
-    const [slidesLoaded, setSlidesLoaded] = useState(false)
+    const [scholars, setScholars] = useState([])
     const lang = ['fr', 'en', 'ff'].includes(i18n.language) ? i18n.language : 'fr'
 
-    // Charger les slides depuis l'API
     useEffect(() => {
-        const loadSlides = async () => {
+        const loadScholars = async () => {
             try {
-                const res = await fetch(`${API_URL}/api/hero`)
+                const res = await fetch(`${API_URL}/api/scholars`)
                 if (!res.ok) return
                 const data = await res.json()
                 if (Array.isArray(data) && data.length > 0) {
-                    setSlides(data)
+                    setScholars(data)
                 }
             } catch (e) {
-                // Utiliser les slides par défaut en cas d'erreur
-            } finally {
-                setSlidesLoaded(true)
+                // Pas de savants disponibles
             }
         }
-        loadSlides()
+        loadScholars()
     }, [])
 
     useEffect(() => {
-        if (slides.length <= 1) return
+        if (scholars.length <= 1) return
         const timer = setInterval(() => {
-            setCurrentSlide((prev) => (prev + 1) % slides.length)
+            setCurrentSlide((prev) => (prev + 1) % scholars.length)
         }, 6000)
         return () => clearInterval(timer)
-    }, [slides.length])
-
-    const fetchRandomScholar = useCallback(async (excludeId = null) => {
-        try {
-            const res = await fetch(`${API_URL}/api/scholars/random`)
-            if (!res.ok) return
-            const data = await res.json()
-            if (!data) return
-            // Si même savant renvoyé, retry une fois
-            if (excludeId && data.id === excludeId) {
-                const res2 = await fetch(`${API_URL}/api/scholars/random`)
-                if (res2.ok) {
-                    const data2 = await res2.json()
-                    if (data2) setScholar(data2)
-                }
-                return
-            }
-            setScholar(data)
-        } catch (e) {
-            // Pas de savant disponible, on ignore
-        }
-    }, [])
-
-    useEffect(() => {
-        fetchRandomScholar()
-    }, [fetchRandomScholar])
-
-    const pickAnotherScholar = () => {
-        fetchRandomScholar(scholar?.id)
-    }
+    }, [scholars.length])
 
     const goToSlide = (index) => {
         setCurrentSlide(index)
     }
 
-    // Obtenir le titre de la slide courante selon la langue
-    const getSlideTitle = (slide) => {
-        // Si la slide vient de l'API (a des champs title_fr, etc.)
-        if (slide.title_fr || slide.title_en || slide.title_ff) {
-            return slide[`title_${lang}`] || slide.title_fr || slide.title_en || ''
-        }
-        // Sinon, utiliser la clé i18n (slides par défaut)
-        if (slide.titleKey) return t(slide.titleKey)
-        return ''
+    const getImage = (scholar) => {
+        if (!scholar.image) return ''
+        if (scholar.image.startsWith('/uploads')) return `${API_URL}${scholar.image}`
+        return scholar.image
     }
 
-    const getSlideSubtitle = (slide) => {
-        if (slide.subtitle_fr || slide.subtitle_en || slide.subtitle_ff) {
-            return slide[`subtitle_${lang}`] || slide.subtitle_fr || slide.subtitle_en || ''
-        }
-        if (slide.subtitleKey) return t(slide.subtitleKey)
-        return ''
+    const getBio = (scholar) => {
+        return scholar[`bio_${lang}`] || scholar.bio_fr || ''
     }
 
-    const getSlideImage = (slide) => {
-        // Slide de l'API : image est un chemin relatif
-        if (slide.image && slide.image.startsWith('/uploads')) {
-            return `${API_URL}${slide.image}`
-        }
-        // Slide par défaut ou URL complète
-        return slide.image || ''
-    }
+    const currentScholar = scholars[currentSlide]
 
     return (
         <section className="hero">
             <div className="hero-slides">
-                {slides.map((slide, index) => (
+                {scholars.map((scholar, index) => (
                     <div
-                        key={slide.id || index}
+                        key={scholar.id}
                         className={`hero-slide ${index === currentSlide ? 'active' : ''}`}
-                        style={{ backgroundImage: `url(${getSlideImage(slide)})` }}
+                        style={{ backgroundImage: getImage(scholar) ? `url(${getImage(scholar)})` : 'none' }}
                     >
                         <div className="hero-overlay"></div>
                     </div>
@@ -135,13 +66,16 @@ function Hero() {
             <div className="hero-content">
                 <div className="hero-text">
                     <span className="hero-badge">{t('common.since')}</span>
-                    <h1 className="hero-title">
-                        {getSlideTitle(slides[currentSlide])}
-                    </h1>
-                    {getSlideSubtitle(slides[currentSlide]) && (
-                        <p className="hero-subtitle">
-                            {getSlideSubtitle(slides[currentSlide])}
-                        </p>
+                    {currentScholar && (
+                        <>
+                            <h1 className="hero-title">{currentScholar.name}</h1>
+                            {currentScholar.years && (
+                                <p className="hero-years">{currentScholar.years}</p>
+                            )}
+                            {getBio(currentScholar) && (
+                                <p className="hero-subtitle">{getBio(currentScholar)}</p>
+                            )}
+                        </>
                     )}
                     <div className="hero-buttons">
                         <a href="#decouvrir" className="btn btn-primary">
@@ -157,7 +91,7 @@ function Hero() {
                 </div>
 
                 <div className="hero-indicators">
-                    {slides.map((_, index) => (
+                    {scholars.map((_, index) => (
                         <button
                             key={index}
                             className={`indicator ${index === currentSlide ? 'active' : ''}`}
@@ -167,28 +101,6 @@ function Hero() {
                     ))}
                 </div>
             </div>
-
-            {scholar && (
-                <div className="hero-scholar">
-                    <div className="hero-scholar-image">
-                        <img
-                            src={scholar.image ? `${API_URL}${scholar.image}` : `https://via.placeholder.com/300x400/1a1f3a/d4af37?text=${encodeURIComponent(scholar.name)}`}
-                            alt={scholar.name}
-                            onError={(e) => { e.target.src = 'https://via.placeholder.com/300x400/1a1f3a/d4af37?text=' + encodeURIComponent(scholar.name) }}
-                        />
-                    </div>
-                    <div className="hero-scholar-info">
-                        <span className="hero-scholar-label">{t('scholars.label', 'Patrimoine')}</span>
-                        <h3 className="hero-scholar-name">{scholar.name}</h3>
-                        <span className="hero-scholar-years">{scholar.years}</span>
-                        <p className="hero-scholar-bio">{scholar[`bio_${lang}`] || scholar.bio_fr}</p>
-                        <button className="hero-scholar-next" onClick={pickAnotherScholar}>
-                            {t('scholars.next', 'Découvrir un autre savant')}
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
-                        </button>
-                    </div>
-                </div>
-            )}
 
             <div className="hero-scroll">
                 <span>{t('hero.scroll')}</span>
@@ -202,4 +114,3 @@ function Hero() {
 }
 
 export default Hero
-
