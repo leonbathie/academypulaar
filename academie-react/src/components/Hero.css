@@ -233,12 +233,11 @@
     .hero-scholars-scroll {
         display: flex;
         flex-direction: row;
-        gap: 12px;
         overflow-x: auto;
         overflow-y: visible;
         scroll-snap-type: x mandatory;
         -webkit-overflow-scrolling: touch;
-        padding: var(--space-xl) var(--space-xl) var(--space-lg);
+        padding: var(--space-xl) 0 var(--space-lg);
         scrollbar-width: none;
     }
 
@@ -249,11 +248,11 @@
     .hero-scholars-scroll .hero-scholar {
         display: block;
         position: static;
-        flex: 0 0 280px;
-        width: 280px;
-        max-width: 280px;
-        margin: 0;
-        scroll-snap-align: start;
+        flex: 0 0 calc(100% - var(--space-xl) * 2);
+        width: calc(100% - var(--space-xl) * 2);
+        max-width: calc(100% - var(--space-xl) * 2);
+        margin: 0 var(--space-xl);
+        scroll-snap-align: center;
         animation: none;
     }
 
