@@ -16,6 +16,7 @@
 .hero-slides {
     position: absolute;
     inset: 0;
+    overflow: hidden;
 }
 
 .hero-slide {
@@ -200,9 +201,12 @@
         height: auto;
         min-height: 100vh;
         padding: var(--space-2xl) 0;
+        padding-bottom: var(--space-3xl);
         flex-direction: column;
         justify-content: flex-start;
         align-items: stretch;
+        overflow-x: hidden;
+        overflow-y: visible;
     }
 
     .hero-content {
@@ -419,6 +423,8 @@
 @media (max-width: 768px) {
     .hero {
         min-height: 100svh;
+        overflow-x: hidden;
+        overflow-y: visible;
     }
 
     .hero-content {
@@ -471,6 +477,8 @@
 @media (max-width: 480px) {
     .hero {
         min-height: 100svh;
+        overflow-x: hidden;
+        overflow-y: visible;
     }
 
     .hero-content {
