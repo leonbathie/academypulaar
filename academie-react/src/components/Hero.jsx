@@ -28,6 +28,7 @@ function Hero() {
     const [scholar, setScholar] = useState(null)
     const [slides, setSlides] = useState(defaultSlides)
     const [slidesLoaded, setSlidesLoaded] = useState(false)
+    const [bioExpanded, setBioExpanded] = useState(false)
     const lang = ['fr', 'en', 'ff'].includes(i18n.language) ? i18n.language : 'fr'
 
     // Charger les slides depuis l'API
@@ -84,6 +85,7 @@ function Hero() {
 
     const pickAnotherScholar = () => {
         fetchRandomScholar(scholar?.id)
+        setBioExpanded(false)
     }
 
     const goToSlide = (index) => {
@@ -181,7 +183,18 @@ function Hero() {
                         <span className="hero-scholar-label">{t('scholars.label', 'Patrimoine')}</span>
                         <h3 className="hero-scholar-name">{scholar.name}</h3>
                         <span className="hero-scholar-years">{scholar.years}</span>
-                        <p className="hero-scholar-bio">{scholar[`bio_${lang}`] || scholar.bio_fr}</p>
+                        <p className={`hero-scholar-bio ${bioExpanded ? 'expanded' : ''}`}>
+                            {scholar[`bio_${lang}`] || scholar.bio_fr}
+                        </p>
+                        {(scholar[`bio_${lang}`] || scholar.bio_fr) && (
+                            <button className="hero-scholar-toggle" onClick={() => setBioExpanded(v => !v)}>
+                                {bioExpanded ? t('common.seeLess', 'Voir moins') : t('common.seeMore', 'Voir plus')}
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
+                                    style={{ transform: bioExpanded ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.2s' }}>
+                                    <path d="M6 9l6 6 6-6" />
+                                </svg>
+                            </button>
+                        )}
                         <button className="hero-scholar-next" onClick={pickAnotherScholar}>
                             {t('scholars.next', 'Découvrir un autre savant')}
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7" /></svg>

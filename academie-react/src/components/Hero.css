@@ -129,13 +129,44 @@
     color: rgba(255, 255, 255, 0.88);
     line-height: 1.55;
     font-size: 0.85rem;
-    margin: 0 0 var(--space-md);
+    margin: 0 0 var(--space-xs);
     display: -webkit-box;
-    -webkit-line-clamp: 5;
+    -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
     overflow: hidden;
     word-break: break-word;
     overflow-wrap: break-word;
+    transition: all 0.3s ease;
+}
+
+.hero-scholar-bio.expanded {
+    display: block;
+    -webkit-line-clamp: unset;
+    overflow: visible;
+}
+
+.hero-scholar-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    background: none;
+    border: none;
+    color: var(--primary-gold);
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0;
+    margin-bottom: var(--space-md);
+    transition: opacity 0.2s;
+}
+
+.hero-scholar-toggle:hover {
+    opacity: 0.8;
+}
+
+.hero-scholar-toggle svg {
+    width: 14px;
+    height: 14px;
 }
 
 .hero-scholar-next {
