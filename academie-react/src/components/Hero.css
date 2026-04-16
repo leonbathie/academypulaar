@@ -278,6 +278,13 @@
     .hero-scholars-scroll .hero-scholar-image {
         height: 240px;
     }
+
+    /* Bio complète dans le carrousel mobile */
+    .hero-scholars-scroll .hero-scholar-bio {
+        display: block;
+        -webkit-line-clamp: unset;
+        overflow: visible;
+    }
 }
 
 .hero-badge {
