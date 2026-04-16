@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { API_URL } from '../config'
 import './Hero.css'
@@ -87,6 +87,28 @@ function Hero() {
     }, [])
 
     const scholar = scholars[activeIdx] || null
+    const scrollRef = useRef(null)
+
+    // Effet rotation cubique au scroll
+    useEffect(() => {
+        const el = scrollRef.current
+        if (!el || scholars.length === 0) return
+
+        const updateCube = () => {
+            const W = el.clientWidth
+            if (W === 0) return
+            const slides = el.querySelectorAll('.hero-scholar-slide')
+            slides.forEach((slide, i) => {
+                const offset = el.scrollLeft / W - i   // -1..0..1
+                const angle = offset * 90               // -90..0..90 degrés
+                slide.style.transform = `rotateY(${-angle}deg)`
+            })
+        }
+
+        el.addEventListener('scroll', updateCube, { passive: true })
+        updateCube()
+        return () => el.removeEventListener('scroll', updateCube)
+    }, [scholars.length])
 
     const pickNext = () => {
         setBioExpanded(false)
@@ -156,20 +178,21 @@ function Hero() {
                 />
             )}
 
-            {/* Mobile : scroll horizontal */}
+            {/* Mobile : scroll horizontal avec effet cube */}
             {scholars.length > 0 && (
-                <div className="hero-scholars-scroll">
+                <div className="hero-scholars-scroll" ref={scrollRef}>
                     {scholars.map(s => (
-                        <ScholarCard
-                            key={s.id}
-                            scholar={s}
-                            lang={lang}
-                            t={t}
-                            showNext={false}
-                            onNext={null}
-                            expanded={false}
-                            onToggleExpand={null}
-                        />
+                        <div key={s.id} className="hero-scholar-slide">
+                            <ScholarCard
+                                scholar={s}
+                                lang={lang}
+                                t={t}
+                                showNext={false}
+                                onNext={null}
+                                expanded={false}
+                                onToggleExpand={null}
+                            />
+                        </div>
                     ))}
                 </div>
             )}

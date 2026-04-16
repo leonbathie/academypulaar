@@ -201,6 +201,10 @@
     display: none;
 }
 
+.hero-scholar-slide {
+    display: none;
+}
+
 @media (max-width: 968px) {
     .hero {
         height: auto;
@@ -239,20 +243,35 @@
         -webkit-overflow-scrolling: touch;
         padding: var(--space-xl) 0 var(--space-lg);
         scrollbar-width: none;
+        perspective: 900px;
+        perspective-origin: center center;
     }
 
     .hero-scholars-scroll::-webkit-scrollbar {
         display: none;
     }
 
+    /* Wrapper slide — prend exactement 100% du conteneur */
+    .hero-scholars-scroll .hero-scholar-slide {
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        flex: 0 0 100%;
+        width: 100%;
+        scroll-snap-align: center;
+        padding: 0 var(--space-xl);
+        box-sizing: border-box;
+        will-change: transform;
+        transform-origin: center center;
+    }
+
+    /* La carte à l'intérieur du slide */
     .hero-scholars-scroll .hero-scholar {
         display: block;
         position: static;
-        flex: 0 0 calc(100% - var(--space-xl) * 2);
-        width: calc(100% - var(--space-xl) * 2);
-        max-width: calc(100% - var(--space-xl) * 2);
-        margin: 0 var(--space-xl);
-        scroll-snap-align: center;
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
         animation: none;
     }
 
