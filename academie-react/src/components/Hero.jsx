@@ -3,20 +3,13 @@ import { useTranslation } from 'react-i18next'
 import { API_URL } from '../config'
 import './Hero.css'
 
-// Slides par défaut si aucune n'est configurée en base
-const defaultSlides = [
+const slides = [
     {
         image: "https://images.unsplash.com/photo-1568667256549-094345857637?w=1920",
-        title_fr: null,
-        title_en: null,
-        title_ff: null,
         titleKey: "hero.title2"
     },
     {
         image: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=1920",
-        title_fr: null,
-        title_en: null,
-        title_ff: null,
         titleKey: "hero.title3",
         subtitleKey: "hero.subtitle3"
     }
@@ -26,29 +19,8 @@ function Hero() {
     const { t, i18n } = useTranslation()
     const [currentSlide, setCurrentSlide] = useState(0)
     const [scholar, setScholar] = useState(null)
-    const [slides, setSlides] = useState(defaultSlides)
-    const [slidesLoaded, setSlidesLoaded] = useState(false)
     const [bioExpanded, setBioExpanded] = useState(false)
     const lang = ['fr', 'en', 'ff'].includes(i18n.language) ? i18n.language : 'fr'
-
-    // Charger les slides depuis l'API
-    useEffect(() => {
-        const loadSlides = async () => {
-            try {
-                const res = await fetch(`${API_URL}/api/hero`)
-                if (!res.ok) return
-                const data = await res.json()
-                if (Array.isArray(data) && data.length > 0) {
-                    setSlides(data)
-                }
-            } catch (e) {
-                // Utiliser les slides par défaut en cas d'erreur
-            } finally {
-                setSlidesLoaded(true)
-            }
-        }
-        loadSlides()
-    }, [])
 
     useEffect(() => {
         if (slides.length <= 1) return
@@ -56,7 +28,7 @@ function Hero() {
             setCurrentSlide((prev) => (prev + 1) % slides.length)
         }, 6000)
         return () => clearInterval(timer)
-    }, [slides.length])
+    }, [])
 
     const fetchRandomScholar = useCallback(async (excludeId = null) => {
         try {
@@ -64,7 +36,6 @@ function Hero() {
             if (!res.ok) return
             const data = await res.json()
             if (!data) return
-            // Si même savant renvoyé, retry une fois
             if (excludeId && data.id === excludeId) {
                 const res2 = await fetch(`${API_URL}/api/scholars/random`)
                 if (res2.ok) {
@@ -75,7 +46,7 @@ function Hero() {
             }
             setScholar(data)
         } catch (e) {
-            // Pas de savant disponible, on ignore
+            // Pas de savant disponible
         }
     }, [])
 
@@ -88,46 +59,14 @@ function Hero() {
         setBioExpanded(false)
     }
 
-    const goToSlide = (index) => {
-        setCurrentSlide(index)
-    }
-
-    // Obtenir le titre de la slide courante selon la langue
-    const getSlideTitle = (slide) => {
-        // Si la slide vient de l'API (a des champs title_fr, etc.)
-        if (slide.title_fr || slide.title_en || slide.title_ff) {
-            return slide[`title_${lang}`] || slide.title_fr || slide.title_en || ''
-        }
-        // Sinon, utiliser la clé i18n (slides par défaut)
-        if (slide.titleKey) return t(slide.titleKey)
-        return ''
-    }
-
-    const getSlideSubtitle = (slide) => {
-        if (slide.subtitle_fr || slide.subtitle_en || slide.subtitle_ff) {
-            return slide[`subtitle_${lang}`] || slide.subtitle_fr || slide.subtitle_en || ''
-        }
-        if (slide.subtitleKey) return t(slide.subtitleKey)
-        return ''
-    }
-
-    const getSlideImage = (slide) => {
-        // Slide de l'API : image est un chemin relatif
-        if (slide.image && slide.image.startsWith('/uploads')) {
-            return `${API_URL}${slide.image}`
-        }
-        // Slide par défaut ou URL complète
-        return slide.image || ''
-    }
-
     return (
         <section className="hero">
             <div className="hero-slides">
                 {slides.map((slide, index) => (
                     <div
-                        key={slide.id || index}
+                        key={index}
                         className={`hero-slide ${index === currentSlide ? 'active' : ''}`}
-                        style={{ backgroundImage: `url(${getSlideImage(slide)})` }}
+                        style={{ backgroundImage: `url(${slide.image})` }}
                     >
                         <div className="hero-overlay"></div>
                     </div>
@@ -138,11 +77,11 @@ function Hero() {
                 <div className="hero-text">
                     <span className="hero-badge">{t('common.since')}</span>
                     <h1 className="hero-title">
-                        {getSlideTitle(slides[currentSlide])}
+                        {t(slides[currentSlide].titleKey)}
                     </h1>
-                    {getSlideSubtitle(slides[currentSlide]) && (
+                    {slides[currentSlide].subtitleKey && (
                         <p className="hero-subtitle">
-                            {getSlideSubtitle(slides[currentSlide])}
+                            {t(slides[currentSlide].subtitleKey)}
                         </p>
                     )}
                     <div className="hero-buttons">
@@ -163,7 +102,7 @@ function Hero() {
                         <button
                             key={index}
                             className={`indicator ${index === currentSlide ? 'active' : ''}`}
-                            onClick={() => goToSlide(index)}
+                            onClick={() => setCurrentSlide(index)}
                             aria-label={`Slide ${index + 1}`}
                         />
                     ))}
@@ -217,4 +156,3 @@ function Hero() {
 }
 
 export default Hero
-
