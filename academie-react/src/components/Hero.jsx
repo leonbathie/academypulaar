@@ -15,9 +15,14 @@ const slides = [
     }
 ]
 
-function ScholarCard({ scholar, lang, t, showNext, onNext, expanded, onToggleExpand }) {
+function ScholarCard({ scholar, lang, t, showNext, onNext, expanded: externalExpanded, onToggleExpand }) {
+    const [internalExpanded, setInternalExpanded] = useState(false)
     const bio = scholar[`bio_${lang}`] || (lang !== 'fr' ? null : scholar.bio_fr)
     const bioFallback = !scholar[`bio_${lang}`] && lang !== 'fr'
+
+    // Desktop: état contrôlé depuis le parent. Mobile (onToggleExpand=null): état interne
+    const expanded = onToggleExpand ? externalExpanded : internalExpanded
+    const toggle = onToggleExpand ?? (() => setInternalExpanded(v => !v))
 
     return (
         <div className="hero-scholar">
@@ -39,12 +44,16 @@ function ScholarCard({ scholar, lang, t, showNext, onNext, expanded, onToggleExp
                 {scholar.years && <span className="hero-scholar-years">{scholar.years}</span>}
                 <p
                     className={`hero-scholar-bio ${expanded ? 'expanded' : ''}`}
-                    style={bioFallback ? { color: 'rgba(255,255,255,0.45)', fontStyle: 'italic' } : {}}
+                    style={{
+                        ...(bioFallback ? { color: 'rgba(255,255,255,0.45)', fontStyle: 'italic' } : {}),
+                        ...(!expanded && bio && !bioFallback ? { cursor: 'pointer' } : {})
+                    }}
+                    onClick={bio && !bioFallback && !expanded ? toggle : undefined}
                 >
                     {bioFallback ? t('common.noTranslation') : bio}
                 </p>
-                {bio && !bioFallback && onToggleExpand && (
-                    <button className="hero-scholar-toggle" onClick={onToggleExpand}>
+                {bio && !bioFallback && (
+                    <button className="hero-scholar-toggle" onClick={toggle}>
                         {expanded ? t('common.seeLess', 'Voir moins') : t('common.seeMore', 'Voir plus')}
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
                             style={{ transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.2s' }}>

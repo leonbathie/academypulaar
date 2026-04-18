@@ -280,8 +280,15 @@
         height: 280px;
     }
 
-    /* Bio complète — pas de troncature sur mobile */
+    /* Bio tronquée à 4 lignes par défaut — clic pour tout afficher */
     .hero-scholars-scroll .hero-scholar-bio {
+        display: -webkit-box;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .hero-scholars-scroll .hero-scholar-bio.expanded {
         display: block;
         -webkit-line-clamp: unset;
         overflow: visible;
