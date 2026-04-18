@@ -140,38 +140,23 @@ function Dictionary() {
                 <div className="dict-countries">
                     <div className="dict-countries-header">
                         <div className="dict-countries-header-text">
-                            <h3 className="dict-countries-title">Pays participants</h3>
-                            <p className="dict-countries-subtitle">
-                                Le Fulfulde est une langue vivante parlée par des millions de locuteurs à travers toute l'Afrique de l'Ouest et du Centre. Ce dictionnaire est le fruit d'une collaboration panafricaine réunissant linguistes, enseignants et communautés de <strong>12 pays</strong>.
-                            </p>
+                            <h3 className="dict-countries-title">{t('dictionary.countriesLabel')}</h3>
+                            <p className="dict-countries-subtitle">{t('dictionary.countriesSubtitle')}</p>
                         </div>
-                        <span className="dict-countries-badge">12 pays</span>
+                        <span className="dict-countries-badge">12</span>
                     </div>
                     <div className="dict-countries-grid">
-                        {[
-                            { code: 'mr', name: 'Mauritanie' },
-                            { code: 'ml', name: 'Mali' },
-                            { code: 'sn', name: 'Sénégal' },
-                            { code: 'gn', name: 'Guinée-Conakry' },
-                            { code: 'bf', name: 'Burkina Faso' },
-                            { code: 'ne', name: 'Niger' },
-                            { code: 'cm', name: 'Cameroun' },
-                            { code: 'td', name: 'Tchad' },
-                            { code: 'bj', name: 'Bénin' },
-                            { code: 'sd', name: 'Soudan' },
-                            { code: 'gw', name: 'Guinée-Bissau' },
-                            { code: 'ng', name: 'Nigeria' },
-                        ].map((c, i) => (
+                        {['mr','ml','sn','gn','bf','ne','cm','td','bj','sd','gw','ng'].map((code, i) => (
                             <div key={i} className="dict-country-card">
                                 <div className="dict-country-flag-wrap">
                                     <img
-                                        src={`https://flagcdn.com/w80/${c.code}.png`}
-                                        alt={`Drapeau ${c.name}`}
+                                        src={`https://flagcdn.com/w80/${code}.png`}
+                                        alt={t(`dictionary.countries.${code}`)}
                                         className="dict-country-flag-img"
                                         loading="lazy"
                                     />
                                 </div>
-                                <span className="dict-country-name">{c.name}</span>
+                                <span className="dict-country-name">{t(`dictionary.countries.${code}`)}</span>
                             </div>
                         ))}
                     </div>

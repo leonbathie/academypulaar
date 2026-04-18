@@ -126,6 +126,12 @@
         "yearsOfWork": "Years of work",
         "volumesPublished": "Volumes published",
         "countriesLabel": "Participating countries",
+        "countriesSubtitle": "Fulfulde is a living language spoken by millions across West and Central Africa. This dictionary is the result of a pan-African collaboration bringing together linguists, teachers and communities from 12 countries.",
+        "countries": {
+            "mr": "Mauritania", "ml": "Mali", "sn": "Senegal", "gn": "Guinea-Conakry",
+            "bf": "Burkina Faso", "ne": "Niger", "cm": "Cameroon", "td": "Chad",
+            "bj": "Benin", "sd": "Sudan", "gw": "Guinea-Bissau", "ng": "Nigeria"
+        },
         "result": "result",
         "results": "results",
         "noResults": "No results found",

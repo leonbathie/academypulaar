@@ -126,6 +126,12 @@
         "yearsOfWork": "Duuɓi gollaaɗi",
         "volumesPublished": "Kaɓɓe binndaaɗe",
         "countriesLabel": "Leyɗeele gollooje",
+        "countriesSubtitle": "Fulfulde ko demngal ngal winnditaaka e leyɗeele keewɗe Afrik Hirnaange e Worgo. Caggitorde nde ko njuɓɓudi Afrik fof, e nder ɗum soodondirde e jannginoobe e renndo leyɗeele 12.",
+        "countries": {
+            "mr": "Moritani", "ml": "Mali", "sn": "Senegaal", "gn": "Gine Konaakiri",
+            "bf": "Burkina Faso", "ne": "Niijeer", "cm": "Kameruun", "td": "Caad",
+            "bj": "Bene", "sd": "Suudaan", "gw": "Gine Bisaawo", "ng": "Niijeriya"
+        },
         "result": "njeñtudi",
         "results": "njeñtudi",
         "noResults": "Alaa",

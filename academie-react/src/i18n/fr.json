@@ -126,6 +126,12 @@
         "yearsOfWork": "Années de travail",
         "volumesPublished": "Tomes publiés",
         "countriesLabel": "Pays participants",
+        "countriesSubtitle": "Le Fulfulde est une langue vivante parlée par des millions de locuteurs à travers toute l'Afrique de l'Ouest et du Centre. Ce dictionnaire est le fruit d'une collaboration panafricaine réunissant linguistes, enseignants et communautés de 12 pays.",
+        "countries": {
+            "mr": "Mauritanie", "ml": "Mali", "sn": "Sénégal", "gn": "Guinée-Conakry",
+            "bf": "Burkina Faso", "ne": "Niger", "cm": "Cameroun", "td": "Tchad",
+            "bj": "Bénin", "sd": "Soudan", "gw": "Guinée-Bissau", "ng": "Nigeria"
+        },
         "result": "résultat",
         "results": "résultats",
         "noResults": "Aucun résultat trouvé",
