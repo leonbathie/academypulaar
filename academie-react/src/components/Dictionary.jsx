@@ -143,7 +143,7 @@ function Dictionary() {
                             <h3 className="dict-countries-title">{t('dictionary.countriesLabel')}</h3>
                             <p className="dict-countries-subtitle">{t('dictionary.countriesSubtitle')}</p>
                         </div>
-                        <span className="dict-countries-badge">12</span>
+                        <span className="dict-countries-badge">12+</span>
                     </div>
                     <div className="dict-countries-grid">
                         {['mr','ml','sn','gn','bf','ne','cm','td','bj','sd','gw','ng'].map((code, i) => (
