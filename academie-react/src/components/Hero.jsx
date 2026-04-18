@@ -16,27 +16,34 @@ const slides = [
 ]
 
 function ScholarCard({ scholar, lang, t, showNext, onNext, expanded, onToggleExpand }) {
+    const bio = scholar[`bio_${lang}`] || (lang !== 'fr' ? null : scholar.bio_fr)
+    const bioFallback = !scholar[`bio_${lang}`] && lang !== 'fr'
+
     return (
         <div className="hero-scholar">
             <div className="hero-scholar-image">
                 <img
-                    src={scholar.image ? `${API_URL}${scholar.image}` : `https://via.placeholder.com/300x400/1a1f3a/d4af37?text=${encodeURIComponent(scholar.name)}`}
+                    src={scholar.image
+                        ? `${API_URL}${scholar.image}`
+                        : `https://via.placeholder.com/300x400/1a1f3a/d4af37?text=${encodeURIComponent(scholar.name)}`}
                     alt={scholar.name}
                     style={{ objectPosition: scholar.image_position || '50% 20%' }}
-                    onError={(e) => { e.target.src = 'https://via.placeholder.com/300x400/1a1f3a/d4af37?text=' + encodeURIComponent(scholar.name) }}
+                    onError={(e) => {
+                        e.target.src = `https://via.placeholder.com/300x400/1a1f3a/d4af37?text=${encodeURIComponent(scholar.name)}`
+                    }}
                 />
             </div>
             <div className="hero-scholar-info">
                 <span className="hero-scholar-label">{t('scholars.label', 'Patrimoine')}</span>
                 <h3 className="hero-scholar-name">{scholar.name}</h3>
-                <span className="hero-scholar-years">{scholar.years}</span>
+                {scholar.years && <span className="hero-scholar-years">{scholar.years}</span>}
                 <p
                     className={`hero-scholar-bio ${expanded ? 'expanded' : ''}`}
-                    style={!scholar[`bio_${lang}`] && lang !== 'fr' ? { color: 'rgba(255,255,255,0.45)', fontStyle: 'italic' } : {}}
+                    style={bioFallback ? { color: 'rgba(255,255,255,0.45)', fontStyle: 'italic' } : {}}
                 >
-                    {scholar[`bio_${lang}`] || (lang !== 'fr' ? t('common.noTranslation') : scholar.bio_fr)}
+                    {bioFallback ? t('common.noTranslation') : bio}
                 </p>
-                {scholar[`bio_${lang}`] && onToggleExpand && (
+                {bio && !bioFallback && onToggleExpand && (
                     <button className="hero-scholar-toggle" onClick={onToggleExpand}>
                         {expanded ? t('common.seeLess', 'Voir moins') : t('common.seeMore', 'Voir plus')}
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
@@ -73,6 +80,7 @@ function Hero() {
         [scholars]
     )
 
+    // Rotation des slides hero
     useEffect(() => {
         if (slides.length <= 1) return
         const timer = setInterval(() => {
@@ -81,6 +89,7 @@ function Hero() {
         return () => clearInterval(timer)
     }, [])
 
+    // Chargement des savants
     useEffect(() => {
         fetch(`${API_URL}/api/scholars`)
             .then(r => r.ok ? r.json() : [])
@@ -92,45 +101,51 @@ function Hero() {
             .catch(() => {})
     }, [])
 
-    // Initialiser le scroll au milieu (2e copie) dès que les savants sont chargés
+    // Positionner au centre (2e copie) sans animation
     useEffect(() => {
         const el = scrollRef.current
         if (!el || scholars.length === 0) return
-        // Aller directement au début de la copie du milieu, sans animation
-        el.style.scrollBehavior = 'auto'
-        el.scrollLeft = scholars.length * el.clientWidth
+        requestAnimationFrame(() => {
+            el.scrollLeft = scholars.length * el.offsetWidth
+        })
     }, [scholars.length])
 
     // Effet cube 3D + boucle infinie
     useEffect(() => {
         const el = scrollRef.current
         if (!el || scholars.length === 0) return
-
         const n = scholars.length
 
-        const handleScroll = () => {
-            const W = el.clientWidth
+        const applyEffect = () => {
+            const W = el.offsetWidth
             if (W === 0) return
 
-            // Effet rotation cubique
+            const currentPos = el.scrollLeft / W
+
             el.querySelectorAll('.hero-scholar-slide').forEach((slide, i) => {
-                const offset = el.scrollLeft / W - i
-                slide.style.transform = `rotateY(${-offset * 90}deg)`
+                const offset = currentPos - i
+                // Rotation max 80deg — cube bien visible sans disparaître
+                const rotation = Math.max(-80, Math.min(80, -offset * 80))
+                // Opacité : carte active = 1, adjacentes = 0.4, lointaines = 0
+                const opacity = Math.max(0, 1 - Math.abs(offset) * 0.6)
+                // Scale : carte active légèrement plus grande
+                const scale = 1 - Math.min(0.08, Math.abs(offset) * 0.08)
+
+                slide.style.transform = `perspective(700px) rotateY(${rotation}deg) scale(${scale})`
+                slide.style.opacity = opacity
             })
 
-            // Boucle infinie : saut invisible quand on approche des bords
-            if (el.scrollLeft < n * W * 0.5) {
-                el.style.scrollBehavior = 'auto'
+            // Boucle infinie — saut invisible aux bords
+            if (el.scrollLeft < n * W * 0.3) {
                 el.scrollLeft += n * W
-            } else if (el.scrollLeft > n * W * 2.5) {
-                el.style.scrollBehavior = 'auto'
+            } else if (el.scrollLeft > n * W * 2.7) {
                 el.scrollLeft -= n * W
             }
         }
 
-        el.addEventListener('scroll', handleScroll, { passive: true })
-        handleScroll()
-        return () => el.removeEventListener('scroll', handleScroll)
+        el.addEventListener('scroll', applyEffect, { passive: true })
+        applyEffect()
+        return () => el.removeEventListener('scroll', applyEffect)
     }, [scholars.length])
 
     const scholar = scholars[activeIdx] || null
@@ -157,13 +172,9 @@ function Hero() {
             <div className="hero-content">
                 <div className="hero-text">
                     <span className="hero-badge">{t('common.since')}</span>
-                    <h1 className="hero-title">
-                        {t(slides[currentSlide].titleKey)}
-                    </h1>
+                    <h1 className="hero-title">{t(slides[currentSlide].titleKey)}</h1>
                     {slides[currentSlide].subtitleKey && (
-                        <p className="hero-subtitle">
-                            {t(slides[currentSlide].subtitleKey)}
-                        </p>
+                        <p className="hero-subtitle">{t(slides[currentSlide].subtitleKey)}</p>
                     )}
                     <div className="hero-buttons">
                         <a href="#decouvrir" className="btn btn-primary">
@@ -190,7 +201,7 @@ function Hero() {
                 </div>
             </div>
 
-            {/* Desktop : carte unique avec bouton suivant */}
+            {/* Desktop : carte unique + bouton suivant */}
             {scholar && (
                 <ScholarCard
                     scholar={scholar}

@@ -233,25 +233,24 @@
         display: none;
     }
 
-    /* Afficher le scroll horizontal */
+    /* Conteneur scroll — pas de perspective ici (appliquée par JS par carte) */
     .hero-scholars-scroll {
         display: flex;
         flex-direction: row;
+        gap: 0;
         overflow-x: auto;
         overflow-y: visible;
         scroll-snap-type: x mandatory;
         -webkit-overflow-scrolling: touch;
-        padding: var(--space-xl) 0 var(--space-lg);
+        padding: var(--space-lg) 0 var(--space-xl);
         scrollbar-width: none;
-        perspective: 900px;
-        perspective-origin: center center;
     }
 
     .hero-scholars-scroll::-webkit-scrollbar {
         display: none;
     }
 
-    /* Wrapper slide — prend exactement 100% du conteneur */
+    /* Wrapper slide — pleine largeur, cache le débordement 3D */
     .hero-scholars-scroll .hero-scholar-slide {
         display: flex;
         align-items: flex-start;
@@ -261,11 +260,14 @@
         scroll-snap-align: center;
         padding: 0 var(--space-xl);
         box-sizing: border-box;
-        will-change: transform;
+        will-change: transform, opacity;
         transform-origin: center center;
+        transition: opacity 0.15s ease;
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
     }
 
-    /* La carte à l'intérieur du slide */
+    /* La carte à l'intérieur */
     .hero-scholars-scroll .hero-scholar {
         display: block;
         position: static;
@@ -275,15 +277,17 @@
         animation: none;
     }
 
+    /* Hauteur d'image cohérente sur mobile */
     .hero-scholars-scroll .hero-scholar-image {
-        height: 240px;
+        height: 260px;
     }
 
-    /* Bio complète dans le carrousel mobile */
+    /* Bio tronquée à 3 lignes — hauteur de carte uniforme */
     .hero-scholars-scroll .hero-scholar-bio {
-        display: block;
-        -webkit-line-clamp: unset;
-        overflow: visible;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
     }
 }
 
