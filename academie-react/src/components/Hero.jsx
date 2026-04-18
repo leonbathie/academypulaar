@@ -115,28 +115,15 @@ function Hero() {
         })
     }, [scholars.length])
 
-    // Effet fade + scale — stable même sur swipe rapide
+    // Boucle infinie — saut invisible aux bords uniquement
     useEffect(() => {
         const el = scrollRef.current
         if (!el || scholars.length === 0) return
         const n = scholars.length
 
-        const applyEffect = () => {
+        const handleScroll = () => {
             const W = el.offsetWidth
             if (W === 0) return
-            const pos = el.scrollLeft / W
-
-            el.querySelectorAll('.hero-scholar-slide').forEach((slide, i) => {
-                const dist = Math.abs(pos - i)
-                // Opacité : actif=1, adjacent=0.35, loin=0
-                const opacity = Math.max(0, 1 - dist * 0.75)
-                // Scale léger : actif=1, adjacent=0.93
-                const scale = Math.max(0.88, 1 - dist * 0.07)
-                slide.style.opacity = opacity
-                slide.style.transform = `scale(${scale})`
-            })
-
-            // Boucle infinie — saut instantané aux bords
             if (el.scrollLeft < n * W * 0.5) {
                 el.scrollLeft += n * W
             } else if (el.scrollLeft > n * W * 2.5) {
@@ -144,9 +131,26 @@ function Hero() {
             }
         }
 
-        el.addEventListener('scroll', applyEffect, { passive: true })
-        applyEffect()
-        return () => el.removeEventListener('scroll', applyEffect)
+        el.addEventListener('scroll', handleScroll, { passive: true })
+        return () => el.removeEventListener('scroll', handleScroll)
+    }, [scholars.length])
+
+    // Effet visuel via IntersectionObserver — fiable peu importe la vitesse
+    useEffect(() => {
+        const el = scrollRef.current
+        if (!el || scholars.length === 0) return
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach(entry => {
+                    entry.target.classList.toggle('is-active', entry.intersectionRatio >= 0.5)
+                })
+            },
+            { root: el, threshold: [0, 0.5, 1.0] }
+        )
+
+        el.querySelectorAll('.hero-scholar-slide').forEach(s => observer.observe(s))
+        return () => observer.disconnect()
     }, [scholars.length])
 
     const scholar = scholars[activeIdx] || null
