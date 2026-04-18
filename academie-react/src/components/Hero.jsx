@@ -74,13 +74,11 @@ function Hero() {
     const lang = ['fr', 'en', 'ff'].includes(i18n.language) ? i18n.language : 'fr'
     const scrollRef = useRef(null)
 
-    // Triple le tableau pour le carrousel infini
     const loopScholars = useMemo(
         () => scholars.length > 0 ? [...scholars, ...scholars, ...scholars] : [],
         [scholars]
     )
 
-    // Rotation des slides hero
     useEffect(() => {
         if (slides.length <= 1) return
         const timer = setInterval(() => {
@@ -89,19 +87,17 @@ function Hero() {
         return () => clearInterval(timer)
     }, [])
 
-    // Chargement des savants
     useEffect(() => {
         fetch(`${API_URL}/api/scholars`)
             .then(r => r.ok ? r.json() : [])
             .then(data => {
-                if (Array.isArray(data) && data.length > 0) {
+                if (Array.isArray(data) && data.length > 0)
                     setScholars([...data].sort(() => Math.random() - 0.5))
-                }
             })
             .catch(() => {})
     }, [])
 
-    // Positionner au centre (2e copie) sans animation
+    // Positionner sur la copie du milieu sans animation
     useEffect(() => {
         const el = scrollRef.current
         if (!el || scholars.length === 0) return
@@ -110,7 +106,7 @@ function Hero() {
         })
     }, [scholars.length])
 
-    // Effet cube 3D + boucle infinie
+    // Effet fade + scale — stable même sur swipe rapide
     useEffect(() => {
         const el = scrollRef.current
         if (!el || scholars.length === 0) return
@@ -119,26 +115,22 @@ function Hero() {
         const applyEffect = () => {
             const W = el.offsetWidth
             if (W === 0) return
-
-            const currentPos = el.scrollLeft / W
+            const pos = el.scrollLeft / W
 
             el.querySelectorAll('.hero-scholar-slide').forEach((slide, i) => {
-                const offset = currentPos - i
-                // Rotation max 80deg — cube bien visible sans disparaître
-                const rotation = Math.max(-80, Math.min(80, -offset * 80))
-                // Opacité : carte active = 1, adjacentes = 0.4, lointaines = 0
-                const opacity = Math.max(0, 1 - Math.abs(offset) * 0.6)
-                // Scale : carte active légèrement plus grande
-                const scale = 1 - Math.min(0.08, Math.abs(offset) * 0.08)
-
-                slide.style.transform = `perspective(700px) rotateY(${rotation}deg) scale(${scale})`
+                const dist = Math.abs(pos - i)
+                // Opacité : actif=1, adjacent=0.35, loin=0
+                const opacity = Math.max(0, 1 - dist * 0.75)
+                // Scale léger : actif=1, adjacent=0.93
+                const scale = Math.max(0.88, 1 - dist * 0.07)
                 slide.style.opacity = opacity
+                slide.style.transform = `scale(${scale})`
             })
 
-            // Boucle infinie — saut invisible aux bords
-            if (el.scrollLeft < n * W * 0.3) {
+            // Boucle infinie — saut instantané aux bords
+            if (el.scrollLeft < n * W * 0.5) {
                 el.scrollLeft += n * W
-            } else if (el.scrollLeft > n * W * 2.7) {
+            } else if (el.scrollLeft > n * W * 2.5) {
                 el.scrollLeft -= n * W
             }
         }
@@ -214,7 +206,7 @@ function Hero() {
                 />
             )}
 
-            {/* Mobile : carrousel infini avec effet cube */}
+            {/* Mobile : carrousel infini */}
             {loopScholars.length > 0 && (
                 <div className="hero-scholars-scroll" ref={scrollRef}>
                     {loopScholars.map((s, i) => (

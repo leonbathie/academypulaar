@@ -233,15 +233,16 @@
         display: none;
     }
 
-    /* Conteneur scroll — pas de perspective ici (appliquée par JS par carte) */
+    /* Conteneur scroll horizontal — ne capture PAS le scroll vertical */
     .hero-scholars-scroll {
         display: flex;
         flex-direction: row;
         gap: 0;
-        overflow-x: auto;
+        overflow-x: scroll;
         overflow-y: visible;
         scroll-snap-type: x mandatory;
         -webkit-overflow-scrolling: touch;
+        touch-action: pan-x;
         padding: var(--space-lg) 0 var(--space-xl);
         scrollbar-width: none;
     }
@@ -250,7 +251,7 @@
         display: none;
     }
 
-    /* Wrapper slide — pleine largeur, cache le débordement 3D */
+    /* Wrapper slide — pleine largeur */
     .hero-scholars-scroll .hero-scholar-slide {
         display: flex;
         align-items: flex-start;
@@ -262,12 +263,9 @@
         box-sizing: border-box;
         will-change: transform, opacity;
         transform-origin: center center;
-        transition: opacity 0.15s ease;
-        backface-visibility: hidden;
-        -webkit-backface-visibility: hidden;
     }
 
-    /* La carte à l'intérieur */
+    /* La carte */
     .hero-scholars-scroll .hero-scholar {
         display: block;
         position: static;
@@ -277,17 +275,16 @@
         animation: none;
     }
 
-    /* Hauteur d'image cohérente sur mobile */
+    /* Image plus grande sur mobile carrousel */
     .hero-scholars-scroll .hero-scholar-image {
-        height: 260px;
+        height: 280px;
     }
 
-    /* Bio tronquée à 3 lignes — hauteur de carte uniforme */
+    /* Bio complète — pas de troncature sur mobile */
     .hero-scholars-scroll .hero-scholar-bio {
-        display: -webkit-box;
-        -webkit-line-clamp: 3;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
+        display: block;
+        -webkit-line-clamp: unset;
+        overflow: visible;
     }
 }
 
