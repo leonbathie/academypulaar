@@ -242,7 +242,6 @@
         overflow-y: visible;
         scroll-snap-type: x mandatory;
         -webkit-overflow-scrolling: touch;
-        touch-action: pan-x;
         padding: var(--space-lg) 0 var(--space-xl);
         scrollbar-width: none;
     }
