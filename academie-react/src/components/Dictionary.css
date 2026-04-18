@@ -183,7 +183,7 @@
 /* Stats */
 .dictionary-stats {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: var(--space-lg);
 }
 
@@ -216,50 +216,6 @@
     color: var(--medium-gray);
 }
 
-.stat-card-countries {
-    text-align: left;
-}
-
-.stat-card-countries .stat-number,
-.stat-card-countries .stat-label {
-    text-align: center;
-    display: block;
-}
-
-.stat-countries {
-    margin-top: var(--space-md);
-    border-top: 1px solid rgba(212, 175, 55, 0.2);
-    padding-top: var(--space-md);
-}
-
-.stat-countries-label {
-    display: block;
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--primary-gold);
-    margin-bottom: var(--space-sm);
-}
-
-.stat-countries-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.35rem;
-}
-
-.country-tag {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.25rem;
-    background: rgba(212, 175, 55, 0.1);
-    border: 1px solid rgba(212, 175, 55, 0.25);
-    border-radius: 50px;
-    padding: 0.2rem 0.55rem;
-    font-size: 0.75rem;
-    color: var(--dark-gray);
-    white-space: nowrap;
-}
 
 /* ============================================
    RESPONSIVE
@@ -281,7 +237,7 @@
     }
 
     .dictionary-stats {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(3, 1fr);
     }
 }
 

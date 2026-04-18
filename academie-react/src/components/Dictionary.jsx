@@ -135,31 +135,6 @@ function Dictionary() {
                         <span className="stat-number">10</span>
                         <span className="stat-label">{t('dictionary.yearsOfWork')}</span>
                     </div>
-                    <div className="stat-card stat-card-countries">
-                        <span className="stat-number">1</span>
-                        <span className="stat-label">{t('dictionary.volumesPublished')}</span>
-                        <div className="stat-countries">
-                            <span className="stat-countries-label">{t('dictionary.countriesLabel')}</span>
-                            <div className="stat-countries-list">
-                                {[
-                                    { flag: '🇲🇷', name: 'Moritani' },
-                                    { flag: '🇲🇱', name: 'Mali' },
-                                    { flag: '🇸🇳', name: 'Senegaal' },
-                                    { flag: '🇬🇳', name: 'Gine Konaakiri' },
-                                    { flag: '🇧🇫', name: 'Burkina Faso' },
-                                    { flag: '🇳🇪', name: 'Niijeer' },
-                                    { flag: '🇨🇲', name: 'Kameruun' },
-                                    { flag: '🇹🇩', name: 'Caad' },
-                                    { flag: '🇧🇯', name: 'Bene' },
-                                    { flag: '🇸🇩', name: 'Suudaan' },
-                                    { flag: '🇬🇼', name: 'Gine Bisaawo' },
-                                    { flag: '🇳🇬', name: 'Niijeriya' },
-                                ].map((c, i) => (
-                                    <span key={i} className="country-tag">{c.flag} {c.name}</span>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </section>
