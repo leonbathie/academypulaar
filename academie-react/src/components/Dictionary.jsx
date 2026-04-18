@@ -136,6 +136,31 @@ function Dictionary() {
                         <span className="stat-label">{t('dictionary.yearsOfWork')}</span>
                     </div>
                 </div>
+
+                <div className="dict-countries">
+                    <h3 className="dict-countries-title">Pays participants</h3>
+                    <div className="dict-countries-grid">
+                        {[
+                            { flag: '🇲🇷', name: 'Mauritanie' },
+                            { flag: '🇲🇱', name: 'Mali' },
+                            { flag: '🇸🇳', name: 'Sénégal' },
+                            { flag: '🇬🇳', name: 'Guinée-Conakry' },
+                            { flag: '🇧🇫', name: 'Burkina Faso' },
+                            { flag: '🇳🇪', name: 'Niger' },
+                            { flag: '🇨🇲', name: 'Cameroun' },
+                            { flag: '🇹🇩', name: 'Tchad' },
+                            { flag: '🇧🇯', name: 'Bénin' },
+                            { flag: '🇸🇩', name: 'Soudan' },
+                            { flag: '🇬🇼', name: 'Guinée-Bissau' },
+                            { flag: '🇳🇬', name: 'Nigeria' },
+                        ].map((c, i) => (
+                            <div key={i} className="dict-country-card">
+                                <span className="dict-country-flag">{c.flag}</span>
+                                <span className="dict-country-name">{c.name}</span>
+                            </div>
+                        ))}
+                    </div>
+                </div>
             </div>
         </section>
     )

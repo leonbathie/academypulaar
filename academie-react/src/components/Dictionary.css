@@ -264,3 +264,87 @@
         height: 250px;
     }
 }
+
+/* ============================================
+   PAYS PARTICIPANTS
+   ============================================ */
+
+.dict-countries {
+    margin-top: var(--space-3xl);
+}
+
+.dict-countries-title {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--primary-dark);
+    margin-bottom: var(--space-xl);
+    padding-bottom: var(--space-md);
+    border-bottom: 2px solid rgba(212, 175, 55, 0.3);
+    position: relative;
+}
+
+.dict-countries-title::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 60px;
+    height: 2px;
+    background: var(--gradient-gold);
+}
+
+.dict-countries-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: var(--space-md);
+}
+
+.dict-country-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-lg) var(--space-md);
+    background: var(--cream);
+    border: 1px solid var(--light-gray);
+    border-radius: var(--radius-lg);
+    transition: all var(--transition-base);
+    cursor: default;
+}
+
+.dict-country-card:hover {
+    background: var(--white);
+    border-color: rgba(212, 175, 55, 0.5);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-3px);
+}
+
+.dict-country-flag {
+    font-size: 2.2rem;
+    line-height: 1;
+}
+
+.dict-country-name {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--dark-gray);
+    text-align: center;
+    line-height: 1.3;
+}
+
+@media (max-width: 1023px) {
+    .dict-countries-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (max-width: 639px) {
+    .dict-countries-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .dict-country-flag {
+        font-size: 1.8rem;
+    }
+}
