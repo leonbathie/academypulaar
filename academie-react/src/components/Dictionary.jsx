@@ -138,24 +138,39 @@ function Dictionary() {
                 </div>
 
                 <div className="dict-countries">
-                    <h3 className="dict-countries-title">Pays participants</h3>
+                    <div className="dict-countries-header">
+                        <div className="dict-countries-header-text">
+                            <h3 className="dict-countries-title">Pays participants</h3>
+                            <p className="dict-countries-subtitle">
+                                Le Fulfulde est une langue vivante parlée par des millions de locuteurs à travers toute l'Afrique de l'Ouest et du Centre. Ce dictionnaire est le fruit d'une collaboration panafricaine réunissant linguistes, enseignants et communautés de <strong>12 pays</strong>.
+                            </p>
+                        </div>
+                        <span className="dict-countries-badge">12 pays</span>
+                    </div>
                     <div className="dict-countries-grid">
                         {[
-                            { flag: '🇲🇷', name: 'Mauritanie' },
-                            { flag: '🇲🇱', name: 'Mali' },
-                            { flag: '🇸🇳', name: 'Sénégal' },
-                            { flag: '🇬🇳', name: 'Guinée-Conakry' },
-                            { flag: '🇧🇫', name: 'Burkina Faso' },
-                            { flag: '🇳🇪', name: 'Niger' },
-                            { flag: '🇨🇲', name: 'Cameroun' },
-                            { flag: '🇹🇩', name: 'Tchad' },
-                            { flag: '🇧🇯', name: 'Bénin' },
-                            { flag: '🇸🇩', name: 'Soudan' },
-                            { flag: '🇬🇼', name: 'Guinée-Bissau' },
-                            { flag: '🇳🇬', name: 'Nigeria' },
+                            { code: 'mr', name: 'Mauritanie' },
+                            { code: 'ml', name: 'Mali' },
+                            { code: 'sn', name: 'Sénégal' },
+                            { code: 'gn', name: 'Guinée-Conakry' },
+                            { code: 'bf', name: 'Burkina Faso' },
+                            { code: 'ne', name: 'Niger' },
+                            { code: 'cm', name: 'Cameroun' },
+                            { code: 'td', name: 'Tchad' },
+                            { code: 'bj', name: 'Bénin' },
+                            { code: 'sd', name: 'Soudan' },
+                            { code: 'gw', name: 'Guinée-Bissau' },
+                            { code: 'ng', name: 'Nigeria' },
                         ].map((c, i) => (
                             <div key={i} className="dict-country-card">
-                                <span className="dict-country-flag">{c.flag}</span>
+                                <div className="dict-country-flag-wrap">
+                                    <img
+                                        src={`https://flagcdn.com/w80/${c.code}.png`}
+                                        alt={`Drapeau ${c.name}`}
+                                        className="dict-country-flag-img"
+                                        loading="lazy"
+                                    />
+                                </div>
                                 <span className="dict-country-name">{c.name}</span>
                             </div>
                         ))}
