@@ -540,10 +540,13 @@ const pdfStorage = multer.diskStorage({
 })
 
 const pdfFilter = (req, file, cb) => {
-    if (file.mimetype === 'application/pdf') {
+    const isPdf = file.mimetype === 'application/pdf' ||
+                  file.mimetype === 'application/octet-stream' ||
+                  file.originalname.toLowerCase().endsWith('.pdf')
+    if (isPdf) {
         cb(null, true)
     } else {
-        cb(new Error('Seuls les fichiers PDF sont acceptés'), false)
+        cb(new Error(`Type de fichier non accepté: ${file.mimetype}. Seuls les fichiers PDF sont acceptés.`), false)
     }
 }
 
