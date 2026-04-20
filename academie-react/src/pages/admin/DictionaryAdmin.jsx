@@ -73,6 +73,9 @@ function DictionaryAdmin() {
     // Delete requests (double validation super-admin)
     const [deleteRequests, setDeleteRequests] = useState([])
     const [showDeleteRequests, setShowDeleteRequests] = useState(false)
+    const [deleteFilterDomain, setDeleteFilterDomain] = useState('')
+    const [selectedDeleteIds, setSelectedDeleteIds] = useState(new Set())
+    const [bulkProcessingDelete, setBulkProcessingDelete] = useState(false)
 
     const [confirmDialog, setConfirmDialog] = useState({ open: false, title: '', message: '', onConfirm: null })
     const closeConfirm = useCallback(() => setConfirmDialog(prev => ({ ...prev, open: false })), [])
@@ -350,6 +353,65 @@ function DictionaryAdmin() {
         }
     }
 
+    const toggleSelectDelete = (id) => {
+        setSelectedDeleteIds(prev => {
+            const next = new Set(prev)
+            if (next.has(id)) next.delete(id); else next.add(id)
+            return next
+        })
+    }
+
+    const filteredPendingRequests = deleteRequests
+        .filter(r => r.status === 'pending')
+        .filter(r => !deleteFilterDomain || r.domain === deleteFilterDomain)
+
+    const toggleSelectAllDelete = () => {
+        if (selectedDeleteIds.size === filteredPendingRequests.length) {
+            setSelectedDeleteIds(new Set())
+        } else {
+            setSelectedDeleteIds(new Set(filteredPendingRequests.map(r => r.id)))
+        }
+    }
+
+    const processBulk = async (action) => {
+        if (selectedDeleteIds.size === 0) return
+        const ids = Array.from(selectedDeleteIds)
+        setBulkProcessingDelete(true)
+        let success = 0, failed = 0
+        try {
+            for (const id of ids) {
+                try {
+                    await apiRequest(`/dictionary/delete-request/${id}/${action}`, { method: 'POST' })
+                    success++
+                } catch (e) { failed++ }
+            }
+            setSelectedDeleteIds(new Set())
+            loadWords()
+            loadDeleteRequests()
+            if (failed > 0) alert(`${success} OK, ${failed} ${t('admin.common.error', 'erreurs')}`)
+        } finally {
+            setBulkProcessingDelete(false)
+        }
+    }
+
+    const handleBulkApproveDelete = () => {
+        setConfirmDialog({
+            open: true,
+            title: t('admin.dictionary.bulkApproveTitle', 'Approuver en masse'),
+            message: t('admin.dictionary.bulkApproveConfirm', { count: selectedDeleteIds.size, defaultValue: 'Approuver {{count}} suppression(s) ?' }),
+            onConfirm: () => { setConfirmDialog(prev => ({ ...prev, open: false })); processBulk('approve') }
+        })
+    }
+
+    const handleBulkRejectDelete = () => {
+        setConfirmDialog({
+            open: true,
+            title: t('admin.dictionary.bulkRejectTitle', 'Rejeter en masse'),
+            message: t('admin.dictionary.bulkRejectConfirm', { count: selectedDeleteIds.size, defaultValue: 'Rejeter {{count}} demande(s) ?' }),
+            onConfirm: () => { setConfirmDialog(prev => ({ ...prev, open: false })); processBulk('reject') }
+        })
+    }
+
     const handleCancelDelete = async (requestId) => {
         try {
             await apiRequest(`/dictionary/delete-request/${requestId}/cancel`, { method: 'POST' })
@@ -533,8 +595,50 @@ function DictionaryAdmin() {
                 )}
                 {isSuperAdmin && showDeleteRequests && deleteRequests.filter(r => r.status === 'pending').length > 0 && (
                     <div className="delete-requests-panel">
-                        {deleteRequests.filter(r => r.status === 'pending').map(req => (
+                        {/* Toolbar: filtre par domaine + actions en masse */}
+                        <div className="delete-requests-toolbar">
+                            <div className="delete-requests-toolbar-left">
+                                <label className="delete-requests-select-all">
+                                    <input
+                                        type="checkbox"
+                                        checked={filteredPendingRequests.length > 0 && selectedDeleteIds.size === filteredPendingRequests.length}
+                                        onChange={toggleSelectAllDelete}
+                                    />
+                                    <span>{t('admin.dictionary.selectAllVisible', 'Tout sélectionner')} ({filteredPendingRequests.length})</span>
+                                </label>
+                                <select
+                                    className="delete-requests-filter"
+                                    value={deleteFilterDomain}
+                                    onChange={(e) => { setDeleteFilterDomain(e.target.value); setSelectedDeleteIds(new Set()) }}
+                                >
+                                    <option value="">{t('admin.dictionary.allDomains', 'Tous les domaines')}</option>
+                                    {Array.from(new Set(deleteRequests.filter(r => r.status === 'pending' && r.domain).map(r => r.domain))).sort().map(dom => (
+                                        <option key={dom} value={dom}>{t(domainKeyMap[dom] || dom)}</option>
+                                    ))}
+                                </select>
+                            </div>
+                            {selectedDeleteIds.size > 0 && (
+                                <div className="delete-requests-bulk-actions">
+                                    <span className="delete-requests-selected-count">{selectedDeleteIds.size} {t('admin.dictionary.selected', 'sélectionné(s)')}</span>
+                                    <button className="btn-approve-bulk" onClick={handleBulkApproveDelete} disabled={bulkProcessingDelete}>
+                                        {bulkProcessingDelete ? <div className="btn-spinner"></div> : <>✓ {t('admin.dictionary.approveAll', 'Tout approuver')}</>}
+                                    </button>
+                                    <button className="btn-reject-bulk" onClick={handleBulkRejectDelete} disabled={bulkProcessingDelete}>
+                                        {bulkProcessingDelete ? <div className="btn-spinner"></div> : <>✕ {t('admin.dictionary.rejectAll', 'Tout rejeter')}</>}
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+
+                        {filteredPendingRequests.map(req => (
                             <div key={req.id} className="delete-request-item">
+                                <input
+                                    type="checkbox"
+                                    className="delete-request-checkbox"
+                                    checked={selectedDeleteIds.has(req.id)}
+                                    onChange={() => toggleSelectDelete(req.id)}
+                                    onClick={(e) => e.stopPropagation()}
+                                />
                                 <div className="delete-request-info">
                                     <strong>{req.word}</strong>
                                     <span className="delete-request-meta">
