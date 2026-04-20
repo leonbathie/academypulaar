@@ -378,17 +378,23 @@ function DictionaryAdmin() {
         const ids = Array.from(selectedDeleteIds)
         setBulkProcessingDelete(true)
         let success = 0, failed = 0
+        let firstError = null
         try {
             for (const id of ids) {
                 try {
                     await apiRequest(`/dictionary/delete-request/${id}/${action}`, { method: 'POST' })
                     success++
-                } catch (e) { failed++ }
+                } catch (e) {
+                    failed++
+                    if (!firstError) firstError = e.message || String(e)
+                }
             }
             setSelectedDeleteIds(new Set())
             loadWords()
             loadDeleteRequests()
-            if (failed > 0) alert(`${success} OK, ${failed} ${t('admin.common.error', 'erreurs')}`)
+            if (failed > 0) {
+                alert(`✅ ${success} OK\n❌ ${failed} ${t('admin.common.errors', 'erreur(s)')}\n\n${firstError || ''}`)
+            }
         } finally {
             setBulkProcessingDelete(false)
         }
