@@ -54,6 +54,8 @@ function DictionaryAdmin() {
     const [audioExampleBlob, setAudioExampleBlob] = useState(null)
     const [audioWordUrl, setAudioWordUrl] = useState(null)
     const [audioExampleUrl, setAudioExampleUrl] = useState(null)
+    const [removedAudioWord, setRemovedAudioWord] = useState(false)
+    const [removedAudioExample, setRemovedAudioExample] = useState(false)
     const mediaRecorderRef = useRef(null)
     const audioChunksRef = useRef([])
 
@@ -138,6 +140,8 @@ function DictionaryAdmin() {
         }
         setAudioWordBlob(null)
         setAudioExampleBlob(null)
+        setRemovedAudioWord(false)
+        setRemovedAudioExample(false)
         setActiveTab('fr')
         setShowModal(true)
     }
@@ -206,9 +210,11 @@ function DictionaryAdmin() {
         if (type === 'word') {
             setAudioWordBlob(null)
             setAudioWordUrl(null)
+            setRemovedAudioWord(true)
         } else {
             setAudioExampleBlob(null)
             setAudioExampleUrl(null)
+            setRemovedAudioExample(true)
         }
     }
 
@@ -232,6 +238,13 @@ function DictionaryAdmin() {
             }
             if (audioExampleBlob) {
                 formDataToSend.append('audio_example', audioExampleBlob, 'audio_example.webm')
+            }
+            // Flags to explicitly remove existing audios
+            if (removedAudioWord && !audioWordBlob) {
+                formDataToSend.append('remove_audio_word', '1')
+            }
+            if (removedAudioExample && !audioExampleBlob) {
+                formDataToSend.append('remove_audio_example', '1')
             }
 
             const url = editingWord
@@ -754,6 +767,7 @@ function DictionaryAdmin() {
                     </div>
                 )}
 
+                <div className="admin-table-wrapper">
                 <table className="admin-table">
                     <thead>
                         <tr>
@@ -778,7 +792,7 @@ function DictionaryAdmin() {
                         {domainKeys.map(domainKey => (
                             <Fragment key={domainKey}>
                                 <tr className="domain-group-header">
-                                    <td colSpan="6">
+                                    <td colSpan={isAdmin ? 6 : 5}>
                                         <strong>
                                             {domainKey === '_none'
                                                 ? t('admin.dictionary.noDomain', 'Sans domaine')
@@ -834,7 +848,7 @@ function DictionaryAdmin() {
                                             </tr>
                                             {isExpanded && (
                                                 <tr className="row-detail">
-                                                    <td colSpan="6">
+                                                    <td colSpan={isAdmin ? 6 : 5}>
                                                         <div className="word-detail-grid">
                                                             <div className="word-detail-item">
                                                                 <span className="word-detail-label">{t('admin.dictionary.translationFr')}</span>
@@ -875,13 +889,14 @@ function DictionaryAdmin() {
                         ))}
                         {words.length === 0 && (
                             <tr>
-                                <td colSpan="6" style={{ textAlign: 'center', padding: '2rem', color: 'var(--medium-gray)' }}>
+                                <td colSpan={isAdmin ? 6 : 5} style={{ textAlign: 'center', padding: '2rem', color: 'var(--medium-gray)' }}>
                                     {t('admin.dictionary.noWords')}
                                 </td>
                             </tr>
                         )}
                     </tbody>
                 </table>
+                </div>
             </div>
 
             {showModal && (

@@ -247,6 +247,9 @@ router.put('/:id', authMiddleware, canWrite, validateId, upload.fields([
         const oldAudioWord = audioWordPath
         const oldAudioExample = audioExamplePath
 
+        const removeAudioWord = req.body.remove_audio_word === '1' || req.body.remove_audio_word === 'true'
+        const removeAudioExample = req.body.remove_audio_example === '1' || req.body.remove_audio_example === 'true'
+
         if (req.files) {
             if (req.files['audio_word'] && req.files['audio_word'][0]) {
                 audioWordPath = '/uploads/' + req.files['audio_word'][0].filename
@@ -254,6 +257,13 @@ router.put('/:id', authMiddleware, canWrite, validateId, upload.fields([
             if (req.files['audio_example'] && req.files['audio_example'][0]) {
                 audioExamplePath = '/uploads/' + req.files['audio_example'][0].filename
             }
+        }
+
+        if (removeAudioWord && !(req.files && req.files['audio_word'] && req.files['audio_word'][0])) {
+            audioWordPath = null
+        }
+        if (removeAudioExample && !(req.files && req.files['audio_example'] && req.files['audio_example'][0])) {
+            audioExamplePath = null
         }
 
         const result = await query(
@@ -269,12 +279,12 @@ router.put('/:id', authMiddleware, canWrite, validateId, upload.fields([
             return res.status(404).json({ error: 'Mot non trouvé' })
         }
 
-        // Supprimer les anciens fichiers audio si remplacés
-        if (req.files?.['audio_word'] && oldAudioWord) {
+        // Supprimer les anciens fichiers audio si remplacés ou retirés
+        if ((req.files?.['audio_word'] || removeAudioWord) && oldAudioWord) {
             const oldPath = path.join(__dirname, '..', oldAudioWord)
             if (fs.existsSync(oldPath)) fs.unlink(oldPath, () => {})
         }
-        if (req.files?.['audio_example'] && oldAudioExample) {
+        if ((req.files?.['audio_example'] || removeAudioExample) && oldAudioExample) {
             const oldPath = path.join(__dirname, '..', oldAudioExample)
             if (fs.existsSync(oldPath)) fs.unlink(oldPath, () => {})
         }

@@ -490,9 +490,16 @@
 }
 
 /* Table */
+.admin-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
 .admin-table {
     width: 100%;
     border-collapse: collapse;
+    table-layout: auto;
 }
 
 .admin-table th,
@@ -508,17 +515,22 @@
     font-size: 0.85rem;
     text-transform: uppercase;
     letter-spacing: 0.05em;
+    white-space: nowrap;
 }
 
 .admin-table td {
     color: var(--dark-gray);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    word-break: break-word;
+    overflow-wrap: anywhere;
 }
 
 .admin-table tr:hover td {
     background: rgba(0, 0, 0, 0.02);
+}
+
+.admin-table .domain-group-header td {
+    white-space: normal;
+    word-break: break-word;
 }
 
 /* Buttons */
@@ -615,7 +627,7 @@
 
 /* Truncated translation column */
 .td-truncate {
-    max-width: 200px;
+    max-width: 260px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -916,8 +928,7 @@
     }
 
     /* Table responsive */
-    .admin-table {
-        display: block;
+    .admin-table-wrapper {
         overflow-x: auto;
     }
 
@@ -925,6 +936,10 @@
     .admin-table td {
         padding: var(--space-sm);
         font-size: 0.85rem;
+    }
+
+    .td-truncate {
+        max-width: 180px;
     }
 
     /* Modal responsive */
