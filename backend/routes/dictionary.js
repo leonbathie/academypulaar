@@ -549,6 +549,7 @@ const uploadCsv = multer({ storage: csvStorage, fileFilter: csvFilter, limits: {
 
 // POST /api/dictionary/import-pdf - Importer des mots depuis un PDF (Admin only)
 // Fonction utilitaire : parser un CSV (séparateur ; ou ,)
+// Supporte 3 colonnes (Fulfulde;FR;EN) ou 4 colonnes (Numéro;Fulfulde;FR;EN)
 function parseCsvWords(content) {
     const lines = content.split(/\r?\n/).map(l => l.trim()).filter(Boolean)
     const words = []
@@ -556,7 +557,11 @@ function parseCsvWords(content) {
         // Ignorer les lignes d'en-tête
         if (/fulfulde|num[eé]ro|fran[çc]ais|anglais/i.test(line)) continue
         const sep = line.includes(';') ? ';' : ','
-        const cols = line.split(sep).map(c => c.trim().replace(/^["']|["']$/g, ''))
+        let cols = line.split(sep).map(c => c.trim().replace(/^["']|["']$/g, ''))
+        // Si la première colonne est un numéro d'ordre, on la saute
+        if (cols.length >= 4 && /^\d+$/.test(cols[0])) {
+            cols = cols.slice(1)
+        }
         if (!cols[0]) continue
         words.push({
             word:           cols[0] || null,
