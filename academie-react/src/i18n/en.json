@@ -514,6 +514,10 @@
             "bulkApproveConfirm": "Approve {{count}} deletion(s)?",
             "bulkRejectTitle": "Bulk reject",
             "bulkRejectConfirm": "Reject {{count}} request(s)?",
+            "cancelMine": "Cancel my requests",
+            "cancelMineHelp": "Cancel only your own requests (words will not be deleted)",
+            "bulkCancelTitle": "Cancel my requests",
+            "bulkCancelConfirm": "Cancel {{count}} of my requests? (words will not be deleted)",
             "requestDelete": "Request deletion",
             "sendRequest": "Send request"
         },

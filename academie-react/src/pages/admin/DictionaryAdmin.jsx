@@ -7,7 +7,7 @@ import ConfirmDialog from '../../components/ConfirmDialog'
 function DictionaryAdmin() {
     const { t, i18n } = useTranslation()
     const { apiRequest, token } = useApi()
-    const { isSuperAdmin, isAdmin } = useAuth()
+    const { isSuperAdmin, isAdmin, user } = useAuth()
 
     // Map stored domain values to i18n keys
     const domainKeyMap = {
@@ -420,6 +420,55 @@ function DictionaryAdmin() {
         })
     }
 
+    // Sélection restreinte aux demandes que j'ai créées moi-même (pour annulation)
+    const selectedMineCount = filteredPendingRequests
+        .filter(r => selectedDeleteIds.has(r.id) && user && r.requested_by === user.id)
+        .length
+
+    const handleBulkCancelDelete = () => {
+        if (selectedMineCount === 0) return
+        setConfirmDialog({
+            open: true,
+            title: t('admin.dictionary.bulkCancelTitle', 'Annuler mes demandes'),
+            message: t('admin.dictionary.bulkCancelConfirm', { count: selectedMineCount, defaultValue: 'Annuler {{count}} de mes demandes ? (les mots ne seront pas supprimés)' }),
+            confirmText: t('admin.dictionary.cancelMine', 'Annuler mes demandes'),
+            onConfirm: () => {
+                setConfirmDialog(prev => ({ ...prev, open: false }))
+                // Ne cancel que mes propres demandes
+                const mineIds = filteredPendingRequests
+                    .filter(r => selectedDeleteIds.has(r.id) && user && r.requested_by === user.id)
+                    .map(r => r.id)
+                processBulkIds('cancel', mineIds)
+            }
+        })
+    }
+
+    const processBulkIds = async (action, ids) => {
+        if (!ids || ids.length === 0) return
+        setBulkProcessingDelete(true)
+        let success = 0, failed = 0
+        let firstError = null
+        try {
+            for (const id of ids) {
+                try {
+                    await apiRequest(`/dictionary/delete-request/${id}/${action}`, { method: 'POST' })
+                    success++
+                } catch (e) {
+                    failed++
+                    if (!firstError) firstError = e.message || String(e)
+                }
+            }
+            setSelectedDeleteIds(new Set())
+            loadWords()
+            loadDeleteRequests()
+            if (failed > 0) {
+                alert(`✅ ${success} OK\n❌ ${failed} ${t('admin.common.errors', 'erreur(s)')}\n\n${firstError || ''}`)
+            }
+        } finally {
+            setBulkProcessingDelete(false)
+        }
+    }
+
     const handleCancelDelete = async (requestId) => {
         try {
             await apiRequest(`/dictionary/delete-request/${requestId}/cancel`, { method: 'POST' })
@@ -634,6 +683,11 @@ function DictionaryAdmin() {
                                     <button className="btn-reject-bulk" onClick={handleBulkRejectDelete} disabled={bulkProcessingDelete}>
                                         {bulkProcessingDelete ? <div className="btn-spinner"></div> : <>✕ {t('admin.dictionary.rejectAll', 'Tout rejeter')}</>}
                                     </button>
+                                    {selectedMineCount > 0 && (
+                                        <button className="btn-cancel-bulk" onClick={handleBulkCancelDelete} disabled={bulkProcessingDelete} title={t('admin.dictionary.cancelMineHelp', 'Annuler uniquement vos propres demandes')}>
+                                            {bulkProcessingDelete ? <div className="btn-spinner"></div> : <>↩ {t('admin.dictionary.cancelMine', 'Annuler mes demandes')} ({selectedMineCount})</>}
+                                        </button>
+                                    )}
                                 </div>
                             )}
                         </div>

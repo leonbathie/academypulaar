@@ -1551,7 +1551,22 @@
 .btn-approve-bulk:hover:not(:disabled) { background: #219a52; }
 .btn-reject-bulk { background: #e74c3c; }
 .btn-reject-bulk:hover:not(:disabled) { background: #c0392b; }
-.btn-approve-bulk:disabled, .btn-reject-bulk:disabled { opacity: 0.6; cursor: not-allowed; }
+.btn-cancel-bulk {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: white;
+    background: #7f8c8d;
+}
+.btn-cancel-bulk:hover:not(:disabled) { background: #5d6d6e; }
+.btn-approve-bulk:disabled, .btn-reject-bulk:disabled, .btn-cancel-bulk:disabled { opacity: 0.6; cursor: not-allowed; }
 
 .delete-request-checkbox {
     width: 18px; height: 18px;

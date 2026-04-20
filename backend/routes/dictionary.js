@@ -142,7 +142,7 @@ router.get('/search-stats', authMiddleware, requireRole('admin'), async (req, re
 router.get('/delete-requests', authMiddleware, requireRole('admin'), async (req, res) => {
     try {
         const result = await query(`
-            SELECT dr.id, dr.word_id, dr.status, dr.created_at, dr.resolved_at,
+            SELECT dr.id, dr.word_id, dr.status, dr.created_at, dr.resolved_at, dr.requested_by,
                    d.word, d.translation_fr, d.translation_en, d.domain,
                    u1.username AS requested_by_name, u1.email AS requested_by_email,
                    u2.username AS approved_by_name

@@ -517,6 +517,10 @@
             "bulkApproveConfirm": "Jaɓde {{count}} momtugol ?",
             "bulkRejectTitle": "Salde e laabi",
             "bulkRejectConfirm": "Salde {{count}} ɗaɓɓaande ?",
+            "cancelMine": "Firtu ɗaɓɓuɗe-am",
+            "cancelMineHelp": "Firtu tan ɗaɓɓuɗe maa (kelme njaaltataako)",
+            "bulkCancelTitle": "Firtu ɗaɓɓuɗe-am",
+            "bulkCancelConfirm": "Firtu {{count}} e ɗaɓɓuɗe am ? (kelme njaaltataako)",
             "requestDelete": "Ɗaɓɓude momtugol",
             "sendRequest": "Neldu ɗaɓɓaande"
         },

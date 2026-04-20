@@ -516,6 +516,10 @@
             "bulkApproveConfirm": "Approuver {{count}} suppression(s) ?",
             "bulkRejectTitle": "Rejeter en masse",
             "bulkRejectConfirm": "Rejeter {{count}} demande(s) ?",
+            "cancelMine": "Annuler mes demandes",
+            "cancelMineHelp": "Annuler uniquement vos propres demandes (les mots ne seront pas supprimés)",
+            "bulkCancelTitle": "Annuler mes demandes",
+            "bulkCancelConfirm": "Annuler {{count}} de mes demandes ? (les mots ne seront pas supprimés)",
             "requestDelete": "Demander la suppression",
             "sendRequest": "Envoyer la demande"
         },
