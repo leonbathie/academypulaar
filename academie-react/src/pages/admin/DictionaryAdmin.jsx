@@ -377,24 +377,26 @@ function DictionaryAdmin() {
         if (selectedDeleteIds.size === 0) return
         const ids = Array.from(selectedDeleteIds)
         setBulkProcessingDelete(true)
-        let success = 0, failed = 0
-        let firstError = null
         try {
-            for (const id of ids) {
-                try {
-                    await apiRequest(`/dictionary/delete-request/${id}/${action}`, { method: 'POST' })
-                    success++
-                } catch (e) {
-                    failed++
-                    if (!firstError) firstError = e.message || String(e)
-                }
-            }
+            const endpoint = action === 'approve'
+                ? '/dictionary/delete-requests/bulk-approve'
+                : '/dictionary/delete-requests/bulk-reject'
+            const result = await apiRequest(endpoint, {
+                method: 'POST',
+                body: JSON.stringify({ ids })
+            })
             setSelectedDeleteIds(new Set())
-            loadWords()
-            loadDeleteRequests()
-            if (failed > 0) {
-                alert(`✅ ${success} OK\n❌ ${failed} ${t('admin.common.errors', 'erreur(s)')}\n\n${firstError || ''}`)
+            await loadWords()
+            await loadDeleteRequests()
+            if (action === 'approve') {
+                const msg = `✅ ${result.wordsDeleted || 0} mot(s) supprimé(s) (${result.approved || 0} demande(s) approuvée(s))`
+                    + (result.skippedSelf ? `\n⚠️ ${result.skippedSelf} ignorée(s) — vous êtes l'auteur (un autre super-admin doit valider)` : '')
+                alert(msg)
+            } else {
+                alert(`✅ ${result.rejected || 0} demande(s) rejetée(s)`)
             }
+        } catch (e) {
+            alert(t('admin.common.errorPrefix') + (e.message || String(e)))
         } finally {
             setBulkProcessingDelete(false)
         }
@@ -438,32 +440,24 @@ function DictionaryAdmin() {
                 const mineIds = filteredPendingRequests
                     .filter(r => selectedDeleteIds.has(r.id) && user && r.requested_by === user.id)
                     .map(r => r.id)
-                processBulkIds('cancel', mineIds)
+                processBulkCancel(mineIds)
             }
         })
     }
 
-    const processBulkIds = async (action, ids) => {
+    const processBulkCancel = async (ids) => {
         if (!ids || ids.length === 0) return
         setBulkProcessingDelete(true)
-        let success = 0, failed = 0
-        let firstError = null
         try {
-            for (const id of ids) {
-                try {
-                    await apiRequest(`/dictionary/delete-request/${id}/${action}`, { method: 'POST' })
-                    success++
-                } catch (e) {
-                    failed++
-                    if (!firstError) firstError = e.message || String(e)
-                }
-            }
+            const result = await apiRequest('/dictionary/delete-requests/bulk-cancel', {
+                method: 'POST',
+                body: JSON.stringify({ ids })
+            })
             setSelectedDeleteIds(new Set())
-            loadWords()
-            loadDeleteRequests()
-            if (failed > 0) {
-                alert(`✅ ${success} OK\n❌ ${failed} ${t('admin.common.errors', 'erreur(s)')}\n\n${firstError || ''}`)
-            }
+            await loadDeleteRequests()
+            alert(`✅ ${result.cancelled || 0} demande(s) annulée(s)`)
+        } catch (e) {
+            alert(t('admin.common.errorPrefix') + (e.message || String(e)))
         } finally {
             setBulkProcessingDelete(false)
         }

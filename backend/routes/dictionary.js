@@ -460,6 +460,107 @@ router.post('/delete-request/:id/cancel', authMiddleware, requireRole('admin'), 
 })
 
 // ============================================================
+// ENDPOINTS BULK : traiter plusieurs demandes en une seule requête
+// (évite de saturer le rate limiter pour les opérations de masse)
+// ============================================================
+
+// POST /api/dictionary/delete-requests/bulk-approve
+router.post('/delete-requests/bulk-approve', authMiddleware, requireRole('admin'), async (req, res) => {
+    try {
+        const email = await getUserEmail(req.user.id)
+        if (!isSuperAdmin(email)) {
+            return res.status(403).json({ error: 'Seuls les super-administrateurs peuvent approuver' })
+        }
+
+        const ids = Array.isArray(req.body?.ids) ? req.body.ids.filter(Number.isInteger) : []
+        if (ids.length === 0) return res.status(400).json({ error: 'Aucun identifiant' })
+
+        // Récupérer toutes les demandes pending sauf celles faites par l'utilisateur courant
+        const { rows: requests } = await query(
+            `SELECT id, word_id, requested_by FROM dictionary_delete_requests
+             WHERE id = ANY($1::int[]) AND status = 'pending'`,
+            [ids]
+        )
+
+        let approved = 0
+        let skippedSelf = 0
+        let wordsDeleted = 0
+
+        for (const r of requests) {
+            if (r.requested_by === req.user.id) { skippedSelf++; continue }
+
+            const deleted = await query('DELETE FROM dictionary WHERE id = $1 RETURNING audio_word, audio_example', [r.word_id])
+            if (deleted.rows.length > 0) {
+                wordsDeleted++
+                const w = deleted.rows[0]
+                if (w.audio_word) {
+                    const p = path.join(__dirname, '..', w.audio_word)
+                    if (fs.existsSync(p)) fs.unlink(p, () => {})
+                }
+                if (w.audio_example) {
+                    const p = path.join(__dirname, '..', w.audio_example)
+                    if (fs.existsSync(p)) fs.unlink(p, () => {})
+                }
+            }
+            await query(
+                "UPDATE dictionary_delete_requests SET status = 'approved', approved_by = $1, resolved_at = CURRENT_TIMESTAMP WHERE id = $2",
+                [req.user.id, r.id]
+            )
+            approved++
+        }
+
+        res.json({ approved, wordsDeleted, skippedSelf, totalRequested: ids.length })
+    } catch (error) {
+        console.error('Bulk approve error:', error)
+        res.status(500).json({ error: 'Erreur serveur: ' + error.message })
+    }
+})
+
+// POST /api/dictionary/delete-requests/bulk-reject
+router.post('/delete-requests/bulk-reject', authMiddleware, requireRole('admin'), async (req, res) => {
+    try {
+        const email = await getUserEmail(req.user.id)
+        if (!isSuperAdmin(email)) {
+            return res.status(403).json({ error: 'Seuls les super-administrateurs peuvent rejeter' })
+        }
+        const ids = Array.isArray(req.body?.ids) ? req.body.ids.filter(Number.isInteger) : []
+        if (ids.length === 0) return res.status(400).json({ error: 'Aucun identifiant' })
+
+        const result = await query(
+            `UPDATE dictionary_delete_requests
+             SET status = 'rejected', approved_by = $1, resolved_at = CURRENT_TIMESTAMP
+             WHERE id = ANY($2::int[]) AND status = 'pending'
+             RETURNING id`,
+            [req.user.id, ids]
+        )
+        res.json({ rejected: result.rows.length, totalRequested: ids.length })
+    } catch (error) {
+        console.error('Bulk reject error:', error)
+        res.status(500).json({ error: 'Erreur serveur: ' + error.message })
+    }
+})
+
+// POST /api/dictionary/delete-requests/bulk-cancel - annule uniquement ses propres demandes
+router.post('/delete-requests/bulk-cancel', authMiddleware, requireRole('admin'), async (req, res) => {
+    try {
+        const ids = Array.isArray(req.body?.ids) ? req.body.ids.filter(Number.isInteger) : []
+        if (ids.length === 0) return res.status(400).json({ error: 'Aucun identifiant' })
+
+        const result = await query(
+            `UPDATE dictionary_delete_requests
+             SET status = 'cancelled', resolved_at = CURRENT_TIMESTAMP
+             WHERE id = ANY($1::int[]) AND status = 'pending' AND requested_by = $2
+             RETURNING id`,
+            [ids, req.user.id]
+        )
+        res.json({ cancelled: result.rows.length, totalRequested: ids.length })
+    } catch (error) {
+        console.error('Bulk cancel error:', error)
+        res.status(500).json({ error: 'Erreur serveur: ' + error.message })
+    }
+})
+
+// ============================================================
 // TRACKING : recherches et mots consultés
 // ============================================================
 
