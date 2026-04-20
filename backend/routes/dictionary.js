@@ -694,53 +694,123 @@ router.post('/debug-pdf', authMiddleware, canWrite, uploadPdf.single('pdf'), asy
 
 /**
  * Parse a PDF table with columns: Numéro | Fulfulde | Français | Anglais
- * Handles two layouts produced by pdf-parse:
- *   - Single line:  "1   Huubi / timmitudum   Absolu   Absolute"
- *   - Multi-line:   "1\nHuubi / timmitudum\nAbsolu\nAbsolute"
+ * Uses pdf-parse pagerender to access x/y positions of each text item,
+ * then assigns items to columns based on their x-coordinate.
  */
 async function parsePdfTableWords(dataBuffer) {
-    const data = await pdfParse(dataBuffer)
-    const lines = data.text.split('\n').map(l => l.trim()).filter(Boolean)
+    const pages = []
 
-    const HEADER = /num[eé]ro|fulfulde|fran[çc]ais|anglais|english/i
+    await pdfParse(dataBuffer, {
+        pagerender: async function (pageData) {
+            const tc = await pageData.getTextContent()
+            pages.push(tc.items.map(item => ({
+                text:  item.str,
+                x:     item.transform[4],
+                y:     item.transform[5],
+                xEnd:  item.transform[4] + (item.width || 0)
+            })))
+            return ''
+        }
+    })
 
-    // Group lines into numbered entries
-    const entries = []   // [{ num, parts: [fulfulde, fr, en] }]
-    let current = null
+    // Detect column boundaries from header row (page 1)
+    const header = pages[0] || []
+    const col = detectColumns(header)
 
-    for (const line of lines) {
-        if (HEADER.test(line)) continue
-
-        const numMatch = line.match(/^(\d+)\s*(.*)/)
-        if (numMatch) {
-            if (current) entries.push(current)
-            current = { num: parseInt(numMatch[1]), parts: [] }
-            const rest = numMatch[2].trim()
-            if (rest) current.parts.push(rest)
-        } else if (current) {
-            current.parts.push(line)
+    // Group items by y-coordinate with tolerance, with page offset to avoid cross-page merges
+    const rowMap = new Map()
+    for (let pi = 0; pi < pages.length; pi++) {
+        const pageItems = pages[pi]
+        const pageOffset = pi * 100000
+        for (const item of pageItems) {
+            if (!item.text.trim()) continue
+            const yAbs = pageOffset + item.y
+            let rowY = null
+            for (const [y] of rowMap) {
+                if (Math.abs(y - yAbs) <= 3) { rowY = y; break }
+            }
+            if (rowY === null) {
+                rowY = yAbs
+                rowMap.set(rowY, { numero: [], fulfulde: [], francais: [], anglais: [] })
+            }
+            const row = rowMap.get(rowY)
+            if (item.x < col.fulfulde)        row.numero.push(item)
+            else if (item.x < col.francais)   row.fulfulde.push(item)
+            else if (item.x < col.anglais)    row.francais.push(item)
+            else                              row.anglais.push(item)
         }
     }
-    if (current) entries.push(current)
 
-    return entries
-        .map(e => {
-            // Strategy A: single part with 2+ spaces as column separators
-            if (e.parts.length === 1) {
-                const cols = e.parts[0].split(/\s{2,}/).map(c => c.trim()).filter(Boolean)
-                if (cols.length >= 2) {
-                    return { word: cols[0], translation_fr: cols[1] || null, translation_en: cols[2] || null }
-                }
-                return { word: e.parts[0], translation_fr: null, translation_en: null }
+    // Smart-join: no space when items are directly adjacent (special chars like ɓ, ɗ, ŋ)
+    const SPECIAL = /^[ɓɗŋñɠɽƴʼɲ]$/
+    function joinItems(items) {
+        if (!items.length) return ''
+        items.sort((a, b) => a.x - b.x)
+        let result = ''
+        let lastEnd = null
+        for (const item of items) {
+            if (!item.text) continue
+            if (lastEnd === null) {
+                result = item.text
+            } else {
+                const gap = item.x - lastEnd
+                // No space if: gap is tiny, OR item is a lone special char (ɓ, ɗ…)
+                const noSpace = gap <= 2 || SPECIAL.test(item.text.trim())
+                result += (noSpace ? '' : ' ') + item.text
             }
-            // Strategy B: one part per column (multi-line layout)
-            return {
-                word: e.parts[0] || null,
-                translation_fr: e.parts[1] || null,
-                translation_en: e.parts[2] || null
-            }
-        })
-        .filter(w => w.word && w.word.length > 0)
+            lastEnd = item.xEnd || (item.x + item.text.length * 5)
+        }
+        // Also clean any space that crept before a special char mid-word
+        return result.trim().replace(/\s([ɓɗŋñɠɽƴʼɲ])(?=\S)/g, '$1')
+    }
+
+    // Convert row arrays to strings and fix merged numero+fulfulde items
+    const rows = []
+    for (const raw of rowMap.values()) {
+        const row = {
+            numero:   joinItems(raw.numero),
+            fulfulde: joinItems(raw.fulfulde),
+            francais: joinItems(raw.francais),
+            anglais:  joinItems(raw.anglais)
+        }
+        // Extract number from numero, move leftover text to fulfulde
+        const m = row.numero.trim().match(/^(\d+)\s*(.+)/)
+        if (m) {
+            row.numero   = m[1]
+            row.fulfulde = m[2].trim() + (row.fulfulde ? ' ' + row.fulfulde : '')
+        }
+        rows.push(row)
+    }
+
+    return rows
+        .filter(r => /^\d+$/.test(r.numero.trim()) && r.fulfulde.trim())
+        .map(r => ({
+            word:           r.fulfulde.trim(),
+            translation_fr: r.francais.trim() || null,
+            translation_en: r.anglais.trim()  || null
+        }))
+}
+
+function detectColumns(items) {
+    const pos = {}
+    for (const item of items) {
+        const t = item.text.trim()
+        if (!t) continue
+        if (/num[eé]ro/i.test(t)       && !pos.numero)   pos.numero   = item.x
+        if (/fulfulde/i.test(t)         && !pos.fulfulde) pos.fulfulde = item.x
+        if (/fran[çc]ais/i.test(t)     && !pos.francais) pos.francais = item.x
+        if (/anglais|english/i.test(t) && !pos.anglais)  pos.anglais  = item.x
+    }
+    const num = pos.numero   || 43
+    const ff  = pos.fulfulde || 177
+    const fr  = pos.francais || 362
+    const en  = pos.anglais  || 499
+    // Use midpoints between header positions as column boundaries
+    return {
+        fulfulde: (num + ff) / 2,
+        francais: (ff  + fr) / 2,
+        anglais:  (fr  + en) / 2
+    }
 }
 
 module.exports = router
