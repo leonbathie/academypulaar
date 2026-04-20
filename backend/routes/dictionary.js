@@ -677,43 +677,53 @@ router.post('/preview-pdf', authMiddleware, canWrite, uploadPdf.single('pdf'), a
 
 /**
  * Parse a PDF table with columns: Numéro | Fulfulde | Français | Anglais
- * Uses pdfjs-dist to extract text with x/y positions for accurate column detection.
- * Automatically detects column boundaries from the header row.
+ * Handles two layouts produced by pdf-parse:
+ *   - Single line:  "1   Huubi / timmitudum   Absolu   Absolute"
+ *   - Multi-line:   "1\nHuubi / timmitudum\nAbsolu\nAbsolute"
  */
 async function parsePdfTableWords(dataBuffer) {
     const data = await pdfParse(dataBuffer)
     const lines = data.text.split('\n').map(l => l.trim()).filter(Boolean)
 
-    const words = []
-    let headerFound = false
+    const HEADER = /num[eé]ro|fulfulde|fran[çc]ais|anglais|english/i
+
+    // Group lines into numbered entries
+    const entries = []   // [{ num, parts: [fulfulde, fr, en] }]
+    let current = null
 
     for (const line of lines) {
-        // Détecter et passer la ligne d'en-tête
-        if (/num[eé]ro/i.test(line) && /fulfulde/i.test(line)) {
-            headerFound = true
-            continue
-        }
+        if (HEADER.test(line)) continue
 
-        // Chercher les lignes qui commencent par un numéro
-        // Format: "1   Huubi / timmitudum   Absolu   Absolute"
-        const match = line.match(/^(\d+)\s+(.+)/)
-        if (!match) continue
-
-        const rest = match[2].trim()
-
-        // Diviser le reste en colonnes par 2+ espaces (séparateur de colonne)
-        const cols = rest.split(/\s{2,}/).map(c => c.trim()).filter(Boolean)
-
-        if (cols.length >= 1) {
-            words.push({
-                word: cols[0] || null,
-                translation_fr: cols[1] || null,
-                translation_en: cols[2] || null
-            })
+        const numMatch = line.match(/^(\d+)\s*(.*)/)
+        if (numMatch) {
+            if (current) entries.push(current)
+            current = { num: parseInt(numMatch[1]), parts: [] }
+            const rest = numMatch[2].trim()
+            if (rest) current.parts.push(rest)
+        } else if (current) {
+            current.parts.push(line)
         }
     }
+    if (current) entries.push(current)
 
-    return words.filter(w => w.word && w.word.length > 0)
+    return entries
+        .map(e => {
+            // Strategy A: single part with 2+ spaces as column separators
+            if (e.parts.length === 1) {
+                const cols = e.parts[0].split(/\s{2,}/).map(c => c.trim()).filter(Boolean)
+                if (cols.length >= 2) {
+                    return { word: cols[0], translation_fr: cols[1] || null, translation_en: cols[2] || null }
+                }
+                return { word: e.parts[0], translation_fr: null, translation_en: null }
+            }
+            // Strategy B: one part per column (multi-line layout)
+            return {
+                word: e.parts[0] || null,
+                translation_fr: e.parts[1] || null,
+                translation_en: e.parts[2] || null
+            }
+        })
+        .filter(w => w.word && w.word.length > 0)
 }
 
 module.exports = router
