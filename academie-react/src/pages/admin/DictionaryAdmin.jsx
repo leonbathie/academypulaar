@@ -77,7 +77,7 @@ function DictionaryAdmin() {
     const [selectedDeleteIds, setSelectedDeleteIds] = useState(new Set())
     const [bulkProcessingDelete, setBulkProcessingDelete] = useState(false)
 
-    const [confirmDialog, setConfirmDialog] = useState({ open: false, title: '', message: '', onConfirm: null })
+    const [confirmDialog, setConfirmDialog] = useState({ open: false, title: '', message: '', onConfirm: null, confirmText: '' })
     const closeConfirm = useCallback(() => setConfirmDialog(prev => ({ ...prev, open: false })), [])
 
     useEffect(() => {
@@ -399,6 +399,7 @@ function DictionaryAdmin() {
             open: true,
             title: t('admin.dictionary.bulkApproveTitle', 'Approuver en masse'),
             message: t('admin.dictionary.bulkApproveConfirm', { count: selectedDeleteIds.size, defaultValue: 'Approuver {{count}} suppression(s) ?' }),
+            confirmText: t('admin.dictionary.approveAll', 'Tout approuver'),
             onConfirm: () => { setConfirmDialog(prev => ({ ...prev, open: false })); processBulk('approve') }
         })
     }
@@ -408,6 +409,7 @@ function DictionaryAdmin() {
             open: true,
             title: t('admin.dictionary.bulkRejectTitle', 'Rejeter en masse'),
             message: t('admin.dictionary.bulkRejectConfirm', { count: selectedDeleteIds.size, defaultValue: 'Rejeter {{count}} demande(s) ?' }),
+            confirmText: t('admin.dictionary.rejectAll', 'Tout rejeter'),
             onConfirm: () => { setConfirmDialog(prev => ({ ...prev, open: false })); processBulk('reject') }
         })
     }
@@ -1247,7 +1249,7 @@ function DictionaryAdmin() {
                 message={confirmDialog.message}
                 onConfirm={confirmDialog.onConfirm}
                 onCancel={closeConfirm}
-                confirmText={t('admin.dictionary.sendRequest', 'Envoyer la demande')}
+                confirmText={confirmDialog.confirmText || t('admin.dictionary.sendRequest', 'Envoyer la demande')}
             />
         </div>
     )
