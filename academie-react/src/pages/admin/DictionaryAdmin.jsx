@@ -381,19 +381,16 @@ function DictionaryAdmin() {
         setPdfResult(null)
         try {
             const formData = new FormData()
-            formData.append('pdf', pdfFile)
-
-            const response = await fetch(`${API_URL}/api/dictionary/preview-pdf`, {
+            formData.append('csv', pdfFile)
+            const response = await fetch(`${API_URL}/api/dictionary/preview-csv`, {
                 method: 'POST',
                 headers: { 'Authorization': `Bearer ${token}` },
                 body: formData
             })
-
             if (!response.ok) {
                 const err = await response.json().catch(() => ({}))
                 throw new Error(err.error || t('admin.common.previewError'))
             }
-
             const data = await response.json()
             setPdfPreview(data)
         } catch (error) {
@@ -408,20 +405,17 @@ function DictionaryAdmin() {
         setPdfImporting(true)
         try {
             const formData = new FormData()
-            formData.append('pdf', pdfFile)
+            formData.append('csv', pdfFile)
             if (pdfDomain) formData.append('domain', pdfDomain)
-
-            const response = await fetch(`${API_URL}/api/dictionary/import-pdf`, {
+            const response = await fetch(`${API_URL}/api/dictionary/import-csv`, {
                 method: 'POST',
                 headers: { 'Authorization': `Bearer ${token}` },
                 body: formData
             })
-
             if (!response.ok) {
                 const err = await response.json().catch(() => ({}))
                 throw new Error(err.error || t('admin.common.importError'))
             }
-
             const data = await response.json()
             setPdfResult(data)
             setPdfPreview(null)
@@ -1005,7 +999,7 @@ function DictionaryAdmin() {
                                         <input
                                             ref={pdfInputRef}
                                             type="file"
-                                            accept=".pdf"
+                                            accept=".csv"
                                             style={{ display: 'none' }}
                                             onChange={e => {
                                                 setPdfFile(e.target.files[0] || null)

@@ -3,7 +3,6 @@ const router = express.Router()
 const multer = require('multer')
 const path = require('path')
 const fs = require('fs')
-const pdfParse = require('pdf-parse')
 const { query } = require('../database')
 const { authMiddleware, canWrite, requireRole, validateId } = require('../middleware/auth')
 const crypto = require('crypto')
@@ -528,289 +527,114 @@ router.post('/track-view/:id', validateId, async (req, res) => {
     }
 })
 
-// Configuration multer pour les fichiers PDF
-const pdfStorage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'uploads/')
-    },
+// Configuration multer pour les fichiers CSV
+const csvStorage = multer.diskStorage({
+    destination: (req, file, cb) => { cb(null, 'uploads/') },
     filename: (req, file, cb) => {
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
-        cb(null, 'pdf-' + uniqueSuffix + path.extname(file.originalname))
+        cb(null, 'csv-' + uniqueSuffix + '.csv')
     }
 })
 
-const pdfFilter = (req, file, cb) => {
-    const isPdf = file.mimetype === 'application/pdf' ||
-                  file.mimetype === 'application/octet-stream' ||
-                  file.originalname.toLowerCase().endsWith('.pdf')
-    if (isPdf) {
-        cb(null, true)
-    } else {
-        cb(new Error(`Type de fichier non accepté: ${file.mimetype}. Seuls les fichiers PDF sont acceptés.`), false)
-    }
+const csvFilter = (req, file, cb) => {
+    const ok = file.mimetype === 'text/csv' ||
+               file.mimetype === 'application/csv' ||
+               file.mimetype === 'text/plain' ||
+               file.mimetype === 'application/octet-stream' ||
+               file.originalname.toLowerCase().endsWith('.csv')
+    ok ? cb(null, true) : cb(new Error('Seuls les fichiers CSV sont acceptés.'), false)
 }
 
-const uploadPdf = multer({
-    storage: pdfStorage,
-    fileFilter: pdfFilter,
-    limits: { fileSize: 50 * 1024 * 1024 } // 50MB max
-})
+const uploadCsv = multer({ storage: csvStorage, fileFilter: csvFilter, limits: { fileSize: 10 * 1024 * 1024 } })
 
 // POST /api/dictionary/import-pdf - Importer des mots depuis un PDF (Admin only)
-router.post('/import-pdf', authMiddleware, canWrite, uploadPdf.single('pdf'), async (req, res) => {
-    let pdfPath = null
+// Fonction utilitaire : parser un CSV (séparateur ; ou ,)
+function parseCsvWords(content) {
+    const lines = content.split(/\r?\n/).map(l => l.trim()).filter(Boolean)
+    const words = []
+    for (const line of lines) {
+        // Ignorer les lignes d'en-tête
+        if (/fulfulde|num[eé]ro|fran[çc]ais|anglais/i.test(line)) continue
+        const sep = line.includes(';') ? ';' : ','
+        const cols = line.split(sep).map(c => c.trim().replace(/^["']|["']$/g, ''))
+        if (!cols[0]) continue
+        words.push({
+            word:           cols[0] || null,
+            translation_fr: cols[1] || null,
+            translation_en: cols[2] || null
+        })
+    }
+    return words
+}
+
+// POST /api/dictionary/import-csv
+router.post('/import-csv', authMiddleware, canWrite, uploadCsv.single('csv'), async (req, res) => {
+    let filePath = null
     try {
-        if (!req.file) {
-            return res.status(400).json({ error: 'Aucun fichier PDF fourni' })
-        }
-
-        pdfPath = req.file.path
+        if (!req.file) return res.status(400).json({ error: 'Aucun fichier CSV fourni' })
+        filePath = req.file.path
         const domain = req.body.domain || null
-
-        // Lire et parser le PDF
-        const dataBuffer = fs.readFileSync(pdfPath)
-        const words = await parsePdfTableWords(dataBuffer)
+        const content = fs.readFileSync(filePath, 'utf8')
+        const words = parseCsvWords(content)
+        fs.unlinkSync(filePath); filePath = null
 
         if (words.length === 0) {
-            return res.status(400).json({
-                error: 'Aucun mot trouvé dans le PDF. Vérifiez le format : Numéro | Fulfulde | Français | Anglais'
-            })
+            return res.status(400).json({ error: 'Aucun mot trouvé. Format attendu : Fulfulde;Français;Anglais' })
         }
 
-        // Assigner le domaine
         words.forEach(w => w.domain = domain)
 
-        // Insérer les mots en base
-        let inserted = 0
-        let skipped = 0
-        const errors = []
-        const duplicates = []
+        let inserted = 0, skipped = 0
+        const duplicates = [], errors = []
 
         for (const w of words) {
             try {
-                // Vérifier si le mot existe déjà
                 const existing = await query('SELECT id FROM dictionary WHERE LOWER(word) = LOWER($1)', [w.word])
-                if (existing.rows.length > 0) {
-                    duplicates.push(w.word)
-                    skipped++
-                    continue
-                }
-
+                if (existing.rows.length > 0) { duplicates.push(w.word); skipped++; continue }
                 await query(
-                    `INSERT INTO dictionary (word, translation_fr, translation_en, domain)
-                     VALUES ($1, $2, $3, $4)`,
+                    'INSERT INTO dictionary (word, translation_fr, translation_en, domain) VALUES ($1,$2,$3,$4)',
                     [w.word, w.translation_fr, w.translation_en, w.domain]
                 )
                 inserted++
-            } catch (err) {
-                errors.push({ word: w.word, error: err.message })
-                skipped++
-            }
+            } catch (err) { errors.push({ word: w.word, error: err.message }); skipped++ }
         }
-
-        // Nettoyer le fichier PDF uploadé
-        fs.unlinkSync(pdfPath)
-        pdfPath = null
 
         res.json({
             message: `Import terminé : ${inserted} mots ajoutés, ${skipped} ignorés`,
-            inserted,
-            skipped,
-            total: words.length,
+            inserted, skipped, total: words.length,
             duplicates: duplicates.length > 0 ? duplicates : undefined,
-            errors: errors.length > 0 ? errors : undefined,
-            parsedWords: words // Retourner pour vérification
+            errors: errors.length > 0 ? errors : undefined
         })
-
     } catch (error) {
-        console.error('PDF import error:', error)
-        // Nettoyer le fichier PDF en cas d'erreur
-        if (pdfPath) {
-            try { fs.unlinkSync(pdfPath) } catch (e) {}
-        }
-        res.status(500).json({ error: 'Erreur lors de l\'import du PDF: ' + error.message })
+        if (filePath) try { fs.unlinkSync(filePath) } catch (e) {}
+        res.status(500).json({ error: 'Erreur import CSV: ' + error.message })
     }
 })
 
-// POST /api/dictionary/preview-pdf - Prévisualiser le contenu d'un PDF sans importer (Admin only)
-router.post('/preview-pdf', authMiddleware, canWrite, uploadPdf.single('pdf'), async (req, res) => {
-    let pdfPath = null
+// POST /api/dictionary/preview-csv
+router.post('/preview-csv', authMiddleware, canWrite, uploadCsv.single('csv'), async (req, res) => {
+    let filePath = null
     try {
-        if (!req.file) {
-            return res.status(400).json({ error: 'Aucun fichier PDF fourni' })
-        }
+        if (!req.file) return res.status(400).json({ error: 'Aucun fichier CSV fourni' })
+        filePath = req.file.path
+        const content = fs.readFileSync(filePath, 'utf8')
+        const words = parseCsvWords(content)
+        fs.unlinkSync(filePath); filePath = null
 
-        pdfPath = req.file.path
-
-        // Lire et parser le PDF
-        const dataBuffer = fs.readFileSync(pdfPath)
-        const words = await parsePdfTableWords(dataBuffer)
-
-        // Vérifier les doublons existants
         const existingWords = []
         for (const w of words) {
             const existing = await query('SELECT id FROM dictionary WHERE LOWER(word) = LOWER($1)', [w.word])
-            if (existing.rows.length > 0) {
-                existingWords.push(w.word)
-            }
+            if (existing.rows.length > 0) existingWords.push(w.word)
         }
 
-        // Nettoyer
-        fs.unlinkSync(pdfPath)
-        pdfPath = null
-
-        res.json({
-            words,
-            total: words.length,
-            duplicates: existingWords,
-            newWords: words.length - existingWords.length
-        })
-
+        res.json({ words, total: words.length, duplicates: existingWords, newWords: words.length - existingWords.length })
     } catch (error) {
-        console.error('PDF preview error:', error)
-        if (pdfPath) {
-            try { fs.unlinkSync(pdfPath) } catch (e) {}
-        }
-        res.status(500).json({ error: 'Erreur lors de la lecture du PDF: ' + error.message })
-    }
-})
-
-// POST /api/dictionary/debug-pdf - Debug: voir le texte brut extrait (Admin only)
-router.post('/debug-pdf', authMiddleware, canWrite, uploadPdf.single('pdf'), async (req, res) => {
-    let pdfPath = null
-    try {
-        if (!req.file) return res.status(400).json({ error: 'Aucun fichier PDF fourni' })
-        pdfPath = req.file.path
-        const dataBuffer = fs.readFileSync(pdfPath)
-        const data = await pdfParse(dataBuffer)
-        fs.unlinkSync(pdfPath)
-        const lines = data.text.split('\n').map((l, i) => `[${i}] ${JSON.stringify(l)}`)
-        res.json({ rawText: data.text.substring(0, 3000), lines: lines.slice(0, 80) })
-    } catch (error) {
-        if (pdfPath) try { fs.unlinkSync(pdfPath) } catch (e) {}
-        res.status(500).json({ error: error.message })
+        if (filePath) try { fs.unlinkSync(filePath) } catch (e) {}
+        res.status(500).json({ error: 'Erreur preview CSV: ' + error.message })
     }
 })
 
 /**
  * Parse a PDF table with columns: Numéro | Fulfulde | Français | Anglais
- * Uses pdf-parse pagerender to access x/y positions of each text item,
- * then assigns items to columns based on their x-coordinate.
- */
-async function parsePdfTableWords(dataBuffer) {
-    const pages = []
-
-    await pdfParse(dataBuffer, {
-        pagerender: async function (pageData) {
-            const tc = await pageData.getTextContent()
-            pages.push(tc.items.map(item => ({
-                text:  item.str,
-                x:     item.transform[4],
-                y:     item.transform[5],
-                xEnd:  item.transform[4] + (item.width || 0)
-            })))
-            return ''
-        }
-    })
-
-    // Detect column boundaries from header row (page 1)
-    const header = pages[0] || []
-    const col = detectColumns(header)
-
-    // Group items by y-coordinate with tolerance, with page offset to avoid cross-page merges
-    const rowMap = new Map()
-    for (let pi = 0; pi < pages.length; pi++) {
-        const pageItems = pages[pi]
-        const pageOffset = pi * 100000
-        for (const item of pageItems) {
-            if (!item.text.trim()) continue
-            const yAbs = pageOffset + item.y
-            let rowY = null
-            for (const [y] of rowMap) {
-                if (Math.abs(y - yAbs) <= 3) { rowY = y; break }
-            }
-            if (rowY === null) {
-                rowY = yAbs
-                rowMap.set(rowY, { numero: [], fulfulde: [], francais: [], anglais: [] })
-            }
-            const row = rowMap.get(rowY)
-            if (item.x < col.fulfulde)        row.numero.push(item)
-            else if (item.x < col.francais)   row.fulfulde.push(item)
-            else if (item.x < col.anglais)    row.francais.push(item)
-            else                              row.anglais.push(item)
-        }
-    }
-
-    // Smart-join: no space when items are directly adjacent (special chars like ɓ, ɗ, ŋ)
-    const SPECIAL = /^[ɓɗŋñɠɽƴʼɲ]$/
-    function joinItems(items) {
-        if (!items.length) return ''
-        items.sort((a, b) => a.x - b.x)
-        let result = ''
-        let lastEnd = null
-        for (const item of items) {
-            if (!item.text) continue
-            if (lastEnd === null) {
-                result = item.text
-            } else {
-                const gap = item.x - lastEnd
-                // No space if: gap is tiny, OR item is a lone special char (ɓ, ɗ…)
-                const noSpace = gap <= 2 || SPECIAL.test(item.text.trim())
-                result += (noSpace ? '' : ' ') + item.text
-            }
-            lastEnd = item.xEnd || (item.x + item.text.length * 5)
-        }
-        // Also clean any space that crept before a special char mid-word
-        return result.trim().replace(/\s([ɓɗŋñɠɽƴʼɲ])(?=\S)/g, '$1')
-    }
-
-    // Convert row arrays to strings and fix merged numero+fulfulde items
-    const rows = []
-    for (const raw of rowMap.values()) {
-        const row = {
-            numero:   joinItems(raw.numero),
-            fulfulde: joinItems(raw.fulfulde),
-            francais: joinItems(raw.francais),
-            anglais:  joinItems(raw.anglais)
-        }
-        // Extract number from numero, move leftover text to fulfulde
-        const m = row.numero.trim().match(/^(\d+)\s*(.+)/)
-        if (m) {
-            row.numero   = m[1]
-            row.fulfulde = m[2].trim() + (row.fulfulde ? ' ' + row.fulfulde : '')
-        }
-        rows.push(row)
-    }
-
-    return rows
-        .filter(r => /^\d+$/.test(r.numero.trim()) && r.fulfulde.trim())
-        .map(r => ({
-            word:           r.fulfulde.trim(),
-            translation_fr: r.francais.trim() || null,
-            translation_en: r.anglais.trim()  || null
-        }))
-}
-
-function detectColumns(items) {
-    const pos = {}
-    for (const item of items) {
-        const t = item.text.trim()
-        if (!t) continue
-        if (/num[eé]ro/i.test(t)       && !pos.numero)   pos.numero   = item.x
-        if (/fulfulde/i.test(t)         && !pos.fulfulde) pos.fulfulde = item.x
-        if (/fran[çc]ais/i.test(t)     && !pos.francais) pos.francais = item.x
-        if (/anglais|english/i.test(t) && !pos.anglais)  pos.anglais  = item.x
-    }
-    const num = pos.numero   || 43
-    const ff  = pos.fulfulde || 177
-    const fr  = pos.francais || 362
-    const en  = pos.anglais  || 499
-    // Use midpoints between header positions as column boundaries
-    return {
-        fulfulde: (num + ff) / 2,
-        francais: (ff  + fr) / 2,
-        anglais:  (fr  + en) / 2
-    }
-}
 
 module.exports = router
