@@ -634,7 +634,4 @@ router.post('/preview-csv', authMiddleware, canWrite, uploadCsv.single('csv'), a
     }
 })
 
-/**
- * Parse a PDF table with columns: Numéro | Fulfulde | Français | Anglais
-
 module.exports = router
