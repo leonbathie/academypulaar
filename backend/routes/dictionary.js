@@ -675,6 +675,23 @@ router.post('/preview-pdf', authMiddleware, canWrite, uploadPdf.single('pdf'), a
     }
 })
 
+// POST /api/dictionary/debug-pdf - Debug: voir le texte brut extrait (Admin only)
+router.post('/debug-pdf', authMiddleware, canWrite, uploadPdf.single('pdf'), async (req, res) => {
+    let pdfPath = null
+    try {
+        if (!req.file) return res.status(400).json({ error: 'Aucun fichier PDF fourni' })
+        pdfPath = req.file.path
+        const dataBuffer = fs.readFileSync(pdfPath)
+        const data = await pdfParse(dataBuffer)
+        fs.unlinkSync(pdfPath)
+        const lines = data.text.split('\n').map((l, i) => `[${i}] ${JSON.stringify(l)}`)
+        res.json({ rawText: data.text.substring(0, 3000), lines: lines.slice(0, 80) })
+    } catch (error) {
+        if (pdfPath) try { fs.unlinkSync(pdfPath) } catch (e) {}
+        res.status(500).json({ error: error.message })
+    }
+})
+
 /**
  * Parse a PDF table with columns: Numéro | Fulfulde | Français | Anglais
  * Handles two layouts produced by pdf-parse:
