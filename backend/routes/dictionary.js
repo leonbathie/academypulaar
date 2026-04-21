@@ -209,9 +209,12 @@ router.post('/', authMiddleware, canWrite, upload.fields([
         }
 
         // Vérifier si le mot existe déjà
-        const existingWord = await query('SELECT id FROM dictionary WHERE LOWER(word) = LOWER($1)', [normalizedWord])
+        const existingWord = await query(
+            'SELECT id FROM dictionary WHERE LOWER(word) = LOWER($1) AND COALESCE(LOWER(domain), \'\') = COALESCE(LOWER($2), \'\')',
+            [normalizedWord, normalizedDomain]
+        )
         if (existingWord.rows.length > 0) {
-            return res.status(400).json({ error: `Le mot "${normalizedWord}" existe déjà dans le dictionnaire.` })
+            return res.status(400).json({ error: `Le mot "${normalizedWord}" existe déjà dans ce domaine.` })
         }
 
         // Récupérer les chemins des fichiers audio
@@ -259,9 +262,12 @@ router.put('/:id', authMiddleware, canWrite, validateId, upload.fields([
 
         // Vérifier si le mot existe déjà (exclure l'ID actuel)
         if (normalizedWord) {
-            const existingWord = await query('SELECT id FROM dictionary WHERE LOWER(word) = LOWER($1) AND id != $2', [normalizedWord, req.params.id])
+            const existingWord = await query(
+                'SELECT id FROM dictionary WHERE LOWER(word) = LOWER($1) AND COALESCE(LOWER(domain), \'\') = COALESCE(LOWER($2), \'\') AND id != $3',
+                [normalizedWord, normalizedDomain, req.params.id]
+            )
             if (existingWord.rows.length > 0) {
-                return res.status(400).json({ error: `Le mot "${normalizedWord}" existe déjà dans le dictionnaire.` })
+                return res.status(400).json({ error: `Le mot "${normalizedWord}" existe déjà dans ce domaine.` })
             }
         }
 
@@ -716,7 +722,7 @@ router.post('/import-csv', authMiddleware, canWrite, uploadCsv.single('csv'), as
     try {
         if (!req.file) return res.status(400).json({ error: 'Aucun fichier CSV fourni' })
         filePath = req.file.path
-        const domain = req.body.domain || null
+        const domain = normalizeFulfuldeText(req.body.domain) || null
         const content = fs.readFileSync(filePath, 'utf8')
         const words = parseCsvWords(content)
         fs.unlinkSync(filePath); filePath = null
@@ -733,11 +739,15 @@ router.post('/import-csv', authMiddleware, canWrite, uploadCsv.single('csv'), as
         for (const w of words) {
             try {
                 const normalizedWord = normalizeFulfuldeText(w.word)
-                const existing = await query('SELECT id FROM dictionary WHERE LOWER(word) = LOWER($1)', [normalizedWord])
+                const normalizedDomain = normalizeFulfuldeText(w.domain)
+                const existing = await query(
+                    'SELECT id FROM dictionary WHERE LOWER(word) = LOWER($1) AND COALESCE(LOWER(domain), \'\') = COALESCE(LOWER($2), \'\')',
+                    [normalizedWord, normalizedDomain]
+                )
                 if (existing.rows.length > 0) { duplicates.push(w.word); skipped++; continue }
                 await query(
                     'INSERT INTO dictionary (word, translation_fr, translation_en, domain) VALUES ($1,$2,$3,$4)',
-                    [normalizedWord, normalizeFulfuldeText(w.translation_fr), normalizeFulfuldeText(w.translation_en), normalizeFulfuldeText(w.domain)]
+                    [normalizedWord, normalizeFulfuldeText(w.translation_fr), normalizeFulfuldeText(w.translation_en), normalizedDomain]
                 )
                 inserted++
             } catch (err) { errors.push({ word: w.word, error: err.message }); skipped++ }
@@ -762,12 +772,19 @@ router.post('/preview-csv', authMiddleware, canWrite, uploadCsv.single('csv'), a
         if (!req.file) return res.status(400).json({ error: 'Aucun fichier CSV fourni' })
         filePath = req.file.path
         const content = fs.readFileSync(filePath, 'utf8')
+        const domain = normalizeFulfuldeText(req.body.domain) || null
         const words = parseCsvWords(content)
+        words.forEach(w => w.domain = domain)
         fs.unlinkSync(filePath); filePath = null
 
         const existingWords = []
         for (const w of words) {
-            const existing = await query('SELECT id FROM dictionary WHERE LOWER(word) = LOWER($1)', [w.word])
+            const normalizedWord = normalizeFulfuldeText(w.word)
+            const normalizedDomain = normalizeFulfuldeText(w.domain)
+            const existing = await query(
+                'SELECT id FROM dictionary WHERE LOWER(word) = LOWER($1) AND COALESCE(LOWER(domain), \'\') = COALESCE(LOWER($2), \'\')',
+                [normalizedWord, normalizedDomain]
+            )
             if (existing.rows.length > 0) existingWords.push(w.word)
         }
 

@@ -266,7 +266,7 @@ function DictionaryAdmin() {
 
             if (!response.ok) {
                 const errorData = await response.json().catch(() => ({}))
-                throw new Error(errorData.message || t('admin.common.recordError'))
+                throw new Error(errorData.error || errorData.message || t('admin.common.recordError'))
             }
 
             closeModal()
