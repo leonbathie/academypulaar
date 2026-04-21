@@ -176,9 +176,11 @@ function DictionaryAdmin() {
                 if (type === 'word') {
                     setAudioWordBlob(audioBlob)
                     setAudioWordUrl(audioUrl)
+                    setRemovedAudioWord(false)
                 } else {
                     setAudioExampleBlob(audioBlob)
                     setAudioExampleUrl(audioUrl)
+                    setRemovedAudioExample(false)
                 }
 
                 // Stop all tracks

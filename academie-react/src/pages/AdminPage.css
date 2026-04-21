@@ -598,6 +598,7 @@
 .actions-cell {
     display: flex;
     gap: var(--space-sm);
+    white-space: nowrap;
 }
 
 /* Expand button */
