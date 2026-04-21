@@ -13,6 +13,14 @@ function hashIP(ip) {
     return crypto.createHash('sha256').update(ip + salt).digest('hex').substring(0, 16)
 }
 
+function normalizeFulfuldeText(value) {
+    if (value === null || value === undefined) {
+        return null
+    }
+
+    return String(value).normalize('NFC').trim()
+}
+
 // Configuration multer pour les fichiers audio
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -49,8 +57,9 @@ router.get('/', async (req, res) => {
         const conditions = []
 
         if (search) {
+            const normalizedSearch = normalizeFulfuldeText(search)
             conditions.push(`(word ILIKE $${params.length + 1} OR translation_fr ILIKE $${params.length + 1})`)
-            params.push(`%${search}%`)
+            params.push(`%${normalizedSearch}%`)
         }
 
         if (category) {
@@ -59,8 +68,9 @@ router.get('/', async (req, res) => {
         }
 
         if (letter) {
+            const normalizedLetter = normalizeFulfuldeText(letter)
             conditions.push(`word ILIKE $${params.length + 1}`)
-            params.push(`${letter}%`)
+            params.push(`${normalizedLetter}%`)
         }
 
         if (conditions.length > 0) {
@@ -185,15 +195,23 @@ router.post('/', authMiddleware, canWrite, upload.fields([
 ]), async (req, res) => {
     try {
         const { word, translation_fr, translation_en, translation_ff, category, domain, example, example_translation } = req.body
+        const normalizedWord = normalizeFulfuldeText(word)
+        const normalizedTranslationFr = normalizeFulfuldeText(translation_fr)
+        const normalizedTranslationEn = normalizeFulfuldeText(translation_en)
+        const normalizedTranslationFf = normalizeFulfuldeText(translation_ff)
+        const normalizedCategory = normalizeFulfuldeText(category)
+        const normalizedDomain = normalizeFulfuldeText(domain)
+        const normalizedExample = normalizeFulfuldeText(example)
+        const normalizedExampleTranslation = normalizeFulfuldeText(example_translation)
 
-        if (!word) {
+        if (!normalizedWord) {
             return res.status(400).json({ error: 'Le mot est requis' })
         }
 
         // Vérifier si le mot existe déjà
-        const existingWord = await query('SELECT id FROM dictionary WHERE word = $1', [word])
+        const existingWord = await query('SELECT id FROM dictionary WHERE LOWER(word) = LOWER($1)', [normalizedWord])
         if (existingWord.rows.length > 0) {
-            return res.status(400).json({ error: `Le mot "${word}" existe déjà dans le dictionnaire.` })
+            return res.status(400).json({ error: `Le mot "${normalizedWord}" existe déjà dans le dictionnaire.` })
         }
 
         // Récupérer les chemins des fichiers audio
@@ -212,7 +230,7 @@ router.post('/', authMiddleware, canWrite, upload.fields([
         const result = await query(
             `INSERT INTO dictionary (word, translation_fr, translation_en, translation_ff, category, domain, example, example_translation, audio_word, audio_example)
              VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *`,
-            [word, translation_fr, translation_en, translation_ff, category, domain || null, example, example_translation, audioWordPath, audioExamplePath]
+            [normalizedWord, normalizedTranslationFr, normalizedTranslationEn, normalizedTranslationFf, normalizedCategory, normalizedDomain || null, normalizedExample, normalizedExampleTranslation, audioWordPath, audioExamplePath]
         )
 
         res.status(201).json(result.rows[0])
@@ -230,12 +248,20 @@ router.put('/:id', authMiddleware, canWrite, validateId, upload.fields([
 ]), async (req, res) => {
     try {
         const { word, translation_fr, translation_en, translation_ff, category, domain, example, example_translation } = req.body
+        const normalizedWord = normalizeFulfuldeText(word)
+        const normalizedTranslationFr = normalizeFulfuldeText(translation_fr)
+        const normalizedTranslationEn = normalizeFulfuldeText(translation_en)
+        const normalizedTranslationFf = normalizeFulfuldeText(translation_ff)
+        const normalizedCategory = normalizeFulfuldeText(category)
+        const normalizedDomain = normalizeFulfuldeText(domain)
+        const normalizedExample = normalizeFulfuldeText(example)
+        const normalizedExampleTranslation = normalizeFulfuldeText(example_translation)
 
         // Vérifier si le mot existe déjà (exclure l'ID actuel)
-        if (word) {
-            const existingWord = await query('SELECT id FROM dictionary WHERE word = $1 AND id != $2', [word, req.params.id])
+        if (normalizedWord) {
+            const existingWord = await query('SELECT id FROM dictionary WHERE LOWER(word) = LOWER($1) AND id != $2', [normalizedWord, req.params.id])
             if (existingWord.rows.length > 0) {
-                return res.status(400).json({ error: `Le mot "${word}" existe déjà dans le dictionnaire.` })
+                return res.status(400).json({ error: `Le mot "${normalizedWord}" existe déjà dans le dictionnaire.` })
             }
         }
 
@@ -272,7 +298,7 @@ router.put('/:id', authMiddleware, canWrite, validateId, upload.fields([
                  category = $5, domain = $6, example = $7, example_translation = $8, 
                  audio_word = $9, audio_example = $10, updated_at = CURRENT_TIMESTAMP
              WHERE id = $11 RETURNING *`,
-            [word, translation_fr, translation_en, translation_ff, category, domain || null, example, example_translation, audioWordPath, audioExamplePath, req.params.id]
+            [normalizedWord || null, normalizedTranslationFr, normalizedTranslationEn, normalizedTranslationFf, normalizedCategory, normalizedDomain || null, normalizedExample, normalizedExampleTranslation, audioWordPath, audioExamplePath, req.params.id]
         )
 
         if (result.rows.length === 0) {
@@ -578,7 +604,8 @@ router.post('/delete-requests/bulk-cancel', authMiddleware, requireRole('admin')
 router.post('/track-search', async (req, res) => {
     try {
         const { term, resultsCount } = req.body
-        if (!term || term.length < 1 || term.length > 255) {
+        const normalizedTerm = normalizeFulfuldeText(term)
+        if (!normalizedTerm || normalizedTerm.length < 1 || normalizedTerm.length > 255) {
             return res.json({ tracked: false })
         }
 
@@ -588,7 +615,7 @@ router.post('/track-search', async (req, res) => {
         // Anti-doublon : même terme + même IP dans les 5 dernières minutes
         const recent = await query(
             "SELECT id FROM dictionary_searches WHERE LOWER(term) = LOWER($1) AND ip_hash = $2 AND created_at > NOW() - INTERVAL '5 minutes'",
-            [term.trim(), ipHash]
+            [normalizedTerm, ipHash]
         )
         if (recent.rows.length > 0) {
             return res.json({ tracked: false })
@@ -596,7 +623,7 @@ router.post('/track-search', async (req, res) => {
 
         await query(
             'INSERT INTO dictionary_searches (term, results_count, ip_hash) VALUES ($1, $2, $3)',
-            [term.trim(), resultsCount || 0, ipHash]
+            [normalizedTerm, resultsCount || 0, ipHash]
         )
 
         res.json({ tracked: true })
@@ -662,13 +689,13 @@ const uploadCsv = multer({ storage: csvStorage, fileFilter: csvFilter, limits: {
 // Fonction utilitaire : parser un CSV (séparateur ; ou ,)
 // Supporte 3 colonnes (Fulfulde;FR;EN) ou 4 colonnes (Numéro;Fulfulde;FR;EN)
 function parseCsvWords(content) {
-    const lines = content.split(/\r?\n/).map(l => l.trim()).filter(Boolean)
+    const lines = content.replace(/^\uFEFF/, '').split(/\r?\n/).map(l => l.trim()).filter(Boolean)
     const words = []
     for (const line of lines) {
         // Ignorer les lignes d'en-tête
         if (/fulfulde|num[eé]ro|fran[çc]ais|anglais/i.test(line)) continue
         const sep = line.includes(';') ? ';' : ','
-        let cols = line.split(sep).map(c => c.trim().replace(/^["']|["']$/g, ''))
+        let cols = line.split(sep).map(c => c.trim().replace(/^['"]|['"]$/g, '').normalize('NFC'))
         // Si la première colonne est un numéro d'ordre, on la saute
         if (cols.length >= 4 && /^\d+$/.test(cols[0])) {
             cols = cols.slice(1)
@@ -705,11 +732,12 @@ router.post('/import-csv', authMiddleware, canWrite, uploadCsv.single('csv'), as
 
         for (const w of words) {
             try {
-                const existing = await query('SELECT id FROM dictionary WHERE LOWER(word) = LOWER($1)', [w.word])
+                const normalizedWord = normalizeFulfuldeText(w.word)
+                const existing = await query('SELECT id FROM dictionary WHERE LOWER(word) = LOWER($1)', [normalizedWord])
                 if (existing.rows.length > 0) { duplicates.push(w.word); skipped++; continue }
                 await query(
                     'INSERT INTO dictionary (word, translation_fr, translation_en, domain) VALUES ($1,$2,$3,$4)',
-                    [w.word, w.translation_fr, w.translation_en, w.domain]
+                    [normalizedWord, normalizeFulfuldeText(w.translation_fr), normalizeFulfuldeText(w.translation_en), normalizeFulfuldeText(w.domain)]
                 )
                 inserted++
             } catch (err) { errors.push({ word: w.word, error: err.message }); skipped++ }

@@ -7,6 +7,9 @@ import './DictionaryPage.css'
 function DictionaryPage() {
     const { t, i18n } = useTranslation()
     const lang = (i18n.language || 'fr').substring(0, 2)
+    const normalizeFulfuldeText = (value) => (value ?? '').toString().normalize('NFC').trim()
+    const searchNormalizer = (value) => normalizeFulfuldeText(value).toLowerCase()
+    const collator = new Intl.Collator(lang === 'ff' ? 'ff' : undefined, { sensitivity: 'base', numeric: true })
     const [searchParams] = useSearchParams()
     const [searchTerm, setSearchTerm] = useState('')
     const [searchType, setSearchType] = useState('prefix')
@@ -110,11 +113,11 @@ function DictionaryPage() {
             setIsSearching(true)
             const timer = setTimeout(() => {
                 let filtered = allWords.filter(word => {
-                    const term = searchTerm.toLowerCase()
-                    const wordLower = word.word?.toLowerCase() || ''
-                    const frLower = word.translation_fr?.toLowerCase() || ''
-                    const enLower = word.translation_en?.toLowerCase() || ''
-                    const ffLower = word.translation_ff?.toLowerCase() || ''
+                    const term = searchNormalizer(searchTerm)
+                    const wordLower = searchNormalizer(word.word)
+                    const frLower = searchNormalizer(word.translation_fr)
+                    const enLower = searchNormalizer(word.translation_en)
+                    const ffLower = searchNormalizer(word.translation_ff)
 
                     if (searchType === 'prefix') {
                         return wordLower.startsWith(term) ||
@@ -238,7 +241,7 @@ function DictionaryPage() {
                         </button>
                         {['scientifique', 'mathematiques', 'biologie', 'philosophie', 'economie', 'droit', 'astronomie', 'informatique', 'botanique', 'vivants', 'elevage', 'agriculture', 'peche', 'forge', 'dictionnaire', 'general']
                             .map(d => ({ key: d, label: t(`dictionary.domains.${d}`) }))
-                            .sort((a, b) => a.label.localeCompare(b.label, undefined, { sensitivity: 'base' }))
+                                    .sort((a, b) => collator.compare(a.label, b.label))
                             .map(({ key: domain }) => {
                             const count = allWords.filter(w => w.domain === domain).length
                             if (count === 0) return null

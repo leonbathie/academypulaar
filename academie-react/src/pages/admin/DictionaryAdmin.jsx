@@ -28,6 +28,9 @@ function DictionaryAdmin() {
         dictionnaire: 'admin.dictionary.domDict',
         general: 'admin.dictionary.domGeneral'
     }
+    const normalizeFulfuldeText = (value) => (value ?? '').toString().normalize('NFC').trim()
+    const searchNormalizer = (value) => normalizeFulfuldeText(value).toLowerCase()
+    const collator = new Intl.Collator(i18n.language || 'ff', { sensitivity: 'base', numeric: true })
     const [words, setWords] = useState([])
     const [loading, setLoading] = useState(true)
     const [searchTerm, setSearchTerm] = useState('')
@@ -231,7 +234,7 @@ function DictionaryAdmin() {
 
             // Add text fields
             Object.keys(formData).forEach(key => {
-                formDataToSend.append(key, formData[key])
+                formDataToSend.append(key, normalizeFulfuldeText(formData[key]))
             })
 
             // Add audio files if recorded
@@ -556,18 +559,18 @@ function DictionaryAdmin() {
     }
 
     const filteredWords = words.filter(word => {
-        const term = searchTerm.toLowerCase()
-        const matchesSearch = (word.word?.toLowerCase() || '').includes(term) ||
-               (word.translation_fr?.toLowerCase() || '').includes(term) ||
-               (word.translation_en?.toLowerCase() || '').includes(term) ||
-               (word.translation_ff?.toLowerCase() || '').includes(term)
+        const term = searchNormalizer(searchTerm)
+        const matchesSearch = searchNormalizer(word.word).includes(term) ||
+               searchNormalizer(word.translation_fr).includes(term) ||
+               searchNormalizer(word.translation_en).includes(term) ||
+               searchNormalizer(word.translation_ff).includes(term)
         const matchesDomain = !filterDomain || word.domain === filterDomain
         return matchesSearch && matchesDomain
     }).sort((a, b) => {
         const domainA = a.domain || ''
         const domainB = b.domain || ''
-        if (domainA !== domainB) return domainA.localeCompare(domainB)
-        return (a.word || '').localeCompare(b.word || '')
+        if (domainA !== domainB) return collator.compare(domainA, domainB)
+        return collator.compare(a.word || '', b.word || '')
     })
 
     // Group words by domain for display
@@ -580,7 +583,7 @@ function DictionaryAdmin() {
     const domainKeys = Object.keys(domainGroups).sort((a, b) => {
         if (a === '_none') return 1
         if (b === '_none') return -1
-        return a.localeCompare(b)
+        return collator.compare(a, b)
     })
 
     if (loading) {

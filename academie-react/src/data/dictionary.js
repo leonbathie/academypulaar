@@ -149,23 +149,23 @@ export const categories = {
 export function searchDictionary(query, type = 'prefix') {
     if (!query || query.length < 1) return [];
 
-    const normalizedQuery = query.toLowerCase().trim();
+    const normalizedQuery = query.normalize('NFC').trim().toLowerCase();
 
     if (type === 'prefix') {
         return dictionaryData.filter(entry =>
-            entry.word.toLowerCase().startsWith(normalizedQuery)
+            entry.word.normalize('NFC').toLowerCase().startsWith(normalizedQuery)
         );
     } else {
         // Recherche par similarité
         return dictionaryData.filter(entry =>
-            entry.word.toLowerCase().includes(normalizedQuery) ||
-            entry.translation.toLowerCase().includes(normalizedQuery)
+            entry.word.normalize('NFC').toLowerCase().includes(normalizedQuery) ||
+            entry.translation.normalize('NFC').toLowerCase().includes(normalizedQuery)
         );
     }
 }
 
 // Obtenir les lettres disponibles
 export function getAvailableLetters() {
-    const letters = new Set(dictionaryData.map(entry => entry.word[0].toUpperCase()));
+    const letters = new Set(dictionaryData.map(entry => entry.word.normalize('NFC')[0].toUpperCase()));
     return Array.from(letters).sort();
 }

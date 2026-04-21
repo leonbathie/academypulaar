@@ -54,6 +54,8 @@ function DomainPage() {
     const { domain } = useParams()
     const { t, i18n } = useTranslation()
     const lang = (i18n.language || 'fr').substring(0, 2)
+    const normalizeFulfuldeText = (value) => (value ?? '').toString().normalize('NFC').trim()
+    const searchNormalizer = (value) => normalizeFulfuldeText(value).toLowerCase()
     const config = DOMAIN_CONFIG[domain]
 
     const [words, setWords] = useState([])
@@ -137,6 +139,13 @@ function DomainPage() {
         }
     }
 
+    const [showScrollTop, setShowScrollTop] = useState(false)
+    useEffect(() => {
+        const onScroll = () => setShowScrollTop(window.scrollY > 400)
+        window.addEventListener('scroll', onScroll)
+        return () => window.removeEventListener('scroll', onScroll)
+    }, [])
+
     if (!config) {
         return (
             <div className="domain-page">
@@ -152,12 +161,12 @@ function DomainPage() {
     // Filter words
     let filtered = words
     if (searchTerm) {
-        const term = searchTerm.toLowerCase()
+        const term = searchNormalizer(searchTerm)
         filtered = filtered.filter(w =>
-            w.word?.toLowerCase().includes(term) ||
-            w.translation_fr?.toLowerCase().includes(term) ||
-            w.translation_en?.toLowerCase().includes(term) ||
-            w.translation_ff?.toLowerCase().includes(term)
+            searchNormalizer(w.word).includes(term) ||
+            searchNormalizer(w.translation_fr).includes(term) ||
+            searchNormalizer(w.translation_en).includes(term) ||
+            searchNormalizer(w.translation_ff).includes(term)
         )
     }
     if (selectedSub) {
@@ -171,13 +180,6 @@ function DomainPage() {
     const letters = [...new Set(filtered.map(w => w.word.charAt(0).toUpperCase()))].sort()
 
     const definedCount = words.filter(w => w.translation_ff && w.translation_ff.trim()).length
-
-    const [showScrollTop, setShowScrollTop] = useState(false)
-    useEffect(() => {
-        const onScroll = () => setShowScrollTop(window.scrollY > 400)
-        window.addEventListener('scroll', onScroll)
-        return () => window.removeEventListener('scroll', onScroll)
-    }, [])
 
     return (
         <div className="domain-page">
