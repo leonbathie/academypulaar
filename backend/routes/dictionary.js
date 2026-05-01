@@ -779,14 +779,18 @@ router.post('/import-csv', authMiddleware, canWrite, uploadCsv.fields([{ name: '
 router.post('/preview-csv', authMiddleware, canWrite, uploadCsv.fields([{ name: 'csv', maxCount: 1 }]), async (req, res) => {
     let filePath = null
     try {
-        if (!req.files || !req.files.csv || !req.files.csv[0]) return res.status(400).json({ error: 'Aucun fichier CSV fourni' })
+        if (!req.files || !req.files.csv || !req.files.csv[0]) {
+            if (filePath) try { fs.unlinkSync(filePath) } catch (e) {}
+            return res.status(400).json({ error: 'Aucun fichier CSV fourni' })
+        }
         const csvFile = req.files.csv[0]
         filePath = csvFile.path
         const content = fs.readFileSync(filePath, 'utf8')
-        const domain = normalizeFulfuldeText(req.body.domain) || null
+        const domain = req.body.domain ? normalizeFulfuldeText(req.body.domain) : null
         const words = parseCsvWords(content)
         words.forEach(w => w.domain = domain)
-        fs.unlinkSync(filePath); filePath = null
+        fs.unlinkSync(filePath)
+        filePath = null
 
         const existingWords = []
         for (const w of words) {
@@ -801,6 +805,7 @@ router.post('/preview-csv', authMiddleware, canWrite, uploadCsv.fields([{ name: 
         res.json({ words, total: words.length, duplicates: existingWords, newWords: words.length - existingWords.length })
     } catch (error) {
         if (filePath) try { fs.unlinkSync(filePath) } catch (e) {}
+        console.error('Preview CSV error:', error)
         res.status(500).json({ error: 'Erreur preview CSV: ' + error.message })
     }
 })
