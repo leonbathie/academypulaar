@@ -791,7 +791,7 @@ router.post('/preview-csv', authMiddleware, canWrite, uploadCsv.single('csv'), a
             const normalizedWord = normalizeFulfuldeText(w.word)
             const existing = await query(
                 'SELECT id FROM dictionary WHERE LOWER(word) = LOWER($1) AND COALESCE(LOWER(domain), \'\') = COALESCE(LOWER($2), \'\') LIMIT 1',
-                [normalizedWord, normalizedDomain]
+                [normalizedWord, domain]
             )
             if (existing.rows.length > 0) existingWords.push(w.word)
         }

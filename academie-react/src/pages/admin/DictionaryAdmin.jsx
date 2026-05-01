@@ -513,6 +513,7 @@ function DictionaryAdmin() {
         try {
             const formData = new FormData()
             formData.append('csv', pdfFile)
+            if (pdfDomain) formData.append('domain', pdfDomain)
             const response = await fetch(`${API_URL}/api/dictionary/preview-csv`, {
                 method: 'POST',
                 headers: { 'Authorization': `Bearer ${token}` },
