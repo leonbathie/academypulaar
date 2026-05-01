@@ -727,11 +727,12 @@ function parseCsvWords(content) {
 }
 
 // POST /api/dictionary/import-csv
-router.post('/import-csv', authMiddleware, canWrite, uploadCsv.single('csv'), async (req, res) => {
+router.post('/import-csv', authMiddleware, canWrite, uploadCsv.fields([{ name: 'csv', maxCount: 1 }]), async (req, res) => {
     let filePath = null
     try {
-        if (!req.file) return res.status(400).json({ error: 'Aucun fichier CSV fourni' })
-        filePath = req.file.path
+        if (!req.files || !req.files.csv || !req.files.csv[0]) return res.status(400).json({ error: 'Aucun fichier CSV fourni' })
+        const csvFile = req.files.csv[0]
+        filePath = csvFile.path
         const domain = normalizeFulfuldeText(req.body.domain) || null
         const content = fs.readFileSync(filePath, 'utf8')
         const words = parseCsvWords(content)
@@ -775,11 +776,12 @@ router.post('/import-csv', authMiddleware, canWrite, uploadCsv.single('csv'), as
 })
 
 // POST /api/dictionary/preview-csv
-router.post('/preview-csv', authMiddleware, canWrite, uploadCsv.single('csv'), async (req, res) => {
+router.post('/preview-csv', authMiddleware, canWrite, uploadCsv.fields([{ name: 'csv', maxCount: 1 }]), async (req, res) => {
     let filePath = null
     try {
-        if (!req.file) return res.status(400).json({ error: 'Aucun fichier CSV fourni' })
-        filePath = req.file.path
+        if (!req.files || !req.files.csv || !req.files.csv[0]) return res.status(400).json({ error: 'Aucun fichier CSV fourni' })
+        const csvFile = req.files.csv[0]
+        filePath = csvFile.path
         const content = fs.readFileSync(filePath, 'utf8')
         const domain = normalizeFulfuldeText(req.body.domain) || null
         const words = parseCsvWords(content)
