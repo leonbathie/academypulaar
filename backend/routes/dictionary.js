@@ -208,15 +208,15 @@ router.post('/', authMiddleware, canWrite, upload.fields([
             return res.status(400).json({ error: 'Le mot est requis' })
         }
 
-        // Vérifier si le mot existe déjà
+        // Vérifier si le mot existe déjà dans ce domaine
         const existingWord = await query(
-            'SELECT id, word, domain FROM dictionary WHERE LOWER(word) = LOWER($1) LIMIT 1',
-            [normalizedWord]
+            'SELECT id, word, domain FROM dictionary WHERE LOWER(word) = LOWER($1) AND COALESCE(LOWER(domain), \'\') = COALESCE(LOWER($2), \'\') LIMIT 1',
+            [normalizedWord, normalizedDomain]
         )
         if (existingWord.rows.length > 0) {
             const duplicate = existingWord.rows[0]
             return res.status(400).json({
-                error: `Le mot "${normalizedWord}" existe déjà dans le dictionnaire. Modifiez ou supprimez l'entrée existante (ID: ${duplicate.id}) avant de l'ajouter à nouveau.`,
+                error: `Le mot "${normalizedWord}" existe déjà dans le domaine "${normalizedDomain || 'général'}". Modifiez ou supprimez l'entrée existante (ID: ${duplicate.id}) avant de l'ajouter à nouveau.`,
                 code: 'DUPLICATE_WORD',
                 duplicate
             })
@@ -265,16 +265,16 @@ router.put('/:id', authMiddleware, canWrite, validateId, upload.fields([
         const normalizedExample = normalizeFulfuldeText(example)
         const normalizedExampleTranslation = normalizeFulfuldeText(example_translation)
 
-        // Vérifier si le mot existe déjà (exclure l'ID actuel)
+        // Vérifier si le mot existe déjà dans ce domaine (exclure l'ID actuel)
         if (normalizedWord) {
             const existingWord = await query(
-                'SELECT id, word, domain FROM dictionary WHERE LOWER(word) = LOWER($1) AND id != $2 LIMIT 1',
-                [normalizedWord, req.params.id]
+                'SELECT id, word, domain FROM dictionary WHERE LOWER(word) = LOWER($1) AND COALESCE(LOWER(domain), \'\') = COALESCE(LOWER($2), \'\') AND id != $3 LIMIT 1',
+                [normalizedWord, normalizedDomain, req.params.id]
             )
             if (existingWord.rows.length > 0) {
                 const duplicate = existingWord.rows[0]
                 return res.status(400).json({
-                    error: `Impossible d'enregistrer: le mot "${normalizedWord}" existe déjà (ID: ${duplicate.id}). Modifiez ou supprimez l'entrée existante, ou utilisez un autre mot.`,
+                    error: `Impossible d'enregistrer: le mot "${normalizedWord}" existe déjà dans le domaine "${normalizedDomain || 'général'}" (ID: ${duplicate.id}). Modifiez ou supprimez l'entrée existante, ou utilisez un autre mot.`,
                     code: 'DUPLICATE_WORD',
                     duplicate
                 })
@@ -750,8 +750,8 @@ router.post('/import-csv', authMiddleware, canWrite, uploadCsv.single('csv'), as
             try {
                 const normalizedWord = normalizeFulfuldeText(w.word)
                 const existing = await query(
-                    'SELECT id FROM dictionary WHERE LOWER(word) = LOWER($1)',
-                    [normalizedWord]
+                    'SELECT id FROM dictionary WHERE LOWER(word) = LOWER($1) AND COALESCE(LOWER(domain), \'\') = COALESCE(LOWER($2), \'\') LIMIT 1',
+                    [normalizedWord, normalizedDomain]
                 )
                 if (existing.rows.length > 0) { duplicates.push(w.word); skipped++; continue }
                 await query(
@@ -790,8 +790,8 @@ router.post('/preview-csv', authMiddleware, canWrite, uploadCsv.single('csv'), a
         for (const w of words) {
             const normalizedWord = normalizeFulfuldeText(w.word)
             const existing = await query(
-                'SELECT id FROM dictionary WHERE LOWER(word) = LOWER($1)',
-                [normalizedWord]
+                'SELECT id FROM dictionary WHERE LOWER(word) = LOWER($1) AND COALESCE(LOWER(domain), \'\') = COALESCE(LOWER($2), \'\') LIMIT 1',
+                [normalizedWord, normalizedDomain]
             )
             if (existing.rows.length > 0) existingWords.push(w.word)
         }
