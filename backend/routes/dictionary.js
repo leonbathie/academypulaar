@@ -752,12 +752,12 @@ router.post('/import-csv', authMiddleware, canWrite, uploadCsv.fields([{ name: '
                 const normalizedWord = normalizeFulfuldeText(w.word)
                 const existing = await query(
                     'SELECT id FROM dictionary WHERE LOWER(word) = LOWER($1) AND COALESCE(LOWER(domain), \'\') = COALESCE(LOWER($2), \'\') LIMIT 1',
-                    [normalizedWord, normalizedDomain]
+                    [normalizedWord, domain]
                 )
                 if (existing.rows.length > 0) { duplicates.push(w.word); skipped++; continue }
                 await query(
                     'INSERT INTO dictionary (word, translation_fr, translation_en, domain) VALUES ($1,$2,$3,$4)',
-                    [normalizedWord, normalizeFulfuldeText(w.translation_fr), normalizeFulfuldeText(w.translation_en), normalizedDomain]
+                    [normalizedWord, normalizeFulfuldeText(w.translation_fr), normalizeFulfuldeText(w.translation_en), domain]
                 )
                 inserted++
             } catch (err) { errors.push({ word: w.word, error: err.message }); skipped++ }
