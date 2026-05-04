@@ -1,7 +1,25 @@
 {
   "permissions": {
     "allow": [
-      "Bash(gh run:*)"
+      "Bash(gh run:*)",
+      "Bash(ls c:/Users/husar/OneDrive/Desktop/goomufulo/backend/*.sql)",
+      "Bash(npm install *)",
+      "Bash(node -c routes/dictionary.js)",
+      "Bash(git -C c:/Users/husar/OneDrive/Desktop/goomufulo add backend/routes/dictionary.js)",
+      "Bash(git -C c:/Users/husar/OneDrive/Desktop/goomufulo commit -m \"fix: supprimer commentaire JSDoc non fermé qui faisait crasher le backend\")",
+      "Bash(git -C c:/Users/husar/OneDrive/Desktop/goomufulo push origin main)",
+      "Bash(git -C c:/Users/husar/OneDrive/Desktop/goomufulo commit -m \"fix: parseur CSV détecte et saute colonne Numéro optionnelle\")",
+      "Bash(git -C c:/Users/husar/OneDrive/Desktop/goomufulo add academie-react/src/pages/admin/DictionaryAdmin.jsx academie-react/src/pages/AdminPage.css academie-react/src/i18n/fr.json academie-react/src/i18n/en.json academie-react/src/i18n/ff.json)",
+      "Bash(git -C c:/Users/husar/OneDrive/Desktop/goomufulo commit -m 'feat: sélection par domaine et actions en masse pour demandes de suppression *)",
+      "Bash(git -C c:/Users/husar/OneDrive/Desktop/goomufulo add academie-react/src/pages/admin/DictionaryAdmin.jsx)",
+      "Bash(git -C c:/Users/husar/OneDrive/Desktop/goomufulo commit -m 'fix: libellé du bouton de confirmation dynamique selon l'\\\\''action *)",
+      "Bash(git -C c:/Users/husar/OneDrive/Desktop/goomufulo commit -m \"fix: afficher l'erreur réelle lors des opérations bulk sur les demandes\")",
+      "Bash(git -C c:/Users/husar/OneDrive/Desktop/goomufulo add backend/routes/dictionary.js academie-react/src/pages/admin/DictionaryAdmin.jsx academie-react/src/pages/AdminPage.css academie-react/src/i18n/fr.json academie-react/src/i18n/en.json academie-react/src/i18n/ff.json)",
+      "Bash(git -C c:/Users/husar/OneDrive/Desktop/goomufulo commit -m 'feat: bouton '\\\\''Annuler mes demandes'\\\\'' pour bulk cancel des demandes auto-créées *)",
+      "Bash(git -C c:/Users/husar/OneDrive/Desktop/goomufulo add backend/routes/dictionary.js academie-react/src/pages/admin/DictionaryAdmin.jsx)",
+      "Bash(git -C c:/Users/husar/OneDrive/Desktop/goomufulo commit -m 'fix: endpoints bulk pour approve/reject/cancel des demandes de suppression *)",
+      "Bash(node -e \"const r=require\\('./src/i18n/fr.json'\\);const e=require\\('./src/i18n/en.json'\\);const f=require\\('./src/i18n/ff.json'\\);console.log\\('JSON OK',Object.keys\\(r\\).length,Object.keys\\(e\\).length,Object.keys\\(f\\).length\\)\")",
+      "Bash(node --check ../backend/routes/dictionary.js)"
     ]
   }
 }
