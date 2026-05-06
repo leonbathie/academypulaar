@@ -137,85 +137,84 @@ function TerminologyPageEditor() {
             )}
 
             {SECTIONS.map(section => (
-                <section key={section.id} className={`term-section term-section--${section.accent}`}>
-                    <header className="term-section-header">
-                        <span className="term-section-icon" aria-hidden="true">{section.icon}</span>
-                        <div>
-                            <h3 className="term-section-title">{t(section.labelKey)}</h3>
-                            <p className="term-section-desc">{t(section.descKey)}</p>
+                <div className="admin-fieldset" key={section.id}>
+            <div className="admin-fieldset-header">
+                <span className="admin-fieldset-icon">{section.icon}</span>
+                <div>
+                    <h3 className="admin-fieldset-title">{t(section.labelKey)}</h3>
+                    <p className="admin-fieldset-desc">{t(section.descKey)}</p>
+                </div>
+            </div>
+
+            <div className="admin-fieldset-content">
+                {section.fields.map(f => (
+                    <div key={f.key} className="term-subfield">
+                        <div className="term-subfield-head">
+                            <h4 className="term-subfield-title">
+                                {t(`admin.terminology.${f.subKey}`)}
+                            </h4>
+                            <button
+                                type="button"
+                                className="term-default-toggle"
+                                onClick={() => toggleDefault(f.key)}
+                                aria-expanded={!!showDefault[f.key]}
+                            >
+                                {showDefault[f.key]
+                                    ? '▾ ' + t('admin.terminology.hideDefault')
+                                    : '▸ ' + t('admin.terminology.showDefault')}
+                            </button>
                         </div>
-                    </header>
 
-                    {section.fields.map(f => (
-                        <div key={f.key} className="term-subfield">
-                            <div className="term-subfield-head">
-                                <h4 className="term-subfield-title">
-                                    {t(`admin.terminology.${f.subKey}`)}
-                                </h4>
-                                <button
-                                    type="button"
-                                    className="term-default-toggle"
-                                    onClick={() => toggleDefault(f.key)}
-                                    aria-expanded={!!showDefault[f.key]}
-                                >
-                                    {showDefault[f.key]
-                                        ? '▾ ' + t('admin.terminology.hideDefault')
-                                        : '▸ ' + t('admin.terminology.showDefault')}
-                                </button>
+                        {showDefault[f.key] && (
+                            <div className="term-default-preview">
+                                {LANG_FIELDS.map(lf => (
+                                    <div key={lf.lang} className="term-default-line">
+                                        <span className="term-default-flag">{lf.flag}</span>
+                                        <em>{t(f.i18n, { lng: lf.lang })}</em>
+                                    </div>
+                                ))}
                             </div>
+                        )}
 
-                            {showDefault[f.key] && (
-                                <div className="term-default-preview">
-                                    {LANG_FIELDS.map(lf => (
-                                        <div key={lf.lang} className="term-default-line">
-                                            <span className="term-default-flag">{lf.flag}</span>
-                                            <em>{t(f.i18n, { lng: lf.lang })}</em>
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
-
-                            <div className="admin-lang-grid">
-                                {LANG_FIELDS.map(lf => {
-                                    const value = form[f.key]?.[lf.col] || ''
-                                    const isFilled = !!value.trim()
-                                    return (
-                                        <div key={lf.lang} className="form-group term-lang-input">
-                                            <label>
-                                                <span className="admin-lang-flag" aria-hidden="true">{lf.flag}</span>
-                                                <span>{t(lf.labelKey)}</span>
-                                                <span
-                                                    className={`term-lang-status ${isFilled ? 'is-filled' : 'is-default'}`}
-                                                    aria-label={isFilled
-                                                        ? t('admin.terminology.statusFilled')
-                                                        : t('admin.terminology.statusUsesDefault')}
-                                                    title={isFilled
-                                                        ? t('admin.terminology.statusFilled')
-                                                        : t('admin.terminology.statusUsesDefault')}
-                                                />
-                                            </label>
-                                            {f.isArea ? (
-                                                <textarea
-                                                    rows={4}
-                                                    value={value}
-                                                    onChange={e => update(f.key, lf.col, e.target.value)}
-                                                    placeholder={t(f.i18n, { lng: lf.lang })}
-                                                />
-                                            ) : (
-                                                <input
-                                                    type="text"
-                                                    value={value}
-                                                    onChange={e => update(f.key, lf.col, e.target.value)}
-                                                    placeholder={t(f.i18n, { lng: lf.lang })}
-                                                />
-                                            )}
-                                        </div>
-                                    )
-                                })}
-                            </div>
+                        <div className="admin-lang-grid">
+                            {LANG_FIELDS.map(lf => {
+                                const value = form[f.key]?.[lf.col] || ''
+                                const isFilled = !!value.trim()
+                                return (
+                                    <div key={lf.lang} className="form-group term-lang-input">
+                                        <label>
+                                            <span className="admin-lang-flag" aria-hidden="true">{lf.flag}</span>
+                                            <span>{t(lf.labelKey)}</span>
+                                            <span
+                                                className={`term-lang-status ${isFilled ? 'is-filled' : 'is-default'}`}
+                                                title={isFilled
+                                                    ? t('admin.terminology.statusFilled')
+                                                    : t('admin.terminology.statusUsesDefault')}
+                                            />
+                                        </label>
+                                        {f.isArea ? (
+                                            <textarea
+                                                rows={5}
+                                                value={value}
+                                                onChange={e => update(f.key, lf.col, e.target.value)}
+                                                placeholder={t(f.i18n, { lng: lf.lang })}
+                                            />
+                                        ) : (
+                                            <input
+                                                type="text"
+                                                value={value}
+                                                onChange={e => update(f.key, lf.col, e.target.value)}
+                                                placeholder={t(f.i18n, { lng: lf.lang })}
+                                            />
+                                        )}
+                                    </div>
+                                )
+                            })}
                         </div>
-                    ))}
-                </section>
+                    </div>
+                ))}
+            </div>
+        </div>
             ))}
 
             <div className="term-sticky-footer">
