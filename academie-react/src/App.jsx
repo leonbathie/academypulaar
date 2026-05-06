@@ -29,6 +29,7 @@ import QuestionsAdmin from './pages/admin/QuestionsAdmin'
 import StatsAdmin from './pages/admin/StatsAdmin'
 import UsersAdmin from './pages/admin/UsersAdmin'
 import ContactAdmin from './pages/admin/ContactAdmin'
+import TerminologieAdmin from './pages/admin/TerminologieAdmin'
 import './App.css'
 
 function PublicLayout() {
@@ -78,6 +79,7 @@ function App() {
               <Route path="messages" element={<ContactAdmin />} />
               <Route path="utilisateurs" element={<UsersAdmin />} />
               <Route path="statistiques" element={<StatsAdmin />} />
+              <Route path="terminologie" element={<TerminologieAdmin />} />
             </Route>
           </Routes>
         </BrowserRouter>

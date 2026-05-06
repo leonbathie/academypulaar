@@ -106,6 +106,13 @@ function AdminPage() {
                         <span>{t('admin.sidebar.content')}</span>
                     </NavLink>
 
+                    <NavLink to="/admin/terminologie" className="nav-item" onClick={closeSidebarMobile}>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <path d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                        <span>{t('admin.sidebar.terminology', 'Terminologie')}</span>
+                    </NavLink>
+
                     <NavLink to="/admin/bibliotheque" className="nav-item" onClick={closeSidebarMobile}>
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                             <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
