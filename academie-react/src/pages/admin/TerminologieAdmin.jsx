@@ -13,35 +13,35 @@ function TerminologieAdmin() {
     const [activeTab, setActiveTab] = useState('page')
 
     return (
-        <div className="admin-card">
-            <div className="admin-card-header-actions">
+        <div className="admin-page">
+            <div className="admin-header">
                 <div>
-                    <h2>{t('admin.terminology.title')}</h2>
-                    <p className="admin-help-text" style={{ marginTop: '0.35rem' }}>
-                        {t('admin.terminology.subtitle')}
-                    </p>
+                    <h1>📘 {t('admin.terminology.title')}</h1>
+                    <p>{t('admin.terminology.subtitle')}</p>
                 </div>
             </div>
 
-            <div className="admin-tabs" role="tablist" aria-label={t('admin.terminology.title')}>
-                {TABS.map(tab => (
-                    <button
-                        key={tab.id}
-                        type="button"
-                        role="tab"
-                        aria-selected={activeTab === tab.id}
-                        className={`admin-tab ${activeTab === tab.id ? 'active' : ''}`}
-                        onClick={() => setActiveTab(tab.id)}
-                    >
-                        <span className="admin-tab-icon" aria-hidden="true">{tab.icon}</span>
-                        <span>{t(tab.labelKey)}</span>
-                    </button>
-                ))}
-            </div>
+            <div className="admin-content">
+                <div className="admin-tabs" role="tablist" aria-label={t('admin.terminology.title')}>
+                    {TABS.map(tab => (
+                        <button
+                            key={tab.id}
+                            type="button"
+                            role="tab"
+                            aria-selected={activeTab === tab.id}
+                            className={`admin-tab ${activeTab === tab.id ? 'active' : ''}`}
+                            onClick={() => setActiveTab(tab.id)}
+                        >
+                            <span className="admin-tab-icon" aria-hidden="true">{tab.icon}</span>
+                            <span>{t(tab.labelKey)}</span>
+                        </button>
+                    ))}
+                </div>
 
-            <div className="admin-tab-panel">
-                {activeTab === 'page' && <TerminologyPageEditor />}
-                {activeTab === 'domainContent' && <DomainContentEditor />}
+                <div className="admin-tab-panel">
+                    {activeTab === 'page' && <TerminologyPageEditor />}
+                    {activeTab === 'domainContent' && <DomainContentEditor />}
+                </div>
             </div>
         </div>
     )
