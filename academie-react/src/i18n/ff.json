@@ -527,11 +527,11 @@
             "sendRequest": "Neldu ɗaɓɓaande"
         },
         "terminology": {
-            "title": "Terminoloji",
-            "subtitle": "Wayludu hello Terminoloji e jaŋde nokkuuji kala.",
-            "tabPage": "Hello Terminoloji",
+            "title": "Kelmeendi",
+            "subtitle": "Wayludu hello Kelmeendi e jaŋde nokkuuji kala.",
+            "tabPage": "Hello Kelmeendi",
             "tabDomainContent": "Jaŋde nokkuuji",
-            "pageTitle": "Hello Terminoloji — Hol ko addani & Mbaadi waɗirde",
+            "pageTitle": "Hello Kelmeendi — Hol ko addani & Mbaadi waɗirde",
             "pageHelp": "Ɗii binndi ngam ngara e /terminologie. So a accii goɗɗo meere, ɗemngal lornol no ɓuri yiyaa.",
             "pageSaved": "Loowdi ndi reenaama",
             "defaultI18n": "Tonngooɗe lornol",
