@@ -36,7 +36,7 @@ function Footer() {
 
                         {/* Navigation Column */}
                         <div className="footer-nav-col">
-                            <h4 className="footer-title">{t('footer.language')}</h4>
+                            <h4 className="footer-title">FULFULDE</h4>
                             <ul className="footer-links">
                                 <li>
                                     <Link to="/dictionnaire">
@@ -53,7 +53,7 @@ function Footer() {
                                 <li>
                                     <Link to="/terminologie">
                                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 20h9" /><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z" /></svg>
-                                        {t('nav.terminology')}
+                                        Kelmeendi
                                     </Link>
                                 </li>
                                 <li>
