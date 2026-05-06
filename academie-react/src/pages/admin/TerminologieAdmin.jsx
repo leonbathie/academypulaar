@@ -13,17 +13,17 @@ function TerminologieAdmin() {
     const [activeTab, setActiveTab] = useState('page')
 
     return (
-        <div className="admin-page">
-            <div className="admin-page-header">
-                <h1 className="admin-page-title">
-                    {t('admin.terminology.title')}
-                </h1>
-                <p className="admin-page-subtitle">
-                    {t('admin.terminology.subtitle')}
-                </p>
+        <div className="admin-card">
+            <div className="admin-card-header-actions">
+                <div>
+                    <h2>{t('admin.terminology.title')}</h2>
+                    <p className="admin-help-text" style={{ marginTop: '0.35rem' }}>
+                        {t('admin.terminology.subtitle')}
+                    </p>
+                </div>
             </div>
 
-            <div className="admin-tabs" role="tablist">
+            <div className="admin-tabs" role="tablist" aria-label={t('admin.terminology.title')}>
                 {TABS.map(tab => (
                     <button
                         key={tab.id}
