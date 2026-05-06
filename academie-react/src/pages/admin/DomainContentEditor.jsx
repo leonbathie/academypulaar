@@ -175,6 +175,8 @@ function DomainContentEditor() {
 
     const translationKey = useMemo(() => lang === 'en' ? 'en' : 'fr', [lang])
     const hasRemoteOverride = Boolean(remote?.[domain]?.[lang] && Object.keys(remote[domain][lang]).length > 0)
+    const activeDomain = DOMAIN_OPTIONS.find(d => d.slug === domain)
+    const activeLang = LANGUAGES.find(l => l.code === lang)
 
     if (loading) {
         return <div className="admin-loading"><div className="spinner-large"></div></div>
@@ -210,6 +212,17 @@ function DomainContentEditor() {
 
             <p className="admin-help-text">{t('admin.domainContent.help')}</p>
 
+            {activeDomain && (
+                <div className="admin-context-pill" aria-live="polite">
+                    <span className="admin-context-pill-icon" aria-hidden="true">{activeDomain.icon}</span>
+                    <span className="admin-context-pill-text">
+                        <strong>{t(activeDomain.labelKey)}</strong>
+                        <span className="admin-context-pill-divider" aria-hidden="true">·</span>
+                        <span>{activeLang?.flag} {t(activeLang?.labelKey || 'admin.terminology.lang.fr')}</span>
+                    </span>
+                </div>
+            )}
+
             <div className="admin-status-row">
                 <span className={`admin-status-badge ${hasRemoteOverride ? 'admin-status-badge-override' : 'admin-status-badge-default'}`}>
                     {hasRemoteOverride
@@ -238,6 +251,12 @@ function DomainContentEditor() {
                 </div>
                 <div className="form-group">
                     <label>{t('admin.domainContent.fieldParagraphs')}</label>
+                    {form.introduction.paragraphs.length === 0 && (
+                        <div className="admin-empty-state" style={{ padding: 'var(--space-md)' }}>
+                            <span className="admin-empty-state-icon" aria-hidden="true">📝</span>
+                            {t('admin.domainContent.emptyParagraphs')}
+                        </div>
+                    )}
                     {form.introduction.paragraphs.map((p, i) => (
                         <div key={i} className="admin-row-with-remove">
                             <textarea rows={2} value={p} onChange={e => setParagraph(i, e.target.value)} />
@@ -253,6 +272,12 @@ function DomainContentEditor() {
             {/* Section : Le saviez-vous ? */}
             <fieldset className="admin-fieldset">
                 <legend className="admin-fieldset-legend">💡 {t('admin.domainContent.sectionDyk')}</legend>
+                {form.didYouKnow.length === 0 && (
+                    <div className="admin-empty-state">
+                        <span className="admin-empty-state-icon" aria-hidden="true">💡</span>
+                        {t('admin.domainContent.emptyDyk')}
+                    </div>
+                )}
                 {form.didYouKnow.map((item, i) => (
                     <div key={i} className="admin-card-inner">
                         <div className="admin-row-3col">
@@ -280,6 +305,12 @@ function DomainContentEditor() {
             {/* Section : Exemples de phrases */}
             <fieldset className="admin-fieldset">
                 <legend className="admin-fieldset-legend">💬 {t('admin.domainContent.sectionExamples')}</legend>
+                {form.exampleSentences.length === 0 && (
+                    <div className="admin-empty-state">
+                        <span className="admin-empty-state-icon" aria-hidden="true">💬</span>
+                        {t('admin.domainContent.emptyExamples')}
+                    </div>
+                )}
                 {form.exampleSentences.map((ex, i) => (
                     <div key={i} className="admin-card-inner">
                         <div className="admin-card-inner-header">
@@ -312,6 +343,12 @@ function DomainContentEditor() {
                     <label>{t('admin.domainContent.fieldTitle')}</label>
                     <input type="text" value={form.methodology.title} onChange={e => setMethodTitle(e.target.value)} />
                 </div>
+                {form.methodology.steps.length === 0 && (
+                    <div className="admin-empty-state">
+                        <span className="admin-empty-state-icon" aria-hidden="true">⚙️</span>
+                        {t('admin.domainContent.emptySteps')}
+                    </div>
+                )}
                 {form.methodology.steps.map((step, i) => (
                     <div key={i} className="admin-card-inner">
                         <div className="admin-row-3col">

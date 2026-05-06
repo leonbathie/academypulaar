@@ -574,7 +574,11 @@
             "addParagraph": "Ɓeydude ƴentinoore",
             "addDyk": "Ɓeydude karte « Hara aɗa anndi ? »",
             "addExample": "Ɓeydude konngol",
-            "addStep": "Ɓeydude lannyam"
+            "addStep": "Ɓeydude lannyam",
+            "emptyParagraphs": "Hay ƴentinoore woodaani — fuɗɗo ɓeydude.",
+            "emptyDyk": "Hay karte « Hara aɗa anndi ? » woodaani e nokku oo e ɗemngal ngal.",
+            "emptyExamples": "Hay konngol mise woodaani. Ɓeydu ngam hollirde terminoloji.",
+            "emptySteps": "Hay lannyam woodaani. Holliru no kelme ɗe mbaɗiraa."
         },
         "books": {
             "title": "Defterdu",

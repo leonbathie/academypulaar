@@ -2193,139 +2193,264 @@
 }
 
 /* =========================================================
-   Admin: Terminologie / DomainContent — design system
+   Admin: Terminologie / DomainContent — design system v2
+   Aligne sur la signature visuelle du site public :
+   gradient bourgogne, accent or, cartes douces, animations.
    ========================================================= */
 
-/* Page header */
+/* ── Page hero ─────────────────────────────────────────── */
 .admin-page-header {
+    position: relative;
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--secondary-burgundy) 70%, var(--accent-terracotta) 100%);
+    color: var(--white);
+    padding: var(--space-2xl) var(--space-xl);
+    border-radius: var(--radius-lg);
     margin-bottom: var(--space-xl);
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(26, 26, 46, 0.18);
+}
+.admin-page-header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 85% 0%, rgba(212, 165, 55, 0.18) 0%, transparent 55%);
+    pointer-events: none;
+}
+.admin-page-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 4px;
+    background: var(--gradient-gold);
 }
 .admin-page-title {
     font-family: var(--font-display);
-    font-size: 2rem;
-    margin: 0 0 var(--space-xs) 0;
-    color: var(--primary-dark);
+    font-size: 2.2rem;
+    line-height: 1.15;
+    margin: 0 0 var(--space-sm) 0;
+    color: var(--white);
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
+    position: relative;
 }
 .admin-page-subtitle {
     margin: 0;
-    color: var(--medium-gray);
-    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.88);
+    font-size: 1rem;
+    max-width: 720px;
+    line-height: 1.55;
+    position: relative;
 }
 
-/* Top-level tabs (page-level), reuse same vibe as .lang-tabs but more imposing */
+/* ── Pill tabs ─────────────────────────────────────────── */
 .admin-tabs {
     display: flex;
     gap: var(--space-sm);
-    border-bottom: 2px solid var(--light-gray);
     margin-bottom: var(--space-xl);
     flex-wrap: wrap;
+    background: var(--white);
+    padding: var(--space-sm);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 2px 12px rgba(26, 26, 46, 0.06);
+    border: 1px solid var(--light-gray);
 }
 .admin-tab {
     display: inline-flex;
     align-items: center;
     gap: var(--space-sm);
-    padding: var(--space-md) var(--space-lg);
+    padding: 0.7rem 1.4rem;
     background: transparent;
     border: none;
     font-size: 0.95rem;
     font-weight: 600;
     color: var(--medium-gray);
     cursor: pointer;
-    border-radius: var(--radius-md) var(--radius-md) 0 0;
-    transition: all var(--transition-fast);
-    border-bottom: 3px solid transparent;
-    margin-bottom: -2px;
+    border-radius: var(--radius-md);
+    transition: all var(--transition-base);
+    position: relative;
 }
-.admin-tab:hover {
-    color: var(--dark-gray);
-    background: var(--light-gray);
+.admin-tab:hover:not(.active) {
+    color: var(--primary-dark);
+    background: var(--cream);
 }
 .admin-tab.active {
-    color: var(--primary-gold);
-    background: rgba(212, 165, 55, 0.08);
-    border-bottom-color: var(--primary-gold);
+    color: var(--white);
+    background: linear-gradient(135deg, var(--primary-gold) 0%, var(--gold-dark) 100%);
+    box-shadow: 0 4px 12px rgba(212, 165, 55, 0.32);
 }
+.admin-tab.active .admin-tab-icon { transform: scale(1.1); }
 .admin-tab-icon {
-    font-size: 1.1rem;
+    font-size: 1.15rem;
     line-height: 1;
+    transition: transform var(--transition-base);
 }
-.admin-tab-panel { animation: admin-tab-fade 0.18s ease-out; }
+.admin-tab-panel { animation: admin-tab-fade 0.25s ease-out; }
 @keyframes admin-tab-fade {
-    from { opacity: 0; transform: translateY(2px); }
+    from { opacity: 0; transform: translateY(6px); }
     to   { opacity: 1; transform: translateY(0); }
 }
 
-/* Help / context text under section header */
-.admin-help-text {
-    color: var(--medium-gray);
-    font-size: 0.9rem;
-    margin: 0 0 var(--space-lg) 0;
-    line-height: 1.5;
+/* ── Card overrides for editors ─────────────────────────── */
+.admin-page .admin-card {
+    border-radius: var(--radius-lg);
+    box-shadow: 0 4px 20px rgba(26, 26, 46, 0.06);
+    border: 1px solid var(--light-gray);
+}
+.admin-page .admin-card h2 {
+    font-family: var(--font-display);
+    color: var(--primary-dark);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+.admin-page .admin-card h2::before {
+    content: '';
+    display: inline-block;
+    width: 4px;
+    height: 1.3em;
+    background: var(--gradient-gold);
+    border-radius: 2px;
 }
 
-/* Inline messages (success/error) */
+/* ── Help / context text ────────────────────────────────── */
+.admin-help-text {
+    color: var(--dark-gray);
+    font-size: 0.92rem;
+    margin: 0 0 var(--space-lg) 0;
+    line-height: 1.6;
+    padding: var(--space-md) var(--space-lg);
+    background: linear-gradient(135deg, rgba(212, 165, 55, 0.08) 0%, rgba(242, 216, 138, 0.04) 100%);
+    border-left: 3px solid var(--primary-gold);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+}
+
+/* ── Inline messages ────────────────────────────────────── */
 .admin-message {
     padding: var(--space-md) var(--space-lg);
     border-radius: var(--radius-md);
     margin-bottom: var(--space-lg);
-    font-size: 0.9rem;
-    border: 1px solid transparent;
+    font-size: 0.92rem;
+    font-weight: 500;
+    border-left: 4px solid transparent;
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    animation: admin-msg-slide 0.25s ease-out;
+}
+@keyframes admin-msg-slide {
+    from { opacity: 0; transform: translateX(-6px); }
+    to   { opacity: 1; transform: translateX(0); }
 }
 .admin-message-success {
     background: #ecfdf5;
     color: #065f46;
-    border-color: #a7f3d0;
+    border-left-color: #10b981;
 }
+.admin-message-success::before { content: '✓'; font-size: 1.1rem; font-weight: 700; }
 .admin-message-error {
     background: #fef2f2;
     color: #991b1b;
-    border-color: #fecaca;
+    border-left-color: #ef4444;
 }
+.admin-message-error::before { content: '!'; font-size: 1.1rem; font-weight: 700; }
 
-/* Fieldset wrapping a section of the editor */
+/* ── Fieldset card with left accent ─────────────────────── */
 .admin-fieldset {
     border: 1px solid var(--light-gray);
+    border-left: 4px solid var(--primary-gold);
     border-radius: var(--radius-md);
-    padding: var(--space-lg);
-    margin: 0 0 var(--space-xl) 0;
+    padding: var(--space-lg) var(--space-xl);
+    margin: 0 0 var(--space-lg) 0;
     background: var(--white);
+    transition: box-shadow var(--transition-base), border-left-color var(--transition-base);
+}
+.admin-fieldset:hover {
+    box-shadow: 0 4px 14px rgba(26, 26, 46, 0.06);
 }
 .admin-fieldset-legend {
     font-family: var(--font-display);
-    font-size: 1.05rem;
+    font-size: 1.1rem;
     font-weight: 600;
     color: var(--primary-dark);
     padding: 0 var(--space-sm);
+    background: var(--white);
 }
 .admin-fieldset-hint {
-    font-size: 0.8rem;
+    font-size: 0.82rem;
     color: var(--medium-gray);
     margin-bottom: var(--space-md);
+    padding: var(--space-xs) var(--space-sm);
+    background: var(--cream);
+    border-radius: var(--radius-sm);
+    display: inline-block;
 }
 .admin-fieldset-hint em {
-    color: var(--dark-gray);
+    color: var(--primary-dark);
     font-style: italic;
+    font-weight: 500;
 }
 
-/* Lang grid for fr/en/ff side-by-side fields */
+/* ── Lang grid ──────────────────────────────────────────── */
 .admin-lang-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: var(--space-md);
 }
+.admin-lang-grid .form-group label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4em;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--dark-gray);
+    margin-bottom: 0.35rem;
+}
 .admin-lang-flag {
-    margin-right: 0.4em;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.6em;
+    height: 1.6em;
+    border-radius: 50%;
+    background: var(--cream);
+    font-size: 0.9em;
+    border: 1px solid var(--light-gray);
 }
 
-/* Card footer (right-aligned action) */
+/* ── Inputs : focus state alignement gold ───────────────── */
+.admin-fieldset input[type="text"],
+.admin-fieldset input[type="number"],
+.admin-fieldset textarea,
+.admin-fieldset select,
+.admin-card-inner input[type="text"],
+.admin-card-inner input[type="number"],
+.admin-card-inner textarea {
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+.admin-fieldset input:focus,
+.admin-fieldset textarea:focus,
+.admin-fieldset select:focus,
+.admin-card-inner input:focus,
+.admin-card-inner textarea:focus {
+    border-color: var(--primary-gold);
+    box-shadow: 0 0 0 3px rgba(212, 165, 55, 0.15);
+    outline: none;
+}
+
+/* ── Card footer (sticky-ish action bar) ────────────────── */
 .admin-card-footer {
-    text-align: right;
-    margin-top: var(--space-lg);
-    padding-top: var(--space-md);
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--space-md);
+    margin-top: var(--space-xl);
+    padding-top: var(--space-lg);
     border-top: 1px solid var(--light-gray);
 }
+.admin-card-footer .btn-save {
+    min-width: 160px;
+    box-shadow: 0 4px 12px rgba(212, 165, 55, 0.25);
+}
 
-/* Status badge row (override / default) */
+/* ── Status badge row ───────────────────────────────────── */
 .admin-status-row {
     display: flex;
     align-items: center;
@@ -2334,45 +2459,83 @@
     flex-wrap: wrap;
 }
 .admin-status-badge {
-    font-size: 0.78rem;
+    font-size: 0.8rem;
     font-weight: 600;
-    padding: 0.25rem 0.7rem;
-    border-radius: var(--radius-sm);
+    padding: 0.4rem 0.85rem;
+    border-radius: 999px;
     letter-spacing: 0.02em;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    border: 1px solid transparent;
+}
+.admin-status-badge::before {
+    content: '';
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
 }
 .admin-status-badge-override {
-    background: rgba(45, 90, 74, 0.12);
+    background: rgba(45, 90, 74, 0.1);
     color: var(--accent-forest);
+    border-color: rgba(45, 90, 74, 0.25);
+}
+.admin-status-badge-override::before {
+    background: var(--accent-forest);
+    box-shadow: 0 0 0 3px rgba(45, 90, 74, 0.18);
+    animation: pulse-dot 2s infinite;
 }
 .admin-status-badge-default {
     background: var(--light-gray);
     color: var(--dark-gray);
+    border-color: rgba(58, 58, 58, 0.12);
+}
+.admin-status-badge-default::before { background: var(--medium-gray); }
+@keyframes pulse-dot {
+    0%, 100% { box-shadow: 0 0 0 3px rgba(45, 90, 74, 0.18); }
+    50%      { box-shadow: 0 0 0 5px rgba(45, 90, 74, 0.05); }
 }
 .admin-status-reset {
     font-size: 0.82rem;
-    padding: 0.35rem 0.8rem;
+    padding: 0.4rem 0.9rem;
+    border-radius: var(--radius-md);
 }
 
-/* Inner card for a list item (paragraph / dyk / example / step) */
+/* ── Inner cards (item lists) ───────────────────────────── */
 .admin-card-inner {
     border: 1px solid var(--light-gray);
     border-radius: var(--radius-md);
-    padding: var(--space-md);
+    padding: var(--space-md) var(--space-lg);
     margin-bottom: var(--space-md);
     background: var(--cream);
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
+    animation: admin-card-in 0.22s ease-out;
+}
+@keyframes admin-card-in {
+    from { opacity: 0; transform: translateY(4px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+.admin-card-inner:hover {
+    border-color: var(--primary-gold);
+    box-shadow: 0 4px 14px rgba(212, 165, 55, 0.12);
+    transform: translateY(-1px);
 }
 .admin-card-inner-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: var(--space-sm);
+    padding-bottom: var(--space-sm);
+    border-bottom: 1px dashed rgba(212, 165, 55, 0.3);
 }
 .admin-card-inner-header strong {
     color: var(--primary-dark);
-    font-size: 0.92rem;
+    font-size: 0.95rem;
+    font-family: var(--font-display);
 }
 
-/* Row with single field + remove button */
+/* ── Rows ───────────────────────────────────────────────── */
 .admin-row-with-remove {
     display: flex;
     gap: var(--space-sm);
@@ -2383,11 +2546,9 @@
 .admin-row-with-remove > input {
     flex: 1;
 }
-
-/* 3-col row : icon-or-num + main + remove */
 .admin-row-3col {
     display: grid;
-    grid-template-columns: 90px 1fr auto;
+    grid-template-columns: 96px 1fr auto;
     gap: var(--space-md);
     align-items: end;
 }
@@ -2396,50 +2557,151 @@
     margin-bottom: 0.25rem;
 }
 
-/* Small icon-only remove button */
+/* ── Buttons : remove ──────────────────────────────────── */
 .btn-icon-remove {
     background: var(--white);
     border: 1px solid var(--light-gray);
     color: var(--secondary-burgundy);
-    width: 36px;
-    height: 36px;
+    width: 38px;
+    height: 38px;
     border-radius: var(--radius-md);
     cursor: pointer;
-    font-size: 0.95rem;
+    font-size: 1rem;
     line-height: 1;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     transition: all var(--transition-fast);
+    flex-shrink: 0;
 }
 .btn-icon-remove:hover {
     background: var(--secondary-burgundy);
     color: var(--white);
     border-color: var(--secondary-burgundy);
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(139, 41, 66, 0.25);
 }
+.btn-icon-remove:active { transform: scale(0.95); }
 
-/* Subtle add button (used inside fieldsets) */
+/* ── Buttons : add inline ──────────────────────────────── */
 .btn-add-inline {
-    background: transparent;
-    border: 1px dashed var(--primary-gold);
+    background: var(--white);
+    border: 1.5px dashed var(--primary-gold);
     color: var(--gold-dark);
-    padding: 0.55rem 1rem;
+    padding: 0.65rem 1.2rem;
     border-radius: var(--radius-md);
-    font-size: 0.85rem;
+    font-size: 0.88rem;
     font-weight: 600;
     cursor: pointer;
-    transition: all var(--transition-fast);
+    transition: all var(--transition-base);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: var(--space-sm);
 }
 .btn-add-inline:hover {
-    background: rgba(212, 165, 55, 0.1);
+    background: linear-gradient(135deg, var(--primary-gold) 0%, var(--gold-dark) 100%);
     border-style: solid;
+    border-color: var(--gold-dark);
+    color: var(--white);
+    box-shadow: 0 4px 12px rgba(212, 165, 55, 0.3);
+    transform: translateY(-1px);
+}
+.btn-add-inline:active { transform: translateY(0); }
+
+/* ── Domain / language selects (used in editor toolbars) ── */
+.admin-page .domain-filter-select {
+    border: 1.5px solid var(--light-gray);
+    background: var(--white);
+    padding: 0.55rem 2.2rem 0.55rem 1rem;
+    border-radius: var(--radius-md);
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--primary-dark);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    min-width: 200px;
+}
+.admin-page .domain-filter-select:hover {
+    border-color: var(--primary-gold);
+}
+.admin-page .domain-filter-select:focus {
+    outline: none;
+    border-color: var(--primary-gold);
+    box-shadow: 0 0 0 3px rgba(212, 165, 55, 0.15);
 }
 
-@media (max-width: 600px) {
+/* ── Context pill : "you are editing X domain in Y language" ── */
+.admin-context-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-md);
+    padding: 0.6rem 1.2rem;
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--secondary-burgundy) 100%);
+    color: var(--white);
+    border-radius: 999px;
+    margin-bottom: var(--space-lg);
+    box-shadow: 0 4px 14px rgba(26, 26, 46, 0.18);
+    border: 1px solid rgba(212, 165, 55, 0.4);
+    font-size: 0.92rem;
+}
+.admin-context-pill-icon {
+    font-size: 1.4rem;
+    line-height: 1;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
+}
+.admin-context-pill-text {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+.admin-context-pill-text strong {
+    font-family: var(--font-display);
+    font-size: 0.98rem;
+    color: var(--white);
+}
+.admin-context-pill-divider {
+    color: rgba(255, 255, 255, 0.4);
+    font-weight: 700;
+}
+
+/* ── Empty state inside a fieldset ─────────────────────── */
+.admin-empty-state {
+    text-align: center;
+    padding: var(--space-xl) var(--space-lg);
+    color: var(--medium-gray);
+    font-size: 0.9rem;
+    font-style: italic;
+    border: 1.5px dashed var(--light-gray);
+    border-radius: var(--radius-md);
+    background: var(--cream);
+    margin-bottom: var(--space-md);
+}
+.admin-empty-state-icon {
+    font-size: 2rem;
+    display: block;
+    margin-bottom: var(--space-xs);
+    opacity: 0.6;
+}
+
+/* ── Mobile ────────────────────────────────────────────── */
+@media (max-width: 768px) {
+    .admin-page-header {
+        padding: var(--space-xl) var(--space-lg);
+    }
+    .admin-page-title { font-size: 1.6rem; }
+    .admin-page-subtitle { font-size: 0.92rem; }
+    .admin-tabs {
+        padding: var(--space-xs);
+        gap: var(--space-xs);
+    }
+    .admin-tab {
+        padding: 0.55rem 0.9rem;
+        font-size: 0.88rem;
+    }
+    .admin-fieldset { padding: var(--space-md); }
     .admin-row-3col {
         grid-template-columns: 70px 1fr auto;
         gap: var(--space-sm);
     }
-    .admin-page-title { font-size: 1.5rem; }
-    .admin-tab { padding: var(--space-sm) var(--space-md); font-size: 0.9rem; }
 }

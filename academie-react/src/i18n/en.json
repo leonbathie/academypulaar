@@ -571,7 +571,11 @@
             "addParagraph": "Add a paragraph",
             "addDyk": "Add a \"Did you know?\" card",
             "addExample": "Add a sentence",
-            "addStep": "Add a step"
+            "addStep": "Add a step",
+            "emptyParagraphs": "No paragraphs yet — start by adding one.",
+            "emptyDyk": "No \"Did you know?\" cards for this domain and language.",
+            "emptyExamples": "No example sentences. Add some to illustrate the terminology.",
+            "emptySteps": "No steps. Describe the term creation process."
         },
         "books": {
             "title": "Library",

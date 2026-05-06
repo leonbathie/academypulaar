@@ -573,7 +573,11 @@
             "addParagraph": "Ajouter un paragraphe",
             "addDyk": "Ajouter une carte « Le saviez-vous ? »",
             "addExample": "Ajouter une phrase",
-            "addStep": "Ajouter une étape"
+            "addStep": "Ajouter une étape",
+            "emptyParagraphs": "Aucun paragraphe pour l'instant — commencez par en ajouter un.",
+            "emptyDyk": "Aucune carte « Le saviez-vous ? » pour ce domaine et cette langue.",
+            "emptyExamples": "Aucune phrase d'exemple. Ajoutez-en pour illustrer la terminologie.",
+            "emptySteps": "Aucune étape. Décrivez le processus de création des termes."
         },
         "books": {
             "title": "Bibliothèque",
