@@ -3,6 +3,8 @@ import { useTranslation } from 'react-i18next'
 import { useApi, useAuth } from '../../context/AuthContext'
 import { API_URL } from '../../config'
 import ConfirmDialog from '../../components/ConfirmDialog'
+import TerminologyPageEditor from './TerminologyPageEditor'
+import DomainContentEditor from './DomainContentEditor'
 
 // Alignement avec DomainPage.jsx : 6 méta-domaines de terminologie et leurs sous-domaines
 const DOMAIN_CONFIG = {
@@ -53,6 +55,7 @@ function TerminologieAdmin() {
     const searchNormalizer = (value) => normalizeFulfuldeText(value).toLowerCase()
     const collator = new Intl.Collator(i18n.language || 'ff', { sensitivity: 'base', numeric: true })
 
+    const [activeAdminTab, setActiveAdminTab] = useState('words') // 'words' | 'page' | 'domainContent'
     const [words, setWords] = useState([])
     const [loading, setLoading] = useState(true)
     const [searchTerm, setSearchTerm] = useState('')
@@ -475,8 +478,80 @@ function TerminologieAdmin() {
 
     if (loading) return <div className="admin-loading"><div className="spinner-large"></div></div>
 
+    const renderTabs = () => (
+        <div className="admin-tabs" style={{ display: 'flex', gap: '0.5rem', borderBottom: '2px solid #e5e7eb', marginBottom: '1rem', flexWrap: 'wrap' }}>
+            <button
+                type="button"
+                onClick={() => setActiveAdminTab('words')}
+                style={{
+                    padding: '0.6rem 1.1rem',
+                    background: activeAdminTab === 'words' ? '#2563eb' : 'transparent',
+                    color: activeAdminTab === 'words' ? 'white' : '#374151',
+                    border: 'none',
+                    borderBottom: activeAdminTab === 'words' ? '3px solid #1e40af' : '3px solid transparent',
+                    cursor: 'pointer',
+                    fontWeight: 600,
+                    borderRadius: '6px 6px 0 0'
+                }}
+            >
+                📖 {t('admin.terminology.tabWords', 'Mots')}
+            </button>
+            <button
+                type="button"
+                onClick={() => setActiveAdminTab('page')}
+                style={{
+                    padding: '0.6rem 1.1rem',
+                    background: activeAdminTab === 'page' ? '#2563eb' : 'transparent',
+                    color: activeAdminTab === 'page' ? 'white' : '#374151',
+                    border: 'none',
+                    borderBottom: activeAdminTab === 'page' ? '3px solid #1e40af' : '3px solid transparent',
+                    cursor: 'pointer',
+                    fontWeight: 600,
+                    borderRadius: '6px 6px 0 0'
+                }}
+            >
+                📄 {t('admin.terminology.tabPage', 'Page Terminologie')}
+            </button>
+            <button
+                type="button"
+                onClick={() => setActiveAdminTab('domainContent')}
+                style={{
+                    padding: '0.6rem 1.1rem',
+                    background: activeAdminTab === 'domainContent' ? '#2563eb' : 'transparent',
+                    color: activeAdminTab === 'domainContent' ? 'white' : '#374151',
+                    border: 'none',
+                    borderBottom: activeAdminTab === 'domainContent' ? '3px solid #1e40af' : '3px solid transparent',
+                    cursor: 'pointer',
+                    fontWeight: 600,
+                    borderRadius: '6px 6px 0 0'
+                }}
+            >
+                🎓 {t('admin.terminology.tabDomainContent', 'Contenu par domaine')}
+            </button>
+        </div>
+    )
+
+    if (activeAdminTab === 'page') {
+        return (
+            <div>
+                {renderTabs()}
+                <TerminologyPageEditor />
+            </div>
+        )
+    }
+
+    if (activeAdminTab === 'domainContent') {
+        return (
+            <div>
+                {renderTabs()}
+                <DomainContentEditor />
+            </div>
+        )
+    }
+
     return (
         <div>
+            {renderTabs()}
             <div className="admin-card">
                 <div className="admin-card-header-actions">
                     <h2>{t('admin.terminology.title', 'Terminologie')}</h2>

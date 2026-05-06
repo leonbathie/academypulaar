@@ -1,9 +1,40 @@
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
+import { API_URL } from '../config'
 import './TerminologyPage.css'
 
+// Clés gérées en base via /api/terminologie (section = 'terminologie').
+// Si une valeur est présente, elle remplace la traduction i18n statique.
+const OVERRIDE_KEYS = ['why_title', 'why_text', 'method_title', 'method_text']
+
 function TerminologyPage() {
-    const { t } = useTranslation()
+    const { t, i18n } = useTranslation()
+    const lang = (i18n.language || 'fr').substring(0, 2)
+    const langField = lang === 'en' ? 'value_en' : lang === 'ff' ? 'value_ff' : 'value_fr'
+
+    const [overrides, setOverrides] = useState({})
+
+    useEffect(() => {
+        let cancelled = false
+        fetch(`${API_URL}/api/terminologie`)
+            .then(r => (r.ok ? r.json() : {}))
+            .then(data => {
+                if (cancelled || !data || typeof data !== 'object') return
+                const next = {}
+                for (const k of OVERRIDE_KEYS) {
+                    const row = data[k]
+                    if (row && row[langField] && String(row[langField]).trim()) {
+                        next[k] = row[langField]
+                    }
+                }
+                setOverrides(next)
+            })
+            .catch(() => {})
+        return () => { cancelled = true }
+    }, [langField])
+
+    const txt = (overrideKey, i18nKey) => overrides[overrideKey] || t(i18nKey)
 
     const domains = [
         { key: 'domScience', icon: '🔬', slug: 'sciences-technologie' },
@@ -28,14 +59,14 @@ function TerminologyPage() {
             <div className="container">
                 {/* Why section */}
                 <section className="term-section">
-                    <h2>{t('terminology.why')}</h2>
-                    <p>{t('terminology.whyText')}</p>
+                    <h2>{txt('why_title', 'terminology.why')}</h2>
+                    <p>{txt('why_text', 'terminology.whyText')}</p>
                 </section>
 
                 {/* Method section */}
                 <section className="term-section">
-                    <h2>{t('terminology.method')}</h2>
-                    <p>{t('terminology.methodText')}</p>
+                    <h2>{txt('method_title', 'terminology.method')}</h2>
+                    <p>{txt('method_text', 'terminology.methodText')}</p>
                 </section>
 
                 {/* Domains grid */}

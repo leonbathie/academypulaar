@@ -68,7 +68,23 @@ function DomainPage() {
     const [activeTab, setActiveTab] = useState('words')
     const audioRef = useRef(null)
 
-    const content = domainContent[domain]?.[lang] || domainContent[domain]?.fr
+    const [remoteContent, setRemoteContent] = useState(null)
+    const fallbackContent = domainContent[domain]?.[lang] || domainContent[domain]?.fr
+    const content = (remoteContent && Object.keys(remoteContent).length > 0) ? remoteContent : fallbackContent
+
+    useEffect(() => {
+        if (!config) return
+        let cancelled = false
+        fetch(`${API_URL}/api/domain-content/${domain}`)
+            .then(r => (r.ok ? r.json() : {}))
+            .then(data => {
+                if (cancelled) return
+                const byLang = data && typeof data === 'object' ? (data[lang] || data.fr) : null
+                setRemoteContent(byLang && Object.keys(byLang).length > 0 ? byLang : null)
+            })
+            .catch(() => {})
+        return () => { cancelled = true }
+    }, [domain, lang, config])
 
     // Alterner FR/EN en mode Pulaar
     useEffect(() => {

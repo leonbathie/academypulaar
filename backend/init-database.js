@@ -397,6 +397,22 @@ async function initDatabase() {
         `)
         console.log('✅ Table hero_slides créée')
 
+        // Table contenu pédagogique par domaine de terminologie (Apprendre)
+        // Stocke (didYouKnow, exampleSentences, methodology, introduction, pronunciation)
+        // pour chaque (domain, language) sous forme de JSONB.
+        await pool.query(`
+            CREATE TABLE IF NOT EXISTS domain_content (
+                id SERIAL PRIMARY KEY,
+                domain VARCHAR(100) NOT NULL,
+                language CHAR(2) NOT NULL,
+                content JSONB NOT NULL DEFAULT '{}'::jsonb,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                UNIQUE(domain, language)
+            )
+        `)
+        await pool.query('CREATE INDEX IF NOT EXISTS idx_domain_content_domain ON domain_content(domain)')
+        console.log('✅ Table domain_content créée')
+
         // Créer l'admin par défaut
         const adminUsername = process.env.ADMIN_USERNAME || 'admin'
         const adminPassword = process.env.ADMIN_PASSWORD
