@@ -2,19 +2,19 @@ import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useApi } from '../../context/AuthContext'
 
-// Les clés stockées dans la table `content` (section = 'terminologie').
-// Si une valeur est vide, la page publique affiche la traduction i18n par défaut.
+// Champs editables stockes dans la table `terminologie` (key + value_fr/en/ff).
+// Le 2e param `i18n` est la cle de fallback affichee sur le site public quand le champ est vide.
 const FIELDS = [
-    { key: 'why_title',    i18n: 'terminology.why',        isArea: false, labelFr: 'Titre — Pourquoi une terminologie Fulfulde ?' },
-    { key: 'why_text',     i18n: 'terminology.whyText',    isArea: true,  labelFr: 'Texte — Pourquoi une terminologie Fulfulde ?' },
-    { key: 'method_title', i18n: 'terminology.method',     isArea: false, labelFr: 'Titre — Méthode de création' },
-    { key: 'method_text',  i18n: 'terminology.methodText', isArea: true,  labelFr: 'Texte — Méthode de création' }
+    { key: 'why_title',    i18n: 'terminology.why',        isArea: false, labelKey: 'admin.terminology.fields.whyTitle' },
+    { key: 'why_text',     i18n: 'terminology.whyText',    isArea: true,  labelKey: 'admin.terminology.fields.whyText' },
+    { key: 'method_title', i18n: 'terminology.method',     isArea: false, labelKey: 'admin.terminology.fields.methodTitle' },
+    { key: 'method_text',  i18n: 'terminology.methodText', isArea: true,  labelKey: 'admin.terminology.fields.methodText' }
 ]
 
 const LANG_FIELDS = [
-    { lang: 'fr', col: 'value_fr', flag: '🇫🇷', label: 'Français' },
-    { lang: 'en', col: 'value_en', flag: 'EN',   label: 'Anglais' },
-    { lang: 'ff', col: 'value_ff', flag: 'SN',   label: 'Fulfulde' }
+    { lang: 'fr', col: 'value_fr', flag: '🇫🇷', labelKey: 'admin.terminology.lang.fr' },
+    { lang: 'en', col: 'value_en', flag: '🇬🇧', labelKey: 'admin.terminology.lang.en' },
+    { lang: 'ff', col: 'value_ff', flag: '🌍', labelKey: 'admin.terminology.lang.ff' }
 ]
 
 function TerminologyPageEditor() {
@@ -32,7 +32,6 @@ function TerminologyPageEditor() {
     const load = async () => {
         try {
             const data = await apiRequest('/terminologie')
-            // data = { key: { value_fr, value_en, value_ff }, ... }
             const next = {}
             for (const f of FIELDS) {
                 const row = data[f.key] || {}
@@ -60,10 +59,10 @@ function TerminologyPageEditor() {
         try {
             const entries = FIELDS.map(f => ({ key: f.key, ...form[f.key] }))
             await apiRequest('/terminologie', { method: 'POST', body: JSON.stringify({ entries }) })
-            setMessage({ type: 'success', text: t('admin.terminology.pageSaved', 'Contenu enregistré') })
+            setMessage({ type: 'success', text: t('admin.terminology.pageSaved') })
             setTimeout(() => setMessage(null), 3000)
         } catch (err) {
-            setMessage({ type: 'error', text: (err && err.message) || 'Erreur' })
+            setMessage({ type: 'error', text: (err && err.message) || t('admin.common.errorPrefix') })
         } finally {
             setSaving(false)
         }
@@ -78,40 +77,35 @@ function TerminologyPageEditor() {
     return (
         <div className="admin-card">
             <div className="admin-card-header-actions">
-                <h2>{t('admin.terminology.pageTitle', 'Page Terminologie — Pourquoi & Méthode')}</h2>
+                <h2>{t('admin.terminology.pageTitle')}</h2>
                 <button className="btn-save" onClick={save} disabled={saving}>
-                    {saving ? <div className="btn-spinner"></div> : t('admin.common.save', 'Enregistrer')}
+                    {saving ? <div className="btn-spinner"></div> : t('admin.common.save')}
                 </button>
             </div>
 
-            <p style={{ color: 'var(--medium-gray, #6b7280)', fontSize: '0.9rem', marginBottom: '1rem' }}>
-                {t('admin.terminology.pageHelp', 'Ces textes apparaissent sur /terminologie. Laisser un champ vide affiche la traduction par défaut de l\'application.')}
+            <p className="admin-help-text">
+                {t('admin.terminology.pageHelp')}
             </p>
 
             {message && (
-                <div className={`admin-message admin-message-${message.type}`} style={{
-                    padding: '0.75rem 1rem',
-                    marginBottom: '1rem',
-                    borderRadius: 6,
-                    background: message.type === 'success' ? '#d1fae5' : '#fee2e2',
-                    color: message.type === 'success' ? '#065f46' : '#991b1b'
-                }}>
+                <div className={`admin-message admin-message-${message.type}`}>
                     {message.text}
                 </div>
             )}
 
             {FIELDS.map(f => (
-                <div key={f.key} className="form-group" style={{ marginBottom: '1.5rem', paddingBottom: '1.5rem', borderBottom: '1px solid #e5e7eb' }}>
-                    <label style={{ fontWeight: 600, display: 'block', marginBottom: '0.5rem' }}>
-                        {f.labelFr}
-                    </label>
-                    <div style={{ fontSize: '0.8rem', color: '#6b7280', marginBottom: '0.75rem' }}>
-                        {t('admin.terminology.defaultI18n', 'Valeur par défaut')} : <em>{i18nDefault(f.i18n)}</em>
+                <fieldset key={f.key} className="admin-fieldset">
+                    <legend className="admin-fieldset-legend">{t(f.labelKey)}</legend>
+                    <div className="admin-fieldset-hint">
+                        {t('admin.terminology.defaultI18n')} : <em>{i18nDefault(f.i18n)}</em>
                     </div>
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '0.75rem' }}>
+                    <div className="admin-lang-grid">
                         {LANG_FIELDS.map(lf => (
-                            <div key={lf.lang}>
-                                <label style={{ fontSize: '0.85rem', color: '#374151' }}>{lf.flag} {lf.label}</label>
+                            <div key={lf.lang} className="form-group">
+                                <label>
+                                    <span className="admin-lang-flag" aria-hidden="true">{lf.flag}</span>
+                                    {t(lf.labelKey)}
+                                </label>
                                 {f.isArea ? (
                                     <textarea
                                         rows={3}
@@ -130,12 +124,12 @@ function TerminologyPageEditor() {
                             </div>
                         ))}
                     </div>
-                </div>
+                </fieldset>
             ))}
 
-            <div style={{ textAlign: 'right' }}>
+            <div className="admin-card-footer">
                 <button className="btn-save" onClick={save} disabled={saving}>
-                    {saving ? <div className="btn-spinner"></div> : t('admin.common.save', 'Enregistrer')}
+                    {saving ? <div className="btn-spinner"></div> : t('admin.common.save')}
                 </button>
             </div>
         </div>

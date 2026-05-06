@@ -2191,3 +2191,255 @@
         padding: var(--space-sm) var(--space-md);
     }
 }
+
+/* =========================================================
+   Admin: Terminologie / DomainContent — design system
+   ========================================================= */
+
+/* Page header */
+.admin-page-header {
+    margin-bottom: var(--space-xl);
+}
+.admin-page-title {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    margin: 0 0 var(--space-xs) 0;
+    color: var(--primary-dark);
+}
+.admin-page-subtitle {
+    margin: 0;
+    color: var(--medium-gray);
+    font-size: 0.95rem;
+}
+
+/* Top-level tabs (page-level), reuse same vibe as .lang-tabs but more imposing */
+.admin-tabs {
+    display: flex;
+    gap: var(--space-sm);
+    border-bottom: 2px solid var(--light-gray);
+    margin-bottom: var(--space-xl);
+    flex-wrap: wrap;
+}
+.admin-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-md) var(--space-lg);
+    background: transparent;
+    border: none;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--medium-gray);
+    cursor: pointer;
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+    transition: all var(--transition-fast);
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+}
+.admin-tab:hover {
+    color: var(--dark-gray);
+    background: var(--light-gray);
+}
+.admin-tab.active {
+    color: var(--primary-gold);
+    background: rgba(212, 165, 55, 0.08);
+    border-bottom-color: var(--primary-gold);
+}
+.admin-tab-icon {
+    font-size: 1.1rem;
+    line-height: 1;
+}
+.admin-tab-panel { animation: admin-tab-fade 0.18s ease-out; }
+@keyframes admin-tab-fade {
+    from { opacity: 0; transform: translateY(2px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Help / context text under section header */
+.admin-help-text {
+    color: var(--medium-gray);
+    font-size: 0.9rem;
+    margin: 0 0 var(--space-lg) 0;
+    line-height: 1.5;
+}
+
+/* Inline messages (success/error) */
+.admin-message {
+    padding: var(--space-md) var(--space-lg);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--space-lg);
+    font-size: 0.9rem;
+    border: 1px solid transparent;
+}
+.admin-message-success {
+    background: #ecfdf5;
+    color: #065f46;
+    border-color: #a7f3d0;
+}
+.admin-message-error {
+    background: #fef2f2;
+    color: #991b1b;
+    border-color: #fecaca;
+}
+
+/* Fieldset wrapping a section of the editor */
+.admin-fieldset {
+    border: 1px solid var(--light-gray);
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+    margin: 0 0 var(--space-xl) 0;
+    background: var(--white);
+}
+.admin-fieldset-legend {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--primary-dark);
+    padding: 0 var(--space-sm);
+}
+.admin-fieldset-hint {
+    font-size: 0.8rem;
+    color: var(--medium-gray);
+    margin-bottom: var(--space-md);
+}
+.admin-fieldset-hint em {
+    color: var(--dark-gray);
+    font-style: italic;
+}
+
+/* Lang grid for fr/en/ff side-by-side fields */
+.admin-lang-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: var(--space-md);
+}
+.admin-lang-flag {
+    margin-right: 0.4em;
+}
+
+/* Card footer (right-aligned action) */
+.admin-card-footer {
+    text-align: right;
+    margin-top: var(--space-lg);
+    padding-top: var(--space-md);
+    border-top: 1px solid var(--light-gray);
+}
+
+/* Status badge row (override / default) */
+.admin-status-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    margin-bottom: var(--space-lg);
+    flex-wrap: wrap;
+}
+.admin-status-badge {
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 0.25rem 0.7rem;
+    border-radius: var(--radius-sm);
+    letter-spacing: 0.02em;
+}
+.admin-status-badge-override {
+    background: rgba(45, 90, 74, 0.12);
+    color: var(--accent-forest);
+}
+.admin-status-badge-default {
+    background: var(--light-gray);
+    color: var(--dark-gray);
+}
+.admin-status-reset {
+    font-size: 0.82rem;
+    padding: 0.35rem 0.8rem;
+}
+
+/* Inner card for a list item (paragraph / dyk / example / step) */
+.admin-card-inner {
+    border: 1px solid var(--light-gray);
+    border-radius: var(--radius-md);
+    padding: var(--space-md);
+    margin-bottom: var(--space-md);
+    background: var(--cream);
+}
+.admin-card-inner-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-sm);
+}
+.admin-card-inner-header strong {
+    color: var(--primary-dark);
+    font-size: 0.92rem;
+}
+
+/* Row with single field + remove button */
+.admin-row-with-remove {
+    display: flex;
+    gap: var(--space-sm);
+    align-items: flex-start;
+    margin-bottom: var(--space-sm);
+}
+.admin-row-with-remove > textarea,
+.admin-row-with-remove > input {
+    flex: 1;
+}
+
+/* 3-col row : icon-or-num + main + remove */
+.admin-row-3col {
+    display: grid;
+    grid-template-columns: 90px 1fr auto;
+    gap: var(--space-md);
+    align-items: end;
+}
+.admin-row-3col .btn-icon-remove {
+    align-self: end;
+    margin-bottom: 0.25rem;
+}
+
+/* Small icon-only remove button */
+.btn-icon-remove {
+    background: var(--white);
+    border: 1px solid var(--light-gray);
+    color: var(--secondary-burgundy);
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    font-size: 0.95rem;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+}
+.btn-icon-remove:hover {
+    background: var(--secondary-burgundy);
+    color: var(--white);
+    border-color: var(--secondary-burgundy);
+}
+
+/* Subtle add button (used inside fieldsets) */
+.btn-add-inline {
+    background: transparent;
+    border: 1px dashed var(--primary-gold);
+    color: var(--gold-dark);
+    padding: 0.55rem 1rem;
+    border-radius: var(--radius-md);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+.btn-add-inline:hover {
+    background: rgba(212, 165, 55, 0.1);
+    border-style: solid;
+}
+
+@media (max-width: 600px) {
+    .admin-row-3col {
+        grid-template-columns: 70px 1fr auto;
+        gap: var(--space-sm);
+    }
+    .admin-page-title { font-size: 1.5rem; }
+    .admin-tab { padding: var(--space-sm) var(--space-md); font-size: 0.9rem; }
+}

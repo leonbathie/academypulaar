@@ -3,23 +3,21 @@ import { useTranslation } from 'react-i18next'
 import { useApi } from '../../context/AuthContext'
 import domainContent from '../../data/domainContent'
 
-// Doit correspondre à DomainPage.jsx et TerminologieAdmin.jsx
+// Doit correspondre a DomainPage.jsx + TerminologieAdmin.jsx
 const DOMAIN_OPTIONS = [
-    { slug: 'sciences-technologie',      icon: '🔬', label: 'Sciences & Technologie' },
-    { slug: 'sante-medecine',            icon: '🏥', label: 'Santé & Médecine' },
-    { slug: 'sciences-humaines',         icon: '⚖️', label: 'Sciences humaines' },
-    { slug: 'education',                 icon: '📚', label: 'Éducation & Généralités' },
-    { slug: 'agriculture-environnement', icon: '🌾', label: 'Agriculture & Environnement' },
-    { slug: 'metiers-artisanat',         icon: '🔨', label: 'Métiers & Artisanat' }
+    { slug: 'sciences-technologie',      icon: '🔬', labelKey: 'terminology.domScience' },
+    { slug: 'sante-medecine',            icon: '🏥', labelKey: 'terminology.domHealth' },
+    { slug: 'sciences-humaines',         icon: '⚖️', labelKey: 'terminology.domHuman' },
+    { slug: 'agriculture-environnement', icon: '🌾', labelKey: 'terminology.domAgri' },
+    { slug: 'metiers-artisanat',         icon: '🔨', labelKey: 'terminology.domCrafts' }
 ]
 
 const LANGUAGES = [
-    { code: 'fr', label: '🇫🇷 Français' },
-    { code: 'en', label: 'EN Anglais' },
-    { code: 'ff', label: 'SN Fulfulde' }
+    { code: 'fr', flag: '🇫🇷', labelKey: 'admin.terminology.lang.fr' },
+    { code: 'en', flag: '🇬🇧', labelKey: 'admin.terminology.lang.en' },
+    { code: 'ff', flag: '🌍', labelKey: 'admin.terminology.lang.ff' }
 ]
 
-// Gabarit vide (utilisé quand ni la base ni le bundle n'ont de contenu)
 const EMPTY_CONTENT = {
     introduction: { title: '', paragraphs: [] },
     didYouKnow: [],
@@ -28,7 +26,6 @@ const EMPTY_CONTENT = {
     pronunciation: { title: '', intro: '', sounds: [] }
 }
 
-// Deep clone pour éviter de muter les bundles importés
 const clone = (v) => JSON.parse(JSON.stringify(v ?? null))
 
 const mergeWithEmpty = (src) => {
@@ -58,13 +55,12 @@ function DomainContentEditor() {
     const { apiRequest } = useApi()
     const [domain, setDomain] = useState(DOMAIN_OPTIONS[0].slug)
     const [lang, setLang] = useState('fr')
-    const [remote, setRemote] = useState({}) // { [domain]: { fr, en, ff } }
+    const [remote, setRemote] = useState({})
     const [form, setForm] = useState(() => clone(EMPTY_CONTENT))
     const [loading, setLoading] = useState(true)
     const [saving, setSaving] = useState(false)
     const [message, setMessage] = useState(null)
 
-    // Charger toutes les données au montage
     useEffect(() => {
         let cancelled = false
         apiRequest('/domain-content')
@@ -77,11 +73,9 @@ function DomainContentEditor() {
         return () => { cancelled = true }
     }, [])
 
-    // Recalculer le formulaire quand domain/lang/remote change
     useEffect(() => {
         const fromApi = remote?.[domain]?.[lang]
         const fromBundle = domainContent?.[domain]?.[lang]
-        // Priorité : base > bundle > vide
         const src = fromApi && Object.keys(fromApi).length > 0 ? fromApi : fromBundle
         setForm(mergeWithEmpty(src))
         setMessage(null)
@@ -95,22 +89,21 @@ function DomainContentEditor() {
                 method: 'PUT',
                 body: JSON.stringify(form)
             })
-            // Mettre à jour le cache local
             setRemote(prev => ({
                 ...prev,
                 [domain]: { ...(prev?.[domain] || {}), [lang]: updated.content }
             }))
-            setMessage({ type: 'success', text: t('admin.domainContent.saved', 'Contenu enregistré') })
+            setMessage({ type: 'success', text: t('admin.domainContent.saved') })
             setTimeout(() => setMessage(null), 3000)
         } catch (err) {
-            setMessage({ type: 'error', text: (err && err.message) || 'Erreur' })
+            setMessage({ type: 'error', text: (err && err.message) || t('admin.common.errorPrefix') })
         } finally {
             setSaving(false)
         }
     }
 
     const resetToDefault = async () => {
-        if (!window.confirm(t('admin.domainContent.confirmReset', 'Réinitialiser ce (domaine, langue) à la valeur par défaut (bundle statique) ?'))) return
+        if (!window.confirm(t('admin.domainContent.confirmReset'))) return
         try {
             await apiRequest(`/domain-content/${domain}/${lang}`, { method: 'DELETE' })
             setRemote(prev => {
@@ -121,15 +114,15 @@ function DomainContentEditor() {
                 }
                 return next
             })
-            setMessage({ type: 'success', text: t('admin.domainContent.resetDone', 'Contenu réinitialisé') })
+            setMessage({ type: 'success', text: t('admin.domainContent.resetDone') })
             setTimeout(() => setMessage(null), 3000)
         } catch (err) {
-            setMessage({ type: 'error', text: (err && err.message) || 'Erreur' })
+            setMessage({ type: 'error', text: (err && err.message) || t('admin.common.errorPrefix') })
         }
     }
 
-    // Helpers array
-    const updateIntroTitle = (v) => setForm(f => ({ ...f, introduction: { ...f.introduction, title: v } }))
+    // Helpers introduction
+    const setIntroTitle = (v) => setForm(f => ({ ...f, introduction: { ...f.introduction, title: v } }))
     const setParagraph = (i, v) => setForm(f => {
         const arr = [...f.introduction.paragraphs]; arr[i] = v
         return { ...f, introduction: { ...f.introduction, paragraphs: arr } }
@@ -140,6 +133,7 @@ function DomainContentEditor() {
         return { ...f, introduction: { ...f.introduction, paragraphs: arr } }
     })
 
+    // Helpers Did-you-know
     const setDyk = (i, field, v) => setForm(f => {
         const arr = [...f.didYouKnow]; arr[i] = { ...arr[i], [field]: v }
         return { ...f, didYouKnow: arr }
@@ -150,6 +144,7 @@ function DomainContentEditor() {
         return { ...f, didYouKnow: arr }
     })
 
+    // Helpers exemples
     const setExample = (i, field, v) => setForm(f => {
         const arr = [...f.exampleSentences]; arr[i] = { ...arr[i], [field]: v }
         return { ...f, exampleSentences: arr }
@@ -163,6 +158,7 @@ function DomainContentEditor() {
         return { ...f, exampleSentences: arr }
     })
 
+    // Helpers methodologie
     const setMethodTitle = (v) => setForm(f => ({ ...f, methodology: { ...f.methodology, title: v } }))
     const setStep = (i, field, v) => setForm(f => {
         const arr = [...f.methodology.steps]; arr[i] = { ...arr[i], [field]: field === 'num' ? Number(v) || (i + 1) : v }
@@ -178,7 +174,6 @@ function DomainContentEditor() {
     })
 
     const translationKey = useMemo(() => lang === 'en' ? 'en' : 'fr', [lang])
-
     const hasRemoteOverride = Boolean(remote?.[domain]?.[lang] && Object.keys(remote[domain][lang]).length > 0)
 
     if (loading) {
@@ -188,158 +183,162 @@ function DomainContentEditor() {
     return (
         <div className="admin-card">
             <div className="admin-card-header-actions">
-                <h2>{t('admin.domainContent.title', 'Contenu pédagogique par domaine')}</h2>
+                <h2>{t('admin.domainContent.title')}</h2>
                 <div className="admin-actions-row">
-                    <select value={domain} onChange={e => setDomain(e.target.value)} className="domain-filter-select">
+                    <select
+                        value={domain}
+                        onChange={e => setDomain(e.target.value)}
+                        className="domain-filter-select"
+                        aria-label={t('admin.domainContent.selectDomain')}
+                    >
                         {DOMAIN_OPTIONS.map(d => (
-                            <option key={d.slug} value={d.slug}>{d.icon} {d.label}</option>
+                            <option key={d.slug} value={d.slug}>{d.icon} {t(d.labelKey)}</option>
                         ))}
                     </select>
-                    <select value={lang} onChange={e => setLang(e.target.value)} className="domain-filter-select">
+                    <select
+                        value={lang}
+                        onChange={e => setLang(e.target.value)}
+                        className="domain-filter-select"
+                        aria-label={t('admin.domainContent.selectLanguage')}
+                    >
                         {LANGUAGES.map(l => (
-                            <option key={l.code} value={l.code}>{l.label}</option>
+                            <option key={l.code} value={l.code}>{l.flag} {t(l.labelKey)}</option>
                         ))}
                     </select>
                 </div>
             </div>
 
-            <p style={{ color: 'var(--medium-gray, #6b7280)', fontSize: '0.9rem', marginBottom: '1rem' }}>
-                {t('admin.domainContent.help', 'Ce contenu alimente l\'onglet « Apprendre » sur /terminologie/:domaine. Si rien n\'est enregistré, le site public affiche le contenu par défaut livré avec l\'application.')}
-            </p>
+            <p className="admin-help-text">{t('admin.domainContent.help')}</p>
 
-            <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1rem', flexWrap: 'wrap', alignItems: 'center' }}>
-                <span style={{
-                    fontSize: '0.8rem',
-                    padding: '0.25rem 0.6rem',
-                    borderRadius: 4,
-                    background: hasRemoteOverride ? '#dcfce7' : '#f3f4f6',
-                    color: hasRemoteOverride ? '#166534' : '#374151'
-                }}>
+            <div className="admin-status-row">
+                <span className={`admin-status-badge ${hasRemoteOverride ? 'admin-status-badge-override' : 'admin-status-badge-default'}`}>
                     {hasRemoteOverride
-                        ? t('admin.domainContent.statusOverride', 'Version personnalisée (base de données)')
-                        : t('admin.domainContent.statusDefault', 'Valeur par défaut (bundle statique)')}
+                        ? t('admin.domainContent.statusOverride')
+                        : t('admin.domainContent.statusDefault')}
                 </span>
                 {hasRemoteOverride && (
-                    <button type="button" className="btn-cancel" onClick={resetToDefault} style={{ fontSize: '0.85rem', padding: '0.35rem 0.75rem' }}>
-                        {t('admin.domainContent.reset', 'Réinitialiser (supprimer l\'override)')}
+                    <button type="button" className="btn-cancel admin-status-reset" onClick={resetToDefault}>
+                        {t('admin.domainContent.reset')}
                     </button>
                 )}
             </div>
 
             {message && (
-                <div style={{
-                    padding: '0.75rem 1rem',
-                    marginBottom: '1rem',
-                    borderRadius: 6,
-                    background: message.type === 'success' ? '#d1fae5' : '#fee2e2',
-                    color: message.type === 'success' ? '#065f46' : '#991b1b'
-                }}>
+                <div className={`admin-message admin-message-${message.type}`}>
                     {message.text}
                 </div>
             )}
 
-            {/* Introduction */}
-            <fieldset className="admin-fieldset" style={{ marginBottom: '1.5rem', padding: '1rem', border: '1px solid #e5e7eb', borderRadius: 6 }}>
-                <legend style={{ fontWeight: 600, padding: '0 0.5rem' }}>📝 Introduction</legend>
+            {/* Section : Introduction */}
+            <fieldset className="admin-fieldset">
+                <legend className="admin-fieldset-legend">📝 {t('admin.domainContent.sectionIntro')}</legend>
                 <div className="form-group">
-                    <label>Titre</label>
-                    <input type="text" value={form.introduction.title} onChange={e => updateIntroTitle(e.target.value)} />
+                    <label>{t('admin.domainContent.fieldTitle')}</label>
+                    <input type="text" value={form.introduction.title} onChange={e => setIntroTitle(e.target.value)} />
                 </div>
                 <div className="form-group">
-                    <label>Paragraphes</label>
+                    <label>{t('admin.domainContent.fieldParagraphs')}</label>
                     {form.introduction.paragraphs.map((p, i) => (
-                        <div key={i} style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.5rem' }}>
-                            <textarea rows={2} value={p} onChange={e => setParagraph(i, e.target.value)} style={{ flex: 1 }} />
-                            <button type="button" className="btn-delete" onClick={() => removeParagraph(i)} title="Supprimer">✕</button>
+                        <div key={i} className="admin-row-with-remove">
+                            <textarea rows={2} value={p} onChange={e => setParagraph(i, e.target.value)} />
+                            <button type="button" className="btn-icon-remove" onClick={() => removeParagraph(i)} aria-label={t('admin.common.remove')}>✕</button>
                         </div>
                     ))}
-                    <button type="button" className="btn-add" onClick={addParagraph} style={{ fontSize: '0.85rem' }}>+ {t('admin.domainContent.addParagraph', 'Ajouter un paragraphe')}</button>
+                    <button type="button" className="btn-add-inline" onClick={addParagraph}>
+                        + {t('admin.domainContent.addParagraph')}
+                    </button>
                 </div>
             </fieldset>
 
-            {/* Did You Know */}
-            <fieldset className="admin-fieldset" style={{ marginBottom: '1.5rem', padding: '1rem', border: '1px solid #e5e7eb', borderRadius: 6 }}>
-                <legend style={{ fontWeight: 600, padding: '0 0.5rem' }}>💡 Le saviez-vous ?</legend>
+            {/* Section : Le saviez-vous ? */}
+            <fieldset className="admin-fieldset">
+                <legend className="admin-fieldset-legend">💡 {t('admin.domainContent.sectionDyk')}</legend>
                 {form.didYouKnow.map((item, i) => (
-                    <div key={i} style={{ border: '1px solid #e5e7eb', padding: '0.75rem', borderRadius: 6, marginBottom: '0.75rem' }}>
-                        <div style={{ display: 'grid', gridTemplateColumns: '80px 1fr auto', gap: '0.5rem', alignItems: 'start' }}>
-                            <div className="form-group" style={{ margin: 0 }}>
-                                <label>Icône</label>
+                    <div key={i} className="admin-card-inner">
+                        <div className="admin-row-3col">
+                            <div className="form-group">
+                                <label>{t('admin.domainContent.fieldIcon')}</label>
                                 <input type="text" value={item.icon || ''} onChange={e => setDyk(i, 'icon', e.target.value)} maxLength={4} />
                             </div>
-                            <div className="form-group" style={{ margin: 0 }}>
-                                <label>Titre</label>
+                            <div className="form-group">
+                                <label>{t('admin.domainContent.fieldTitle')}</label>
                                 <input type="text" value={item.title || ''} onChange={e => setDyk(i, 'title', e.target.value)} />
                             </div>
-                            <button type="button" className="btn-delete" onClick={() => removeDyk(i)} style={{ marginTop: '1.4rem' }} title="Supprimer">✕</button>
+                            <button type="button" className="btn-icon-remove" onClick={() => removeDyk(i)} aria-label={t('admin.common.remove')}>✕</button>
                         </div>
-                        <div className="form-group" style={{ marginTop: '0.5rem' }}>
-                            <label>Texte</label>
+                        <div className="form-group">
+                            <label>{t('admin.domainContent.fieldText')}</label>
                             <textarea rows={3} value={item.text || ''} onChange={e => setDyk(i, 'text', e.target.value)} />
                         </div>
                     </div>
                 ))}
-                <button type="button" className="btn-add" onClick={addDyk} style={{ fontSize: '0.85rem' }}>+ {t('admin.domainContent.addDyk', 'Ajouter une carte')}</button>
+                <button type="button" className="btn-add-inline" onClick={addDyk}>
+                    + {t('admin.domainContent.addDyk')}
+                </button>
             </fieldset>
 
-            {/* Example Sentences */}
-            <fieldset className="admin-fieldset" style={{ marginBottom: '1.5rem', padding: '1rem', border: '1px solid #e5e7eb', borderRadius: 6 }}>
-                <legend style={{ fontWeight: 600, padding: '0 0.5rem' }}>💬 Exemples de phrases</legend>
+            {/* Section : Exemples de phrases */}
+            <fieldset className="admin-fieldset">
+                <legend className="admin-fieldset-legend">💬 {t('admin.domainContent.sectionExamples')}</legend>
                 {form.exampleSentences.map((ex, i) => (
-                    <div key={i} style={{ border: '1px solid #e5e7eb', padding: '0.75rem', borderRadius: 6, marginBottom: '0.75rem' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
-                            <strong>Phrase #{i + 1}</strong>
-                            <button type="button" className="btn-delete" onClick={() => removeExample(i)} title="Supprimer">✕</button>
+                    <div key={i} className="admin-card-inner">
+                        <div className="admin-card-inner-header">
+                            <strong>{t('admin.domainContent.sentenceNumber', { num: i + 1 })}</strong>
+                            <button type="button" className="btn-icon-remove" onClick={() => removeExample(i)} aria-label={t('admin.common.remove')}>✕</button>
                         </div>
                         <div className="form-group">
-                            <label>Fulfulde (ff)</label>
+                            <label>{t('admin.domainContent.fieldFulfulde')}</label>
                             <input type="text" value={ex.ff || ''} onChange={e => setExample(i, 'ff', e.target.value)} />
                         </div>
                         <div className="form-group">
-                            <label>Traduction ({translationKey})</label>
+                            <label>{t('admin.domainContent.fieldTranslation', { lang: translationKey.toUpperCase() })}</label>
                             <input type="text" value={ex[translationKey] || ''} onChange={e => setExample(i, translationKey, e.target.value)} />
                         </div>
                         <div className="form-group">
-                            <label>Contexte</label>
+                            <label>{t('admin.domainContent.fieldContext')}</label>
                             <input type="text" value={ex.context || ''} onChange={e => setExample(i, 'context', e.target.value)} />
                         </div>
                     </div>
                 ))}
-                <button type="button" className="btn-add" onClick={addExample} style={{ fontSize: '0.85rem' }}>+ {t('admin.domainContent.addExample', 'Ajouter une phrase')}</button>
+                <button type="button" className="btn-add-inline" onClick={addExample}>
+                    + {t('admin.domainContent.addExample')}
+                </button>
             </fieldset>
 
-            {/* Methodology */}
-            <fieldset className="admin-fieldset" style={{ marginBottom: '1.5rem', padding: '1rem', border: '1px solid #e5e7eb', borderRadius: 6 }}>
-                <legend style={{ fontWeight: 600, padding: '0 0.5rem' }}>⚙️ Méthodologie (Comment créons-nous les termes ?)</legend>
+            {/* Section : Methodologie */}
+            <fieldset className="admin-fieldset">
+                <legend className="admin-fieldset-legend">⚙️ {t('admin.domainContent.sectionMethod')}</legend>
                 <div className="form-group">
-                    <label>Titre</label>
+                    <label>{t('admin.domainContent.fieldTitle')}</label>
                     <input type="text" value={form.methodology.title} onChange={e => setMethodTitle(e.target.value)} />
                 </div>
                 {form.methodology.steps.map((step, i) => (
-                    <div key={i} style={{ border: '1px solid #e5e7eb', padding: '0.75rem', borderRadius: 6, marginBottom: '0.75rem' }}>
-                        <div style={{ display: 'grid', gridTemplateColumns: '80px 1fr auto', gap: '0.5rem', alignItems: 'start' }}>
-                            <div className="form-group" style={{ margin: 0 }}>
-                                <label>N°</label>
+                    <div key={i} className="admin-card-inner">
+                        <div className="admin-row-3col">
+                            <div className="form-group">
+                                <label>{t('admin.domainContent.fieldNumber')}</label>
                                 <input type="number" value={step.num ?? i + 1} onChange={e => setStep(i, 'num', e.target.value)} min={1} />
                             </div>
-                            <div className="form-group" style={{ margin: 0 }}>
-                                <label>Titre</label>
+                            <div className="form-group">
+                                <label>{t('admin.domainContent.fieldTitle')}</label>
                                 <input type="text" value={step.title || ''} onChange={e => setStep(i, 'title', e.target.value)} />
                             </div>
-                            <button type="button" className="btn-delete" onClick={() => removeStep(i)} style={{ marginTop: '1.4rem' }} title="Supprimer">✕</button>
+                            <button type="button" className="btn-icon-remove" onClick={() => removeStep(i)} aria-label={t('admin.common.remove')}>✕</button>
                         </div>
-                        <div className="form-group" style={{ marginTop: '0.5rem' }}>
-                            <label>Description</label>
+                        <div className="form-group">
+                            <label>{t('admin.domainContent.fieldDescription')}</label>
                             <textarea rows={2} value={step.desc || ''} onChange={e => setStep(i, 'desc', e.target.value)} />
                         </div>
                     </div>
                 ))}
-                <button type="button" className="btn-add" onClick={addStep} style={{ fontSize: '0.85rem' }}>+ {t('admin.domainContent.addStep', 'Ajouter une étape')}</button>
+                <button type="button" className="btn-add-inline" onClick={addStep}>
+                    + {t('admin.domainContent.addStep')}
+                </button>
             </fieldset>
 
-            <div style={{ textAlign: 'right', marginTop: '1.5rem' }}>
+            <div className="admin-card-footer">
                 <button className="btn-save" onClick={save} disabled={saving}>
-                    {saving ? <div className="btn-spinner"></div> : t('admin.common.save', 'Enregistrer')}
+                    {saving ? <div className="btn-spinner"></div> : t('admin.common.save')}
                 </button>
             </div>
         </div>
