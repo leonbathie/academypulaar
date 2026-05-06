@@ -21,6 +21,36 @@ function normalizeFulfuldeText(value) {
     return String(value).normalize('NFC').trim()
 }
 
+// Clé de comparaison robuste pour caractères Fulfulde (ɓ ɗ ŋ ɲ ʼ etc.)
+// Normalise en NFC puis met en minuscules via JS (locale-aware Unicode), ce qui
+// évite les faiblesses de LOWER() Postgres selon la collation côté serveur.
+function fulfuldeCompareKey(value) {
+    if (value === null || value === undefined) return ''
+    return String(value).normalize('NFC').trim().toLowerCase()
+}
+
+// Recherche en JS un doublon exact (word + domain) parmi des candidats SQL,
+// avec normalisation NFC bilatérale. Renvoie la 1re ligne trouvée ou null.
+async function findDuplicateWord({ word, domain, excludeId = null }) {
+    const wordKey = fulfuldeCompareKey(word)
+    const domainKey = fulfuldeCompareKey(domain)
+    if (!wordKey) return null
+
+    // Pré-filtrage SQL large mais bornes — on ramasse tous les candidats dont
+    // word minuscule SQL matche, puis on confirme en JS avec NFC pour gérer
+    // les variantes de normalisation Unicode et les locales LOWER() exotiques.
+    const sql = excludeId
+        ? 'SELECT id, word, domain FROM dictionary WHERE LOWER(word) = LOWER($1) AND id != $2'
+        : 'SELECT id, word, domain FROM dictionary WHERE LOWER(word) = LOWER($1)'
+    const params = excludeId ? [word, excludeId] : [word]
+    const candidates = await query(sql, params)
+
+    return candidates.rows.find(row =>
+        fulfuldeCompareKey(row.word) === wordKey &&
+        fulfuldeCompareKey(row.domain) === domainKey
+    ) || null
+}
+
 // Configuration multer pour les fichiers audio
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -208,13 +238,12 @@ router.post('/', authMiddleware, canWrite, upload.fields([
             return res.status(400).json({ error: 'Le mot est requis' })
         }
 
-        // Vérifier si le mot existe déjà dans ce domaine
-        const existingWord = await query(
-            'SELECT id, word, domain FROM dictionary WHERE LOWER(word) = LOWER($1) AND COALESCE(LOWER(domain), \'\') = COALESCE(LOWER($2), \'\') LIMIT 1',
-            [normalizedWord, normalizedDomain]
-        )
-        if (existingWord.rows.length > 0) {
-            const duplicate = existingWord.rows[0]
+        // Vérifier si le mot existe déjà dans ce domaine (comparaison NFC-aware Fulfulde)
+        const duplicate = await findDuplicateWord({
+            word: normalizedWord,
+            domain: normalizedDomain
+        })
+        if (duplicate) {
             return res.status(400).json({
                 error: `Le mot "${normalizedWord}" existe déjà dans le domaine "${normalizedDomain || 'général'}". Modifiez ou supprimez l'entrée existante (ID: ${duplicate.id}) avant de l'ajouter à nouveau.`,
                 code: 'DUPLICATE_WORD',
@@ -265,14 +294,31 @@ router.put('/:id', authMiddleware, canWrite, validateId, upload.fields([
         const normalizedExample = normalizeFulfuldeText(example)
         const normalizedExampleTranslation = normalizeFulfuldeText(example_translation)
 
-        // Vérifier si le mot existe déjà dans ce domaine (exclure l'ID actuel)
-        if (normalizedWord) {
-            const existingWord = await query(
-                'SELECT id, word, domain FROM dictionary WHERE LOWER(word) = LOWER($1) AND COALESCE(LOWER(domain), \'\') = COALESCE(LOWER($2), \'\') AND id != $3 LIMIT 1',
-                [normalizedWord, normalizedDomain, req.params.id]
-            )
-            if (existingWord.rows.length > 0) {
-                const duplicate = existingWord.rows[0]
+        // Récupérer l'existant : sert à la fois pour le check de doublon (skip si word/domain
+        // inchangés, ce qui débloque l'édition de doublons préexistants en DB) et pour
+        // conserver les anciens audios s'il n'y en a pas de nouveaux.
+        const existing = await query(
+            'SELECT word, domain, audio_word, audio_example FROM dictionary WHERE id = $1',
+            [req.params.id]
+        )
+        if (existing.rows.length === 0) {
+            return res.status(404).json({ error: 'Mot non trouvé' })
+        }
+        const currentRow = existing.rows[0]
+
+        // Comparaison NFC-aware : ne déclencher le check de doublon que si l'admin
+        // change réellement (word, domain). Sinon, éditer translations/audio/exemple
+        // d'un enregistrement dont un jumeau existe (import CSV ancien) reste possible.
+        const wordChanged = fulfuldeCompareKey(normalizedWord) !== fulfuldeCompareKey(currentRow.word)
+        const domainChanged = fulfuldeCompareKey(normalizedDomain) !== fulfuldeCompareKey(currentRow.domain)
+
+        if (normalizedWord && (wordChanged || domainChanged)) {
+            const duplicate = await findDuplicateWord({
+                word: normalizedWord,
+                domain: normalizedDomain,
+                excludeId: req.params.id
+            })
+            if (duplicate) {
                 return res.status(400).json({
                     error: `Impossible d'enregistrer: le mot "${normalizedWord}" existe déjà dans le domaine "${normalizedDomain || 'général'}" (ID: ${duplicate.id}). Modifiez ou supprimez l'entrée existante, ou utilisez un autre mot.`,
                     code: 'DUPLICATE_WORD',
@@ -281,11 +327,8 @@ router.put('/:id', authMiddleware, canWrite, validateId, upload.fields([
             }
         }
 
-        // Récupérer l'existant pour garder les anciens audios si pas de nouveaux
-        const existing = await query('SELECT audio_word, audio_example FROM dictionary WHERE id = $1', [req.params.id])
-
-        let audioWordPath = existing.rows.length > 0 ? existing.rows[0].audio_word : null
-        let audioExamplePath = existing.rows.length > 0 ? existing.rows[0].audio_example : null
+        let audioWordPath = currentRow.audio_word
+        let audioExamplePath = currentRow.audio_example
         const oldAudioWord = audioWordPath
         const oldAudioExample = audioExamplePath
 
@@ -750,11 +793,8 @@ router.post('/import-csv', authMiddleware, canWrite, uploadCsv.fields([{ name: '
         for (const w of words) {
             try {
                 const normalizedWord = normalizeFulfuldeText(w.word)
-                const existing = await query(
-                    'SELECT id FROM dictionary WHERE LOWER(word) = LOWER($1) AND COALESCE(LOWER(domain), \'\') = COALESCE(LOWER($2), \'\') LIMIT 1',
-                    [normalizedWord, domain]
-                )
-                if (existing.rows.length > 0) { duplicates.push(w.word); skipped++; continue }
+                const dup = await findDuplicateWord({ word: normalizedWord, domain })
+                if (dup) { duplicates.push(w.word); skipped++; continue }
                 await query(
                     'INSERT INTO dictionary (word, translation_fr, translation_en, domain) VALUES ($1,$2,$3,$4)',
                     [normalizedWord, normalizeFulfuldeText(w.translation_fr), normalizeFulfuldeText(w.translation_en), domain]
@@ -795,11 +835,8 @@ router.post('/preview-csv', authMiddleware, canWrite, uploadCsv.fields([{ name: 
         const existingWords = []
         for (const w of words) {
             const normalizedWord = normalizeFulfuldeText(w.word)
-            const existing = await query(
-                'SELECT id FROM dictionary WHERE LOWER(word) = LOWER($1) AND COALESCE(LOWER(domain), \'\') = COALESCE(LOWER($2), \'\') LIMIT 1',
-                [normalizedWord, domain]
-            )
-            if (existing.rows.length > 0) existingWords.push(w.word)
+            const dup = await findDuplicateWord({ word: normalizedWord, domain })
+            if (dup) existingWords.push(w.word)
         }
 
         res.json({ words, total: words.length, duplicates: existingWords, newWords: words.length - existingWords.length })
