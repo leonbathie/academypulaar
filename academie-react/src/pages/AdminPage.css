@@ -2593,6 +2593,125 @@
     border-bottom-color: var(--primary-gold);
 }
 
+.terminology-admin-page .admin-card {
+    padding: var(--space-xl);
+    border: 1px solid rgba(212, 165, 55, 0.18);
+    box-shadow: 0 18px 45px rgba(15, 23, 42, 0.06);
+}
+
+.terminology-admin-titleblock {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.terminology-admin-subtitle {
+    margin: 0;
+    color: var(--medium-gray);
+    font-size: 0.92rem;
+    max-width: 62rem;
+}
+
+.terminology-admin-hero {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-lg);
+    padding: var(--space-lg) var(--space-lg) var(--space-md);
+    margin-bottom: var(--space-lg);
+    border-radius: var(--radius-lg);
+    background: linear-gradient(135deg, rgba(212, 165, 55, 0.09), rgba(255, 255, 255, 0.95));
+    border: 1px solid rgba(212, 165, 55, 0.16);
+}
+
+.terminology-admin-hero-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.terminology-admin-kicker {
+    color: var(--primary-gold);
+    font-size: 0.78rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+}
+
+.terminology-admin-hero h2 {
+    margin: 0;
+    color: var(--primary-dark);
+    font-size: 1.15rem;
+    line-height: 1.45;
+    max-width: 46rem;
+}
+
+.terminology-admin-hero-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border-radius: 999px;
+    background: var(--white);
+    border: 1px solid rgba(212, 165, 55, 0.24);
+    color: var(--primary-dark);
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.terminology-admin-tabs {
+    background: #fbfaf6;
+    border: 1px solid rgba(212, 165, 55, 0.12);
+    border-radius: var(--radius-lg);
+    padding: 6px;
+    gap: 6px;
+    margin-bottom: var(--space-lg);
+}
+
+.terminology-admin-tab {
+    border-radius: 12px;
+    border-bottom: none;
+    margin-bottom: 0;
+    color: var(--dark-gray);
+    background: transparent;
+}
+
+.terminology-admin-tab.active {
+    background: var(--white);
+    box-shadow: 0 8px 18px rgba(15, 23, 42, 0.06);
+}
+
+.terminology-admin-tab-icon {
+    display: inline-flex;
+    width: 1.4rem;
+    justify-content: center;
+    font-size: 1rem;
+}
+
+.terminology-admin-panel {
+    padding-top: var(--space-xs);
+}
+
+@media (max-width: 768px) {
+    .terminology-admin-hero {
+        flex-direction: column;
+    }
+
+    .terminology-admin-hero-pill {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .terminology-admin-tabs {
+        flex-direction: column;
+    }
+
+    .terminology-admin-tab {
+        width: 100%;
+        justify-content: flex-start;
+    }
+}
+
 /* Petit texte d'aide sous un titre de section */
 .admin-help-text {
     color: var(--medium-gray);
