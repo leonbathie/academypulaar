@@ -543,7 +543,21 @@
                 "whyText": "Texte — Pourquoi une terminologie Fulfulde ?",
                 "methodTitle": "Titre — Méthode de création",
                 "methodText": "Texte — Méthode de création"
-            }
+            },
+            "section": {
+                "why": "Pourquoi une terminologie Fulfulde ?",
+                "whyDesc": "Le bloc d'introduction expliquant la motivation derrière la création d'une terminologie Fulfulde.",
+                "method": "Méthode de création",
+                "methodDesc": "Comment l'équipe construit, valide et standardise les termes scientifiques."
+            },
+            "subTitle": "Titre",
+            "subText": "Texte",
+            "showDefault": "Afficher la valeur par défaut",
+            "hideDefault": "Masquer la valeur par défaut",
+            "statusFilled": "Personnalisé",
+            "statusUsesDefault": "Utilise la valeur par défaut",
+            "filledTooltip": "Champs personnalisés sur le total (4 champs × 3 langues).",
+            "stickyHint": "Laisser un champ vide retombe sur la traduction par défaut de l'application."
         },
         "domainContent": {
             "title": "Contenu pédagogique par domaine",

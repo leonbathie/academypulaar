@@ -1,15 +1,37 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useApi } from '../../context/AuthContext'
 
-// Champs editables stockes dans la table `terminologie` (key + value_fr/en/ff).
-// Le 2e param `i18n` est la cle de fallback affichee sur le site public quand le champ est vide.
-const FIELDS = [
-    { key: 'why_title',    i18n: 'terminology.why',        isArea: false, labelKey: 'admin.terminology.fields.whyTitle' },
-    { key: 'why_text',     i18n: 'terminology.whyText',    isArea: true,  labelKey: 'admin.terminology.fields.whyText' },
-    { key: 'method_title', i18n: 'terminology.method',     isArea: false, labelKey: 'admin.terminology.fields.methodTitle' },
-    { key: 'method_text',  i18n: 'terminology.methodText', isArea: true,  labelKey: 'admin.terminology.fields.methodText' }
+// Sections logiques de /terminologie : chacune regroupe un Titre + un Texte
+// declines en FR/EN/FF dans la table `terminologie`. Le 2nd `i18n` est la cle
+// de fallback affichee sur le site public lorsque le champ DB est vide.
+const SECTIONS = [
+    {
+        id: 'why',
+        icon: '❓',
+        accent: 'gold',
+        labelKey: 'admin.terminology.section.why',
+        descKey: 'admin.terminology.section.whyDesc',
+        fields: [
+            { key: 'why_title', i18n: 'terminology.why',     isArea: false, subKey: 'subTitle' },
+            { key: 'why_text',  i18n: 'terminology.whyText', isArea: true,  subKey: 'subText'  }
+        ]
+    },
+    {
+        id: 'method',
+        icon: '⚙️',
+        accent: 'forest',
+        labelKey: 'admin.terminology.section.method',
+        descKey: 'admin.terminology.section.methodDesc',
+        fields: [
+            { key: 'method_title', i18n: 'terminology.method',     isArea: false, subKey: 'subTitle' },
+            { key: 'method_text',  i18n: 'terminology.methodText', isArea: true,  subKey: 'subText'  }
+        ]
+    }
 ]
+
+// Liste a plat (utile pour load/save)
+const ALL_FIELDS = SECTIONS.flatMap(s => s.fields.map(f => ({ ...f, sectionId: s.id })))
 
 const LANG_FIELDS = [
     { lang: 'fr', col: 'value_fr', flag: '🇫🇷', labelKey: 'admin.terminology.lang.fr' },
@@ -18,12 +40,13 @@ const LANG_FIELDS = [
 ]
 
 function TerminologyPageEditor() {
-    const { t, i18n } = useTranslation()
+    const { t } = useTranslation()
     const { apiRequest } = useApi()
     const [form, setForm] = useState({})
     const [loading, setLoading] = useState(true)
     const [saving, setSaving] = useState(false)
     const [message, setMessage] = useState(null)
+    const [showDefault, setShowDefault] = useState({}) // par fieldKey
 
     useEffect(() => {
         load()
@@ -33,7 +56,7 @@ function TerminologyPageEditor() {
         try {
             const data = await apiRequest('/terminologie')
             const next = {}
-            for (const f of FIELDS) {
+            for (const f of ALL_FIELDS) {
                 const row = data[f.key] || {}
                 next[f.key] = {
                     value_fr: row.value_fr || '',
@@ -57,7 +80,7 @@ function TerminologyPageEditor() {
         setSaving(true)
         setMessage(null)
         try {
-            const entries = FIELDS.map(f => ({ key: f.key, ...form[f.key] }))
+            const entries = ALL_FIELDS.map(f => ({ key: f.key, ...form[f.key] }))
             await apiRequest('/terminologie', { method: 'POST', body: JSON.stringify({ entries }) })
             setMessage({ type: 'success', text: t('admin.terminology.pageSaved') })
             setTimeout(() => setMessage(null), 3000)
@@ -68,19 +91,39 @@ function TerminologyPageEditor() {
         }
     }
 
-    const i18nDefault = (key) => t(key, { lng: (i18n.language || 'fr').substring(0, 2) })
+    const toggleDefault = (key) => setShowDefault(prev => ({ ...prev, [key]: !prev[key] }))
+
+    // Compteur global (combien de champs personnalises sur 12 = 4 fields x 3 langues)
+    const filledCount = useMemo(() => {
+        let n = 0
+        for (const f of ALL_FIELDS) {
+            for (const lf of LANG_FIELDS) {
+                if ((form[f.key]?.[lf.col] || '').trim()) n++
+            }
+        }
+        return n
+    }, [form])
+    const totalSlots = ALL_FIELDS.length * LANG_FIELDS.length
 
     if (loading) {
         return <div className="admin-loading"><div className="spinner-large"></div></div>
     }
 
     return (
-        <div className="admin-card">
+        <div className="admin-card term-page-editor">
             <div className="admin-card-header-actions">
                 <h2>{t('admin.terminology.pageTitle')}</h2>
-                <button className="btn-save" onClick={save} disabled={saving}>
-                    {saving ? <div className="btn-spinner"></div> : t('admin.common.save')}
-                </button>
+                <span className="term-fill-counter" title={t('admin.terminology.filledTooltip')}>
+                    <span className="term-fill-counter-bar">
+                        <span
+                            className="term-fill-counter-bar-inner"
+                            style={{ width: `${(filledCount / totalSlots) * 100}%` }}
+                        />
+                    </span>
+                    <span className="term-fill-counter-label">
+                        {filledCount} / {totalSlots}
+                    </span>
+                </span>
             </div>
 
             <p className="admin-help-text">
@@ -93,41 +136,92 @@ function TerminologyPageEditor() {
                 </div>
             )}
 
-            {FIELDS.map(f => (
-                <fieldset key={f.key} className="admin-fieldset">
-                    <legend className="admin-fieldset-legend">{t(f.labelKey)}</legend>
-                    <div className="admin-fieldset-hint">
-                        {t('admin.terminology.defaultI18n')} : <em>{i18nDefault(f.i18n)}</em>
-                    </div>
-                    <div className="admin-lang-grid">
-                        {LANG_FIELDS.map(lf => (
-                            <div key={lf.lang} className="form-group">
-                                <label>
-                                    <span className="admin-lang-flag" aria-hidden="true">{lf.flag}</span>
-                                    {t(lf.labelKey)}
-                                </label>
-                                {f.isArea ? (
-                                    <textarea
-                                        rows={3}
-                                        value={form[f.key]?.[lf.col] || ''}
-                                        onChange={e => update(f.key, lf.col, e.target.value)}
-                                        placeholder={t(f.i18n, { lng: lf.lang })}
-                                    />
-                                ) : (
-                                    <input
-                                        type="text"
-                                        value={form[f.key]?.[lf.col] || ''}
-                                        onChange={e => update(f.key, lf.col, e.target.value)}
-                                        placeholder={t(f.i18n, { lng: lf.lang })}
-                                    />
-                                )}
+            {SECTIONS.map(section => (
+                <section key={section.id} className={`term-section term-section--${section.accent}`}>
+                    <header className="term-section-header">
+                        <span className="term-section-icon" aria-hidden="true">{section.icon}</span>
+                        <div>
+                            <h3 className="term-section-title">{t(section.labelKey)}</h3>
+                            <p className="term-section-desc">{t(section.descKey)}</p>
+                        </div>
+                    </header>
+
+                    {section.fields.map(f => (
+                        <div key={f.key} className="term-subfield">
+                            <div className="term-subfield-head">
+                                <h4 className="term-subfield-title">
+                                    {t(`admin.terminology.${f.subKey}`)}
+                                </h4>
+                                <button
+                                    type="button"
+                                    className="term-default-toggle"
+                                    onClick={() => toggleDefault(f.key)}
+                                    aria-expanded={!!showDefault[f.key]}
+                                >
+                                    {showDefault[f.key]
+                                        ? '▾ ' + t('admin.terminology.hideDefault')
+                                        : '▸ ' + t('admin.terminology.showDefault')}
+                                </button>
                             </div>
-                        ))}
-                    </div>
-                </fieldset>
+
+                            {showDefault[f.key] && (
+                                <div className="term-default-preview">
+                                    {LANG_FIELDS.map(lf => (
+                                        <div key={lf.lang} className="term-default-line">
+                                            <span className="term-default-flag">{lf.flag}</span>
+                                            <em>{t(f.i18n, { lng: lf.lang })}</em>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+
+                            <div className="admin-lang-grid">
+                                {LANG_FIELDS.map(lf => {
+                                    const value = form[f.key]?.[lf.col] || ''
+                                    const isFilled = !!value.trim()
+                                    return (
+                                        <div key={lf.lang} className="form-group term-lang-input">
+                                            <label>
+                                                <span className="admin-lang-flag" aria-hidden="true">{lf.flag}</span>
+                                                <span>{t(lf.labelKey)}</span>
+                                                <span
+                                                    className={`term-lang-status ${isFilled ? 'is-filled' : 'is-default'}`}
+                                                    aria-label={isFilled
+                                                        ? t('admin.terminology.statusFilled')
+                                                        : t('admin.terminology.statusUsesDefault')}
+                                                    title={isFilled
+                                                        ? t('admin.terminology.statusFilled')
+                                                        : t('admin.terminology.statusUsesDefault')}
+                                                />
+                                            </label>
+                                            {f.isArea ? (
+                                                <textarea
+                                                    rows={4}
+                                                    value={value}
+                                                    onChange={e => update(f.key, lf.col, e.target.value)}
+                                                    placeholder={t(f.i18n, { lng: lf.lang })}
+                                                />
+                                            ) : (
+                                                <input
+                                                    type="text"
+                                                    value={value}
+                                                    onChange={e => update(f.key, lf.col, e.target.value)}
+                                                    placeholder={t(f.i18n, { lng: lf.lang })}
+                                                />
+                                            )}
+                                        </div>
+                                    )
+                                })}
+                            </div>
+                        </div>
+                    ))}
+                </section>
             ))}
 
-            <div className="admin-card-footer">
+            <div className="term-sticky-footer">
+                <span className="term-sticky-footer-hint">
+                    {t('admin.terminology.stickyHint')}
+                </span>
                 <button className="btn-save" onClick={save} disabled={saving}>
                     {saving ? <div className="btn-spinner"></div> : t('admin.common.save')}
                 </button>

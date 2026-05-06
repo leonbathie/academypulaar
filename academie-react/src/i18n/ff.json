@@ -544,7 +544,21 @@
                 "whyText": "Binndi — Hol ko addani terminoloji Pulaar ?",
                 "methodTitle": "Tiitoonde — Mbaadi waɗirde",
                 "methodText": "Binndi — Mbaadi waɗirde"
-            }
+            },
+            "section": {
+                "why": "Hol ko addani terminoloji Pulaar ?",
+                "whyDesc": "Naatirgol hollirngol ko addani sosgol terminoloji Pulaar.",
+                "method": "Mbaadi waɗirde",
+                "methodDesc": "No fedde ndee mahirta, ƴeewindorta e fotnirta kelme jaŋde."
+            },
+            "subTitle": "Tiitoonde",
+            "subText": "Binndi",
+            "showDefault": "Hollirde tonngooɗe lornol",
+            "hideDefault": "Suuɗde tonngooɗe lornol",
+            "statusFilled": "Mbaylaandi",
+            "statusUsesDefault": "Huutoraade tonngooɗe lornol",
+            "filledTooltip": "Goɗɗi mbaylaaɗi e jowitiiɗi (4 goɗɗo × 3 ɗemɗe).",
+            "stickyHint": "So a accii goɗɗo meere, firo lornol aplikasoŋ ndi hollirtee."
         },
         "domainContent": {
             "title": "Loowdi jaŋde wonande nokku kala",
