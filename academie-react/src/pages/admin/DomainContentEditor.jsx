@@ -183,8 +183,8 @@ function DomainContentEditor() {
     }
 
     return (
-        <div className="admin-card">
-            <div className="admin-card-header-actions">
+        <div className="admin-card domain-editor-shell">
+            <div className="admin-card-header-actions domain-editor-toolbar">
                 <h2>{t('admin.domainContent.title')}</h2>
                 <div className="admin-actions-row">
                     <select
@@ -243,7 +243,7 @@ function DomainContentEditor() {
             )}
 
             {/* Section : Introduction */}
-            <fieldset className="admin-fieldset">
+            <fieldset className="admin-fieldset domain-editor-section">
                 <legend className="admin-fieldset-legend">📝 {t('admin.domainContent.sectionIntro')}</legend>
                 <div className="form-group">
                     <label>{t('admin.domainContent.fieldTitle')}</label>
@@ -270,7 +270,7 @@ function DomainContentEditor() {
             </fieldset>
 
             {/* Section : Le saviez-vous ? */}
-            <fieldset className="admin-fieldset">
+            <fieldset className="admin-fieldset domain-editor-section">
                 <legend className="admin-fieldset-legend">💡 {t('admin.domainContent.sectionDyk')}</legend>
                 {form.didYouKnow.length === 0 && (
                     <div className="admin-empty-state">
@@ -303,7 +303,7 @@ function DomainContentEditor() {
             </fieldset>
 
             {/* Section : Exemples de phrases */}
-            <fieldset className="admin-fieldset">
+            <fieldset className="admin-fieldset domain-editor-section">
                 <legend className="admin-fieldset-legend">💬 {t('admin.domainContent.sectionExamples')}</legend>
                 {form.exampleSentences.length === 0 && (
                     <div className="admin-empty-state">
@@ -337,7 +337,7 @@ function DomainContentEditor() {
             </fieldset>
 
             {/* Section : Methodologie */}
-            <fieldset className="admin-fieldset">
+            <fieldset className="admin-fieldset domain-editor-section">
                 <legend className="admin-fieldset-legend">⚙️ {t('admin.domainContent.sectionMethod')}</legend>
                 <div className="form-group">
                     <label>{t('admin.domainContent.fieldTitle')}</label>
@@ -373,7 +373,7 @@ function DomainContentEditor() {
                 </button>
             </fieldset>
 
-            <div className="admin-card-footer">
+            <div className="admin-card-footer domain-editor-footer">
                 <button className="btn-save" onClick={save} disabled={saving}>
                     {saving ? <div className="btn-spinner"></div> : t('admin.common.save')}
                 </button>
