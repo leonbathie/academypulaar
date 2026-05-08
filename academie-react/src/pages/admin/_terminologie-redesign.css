@@ -1,14 +1,34 @@
 /* =========================================================
-   Terminologie — Redesign dashboard premium (override final)
-   Style aligne sur le tableau de bord :
-   - Fond cream (deja porte par .admin-layout)
-   - Grandes cartes blanches a coins arrondis avec ombre douce
-   - Titres serif Playfair en bleu marine (--primary-dark)
-   - Labels sans-serif Source Sans en gris doux
-   - Or moutarde pour accents, onglet actif, separateurs, bouton Save
+   Terminologie — Redesign dashboard premium, mobile-first
+   ---------------------------------------------------------
+   Charte alignee sur le tableau de bord :
+   - Fond cream (porte par .admin-layout)
+   - Cartes blanches, radius doux, ombre legere
+   - Titres serif Playfair, bleu marine (--primary-dark)
+   - Labels sans-serif Source Sans, gris doux
+   - Accent or moutarde pour kicker, onglet actif, save
+
+   Strategie responsive :
+   - Mobile (< 768px) : tout est aplati, pleine largeur, marges fines.
+     Les inputs / textareas heritent de la pleine largeur du viewport,
+     box-sizing strict, aucun debordement horizontal.
+   - Tablette (768-1024) : grille 2 colonnes pour les langues.
+   - Desktop (>= 1024) : grille 3 colonnes, padding genereux.
    ========================================================= */
 
-/* Header de la page : carte blanche avec h1 + sous-titre */
+/* ---------- Box-sizing strict + anti debordement ---------- */
+.terminology-admin-page,
+.terminology-admin-page *,
+.terminology-admin-page *::before,
+.terminology-admin-page *::after {
+    box-sizing: border-box;
+}
+.terminology-admin-page {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+/* ---------- Page header (h1 Terminologie) ---------- */
 .terminology-admin-page .admin-header {
     background: var(--white);
     border: 1px solid var(--light-gray);
@@ -19,7 +39,7 @@
 }
 .terminology-admin-page .terminology-admin-titleblock h1 {
     font-family: var(--font-display);
-    font-size: 2.5rem;
+    font-size: 2.4rem;
     color: var(--primary-dark);
     margin: 0 0 var(--space-sm) 0;
     letter-spacing: -0.01em;
@@ -35,7 +55,7 @@
     margin: 0;
 }
 
-/* Carte parente : grande carte blanche aeree */
+/* ---------- Carte parent (admin-card) ---------- */
 .terminology-admin-page .admin-card {
     background: var(--white);
     border: 1px solid var(--light-gray);
@@ -46,7 +66,7 @@
     overflow: visible;
 }
 
-/* Bloc d info : kicker dore + h2 serif + pill a droite */
+/* ---------- Bloc d info (hero) ---------- */
 .terminology-admin-page .terminology-admin-hero {
     display: flex;
     justify-content: space-between;
@@ -71,12 +91,14 @@
 }
 .terminology-admin-page .terminology-admin-hero h2 {
     font-family: var(--font-display);
-    font-size: 1.45rem;
+    font-size: 1.4rem;
     color: var(--primary-dark);
     line-height: 1.4;
     margin: 0;
     font-weight: 600;
     max-width: 780px;
+    overflow-wrap: anywhere;
+    word-break: break-word;
 }
 .terminology-admin-page .terminology-admin-hero-pill {
     display: inline-flex;
@@ -91,10 +113,10 @@
     font-size: 0.88rem;
     font-weight: 600;
     flex-shrink: 0;
-    box-shadow: none;
+    white-space: nowrap;
 }
 
-/* Onglets : pills, actif blanc + accent dore */
+/* ---------- Onglets ---------- */
 .terminology-admin-page .admin-tabs.terminology-admin-tabs {
     display: flex;
     gap: var(--space-xs);
@@ -104,10 +126,12 @@
     padding: var(--space-xs);
     box-shadow: 0 2px 10px rgba(26, 26, 46, 0.04);
     margin-bottom: var(--space-xl);
+    flex-wrap: wrap;
 }
 .terminology-admin-page .admin-tab.terminology-admin-tab {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 0.55rem;
     padding: 0.7rem 1.4rem;
     background: transparent;
@@ -120,6 +144,8 @@
     cursor: pointer;
     transition: all var(--transition-fast);
     border-bottom: 2px solid transparent;
+    flex: 1 1 auto;
+    min-height: 44px;
 }
 .terminology-admin-page .admin-tab.terminology-admin-tab:hover {
     color: var(--primary-dark);
@@ -133,15 +159,16 @@
 }
 .terminology-admin-page .terminology-admin-tab-icon { font-size: 1.1rem; }
 
-/* Editeur : container neutre */
+/* ---------- Editeur ---------- */
 .terminology-admin-page .term-page-editor { padding: 0; }
 
-/* Toolbar : compteur de remplissage a droite (capsule) */
 .terminology-admin-page .term-page-editor-toolbar {
     display: flex;
     justify-content: flex-end;
     margin-bottom: var(--space-lg);
 }
+
+/* Compteur 1/12 */
 .terminology-admin-page .term-fill-counter {
     display: inline-flex;
     align-items: center;
@@ -172,7 +199,7 @@
     transition: width 0.4s ease-out;
 }
 
-/* Sections : grande carte blanche */
+/* ---------- Sections (admin-fieldset) ---------- */
 .terminology-admin-page .admin-fieldset {
     background: var(--white);
     border: 1px solid var(--light-gray);
@@ -184,7 +211,6 @@
 }
 .terminology-admin-page .admin-fieldset:last-child { margin-bottom: 0; }
 
-/* Header de section : icone dans carre arrondi cream + titre + desc */
 .terminology-admin-page .admin-fieldset-header {
     display: flex;
     align-items: flex-start;
@@ -195,25 +221,27 @@
 }
 .terminology-admin-page .admin-fieldset-icon {
     flex-shrink: 0;
-    width: 52px;
-    height: 52px;
+    width: 48px;
+    height: 48px;
     border-radius: var(--radius-lg);
     background: var(--cream);
     border: 1px solid rgba(212, 165, 55, 0.35);
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.6rem;
+    font-size: 1.5rem;
     color: var(--primary-gold);
     box-shadow: 0 2px 6px rgba(212, 165, 55, 0.08);
 }
 .terminology-admin-page .admin-fieldset-title {
     font-family: var(--font-display);
-    font-size: 1.45rem;
+    font-size: 1.4rem;
     color: var(--primary-dark);
     margin: 0 0 0.2em 0;
     font-weight: 700;
     line-height: 1.2;
+    overflow-wrap: anywhere;
+    word-break: break-word;
 }
 .terminology-admin-page .admin-fieldset-desc {
     font-family: var(--font-body);
@@ -221,12 +249,13 @@
     font-size: 0.92rem;
     line-height: 1.55;
     margin: 0;
+    overflow-wrap: anywhere;
 }
 .terminology-admin-page .admin-fieldset-content {
     padding: var(--space-xl) var(--space-2xl);
 }
 
-/* Sous-champ Titre/Texte : flat avec barre verticale doree */
+/* ---------- Sous-champ Titre/Texte ---------- */
 .terminology-admin-page .term-subfield {
     background: transparent;
     border: none;
@@ -267,7 +296,7 @@
     border-radius: 2px;
 }
 
-/* Toggle Afficher la valeur par defaut */
+/* Toggle "Afficher la valeur par defaut" */
 .terminology-admin-page .term-default-toggle {
     background: transparent;
     border: 1px solid var(--light-gray);
@@ -279,6 +308,7 @@
     border-radius: var(--radius-md);
     cursor: pointer;
     transition: all var(--transition-fast);
+    min-height: 36px;
 }
 .terminology-admin-page .term-default-toggle:hover {
     color: var(--primary-dark);
@@ -286,7 +316,7 @@
     background: var(--cream);
 }
 
-/* Encart valeur par defaut */
+/* Encart "valeur par defaut" */
 .terminology-admin-page .term-default-preview {
     padding: var(--space-md) var(--space-lg);
     background: var(--cream);
@@ -302,6 +332,8 @@
     padding: 0.3rem 0;
     font-size: 0.9rem;
     color: var(--dark-gray);
+    overflow-wrap: anywhere;
+    word-break: break-word;
 }
 .terminology-admin-page .term-default-line + .term-default-line {
     border-top: 1px dashed rgba(212, 165, 55, 0.3);
@@ -315,7 +347,7 @@
     color: var(--dark-gray);
 }
 
-/* Grille langues : 3 cols desktop / 2 tablette / 1 mobile */
+/* ---------- Grille langues ---------- */
 .terminology-admin-page .admin-lang-grid {
     padding: 0;
     display: grid;
@@ -323,7 +355,7 @@
     gap: var(--space-lg);
 }
 
-/* Mini-carte par langue */
+/* Bloc par langue */
 .terminology-admin-page .term-lang-input {
     background: var(--white);
     border: 1px solid var(--light-gray);
@@ -331,6 +363,7 @@
     padding: var(--space-md);
     box-shadow: none;
     overflow: visible;
+    min-width: 0; /* permet aux enfants de ne pas deborder en grid */
     transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
 }
 .terminology-admin-page .term-lang-input:hover {
@@ -355,10 +388,11 @@
     letter-spacing: 0.01em;
 }
 
-/* Inputs / textareas : padding confortable, focus dore */
+/* Inputs / textareas : full width, padding confortable, focus dore */
 .terminology-admin-page .term-lang-input input,
 .terminology-admin-page .term-lang-input textarea {
     width: 100%;
+    max-width: 100%;
     border: 1px solid var(--light-gray) !important;
     background: var(--white) !important;
     border-radius: var(--radius-md);
@@ -369,6 +403,8 @@
     color: var(--dark-gray);
     line-height: 1.55;
     transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+    overflow-wrap: break-word;
+    word-break: break-word;
 }
 .terminology-admin-page .term-lang-input input:focus,
 .terminology-admin-page .term-lang-input textarea:focus {
@@ -382,7 +418,7 @@
     resize: vertical;
 }
 
-/* Pastille de statut a droite du label */
+/* Pastille de statut */
 .terminology-admin-page .term-lang-status {
     width: 9px;
     height: 9px;
@@ -400,8 +436,206 @@
     opacity: 0.65;
 }
 
-/* Footer : hint a gauche + bouton Save dore */
-.terminology-admin-page .term-sticky-footer {
+/* ---------- DomainContentEditor : selects + status + items ---------- */
+.terminology-admin-page .admin-card-header-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-md);
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-md);
+}
+.terminology-admin-page .admin-actions-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    flex: 1;
+    min-width: 0;
+}
+.terminology-admin-page .domain-filter-select {
+    background: var(--white);
+    border: 1px solid var(--light-gray);
+    border-radius: var(--radius-md);
+    padding: 0.6rem 2.2rem 0.6rem 0.95rem;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--primary-dark);
+    cursor: pointer;
+    min-height: 42px;
+    flex: 1 1 200px;
+    min-width: 0;
+}
+.terminology-admin-page .domain-filter-select:focus {
+    outline: none;
+    border-color: var(--primary-gold);
+    box-shadow: 0 0 0 3px rgba(212, 165, 55, 0.15);
+}
+
+.terminology-admin-page .admin-help-text {
+    color: var(--medium-gray);
+    font-size: 0.92rem;
+    line-height: 1.55;
+    margin: 0 0 var(--space-md) 0;
+    overflow-wrap: anywhere;
+}
+
+.terminology-admin-page .admin-context-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: var(--cream);
+    border: 1px solid rgba(212, 165, 55, 0.35);
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+    color: var(--primary-dark);
+    font-family: var(--font-body);
+    font-size: 0.88rem;
+    font-weight: 600;
+    margin-bottom: var(--space-md);
+    max-width: 100%;
+    overflow-wrap: anywhere;
+}
+
+.terminology-admin-page .admin-status-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-lg);
+}
+.terminology-admin-page .admin-status-badge {
+    font-family: var(--font-body);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.4rem 0.85rem;
+    border-radius: 999px;
+}
+.terminology-admin-page .admin-status-badge-default {
+    background: rgba(212, 165, 55, 0.12);
+    color: var(--gold-dark);
+    border: 1px solid rgba(212, 165, 55, 0.3);
+}
+.terminology-admin-page .admin-status-badge-override {
+    background: rgba(45, 90, 74, 0.1);
+    color: var(--accent-forest);
+    border: 1px solid rgba(45, 90, 74, 0.3);
+}
+.terminology-admin-page .admin-status-reset {
+    font-size: 0.82rem;
+    padding: 0.4rem 0.85rem;
+    border-radius: var(--radius-md);
+    min-height: 36px;
+}
+
+/* Items du DomainContentEditor (paragraphes, DYK, exemples, etapes) */
+.terminology-admin-page .admin-card-inner {
+    background: var(--white);
+    border: 1px solid var(--light-gray);
+    border-radius: var(--radius-md);
+    padding: var(--space-md);
+    margin-bottom: var(--space-md);
+    box-shadow: none;
+}
+.terminology-admin-page .admin-card-inner-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-sm);
+    padding-bottom: var(--space-sm);
+    border-bottom: 1px dashed rgba(212, 165, 55, 0.3);
+}
+
+.terminology-admin-page .admin-row-with-remove {
+    display: flex;
+    gap: var(--space-sm);
+    align-items: flex-start;
+    margin-bottom: var(--space-sm);
+}
+.terminology-admin-page .admin-row-with-remove > textarea,
+.terminology-admin-page .admin-row-with-remove > input {
+    flex: 1;
+    min-width: 0;
+}
+.terminology-admin-page .admin-row-3col {
+    display: grid;
+    grid-template-columns: 90px 1fr auto;
+    gap: var(--space-md);
+    align-items: end;
+}
+
+/* Inputs / textareas / selects globaux dans le scope */
+.terminology-admin-page input[type="text"],
+.terminology-admin-page input[type="number"],
+.terminology-admin-page textarea,
+.terminology-admin-page select {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow-wrap: break-word;
+}
+.terminology-admin-page textarea {
+    resize: vertical;
+}
+
+/* Boutons add / remove */
+.terminology-admin-page .btn-icon-remove {
+    background: var(--white);
+    border: 1px solid #fca5a5;
+    color: #dc2626;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    font-size: 1rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all var(--transition-fast);
+}
+.terminology-admin-page .btn-icon-remove:hover {
+    background: #fef2f2;
+    border-color: #dc2626;
+}
+.terminology-admin-page .btn-add-inline {
+    background: var(--white);
+    border: 1px dashed var(--primary-gold);
+    color: var(--gold-dark);
+    padding: 0.65rem 1.1rem;
+    border-radius: var(--radius-md);
+    font-family: var(--font-body);
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    min-height: 42px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.terminology-admin-page .btn-add-inline:hover {
+    background: var(--cream);
+    border-style: solid;
+}
+
+/* Empty states */
+.terminology-admin-page .admin-empty-state {
+    text-align: center;
+    padding: var(--space-lg);
+    color: var(--medium-gray);
+    font-size: 0.9rem;
+    border: 1px dashed var(--light-gray);
+    border-radius: var(--radius-md);
+    background: var(--cream);
+    margin-bottom: var(--space-md);
+}
+
+/* ---------- Footer + bouton Save ---------- */
+.terminology-admin-page .term-sticky-footer,
+.terminology-admin-page .admin-card-footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -418,10 +652,10 @@
 .terminology-admin-page .term-sticky-footer-hint {
     color: var(--medium-gray);
     font-size: 0.88rem;
-    flex: 1;
-    min-width: 200px;
+    flex: 1 1 200px;
+    min-width: 0;
 }
-.terminology-admin-page .term-sticky-footer .btn-save {
+.terminology-admin-page .btn-save {
     background: linear-gradient(135deg, var(--primary-gold) 0%, var(--gold-dark) 100%) !important;
     color: var(--white) !important;
     border: none !important;
@@ -434,13 +668,14 @@
     box-shadow: 0 4px 12px rgba(212, 165, 55, 0.25) !important;
     transition: all var(--transition-fast);
     min-width: 180px;
+    min-height: 48px;
 }
-.terminology-admin-page .term-sticky-footer .btn-save:hover {
+.terminology-admin-page .btn-save:hover {
     transform: translateY(-1px);
     box-shadow: 0 6px 18px rgba(212, 165, 55, 0.35) !important;
 }
-.terminology-admin-page .term-sticky-footer .btn-save:active { transform: translateY(0); }
-.terminology-admin-page .term-sticky-footer .btn-save:disabled {
+.terminology-admin-page .btn-save:active { transform: translateY(0); }
+.terminology-admin-page .btn-save:disabled {
     opacity: 0.6;
     cursor: not-allowed;
     transform: none;
@@ -453,40 +688,234 @@
     font-family: var(--font-body);
     font-size: 0.92rem;
     margin-bottom: var(--space-lg);
+    overflow-wrap: anywhere;
 }
 
-/* Responsive */
+/* =========================================================
+   Tablette (768 - 1024)
+   ========================================================= */
 @media (max-width: 1024px) {
     .terminology-admin-page .admin-lang-grid {
         grid-template-columns: repeat(2, 1fr);
+        gap: var(--space-md);
+    }
+    .terminology-admin-page .admin-card,
+    .terminology-admin-page .admin-header {
+        padding: var(--space-xl);
+    }
+    .terminology-admin-page .admin-fieldset-header,
+    .terminology-admin-page .admin-fieldset-content {
+        padding: var(--space-lg) var(--space-xl);
+    }
+    .terminology-admin-page .terminology-admin-titleblock h1 {
+        font-size: 2rem;
     }
 }
+
+/* =========================================================
+   Mobile (< 768) — design aplati, pleine largeur
+   ========================================================= */
 @media (max-width: 768px) {
-    .terminology-admin-page .admin-card,
+    /* Page : marges fines */
+    .terminology-admin-page {
+        padding: 0;
+    }
+
+    /* Header : padding reduit, h1 plus modeste */
     .terminology-admin-page .admin-header {
         padding: var(--space-lg);
         border-radius: var(--radius-lg);
+        margin-bottom: var(--space-lg);
     }
-    .terminology-admin-page .terminology-admin-titleblock h1 { font-size: 1.85rem; }
+    .terminology-admin-page .terminology-admin-titleblock h1 {
+        font-size: 1.7rem;
+    }
+    .terminology-admin-page .terminology-admin-subtitle {
+        font-size: 0.92rem;
+    }
+
+    /* Carte parente : bordure douce, padding contracte */
+    .terminology-admin-page .admin-card {
+        padding: var(--space-md);
+        border-radius: var(--radius-lg);
+        margin-bottom: var(--space-lg);
+    }
+
+    /* Hero : empile verticalement */
     .terminology-admin-page .terminology-admin-hero {
         flex-direction: column;
-        padding: var(--space-lg);
+        padding: var(--space-md);
+        gap: var(--space-md);
     }
-    .terminology-admin-page .terminology-admin-hero h2 { font-size: 1.15rem; }
-    .terminology-admin-page .admin-fieldset-header,
-    .terminology-admin-page .admin-fieldset-content {
-        padding: var(--space-lg);
+    .terminology-admin-page .terminology-admin-hero h2 { font-size: 1.05rem; }
+    .terminology-admin-page .terminology-admin-hero-pill {
+        align-self: flex-start;
+        white-space: normal;
+    }
+
+    /* Onglets : pills pleine largeur empilees */
+    .terminology-admin-page .admin-tabs.terminology-admin-tabs {
+        flex-direction: column;
+        padding: var(--space-xs);
+    }
+    .terminology-admin-page .admin-tab.terminology-admin-tab {
+        width: 100%;
+        justify-content: flex-start;
+        padding: 0.85rem 1rem;
+    }
+
+    /* Sections : APLATIES (pas de double encadrement) */
+    .terminology-admin-page .admin-fieldset {
+        border: 1px solid var(--light-gray);
+        border-radius: var(--radius-md);
+        box-shadow: 0 1px 4px rgba(26, 26, 46, 0.04);
+        margin-bottom: var(--space-lg);
+    }
+    .terminology-admin-page .admin-fieldset-header {
+        padding: var(--space-md);
+        gap: var(--space-md);
+        align-items: center;
     }
     .terminology-admin-page .admin-fieldset-icon {
-        width: 44px;
-        height: 44px;
-        font-size: 1.4rem;
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
     }
-    .terminology-admin-page .admin-fieldset-title { font-size: 1.2rem; }
-    .terminology-admin-page .admin-lang-grid { grid-template-columns: 1fr; }
+    .terminology-admin-page .admin-fieldset-title { font-size: 1.1rem; }
+    .terminology-admin-page .admin-fieldset-desc { font-size: 0.85rem; }
+    .terminology-admin-page .admin-fieldset-content {
+        padding: var(--space-md);
+    }
+
+    /* Sous-champ : empile head proprement */
+    .terminology-admin-page .term-subfield {
+        margin-bottom: var(--space-xl);
+    }
     .terminology-admin-page .term-subfield-head {
         flex-direction: column;
         align-items: flex-start;
+        gap: var(--space-xs);
+    }
+    .terminology-admin-page .term-default-toggle {
+        align-self: flex-start;
+    }
+
+    /* Grille langues : 1 colonne, blocs APLATIS (pas de mini-cartes) */
+    .terminology-admin-page .admin-lang-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-md);
+    }
+    .terminology-admin-page .term-lang-input {
+        background: transparent;
+        border: none;
+        padding: 0;
+        box-shadow: none;
+    }
+    .terminology-admin-page .term-lang-input:hover,
+    .terminology-admin-page .term-lang-input:focus-within {
+        border: none;
+        box-shadow: none;
+    }
+    .terminology-admin-page .term-lang-input label {
+        padding: 0 0 var(--space-xs) 0;
+    }
+
+    /* Compteur 1/12 : capsule plus petite */
+    .terminology-admin-page .term-fill-counter-bar {
+        width: 50px;
+    }
+
+    /* Selects DomainContentEditor : pleine largeur */
+    .terminology-admin-page .admin-actions-row {
+        flex-direction: column;
+        width: 100%;
         gap: var(--space-sm);
+    }
+    .terminology-admin-page .domain-filter-select {
+        width: 100%;
+        flex: none;
+    }
+
+    /* Items DomainContentEditor : aplatir et empiler */
+    .terminology-admin-page .admin-card-inner {
+        padding: var(--space-md) var(--space-sm);
+    }
+    .terminology-admin-page .admin-row-3col {
+        grid-template-columns: 1fr;
+        gap: var(--space-sm);
+    }
+    .terminology-admin-page .admin-row-3col .btn-icon-remove {
+        align-self: flex-start;
+        margin-bottom: 0;
+    }
+    .terminology-admin-page .admin-row-with-remove {
+        flex-wrap: wrap;
+    }
+    .terminology-admin-page .admin-row-with-remove > textarea,
+    .terminology-admin-page .admin-row-with-remove > input {
+        width: 100%;
+        flex-basis: 100%;
+    }
+    .terminology-admin-page .admin-row-with-remove .btn-icon-remove {
+        margin-left: auto;
+    }
+    .terminology-admin-page .btn-add-inline {
+        width: 100%;
+    }
+
+    /* Footer : bouton Save pleine largeur */
+    .terminology-admin-page .term-sticky-footer,
+    .terminology-admin-page .admin-card-footer {
+        flex-direction: column;
+        align-items: stretch;
+        gap: var(--space-md);
+    }
+    .terminology-admin-page .term-sticky-footer-hint {
+        text-align: center;
+    }
+    .terminology-admin-page .btn-save {
+        width: 100%;
+        min-width: 0;
+        padding: 0.95rem 1rem !important;
+    }
+
+    /* Inputs / textareas : padding adapte */
+    .terminology-admin-page input[type="text"],
+    .terminology-admin-page input[type="number"],
+    .terminology-admin-page textarea,
+    .terminology-admin-page select {
+        font-size: 16px; /* evite le zoom auto iOS */
+    }
+    .terminology-admin-page textarea {
+        min-height: 110px;
+    }
+
+    /* Status row */
+    .terminology-admin-page .admin-status-badge {
+        font-size: 0.72rem;
+        padding: 0.35rem 0.7rem;
+    }
+
+    /* Encart valeur par defaut : padding reduit */
+    .terminology-admin-page .term-default-preview {
+        padding: var(--space-sm) var(--space-md);
+    }
+}
+
+/* =========================================================
+   Petits ecrans (< 480) : ajustements supplementaires
+   ========================================================= */
+@media (max-width: 480px) {
+    .terminology-admin-page .terminology-admin-titleblock h1 {
+        font-size: 1.5rem;
+    }
+    .terminology-admin-page .admin-fieldset-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-sm);
+    }
+    .terminology-admin-page .terminology-admin-kicker {
+        font-size: 0.7rem;
+        letter-spacing: 0.14em;
     }
 }
