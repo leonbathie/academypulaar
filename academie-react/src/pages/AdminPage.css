@@ -8053,3 +8053,55 @@
         margin: 0 var(--space-md) var(--space-md);
     }
 }
+
+/* =========================================================
+   Terminologie : aplatir l'editeur (moins de cartes superposees)
+   - Plus de wrapper admin-card autour de l'editeur (parent suffit).
+   - .term-subfield perd son cadre, devient un simple bloc espace.
+   - Seuls subsistent : la section (admin-fieldset) + chaque champ FR/EN/FF.
+   ========================================================= */
+.term-page-editor { padding: 0; }
+
+.term-page-editor-toolbar {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: var(--space-md);
+}
+
+/* Sous-champ Titre/Texte : flat, juste de l'espacement */
+.term-subfield {
+    border: none;
+    background: transparent;
+    box-shadow: none;
+    margin-bottom: var(--space-xl);
+    padding: 0;
+}
+.term-subfield:last-child { margin-bottom: 0; }
+
+.term-subfield-head {
+    background: transparent;
+    border-bottom: none;
+    padding: 0 0 var(--space-sm) 0;
+    margin-bottom: var(--space-sm);
+}
+
+/* La grille de langues n'a plus besoin de padding interne (plus de carte parent) */
+.term-subfield .admin-lang-grid,
+.admin-fieldset-content .admin-lang-grid {
+    padding: 0;
+}
+
+/* L'encart valeur par defaut prend la pleine largeur du content (pas de marge laterale) */
+.admin-fieldset-content .term-default-preview {
+    margin: 0 0 var(--space-md) 0;
+}
+
+/* Footer collant : assise simple, plus de marge negative liee a admin-card */
+.term-sticky-footer {
+    margin: var(--space-xl) 0 0;
+    padding: var(--space-md) 0 0;
+    border-top: 1px solid var(--light-gray);
+    background: transparent;
+    backdrop-filter: none;
+    position: static;
+}

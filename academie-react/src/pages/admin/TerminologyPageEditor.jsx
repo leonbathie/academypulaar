@@ -110,9 +110,8 @@ function TerminologyPageEditor() {
     }
 
     return (
-        <div className="admin-card term-page-editor">
-            <div className="admin-card-header-actions">
-                <h2>{t('admin.terminology.pageTitle')}</h2>
+        <div className="term-page-editor">
+            <div className="term-page-editor-toolbar">
                 <span className="term-fill-counter" title={t('admin.terminology.filledTooltip')}>
                     <span className="term-fill-counter-bar">
                         <span
@@ -125,10 +124,6 @@ function TerminologyPageEditor() {
                     </span>
                 </span>
             </div>
-
-            <p className="admin-help-text">
-                {t('admin.terminology.pageHelp')}
-            </p>
 
             {message && (
                 <div className={`admin-message admin-message-${message.type}`}>
