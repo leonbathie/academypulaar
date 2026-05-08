@@ -8105,3 +8105,114 @@
     backdrop-filter: none;
     position: static;
 }
+
+/* =========================================================
+   Terminologie : design FLAT (sans aucune carte)
+   Surcharge l'ensemble des cadres pour ne laisser que la
+   typographie + les inputs/textareas eux-memes.
+   ========================================================= */
+
+/* Carte parent du shell */
+.terminology-admin-page .admin-card {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    border-radius: 0;
+    overflow: visible;
+}
+
+/* Hero : flat */
+.terminology-admin-page .terminology-admin-hero {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0 0 var(--space-lg);
+    border-bottom: 1px solid var(--light-gray);
+    margin-bottom: var(--space-xl);
+}
+.terminology-admin-page .terminology-admin-hero-pill {
+    background: transparent;
+    border: 1px solid var(--light-gray);
+    box-shadow: none;
+    color: var(--dark-gray);
+}
+
+/* Onglets : sobres, pas de carte autour */
+.terminology-admin-page .admin-tabs.terminology-admin-tabs {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--light-gray);
+    box-shadow: none;
+    padding: 0;
+    border-radius: 0;
+}
+
+/* Section (admin-fieldset) : flat */
+.terminology-admin-page .admin-fieldset {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    border-radius: 0;
+    overflow: visible;
+    padding: 0;
+    margin-bottom: var(--space-2xl);
+}
+.terminology-admin-page .admin-fieldset-header {
+    background: transparent;
+    border-bottom: none;
+    padding: 0 0 var(--space-md) 0;
+}
+.terminology-admin-page .admin-fieldset-content {
+    padding: 0;
+}
+
+/* Champ FR/EN/FF : on supprime le mini-cadre, on garde label + input/textarea natifs */
+.terminology-admin-page .term-lang-input {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    border-radius: 0;
+    overflow: visible;
+}
+.terminology-admin-page .term-lang-input:hover,
+.terminology-admin-page .term-lang-input:focus-within {
+    border: none;
+    box-shadow: none;
+}
+.terminology-admin-page .term-lang-input label {
+    background: transparent;
+    border-bottom: none;
+    padding: 0 0 0.4rem 0;
+}
+.terminology-admin-page .term-lang-input input,
+.terminology-admin-page .term-lang-input textarea {
+    border: 1px solid var(--light-gray) !important;
+    background: var(--white) !important;
+    border-radius: var(--radius-sm);
+    padding: 0.6rem 0.8rem !important;
+}
+.terminology-admin-page .term-lang-input input:focus,
+.terminology-admin-page .term-lang-input textarea:focus {
+    border-color: var(--primary-gold) !important;
+    box-shadow: 0 0 0 3px rgba(212, 165, 55, 0.15) !important;
+    background: var(--white) !important;
+}
+
+/* Encart valeur par defaut : pleine largeur, juste du fond cream */
+.terminology-admin-page .term-default-preview {
+    margin: 0 0 var(--space-md) 0;
+}
+
+/* Footer collant : plus de fond, juste un border-top */
+.terminology-admin-page .term-sticky-footer {
+    background: transparent;
+    backdrop-filter: none;
+    box-shadow: none;
+    position: static;
+    margin: var(--space-xl) 0 0 0;
+    padding: var(--space-md) 0 0 0;
+}
+.terminology-admin-page .term-sticky-footer .btn-save {
+    box-shadow: none;
+}
