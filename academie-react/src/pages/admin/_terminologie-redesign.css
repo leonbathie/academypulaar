@@ -436,6 +436,56 @@
     opacity: 0.65;
 }
 
+/* ---------- DomainContentEditor : nav par sections (mobile-first) ---------- */
+.terminology-admin-page .domain-editor-section-nav {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    padding: 0.4rem;
+    background: var(--white);
+    border: 1px solid var(--light-gray);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 2px 10px rgba(26, 26, 46, 0.04);
+    margin-bottom: var(--space-lg);
+}
+.terminology-admin-page .domain-editor-section-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.55rem 0.9rem;
+    background: transparent;
+    border: none;
+    border-radius: var(--radius-md);
+    color: var(--medium-gray);
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    min-height: 40px;
+    flex: 1 1 auto;
+    justify-content: center;
+}
+.terminology-admin-page .domain-editor-section-chip:hover:not(.is-active) {
+    background: var(--cream);
+    color: var(--primary-dark);
+}
+.terminology-admin-page .domain-editor-section-chip.is-active {
+    background: linear-gradient(135deg, var(--primary-gold) 0%, var(--gold-dark) 100%);
+    color: var(--white);
+    box-shadow: 0 2px 8px rgba(212, 165, 55, 0.25);
+}
+.terminology-admin-page .domain-editor-section-chip-icon {
+    font-size: 1.05rem;
+    line-height: 1;
+}
+.terminology-admin-page .domain-editor-section-chip-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+}
+
 /* ---------- DomainContentEditor : shell, labels, items ---------- */
 
 /* h2 du header DomainContentEditor */
@@ -919,6 +969,26 @@
     }
     .terminology-admin-page .domain-editor-shell > .admin-card-header-actions h2 {
         font-size: 1.3rem;
+    }
+
+    /* Nav sections : barre horizontale scrollable plein largeur */
+    .terminology-admin-page .domain-editor-section-nav {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+    .terminology-admin-page .domain-editor-section-nav::-webkit-scrollbar {
+        display: none;
+    }
+    .terminology-admin-page .domain-editor-section-chip {
+        flex: 0 0 auto;
+        min-width: max-content;
+    }
+
+    /* MOBILE : seule la section active est visible */
+    .terminology-admin-page .domain-editor-section:not(.is-active) {
+        display: none;
     }
 
     /* Items DomainContentEditor : APLATIS — pas de carte dans une carte */

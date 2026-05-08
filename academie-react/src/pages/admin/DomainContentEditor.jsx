@@ -18,6 +18,14 @@ const LANGUAGES = [
     { code: 'ff', flag: '🌍', labelKey: 'admin.terminology.lang.ff' }
 ]
 
+// Sections de l'editeur. Sur mobile, une seule est rendue a la fois (nav par chips).
+const EDITOR_SECTIONS = [
+    { id: 'intro',    icon: '📝', labelKey: 'admin.domainContent.sectionIntro' },
+    { id: 'dyk',      icon: '💡', labelKey: 'admin.domainContent.sectionDyk' },
+    { id: 'examples', icon: '💬', labelKey: 'admin.domainContent.sectionExamples' },
+    { id: 'method',   icon: '⚙️', labelKey: 'admin.domainContent.sectionMethod' }
+]
+
 const EMPTY_CONTENT = {
     introduction: { title: '', paragraphs: [] },
     didYouKnow: [],
@@ -60,6 +68,9 @@ function DomainContentEditor() {
     const [loading, setLoading] = useState(true)
     const [saving, setSaving] = useState(false)
     const [message, setMessage] = useState(null)
+    // Section active : sur mobile, on n'affiche qu'une section a la fois
+    // (nav par chips). Sur desktop, toutes les sections sont visibles.
+    const [activeSection, setActiveSection] = useState('intro')
 
     useEffect(() => {
         let cancelled = false
@@ -242,8 +253,25 @@ function DomainContentEditor() {
                 </div>
             )}
 
+            {/* Nav sections : visible uniquement en mobile, change activeSection */}
+            <nav className="domain-editor-section-nav" role="tablist" aria-label={t('admin.domainContent.title')}>
+                {EDITOR_SECTIONS.map(s => (
+                    <button
+                        key={s.id}
+                        type="button"
+                        role="tab"
+                        aria-selected={activeSection === s.id}
+                        className={`domain-editor-section-chip ${activeSection === s.id ? 'is-active' : ''}`}
+                        onClick={() => setActiveSection(s.id)}
+                    >
+                        <span className="domain-editor-section-chip-icon" aria-hidden="true">{s.icon}</span>
+                        <span className="domain-editor-section-chip-label">{t(s.labelKey)}</span>
+                    </button>
+                ))}
+            </nav>
+
             {/* Section : Introduction */}
-            <div className="admin-fieldset domain-editor-section">
+            <div className={`admin-fieldset domain-editor-section ${activeSection === 'intro' ? 'is-active' : ''}`} data-section="intro">
                 <div className="admin-fieldset-header">
                     <span className="admin-fieldset-icon" aria-hidden="true">📝</span>
                     <div>
@@ -277,7 +305,7 @@ function DomainContentEditor() {
             </div>
 
             {/* Section : Le saviez-vous ? */}
-            <div className="admin-fieldset domain-editor-section">
+            <div className={`admin-fieldset domain-editor-section ${activeSection === 'dyk' ? 'is-active' : ''}`} data-section="dyk">
                 <div className="admin-fieldset-header">
                     <span className="admin-fieldset-icon" aria-hidden="true">💡</span>
                     <div>
@@ -317,7 +345,7 @@ function DomainContentEditor() {
             </div>
 
             {/* Section : Exemples de phrases */}
-            <div className="admin-fieldset domain-editor-section">
+            <div className={`admin-fieldset domain-editor-section ${activeSection === 'examples' ? 'is-active' : ''}`} data-section="examples">
                 <div className="admin-fieldset-header">
                     <span className="admin-fieldset-icon" aria-hidden="true">💬</span>
                     <div>
@@ -358,7 +386,7 @@ function DomainContentEditor() {
             </div>
 
             {/* Section : Methodologie */}
-            <div className="admin-fieldset domain-editor-section">
+            <div className={`admin-fieldset domain-editor-section ${activeSection === 'method' ? 'is-active' : ''}`} data-section="method">
                 <div className="admin-fieldset-header">
                     <span className="admin-fieldset-icon" aria-hidden="true">⚙️</span>
                     <div>
