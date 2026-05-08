@@ -840,48 +840,77 @@
 /* =========================================================
    Mobile (< 768) — design aplati, pleine largeur
    ========================================================= */
+/* =========================================================
+   MOBILE (< 768px) — strategie FLAT mobile
+   Regle d'or : MAX 2 niveaux visuels = (1) section active, (2) items
+   internes. Les parents (page wrapper, admin-card outer, shell) sont
+   transparents/sans bordure pour rendre toute la largeur a la section.
+   ========================================================= */
 @media (max-width: 768px) {
-    /* Page : marges fines */
+
+    /* === Niveau 0 : conteneurs SUPPRIMES visuellement === */
     .terminology-admin-page {
         padding: 0;
+        margin: 0;
     }
 
-    /* Header : padding reduit, h1 plus modeste */
+    /* Carte parente generique (TerminologieAdmin) : transparente */
+    .terminology-admin-page .admin-card {
+        background: transparent;
+        border: none;
+        box-shadow: none;
+        padding: 0;
+        margin: 0 0 var(--space-md) 0;
+        border-radius: 0;
+    }
+
+    /* Shell DomainContentEditor : transparent */
+    .terminology-admin-page .admin-card.domain-editor-shell {
+        background: transparent;
+        border: none;
+        box-shadow: none;
+        padding: 0;
+        margin: 0;
+        border-radius: 0;
+    }
+
+    /* === Niveau 1 : Header de page (h1 Terminologie) === */
     .terminology-admin-page .admin-header {
-        padding: var(--space-lg);
-        border-radius: var(--radius-lg);
-        margin-bottom: var(--space-lg);
+        padding: var(--space-md);
+        border-radius: var(--radius-md);
+        margin-bottom: var(--space-md);
     }
     .terminology-admin-page .terminology-admin-titleblock h1 {
-        font-size: 1.7rem;
+        font-size: 1.6rem;
     }
     .terminology-admin-page .terminology-admin-subtitle {
-        font-size: 0.92rem;
+        font-size: 0.9rem;
     }
 
-    /* Carte parente : bordure douce, padding contracte */
-    .terminology-admin-page .admin-card {
-        padding: var(--space-md);
-        border-radius: var(--radius-lg);
-        margin-bottom: var(--space-lg);
-    }
-
-    /* Hero : empile verticalement */
+    /* Hero : carte simple, pas de double cadre */
     .terminology-admin-page .terminology-admin-hero {
         flex-direction: column;
         padding: var(--space-md);
-        gap: var(--space-md);
+        gap: var(--space-sm);
+        margin-bottom: var(--space-md);
+        border-radius: var(--radius-md);
     }
-    .terminology-admin-page .terminology-admin-hero h2 { font-size: 1.05rem; }
+    .terminology-admin-page .terminology-admin-hero h2 { font-size: 1rem; }
+    .terminology-admin-page .terminology-admin-kicker {
+        font-size: 0.72rem;
+        margin-bottom: var(--space-xs);
+    }
     .terminology-admin-page .terminology-admin-hero-pill {
         align-self: flex-start;
         white-space: normal;
     }
 
-    /* Onglets : pills pleine largeur empilees */
+    /* Onglets de tab : pills pleine largeur empilees */
     .terminology-admin-page .admin-tabs.terminology-admin-tabs {
         flex-direction: column;
         padding: var(--space-xs);
+        margin-bottom: var(--space-md);
+        border-radius: var(--radius-md);
     }
     .terminology-admin-page .admin-tab.terminology-admin-tab {
         width: 100%;
@@ -889,12 +918,73 @@
         padding: 0.85rem 1rem;
     }
 
-    /* Sections : APLATIES (pas de double encadrement) */
+    /* === Header DomainContentEditor (h2 + selects) : empile === */
+    .terminology-admin-page .admin-card-header-actions {
+        flex-direction: column;
+        align-items: stretch;
+        gap: var(--space-sm);
+        margin-bottom: var(--space-md);
+    }
+    .terminology-admin-page .domain-editor-shell > .admin-card-header-actions h2 {
+        font-size: 1.3rem;
+    }
+    .terminology-admin-page .admin-actions-row {
+        flex-direction: column;
+        width: 100%;
+        gap: var(--space-sm);
+    }
+    .terminology-admin-page .domain-filter-select {
+        width: 100%;
+        flex: none;
+    }
+
+    /* Help / context / status : compacts */
+    .terminology-admin-page .admin-help-text {
+        font-size: 0.88rem;
+        margin-bottom: var(--space-sm);
+    }
+    .terminology-admin-page .admin-context-pill {
+        font-size: 0.82rem;
+        padding: 0.4rem 0.85rem;
+    }
+    .terminology-admin-page .admin-status-row {
+        margin-bottom: var(--space-md);
+    }
+    .terminology-admin-page .admin-status-badge {
+        font-size: 0.7rem;
+        padding: 0.3rem 0.65rem;
+    }
+
+    /* === Nav sections : barre scrollable horizontale === */
+    .terminology-admin-page .domain-editor-section-nav {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        margin-bottom: var(--space-md);
+        border-radius: var(--radius-md);
+    }
+    .terminology-admin-page .domain-editor-section-nav::-webkit-scrollbar {
+        display: none;
+    }
+    .terminology-admin-page .domain-editor-section-chip {
+        flex: 0 0 auto;
+        min-width: max-content;
+    }
+
+    /* === Niveau 1 : SECTION ACTIVE = LE conteneur principal === */
+    /* Une seule section visible (les autres masquees) */
+    .terminology-admin-page .domain-editor-section:not(.is-active) {
+        display: none;
+    }
+
     .terminology-admin-page .admin-fieldset {
+        background: var(--white);
         border: 1px solid var(--light-gray);
         border-radius: var(--radius-md);
         box-shadow: 0 1px 4px rgba(26, 26, 46, 0.04);
-        margin-bottom: var(--space-lg);
+        margin-bottom: var(--space-md);
+        padding: 0;
     }
     .terminology-admin-page .admin-fieldset-header {
         padding: var(--space-md);
@@ -912,7 +1002,7 @@
         padding: var(--space-md);
     }
 
-    /* Sous-champ : empile head proprement */
+    /* Sous-champ Titre/Texte : empile head */
     .terminology-admin-page .term-subfield {
         margin-bottom: var(--space-xl);
     }
@@ -925,7 +1015,28 @@
         align-self: flex-start;
     }
 
-    /* Grille langues : 1 colonne, blocs APLATIS (pas de mini-cartes) */
+    /* === Niveau 2 : items internes (DYK/Examples/Steps/Paragraphs) === */
+    /* Plats : juste un fond cream + accent or, sans bordure ni ombre */
+    .terminology-admin-page .admin-card-inner {
+        background: var(--cream);
+        border: none;
+        border-left: 3px solid var(--primary-gold);
+        border-radius: var(--radius-sm);
+        padding: var(--space-md) var(--space-md) var(--space-sm);
+        margin-bottom: var(--space-md);
+        box-shadow: none;
+    }
+    .terminology-admin-page .admin-card-inner-header {
+        margin-bottom: var(--space-sm);
+        padding-bottom: var(--space-sm);
+    }
+    .terminology-admin-page .admin-card-inner-header strong {
+        font-family: var(--font-display);
+        font-size: 0.95rem;
+        color: var(--primary-dark);
+    }
+
+    /* Grille langues : 1 colonne, blocs FLAT */
     .terminology-admin-page .admin-lang-grid {
         grid-template-columns: 1fr;
         gap: var(--space-md);
@@ -950,82 +1061,7 @@
         width: 50px;
     }
 
-    /* Selects DomainContentEditor : pleine largeur */
-    .terminology-admin-page .admin-actions-row {
-        flex-direction: column;
-        width: 100%;
-        gap: var(--space-sm);
-    }
-    .terminology-admin-page .domain-filter-select {
-        width: 100%;
-        flex: none;
-    }
-
-    /* Header DomainContentEditor : titre puis selects empiles */
-    .terminology-admin-page .admin-card-header-actions {
-        flex-direction: column;
-        align-items: stretch;
-        gap: var(--space-md);
-    }
-    .terminology-admin-page .domain-editor-shell > .admin-card-header-actions h2 {
-        font-size: 1.3rem;
-    }
-
-    /* Nav sections : barre horizontale scrollable plein largeur */
-    .terminology-admin-page .domain-editor-section-nav {
-        flex-wrap: nowrap;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-    }
-    .terminology-admin-page .domain-editor-section-nav::-webkit-scrollbar {
-        display: none;
-    }
-    .terminology-admin-page .domain-editor-section-chip {
-        flex: 0 0 auto;
-        min-width: max-content;
-    }
-
-    /* MOBILE : seule la section active est visible */
-    .terminology-admin-page .domain-editor-section:not(.is-active) {
-        display: none;
-    }
-
-    /* Items DomainContentEditor : APLATIS — pas de carte dans une carte */
-    .terminology-admin-page .admin-card-inner {
-        background: var(--cream);
-        border: none;
-        border-left: 3px solid var(--primary-gold);
-        border-radius: var(--radius-md);
-        padding: var(--space-md) var(--space-md) var(--space-sm);
-        margin-bottom: var(--space-md);
-        box-shadow: none;
-    }
-    .terminology-admin-page .admin-card-inner-header {
-        margin-bottom: var(--space-sm);
-        padding-bottom: var(--space-sm);
-    }
-    .terminology-admin-page .admin-card-inner-header strong {
-        font-family: var(--font-display);
-        font-size: 0.95rem;
-        color: var(--primary-dark);
-    }
-
-    /* Inputs dans form-group : font-size 16px (anti-zoom iOS) */
-    .terminology-admin-page .form-group:not(.term-lang-input) input,
-    .terminology-admin-page .form-group:not(.term-lang-input) textarea,
-    .terminology-admin-page .form-group:not(.term-lang-input) select {
-        font-size: 16px;
-    }
-    .terminology-admin-page .form-group:not(.term-lang-input) textarea {
-        min-height: 110px;
-    }
-
-    /* Empty state plus compact */
-    .terminology-admin-page .admin-empty-state {
-        padding: var(--space-md) var(--space-sm);
-        font-size: 0.85rem;
-    }
+    /* Lignes 3-cols : empile en 1 colonne */
     .terminology-admin-page .admin-row-3col {
         grid-template-columns: 1fr;
         gap: var(--space-sm);
@@ -1034,6 +1070,8 @@
         align-self: flex-start;
         margin-bottom: 0;
     }
+
+    /* Ligne textarea + remove : empile, le bouton reste a droite */
     .terminology-admin-page .admin-row-with-remove {
         flex-wrap: wrap;
     }
@@ -1045,16 +1083,26 @@
     .terminology-admin-page .admin-row-with-remove .btn-icon-remove {
         margin-left: auto;
     }
+
+    /* Bouton Ajouter : pleine largeur */
     .terminology-admin-page .btn-add-inline {
         width: 100%;
     }
 
-    /* Footer : bouton Save pleine largeur */
+    /* Empty state compact */
+    .terminology-admin-page .admin-empty-state {
+        padding: var(--space-md) var(--space-sm);
+        font-size: 0.85rem;
+    }
+
+    /* Footer + bouton Save pleine largeur */
     .terminology-admin-page .term-sticky-footer,
     .terminology-admin-page .admin-card-footer {
         flex-direction: column;
         align-items: stretch;
-        gap: var(--space-md);
+        gap: var(--space-sm);
+        margin-top: var(--space-md);
+        padding-top: var(--space-md);
     }
     .terminology-admin-page .term-sticky-footer-hint {
         text-align: center;
@@ -1065,21 +1113,16 @@
         padding: 0.95rem 1rem !important;
     }
 
-    /* Inputs / textareas : padding adapte */
+    /* Inputs / textareas globaux : font-size 16px (anti-zoom iOS) */
     .terminology-admin-page input[type="text"],
     .terminology-admin-page input[type="number"],
     .terminology-admin-page textarea,
     .terminology-admin-page select {
-        font-size: 16px; /* evite le zoom auto iOS */
+        font-size: 16px;
     }
-    .terminology-admin-page textarea {
+    .terminology-admin-page textarea { min-height: 110px; }
+    .terminology-admin-page .form-group:not(.term-lang-input) textarea {
         min-height: 110px;
-    }
-
-    /* Status row */
-    .terminology-admin-page .admin-status-badge {
-        font-size: 0.72rem;
-        padding: 0.35rem 0.7rem;
     }
 
     /* Encart valeur par defaut : padding reduit */
