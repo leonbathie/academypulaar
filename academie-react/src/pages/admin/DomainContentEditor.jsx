@@ -243,135 +243,163 @@ function DomainContentEditor() {
             )}
 
             {/* Section : Introduction */}
-            <fieldset className="admin-fieldset domain-editor-section">
-                <legend className="admin-fieldset-legend">📝 {t('admin.domainContent.sectionIntro')}</legend>
-                <div className="form-group">
-                    <label>{t('admin.domainContent.fieldTitle')}</label>
-                    <input type="text" value={form.introduction.title} onChange={e => setIntroTitle(e.target.value)} />
+            <div className="admin-fieldset domain-editor-section">
+                <div className="admin-fieldset-header">
+                    <span className="admin-fieldset-icon" aria-hidden="true">📝</span>
+                    <div>
+                        <h3 className="admin-fieldset-title">{t('admin.domainContent.sectionIntro')}</h3>
+                    </div>
                 </div>
-                <div className="form-group">
-                    <label>{t('admin.domainContent.fieldParagraphs')}</label>
-                    {form.introduction.paragraphs.length === 0 && (
-                        <div className="admin-empty-state" style={{ padding: 'var(--space-md)' }}>
-                            <span className="admin-empty-state-icon" aria-hidden="true">📝</span>
-                            {t('admin.domainContent.emptyParagraphs')}
-                        </div>
-                    )}
-                    {form.introduction.paragraphs.map((p, i) => (
-                        <div key={i} className="admin-row-with-remove">
-                            <textarea rows={2} value={p} onChange={e => setParagraph(i, e.target.value)} />
-                            <button type="button" className="btn-icon-remove" onClick={() => removeParagraph(i)} aria-label={t('admin.common.remove')}>✕</button>
-                        </div>
-                    ))}
-                    <button type="button" className="btn-add-inline" onClick={addParagraph}>
-                        + {t('admin.domainContent.addParagraph')}
-                    </button>
+                <div className="admin-fieldset-content">
+                    <div className="form-group">
+                        <label>{t('admin.domainContent.fieldTitle')}</label>
+                        <input type="text" value={form.introduction.title} onChange={e => setIntroTitle(e.target.value)} />
+                    </div>
+                    <div className="form-group">
+                        <label>{t('admin.domainContent.fieldParagraphs')}</label>
+                        {form.introduction.paragraphs.length === 0 && (
+                            <div className="admin-empty-state" style={{ padding: 'var(--space-md)' }}>
+                                <span className="admin-empty-state-icon" aria-hidden="true">📝</span>
+                                {t('admin.domainContent.emptyParagraphs')}
+                            </div>
+                        )}
+                        {form.introduction.paragraphs.map((p, i) => (
+                            <div key={i} className="admin-row-with-remove">
+                                <textarea rows={2} value={p} onChange={e => setParagraph(i, e.target.value)} />
+                                <button type="button" className="btn-icon-remove" onClick={() => removeParagraph(i)} aria-label={t('admin.common.remove')}>✕</button>
+                            </div>
+                        ))}
+                        <button type="button" className="btn-add-inline" onClick={addParagraph}>
+                            + {t('admin.domainContent.addParagraph')}
+                        </button>
+                    </div>
                 </div>
-            </fieldset>
+            </div>
 
             {/* Section : Le saviez-vous ? */}
-            <fieldset className="admin-fieldset domain-editor-section">
-                <legend className="admin-fieldset-legend">💡 {t('admin.domainContent.sectionDyk')}</legend>
-                {form.didYouKnow.length === 0 && (
-                    <div className="admin-empty-state">
-                        <span className="admin-empty-state-icon" aria-hidden="true">💡</span>
-                        {t('admin.domainContent.emptyDyk')}
+            <div className="admin-fieldset domain-editor-section">
+                <div className="admin-fieldset-header">
+                    <span className="admin-fieldset-icon" aria-hidden="true">💡</span>
+                    <div>
+                        <h3 className="admin-fieldset-title">{t('admin.domainContent.sectionDyk')}</h3>
                     </div>
-                )}
-                {form.didYouKnow.map((item, i) => (
-                    <div key={i} className="admin-card-inner">
-                        <div className="admin-row-3col">
-                            <div className="form-group">
-                                <label>{t('admin.domainContent.fieldIcon')}</label>
-                                <input type="text" value={item.icon || ''} onChange={e => setDyk(i, 'icon', e.target.value)} maxLength={4} />
+                </div>
+                <div className="admin-fieldset-content">
+                    {form.didYouKnow.length === 0 && (
+                        <div className="admin-empty-state">
+                            <span className="admin-empty-state-icon" aria-hidden="true">💡</span>
+                            {t('admin.domainContent.emptyDyk')}
+                        </div>
+                    )}
+                    {form.didYouKnow.map((item, i) => (
+                        <div key={i} className="admin-card-inner">
+                            <div className="admin-row-3col">
+                                <div className="form-group">
+                                    <label>{t('admin.domainContent.fieldIcon')}</label>
+                                    <input type="text" value={item.icon || ''} onChange={e => setDyk(i, 'icon', e.target.value)} maxLength={4} />
+                                </div>
+                                <div className="form-group">
+                                    <label>{t('admin.domainContent.fieldTitle')}</label>
+                                    <input type="text" value={item.title || ''} onChange={e => setDyk(i, 'title', e.target.value)} />
+                                </div>
+                                <button type="button" className="btn-icon-remove" onClick={() => removeDyk(i)} aria-label={t('admin.common.remove')}>✕</button>
                             </div>
                             <div className="form-group">
-                                <label>{t('admin.domainContent.fieldTitle')}</label>
-                                <input type="text" value={item.title || ''} onChange={e => setDyk(i, 'title', e.target.value)} />
+                                <label>{t('admin.domainContent.fieldText')}</label>
+                                <textarea rows={3} value={item.text || ''} onChange={e => setDyk(i, 'text', e.target.value)} />
                             </div>
-                            <button type="button" className="btn-icon-remove" onClick={() => removeDyk(i)} aria-label={t('admin.common.remove')}>✕</button>
                         </div>
-                        <div className="form-group">
-                            <label>{t('admin.domainContent.fieldText')}</label>
-                            <textarea rows={3} value={item.text || ''} onChange={e => setDyk(i, 'text', e.target.value)} />
-                        </div>
-                    </div>
-                ))}
-                <button type="button" className="btn-add-inline" onClick={addDyk}>
-                    + {t('admin.domainContent.addDyk')}
-                </button>
-            </fieldset>
+                    ))}
+                    <button type="button" className="btn-add-inline" onClick={addDyk}>
+                        + {t('admin.domainContent.addDyk')}
+                    </button>
+                </div>
+            </div>
 
             {/* Section : Exemples de phrases */}
-            <fieldset className="admin-fieldset domain-editor-section">
-                <legend className="admin-fieldset-legend">💬 {t('admin.domainContent.sectionExamples')}</legend>
-                {form.exampleSentences.length === 0 && (
-                    <div className="admin-empty-state">
-                        <span className="admin-empty-state-icon" aria-hidden="true">💬</span>
-                        {t('admin.domainContent.emptyExamples')}
+            <div className="admin-fieldset domain-editor-section">
+                <div className="admin-fieldset-header">
+                    <span className="admin-fieldset-icon" aria-hidden="true">💬</span>
+                    <div>
+                        <h3 className="admin-fieldset-title">{t('admin.domainContent.sectionExamples')}</h3>
                     </div>
-                )}
-                {form.exampleSentences.map((ex, i) => (
-                    <div key={i} className="admin-card-inner">
-                        <div className="admin-card-inner-header">
-                            <strong>{t('admin.domainContent.sentenceNumber', { num: i + 1 })}</strong>
-                            <button type="button" className="btn-icon-remove" onClick={() => removeExample(i)} aria-label={t('admin.common.remove')}>✕</button>
+                </div>
+                <div className="admin-fieldset-content">
+                    {form.exampleSentences.length === 0 && (
+                        <div className="admin-empty-state">
+                            <span className="admin-empty-state-icon" aria-hidden="true">💬</span>
+                            {t('admin.domainContent.emptyExamples')}
                         </div>
-                        <div className="form-group">
-                            <label>{t('admin.domainContent.fieldFulfulde')}</label>
-                            <input type="text" value={ex.ff || ''} onChange={e => setExample(i, 'ff', e.target.value)} />
+                    )}
+                    {form.exampleSentences.map((ex, i) => (
+                        <div key={i} className="admin-card-inner">
+                            <div className="admin-card-inner-header">
+                                <strong>{t('admin.domainContent.sentenceNumber', { num: i + 1 })}</strong>
+                                <button type="button" className="btn-icon-remove" onClick={() => removeExample(i)} aria-label={t('admin.common.remove')}>✕</button>
+                            </div>
+                            <div className="form-group">
+                                <label>{t('admin.domainContent.fieldFulfulde')}</label>
+                                <input type="text" value={ex.ff || ''} onChange={e => setExample(i, 'ff', e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label>{t('admin.domainContent.fieldTranslation', { lang: translationKey.toUpperCase() })}</label>
+                                <input type="text" value={ex[translationKey] || ''} onChange={e => setExample(i, translationKey, e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label>{t('admin.domainContent.fieldContext')}</label>
+                                <input type="text" value={ex.context || ''} onChange={e => setExample(i, 'context', e.target.value)} />
+                            </div>
                         </div>
-                        <div className="form-group">
-                            <label>{t('admin.domainContent.fieldTranslation', { lang: translationKey.toUpperCase() })}</label>
-                            <input type="text" value={ex[translationKey] || ''} onChange={e => setExample(i, translationKey, e.target.value)} />
-                        </div>
-                        <div className="form-group">
-                            <label>{t('admin.domainContent.fieldContext')}</label>
-                            <input type="text" value={ex.context || ''} onChange={e => setExample(i, 'context', e.target.value)} />
-                        </div>
-                    </div>
-                ))}
-                <button type="button" className="btn-add-inline" onClick={addExample}>
-                    + {t('admin.domainContent.addExample')}
-                </button>
-            </fieldset>
+                    ))}
+                    <button type="button" className="btn-add-inline" onClick={addExample}>
+                        + {t('admin.domainContent.addExample')}
+                    </button>
+                </div>
+            </div>
 
             {/* Section : Methodologie */}
-            <fieldset className="admin-fieldset domain-editor-section">
-                <legend className="admin-fieldset-legend">⚙️ {t('admin.domainContent.sectionMethod')}</legend>
-                <div className="form-group">
-                    <label>{t('admin.domainContent.fieldTitle')}</label>
-                    <input type="text" value={form.methodology.title} onChange={e => setMethodTitle(e.target.value)} />
+            <div className="admin-fieldset domain-editor-section">
+                <div className="admin-fieldset-header">
+                    <span className="admin-fieldset-icon" aria-hidden="true">⚙️</span>
+                    <div>
+                        <h3 className="admin-fieldset-title">{t('admin.domainContent.sectionMethod')}</h3>
+                    </div>
                 </div>
-                {form.methodology.steps.length === 0 && (
-                    <div className="admin-empty-state">
-                        <span className="admin-empty-state-icon" aria-hidden="true">⚙️</span>
-                        {t('admin.domainContent.emptySteps')}
+                <div className="admin-fieldset-content">
+                    <div className="form-group">
+                        <label>{t('admin.domainContent.fieldTitle')}</label>
+                        <input type="text" value={form.methodology.title} onChange={e => setMethodTitle(e.target.value)} />
                     </div>
-                )}
-                {form.methodology.steps.map((step, i) => (
-                    <div key={i} className="admin-card-inner">
-                        <div className="admin-row-3col">
-                            <div className="form-group">
-                                <label>{t('admin.domainContent.fieldNumber')}</label>
-                                <input type="number" value={step.num ?? i + 1} onChange={e => setStep(i, 'num', e.target.value)} min={1} />
+                    {form.methodology.steps.length === 0 && (
+                        <div className="admin-empty-state">
+                            <span className="admin-empty-state-icon" aria-hidden="true">⚙️</span>
+                            {t('admin.domainContent.emptySteps')}
+                        </div>
+                    )}
+                    {form.methodology.steps.map((step, i) => (
+                        <div key={i} className="admin-card-inner">
+                            <div className="admin-row-3col">
+                                <div className="form-group">
+                                    <label>{t('admin.domainContent.fieldNumber')}</label>
+                                    <input type="number" value={step.num ?? i + 1} onChange={e => setStep(i, 'num', e.target.value)} min={1} />
+                                </div>
+                                <div className="form-group">
+                                    <label>{t('admin.domainContent.fieldTitle')}</label>
+                                    <input type="text" value={step.title || ''} onChange={e => setStep(i, 'title', e.target.value)} />
+                                </div>
+                                <button type="button" className="btn-icon-remove" onClick={() => removeStep(i)} aria-label={t('admin.common.remove')}>✕</button>
                             </div>
                             <div className="form-group">
-                                <label>{t('admin.domainContent.fieldTitle')}</label>
-                                <input type="text" value={step.title || ''} onChange={e => setStep(i, 'title', e.target.value)} />
+                                <label>{t('admin.domainContent.fieldDescription')}</label>
+                                <textarea rows={2} value={step.desc || ''} onChange={e => setStep(i, 'desc', e.target.value)} />
                             </div>
-                            <button type="button" className="btn-icon-remove" onClick={() => removeStep(i)} aria-label={t('admin.common.remove')}>✕</button>
                         </div>
-                        <div className="form-group">
-                            <label>{t('admin.domainContent.fieldDescription')}</label>
-                            <textarea rows={2} value={step.desc || ''} onChange={e => setStep(i, 'desc', e.target.value)} />
-                        </div>
-                    </div>
-                ))}
-                <button type="button" className="btn-add-inline" onClick={addStep}>
-                    + {t('admin.domainContent.addStep')}
-                </button>
-            </fieldset>
+                    ))}
+                    <button type="button" className="btn-add-inline" onClick={addStep}>
+                        + {t('admin.domainContent.addStep')}
+                    </button>
+                </div>
+            </div>
 
             <div className="admin-card-footer domain-editor-footer">
                 <button className="btn-save" onClick={save} disabled={saving}>

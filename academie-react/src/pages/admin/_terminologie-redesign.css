@@ -436,7 +436,82 @@
     opacity: 0.65;
 }
 
-/* ---------- DomainContentEditor : selects + status + items ---------- */
+/* ---------- DomainContentEditor : shell, labels, items ---------- */
+
+/* h2 du header DomainContentEditor */
+.terminology-admin-page .domain-editor-shell > .admin-card-header-actions h2 {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    color: var(--primary-dark);
+    margin: 0;
+    font-weight: 700;
+    line-height: 1.2;
+    overflow-wrap: anywhere;
+}
+
+/* form-group : labels et inputs uniformes dans le scope */
+.terminology-admin-page .form-group {
+    margin-bottom: var(--space-md);
+}
+.terminology-admin-page .form-group:last-child {
+    margin-bottom: 0;
+}
+/* Labels des form-group "classiques" (Icône / Titre / Texte / Paragraphes / etc.)
+   La regle exclut .term-lang-input qui a son propre label flag + statut. */
+.terminology-admin-page .form-group:not(.term-lang-input) > label {
+    display: inline-block;
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+    margin-bottom: 0.4rem;
+    letter-spacing: 0.01em;
+    padding-left: 0.7rem;
+    position: relative;
+}
+.terminology-admin-page .form-group:not(.term-lang-input) > label::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.18em;
+    bottom: 0.18em;
+    width: 3px;
+    background: var(--primary-gold);
+    border-radius: 2px;
+}
+
+/* Inputs / textareas / selects dans form-group */
+.terminology-admin-page .form-group:not(.term-lang-input) input[type="text"],
+.terminology-admin-page .form-group:not(.term-lang-input) input[type="number"],
+.terminology-admin-page .form-group:not(.term-lang-input) textarea,
+.terminology-admin-page .form-group:not(.term-lang-input) select {
+    width: 100%;
+    max-width: 100%;
+    border: 1px solid var(--light-gray);
+    background: var(--white);
+    border-radius: var(--radius-md);
+    padding: 0.7rem 0.95rem;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    color: var(--dark-gray);
+    line-height: 1.55;
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+.terminology-admin-page .form-group:not(.term-lang-input) input:focus,
+.terminology-admin-page .form-group:not(.term-lang-input) textarea:focus,
+.terminology-admin-page .form-group:not(.term-lang-input) select:focus {
+    outline: none;
+    border-color: var(--primary-gold);
+    box-shadow: 0 0 0 3px rgba(212, 165, 55, 0.15);
+}
+.terminology-admin-page .form-group:not(.term-lang-input) textarea {
+    min-height: 100px;
+    resize: vertical;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
+/* Header (h2 + selects) : sur ligne ou empile */
 .terminology-admin-page .admin-card-header-actions {
     display: flex;
     flex-wrap: wrap;
@@ -836,9 +911,50 @@
         flex: none;
     }
 
-    /* Items DomainContentEditor : aplatir et empiler */
+    /* Header DomainContentEditor : titre puis selects empiles */
+    .terminology-admin-page .admin-card-header-actions {
+        flex-direction: column;
+        align-items: stretch;
+        gap: var(--space-md);
+    }
+    .terminology-admin-page .domain-editor-shell > .admin-card-header-actions h2 {
+        font-size: 1.3rem;
+    }
+
+    /* Items DomainContentEditor : APLATIS — pas de carte dans une carte */
     .terminology-admin-page .admin-card-inner {
+        background: var(--cream);
+        border: none;
+        border-left: 3px solid var(--primary-gold);
+        border-radius: var(--radius-md);
+        padding: var(--space-md) var(--space-md) var(--space-sm);
+        margin-bottom: var(--space-md);
+        box-shadow: none;
+    }
+    .terminology-admin-page .admin-card-inner-header {
+        margin-bottom: var(--space-sm);
+        padding-bottom: var(--space-sm);
+    }
+    .terminology-admin-page .admin-card-inner-header strong {
+        font-family: var(--font-display);
+        font-size: 0.95rem;
+        color: var(--primary-dark);
+    }
+
+    /* Inputs dans form-group : font-size 16px (anti-zoom iOS) */
+    .terminology-admin-page .form-group:not(.term-lang-input) input,
+    .terminology-admin-page .form-group:not(.term-lang-input) textarea,
+    .terminology-admin-page .form-group:not(.term-lang-input) select {
+        font-size: 16px;
+    }
+    .terminology-admin-page .form-group:not(.term-lang-input) textarea {
+        min-height: 110px;
+    }
+
+    /* Empty state plus compact */
+    .terminology-admin-page .admin-empty-state {
         padding: var(--space-md) var(--space-sm);
+        font-size: 0.85rem;
     }
     .terminology-admin-page .admin-row-3col {
         grid-template-columns: 1fr;
