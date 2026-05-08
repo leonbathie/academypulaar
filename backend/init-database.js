@@ -76,11 +76,43 @@ async function initDatabase() {
         const dictionaryMigrations = [
             'ALTER TABLE dictionary ADD COLUMN IF NOT EXISTS domain VARCHAR(100)',
             'ALTER TABLE dictionary ADD COLUMN IF NOT EXISTS audio_word VARCHAR(255)',
-            'ALTER TABLE dictionary ADD COLUMN IF NOT EXISTS audio_example VARCHAR(255)'
+            'ALTER TABLE dictionary ADD COLUMN IF NOT EXISTS audio_example VARCHAR(255)',
+            // Multi-domaines : colonne normalisee pour anti-doublons
+            'ALTER TABLE dictionary ADD COLUMN IF NOT EXISTS word_normalized TEXT',
+            'CREATE INDEX IF NOT EXISTS idx_dictionary_word_normalized ON dictionary(word_normalized)'
         ]
         for (const sql of dictionaryMigrations) {
             await pool.query(sql).catch(() => {})
         }
+
+        // Backfill word_normalized si absent
+        await pool.query(`
+            UPDATE dictionary
+            SET word_normalized = LOWER(BTRIM(REGEXP_REPLACE(word, '\\s+', ' ', 'g')))
+            WHERE word IS NOT NULL AND (word_normalized IS NULL OR word_normalized = '')
+        `).catch(() => {})
+
+        // Table pivot many-to-many : un mot peut appartenir a plusieurs domaines
+        await pool.query(`
+            CREATE TABLE IF NOT EXISTS dictionary_domains (
+                id SERIAL PRIMARY KEY,
+                dictionary_id INTEGER NOT NULL REFERENCES dictionary(id) ON DELETE CASCADE,
+                domain VARCHAR(100) NOT NULL,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                UNIQUE(dictionary_id, domain)
+            )
+        `)
+        await pool.query('CREATE INDEX IF NOT EXISTS idx_dictionary_domains_domain ON dictionary_domains(domain)')
+        await pool.query('CREATE INDEX IF NOT EXISTS idx_dictionary_domains_dictionary_id ON dictionary_domains(dictionary_id)')
+        console.log('✅ Table pivot dictionary_domains assuree')
+
+        // Reporter les domaines existants (legacy column) dans la pivot
+        await pool.query(`
+            INSERT INTO dictionary_domains (dictionary_id, domain)
+            SELECT id, BTRIM(domain) FROM dictionary
+            WHERE domain IS NOT NULL AND BTRIM(domain) <> ''
+            ON CONFLICT (dictionary_id, domain) DO NOTHING
+        `).catch(() => {})
 
         // Table des membres
         await pool.query(`

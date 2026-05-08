@@ -21,34 +21,114 @@ function normalizeFulfuldeText(value) {
     return String(value).normalize('NFC').trim()
 }
 
-// Clé de comparaison robuste pour caractères Fulfulde (ɓ ɗ ŋ ɲ ʼ etc.)
-// Normalise en NFC puis met en minuscules via JS (locale-aware Unicode), ce qui
-// évite les faiblesses de LOWER() Postgres selon la collation côté serveur.
+// Cle de comparaison robuste pour caracteres Fulfulde (ɓ ɗ ŋ ɲ ʼ etc.)
+// Normalise en NFC, met en minuscules, collapse les espaces multiples
+// et trim. Cette cle correspond a la colonne dictionary.word_normalized
+// (qui est generee cote SQL avec la meme logique).
 function fulfuldeCompareKey(value) {
     if (value === null || value === undefined) return ''
-    return String(value).normalize('NFC').trim().toLowerCase()
+    return String(value)
+        .normalize('NFC')
+        .trim()
+        .replace(/\s+/g, ' ')
+        .toLowerCase()
 }
 
-// Recherche en JS un doublon exact (word + domain) parmi des candidats SQL,
-// avec normalisation NFC bilatérale. Renvoie la 1re ligne trouvée ou null.
-async function findDuplicateWord({ word, domain, excludeId = null }) {
-    const wordKey = fulfuldeCompareKey(word)
-    const domainKey = fulfuldeCompareKey(domain)
-    if (!wordKey) return null
+// Trouve un mot existant par sa cle normalisee (independamment des domaines).
+// Retourne {id, word} ou null.
+async function findExistingByWord({ word, excludeId = null }) {
+    const key = fulfuldeCompareKey(word)
+    if (!key) return null
 
-    // Pré-filtrage SQL large mais bornes — on ramasse tous les candidats dont
-    // word minuscule SQL matche, puis on confirme en JS avec NFC pour gérer
-    // les variantes de normalisation Unicode et les locales LOWER() exotiques.
     const sql = excludeId
-        ? 'SELECT id, word, domain FROM dictionary WHERE LOWER(word) = LOWER($1) AND id != $2'
-        : 'SELECT id, word, domain FROM dictionary WHERE LOWER(word) = LOWER($1)'
-    const params = excludeId ? [word, excludeId] : [word]
-    const candidates = await query(sql, params)
+        ? 'SELECT id, word, word_normalized FROM dictionary WHERE word_normalized = $1 AND id != $2 LIMIT 1'
+        : 'SELECT id, word, word_normalized FROM dictionary WHERE word_normalized = $1 LIMIT 1'
+    const params = excludeId ? [key, excludeId] : [key]
+    const r = await query(sql, params)
+    if (r.rows.length > 0) return r.rows[0]
 
-    return candidates.rows.find(row =>
-        fulfuldeCompareKey(row.word) === wordKey &&
-        fulfuldeCompareKey(row.domain) === domainKey
-    ) || null
+    // Fallback : si word_normalized est NULL pour anciennes lignes, comparer en JS
+    const fallback = excludeId
+        ? 'SELECT id, word, word_normalized FROM dictionary WHERE id != $1 AND (word_normalized IS NULL OR word_normalized = \'\')'
+        : 'SELECT id, word, word_normalized FROM dictionary WHERE word_normalized IS NULL OR word_normalized = \'\''
+    const fallbackParams = excludeId ? [excludeId] : []
+    const candidates = await query(fallback, fallbackParams)
+    return candidates.rows.find(row => fulfuldeCompareKey(row.word) === key) || null
+}
+
+// Synchronise les domaines d'un mot dans la table pivot.
+// mode='replace' : remplace toute la liste (utilise par PUT)
+// mode='merge'   : ajoute ce qui manque, ne supprime rien (utilise par POST)
+async function syncWordDomains(dictionaryId, domainList, mode = 'replace') {
+    if (!Array.isArray(domainList)) return
+    const cleaned = Array.from(new Set(
+        domainList
+            .map(d => normalizeFulfuldeText(d))
+            .filter(d => d && d.length > 0)
+    ))
+
+    if (mode === 'replace') {
+        // Supprime les domaines absents, garde les autres (idempotent)
+        if (cleaned.length === 0) {
+            await query('DELETE FROM dictionary_domains WHERE dictionary_id = $1', [dictionaryId])
+        } else {
+            await query(
+                'DELETE FROM dictionary_domains WHERE dictionary_id = $1 AND NOT (domain = ANY($2::text[]))',
+                [dictionaryId, cleaned]
+            )
+        }
+    }
+
+    // Insere les nouveaux (ON CONFLICT DO NOTHING grace a UNIQUE(dictionary_id, domain))
+    for (const d of cleaned) {
+        await query(
+            `INSERT INTO dictionary_domains (dictionary_id, domain) VALUES ($1, $2)
+             ON CONFLICT (dictionary_id, domain) DO NOTHING`,
+            [dictionaryId, d]
+        )
+    }
+}
+
+// Charge les domaines associes a un id (utilise dans les reponses)
+async function loadDomainsFor(dictionaryId) {
+    const r = await query(
+        'SELECT domain FROM dictionary_domains WHERE dictionary_id = $1 ORDER BY domain',
+        [dictionaryId]
+    )
+    return r.rows.map(row => row.domain)
+}
+
+// Charge les domaines pour une liste d'ids en une seule requete.
+// Retourne une Map<id, string[]>.
+async function loadDomainsForMany(ids) {
+    const result = new Map()
+    if (!Array.isArray(ids) || ids.length === 0) return result
+    const r = await query(
+        'SELECT dictionary_id, domain FROM dictionary_domains WHERE dictionary_id = ANY($1::int[]) ORDER BY domain',
+        [ids]
+    )
+    for (const row of r.rows) {
+        if (!result.has(row.dictionary_id)) result.set(row.dictionary_id, [])
+        result.get(row.dictionary_id).push(row.domain)
+    }
+    return result
+}
+
+// Resout l'argument "domains" venant du client : accepte
+// - un tableau JS (JSON body)
+// - une chaine "a,b,c"
+// - une chaine JSON "[\"a\", \"b\"]"
+// - un seul nom de domaine (compat champ unique)
+function parseDomainsField(value) {
+    if (Array.isArray(value)) return value
+    if (typeof value !== 'string') return []
+    const trimmed = value.trim()
+    if (!trimmed) return []
+    if (trimmed.startsWith('[')) {
+        try { const a = JSON.parse(trimmed); return Array.isArray(a) ? a : [] } catch (_) { /* fall through */ }
+    }
+    if (trimmed.includes(',')) return trimmed.split(',').map(s => s.trim()).filter(Boolean)
+    return [trimmed]
 }
 
 // Configuration multer pour les fichiers audio
@@ -78,39 +158,68 @@ const upload = multer({
     limits: { fileSize: 10 * 1024 * 1024 } // 10MB max
 })
 
-// GET /api/dictionary - Récupérer tous les mots
+// GET /api/dictionary - Recuperer tous les mots avec leurs domaines (agreges)
 router.get('/', async (req, res) => {
     try {
-        const { search, category, letter } = req.query
-        let sql = 'SELECT * FROM dictionary'
+        const { search, category, letter, domain } = req.query
         const params = []
         const conditions = []
 
         if (search) {
             const normalizedSearch = normalizeFulfuldeText(search)
-            conditions.push(`(word ILIKE $${params.length + 1} OR translation_fr ILIKE $${params.length + 1})`)
+            conditions.push(`(d.word ILIKE $${params.length + 1} OR d.translation_fr ILIKE $${params.length + 1})`)
             params.push(`%${normalizedSearch}%`)
         }
 
         if (category) {
-            conditions.push(`category = $${params.length + 1}`)
+            conditions.push(`d.category = $${params.length + 1}`)
             params.push(category)
         }
 
         if (letter) {
             const normalizedLetter = normalizeFulfuldeText(letter)
-            conditions.push(`word ILIKE $${params.length + 1}`)
+            conditions.push(`d.word ILIKE $${params.length + 1}`)
             params.push(`${normalizedLetter}%`)
         }
 
-        if (conditions.length > 0) {
-            sql += ' WHERE ' + conditions.join(' AND ')
+        // Filtrage par domaine : matche soit la colonne legacy d.domain, soit la pivot
+        if (domain) {
+            const idx = params.length + 1
+            conditions.push(`(
+                d.domain = $${idx}
+                OR EXISTS (
+                    SELECT 1 FROM dictionary_domains dd2
+                    WHERE dd2.dictionary_id = d.id AND dd2.domain = $${idx}
+                )
+            )`)
+            params.push(domain)
         }
 
-        sql += ' ORDER BY word ASC'
+        const where = conditions.length > 0 ? ('WHERE ' + conditions.join(' AND ')) : ''
+        const sql = `
+            SELECT
+                d.*,
+                COALESCE(
+                    (SELECT JSON_AGG(dd.domain ORDER BY dd.domain)
+                     FROM dictionary_domains dd WHERE dd.dictionary_id = d.id),
+                    '[]'::json
+                ) AS domains
+            FROM dictionary d
+            ${where}
+            ORDER BY d.word ASC
+        `
 
         const result = await query(sql, params)
-        res.json(result.rows)
+        // Si une ligne n'a aucune entree pivot mais une valeur legacy, on la propose
+        // pour compat backwards (une seule fois)
+        const rows = result.rows.map(r => {
+            const domains = Array.isArray(r.domains) ? r.domains : []
+            if (domains.length === 0 && r.domain) {
+                return { ...r, domains: [r.domain] }
+            }
+            return { ...r, domains }
+        })
+        res.json(rows)
 
     } catch (error) {
         console.error('Get dictionary error:', error)
@@ -201,7 +310,7 @@ router.get('/delete-requests', authMiddleware, requireRole('admin'), async (req,
     }
 })
 
-// GET /api/dictionary/:id - Récupérer un mot
+// GET /api/dictionary/:id - Recuperer un mot avec ses domaines
 router.get('/:id', validateId, async (req, res) => {
     try {
         const result = await query('SELECT * FROM dictionary WHERE id = $1', [req.params.id])
@@ -210,7 +319,10 @@ router.get('/:id', validateId, async (req, res) => {
             return res.status(404).json({ error: 'Mot non trouvé' })
         }
 
-        res.json(result.rows[0])
+        const row = result.rows[0]
+        const domains = await loadDomainsFor(row.id)
+        if (domains.length === 0 && row.domain) domains.push(row.domain)
+        res.json({ ...row, domains })
 
     } catch (error) {
         console.error('Get word error:', error)
@@ -218,7 +330,13 @@ router.get('/:id', validateId, async (req, res) => {
     }
 })
 
-// POST /api/dictionary - Ajouter un mot (Admin only)
+// POST /api/dictionary - Ajouter (ou enrichir) un mot avec ses domaines.
+// Logique multi-domaines :
+//  1. Normaliser le mot.
+//  2. Chercher s'il existe deja (par word_normalized).
+//  3. S'il existe : ajouter les domaines manquants dans la pivot, ne PAS
+//     bloquer. Retourner l'entree existante avec sa liste complete de domaines.
+//  4. Sinon : creer la ligne et inserer les domaines dans la pivot.
 router.post('/', authMiddleware, canWrite, upload.fields([
     { name: 'audio_word', maxCount: 1 },
     { name: 'audio_example', maxCount: 1 }
@@ -230,31 +348,27 @@ router.post('/', authMiddleware, canWrite, upload.fields([
         const normalizedTranslationEn = normalizeFulfuldeText(translation_en)
         const normalizedTranslationFf = normalizeFulfuldeText(translation_ff)
         const normalizedCategory = normalizeFulfuldeText(category)
-        const normalizedDomain = normalizeFulfuldeText(domain)
         const normalizedExample = normalizeFulfuldeText(example)
         const normalizedExampleTranslation = normalizeFulfuldeText(example_translation)
+        const wordKey = fulfuldeCompareKey(normalizedWord)
 
         if (!normalizedWord) {
             return res.status(400).json({ error: 'Le mot est requis' })
         }
 
-        // Vérifier si le mot existe déjà dans ce domaine (comparaison NFC-aware Fulfulde)
-        const duplicate = await findDuplicateWord({
-            word: normalizedWord,
-            domain: normalizedDomain
-        })
-        if (duplicate) {
-            return res.status(400).json({
-                error: `Le mot "${normalizedWord}" existe déjà dans le domaine "${normalizedDomain || 'général'}". Modifiez ou supprimez l'entrée existante (ID: ${duplicate.id}) avant de l'ajouter à nouveau.`,
-                code: 'DUPLICATE_WORD',
-                duplicate
-            })
+        // Liste des domaines : accepte 'domains' (array/JSON/csv) OU 'domain' (single)
+        const domainsRaw = req.body.domains !== undefined ? parseDomainsField(req.body.domains) : []
+        if (domain && (!domainsRaw || domainsRaw.length === 0)) {
+            domainsRaw.push(domain)
         }
+        const domainsList = Array.from(new Set(
+            domainsRaw.map(d => normalizeFulfuldeText(d)).filter(Boolean)
+        ))
+        const primaryDomain = domainsList[0] || null
 
-        // Récupérer les chemins des fichiers audio
+        // Recuperer les chemins audio si uploades
         let audioWordPath = null
         let audioExamplePath = null
-
         if (req.files) {
             if (req.files['audio_word'] && req.files['audio_word'][0]) {
                 audioWordPath = '/uploads/' + req.files['audio_word'][0].filename
@@ -264,13 +378,79 @@ router.post('/', authMiddleware, canWrite, upload.fields([
             }
         }
 
-        const result = await query(
-            `INSERT INTO dictionary (word, translation_fr, translation_en, translation_ff, category, domain, example, example_translation, audio_word, audio_example)
-             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *`,
-            [normalizedWord, normalizedTranslationFr, normalizedTranslationEn, normalizedTranslationFf, normalizedCategory, normalizedDomain || null, normalizedExample, normalizedExampleTranslation, audioWordPath, audioExamplePath]
-        )
+        // Cherche un mot existant (par word_normalized)
+        const existing = await findExistingByWord({ word: normalizedWord })
 
-        res.status(201).json(result.rows[0])
+        if (existing) {
+            // Mot deja present : on ajoute les domaines manquants et on retourne l'entree.
+            await syncWordDomains(existing.id, domainsList, 'merge')
+
+            // Optionnel : completer translations / audios manquants si fournis
+            const updates = []
+            const params = []
+            const setIfMissing = (col, val) => {
+                if (val === null || val === undefined) return
+                updates.push(`${col} = COALESCE(NULLIF(${col}, ''), $${params.length + 1})`)
+                params.push(val)
+            }
+            setIfMissing('translation_fr', normalizedTranslationFr)
+            setIfMissing('translation_en', normalizedTranslationEn)
+            setIfMissing('translation_ff', normalizedTranslationFf)
+            setIfMissing('category', normalizedCategory)
+            setIfMissing('example', normalizedExample)
+            setIfMissing('example_translation', normalizedExampleTranslation)
+            if (audioWordPath) {
+                updates.push(`audio_word = COALESCE(audio_word, $${params.length + 1})`)
+                params.push(audioWordPath)
+            }
+            if (audioExamplePath) {
+                updates.push(`audio_example = COALESCE(audio_example, $${params.length + 1})`)
+                params.push(audioExamplePath)
+            }
+
+            let row
+            if (updates.length > 0) {
+                params.push(existing.id)
+                const r = await query(
+                    `UPDATE dictionary SET ${updates.join(', ')}, updated_at = CURRENT_TIMESTAMP
+                     WHERE id = $${params.length} RETURNING *`,
+                    params
+                )
+                row = r.rows[0]
+            } else {
+                const r = await query('SELECT * FROM dictionary WHERE id = $1', [existing.id])
+                row = r.rows[0]
+            }
+
+            const domains = await loadDomainsFor(row.id)
+            return res.status(200).json({
+                ...row,
+                domains,
+                merged: true,
+                message: `Le mot existait deja (id ${row.id}). Domaines mis a jour.`
+            })
+        }
+
+        // Mot vraiment nouveau : INSERT puis sync pivot
+        const inserted = await query(
+            `INSERT INTO dictionary
+                (word, word_normalized, translation_fr, translation_en, translation_ff,
+                 category, domain, example, example_translation, audio_word, audio_example)
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+             RETURNING *`,
+            [
+                normalizedWord, wordKey,
+                normalizedTranslationFr, normalizedTranslationEn, normalizedTranslationFf,
+                normalizedCategory, primaryDomain,
+                normalizedExample, normalizedExampleTranslation,
+                audioWordPath, audioExamplePath
+            ]
+        )
+        const newRow = inserted.rows[0]
+        await syncWordDomains(newRow.id, domainsList, 'merge')
+        const domains = await loadDomainsFor(newRow.id)
+
+        res.status(201).json({ ...newRow, domains })
 
     } catch (error) {
         console.error('Add word error:', error)
@@ -294,11 +474,9 @@ router.put('/:id', authMiddleware, canWrite, validateId, upload.fields([
         const normalizedExample = normalizeFulfuldeText(example)
         const normalizedExampleTranslation = normalizeFulfuldeText(example_translation)
 
-        // Récupérer l'existant : sert à la fois pour le check de doublon (skip si word/domain
-        // inchangés, ce qui débloque l'édition de doublons préexistants en DB) et pour
-        // conserver les anciens audios s'il n'y en a pas de nouveaux.
+        // Recuperer l'existant : pour les audios + comparaison du mot.
         const existing = await query(
-            'SELECT word, domain, audio_word, audio_example FROM dictionary WHERE id = $1',
+            'SELECT word, word_normalized, domain, audio_word, audio_example FROM dictionary WHERE id = $1',
             [req.params.id]
         )
         if (existing.rows.length === 0) {
@@ -306,23 +484,17 @@ router.put('/:id', authMiddleware, canWrite, validateId, upload.fields([
         }
         const currentRow = existing.rows[0]
 
-        // Comparaison NFC-aware : ne déclencher le check de doublon que si l'admin
-        // change réellement (word, domain). Sinon, éditer translations/audio/exemple
-        // d'un enregistrement dont un jumeau existe (import CSV ancien) reste possible.
+        // Comparaison sur la cle normalisee
         const wordChanged = fulfuldeCompareKey(normalizedWord) !== fulfuldeCompareKey(currentRow.word)
-        const domainChanged = fulfuldeCompareKey(normalizedDomain) !== fulfuldeCompareKey(currentRow.domain)
 
-        if (normalizedWord && (wordChanged || domainChanged)) {
-            const duplicate = await findDuplicateWord({
-                word: normalizedWord,
-                domain: normalizedDomain,
-                excludeId: req.params.id
-            })
-            if (duplicate) {
-                return res.status(400).json({
-                    error: `Impossible d'enregistrer: le mot "${normalizedWord}" existe déjà dans le domaine "${normalizedDomain || 'général'}" (ID: ${duplicate.id}). Modifiez ou supprimez l'entrée existante, ou utilisez un autre mot.`,
+        // Si le mot change, verifier qu'aucune AUTRE ligne n'a deja ce word_normalized
+        if (normalizedWord && wordChanged) {
+            const collision = await findExistingByWord({ word: normalizedWord, excludeId: req.params.id })
+            if (collision) {
+                return res.status(409).json({
+                    error: `Le mot "${normalizedWord}" existe deja sous l'id ${collision.id}. Fusionnez ou utilisez un autre mot.`,
                     code: 'DUPLICATE_WORD',
-                    duplicate
+                    duplicate: collision
                 })
             }
         }
@@ -351,20 +523,55 @@ router.put('/:id', authMiddleware, canWrite, validateId, upload.fields([
             audioExamplePath = null
         }
 
+        // Liste des domaines : array (nouveau) OU single 'domain' (legacy)
+        const domainsRaw = req.body.domains !== undefined ? parseDomainsField(req.body.domains) : null
+        const legacySingle = normalizedDomain
+        let domainsList = null
+        if (domainsRaw !== null) {
+            domainsList = Array.from(new Set(
+                domainsRaw.map(d => normalizeFulfuldeText(d)).filter(Boolean)
+            ))
+        } else if (legacySingle) {
+            // L'admin n'a envoye que 'domain' : on AJOUTE ce domaine sans toucher
+            // aux autres deja associes (mode merge).
+            domainsList = [legacySingle]
+        }
+        const primaryDomain = (domainsList && domainsList[0]) || legacySingle || null
+        const newWordKey = fulfuldeCompareKey(normalizedWord)
+
         const result = await query(
-            `UPDATE dictionary 
-             SET word = $1, translation_fr = $2, translation_en = $3, translation_ff = $4, 
-                 category = $5, domain = $6, example = $7, example_translation = $8, 
-                 audio_word = $9, audio_example = $10, updated_at = CURRENT_TIMESTAMP
-             WHERE id = $11 RETURNING *`,
-            [normalizedWord || null, normalizedTranslationFr, normalizedTranslationEn, normalizedTranslationFf, normalizedCategory, normalizedDomain || null, normalizedExample, normalizedExampleTranslation, audioWordPath, audioExamplePath, req.params.id]
+            `UPDATE dictionary
+             SET word = $1, word_normalized = $2,
+                 translation_fr = $3, translation_en = $4, translation_ff = $5,
+                 category = $6, domain = $7, example = $8, example_translation = $9,
+                 audio_word = $10, audio_example = $11,
+                 updated_at = CURRENT_TIMESTAMP
+             WHERE id = $12 RETURNING *`,
+            [
+                normalizedWord || null,
+                newWordKey || null,
+                normalizedTranslationFr, normalizedTranslationEn, normalizedTranslationFf,
+                normalizedCategory, primaryDomain,
+                normalizedExample, normalizedExampleTranslation,
+                audioWordPath, audioExamplePath,
+                req.params.id
+            ]
         )
 
         if (result.rows.length === 0) {
             return res.status(404).json({ error: 'Mot non trouvé' })
         }
 
-        // Supprimer les anciens fichiers audio si remplacés ou retirés
+        // Sync des domaines :
+        // - 'domains' fourni (array) -> mode REPLACE (etat exact souhaite)
+        // - sinon, single 'domain' fourni -> mode MERGE (ajoute sans retirer)
+        if (Array.isArray(domainsRaw)) {
+            await syncWordDomains(req.params.id, domainsList || [], 'replace')
+        } else if (legacySingle) {
+            await syncWordDomains(req.params.id, [legacySingle], 'merge')
+        }
+
+        // Supprimer les anciens fichiers audio si remplaces ou retires
         if ((req.files?.['audio_word'] || removeAudioWord) && oldAudioWord) {
             const oldPath = path.join(__dirname, '..', oldAudioWord)
             if (fs.existsSync(oldPath)) fs.unlink(oldPath, () => {})
@@ -374,7 +581,8 @@ router.put('/:id', authMiddleware, canWrite, validateId, upload.fields([
             if (fs.existsSync(oldPath)) fs.unlink(oldPath, () => {})
         }
 
-        res.json(result.rows[0])
+        const finalDomains = await loadDomainsFor(req.params.id)
+        res.json({ ...result.rows[0], domains: finalDomains })
 
     } catch (error) {
         console.error('Update word error:', error)
@@ -793,12 +1001,22 @@ router.post('/import-csv', authMiddleware, canWrite, uploadCsv.fields([{ name: '
         for (const w of words) {
             try {
                 const normalizedWord = normalizeFulfuldeText(w.word)
-                const dup = await findDuplicateWord({ word: normalizedWord, domain })
-                if (dup) { duplicates.push(w.word); skipped++; continue }
-                await query(
-                    'INSERT INTO dictionary (word, translation_fr, translation_en, domain) VALUES ($1,$2,$3,$4)',
-                    [normalizedWord, normalizeFulfuldeText(w.translation_fr), normalizeFulfuldeText(w.translation_en), domain]
+                if (!normalizedWord) { skipped++; continue }
+                const wordKey = fulfuldeCompareKey(normalizedWord)
+                const existing = await findExistingByWord({ word: normalizedWord })
+                if (existing) {
+                    // Mot deja present : on ajoute juste le domaine au pivot et on saute.
+                    if (domain) await syncWordDomains(existing.id, [domain], 'merge')
+                    duplicates.push(w.word)
+                    skipped++
+                    continue
+                }
+                const ins = await query(
+                    `INSERT INTO dictionary (word, word_normalized, translation_fr, translation_en, domain)
+                     VALUES ($1,$2,$3,$4,$5) RETURNING id`,
+                    [normalizedWord, wordKey, normalizeFulfuldeText(w.translation_fr), normalizeFulfuldeText(w.translation_en), domain]
                 )
+                if (domain) await syncWordDomains(ins.rows[0].id, [domain], 'merge')
                 inserted++
             } catch (err) { errors.push({ word: w.word, error: err.message }); skipped++ }
         }
@@ -835,7 +1053,7 @@ router.post('/preview-csv', authMiddleware, canWrite, uploadCsv.fields([{ name: 
         const existingWords = []
         for (const w of words) {
             const normalizedWord = normalizeFulfuldeText(w.word)
-            const dup = await findDuplicateWord({ word: normalizedWord, domain })
+            const dup = await findExistingByWord({ word: normalizedWord })
             if (dup) existingWords.push(w.word)
         }
 
