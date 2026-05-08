@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import TerminologyPageEditor from './TerminologyPageEditor'
 import DomainContentEditor from './DomainContentEditor'
+import './_terminologie-redesign.css'
 
 const TABS = [
     { id: 'page',          icon: '📄', labelKey: 'admin.terminology.tabPage' },
