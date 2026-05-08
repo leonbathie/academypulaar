@@ -8216,3 +8216,14 @@
 .terminology-admin-page .term-sticky-footer .btn-save {
     box-shadow: none;
 }
+
+/* Multi-domaines : conteneur de badges qui wrappe proprement */
+.domain-badges {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    align-items: center;
+}
+.domain-badges .domain-badge {
+    margin: 0;
+}

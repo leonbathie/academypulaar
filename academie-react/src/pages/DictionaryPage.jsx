@@ -373,14 +373,21 @@ function DictionaryPage() {
                                             )}
 
                                             {/* Badges */}
-                                            {(entry.category || entry.domain) && (
+                                            {(entry.category || (Array.isArray(entry.domains) && entry.domains.length > 0) || entry.domain) && (
                                                 <div className="word-badges">
                                                     {entry.category && (
                                                         <span className="word-badge word-badge--cat">{t(`dictionary.categories.${entry.category}`, entry.category)}</span>
                                                     )}
-                                                    {entry.domain && (
-                                                        <span className="word-badge word-badge--domain">{t(`dictionary.domains.${entry.domain}`)}</span>
-                                                    )}
+                                                    {Array.isArray(entry.domains) && entry.domains.length > 0
+                                                        ? entry.domains.map(d => (
+                                                            <span key={d} className="word-badge word-badge--domain">
+                                                                {t(`dictionary.domains.${d}`, d)}
+                                                            </span>
+                                                          ))
+                                                        : entry.domain && (
+                                                            <span className="word-badge word-badge--domain">{t(`dictionary.domains.${entry.domain}`, entry.domain)}</span>
+                                                          )
+                                                    }
                                                 </div>
                                             )}
 

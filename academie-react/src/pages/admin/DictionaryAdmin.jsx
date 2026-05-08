@@ -824,7 +824,19 @@ function DictionaryAdmin() {
                                                 )}
                                                 <td><strong>{word.word}</strong></td>
                                                 <td className="td-truncate">{word.translation_fr || '-'}</td>
-                                                <td><span className="domain-badge">{word.domain ? t(domainKeyMap[word.domain] || word.domain) : '-'}</span></td>
+                                                <td>
+                                                    {Array.isArray(word.domains) && word.domains.length > 0 ? (
+                                                        <span className="domain-badges">
+                                                            {word.domains.map(d => (
+                                                                <span key={d} className="domain-badge">
+                                                                    {t(domainKeyMap[d] || d)}
+                                                                </span>
+                                                            ))}
+                                                        </span>
+                                                    ) : word.domain ? (
+                                                        <span className="domain-badge">{t(domainKeyMap[word.domain] || word.domain)}</span>
+                                                    ) : '-'}
+                                                </td>
                                                 <td style={{ textAlign: 'center' }}>
                                                     {word.audio_word && (
                                                         <span title={t('admin.common.audioTitle')}>🔊</span>
