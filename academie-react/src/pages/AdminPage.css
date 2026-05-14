@@ -8227,3 +8227,42 @@
 .domain-badges .domain-badge {
     margin: 0;
 }
+
+/* =========================================================
+   Scholars admin : biographie multi-paragraphes (Markdown-like)
+   ========================================================= */
+.bio-textarea {
+    width: 100%;
+    min-height: 280px;
+    font-family: ui-monospace, "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
+    font-size: 0.92rem;
+    line-height: 1.65;
+    padding: var(--space-md) var(--space-lg);
+    border: 1px solid var(--light-gray);
+    border-radius: var(--radius-md);
+    background: var(--white);
+    color: var(--dark-gray);
+    resize: vertical;
+    box-sizing: border-box;
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+.bio-textarea:focus {
+    outline: none;
+    border-color: var(--primary-gold);
+    box-shadow: 0 0 0 3px rgba(212, 165, 55, 0.15);
+}
+.bio-hint {
+    font-size: 0.78rem;
+    color: var(--medium-gray);
+    margin-top: 0.4rem;
+    line-height: 1.5;
+}
+.bio-hint code {
+    background: var(--cream);
+    border: 1px solid var(--light-gray);
+    color: var(--gold-dark);
+    padding: 0.05rem 0.35rem;
+    border-radius: 4px;
+    font-size: 0.8em;
+    font-family: ui-monospace, "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
+}

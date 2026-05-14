@@ -26,7 +26,7 @@ function ScholarCard({ scholar, lang, t, showNext, onNext, expanded: externalExp
     const toggle = onToggleExpand ?? (() => setInternalExpanded(v => !v))
 
     return (
-        <div className="hero-scholar">
+        <div className={`hero-scholar ${expanded ? 'is-expanded' : ''}`}>
             <div className="hero-scholar-image">
                 <img
                     src={scholar.image
@@ -43,7 +43,7 @@ function ScholarCard({ scholar, lang, t, showNext, onNext, expanded: externalExp
                 <span className="hero-scholar-label">{t('scholars.label', 'Patrimoine')}</span>
                 <h3 className="hero-scholar-name">{scholar.name}</h3>
                 {scholar.years && <span className="hero-scholar-years">{scholar.years}</span>}
-                <p
+                <div
                     className={`hero-scholar-bio ${expanded ? 'expanded' : ''}`}
                     style={{
                         ...(bioFallback ? { color: 'rgba(255,255,255,0.45)', fontStyle: 'italic' } : {}),
@@ -51,8 +51,11 @@ function ScholarCard({ scholar, lang, t, showNext, onNext, expanded: externalExp
                     }}
                     onClick={bio && !bioFallback && !expanded ? toggle : undefined}
                 >
-                    {bioFallback ? t('common.noTranslation') : bio}
-                </p>
+                    {bioFallback
+                        ? <p className="bio-para">{t('common.noTranslation')}</p>
+                        : (expanded ? renderBio(bio) : <p className="bio-para">{bio}</p>)
+                    }
+                </div>
                 {bio && !bioFallback && (
                     <button className="hero-scholar-toggle" onClick={toggle}>
                         {expanded ? t('common.seeLess', 'Voir moins') : t('common.seeMore', 'Voir plus')}
