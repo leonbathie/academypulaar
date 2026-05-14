@@ -1,3 +1,4 @@
+import { lazy, Suspense } from 'react'
 import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom'
 import { ThemeProvider } from './context/ThemeContext'
 import { AuthProvider } from './context/AuthContext'
@@ -6,86 +7,139 @@ import PageTracker from './components/PageTracker'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import HomePage from './pages/HomePage'
-import DictionaryPage from './pages/DictionaryPage'
-import ContactPage from './pages/ContactPage'
-import AboutPage from './pages/AboutPage'
-import LibraryPage from './pages/LibraryPage'
-import LanguageQuestionsPage from './pages/LanguageQuestionsPage'
-import TerminologyPage from './pages/TerminologyPage'
-import DomainPage from './pages/DomainPage'
-import MentionsLegalesPage from './pages/MentionsLegalesPage'
-import ConfidentialitePage from './pages/ConfidentialitePage'
-import DireNePasDirePage from './pages/DireNePasDirePage'
-import NotFoundPage from './pages/NotFoundPage'
-import LoginPage from './pages/LoginPage'
-import AdminPage from './pages/AdminPage'
-import DashboardAdmin from './pages/admin/DashboardAdmin'
-import DictionaryAdmin from './pages/admin/DictionaryAdmin'
-import NewsAdmin from './pages/admin/NewsAdmin'
-import ContentAdmin from './pages/admin/ContentAdmin'
-import BooksAdmin from './pages/admin/BooksAdmin'
-import ScholarsAdmin from './pages/admin/ScholarsAdmin'
-import QuestionsAdmin from './pages/admin/QuestionsAdmin'
-import StatsAdmin from './pages/admin/StatsAdmin'
-import UsersAdmin from './pages/admin/UsersAdmin'
-import ContactAdmin from './pages/admin/ContactAdmin'
-import TerminologieAdmin from './pages/admin/TerminologieAdmin'
 import './App.css'
 
+// Pages publiques courantes : lazy mais avec preload sur idle (cf. plus bas)
+const DictionaryPage = lazy(() => import('./pages/DictionaryPage'))
+const ContactPage = lazy(() => import('./pages/ContactPage'))
+const AboutPage = lazy(() => import('./pages/AboutPage'))
+const LibraryPage = lazy(() => import('./pages/LibraryPage'))
+const LanguageQuestionsPage = lazy(() => import('./pages/LanguageQuestionsPage'))
+const TerminologyPage = lazy(() => import('./pages/TerminologyPage'))
+const DomainPage = lazy(() => import('./pages/DomainPage'))
+const MentionsLegalesPage = lazy(() => import('./pages/MentionsLegalesPage'))
+const ConfidentialitePage = lazy(() => import('./pages/ConfidentialitePage'))
+const DireNePasDirePage = lazy(() => import('./pages/DireNePasDirePage'))
+const NotFoundPage = lazy(() => import('./pages/NotFoundPage'))
+
+// Routes admin : lazy strict (jamais charges pour les visiteurs anonymes)
+const LoginPage = lazy(() => import('./pages/LoginPage'))
+const AdminPage = lazy(() => import('./pages/AdminPage'))
+const DashboardAdmin = lazy(() => import('./pages/admin/DashboardAdmin'))
+const DictionaryAdmin = lazy(() => import('./pages/admin/DictionaryAdmin'))
+const NewsAdmin = lazy(() => import('./pages/admin/NewsAdmin'))
+const ContentAdmin = lazy(() => import('./pages/admin/ContentAdmin'))
+const BooksAdmin = lazy(() => import('./pages/admin/BooksAdmin'))
+const ScholarsAdmin = lazy(() => import('./pages/admin/ScholarsAdmin'))
+const QuestionsAdmin = lazy(() => import('./pages/admin/QuestionsAdmin'))
+const StatsAdmin = lazy(() => import('./pages/admin/StatsAdmin'))
+const UsersAdmin = lazy(() => import('./pages/admin/UsersAdmin'))
+const ContactAdmin = lazy(() => import('./pages/admin/ContactAdmin'))
+const TerminologieAdmin = lazy(() => import('./pages/admin/TerminologieAdmin'))
+
+function PageLoader() {
+    return (
+        <div style={{
+            minHeight: '50vh',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+        }} aria-label="Chargement">
+            <div className="spinner-large" />
+        </div>
+    )
+}
+
 function PublicLayout() {
-  return (
-    <div className="app">
-      <Header />
-      <main><Outlet /></main>
-      <Footer />
-    </div>
-  )
+    return (
+        <div className="app">
+            <Header />
+            <main>
+                <Suspense fallback={<PageLoader />}>
+                    <Outlet />
+                </Suspense>
+            </main>
+            <Footer />
+        </div>
+    )
+}
+
+function AdminLazyLayout() {
+    return (
+        <Suspense fallback={<PageLoader />}>
+            <AdminPage />
+        </Suspense>
+    )
 }
 
 function App() {
-  return (
-    <AuthProvider>
-      <ThemeProvider>
-        <BrowserRouter>
-          <ScrollToHash />
-          <PageTracker />
-          <Routes>
-            {/* Routes publiques — même Header/Footer partagé */}
-            <Route element={<PublicLayout />}>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/dictionnaire" element={<DictionaryPage />} />
-              <Route path="/contact" element={<ContactPage />} />
-              <Route path="/a-propos" element={<AboutPage />} />
-              <Route path="/bibliotheque" element={<LibraryPage />} />
-              <Route path="/questions-langue" element={<LanguageQuestionsPage />} />
-              <Route path="/dire" element={<DireNePasDirePage />} />
-              <Route path="/terminologie" element={<TerminologyPage />} />
-              <Route path="/terminologie/:domain" element={<DomainPage />} />
-              <Route path="/mentions-legales" element={<MentionsLegalesPage />} />
-              <Route path="/confidentialite" element={<ConfidentialitePage />} />
-              <Route path="*" element={<NotFoundPage />} />
-            </Route>
+    return (
+        <AuthProvider>
+            <ThemeProvider>
+                <BrowserRouter>
+                    <ScrollToHash />
+                    <PageTracker />
+                    <Routes>
+                        {/* Routes publiques — meme Header/Footer partage */}
+                        <Route element={<PublicLayout />}>
+                            <Route path="/" element={<HomePage />} />
+                            <Route path="/dictionnaire" element={<DictionaryPage />} />
+                            <Route path="/contact" element={<ContactPage />} />
+                            <Route path="/a-propos" element={<AboutPage />} />
+                            <Route path="/bibliotheque" element={<LibraryPage />} />
+                            <Route path="/questions-langue" element={<LanguageQuestionsPage />} />
+                            <Route path="/dire" element={<DireNePasDirePage />} />
+                            <Route path="/terminologie" element={<TerminologyPage />} />
+                            <Route path="/terminologie/:domain" element={<DomainPage />} />
+                            <Route path="/mentions-legales" element={<MentionsLegalesPage />} />
+                            <Route path="/confidentialite" element={<ConfidentialitePage />} />
+                            <Route path="*" element={<NotFoundPage />} />
+                        </Route>
 
-            {/* Routes admin */}
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/admin" element={<AdminPage />}>
-              <Route index element={<DashboardAdmin />} />
-              <Route path="dictionnaire" element={<DictionaryAdmin />} />
-              <Route path="actualites" element={<NewsAdmin />} />
-              <Route path="contenu" element={<ContentAdmin />} />
-              <Route path="bibliotheque" element={<BooksAdmin />} />
-              <Route path="savants" element={<ScholarsAdmin />} />
-              <Route path="questions" element={<QuestionsAdmin />} />
-              <Route path="messages" element={<ContactAdmin />} />
-              <Route path="utilisateurs" element={<UsersAdmin />} />
-              <Route path="statistiques" element={<StatsAdmin />} />
-              <Route path="terminologie" element={<TerminologieAdmin />} />
-            </Route>
-          </Routes>
-        </BrowserRouter>
-      </ThemeProvider>
-    </AuthProvider>
-  )
+                        {/* Routes admin (chargees uniquement quand visitees) */}
+                        <Route path="/login" element={
+                            <Suspense fallback={<PageLoader />}><LoginPage /></Suspense>
+                        } />
+                        <Route path="/admin" element={<AdminLazyLayout />}>
+                            <Route index element={
+                                <Suspense fallback={<PageLoader />}><DashboardAdmin /></Suspense>
+                            } />
+                            <Route path="dictionnaire" element={
+                                <Suspense fallback={<PageLoader />}><DictionaryAdmin /></Suspense>
+                            } />
+                            <Route path="actualites" element={
+                                <Suspense fallback={<PageLoader />}><NewsAdmin /></Suspense>
+                            } />
+                            <Route path="contenu" element={
+                                <Suspense fallback={<PageLoader />}><ContentAdmin /></Suspense>
+                            } />
+                            <Route path="bibliotheque" element={
+                                <Suspense fallback={<PageLoader />}><BooksAdmin /></Suspense>
+                            } />
+                            <Route path="savants" element={
+                                <Suspense fallback={<PageLoader />}><ScholarsAdmin /></Suspense>
+                            } />
+                            <Route path="questions" element={
+                                <Suspense fallback={<PageLoader />}><QuestionsAdmin /></Suspense>
+                            } />
+                            <Route path="messages" element={
+                                <Suspense fallback={<PageLoader />}><ContactAdmin /></Suspense>
+                            } />
+                            <Route path="utilisateurs" element={
+                                <Suspense fallback={<PageLoader />}><UsersAdmin /></Suspense>
+                            } />
+                            <Route path="statistiques" element={
+                                <Suspense fallback={<PageLoader />}><StatsAdmin /></Suspense>
+                            } />
+                            <Route path="terminologie" element={
+                                <Suspense fallback={<PageLoader />}><TerminologieAdmin /></Suspense>
+                            } />
+                        </Route>
+                    </Routes>
+                </BrowserRouter>
+            </ThemeProvider>
+        </AuthProvider>
+    )
 }
 
 export default App

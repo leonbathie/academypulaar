@@ -4,13 +4,15 @@ import { API_URL } from '../config'
 import { renderBio } from '../utils/renderBio'
 import './Hero.css'
 
+// Images Hero : qualite 70 + dimension capee a 1280px (suffit pour 99% des
+// ecrans, gain ~50% de taille vs w=1920).
 const slides = [
     {
-        image: "https://images.unsplash.com/photo-1568667256549-094345857637?w=1920",
+        image: "https://images.unsplash.com/photo-1568667256549-094345857637?w=1280&q=70&auto=format&fit=crop",
         titleKey: "hero.title2"
     },
     {
-        image: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=1920",
+        image: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=1280&q=70&auto=format&fit=crop",
         titleKey: "hero.title3",
         subtitleKey: "hero.subtitle3"
     }
