@@ -199,7 +199,7 @@
 .nav-list {
     display: flex;
     align-items: center;
-    gap: 0;
+    gap: var(--space-sm);
 }
 
 .nav-item {
@@ -209,10 +209,10 @@
 .nav-link {
     display: flex;
     align-items: center;
-    gap: 2px;
-    padding: 4px 0px;
+    gap: 4px;
+    padding: 6px 12px;
     color: var(--white);
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     font-weight: 500;
     border-radius: var(--radius-md);
     transition: all var(--transition-fast);
