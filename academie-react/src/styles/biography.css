@@ -1,0 +1,26 @@
+/* Biography textarea enhancement */
+.bio-textarea {
+    font-family: 'Courier New', monospace !important;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    min-height: 300px;
+    padding: var(--space-md);
+}
+
+.bio-textarea:focus {
+    border-color: var(--primary-gold);
+    box-shadow: 0 0 0 3px rgba(212, 165, 55, 0.1);
+    outline: none;
+}
+
+.bio-hint {
+    font-size: 0.8rem;
+    color: var(--medium-gray);
+    margin-top: var(--space-xs);
+    padding: var(--space-sm) var(--space-md);
+    background: rgba(212, 165, 55, 0.05);
+    border-left: 3px solid var(--primary-gold);
+    border-radius: var(--radius-sm);
+    font-family: 'Courier New', monospace;
+    line-height: 1.5;
+}

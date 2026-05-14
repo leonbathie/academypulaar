@@ -116,43 +116,45 @@ function QuestionsAdmin() {
 
     return (
         <div>
-            <div className="admin-card">
-                <h2>
-                    {t('admin.questions.title')}
-                    <button className="btn-add" onClick={() => openModal()}>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                            <line x1="12" y1="5" x2="12" y2="19" />
-                            <line x1="5" y1="12" x2="19" y2="12" />
-                        </svg>
-                        {t('admin.questions.add')}
-                    </button>
-                </h2>
+            <div className="admin-header">
+                <h1>{t('admin.questions.title')}</h1>
+                <button className="btn-primary" onClick={() => openModal()}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 5V19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        <path d="M5 12H19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                    {t('admin.questions.add')}
+                </button>
+            </div>
 
-                <table className="admin-table">
+            <div className="admin-card">
+                <table className="admin-table modern">
                     <thead>
                         <tr>
-                            <th style={{ width: '50px' }}>#</th>
-                            <th>{t('admin.questions.questionLabel')}</th>
-                            <th>{t('admin.questions.answerLabel')}</th>
-                            <th>{t('admin.common.actions')}</th>
+                            <th style={{ width: '5%' }}>#</th>
+                            <th style={{ width: '35%' }}>{t('admin.questions.questionLabel').toUpperCase()}</th>
+                            <th style={{ width: '45%' }}>{t('admin.questions.answerLabel').toUpperCase()}</th>
+                            <th style={{ width: '15%' }}>{t('admin.common.actions').toUpperCase()}</th>
                         </tr>
                     </thead>
                     <tbody>
                         {items.map((item, index) => (
                             <tr key={item.id}>
                                 <td>{item.sort_order || index + 1}</td>
-                                <td><strong>{item[`question_${lang}`] || item.question_fr}</strong></td>
-                                <td style={{ maxWidth: '400px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                                    {item[`answer_${lang}`] || item.answer_fr}
+                                <td>{item[`question_${lang}`] || item.question_fr}</td>
+                                <td>
+                                    <span className="truncate-text">
+                                        {item[`answer_${lang}`] || item.answer_fr}
+                                    </span>
                                 </td>
                                 <td className="actions-cell">
-                                    <button className="btn-edit" onClick={() => openModal(item)}>
+                                    <button className="btn-icon btn-edit" onClick={() => openModal(item)}>
                                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                             <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
                                             <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
                                         </svg>
                                     </button>
-                                    <button className="btn-delete" onClick={() => handleDelete(item.id)}>
+                                    <button className="btn-icon btn-delete" onClick={() => handleDelete(item.id)}>
                                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                             <polyline points="3 6 5 6 21 6" />
                                             <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
@@ -163,7 +165,7 @@ function QuestionsAdmin() {
                         ))}
                         {items.length === 0 && (
                             <tr>
-                                <td colSpan="4" style={{ textAlign: 'center', padding: '2rem', color: 'var(--medium-gray)' }}>
+                                <td colSpan="4" className="no-data-cell">
                                     {t('admin.questions.noQuestions')}
                                 </td>
                             </tr>

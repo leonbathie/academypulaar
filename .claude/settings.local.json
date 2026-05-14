@@ -4,7 +4,17 @@
       "Bash(git push:*)",
       "Bash(npx vite:*)",
       "Bash(git add:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Read(//c/Users/husar/OneDrive/Desktop/goomufulo/backend/**)",
+      "Bash(node --check routes/dictionary.js)",
+      "Bash(node --check routes/domain-content.js)",
+      "Bash(node --check scripts/create-domain-content-table.js)",
+      "Bash(node --check server.js)",
+      "Bash(node --check init-database.js)",
+      "Bash(npx --yes esbuild --loader:.jsx=jsx --bundle=false --log-level=warning src/pages/admin/TerminologyPageEditor.jsx --outdir=.tmp-check)",
+      "Bash(rm -rf .tmp-check)",
+      "Bash(git -C \"/c/Users/husar/OneDrive/Desktop/goomufulo\" add academie-react/src/pages/AdminPage.css academie-react/src/pages/admin/TerminologyPageEditor.jsx academie-react/src/pages/admin/TerminologieAdmin.jsx)",
+      "Bash(git -C \"/c/Users/husar/OneDrive/Desktop/goomufulo\" diff --cached --stat)"
     ]
   }
 }

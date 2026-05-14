@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { useApi } from '../../context/AuthContext'
 import { API_URL } from '../../config'
 import ConfirmDialog from '../../components/ConfirmDialog'
+import '../../styles/biography.css'
 
 function MembersAdmin() {
     const { t } = useTranslation()
@@ -419,9 +420,12 @@ function MembersAdmin() {
                                                 <textarea
                                                     value={formData.bio_fr}
                                                     onChange={e => setFormData({ ...formData, bio_fr: e.target.value })}
-                                                    rows="5"
+                                                    rows="12"
                                                     placeholder={t('admin.members.bioPlaceholder')}
+                                                    className="bio-textarea"
+                                                    spellCheck="true"
                                                 />
+                                                <div className="bio-hint">📝 Markdown: ## Titre, ### Sous-titre, - Liste</div>
                                             </div>
                                         </>
                                     )}
@@ -441,9 +445,12 @@ function MembersAdmin() {
                                                 <textarea
                                                     value={formData.bio_en}
                                                     onChange={e => setFormData({ ...formData, bio_en: e.target.value })}
-                                                    rows="5"
+                                                    rows="12"
                                                     placeholder={t('admin.members.bioPlaceholder')}
+                                                    className="bio-textarea"
+                                                    spellCheck="true"
                                                 />
+                                                <div className="bio-hint">📝 Markdown: ## Title, ### Subtitle, - List</div>
                                             </div>
                                         </>
                                     )}
@@ -463,9 +470,12 @@ function MembersAdmin() {
                                                 <textarea
                                                     value={formData.bio_ff}
                                                     onChange={e => setFormData({ ...formData, bio_ff: e.target.value })}
-                                                    rows="5"
+                                                    rows="12"
                                                     placeholder={t('admin.members.bioPlaceholder')}
+                                                    className="bio-textarea"
+                                                    spellCheck="true"
                                                 />
+                                                <div className="bio-hint">📝 Markdown: ## Titre, ### Sous-titre, - Liste</div>
                                             </div>
                                         </>
                                     )}

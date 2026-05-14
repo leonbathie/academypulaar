@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { useApi } from '../../context/AuthContext'
 import { API_URL } from '../../config'
 import ConfirmDialog from '../../components/ConfirmDialog'
+import '../../styles/biography.css'
 
 function ScholarsAdmin() {
     const { t } = useTranslation()
@@ -403,33 +404,42 @@ function ScholarsAdmin() {
                                     <div className="form-group">
                                         <label>{t('admin.scholars.bioFr')}</label>
                                         <textarea
-                                            rows={5}
+                                            rows={12}
                                             placeholder={t('admin.scholars.bioFrPlaceholder')}
                                             value={formData.bio_fr}
                                             onChange={e => setFormData({ ...formData, bio_fr: e.target.value })}
+                                            className="bio-textarea"
+                                            spellCheck="true"
                                         />
+                                        <div className="bio-hint">📝 Markdown: ## Titre, ### Sous-titre, - Liste</div>
                                     </div>
                                 )}
                                 {activeTab === 'en' && (
                                     <div className="form-group">
                                         <label>{t('admin.scholars.bioEn')}</label>
                                         <textarea
-                                            rows={5}
+                                            rows={12}
                                             placeholder={t('admin.scholars.bioEnPlaceholder')}
                                             value={formData.bio_en}
                                             onChange={e => setFormData({ ...formData, bio_en: e.target.value })}
+                                            className="bio-textarea"
+                                            spellCheck="true"
                                         />
+                                        <div className="bio-hint">📝 Markdown: ## Title, ### Subtitle, - List</div>
                                     </div>
                                 )}
                                 {activeTab === 'ff' && (
                                     <div className="form-group">
                                         <label>{t('admin.scholars.bioFf')}</label>
                                         <textarea
-                                            rows={5}
+                                            rows={12}
                                             placeholder={t('admin.scholars.bioFfPlaceholder')}
                                             value={formData.bio_ff}
                                             onChange={e => setFormData({ ...formData, bio_ff: e.target.value })}
+                                            className="bio-textarea"
+                                            spellCheck="true"
                                         />
+                                        <div className="bio-hint">📝 Markdown: ## Titre, ### Sous-titre, - Liste</div>
                                     </div>
                                 )}
 

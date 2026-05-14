@@ -195,6 +195,79 @@
     transform: scale(1.1);
 }
 
+/* Expanded biography with Markdown rendering */
+.member-card.member-card--expanded {
+    grid-column: span 1;
+    max-height: calc(100vh - 80px);
+    display: flex;
+    flex-direction: column;
+}
+
+.member-card.member-card--expanded .member-info {
+    max-height: calc(100vh - 280px);
+    overflow-y: auto;
+    padding-right: calc(var(--space-xl) + 8px);
+}
+
+.member-bio-container {
+    margin-bottom: var(--space-md);
+}
+
+.member-bio-expanded {
+    max-height: none;
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.8;
+    word-break: break-word;
+    overflow-wrap: break-word;
+}
+
+/* Markdown styles */
+.member-bio-expanded .md-h2 {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    color: var(--primary-gold);
+    margin: var(--space-lg) 0 var(--space-md) 0;
+    font-weight: 700;
+    border-bottom: 2px solid rgba(212, 165, 55, 0.3);
+    padding-bottom: var(--space-sm);
+}
+
+.member-bio-expanded .md-h3 {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    color: var(--secondary-burgundy);
+    margin: var(--space-md) 0 var(--space-sm) 0;
+    font-weight: 600;
+}
+
+.member-bio-expanded .md-paragraph {
+    margin: var(--space-md) 0;
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.8;
+}
+
+.member-bio-expanded .md-list {
+    margin: var(--space-md) 0 var(--space-md) var(--space-lg);
+    list-style: none;
+    padding-left: 0;
+}
+
+.member-bio-expanded .md-list li {
+    position: relative;
+    padding-left: var(--space-lg);
+    margin-bottom: var(--space-sm);
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.member-bio-expanded .md-list li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: var(--primary-gold);
+    font-size: 1.2rem;
+    line-height: 1;
+}
+
 @media (max-width: 768px) {
     .members-grid {
         grid-template-columns: 1fr;
@@ -202,5 +275,28 @@
 
     .member-image {
         height: 200px;
+    }
+
+    .member-card.member-card--expanded {
+        max-height: auto;
+        max-height: calc(100vh - 60px);
+    }
+
+    .member-card.member-card--expanded .member-info {
+        max-height: auto;
+        overflow-y: auto;
+        max-height: calc(100vh - 160px);
+    }
+
+    .member-bio-expanded {
+        max-height: none;
+    }
+
+    .member-bio-expanded .md-h2 {
+        font-size: 1.2rem;
+    }
+
+    .member-bio-expanded .md-h3 {
+        font-size: 1rem;
     }
 }

@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { API_URL } from '../config'
+import { renderBio } from '../utils/renderBio'
 import './Hero.css'
 
 const slides = [

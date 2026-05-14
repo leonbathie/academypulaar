@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { API_URL } from '../config'
+import { parseMarkdown, extractPreview } from '../utils/markdownParser'
 import './MembersPage.css'
 
 function MembersPage() {
@@ -51,9 +52,8 @@ function MembersPage() {
         }))
     }
 
-    const truncateBio = (text, maxLength = 100) => {
-        if (!text || text.length <= maxLength) return text
-        return text.substring(0, maxLength) + '...'
+    const truncateBio = (text, maxLength = 150) => {
+        return extractPreview(text, maxLength)
     }
 
     if (loading) {
@@ -95,7 +95,7 @@ function MembersPage() {
                             const showReadMore = bio && bio.length > 100
 
                             return (
-                                <article key={member.id} className="member-card">
+                                <article key={member.id} className={`member-card ${isExpanded ? 'member-card--expanded' : ''}`}>
                                     <div className="member-image">
                                         {member.image ? (
                                             <img
@@ -117,7 +117,14 @@ function MembersPage() {
                                         )}
                                         {bio && (
                                             <div className="member-bio-container">
-                                                <p className="member-bio">{displayBio}</p>
+                                                {isExpanded ? (
+                                                    <div 
+                                                        className="member-bio-expanded"
+                                                        dangerouslySetInnerHTML={{ __html: parseMarkdown(bio) }}
+                                                    />
+                                                ) : (
+                                                    <p className="member-bio">{displayBio}</p>
+                                                )}
                                                 {showReadMore && (
                                                     <button
                                                         className="btn-read-more"
