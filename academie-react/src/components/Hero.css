@@ -369,8 +369,10 @@
         height: 280px;
     }
 
-    /* Bio tronquée à 4 lignes par défaut — clic pour tout afficher */
-    .hero-scholars-scroll .hero-scholar-bio {
+    /* Bio tronquée à 4 lignes par défaut — clic pour tout afficher
+       Le clamp s'applique uniquement quand on a un seul <p> simple, donc
+       on cible directement le paragraphe a l'interieur. */
+    .hero-scholars-scroll .hero-scholar-bio:not(.expanded) {
         display: -webkit-box;
         -webkit-line-clamp: 4;
         -webkit-box-orient: vertical;
@@ -380,6 +382,28 @@
     .hero-scholars-scroll .hero-scholar-bio.expanded {
         display: block;
         -webkit-line-clamp: unset;
+        overflow: visible;
+        max-height: none;
+    }
+
+    /* IMPORTANT : sur mobile, on annule les contraintes desktop de la
+       carte etendue. La carte doit pouvoir grandir verticalement avec
+       le contenu, et c'est la page entiere qui scrolle (pas l'interieur
+       de la carte). Sans ca, .hero-scholar-info devient scrollable et
+       coupe le texte au milieu. */
+    .hero-scholar.is-expanded {
+        position: static;
+        top: auto;
+        bottom: auto;
+        max-height: none;
+        display: block;
+    }
+    .hero-scholar.is-expanded .hero-scholar-image {
+        flex: none;
+        height: 280px;
+    }
+    .hero-scholar.is-expanded .hero-scholar-info {
+        flex: none;
         overflow: visible;
     }
 }
