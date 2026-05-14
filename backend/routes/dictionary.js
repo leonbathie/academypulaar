@@ -227,6 +227,36 @@ router.get('/', async (req, res) => {
     }
 })
 
+// GET /api/dictionary/stats - Compteurs legers pour la home page
+// (evite de fetcher tout le dictionnaire pour afficher 2 nombres).
+// Cache simple en memoire 60s.
+let _statsCache = null
+let _statsCacheAt = 0
+router.get('/stats', async (req, res) => {
+    try {
+        const now = Date.now()
+        if (_statsCache && (now - _statsCacheAt) < 60_000) {
+            return res.json(_statsCache)
+        }
+        const r = await query(`
+            SELECT
+                COUNT(*)::int AS total,
+                COUNT(*) FILTER (
+                    WHERE translation_ff IS NOT NULL AND BTRIM(translation_ff) <> ''
+                )::int AS defined
+            FROM dictionary
+        `)
+        _statsCache = r.rows[0] || { total: 0, defined: 0 }
+        _statsCacheAt = now
+        // Cache HTTP 60s pour les visiteurs anonymes
+        res.set('Cache-Control', 'public, max-age=60')
+        res.json(_statsCache)
+    } catch (error) {
+        console.error('Get dictionary stats error:', error)
+        res.status(500).json({ error: 'Erreur serveur' })
+    }
+})
+
 // GET /api/dictionary/search-stats - Stats des recherches (super-admin only)
 router.get('/search-stats', authMiddleware, requireRole('admin'), async (req, res) => {
     try {

@@ -25,8 +25,11 @@ function DashboardAdmin() {
 
     const loadStats = async () => {
         try {
-            const [dictionary, news, content, books, questions] = await Promise.all([
-                apiRequest('/dictionary'),
+            // /dictionary/stats : compteurs uniquement (cache 60s).
+            // Les autres endpoints renvoient quelques dizaines de lignes max,
+            // donc on les laisse tels quels pour l'instant.
+            const [dictStats, news, content, books, questions] = await Promise.all([
+                apiRequest('/dictionary/stats'),
                 apiRequest('/news'),
                 apiRequest('/content/dire'),
                 apiRequest('/books'),
@@ -34,7 +37,7 @@ function DashboardAdmin() {
             ])
 
             setStats({
-                dictionary: dictionary.length,
+                dictionary: dictStats?.total || 0,
                 news: news.length,
                 content: content.length,
                 books: books.length,

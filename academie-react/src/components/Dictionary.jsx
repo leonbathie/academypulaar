@@ -19,11 +19,13 @@ function Dictionary() {
 
     const loadWordCount = async () => {
         try {
-            const response = await fetch(`${API_URL}/api/dictionary`)
+            // Endpoint leger (compteurs uniquement, cache 60s) — evite de
+            // telecharger tout le dictionnaire pour afficher 2 nombres.
+            const response = await fetch(`${API_URL}/api/dictionary/stats`)
             if (response.ok) {
                 const data = await response.json()
-                setWordCount(data.length)
-                setDefinedCount(data.filter(w => w.translation_ff && w.translation_ff.trim() !== '').length)
+                setWordCount(data.total || 0)
+                setDefinedCount(data.defined || 0)
             }
         } catch (error) {
             console.error('Error loading word count:', error)
