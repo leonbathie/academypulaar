@@ -305,7 +305,8 @@
             "connecting": "Connecting...",
             "submit": "Log in",
             "or": "or",
-            "backToSite": "Back to site"
+            "backToSite": "Back to site",
+            "googleLogin": "Sign in with Google"
         },
         "sidebar": {
             "dashboard": "Dashboard",
@@ -622,7 +623,8 @@
             "noNews": "No news published",
             "coverLabel": "Cover image",
             "clickToAddImage": "Click to add an image",
-            "redirectLink": "Redirect link (URL)"
+            "redirectLink": "Redirect link (URL)",
+            "catEvent": "Event"
         },
         "content": {
             "title": "Correct, Incorrect",

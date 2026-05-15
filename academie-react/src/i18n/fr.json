@@ -307,7 +307,8 @@
             "connecting": "Connexion...",
             "submit": "Se connecter",
             "or": "ou",
-            "backToSite": "Retour au site"
+            "backToSite": "Retour au site",
+            "googleLogin": "Connexion avec Google"
         },
         "sidebar": {
             "dashboard": "Tableau de bord",
@@ -624,7 +625,8 @@
             "noNews": "Aucune actualité publiée",
             "coverLabel": "Image de couverture",
             "clickToAddImage": "Cliquez pour ajouter une image",
-            "redirectLink": "Lien de redirection (URL)"
+            "redirectLink": "Lien de redirection (URL)",
+            "catEvent": "Événement"
         },
         "content": {
             "title": "Correct, Incorrect",
