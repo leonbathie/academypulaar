@@ -193,6 +193,48 @@
                 "title": "Kawral",
                 "desc": "Renndinde haaltoɓe Fulfulde aduna fof"
             }
+        },
+        "story": {
+            "creationTitle": "Holi nde Goomu Fulo e Wiɗto sosaa?",
+            "creationParagraphs": [
+                "GFW jibinaa ko e miijo e ngoƴa woottoɗinde ngowlaandi ganndinal ngam tafande leñol fulɓe gerngal (beembal/hawlu) baawngal roɓteede e ruttaneede e geɗe fulo e wiɗto. Ko e ɗuum dingiral WhatsApp udditaa ngam wonoyde ngaafdi fedde nde ñande 19, 9ɓuru, hitaande 2016 (19/09/2016).",
+                "Gilaa ndeen, GFW darii ko darnde fedde hiilniinde ƴellitaare Fulfulde/Pulaar. So darnde jokkaama, tiiɗtinaama, jommbaani Pulaar/Fulfulde jeytee ko yaawi e ɗemɗe ɗowirɗe ganndinal.",
+                "Ngam renndinde anndineeɓe Fulɓe, Ceerno Mammadu Saalif Mbaay-Galo (hooreeje goomu ngu) diisndondiri e Ceerno Abuu Raasin Njom kam e Ceerno Muusaa Bah. Ndeen woni ɓe njaaɓani ɓeydude heen sagataaɓe leñol, ɓurnooɓe waawde dillande Pulaar/Fulfulde he laylayti renndo oon tuma. Ko wayi no : Ibraahiima Malal Saar, Dooro Gey (Boobo Loonde) e Hammadi Jah (Pullo Hannde). Ɓooytaani e mum cate fannuyankooje ngudditaa, hooreeɓe ɗiin fannuuji toɗɗaa."
+            ],
+            "committeesTitle": "Holi Goomuuji ɗi GFW jogii hannde e holi ardiiɓe ɗum?",
+            "committees": [
+                { "domain": "Goomu Celluka e Mbinndiin", "lead": "Pr. Aamadu Tijjaani Kan" },
+                { "domain": "Goomu Jaayndiyankaagal", "lead": "Pr. Boobo Loonde" },
+                { "domain": "Goomu Gannde piir-beeyooje", "lead": "Ing. Aamadu Malal Gey" },
+                { "domain": "Goomu gannde islaamiyankooje", "lead": "Ceerno Muusaa Bah" },
+                { "domain": "Goomu Gannde weeyo e Tageefo", "lead": "Ing. Hammadi Jah" },
+                { "domain": "Goomu NTIC", "lead": "Pr. Ibraahiima Malal Saar" },
+                { "domain": "Goomu Gannde Guurɗiwal", "lead": "Dr. Abuu Raasin Njom" },
+                { "domain": "Goomu Cellal e Safaara", "lead": "Dr. Alhuseyni Sal" },
+                { "domain": "Goomu Gannde Ɗaŋe e Leydiwal", "lead": "Pr. Alasan Kaaliidu Bah" },
+                { "domain": "Goomu Gannde Hiisowal", "lead": "Dr. Muhammadu Faaliilu Sih" },
+                { "domain": "Goomu Gannde Ɓalliwal", "lead": "Dr. Hammet Soh" },
+                { "domain": "Goomu Gannde Renndo e Jojjanɗe Aadee", "lead": "Dr. Mammadu Dem" },
+                { "domain": "Goomu Roɓindo e Saato", "lead": "Pr. Bookara Aamadu Bah" },
+                { "domain": "Goomu Gannde Weeyaango", "lead": "Ing. Baru Abdalla Wele (Baaba Loocol)" }
+            ],
+            "hqText": "Hannde ne, ñiiɓirde Goomu Fulo e Wiɗto aafaama wuro Laamorgo Leydi Moritani – Nuwaasot.",
+            "branchesText": "Yaaɓanaa ko tafde cate he nder leyɗeele ɗe kala, ɗo fulɓe hatanteeɓe mbaawi taweede. Hannde, Goomu Fulo Wiɗto ina renndini terɗe jeyaaɓe e ko ina ɓura 12 leydi nder doŋre Afrik.",
+            "methodTitle": "Holi ngool laawol GFW ƴetti ngam fulde gowlaali?",
+            "methodIntro": "Ndeke ko aldaa e innde saka hinnde, GWF feli ko pele hentordu (akademi) renndinooru ngaddinaaji (caltule) fulɓe e tafde ɗemngal winnderewal, diwtikeeriwal. To bannge baɗal haa ɗoo GFW huutortoo ko ɗowi ɗiɗi :",
+            "method1Title": "1) Ɗowol fulo kuuɓtidinngol",
+            "method1Intro": "Ɗowol kuuɓtidinngol yowitii ko e ɗee toɓɓe garooje :",
+            "method1Steps": [
+                "Ruttanaade iwdi helmere yiɗaande fuleede nde woni to bannge etymology mum.",
+                "Rokkude anndinoore fannuyankoore laaɓtunde helmere nde.",
+                "Ƴeewtaade golle fulo baɗanooɗe e helmere nde maa ƴeewde jerondiral mayre.",
+                "Puloowo ina yiɗaa nde wonata dariiɗo hakkunde keeri ɗemɗe (so ɗi pamɗii yo ɗi ngon tati ngam o waawa ɓetndaade firo e fulo helmere nde hakkunde ɗemɗe).",
+                "Tafande helmere nde fulo yuɓɓungo regiingo, nanniingo e dow ɗooftaade doosɗe lelngo e mahdi kelme pulfule.",
+                "Yerondirde helmere tafaande hakkunde anndineeɓe oon fannu jeyaaɓe e GFW haa nii e woɗɓe."
+            ],
+            "method2Title": "2) Ɗowol paaborgal Campbell malla paaborgal Kummba",
+            "method2Text": "Kañum ko tafngo fawiingo e jiidigal hakkunde ɗemɗe so ko huwtiniraade cammalal helmere nde e rewnude e potondiral alkule walla beñondiral mumen.",
+            "conclusion": "Ngam tonngude, eɗen mbi'a GFW faltaaki fay pullo gooto saka caltule mum, mooyeejo fuu ngiɗɗo tawteede e fedde nde ina maɓɓitanaa damal e fawaade e doosɗe fedde nde."
         }
     },
     "contact": {

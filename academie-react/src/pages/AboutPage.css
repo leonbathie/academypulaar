@@ -53,6 +53,90 @@
     max-width: 800px;
 }
 
+.about-section p + p {
+    margin-top: var(--space-md);
+}
+
+[data-theme="dark"] .about-section p {
+    color: rgba(255, 255, 255, 0.78);
+}
+
+/* Sous-titres dans la section histoire (h3) */
+.about-subhead {
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    color: var(--primary-dark);
+    margin: var(--space-xl) 0 var(--space-md);
+    padding-left: var(--space-md);
+    border-left: 4px solid var(--primary-gold);
+}
+[data-theme="dark"] .about-subhead {
+    color: var(--primary-gold);
+}
+
+/* Liste des comites */
+.committees-list {
+    list-style: none;
+    padding: 0;
+    margin: var(--space-lg) 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-sm) var(--space-xl);
+    max-width: 900px;
+}
+.committees-list li {
+    padding: var(--space-sm) 0;
+    border-bottom: 1px dashed var(--light-gray);
+    color: var(--medium-gray);
+    font-size: 1rem;
+    line-height: 1.5;
+}
+.committees-list li strong {
+    color: var(--primary-dark);
+    font-weight: 600;
+}
+[data-theme="dark"] .committees-list li strong {
+    color: var(--white);
+}
+.committees-list .committee-lead {
+    font-style: italic;
+}
+
+/* Liste numerotee des etapes methode */
+.method-steps {
+    margin: var(--space-md) 0 var(--space-xl);
+    padding-left: var(--space-xl);
+    max-width: 800px;
+}
+.method-steps li {
+    margin-bottom: var(--space-sm);
+    line-height: 1.7;
+    color: var(--medium-gray);
+}
+[data-theme="dark"] .method-steps li {
+    color: rgba(255, 255, 255, 0.78);
+}
+.method-steps li::marker {
+    color: var(--primary-gold);
+    font-weight: 700;
+}
+
+/* Conclusion */
+.about-conclusion {
+    margin-top: var(--space-xl) !important;
+    padding: var(--space-lg);
+    background: linear-gradient(135deg, rgba(212, 165, 55, 0.08), rgba(242, 216, 138, 0.04));
+    border-left: 4px solid var(--primary-gold);
+    border-radius: var(--radius-md);
+    font-style: italic;
+    color: var(--primary-dark) !important;
+    max-width: 800px;
+}
+[data-theme="dark"] .about-conclusion {
+    background: rgba(212, 165, 55, 0.12);
+    color: rgba(255, 255, 255, 0.92) !important;
+}
+
 .values-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));

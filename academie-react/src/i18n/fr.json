@@ -193,6 +193,48 @@
                 "title": "Unité",
                 "desc": "Rassembler les locuteurs Fulfulde du monde entier"
             }
+        },
+        "story": {
+            "creationTitle": "Quand le Goomu Fulo e Wiɗto (Comité pour la traduction et la recherche) a-t-il été créé ?",
+            "creationParagraphs": [
+                "GFW est né d'une vision et d'une préoccupation spécifiques : unifier la terminologie scientifique afin de doter à la langue Pulaar-Fulfulde un dictionnaire technique (base de données/ressource) pouvant être référencé et utilisé à des fins de traduction et de recherche. C'est dans cet esprit que la plateforme (WhatsApp) a été ouverte, conduisant à la création officielle de l'organisation le 19 septembre 2016.",
+                "Depuis lors, GFW produit du savoir intellectuel en Pulaar-Fulfulde et s'est dédiée pour le développement de la langue peule. Si cet effort est soutenu et renforcé, le pulaar/fulfulde prendra sa place parmi les principales langues scientifiques.",
+                "Dans le but de réunir les personnes ressources, Ceerno Mammadu Saalif Mbaay-Galo (le président du comité) a consulté Ceerno Abuu Raasin Njom et Ceerno Muusaa Bah. Ils ont ensuite ajouté les intellectuels de la communauté qui étaient les plus actifs dans la promotion du Pulaar/Fulfulde sur les réseaux sociaux à cette époque. Ceux-ci comprenaient : Ibraahiima Malal Saar, Dooro Gey (Boobo Loonde) et Hammadi Jah (Pullo Hannde). C'est ainsi que beaucoup d'experts venant de différents pays sont identifiés et ajoutés. Peu de temps après, des domaines scientifiques spécialisés ont été ouverts et des experts dans ces domaines ont été nommés."
+            ],
+            "committeesTitle": "Quels sont les comités de GFW aujourd'hui et qui dirige chacun d'eux ?",
+            "committees": [
+                { "domain": "Grammaire et orthographe", "lead": "Pr. Aamadu Tijjaani Kan" },
+                { "domain": "Journalisme / Médias", "lead": "Pr. Boobo Loonde" },
+                { "domain": "Sciences aérodynamiques", "lead": "Ing. Aamadu Malal Gey" },
+                { "domain": "Sciences islamiques", "lead": "Ceerno Muusaa Bah" },
+                { "domain": "Sciences spatiales", "lead": "Ing. Hammadi Jah" },
+                { "domain": "IT (Technologies de l'Information)", "lead": "Pr. Ibraahiima Malal Sarr" },
+                { "domain": "Sciences biologiques", "lead": "Dr. Abuu Raasin Njom" },
+                { "domain": "Santé et médecine", "lead": "Dr. Alhuseyni Sal" },
+                { "domain": "Astronomie et géologie", "lead": "Pr. Alasan Kaaliidu Bah" },
+                { "domain": "Mathématiques", "lead": "Dr. Muhammadu Faaliilu Sih" },
+                { "domain": "Physique", "lead": "Dr. Hammet Soh" },
+                { "domain": "Sociologie et droits de l'Homme", "lead": "Dr. Mammadu Dem" },
+                { "domain": "Collecte de données et révision", "lead": "Pr. Bookara Aamadu Bah" },
+                { "domain": "Météorologie", "lead": "Ing. Baru Abdalla Wele (Baaba Loocol)" }
+            ],
+            "hqText": "Aujourd'hui, le siège de Goomu Fulo e Wiɗto est établi dans la capitale de la Mauritanie : Nouakchott.",
+            "branchesText": "La prochaine étape consiste à créer des branches du GFW dans chaque pays où réside une population peule. À l'heure actuelle, le GFW compte des membres issus de plus de 12 pays à travers le continent africain.",
+            "methodTitle": "Quelle méthode le GFW utilise-t-il pour la traduction terminologique ?",
+            "methodIntro": "Sans rechercher la notoriété ni verser dans un quelconque sentiment de supériorité, le GFW a choisi d'adopter la démarche d'une Académie visant à fédérer tous les dialectes peuls afin de créer une langue universelle et transfrontalière. Pour y parvenir, le GFW s'appuie actuellement sur deux méthodes :",
+            "method1Title": "1) La méthode de traduction générale",
+            "method1Intro": "Cette méthode repose sur les étapes suivantes :",
+            "method1Steps": [
+                "Remonter à l'étymologie (l'origine) du mot à traduire.",
+                "Fournir une définition technique claire du terme.",
+                "Examiner les travaux de traduction antérieurs relatifs au terme, ou rechercher son équivalent existant.",
+                "Le traducteur est encouragé à être « multilingue » (maîtrisant au moins trois langues) afin de pouvoir évaluer avec précision le sens et la traduction du terme dans différents contextes linguistiques.",
+                "La création d'un terme doté d'une traduction structurée et claire, respectant les règles de formation des mots et la morphologie du pulaar/fulfulde.",
+                "La soumission du terme nouvellement créé à l'examen et à la comparaison par des spécialistes, tant au sein de GFW qu'à l'extérieur."
+            ],
+            "method2Title": "2) La méthode Campbell (Paaborgal Kummba) ou méthode de la monogenèse",
+            "method2Text": "Cette méthode repose sur les points communs entre les langues ; elle utilise les racines des mots et les évolutions phonétiques pour démontrer que toutes les langues dérivent d'une unique proto-langue, en comparant des termes déjà connus à travers différentes langues. Ce processus facilite la traduction vers le pulaar/fulfulde.",
+            "conclusion": "En conclusion : GFW n'exclut aucun locuteur peul ni aucun dialecte. Toute personne bien intentionnée souhaitant rejoindre l'organisation est la bienvenue, à condition de respecter les principes de celle-ci."
         }
     },
     "contact": {
