@@ -8,6 +8,7 @@ function AboutPage() {
     const creationParagraphs = t('about.story.creationParagraphs', { returnObjects: true }) || []
     const committees = t('about.story.committees', { returnObjects: true }) || []
     const method1Steps = t('about.story.method1Steps', { returnObjects: true }) || []
+    const goals = t('about.goals', { returnObjects: true }) || []
 
     return (
         <div className="about-page">
@@ -21,10 +22,18 @@ function AboutPage() {
             </div>
 
             <div className="container">
-                {/* === Mission (ancre #missions) === */}
+                {/* === Mission + objectifs (ancre #missions) === */}
                 <section className="about-section" id="missions">
                     <h2>{t('about.missionTitle')}</h2>
                     <p>{t('about.mission')}</p>
+
+                    <h3 className="about-subhead">{t('about.goalsTitle')}</h3>
+                    <p>{t('about.goalsIntro')}</p>
+                    <ul className="goals-list">
+                        {Array.isArray(goals) && goals.map((g, i) => (
+                            <li key={i}>{g}</li>
+                        ))}
+                    </ul>
                 </section>
 
                 {/* === Histoire (ancre #histoire depuis le menu Academie GFW > L'histoire) === */}

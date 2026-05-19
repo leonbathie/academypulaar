@@ -175,6 +175,17 @@
         "mission": "Golle amin ko mahde saggitorde ganndinal timmunde he ɗemngal Fulfulde, ɓamtude huutoraade ɗum e jaŋde e jayɗe, e reende pinal Fulɓe e ɗemngal mumen.",
         "historyTitle": "Taariik Amin",
         "history": "Sosaa e dental ganndooji ɗemngal, winnderɓe e yarlitanɓe pinal Fulfulde, Goomu Fulo Wiɗto fuɗɗii ngam jaɓɓaade waɗɗagol binndude e darnaade Fulfulde e waktu internet.",
+        "goalsTitle": "Holi paandaale GFW?",
+        "goalsIntro": "He mbaydi huuɓtodinndi eɗen mbaawi tonngude payndaale Goomu Fulo e Wiɗto e ɗee toɓɓe garooje :",
+        "goals": [
+            "Daraade darnde hentordu (académie) ngootaagu (kawtal) doosɗe e ngowlaandi.",
+            "Wiɗtude calti, jati e jatti (ganni) fulɓe.",
+            "Wartirde kala gannde kese he nder Pulaar/Fulfulde.",
+            "Winndude duttorɗe jaŋde gila tolno lesleso haa jaŋnde jaaɓi-haaɗtirde.",
+            "Heblooji fannuyankooji jaŋde, ndema e nehngo.",
+            "Dañde biiñirɗe fannuyankooje he nder leyɗeele fulɓe.",
+            "Ɗowde wiɗtooji toowuɗi fii guurɗiwal, kemital, leydiwal, ɓalliwal he nder wolde Pulaar/Fulfulde."
+        ],
         "valuesTitle": "Jojjanɗe Amin",
         "values": {
             "preservation": {

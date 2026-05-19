@@ -175,6 +175,17 @@
         "mission": "Our mission is to create a comprehensive dictionary of the Fulfulde language, promote its use in education and media, and preserve the cultural heritage of the Fulɓe through their language.",
         "historyTitle": "Our History",
         "history": "Founded by a group of linguists, writers and advocates of Fulfulde culture, Goomu Fulo Wiɗto was created to address the urgent need to document and standardize Fulfulde in the digital age.",
+        "goalsTitle": "What are the goals of GFW?",
+        "goalsIntro": "In general terms, we can summarize the goals of the Committee for Translation and Research into the following points:",
+        "goals": [
+            "To serve as a linguistic academy for the unification of Pulaar/Fulfulde grammar and terminology.",
+            "To research the various dialects, origins, and history of the Fula people.",
+            "To translate all modern knowledge into Pulaar/Fulfulde.",
+            "To write educational reference materials from primary school to university level.",
+            "To provide professional training in education, agriculture, and livestock farming.",
+            "To establish scientific laboratories within Fula-speaking countries.",
+            "To lead advanced research in biology, chemistry, geology, and physics in the Pulaar/Fulfulde language."
+        ],
         "valuesTitle": "Our Values",
         "values": {
             "preservation": {

@@ -102,6 +102,37 @@
     font-style: italic;
 }
 
+/* Liste des objectifs (#missions > goals) */
+.goals-list {
+    list-style: none;
+    padding: 0;
+    margin: var(--space-md) 0 var(--space-xl);
+    max-width: 800px;
+}
+.goals-list li {
+    position: relative;
+    padding: var(--space-sm) 0 var(--space-sm) var(--space-xl);
+    line-height: 1.7;
+    color: var(--medium-gray);
+    border-bottom: 1px dashed var(--light-gray);
+}
+.goals-list li:last-child { border-bottom: none; }
+.goals-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 1.05em;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--primary-gold);
+    box-shadow: 0 0 0 3px rgba(212, 165, 55, 0.18);
+}
+[data-theme="dark"] .goals-list li {
+    color: rgba(255, 255, 255, 0.78);
+    border-color: rgba(255, 255, 255, 0.12);
+}
+
 /* Liste numerotee des etapes methode */
 .method-steps {
     margin: var(--space-md) 0 var(--space-xl);
