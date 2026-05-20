@@ -56,12 +56,16 @@ async function loadDeps() {
 
 // Fontes : chargees une fois, gardees en memoire
 const FONTS_DIR = path.join(__dirname, '..', 'assets', 'fonts')
+// Noto Sans + Noto Serif supportent l'integralite des caracteres
+// fulfulde (Ɓ ɓ Ɗ ɗ Ŋ ŋ Ɲ ɲ Ƴ ƴ etc.), contrairement aux fontes Playfair
+// Display et Source Sans 3 qui rataient le Ƴ et le rendaient comme un
+// carre vide.
 const FONTS = (() => {
     try {
         return [
-            { name: 'PlayfairDisplay', data: fs.readFileSync(path.join(FONTS_DIR, 'PlayfairDisplay-Bold.ttf')), weight: 700, style: 'normal' },
-            { name: 'SourceSans3', data: fs.readFileSync(path.join(FONTS_DIR, 'SourceSans3-Regular.ttf')), weight: 400, style: 'normal' },
-            { name: 'SourceSans3', data: fs.readFileSync(path.join(FONTS_DIR, 'SourceSans3-Bold.ttf')), weight: 700, style: 'normal' }
+            { name: 'NotoSerif', data: fs.readFileSync(path.join(FONTS_DIR, 'NotoSerif-Bold.ttf')), weight: 700, style: 'normal' },
+            { name: 'NotoSans',  data: fs.readFileSync(path.join(FONTS_DIR, 'NotoSans-Regular.ttf')), weight: 400, style: 'normal' },
+            { name: 'NotoSans',  data: fs.readFileSync(path.join(FONTS_DIR, 'NotoSans-Bold.ttf')),    weight: 700, style: 'normal' }
         ]
     } catch (err) {
         console.error('[share] Impossible de charger les fontes:', err.message)
@@ -113,7 +117,7 @@ function buildOgTree(word) {
                 flexDirection: 'column',
                 background: COLOR_BG,
                 padding: '60px 70px',
-                fontFamily: 'SourceSans3',
+                fontFamily: 'NotoSans',
                 position: 'relative'
             },
             children: [
@@ -155,7 +159,7 @@ function buildOgTree(word) {
                                         {
                                             type: 'div',
                                             props: {
-                                                style: { color: COLOR_DARK, fontSize: '22px', fontWeight: 700, fontFamily: 'PlayfairDisplay' },
+                                                style: { color: COLOR_DARK, fontSize: '22px', fontWeight: 700, fontFamily: 'NotoSerif' },
                                                 children: 'Goomu Fulo & Wiɗto'
                                             }
                                         },
@@ -186,7 +190,7 @@ function buildOgTree(word) {
                                 type: 'div',
                                 props: {
                                     style: {
-                                        fontFamily: 'PlayfairDisplay',
+                                        fontFamily: 'NotoSerif',
                                         fontSize: fulfulde.length > 18 ? '88px' : '120px',
                                         fontWeight: 700,
                                         color: COLOR_GOLD,
@@ -266,15 +270,40 @@ function buildOgTree(word) {
                         ]
                     }
                 },
-                // Footer : URL
+                // Footer : URL + CTA visible
                 {
                     type: 'div',
                     props: {
                         style: {
-                            display: 'flex', justifyContent: 'center', marginTop: '24px',
-                            color: COLOR_GRAY, fontSize: '20px'
+                            display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                            marginTop: '22px', paddingTop: '14px',
+                            borderTop: '1px solid rgba(212, 165, 55, 0.4)'
                         },
-                        children: 'goomufulo.com/dictionnaire'
+                        children: [
+                            {
+                                type: 'div',
+                                props: {
+                                    style: { display: 'flex', alignItems: 'center', gap: '10px', color: COLOR_GOLD, fontSize: '22px', fontWeight: 700 },
+                                    children: [
+                                        { type: 'span', props: { style: { display: 'flex' }, children: '🔗' } },
+                                        { type: 'span', props: { style: { display: 'flex' }, children: 'goomufulo.com' } }
+                                    ]
+                                }
+                            },
+                            {
+                                type: 'div',
+                                props: {
+                                    style: {
+                                        display: 'flex', alignItems: 'center',
+                                        background: COLOR_DARK, color: '#fff',
+                                        padding: '10px 20px', borderRadius: '999px',
+                                        fontSize: '18px', fontWeight: 700,
+                                        letterSpacing: '0.04em'
+                                    },
+                                    children: 'VOIR DANS LE DICTIONNAIRE →'
+                                }
+                            }
+                        ]
                     }
                 }
             ]
