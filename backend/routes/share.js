@@ -93,7 +93,21 @@ function pickDomainLabel(word) {
     return word.domain || ''
 }
 
-// Construit l'arbre JSX-like consomme par satori (objets bruts, pas du JSX)
+// Logo encode en base64 pour etre embarque dans satori sans fetch reseau.
+// Charge une seule fois au boot. 500x500 PNG ~150Ko.
+const LOGO_BASE64 = (() => {
+    try {
+        const buf = fs.readFileSync(path.join(__dirname, '..', 'assets', 'logo-academie.png'))
+        return 'data:image/png;base64,' + buf.toString('base64')
+    } catch (err) {
+        console.error('[share] Impossible de charger le logo:', err.message)
+        return null
+    }
+})()
+
+// Construit l'arbre satori pour une carte de partage AU FORMAT PORTRAIT
+// 1080x1350 (ratio 4:5 type Instagram) — optimise smartphone, le texte
+// reste lisible meme miniature dans WhatsApp.
 function buildOgTree(word) {
     const fulfulde = word.word || ''
     const domain = pickDomainLabel(word).toUpperCase()
@@ -107,16 +121,21 @@ function buildOgTree(word) {
     const COLOR_GRAY = '#3A3A3A'      // dark-gray
     const COLOR_BURGUNDY = '#8B2942'  // secondary-burgundy
 
+    // Taille du titre adaptee a la longueur du mot
+    const titleFontSize = fulfulde.length > 24 ? '76px'
+        : fulfulde.length > 16 ? '104px'
+        : '140px'
+
     return {
         type: 'div',
         props: {
             style: {
-                width: '1200px',
-                height: '630px',
+                width: '1080px',
+                height: '1350px',
                 display: 'flex',
                 flexDirection: 'column',
                 background: COLOR_BG,
-                padding: '60px 70px',
+                padding: '70px 70px 60px',
                 fontFamily: 'NotoSans',
                 position: 'relative'
             },
@@ -125,48 +144,36 @@ function buildOgTree(word) {
                 {
                     type: 'div',
                     props: {
-                        style: {
-                            position: 'absolute', top: 0, left: 0, right: 0, height: '8px',
-                            background: COLOR_GOLD, display: 'flex'
-                        }
+                        style: { position: 'absolute', top: 0, left: 0, right: 0, height: '12px', background: COLOR_GOLD, display: 'flex' }
                     }
                 },
-                // Header : badge domaine + branding
+
+                // Header : logo + branding (centre vertical)
                 {
                     type: 'div',
                     props: {
-                        style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' },
+                        style: { display: 'flex', alignItems: 'center', gap: '24px', width: '100%' },
                         children: [
-                            domain ? {
-                                type: 'div',
-                                props: {
-                                    style: {
-                                        display: 'flex', alignItems: 'center',
-                                        background: '#fff', color: COLOR_BURGUNDY,
-                                        padding: '8px 18px', borderRadius: '999px',
-                                        fontSize: '20px', fontWeight: 700,
-                                        letterSpacing: '0.05em',
-                                        border: '1px solid #E8E6E1'
-                                    },
-                                    children: domain
-                                }
+                            LOGO_BASE64 ? {
+                                type: 'img',
+                                props: { src: LOGO_BASE64, width: 90, height: 90, style: { borderRadius: '14px' } }
                             } : { type: 'div', props: { style: { display: 'flex' }, children: '' } },
                             {
                                 type: 'div',
                                 props: {
-                                    style: { display: 'flex', flexDirection: 'column', alignItems: 'flex-end' },
+                                    style: { display: 'flex', flexDirection: 'column' },
                                     children: [
                                         {
                                             type: 'div',
                                             props: {
-                                                style: { color: COLOR_DARK, fontSize: '22px', fontWeight: 700, fontFamily: 'NotoSerif' },
+                                                style: { color: COLOR_DARK, fontSize: '32px', fontWeight: 700, fontFamily: 'NotoSerif', lineHeight: 1.1 },
                                                 children: 'Goomu Fulo & Wiɗto'
                                             }
                                         },
                                         {
                                             type: 'div',
                                             props: {
-                                                style: { color: COLOR_GOLD, fontSize: '14px', fontWeight: 700, letterSpacing: '0.18em', marginTop: '4px' },
+                                                style: { color: COLOR_GOLD, fontSize: '18px', fontWeight: 700, letterSpacing: '0.22em', marginTop: '6px' },
                                                 children: 'ACADÉMIE GFW'
                                             }
                                         }
@@ -176,14 +183,37 @@ function buildOgTree(word) {
                         ]
                     }
                 },
+
+                // Badge domaine (bourgogne)
+                domain ? {
+                    type: 'div',
+                    props: {
+                        style: { display: 'flex', marginTop: '40px' },
+                        children: [{
+                            type: 'div',
+                            props: {
+                                style: {
+                                    display: 'flex', alignItems: 'center',
+                                    background: '#fff', color: COLOR_BURGUNDY,
+                                    padding: '12px 26px', borderRadius: '999px',
+                                    fontSize: '26px', fontWeight: 700,
+                                    letterSpacing: '0.06em',
+                                    border: '2px solid rgba(139, 41, 66, 0.2)'
+                                },
+                                children: domain
+                            }
+                        }]
+                    }
+                } : { type: 'div', props: { style: { display: 'flex' }, children: '' } },
+
                 // Centre : le mot en grand
                 {
                     type: 'div',
                     props: {
                         style: {
                             flex: 1, display: 'flex', flexDirection: 'column',
-                            justifyContent: 'center', alignItems: 'center',
-                            textAlign: 'center', padding: '20px 0'
+                            justifyContent: 'center', alignItems: 'flex-start',
+                            padding: '20px 0', width: '100%'
                         },
                         children: [
                             {
@@ -191,13 +221,13 @@ function buildOgTree(word) {
                                 props: {
                                     style: {
                                         fontFamily: 'NotoSerif',
-                                        fontSize: fulfulde.length > 18 ? '88px' : '120px',
+                                        fontSize: titleFontSize,
                                         fontWeight: 700,
                                         color: COLOR_GOLD,
-                                        lineHeight: 1.1,
-                                        maxWidth: '1060px',
-                                        textAlign: 'center',
-                                        display: 'flex'
+                                        lineHeight: 1.05,
+                                        maxWidth: '940px',
+                                        display: 'flex',
+                                        textAlign: 'left'
                                     },
                                     children: fulfulde
                                 }
@@ -205,105 +235,85 @@ function buildOgTree(word) {
                             ff && ff !== fulfulde ? {
                                 type: 'div',
                                 props: {
-                                    style: { color: COLOR_GRAY, fontSize: '24px', marginTop: '14px', fontStyle: 'italic', display: 'flex', maxWidth: '1000px', textAlign: 'center' },
+                                    style: { color: COLOR_GRAY, fontSize: '32px', marginTop: '20px', fontStyle: 'italic', display: 'flex', maxWidth: '940px' },
                                     children: ff
                                 }
                             } : { type: 'div', props: { style: { display: 'flex' }, children: '' } }
                         ]
                     }
                 },
-                // Bas : traductions FR/EN
+
+                // Traductions FR/EN (carte blanche)
                 {
                     type: 'div',
                     props: {
                         style: {
-                            display: 'flex', flexDirection: 'column', gap: '14px',
-                            background: '#fff', borderRadius: '16px',
-                            padding: '24px 32px', border: '1px solid #E8E6E1',
-                            width: '100%'
+                            display: 'flex', flexDirection: 'column', gap: '20px',
+                            background: '#fff', borderRadius: '24px',
+                            padding: '36px 44px', border: '1px solid #E8E6E1',
+                            width: '100%',
+                            boxShadow: '0 4px 12px rgba(0,0,0,0.06)'
                         },
                         children: [
                             fr ? {
                                 type: 'div',
                                 props: {
-                                    style: { display: 'flex', alignItems: 'flex-start', gap: '16px' },
+                                    style: { display: 'flex', alignItems: 'flex-start', gap: '20px' },
                                     children: [
-                                        {
-                                            type: 'div',
-                                            props: {
-                                                style: { background: '#2563EB', color: '#fff', padding: '4px 12px', borderRadius: '999px', fontSize: '18px', fontWeight: 700, flexShrink: 0, display: 'flex' },
-                                                children: 'FR'
-                                            }
-                                        },
-                                        {
-                                            type: 'div',
-                                            props: {
-                                                style: { color: COLOR_DARK, fontSize: '28px', flex: 1, display: 'flex', lineHeight: 1.3 },
-                                                children: fr
-                                            }
-                                        }
+                                        { type: 'div', props: {
+                                            style: { background: '#2563EB', color: '#fff', padding: '8px 18px', borderRadius: '999px', fontSize: '24px', fontWeight: 700, flexShrink: 0, display: 'flex' },
+                                            children: 'FR'
+                                        }},
+                                        { type: 'div', props: {
+                                            style: { color: COLOR_DARK, fontSize: '36px', flex: 1, display: 'flex', lineHeight: 1.3 },
+                                            children: fr
+                                        }}
                                     ]
                                 }
                             } : { type: 'div', props: { style: { display: 'flex' }, children: '' } },
                             en ? {
                                 type: 'div',
                                 props: {
-                                    style: { display: 'flex', alignItems: 'flex-start', gap: '16px' },
+                                    style: { display: 'flex', alignItems: 'flex-start', gap: '20px' },
                                     children: [
-                                        {
-                                            type: 'div',
-                                            props: {
-                                                style: { background: '#10B981', color: '#fff', padding: '4px 12px', borderRadius: '999px', fontSize: '18px', fontWeight: 700, flexShrink: 0, display: 'flex' },
-                                                children: 'EN'
-                                            }
-                                        },
-                                        {
-                                            type: 'div',
-                                            props: {
-                                                style: { color: COLOR_DARK, fontSize: '28px', flex: 1, display: 'flex', lineHeight: 1.3 },
-                                                children: en
-                                            }
-                                        }
+                                        { type: 'div', props: {
+                                            style: { background: '#10B981', color: '#fff', padding: '8px 18px', borderRadius: '999px', fontSize: '24px', fontWeight: 700, flexShrink: 0, display: 'flex' },
+                                            children: 'EN'
+                                        }},
+                                        { type: 'div', props: {
+                                            style: { color: COLOR_DARK, fontSize: '36px', flex: 1, display: 'flex', lineHeight: 1.3 },
+                                            children: en
+                                        }}
                                     ]
                                 }
                             } : { type: 'div', props: { style: { display: 'flex' }, children: '' } }
                         ]
                     }
                 },
-                // Footer : URL + CTA visible
+
+                // Footer : URL + CTA
                 {
                     type: 'div',
                     props: {
                         style: {
-                            display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-                            marginTop: '22px', paddingTop: '14px',
-                            borderTop: '1px solid rgba(212, 165, 55, 0.4)'
+                            display: 'flex', justifyContent: 'center', alignItems: 'center',
+                            marginTop: '40px', paddingTop: '24px',
+                            borderTop: '2px solid rgba(212, 165, 55, 0.35)',
+                            width: '100%'
                         },
-                        children: [
-                            {
-                                type: 'div',
-                                props: {
-                                    style: { display: 'flex', alignItems: 'center', gap: '10px', color: COLOR_GOLD, fontSize: '22px', fontWeight: 700 },
-                                    children: [
-                                        { type: 'span', props: { style: { display: 'flex' }, children: '🔗' } },
-                                        { type: 'span', props: { style: { display: 'flex' }, children: 'goomufulo.com' } }
-                                    ]
-                                }
-                            },
-                            {
-                                type: 'div',
-                                props: {
-                                    style: {
-                                        display: 'flex', alignItems: 'center',
-                                        background: COLOR_DARK, color: '#fff',
-                                        padding: '10px 20px', borderRadius: '999px',
-                                        fontSize: '18px', fontWeight: 700,
-                                        letterSpacing: '0.04em'
-                                    },
-                                    children: 'VOIR DANS LE DICTIONNAIRE →'
-                                }
+                        children: [{
+                            type: 'div',
+                            props: {
+                                style: {
+                                    display: 'flex', alignItems: 'center', gap: '14px',
+                                    background: COLOR_DARK, color: '#fff',
+                                    padding: '16px 32px', borderRadius: '999px',
+                                    fontSize: '22px', fontWeight: 700,
+                                    letterSpacing: '0.06em'
+                                },
+                                children: '🔗 goomufulo.com/dictionnaire'
                             }
-                        ]
+                        }]
                     }
                 }
             ]
@@ -315,21 +325,23 @@ async function generateImage(word) {
     if (FONTS.length === 0) throw new Error('Fontes non chargees')
     const { satori, resvg } = await loadDeps()
     const tree = buildOgTree(word)
-    const svg = await satori(tree, { width: 1200, height: 630, fonts: FONTS })
-    // background opaque cream pour eviter le canal alpha qui pose probleme
-    // a certains clients (WhatsApp inclus). Ratio 1.91:1 = format OG ideal.
+    // Format portrait 1080x1350 (ratio 4:5) optimise pour smartphone.
+    // WhatsApp affiche les images partagees dans leur ratio natif, donc
+    // sur un ecran mobile portrait, ce format prend toute la largeur et
+    // offre 1.25x plus de hauteur que le 1.91:1 horizontal classique.
+    const svg = await satori(tree, { width: 1080, height: 1350, fonts: FONTS })
     const png = new resvg.Resvg(svg, {
-        fitTo: { mode: 'width', value: 1200 },
+        fitTo: { mode: 'width', value: 1080 },
         background: '#FDF8F0'
     }).render().asPng()
     return png
 }
 
-// GET /share/word/:id/card.png — nouveau path pour bypasser le
+// GET /share/word/:id/share.png — nouveau path pour bypasser le
 // cache Cloudflare qui servait encore les anciennes versions avec
 // les mauvais headers (CSP restrictif, pas de CORS). Aliases gardes
 // pour les anciens partages qui ont les anciennes URLs en cache.
-router.get(['/word/:id/card.png', '/word/:id/og.png', '/word/:id/image.png'], validateId, async (req, res) => {
+router.get(['/word/:id/share.png', '/word/:id/card.png', '/word/:id/og.png', '/word/:id/image.png'], validateId, async (req, res) => {
     try {
         const id = req.params.id
         const now = Date.now()
@@ -377,7 +389,7 @@ router.get('/word/:id', validateId, async (req, res) => {
         if (word.translation_en) descParts.push('🇬🇧 ' + word.translation_en)
         const description = descParts.join(' · ') || 'Découvrez ce mot sur le dictionnaire Goomu Fulo & Wiɗto.'
 
-        const imageUrl = `${PUBLIC_BASE_URL}/share/word/${id}/card.png`
+        const imageUrl = `${PUBLIC_BASE_URL}/share/word/${id}/share.png`
         const canonicalUrl = `${PUBLIC_BASE_URL}/dictionnaire?word=${encodeURIComponent(word.word)}`
 
         res.set('Cache-Control', 'public, max-age=3600')
@@ -394,8 +406,8 @@ router.get('/word/:id', validateId, async (req, res) => {
 <meta property="og:title" content="${escapeHtml(title)}">
 <meta property="og:description" content="${escapeHtml(description)}">
 <meta property="og:image" content="${escapeHtml(imageUrl)}">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
+<meta property="og:image:width" content="1080">
+<meta property="og:image:height" content="1350">
 <meta property="og:url" content="${escapeHtml(canonicalUrl)}">
 <meta property="og:site_name" content="Goomu Fulo & Wiɗto">
 
