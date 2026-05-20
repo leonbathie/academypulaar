@@ -51,14 +51,15 @@ function ShareWordButton({ entry, t }) {
     }, [open])
 
     const handleClick = async () => {
-        // Web Share API : disponible sur mobile + Safari/Chrome desktop recent
+        // Web Share API : disponible sur mobile + Safari/Chrome desktop recent.
+        // IMPORTANT : on passe UNIQUEMENT l'URL (pas de text ni title) car
+        // WhatsApp et plusieurs clients combinent les 3 champs en message
+        // texte unique et NE GENERENT PAS l'apercu Open Graph dans ce cas.
+        // En ne passant que l'URL, WhatsApp la traite comme un vrai lien et
+        // declenche son scraper d'apercu.
         if (typeof navigator !== 'undefined' && navigator.share) {
             try {
-                await navigator.share({
-                    title: shareText,
-                    text: shareText,
-                    url: shareUrl
-                })
+                await navigator.share({ url: shareUrl })
                 return
             } catch (err) {
                 // L'utilisateur a annule le partage natif : on ne fallback pas
@@ -85,9 +86,11 @@ function ShareWordButton({ entry, t }) {
         }
     }
 
-    const whatsappHref = `https://wa.me/?text=${encodeURIComponent(shareText + ' — ' + shareUrl)}`
+    // WhatsApp deeplink : URL SEULE (pas de texte avant) pour que WhatsApp
+    // genere bien l'apercu Open Graph au lieu de l'inclure dans du texte.
+    const whatsappHref = `https://wa.me/?text=${encodeURIComponent(shareUrl)}`
     const facebookHref = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`
-    const twitterHref = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`
+    const twitterHref = `https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}`
 
     return (
         <div className="word-share-wrap">

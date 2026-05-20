@@ -279,9 +279,12 @@ async function generateImage(word) {
     const { satori, resvg } = await loadDeps()
     const tree = buildOgTree(word)
     const svg = await satori(tree, { width: 1200, height: 630, fonts: FONTS })
-    const png = new resvg.Resvg(svg, { fitTo: { mode: 'width', value: 1200 } })
-        .render()
-        .asPng()
+    // background opaque cream pour eviter le canal alpha qui pose probleme
+    // a certains clients (WhatsApp inclus). Ratio 1.91:1 = format OG ideal.
+    const png = new resvg.Resvg(svg, {
+        fitTo: { mode: 'width', value: 1200 },
+        background: '#FDF8F0'
+    }).render().asPng()
     return png
 }
 
