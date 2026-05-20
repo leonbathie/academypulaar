@@ -655,42 +655,62 @@
 .word-card-actions {
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding-top: 6px;
+    justify-content: space-between;
+    gap: 12px;
+    padding-top: 4px;
 }
 .word-card-actions .word-toggle-btn {
     flex: 1;
+    justify-content: flex-start;
+    text-align: left;
 }
 
 .word-share-wrap {
     position: relative;
-    display: inline-block;
+    display: inline-flex;
+    flex-shrink: 0;
 }
+
+/* Bouton partager : icon-only circulaire, sobre, charte or */
 .word-share-btn {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
     background: transparent;
-    border: 1px solid var(--light-gray);
+    border: none;
     color: var(--medium-gray);
-    padding: 8px 14px;
-    border-radius: var(--radius-md);
-    font-family: var(--font-body);
-    font-size: 0.82rem;
-    font-weight: 600;
+    border-radius: 50%;
     cursor: pointer;
     transition: all 0.2s ease;
-    min-height: 38px;
-}
-.word-share-btn svg {
-    width: 14px;
-    height: 14px;
     flex-shrink: 0;
 }
-.word-share-btn:hover {
+.word-share-btn svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+/* Label visuellement masque mais lisible par lecteurs d ecran */
+.word-share-btn > span:not([aria-hidden]) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+.word-share-btn:hover,
+.word-share-btn[aria-expanded="true"] {
     color: var(--primary-gold);
-    border-color: var(--primary-gold);
-    background: rgba(212, 165, 55, 0.06);
+    background: rgba(212, 165, 55, 0.12);
+}
+.word-share-btn:active {
+    transform: scale(0.94);
 }
 
 .word-share-popover {
