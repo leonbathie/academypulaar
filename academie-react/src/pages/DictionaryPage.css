@@ -789,3 +789,21 @@
         min-width: 180px;
     }
 }
+
+.word-share-btn.is-loading {
+    cursor: wait;
+    opacity: 0.7;
+}
+.word-share-btn:disabled { cursor: not-allowed; }
+.word-share-spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: word-share-spin 0.7s linear infinite;
+    display: inline-block;
+}
+@keyframes word-share-spin {
+    to { transform: rotate(360deg); }
+}

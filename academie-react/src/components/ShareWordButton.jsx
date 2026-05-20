@@ -50,23 +50,60 @@ function ShareWordButton({ entry, t }) {
         }
     }, [open])
 
+    const [loading, setLoading] = useState(false)
+
+    /**
+     * Strategie de partage en 3 niveaux (priorite) :
+     * 1) Web Share API LEVEL 2 (files) : envoie l'IMAGE generee directement
+     *    dans WhatsApp comme une photo + legende avec le lien. Le destinataire
+     *    voit la carte du mot directement, sans cliquer un lien.
+     *    Supporte : Android Chrome, iOS 16+ Safari, Edge mobile.
+     * 2) Web Share API LEVEL 1 (url seule) : partage le lien Open Graph.
+     *    Le destinataire voit un apercu si WhatsApp scrape OK.
+     * 3) Popover desktop : WhatsApp Web, Facebook, Twitter, copier le lien.
+     */
+    const fetchImageAsFile = async () => {
+        const res = await fetch(`${publicBase}/share/word/${entry.id}/preview.png`)
+        if (!res.ok) throw new Error('fetch image failed')
+        const blob = await res.blob()
+        const slug = (entry.word || 'mot').replace(/[^a-zA-Z0-9-]/g, '-').slice(0, 40)
+        return new File([blob], `goomufulo-${slug}.png`, { type: 'image/png' })
+    }
+
     const handleClick = async () => {
-        // Web Share API : disponible sur mobile + Safari/Chrome desktop recent.
-        // IMPORTANT : on passe UNIQUEMENT l'URL (pas de text ni title) car
-        // WhatsApp et plusieurs clients combinent les 3 champs en message
-        // texte unique et NE GENERENT PAS l'apercu Open Graph dans ce cas.
-        // En ne passant que l'URL, WhatsApp la traite comme un vrai lien et
-        // declenche son scraper d'apercu.
+        // Niveau 1 : Web Share avec fichier image
+        if (typeof navigator !== 'undefined' && navigator.canShare) {
+            setLoading(true)
+            try {
+                const file = await fetchImageAsFile()
+                if (navigator.canShare({ files: [file] })) {
+                    await navigator.share({
+                        files: [file],
+                        text: `${entry.word}${entry.translation_fr ? ' — ' + entry.translation_fr : ''}\n${shareUrl}`,
+                        title: entry.word
+                    })
+                    setLoading(false)
+                    return
+                }
+            } catch (err) {
+                setLoading(false)
+                if (err && err.name === 'AbortError') return
+                // Fall through au niveau 2
+            }
+            setLoading(false)
+        }
+
+        // Niveau 2 : Web Share URL seule (fallback)
         if (typeof navigator !== 'undefined' && navigator.share) {
             try {
                 await navigator.share({ url: shareUrl })
                 return
             } catch (err) {
-                // L'utilisateur a annule le partage natif : on ne fallback pas
                 if (err && err.name === 'AbortError') return
-                // Autre erreur : fallback sur le popover
             }
         }
+
+        // Niveau 3 : popover desktop
         setOpen(o => !o)
     }
 
@@ -97,18 +134,24 @@ function ShareWordButton({ entry, t }) {
             <button
                 ref={btnRef}
                 type="button"
-                className="word-share-btn"
+                className={`word-share-btn ${loading ? 'is-loading' : ''}`}
                 onClick={handleClick}
+                disabled={loading}
                 aria-label={t ? t('common.share', 'Partager') : 'Partager'}
                 aria-expanded={open}
+                aria-busy={loading}
             >
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-                    <circle cx="18" cy="5" r="3" />
-                    <circle cx="6" cy="12" r="3" />
-                    <circle cx="18" cy="19" r="3" />
-                    <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
-                    <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
-                </svg>
+                {loading ? (
+                    <span className="word-share-spinner" aria-hidden="true" />
+                ) : (
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                        <circle cx="18" cy="5" r="3" />
+                        <circle cx="6" cy="12" r="3" />
+                        <circle cx="18" cy="19" r="3" />
+                        <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
+                        <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
+                    </svg>
+                )}
                 <span>{t ? t('common.share', 'Partager') : 'Partager'}</span>
             </button>
 
