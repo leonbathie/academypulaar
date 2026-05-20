@@ -31,6 +31,14 @@ router.use((req, res, next) => {
     res.set('Cross-Origin-Resource-Policy', 'cross-origin')
     res.set('Cross-Origin-Opener-Policy', 'unsafe-none')
     res.set('Cross-Origin-Embedder-Policy', 'unsafe-none')
+    // CORS public : ces ressources sont conçues pour etre scrapees par
+    // n'importe quel client social (WhatsApp Web depuis web.whatsapp.com,
+    // FB depuis facebook.com, etc.). Sans cette ligne, le CORS limite a
+    // goomufulo.com empechait les scrapers cote browser de lire le HTML
+    // et de generer l'apercu.
+    res.set('Access-Control-Allow-Origin', '*')
+    res.set('Access-Control-Allow-Methods', 'GET, HEAD, OPTIONS')
+    res.set('Access-Control-Allow-Headers', '*')
     // Retirer le CSP restrictif pour cette route
     res.removeHeader('Content-Security-Policy')
     next()
