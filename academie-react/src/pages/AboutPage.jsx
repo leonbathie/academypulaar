@@ -22,12 +22,9 @@ function AboutPage() {
             </div>
 
             <div className="container">
-                {/* === Mission + objectifs (ancre #missions) === */}
+                {/* === Missions / objectifs (ancre #missions) === */}
                 <section className="about-section" id="missions">
-                    <h2>{t('about.missionTitle')}</h2>
-                    <p>{t('about.mission')}</p>
-
-                    <h3 className="about-subhead">{t('about.goalsTitle')}</h3>
+                    <h2>{t('about.goalsTitle')}</h2>
                     <p>{t('about.goalsIntro')}</p>
                     <ul className="goals-list">
                         {Array.isArray(goals) && goals.map((g, i) => (
