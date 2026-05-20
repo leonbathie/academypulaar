@@ -61,6 +61,16 @@
     color: rgba(255, 255, 255, 0.78);
 }
 
+/* Espacement entre les h2 successifs (Creation / Comites / Methode dans #histoire) */
+.about-h2-spaced {
+    margin-top: var(--space-2xl);
+    padding-top: var(--space-xl);
+    border-top: 1px solid var(--light-gray);
+}
+[data-theme="dark"] .about-h2-spaced {
+    border-top-color: rgba(255, 255, 255, 0.1);
+}
+
 /* Sous-titres dans la section histoire (h3) */
 .about-subhead {
     font-family: var(--font-display);

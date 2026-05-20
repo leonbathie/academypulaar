@@ -33,16 +33,17 @@ function AboutPage() {
                     </ul>
                 </section>
 
-                {/* === Histoire (ancre #histoire depuis le menu Academie GFW > L'histoire) === */}
+                {/* === Histoire (Academie GFW > L'histoire = /a-propos#histoire)
+                       UNE SEULE section regroupant : creation, comites, methode. === */}
                 <section className="about-section" id="histoire">
+                    {/* 1. Quand le GFW a-t-il ete cree ? */}
                     <h2>{t('about.story.creationTitle')}</h2>
                     {Array.isArray(creationParagraphs) && creationParagraphs.map((p, i) => (
                         <p key={i}>{p}</p>
                     ))}
-                </section>
 
-                <section className="about-section" id="comites">
-                    <h2>{t('about.story.committeesTitle')}</h2>
+                    {/* 2. Quels sont les comites ? */}
+                    <h2 className="about-h2-spaced">{t('about.story.committeesTitle')}</h2>
                     <ul className="committees-list">
                         {Array.isArray(committees) && committees.map((c, i) => (
                             <li key={i}>
@@ -53,10 +54,9 @@ function AboutPage() {
                     </ul>
                     <p>{t('about.story.hqText')}</p>
                     <p>{t('about.story.branchesText')}</p>
-                </section>
 
-                <section className="about-section" id="methode">
-                    <h2>{t('about.story.methodTitle')}</h2>
+                    {/* 3. Methode de traduction */}
+                    <h2 className="about-h2-spaced">{t('about.story.methodTitle')}</h2>
                     <p>{t('about.story.methodIntro')}</p>
 
                     <h3 className="about-subhead">{t('about.story.method1Title')}</h3>
