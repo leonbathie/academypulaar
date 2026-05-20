@@ -30,8 +30,8 @@ function Header() {
         {
             title: t('nav.institution'),
             submenu: [
-                { title: t('nav.history'), link: "/a-propos#histoire" },
-                { title: t('nav.missions'), link: "/a-propos#missions" }
+                { title: t('nav.history'), link: "/a-propos/histoire" },
+                { title: t('nav.missions'), link: "/a-propos/missions" }
             ]
         },
         {

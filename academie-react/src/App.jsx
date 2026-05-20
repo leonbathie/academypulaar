@@ -13,6 +13,8 @@ import './App.css'
 const DictionaryPage = lazy(() => import('./pages/DictionaryPage'))
 const ContactPage = lazy(() => import('./pages/ContactPage'))
 const AboutPage = lazy(() => import('./pages/AboutPage'))
+const HistoirePage = lazy(() => import('./pages/HistoirePage'))
+const MissionsPage = lazy(() => import('./pages/MissionsPage'))
 const LibraryPage = lazy(() => import('./pages/LibraryPage'))
 const LanguageQuestionsPage = lazy(() => import('./pages/LanguageQuestionsPage'))
 const TerminologyPage = lazy(() => import('./pages/TerminologyPage'))
@@ -86,6 +88,8 @@ function App() {
                             <Route path="/dictionnaire" element={<DictionaryPage />} />
                             <Route path="/contact" element={<ContactPage />} />
                             <Route path="/a-propos" element={<AboutPage />} />
+                            <Route path="/a-propos/histoire" element={<HistoirePage />} />
+                            <Route path="/a-propos/missions" element={<MissionsPage />} />
                             <Route path="/bibliotheque" element={<LibraryPage />} />
                             <Route path="/questions-langue" element={<LanguageQuestionsPage />} />
                             <Route path="/dire" element={<DireNePasDirePage />} />

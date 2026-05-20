@@ -1,14 +1,9 @@
 import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router-dom'
 import './AboutPage.css'
 
 function AboutPage() {
     const { t } = useTranslation()
-
-    // i18next : returnObjects pour recuperer les arrays / objets
-    const creationParagraphs = t('about.story.creationParagraphs', { returnObjects: true }) || []
-    const committees = t('about.story.committees', { returnObjects: true }) || []
-    const method1Steps = t('about.story.method1Steps', { returnObjects: true }) || []
-    const goals = t('about.goals', { returnObjects: true }) || []
 
     return (
         <div className="about-page">
@@ -22,55 +17,32 @@ function AboutPage() {
             </div>
 
             <div className="container">
-                {/* === Missions / objectifs (ancre #missions) === */}
-                <section className="about-section" id="missions">
-                    <h2>{t('about.goalsTitle')}</h2>
-                    <p>{t('about.goalsIntro')}</p>
-                    <ul className="goals-list">
-                        {Array.isArray(goals) && goals.map((g, i) => (
-                            <li key={i}>{g}</li>
-                        ))}
-                    </ul>
-                </section>
+                <section className="about-section">
+                    <div className="about-cards">
+                        <Link to="/a-propos/histoire" className="about-card">
+                            <span className="about-card-icon" aria-hidden="true">📖</span>
+                            <h2 className="about-card-title">{t('nav.history')}</h2>
+                            <p className="about-card-desc">{t('about.story.creationTitle')}</p>
+                            <span className="about-card-link">
+                                {t('common.discover')}
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                    <path d="M5 12h14M12 5l7 7-7 7" />
+                                </svg>
+                            </span>
+                        </Link>
 
-                {/* === Histoire (Academie GFW > L'histoire = /a-propos#histoire)
-                       UNE SEULE section regroupant : creation, comites, methode. === */}
-                <section className="about-section" id="histoire">
-                    {/* 1. Quand le GFW a-t-il ete cree ? */}
-                    <h2>{t('about.story.creationTitle')}</h2>
-                    {Array.isArray(creationParagraphs) && creationParagraphs.map((p, i) => (
-                        <p key={i}>{p}</p>
-                    ))}
-
-                    {/* 2. Quels sont les comites ? */}
-                    <h2 className="about-h2-spaced">{t('about.story.committeesTitle')}</h2>
-                    <ul className="committees-list">
-                        {Array.isArray(committees) && committees.map((c, i) => (
-                            <li key={i}>
-                                <strong>{c.domain}</strong>
-                                <span className="committee-lead"> — {c.lead}</span>
-                            </li>
-                        ))}
-                    </ul>
-                    <p>{t('about.story.hqText')}</p>
-                    <p>{t('about.story.branchesText')}</p>
-
-                    {/* 3. Methode de traduction */}
-                    <h2 className="about-h2-spaced">{t('about.story.methodTitle')}</h2>
-                    <p>{t('about.story.methodIntro')}</p>
-
-                    <h3 className="about-subhead">{t('about.story.method1Title')}</h3>
-                    <p>{t('about.story.method1Intro')}</p>
-                    <ul className="method-steps">
-                        {Array.isArray(method1Steps) && method1Steps.map((s, i) => (
-                            <li key={i}>{s}</li>
-                        ))}
-                    </ul>
-
-                    <h3 className="about-subhead">{t('about.story.method2Title')}</h3>
-                    <p>{t('about.story.method2Text')}</p>
-
-                    <p className="about-conclusion">{t('about.story.conclusion')}</p>
+                        <Link to="/a-propos/missions" className="about-card">
+                            <span className="about-card-icon" aria-hidden="true">🎯</span>
+                            <h2 className="about-card-title">{t('nav.missions')}</h2>
+                            <p className="about-card-desc">{t('about.goalsTitle')}</p>
+                            <span className="about-card-link">
+                                {t('common.discover')}
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                    <path d="M5 12h14M12 5l7 7-7 7" />
+                                </svg>
+                            </span>
+                        </Link>
+                    </div>
                 </section>
             </div>
         </div>
