@@ -296,11 +296,11 @@ async function generateImage(word) {
     return png
 }
 
-// GET /share/word/:id/og.png (path renomme pour invalider le cache CF
-// qui contenait l'ancienne version avec CORP: same-origin)
-// On garde aussi /image.png en alias pour ne pas casser d'eventuels
-// anciens previews qui s'y refereraient.
-router.get(['/word/:id/og.png', '/word/:id/image.png'], validateId, async (req, res) => {
+// GET /share/word/:id/preview.png — nouveau path pour bypasser le
+// cache Cloudflare qui servait encore les anciennes versions avec
+// les mauvais headers (CSP restrictif, pas de CORS). Aliases gardes
+// pour les anciens partages qui ont les anciennes URLs en cache.
+router.get(['/word/:id/preview.png', '/word/:id/og.png', '/word/:id/image.png'], validateId, async (req, res) => {
     try {
         const id = req.params.id
         const now = Date.now()
@@ -348,7 +348,7 @@ router.get('/word/:id', validateId, async (req, res) => {
         if (word.translation_en) descParts.push('🇬🇧 ' + word.translation_en)
         const description = descParts.join(' · ') || 'Découvrez ce mot sur le dictionnaire Goomu Fulo & Wiɗto.'
 
-        const imageUrl = `${PUBLIC_BASE_URL}/share/word/${id}/og.png`
+        const imageUrl = `${PUBLIC_BASE_URL}/share/word/${id}/preview.png`
         const canonicalUrl = `${PUBLIC_BASE_URL}/dictionnaire?word=${encodeURIComponent(word.word)}`
 
         res.set('Cache-Control', 'public, max-age=3600')
