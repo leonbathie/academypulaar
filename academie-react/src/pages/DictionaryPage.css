@@ -651,3 +651,121 @@
         padding: 4px var(--space-sm);
     }
 }
+/* === Bouton partager + popover par carte de mot === */
+.word-card-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-top: 6px;
+}
+.word-card-actions .word-toggle-btn {
+    flex: 1;
+}
+
+.word-share-wrap {
+    position: relative;
+    display: inline-block;
+}
+.word-share-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: transparent;
+    border: 1px solid var(--light-gray);
+    color: var(--medium-gray);
+    padding: 8px 14px;
+    border-radius: var(--radius-md);
+    font-family: var(--font-body);
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-height: 38px;
+}
+.word-share-btn svg {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+}
+.word-share-btn:hover {
+    color: var(--primary-gold);
+    border-color: var(--primary-gold);
+    background: rgba(212, 165, 55, 0.06);
+}
+
+.word-share-popover {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    right: 0;
+    background: #fff;
+    border: 1px solid var(--light-gray);
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    padding: 6px;
+    min-width: 200px;
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    animation: shareIn 0.18s ease-out;
+}
+@keyframes shareIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+.word-share-popover::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    right: 16px;
+    border: 6px solid transparent;
+    border-top-color: #fff;
+}
+[data-theme="dark"] .word-share-popover {
+    background: var(--primary-dark);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+[data-theme="dark"] .word-share-popover::after {
+    border-top-color: var(--primary-dark);
+}
+.word-share-opt {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    background: transparent;
+    border: none;
+    color: var(--dark-gray);
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-align: left;
+    text-decoration: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+.word-share-opt:hover {
+    background: var(--cream);
+}
+[data-theme="dark"] .word-share-opt {
+    color: rgba(255, 255, 255, 0.92);
+}
+[data-theme="dark"] .word-share-opt:hover {
+    background: rgba(255, 255, 255, 0.06);
+}
+.word-share-opt span[aria-hidden="true"] {
+    font-size: 1.1rem;
+    flex-shrink: 0;
+    width: 22px;
+    text-align: center;
+}
+
+@media (max-width: 480px) {
+    .word-card-actions {
+        flex-wrap: wrap;
+    }
+    .word-share-popover {
+        min-width: 180px;
+    }
+}

@@ -81,6 +81,9 @@ app.use('/api', (req, res, next) => {
 // Servir les fichiers uploadés
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
 
+// Routes de partage social (en dehors de /api pour avoir des URLs propres)
+app.use('/share', require('./routes/share'))
+
 // Routes API
 app.use('/api/auth', authLimiter, require('./routes/auth'))
 app.use('/api/dictionary', adminLimiter, require('./routes/dictionary'))

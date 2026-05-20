@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useSearchParams } from 'react-router-dom'
 import { API_URL } from '../config'
+import ShareWordButton from '../components/ShareWordButton'
 import './DictionaryPage.css'
 
 function DictionaryPage() {
@@ -440,13 +441,16 @@ function DictionaryPage() {
                                                 </div>
                                             )}
 
-                                            {/* Bouton voir plus/moins */}
-                                            <button className="word-toggle-btn" onClick={() => toggleCard(entry.id)}>
-                                                <span>{isExpanded ? t('admin.dictionary.seeLess') : t('admin.dictionary.seeMore')}</span>
-                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={isExpanded ? 'chevron-up' : ''}>
-                                                    <polyline points="6 9 12 15 18 9" />
-                                                </svg>
-                                            </button>
+                                            {/* Boutons : voir plus/moins + partager */}
+                                            <div className="word-card-actions">
+                                                <button className="word-toggle-btn" onClick={() => toggleCard(entry.id)}>
+                                                    <span>{isExpanded ? t('admin.dictionary.seeLess') : t('admin.dictionary.seeMore')}</span>
+                                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={isExpanded ? 'chevron-up' : ''}>
+                                                        <polyline points="6 9 12 15 18 9" />
+                                                    </svg>
+                                                </button>
+                                                <ShareWordButton entry={entry} t={t} />
+                                            </div>
                                         </article>
                                     )
                                 })}
