@@ -63,7 +63,7 @@ function ShareWordButton({ entry, t }) {
      * 3) Popover desktop : WhatsApp Web, Facebook, Twitter, copier le lien.
      */
     const fetchImageAsFile = async () => {
-        const res = await fetch(`${publicBase}/share/word/${entry.id}/preview.png`)
+        const res = await fetch(`${publicBase}/share/word/${entry.id}/card.png`)
         if (!res.ok) throw new Error('fetch image failed')
         const blob = await res.blob()
         const slug = (entry.word || 'mot').replace(/[^a-zA-Z0-9-]/g, '-').slice(0, 40)
