@@ -348,19 +348,26 @@ router.get('/word/:id', validateId, async (req, res) => {
 <meta name="twitter:description" content="${escapeHtml(description)}">
 <meta name="twitter:image" content="${escapeHtml(imageUrl)}">
 
-<!-- Redirection auto vers la page dictionnaire pour les humains -->
-<meta http-equiv="refresh" content="0;url=${escapeHtml(canonicalUrl)}">
+<!-- IMPORTANT : surtout PAS de <meta http-equiv="refresh"> ici.
+     Les scrapers Facebook/WhatsApp suivent les meta refresh < 1s et
+     scrapent alors la page de destination (la SPA React) qui n'a pas
+     les balises OG specifiques. Pour rediriger les humains on utilise
+     uniquement du JS (les bots n'executent pas le JS). -->
 <style>
 body{margin:0;font-family:-apple-system,BlinkMacSystemFont,sans-serif;background:#FDF8F0;color:#1A1A2E;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:24px}
 img{max-width:100%;height:auto;border-radius:16px;box-shadow:0 8px 24px rgba(0,0,0,0.1)}
-a{color:#D4A537;font-weight:700;margin-top:24px;font-size:18px;text-decoration:none}
-a:hover{text-decoration:underline}
+a.cta{display:inline-block;background:linear-gradient(135deg,#D4A537,#B8860B);color:#fff;padding:14px 28px;border-radius:50px;font-weight:700;margin-top:24px;font-size:16px;text-decoration:none;box-shadow:0 4px 12px rgba(212,165,55,0.3)}
+a.cta:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(212,165,55,0.4)}
 </style>
 </head>
 <body>
 <img src="${escapeHtml(imageUrl)}" alt="${escapeHtml(word.word)}">
-<a href="${escapeHtml(canonicalUrl)}">Voir dans le dictionnaire →</a>
-<script>setTimeout(function(){location.href=${JSON.stringify(canonicalUrl)}},800)</script>
+<a class="cta" href="${escapeHtml(canonicalUrl)}">Voir dans le dictionnaire →</a>
+<script>
+// Redirection JS pour les humains uniquement (les bots ne l'executent pas).
+// Delai 1.5s pour laisser le temps de voir la jolie image avant redirection.
+setTimeout(function(){location.href=${JSON.stringify(canonicalUrl)}}, 1500);
+</script>
 </body>
 </html>`)
     } catch (err) {
