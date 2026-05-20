@@ -22,6 +22,20 @@ const { validateId } = require('../middleware/auth')
 
 const router = express.Router()
 
+// IMPORTANT : helmet (configure dans server.js) ajoute par defaut
+// Cross-Origin-Resource-Policy: same-origin + un CSP restrictif. Pour
+// les ressources de partage social, on doit les rendre cross-origin
+// (les images sont fetched par FB/WhatsApp/Twitter depuis leurs serveurs)
+// et sans CSP qui pourrait gener les scrapers / iframes d'apercu.
+router.use((req, res, next) => {
+    res.set('Cross-Origin-Resource-Policy', 'cross-origin')
+    res.set('Cross-Origin-Opener-Policy', 'unsafe-none')
+    res.set('Cross-Origin-Embedder-Policy', 'unsafe-none')
+    // Retirer le CSP restrictif pour cette route
+    res.removeHeader('Content-Security-Policy')
+    next()
+})
+
 // Charge satori + resvg en lazy require (lourd a charger, evite de penaliser
 // le startup quand personne ne partage)
 let _satori = null
@@ -271,8 +285,11 @@ async function generateImage(word) {
     return png
 }
 
-// GET /share/word/:id/image.png
-router.get('/word/:id/image.png', validateId, async (req, res) => {
+// GET /share/word/:id/og.png (path renomme pour invalider le cache CF
+// qui contenait l'ancienne version avec CORP: same-origin)
+// On garde aussi /image.png en alias pour ne pas casser d'eventuels
+// anciens previews qui s'y refereraient.
+router.get(['/word/:id/og.png', '/word/:id/image.png'], validateId, async (req, res) => {
     try {
         const id = req.params.id
         const now = Date.now()
@@ -320,7 +337,7 @@ router.get('/word/:id', validateId, async (req, res) => {
         if (word.translation_en) descParts.push('🇬🇧 ' + word.translation_en)
         const description = descParts.join(' · ') || 'Découvrez ce mot sur le dictionnaire Goomu Fulo & Wiɗto.'
 
-        const imageUrl = `${PUBLIC_BASE_URL}/share/word/${id}/image.png`
+        const imageUrl = `${PUBLIC_BASE_URL}/share/word/${id}/og.png`
         const canonicalUrl = `${PUBLIC_BASE_URL}/dictionnaire?word=${encodeURIComponent(word.word)}`
 
         res.set('Cache-Control', 'public, max-age=3600')
