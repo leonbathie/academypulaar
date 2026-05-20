@@ -71,7 +71,12 @@ function ShareWordButton({ entry, t }) {
     }
 
     const handleClick = async () => {
-        // Niveau 1 : Web Share avec fichier image
+        // Niveau 1 : Web Share avec fichier image + URL en caption.
+        // text = UNIQUEMENT l'URL (pas de titre/traduction en plus) pour que
+        // dans WhatsApp ce soit visuellement UN SEUL BLOC :
+        //   [image de la carte]
+        //   https://goomufulo.com/share/word/X
+        // au lieu d'avoir titre + traduction sur une ligne, puis URL separee.
         if (typeof navigator !== 'undefined' && navigator.canShare) {
             setLoading(true)
             try {
@@ -79,8 +84,7 @@ function ShareWordButton({ entry, t }) {
                 if (navigator.canShare({ files: [file] })) {
                     await navigator.share({
                         files: [file],
-                        text: `${entry.word}${entry.translation_fr ? ' — ' + entry.translation_fr : ''}\n${shareUrl}`,
-                        title: entry.word
+                        text: shareUrl
                     })
                     setLoading(false)
                     return
