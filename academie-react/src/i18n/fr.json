@@ -180,6 +180,21 @@
         "history": "Fondée par un groupe de linguistes, écrivains et défenseurs de la culture Fulfulde, Goomu Fulo Wiɗto a vu le jour pour répondre au besoin urgent de documenter et standardiser le Fulfulde à l'ère numérique.",
         "goalsTitle": "Quels sont les objectifs du GFW ?",
         "goalsIntro": "De manière générale, nous pouvons résumer les objectifs du Comité de Traduction et de Recherche aux points suivants :",
+        "missionKicker": "Mission & engagement",
+        "missionQuote": "Doter le Pulaar/Fulfulde des outils d'une langue scientifique majeure du 21ᵉ siècle, accessible à tous les peuples peuls du continent.",
+        "pillarsTitle": "Les 4 Piliers Stratégiques",
+        "pillarsHelp": "Domaines transversaux de notre action :",
+        "pillars": [
+            { "icon": "🎓", "label": "Académie linguistique", "desc": "Unification de la grammaire et de la terminologie." },
+            { "icon": "🔬", "label": "Recherche scientifique", "desc": "Dialectes, histoire, sciences exactes en Fulfulde." },
+            { "icon": "📚", "label": "Pédagogie & formation", "desc": "Supports primaire → universitaire + formations pro." },
+            { "icon": "🌍", "label": "Diffusion continentale", "desc": "Traduction du savoir moderne, labos en pays peuls." }
+        ],
+        "horizonTitle": "L'Horizon Mesuré",
+        "horizonText": "Notre action s'inscrit dans une trajectoire concrète et mesurable, mobilisant déjà des chercheurs sur tout le continent.",
+        "horizonGoalsLabel": "Objectifs stratégiques",
+        "horizonCommitteesLabel": "Comités spécialisés",
+        "horizonCountriesLabel": "Pays mobilisés",
         "goals": [
             "Servir d'académie linguistique pour l'unification de la grammaire et de la terminologie du Pulaar/Fulfulde.",
             "Mener des recherches sur les divers dialectes, les origines et l'histoire du peuple peul.",

@@ -180,6 +180,21 @@
         "history": "Founded by a group of linguists, writers and advocates of Fulfulde culture, Goomu Fulo Wiɗto was created to address the urgent need to document and standardize Fulfulde in the digital age.",
         "goalsTitle": "What are the goals of GFW?",
         "goalsIntro": "In general terms, we can summarize the goals of the Committee for Translation and Research into the following points:",
+        "missionKicker": "Mission & commitment",
+        "missionQuote": "Equip Pulaar/Fulfulde with the tools of a major 21ˢᵗ-century scientific language, accessible to all Fula peoples of the continent.",
+        "pillarsTitle": "The 4 Strategic Pillars",
+        "pillarsHelp": "Cross-cutting fields of our action:",
+        "pillars": [
+            { "icon": "🎓", "label": "Linguistic academy", "desc": "Unification of grammar and terminology." },
+            { "icon": "🔬", "label": "Scientific research", "desc": "Dialects, history, exact sciences in Fulfulde." },
+            { "icon": "📚", "label": "Pedagogy & training", "desc": "Primary → university materials + professional training." },
+            { "icon": "🌍", "label": "Continental reach", "desc": "Translating modern knowledge, labs in Fula countries." }
+        ],
+        "horizonTitle": "Measured Horizon",
+        "horizonText": "Our work follows a concrete, measurable trajectory, already mobilising researchers across the continent.",
+        "horizonGoalsLabel": "Strategic goals",
+        "horizonCommitteesLabel": "Specialised committees",
+        "horizonCountriesLabel": "Countries mobilised",
         "goals": [
             "To serve as a linguistic academy for the unification of Pulaar/Fulfulde grammar and terminology.",
             "To research the various dialects, origins, and history of the Fula people.",

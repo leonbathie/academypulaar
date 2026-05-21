@@ -180,6 +180,21 @@
         "history": "Sosaa e dental ganndooji ɗemngal, winnderɓe e yarlitanɓe pinal Fulfulde, Goomu Fulo Wiɗto fuɗɗii ngam jaɓɓaade waɗɗagol binndude e darnaade Fulfulde e waktu internet.",
         "goalsTitle": "Holi paandaale GFW?",
         "goalsIntro": "He mbaydi huuɓtodinndi eɗen mbaawi tonngude payndaale Goomu Fulo e Wiɗto e ɗee toɓɓe garooje :",
+        "missionKicker": "Faandaare & Aadi",
+        "missionQuote": "Hokkude Pulaar/Fulfulde kaɓirɗe ɗemngal ganndal teemedere 21, jaɓɓetee e fulɓe leyɗeele afrik fof.",
+        "pillarsTitle": "Doosɗe Nay Tiiɗɗe",
+        "pillarsHelp": "Nokkuuji jokkondiraaɗi golle amen :",
+        "pillars": [
+            { "icon": "🎓", "label": "Hentordu ɗemngal", "desc": "Wottoɗinde celluka e ngowlaandi." },
+            { "icon": "🔬", "label": "Wiɗto ganndal", "desc": "Calti, taariik, gannde laaɓtuɗe e Fulfulde." },
+            { "icon": "📚", "label": "Jaŋde & Heblo", "desc": "Duttorɗe lesleso haa jaaɓi-haaɗtirde + heblo gollotooɓe." },
+            { "icon": "🌍", "label": "Saraago Afrik", "desc": "Firo gannde kese, biiñirɗe e leyɗeele fulɓe." }
+        ],
+        "horizonTitle": "Daawal Ɓetaa",
+        "horizonText": "Golle amen ina rewa laawol kanngal, harɓinangal, woni wallidiiɓe e doŋre Afrik nde fof.",
+        "horizonGoalsLabel": "Payndaale",
+        "horizonCommitteesLabel": "Goomuuji",
+        "horizonCountriesLabel": "Leyɗeele",
         "goals": [
             "Daraade darnde hentordu (académie) ngootaagu (kawtal) doosɗe e ngowlaandi.",
             "Wiɗtude calti, jati e jatti (ganni) fulɓe.",
