@@ -252,6 +252,20 @@
             "genesisKicker": "Genèse & vision",
             "genesisTitle": "L'Éveil d'une Académie Scientifique",
             "genesisQuote": "Notre but historique est d'unir nos voix par-delà les frontières géographiques, en faisant du Pulaar-Fulfulde un vecteur d'excellence scientifique et académique.",
+            "timelineTitle": "Chronologie d'une académie",
+            "timeline": [
+                { "year": "2016", "label": "Genèse", "text": "Création officielle sur WhatsApp le 19 septembre, autour de trois figures fondatrices." },
+                { "year": "2018", "label": "Structuration", "text": "Ouverture des premiers comités spécialisés et identification d'experts internationaux." },
+                { "year": "2020", "label": "Expansion", "text": "Constitution progressive des 14 départements thématiques actuels." },
+                { "year": "2024", "label": "Rayonnement", "text": "Membres actifs dans plus de 12 pays ; siège stabilisé à Nouakchott." }
+            ],
+            "committeesCategories": {
+                "exact": "Sciences exactes",
+                "applied": "Sciences appliquées & IT",
+                "human": "Sciences humaines & sociales",
+                "letters": "Lettres, médias & cultures",
+                "earth": "Sciences de la Terre & vivant"
+            },
             "foundersTitle": "Le Cercle Fondateur",
             "foundersHelp": "Sélectionnez un membre pour voir sa contribution :",
             "founders": [

@@ -252,6 +252,20 @@
             "genesisKicker": "Genesis & vision",
             "genesisTitle": "The Awakening of a Scientific Academy",
             "genesisQuote": "Our historical aim is to unite our voices beyond geographic borders, making Pulaar-Fulfulde a vector of scientific and academic excellence.",
+            "timelineTitle": "An academy's timeline",
+            "timeline": [
+                { "year": "2016", "label": "Genesis", "text": "Official creation on WhatsApp on September 19, around three founding figures." },
+                { "year": "2018", "label": "Structuring", "text": "Opening of the first specialised committees and identification of international experts." },
+                { "year": "2020", "label": "Expansion", "text": "Progressive build-up of the current 14 thematic departments." },
+                { "year": "2024", "label": "Outreach", "text": "Active members in more than 12 countries; headquarters stabilised in Nouakchott." }
+            ],
+            "committeesCategories": {
+                "exact": "Exact sciences",
+                "applied": "Applied sciences & IT",
+                "human": "Human & social sciences",
+                "letters": "Letters, media & cultures",
+                "earth": "Earth sciences & life"
+            },
             "foundersTitle": "The Founding Circle",
             "foundersHelp": "Select a member to view their contribution:",
             "founders": [

@@ -252,6 +252,20 @@
             "genesisKicker": "Sosgol & Yiyannde",
             "genesisTitle": "Finugol Hentordu Ganndal",
             "genesisQuote": "Faandaare amen waɗnde ko renndinde daaɗe amen gaa keeri leyɗiwal, waɗde Pulaar-Fulfulde wonande laawol ƴellitaare ganndal.",
+            "timelineTitle": "Taariik Hentordu",
+            "timeline": [
+                { "year": "2016", "label": "Sosgol", "text": "Sosgol kuufol e WhatsApp ñande 19 setembar, hakkunde sosooɓe tati." },
+                { "year": "2018", "label": "Yuɓɓagol", "text": "Udditgol cate gadane e ƴeewndotgol anndineeɓe winnderejooɓe." },
+                { "year": "2020", "label": "Yaaja", "text": "Yuɓɓingol 14 goomuuji haatumiiji wona ɗoo hannde." },
+                { "year": "2024", "label": "Saraagal", "text": "Terɓe golloowo e ko ɓuri 12 leydi ; ñiiɓirde tiiɗnde Nuwaasot." }
+            ],
+            "committeesCategories": {
+                "exact": "Gannde Laaɓtuɗe",
+                "applied": "Gannde Huutoraaɗe & NTIC",
+                "human": "Gannde Renndo",
+                "letters": "Binndi, Mediya & Pinal",
+                "earth": "Gannde Leydi & Guurɗiwal"
+            },
             "foundersTitle": "Goomu Sosooɓe",
             "foundersHelp": "Suɓo gooto ngam yi'de ko o waɗi :",
             "founders": [
