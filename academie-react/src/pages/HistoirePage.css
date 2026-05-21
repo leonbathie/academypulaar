@@ -1,21 +1,107 @@
 /* =========================================================
-   HistoirePage — additions visuelles pour les composants nouveaux
-   (drop-cap, citation, chips fondateurs, stat boxes rayonnement,
-   bento comites, switcher methodes). AUCUN override sur les
-   classes globales .about-page/.about-page-header/.about-section.
-   La page herite donc du meme style que MissionsPage / AboutPage.
+   HistoirePage — layout editorial fond CLAIR (charte respectee)
+   Tokens charte : --primary-gold #D4A537, --primary-dark #1A1A2E,
+   --cream #FDF8F0, --secondary-burgundy #8B2942 (pour etat actif),
+   --font-display Playfair, --font-body Source Sans.
    ========================================================= */
 
-/* ── Article : drop-cap + citation ─────────────────────── */
-.about-section p.has-dropcap::first-letter {
+.histoire-page {
+    position: relative;
+    padding-top: 80px;
+    padding-bottom: var(--space-3xl);
+    min-height: 100vh;
+    background: var(--cream);
+    color: var(--dark-gray);
+    overflow-x: hidden;
+}
+[data-theme="dark"] .histoire-page {
+    background: var(--primary-dark);
+    color: rgba(255, 255, 255, 0.85);
+}
+
+/* Pattern Tengade-inspired (triangles or tres subtils) */
+.histoire-bg {
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='60' height='52' viewBox='0 0 60 52'><path d='M30 0 L60 52 L0 52 Z' fill='none' stroke='%23D4A537' stroke-width='0.6' opacity='0.06'/><path d='M0 0 L30 52 L60 0' fill='none' stroke='%23D4A537' stroke-width='0.4' opacity='0.04'/></svg>");
+    background-size: 60px 52px;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Grille principale : article gauche / aside droite */
+.histoire-grid {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+    gap: var(--space-2xl);
+    padding-top: var(--space-2xl);
+    padding-bottom: var(--space-2xl);
+}
+@media (max-width: 1024px) {
+    .histoire-grid { grid-template-columns: 1fr; gap: var(--space-xl); }
+}
+
+/* ── ARTICLE COLONNE GAUCHE ───────────────────────────── */
+.histoire-article { color: var(--dark-gray); }
+[data-theme="dark"] .histoire-article { color: rgba(255, 255, 255, 0.82); }
+
+.histoire-kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    background: rgba(212, 165, 55, 0.12);
+    border: 1px solid rgba(212, 165, 55, 0.35);
+    color: var(--gold-dark);
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+}
+.histoire-article-title {
     font-family: var(--font-display);
-    font-size: 4.5rem;
+    font-size: clamp(2rem, 4.6vw, 3.4rem);
+    font-weight: 700;
+    color: var(--primary-dark);
+    line-height: 1.05;
+    margin: var(--space-md) 0 var(--space-sm);
+    letter-spacing: -0.005em;
+}
+[data-theme="dark"] .histoire-article-title { color: var(--primary-gold); }
+
+.histoire-article-divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, var(--primary-gold) 0%, rgba(212, 165, 55, 0.3) 30%, transparent 100%);
+    margin: var(--space-sm) 0 var(--space-xl);
+}
+
+.histoire-article-body p {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    line-height: 1.85;
+    color: var(--dark-gray);
+    margin: 0 0 var(--space-lg);
+    text-align: justify;
+}
+[data-theme="dark"] .histoire-article-body p { color: rgba(255, 255, 255, 0.82); }
+
+/* Drop-cap "G" or massif sur le 1er paragraphe */
+.histoire-article-body .has-dropcap::first-letter {
+    font-family: var(--font-display);
+    font-size: 5rem;
     line-height: 0.85;
     color: var(--primary-gold);
     font-weight: 700;
     float: left;
     padding: 0.05em 0.18em 0 0;
+    margin-right: 0.05em;
 }
+
+/* Citation */
 .histoire-quote {
     margin: var(--space-xl) 0;
     padding: var(--space-lg) var(--space-xl);
@@ -27,34 +113,65 @@
     line-height: 1.75;
     color: var(--primary-dark);
     border-radius: 0 var(--radius-md) var(--radius-md) 0;
-    max-width: 800px;
 }
-[data-theme="dark"] .histoire-quote { color: var(--cream); }
+[data-theme="dark"] .histoire-quote { color: rgba(255, 255, 255, 0.9); }
 
-/* ── Compteur 14 dans le h2 ─────────────────────────────── */
-.histoire-count {
-    display: inline-block;
-    margin-left: 0.6rem;
-    background: var(--primary-gold);
-    color: var(--white);
-    font-family: var(--font-body);
-    font-size: 0.78rem;
+/* ── ASIDE COLONNE DROITE ─────────────────────────────── */
+.histoire-aside {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+}
+.histoire-card {
+    background: var(--white);
+    border: 1px solid var(--light-gray);
+    border-radius: var(--radius-xl);
+    padding: var(--space-xl);
+    box-shadow: 0 4px 20px rgba(26, 26, 46, 0.06);
+}
+[data-theme="dark"] .histoire-card {
+    background: rgba(26, 26, 46, 0.6);
+    border-color: rgba(255, 255, 255, 0.08);
+    box-shadow: none;
+}
+.histoire-card--dark {
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--secondary-burgundy) 100%);
+    color: var(--cream);
+    border-color: rgba(212, 165, 55, 0.3);
+}
+.histoire-card--dark p { color: rgba(255, 255, 255, 0.88); font-size: 0.95rem; line-height: 1.6; margin: 0 0 var(--space-md); }
+
+.histoire-card-title {
+    font-family: var(--font-display);
+    font-size: 1.45rem;
     font-weight: 700;
-    padding: 0.2rem 0.65rem;
-    border-radius: 999px;
-    vertical-align: middle;
-    line-height: 1.5;
+    color: var(--primary-dark);
+    margin: 0 0 var(--space-sm);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+.histoire-card--dark .histoire-card-title { color: var(--primary-gold); }
+[data-theme="dark"] .histoire-card-title { color: var(--primary-gold); }
+
+.histoire-card-help {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--medium-gray);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin: 0 0 var(--space-md);
 }
 
-/* ── Chips fondateurs ──────────────────────────────────── */
+/* Chips fondateurs */
 .histoire-founders-chips {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
-    margin: var(--space-md) 0 var(--space-lg);
+    margin-bottom: var(--space-lg);
 }
 .histoire-chip {
-    background: var(--white);
+    background: var(--cream);
     border: 1px solid var(--light-gray);
     color: var(--dark-gray);
     padding: 0.55rem 1.1rem;
@@ -66,31 +183,33 @@
     transition: all var(--transition-fast);
     min-height: 38px;
 }
-.histoire-chip:hover { border-color: var(--primary-gold); color: var(--primary-dark); }
+.histoire-chip:hover {
+    border-color: var(--primary-gold);
+    color: var(--primary-dark);
+}
 .histoire-chip.is-active {
     background: var(--secondary-burgundy);
     border-color: var(--secondary-burgundy);
     color: #fff;
-    box-shadow: 0 4px 10px rgba(139, 41, 66, 0.25);
+    box-shadow: 0 4px 10px rgba(139, 41, 66, 0.3);
 }
 [data-theme="dark"] .histoire-chip {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.06);
     border-color: rgba(255, 255, 255, 0.12);
     color: var(--cream);
 }
 
-/* Panneau bio fondateur */
+/* Panneau biographie fondateur */
 .histoire-founder-panel {
     background: var(--cream);
     border: 1px solid var(--light-gray);
     border-radius: var(--radius-lg);
     padding: var(--space-lg);
-    max-width: 720px;
-    animation: histFounderIn 0.22s ease-out;
+    animation: histFounderIn 0.25s ease-out;
 }
 [data-theme="dark"] .histoire-founder-panel {
-    background: rgba(212, 165, 55, 0.06);
-    border-color: rgba(255, 255, 255, 0.08);
+    background: rgba(0, 0, 0, 0.2);
+    border-color: rgba(212, 165, 55, 0.2);
 }
 @keyframes histFounderIn {
     from { opacity: 0; transform: translateY(6px); }
@@ -101,51 +220,52 @@
     justify-content: space-between;
     align-items: flex-start;
     gap: var(--space-md);
-    margin-bottom: 0.2rem;
+    margin-bottom: 0.3rem;
 }
 .histoire-founder-name {
     font-family: var(--font-display);
-    font-size: 1.2rem;
+    font-size: 1.25rem;
     font-weight: 700;
     color: var(--primary-dark);
     margin: 0;
     line-height: 1.2;
-    max-width: calc(100% - 110px);
+    max-width: calc(100% - 100px);
 }
 [data-theme="dark"] .histoire-founder-name { color: var(--primary-gold); }
+
 .histoire-founder-tag {
     background: rgba(212, 165, 55, 0.18);
     color: var(--gold-dark);
-    padding: 0.25rem 0.65rem;
+    padding: 0.25rem 0.7rem;
     border-radius: 4px;
     font-family: var(--font-body);
-    font-size: 0.68rem;
+    font-size: 0.7rem;
     font-weight: 700;
     letter-spacing: 0.12em;
     flex-shrink: 0;
 }
 .histoire-founder-role {
     color: var(--secondary-burgundy);
-    font-size: 0.9rem;
+    font-size: 0.92rem;
     font-weight: 600;
     margin-bottom: var(--space-md);
 }
 [data-theme="dark"] .histoire-founder-role { color: var(--primary-gold); }
 
 .histoire-founder-bio {
-    color: var(--dark-gray) !important;
-    font-size: 0.95rem !important;
-    line-height: 1.6 !important;
-    margin: 0 0 var(--space-md) !important;
-    max-width: none !important;
+    color: var(--dark-gray);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 0 0 var(--space-md);
 }
-[data-theme="dark"] .histoire-founder-bio { color: rgba(255, 255, 255, 0.85) !important; }
+[data-theme="dark"] .histoire-founder-bio { color: rgba(255, 255, 255, 0.85); }
 
 .histoire-founder-highlights {
     list-style: none;
-    padding: var(--space-md) 0 0 0;
+    padding: 0;
     margin: 0;
-    border-top: 1px dashed rgba(212, 165, 55, 0.35);
+    border-top: 1px dashed rgba(212, 165, 55, 0.4);
+    padding-top: var(--space-md);
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
@@ -158,6 +278,7 @@
     font-size: 0.88rem;
 }
 [data-theme="dark"] .histoire-founder-highlights li { color: var(--cream); }
+
 .histoire-hl-check {
     display: inline-flex;
     align-items: center;
@@ -173,69 +294,98 @@
     flex-shrink: 0;
 }
 
-/* ── Rayonnement : 2 stat boxes ────────────────────────── */
+/* Rayonnement : 2 stat boxes en bas */
 .histoire-scope-stats {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: var(--space-md);
-    margin-top: var(--space-lg);
-    max-width: 600px;
+    gap: var(--space-sm);
+    margin-top: var(--space-md);
+    padding-top: var(--space-md);
+    border-top: 1px solid rgba(212, 165, 55, 0.3);
 }
 .histoire-scope-stat {
-    background: var(--white);
-    border: 1px solid var(--light-gray);
-    border-left: 3px solid var(--primary-gold);
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(212, 165, 55, 0.25);
     border-radius: var(--radius-md);
-    padding: var(--space-lg);
+    padding: var(--space-md);
     text-align: center;
-}
-[data-theme="dark"] .histoire-scope-stat {
-    background: rgba(212, 165, 55, 0.06);
-    border-color: rgba(255, 255, 255, 0.08);
-    border-left-color: var(--primary-gold);
 }
 .histoire-scope-value {
     font-family: var(--font-display);
-    font-size: 1.55rem;
+    font-size: 1.5rem;
     font-weight: 700;
-    color: var(--primary-dark);
+    color: var(--primary-gold);
     line-height: 1.2;
     margin-bottom: 0.3rem;
 }
-[data-theme="dark"] .histoire-scope-value { color: var(--primary-gold); }
 .histoire-scope-label {
     font-size: 0.72rem;
-    color: var(--medium-gray);
-    letter-spacing: 0.1em;
+    color: rgba(255, 255, 255, 0.85);
+    letter-spacing: 0.12em;
     text-transform: uppercase;
     font-weight: 600;
 }
-@media (max-width: 600px) { .histoire-scope-stats { grid-template-columns: 1fr; } }
 
-/* ── Bento grid des comites ────────────────────────────── */
+/* ── SECTION COMITES (sous la grille principale) ──────── */
+.histoire-section {
+    position: relative;
+    z-index: 1;
+    margin: var(--space-2xl) 0;
+    padding-top: var(--space-xl);
+    border-top: 1px solid var(--light-gray);
+}
+[data-theme="dark"] .histoire-section { border-top-color: rgba(255, 255, 255, 0.08); }
+
+.histoire-section-head {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    margin-bottom: var(--space-lg);
+    flex-wrap: wrap;
+}
+.histoire-section h2 {
+    font-family: var(--font-display);
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    color: var(--primary-dark);
+    margin: 0;
+    line-height: 1.2;
+}
+[data-theme="dark"] .histoire-section h2 { color: var(--primary-gold); }
+
+.histoire-count {
+    background: var(--primary-gold);
+    color: var(--white);
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    font-weight: 700;
+    padding: 0.25rem 0.7rem;
+    border-radius: 999px;
+}
+
+/* Bento grid */
 .histoire-bento {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     gap: var(--space-md);
     list-style: none;
     padding: 0;
-    margin: var(--space-lg) 0 0;
+    margin: 0;
 }
 .histoire-bento-item {
     background: var(--white);
     border: 1px solid var(--light-gray);
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-lg);
     padding: var(--space-md);
     transition: all var(--transition-fast);
+}
+[data-theme="dark"] .histoire-bento-item {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 255, 255, 0.08);
 }
 .histoire-bento-item:hover {
     border-color: var(--primary-gold);
     box-shadow: 0 4px 14px rgba(212, 165, 55, 0.12);
     transform: translateY(-2px);
-}
-[data-theme="dark"] .histoire-bento-item {
-    background: rgba(255, 255, 255, 0.04);
-    border-color: rgba(255, 255, 255, 0.08);
 }
 .histoire-bento-icon {
     display: inline-flex;
@@ -244,8 +394,8 @@
     width: 40px;
     height: 40px;
     border-radius: var(--radius-sm);
-    background: rgba(212, 165, 55, 0.1);
-    border: 1px solid rgba(212, 165, 55, 0.25);
+    background: rgba(212, 165, 55, 0.12);
+    border: 1px solid rgba(212, 165, 55, 0.3);
     font-size: 1.2rem;
     margin-bottom: 0.7rem;
 }
@@ -258,13 +408,23 @@
     margin-bottom: 0.5rem;
 }
 [data-theme="dark"] .histoire-bento-domain { color: var(--white); }
+
 .histoire-bento-lead {
     font-size: 0.82rem;
     color: var(--medium-gray);
     font-style: italic;
 }
 
-/* ── Switcher methodes ─────────────────────────────────── */
+/* ── SECTION METHODES ─────────────────────────────────── */
+.histoire-method-intro {
+    color: var(--dark-gray);
+    font-size: 1rem;
+    line-height: 1.7;
+    margin-bottom: var(--space-md);
+    font-family: var(--font-display);
+}
+[data-theme="dark"] .histoire-method-intro { color: rgba(255, 255, 255, 0.82); }
+
 .histoire-methods-tabs {
     display: flex;
     gap: 4px;
@@ -300,18 +460,22 @@
     color: var(--primary-gold);
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
 }
-[data-theme="dark"] .histoire-method-tab.is-active {
-    background: var(--secondary-burgundy);
-    color: #fff;
-}
+[data-theme="dark"] .histoire-method-tab.is-active { background: var(--secondary-burgundy); color: #fff; }
 .histoire-method-tab-num { font-size: 0.7rem; opacity: 0.7; letter-spacing: 0.1em; }
 .histoire-method-tab-label { font-size: 0.92rem; }
 
-.histoire-method-panel { animation: histPanelIn 0.22s ease-out; }
+.histoire-method-panel { animation: histPanelIn 0.25s ease-out; }
 @keyframes histPanelIn {
     from { opacity: 0; transform: translateY(4px); }
     to   { opacity: 1; transform: translateY(0); }
 }
+.histoire-method-panel p {
+    color: var(--dark-gray);
+    font-size: 1rem;
+    line-height: 1.7;
+    margin-bottom: var(--space-md);
+}
+[data-theme="dark"] .histoire-method-panel p { color: rgba(255, 255, 255, 0.82); }
 
 .histoire-steps {
     list-style: none;
@@ -320,14 +484,13 @@
     counter-reset: hist-step;
     display: grid;
     gap: 0.6rem;
-    max-width: 800px;
 }
 .histoire-steps li {
     counter-increment: hist-step;
     position: relative;
-    padding: 0.6rem 0 0.6rem 3.2rem;
+    padding: 0.65rem 0 0.65rem 3.2rem;
     line-height: 1.65;
-    color: var(--medium-gray);
+    color: var(--dark-gray);
     font-size: 0.95rem;
 }
 [data-theme="dark"] .histoire-steps li { color: rgba(255, 255, 255, 0.82); }
@@ -336,7 +499,7 @@
     content: counter(hist-step, decimal-leading-zero);
     position: absolute;
     left: 0;
-    top: 0.55rem;
+    top: 0.65rem;
     width: 2.2rem;
     height: 2.2rem;
     border-radius: 50%;
@@ -351,9 +514,33 @@
     justify-content: center;
 }
 
+/* Conclusion */
+.histoire-conclusion {
+    margin-top: var(--space-xl);
+    padding: var(--space-lg);
+    background: rgba(212, 165, 55, 0.1);
+    border-left: 3px solid var(--primary-gold);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 1.02rem;
+    color: var(--primary-dark);
+    line-height: 1.7;
+}
+[data-theme="dark"] .histoire-conclusion {
+    background: rgba(212, 165, 55, 0.08);
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* ── Responsive ───────────────────────────────────────── */
 @media (max-width: 768px) {
-    .about-section p.has-dropcap::first-letter { font-size: 3.5rem; }
+    .histoire-page { padding-top: 70px; }
+    .histoire-grid { padding-top: var(--space-lg); }
+    .histoire-card { padding: var(--space-lg); }
+    .histoire-article-title { font-size: 1.9rem; }
+    .histoire-article-body p { font-size: 1rem; line-height: 1.75; }
+    .histoire-article-body .has-dropcap::first-letter { font-size: 3.5rem; }
     .histoire-quote { padding: var(--space-md); font-size: 0.98rem; }
-    .histoire-chip { font-size: 0.82rem; padding: 0.5rem 0.85rem; }
+    .histoire-founders-chips .histoire-chip { font-size: 0.82rem; padding: 0.5rem 0.85rem; }
     .histoire-method-tab { font-size: 0.82rem; padding: 0.6rem 0.7rem; }
 }
