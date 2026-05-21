@@ -1,455 +1,262 @@
 /* =========================================================
-   HistoirePage : redesign mise en page (charte conservee)
-   - Hero avec degrade existant + 3 stat cards
-   - Sections en cartes ombrees, article-style pour la creation
-   - Bento grid pour les 14 comites
-   - Switcher 2 methodes interactif
+   HistoirePage — styling MINIMAL des nouvelles fonctionnalites
+   uniquement. Le visuel global revient sur AboutPage.css original
+   (hero gradient, .about-section simple, etc.).
+   Nouveaux composants stylises ici :
+   - badge hero + 3 stat cards (.histoire-hero-badge, .histoire-facts)
+   - bento grid 14 comites (.histoire-bento + items)
+   - 2 cartes HQ + branches (.histoire-hq-grid)
+   - switcher 2 methodes (.histoire-methods-tabs)
+   - liste etapes numerotees (.histoire-steps)
+   - compteur 14 (.histoire-count)
    ========================================================= */
 
-.histoire-redesign {
-    background: var(--cream);
-}
-
-/* ── Hero header avec stats ──────────────────────────────── */
-.histoire-redesign .about-page-header {
-    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--secondary-burgundy) 55%, var(--accent-terracotta) 100%);
-    padding: var(--space-3xl) 0 0;
-    position: relative;
-    overflow: hidden;
-}
-.histoire-redesign .about-page-header::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at 90% 0%, rgba(212, 165, 55, 0.22) 0%, transparent 55%);
-    pointer-events: none;
-}
-.histoire-redesign .about-page-header::after {
-    background: var(--gradient-gold);
-    height: 6px;
-}
-
+/* ── Hero : badge + 3 stat cards ──────────────────────────── */
 .histoire-hero-badge {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    background: rgba(212, 165, 55, 0.18);
-    border: 1px solid rgba(212, 165, 55, 0.5);
+    background: rgba(212, 165, 55, 0.15);
+    border: 1px solid rgba(212, 165, 55, 0.4);
     color: var(--primary-gold);
-    padding: 0.5rem 1.1rem;
+    padding: 0.4rem 0.9rem;
     border-radius: 999px;
-    font-size: 0.78rem;
+    font-size: 0.75rem;
     font-weight: 700;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
     margin-bottom: var(--space-md);
-    backdrop-filter: blur(8px);
-}
-.histoire-redesign .page-title {
-    font-size: clamp(2rem, 5vw, 3rem);
-    line-height: 1.1;
-    margin-bottom: var(--space-md);
-}
-.histoire-redesign .page-subtitle {
-    max-width: 720px;
-    margin: 0 auto var(--space-2xl);
-    font-size: 1.1rem;
-    opacity: 0.92;
 }
 
 .histoire-facts {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: var(--space-lg);
-    padding-bottom: var(--space-2xl);
-    max-width: 980px;
-    margin: 0 auto;
-    position: relative;
+    gap: var(--space-md);
+    max-width: 760px;
+    margin: var(--space-xl) auto 0;
 }
 .histoire-fact {
     background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    border-radius: var(--radius-xl);
-    padding: var(--space-lg);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: var(--radius-lg);
+    padding: var(--space-md);
     text-align: center;
-    transition: all var(--transition-base);
-}
-.histoire-fact:hover {
-    background: rgba(255, 255, 255, 0.14);
-    transform: translateY(-3px);
-    border-color: rgba(212, 165, 55, 0.5);
+    backdrop-filter: blur(6px);
 }
 .histoire-fact-icon {
-    font-size: 2rem;
+    font-size: 1.6rem;
     display: block;
-    margin-bottom: var(--space-sm);
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+    margin-bottom: 0.4rem;
 }
 .histoire-fact-value {
     font-family: var(--font-display);
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     color: var(--primary-gold);
     font-weight: 700;
     line-height: 1.2;
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.2rem;
 }
 .histoire-fact-label {
-    font-size: 0.82rem;
-    color: rgba(255, 255, 255, 0.85);
-    letter-spacing: 0.08em;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.8);
+    letter-spacing: 0.06em;
     text-transform: uppercase;
-    font-weight: 600;
 }
 
 @media (max-width: 768px) {
-    .histoire-facts { grid-template-columns: 1fr; max-width: 420px; }
-    .histoire-fact { padding: var(--space-md); }
-    .histoire-fact-value { font-size: 1.2rem; }
+    .histoire-facts { grid-template-columns: 1fr; max-width: 360px; }
+    .histoire-fact-value { font-size: 1.1rem; }
 }
 
-/* ── Sections en cartes (override .about-section) ────────── */
-.histoire-redesign .about-section {
-    background: var(--white);
-    border: 1px solid var(--light-gray);
-    border-radius: var(--radius-xl);
-    box-shadow: 0 4px 24px rgba(26, 26, 46, 0.05);
-    padding: var(--space-2xl);
-    margin: var(--space-xl) 0;
-    border-bottom: none;
-}
-[data-theme="dark"] .histoire-redesign .about-section {
-    background: rgba(26, 26, 46, 0.6);
-    border-color: rgba(255, 255, 255, 0.08);
-}
-.histoire-redesign .about-section h2 {
-    font-size: clamp(1.5rem, 3vw, 2rem);
-    color: var(--primary-dark);
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-md);
-}
-.histoire-redesign .about-section h2::before {
-    content: '';
-    width: 6px;
-    height: 1.2em;
-    background: var(--gradient-gold);
-    border-radius: 3px;
-}
-[data-theme="dark"] .histoire-redesign .about-section h2 {
-    color: var(--primary-gold);
-}
-
-/* Article-style pour les paragraphes de creation */
-.histoire-redesign .about-section p {
-    font-size: 1.05rem;
-    line-height: 1.8;
-    color: var(--dark-gray);
-    max-width: 760px;
-    margin-bottom: var(--space-md);
-}
-.histoire-redesign .about-section p:first-of-type::first-letter {
-    font-family: var(--font-display);
-    font-size: 3.5rem;
-    font-weight: 700;
-    color: var(--primary-gold);
-    float: left;
-    line-height: 0.85;
-    padding: 0.1em 0.15em 0 0;
-}
-
-/* ── Bento grid des 14 comites ──────────────────────────── */
-.histoire-committees-section {
-    /* override : on veut largeur max plus large pour bento */
-}
-.histoire-committees-section h2 .histoire-count {
-    margin-left: auto;
-    background: linear-gradient(135deg, var(--primary-gold), var(--gold-dark));
+/* ── Compteur 14 a cote du titre comites ─────────────────── */
+.histoire-count {
+    display: inline-block;
+    margin-left: var(--space-sm);
+    background: var(--primary-gold);
     color: var(--white);
     font-family: var(--font-body);
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     font-weight: 700;
-    padding: 0.3rem 0.8rem;
+    padding: 0.2rem 0.6rem;
     border-radius: 999px;
-    box-shadow: 0 2px 8px rgba(212, 165, 55, 0.3);
-}
-.histoire-committees-section h2 {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: var(--space-md);
+    vertical-align: middle;
 }
 
+/* ── Bento grid des comites ─────────────────────────────── */
 .histoire-bento {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     gap: var(--space-md);
-    margin-top: var(--space-xl);
+    margin-top: var(--space-lg);
     list-style: none;
     padding: 0;
 }
 .histoire-bento-item {
-    background: linear-gradient(180deg, var(--white) 0%, var(--cream) 100%);
+    background: var(--white);
     border: 1px solid var(--light-gray);
-    border-radius: var(--radius-lg);
-    padding: var(--space-lg);
-    transition: all var(--transition-base);
-    position: relative;
-    overflow: hidden;
-}
-.histoire-bento-item::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, transparent, var(--primary-gold), transparent);
-    opacity: 0;
-    transition: opacity var(--transition-base);
+    border-radius: var(--radius-md);
+    padding: var(--space-md);
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
 }
 .histoire-bento-item:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 28px rgba(26, 26, 46, 0.1);
     border-color: var(--primary-gold);
+    box-shadow: 0 4px 14px rgba(212, 165, 55, 0.12);
 }
-.histoire-bento-item:hover::before { opacity: 1; }
 [data-theme="dark"] .histoire-bento-item {
-    background: linear-gradient(180deg, rgba(26, 26, 46, 0.6) 0%, rgba(26, 26, 46, 0.4) 100%);
-    border-color: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 255, 255, 0.08);
 }
 
 .histoire-bento-icon {
-    width: 48px;
-    height: 48px;
-    border-radius: var(--radius-md);
-    background: linear-gradient(135deg, rgba(212, 165, 55, 0.15), rgba(212, 165, 55, 0.05));
-    border: 1px solid rgba(212, 165, 55, 0.25);
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.4rem;
-    margin-bottom: var(--space-md);
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-sm);
+    background: rgba(212, 165, 55, 0.1);
+    border: 1px solid rgba(212, 165, 55, 0.2);
+    font-size: 1.2rem;
+    margin-bottom: 0.6rem;
 }
 .histoire-bento-domain {
     font-family: var(--font-display);
-    font-size: 1.05rem;
-    font-weight: 700;
-    color: var(--primary-dark);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--dark-gray);
     line-height: 1.3;
-    margin-bottom: var(--space-sm);
-    min-height: 2.6em;
+    margin-bottom: 0.5rem;
 }
 [data-theme="dark"] .histoire-bento-domain {
     color: var(--white);
 }
 .histoire-bento-lead {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.45rem;
     font-size: 0.82rem;
     color: var(--medium-gray);
-    padding: 0.3rem 0.6rem;
-    background: var(--cream);
-    border-radius: 999px;
-    border: 1px solid var(--light-gray);
-}
-[data-theme="dark"] .histoire-bento-lead {
-    background: rgba(255, 255, 255, 0.04);
-    border-color: rgba(255, 255, 255, 0.08);
-}
-.histoire-bento-lead::before {
-    content: '';
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--primary-gold);
-    flex-shrink: 0;
+    font-style: italic;
 }
 
-/* HQ + branches en bas de section comites */
+/* ── HQ + branches : 2 cartes simples ────────────────────── */
 .histoire-hq-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: var(--space-lg);
-    margin-top: var(--space-xl);
-    padding-top: var(--space-xl);
-    border-top: 1px dashed rgba(212, 165, 55, 0.4);
+    gap: var(--space-md);
+    margin-top: var(--space-lg);
 }
 .histoire-hq-card {
-    background: var(--cream);
-    border-left: 4px solid var(--primary-gold);
-    border-radius: var(--radius-md);
     padding: var(--space-md) var(--space-lg);
+    border-left: 3px solid var(--primary-gold);
+    background: var(--cream);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
 }
 [data-theme="dark"] .histoire-hq-card {
-    background: rgba(212, 165, 55, 0.08);
+    background: rgba(212, 165, 55, 0.06);
 }
 .histoire-hq-icon {
-    font-size: 1.4rem;
-    margin-bottom: 0.4rem;
+    font-size: 1.2rem;
+    margin-bottom: 0.3rem;
     display: block;
 }
 .histoire-hq-card p {
     margin: 0 !important;
-    font-size: 0.95rem !important;
-    line-height: 1.55 !important;
-}
-.histoire-hq-card p::first-letter {
-    /* annule le drop-cap article */
-    font-family: inherit !important;
-    font-size: inherit !important;
-    font-weight: inherit !important;
-    color: inherit !important;
-    float: none !important;
-    line-height: inherit !important;
-    padding: 0 !important;
+    font-size: 0.95rem;
+    line-height: 1.55;
 }
 @media (max-width: 768px) { .histoire-hq-grid { grid-template-columns: 1fr; } }
 
-/* ── Switcher 2 methodes ────────────────────────────────── */
+/* ── Switcher 2 methodes ─────────────────────────────────── */
 .histoire-methods-tabs {
     display: flex;
-    gap: var(--space-sm);
-    background: var(--cream);
-    padding: var(--space-xs);
-    border-radius: var(--radius-lg);
-    margin: var(--space-lg) 0 var(--space-xl);
-    border: 1px solid var(--light-gray);
+    gap: 4px;
+    background: var(--light-gray);
+    padding: 4px;
+    border-radius: var(--radius-md);
+    margin: var(--space-md) 0 var(--space-lg);
+    max-width: 600px;
 }
 [data-theme="dark"] .histoire-methods-tabs {
-    background: rgba(255, 255, 255, 0.04);
-    border-color: rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.06);
 }
 .histoire-method-tab {
     flex: 1;
-    padding: 0.85rem 1rem;
+    padding: 0.7rem 0.9rem;
     background: transparent;
     border: none;
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-sm);
     cursor: pointer;
     color: var(--medium-gray);
     font-family: var(--font-body);
-    font-size: 0.92rem;
+    font-size: 0.88rem;
     font-weight: 600;
-    transition: all var(--transition-base);
+    transition: all var(--transition-fast);
     text-align: left;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    gap: 0.2rem;
+    gap: 0.15rem;
     min-height: 44px;
 }
-.histoire-method-tab:hover {
-    color: var(--primary-dark);
+.histoire-method-tab:hover:not(.is-active) {
+    color: var(--dark-gray);
 }
 .histoire-method-tab.is-active {
-    background: linear-gradient(135deg, var(--primary-gold), var(--gold-dark));
-    color: var(--white);
-    box-shadow: 0 4px 12px rgba(212, 165, 55, 0.3);
+    background: var(--white);
+    color: var(--primary-gold);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 .histoire-method-tab-num {
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: 0.85rem;
-    opacity: 0.75;
-    letter-spacing: 0.06em;
+    font-size: 0.7rem;
+    opacity: 0.7;
+    letter-spacing: 0.08em;
 }
 .histoire-method-tab-label {
-    font-size: 0.95rem;
+    font-size: 0.92rem;
 }
-
 .histoire-method-panel {
-    animation: histPanelIn 0.3s ease-out;
+    animation: histoirePanelIn 0.2s ease-out;
 }
-@keyframes histPanelIn {
-    from { opacity: 0; transform: translateY(8px); }
+@keyframes histoirePanelIn {
+    from { opacity: 0; transform: translateY(4px); }
     to   { opacity: 1; transform: translateY(0); }
 }
 
+/* ── Liste des etapes numerotees ─────────────────────────── */
 .histoire-steps {
     list-style: none;
     padding: 0;
-    margin: var(--space-md) 0 var(--space-xl);
+    margin: var(--space-md) 0 var(--space-lg);
     counter-reset: hist-step;
     display: grid;
-    gap: var(--space-md);
+    gap: 0.6rem;
 }
 .histoire-steps li {
     counter-increment: hist-step;
     position: relative;
-    padding: var(--space-md) var(--space-md) var(--space-md) calc(56px + var(--space-md));
-    background: var(--white);
-    border-radius: var(--radius-md);
-    border: 1px solid var(--light-gray);
+    padding: 0.5rem 0 0.5rem 2.6rem;
     line-height: 1.6;
-    color: var(--dark-gray);
-    transition: all var(--transition-fast);
-}
-.histoire-steps li:hover {
-    border-color: var(--primary-gold);
-    transform: translateX(4px);
-}
-[data-theme="dark"] .histoire-steps li {
-    background: rgba(26, 26, 46, 0.5);
-    border-color: rgba(255, 255, 255, 0.08);
-    color: rgba(255, 255, 255, 0.85);
+    color: var(--medium-gray);
 }
 .histoire-steps li::before {
     content: counter(hist-step, decimal-leading-zero);
     position: absolute;
-    left: var(--space-md);
-    top: 50%;
-    transform: translateY(-50%);
-    width: 40px;
-    height: 40px;
+    left: 0;
+    top: 0.5rem;
+    width: 2rem;
+    height: 2rem;
     border-radius: 50%;
-    background: linear-gradient(135deg, var(--primary-gold), var(--gold-dark));
-    color: var(--white);
+    background: rgba(212, 165, 55, 0.12);
+    border: 1px solid rgba(212, 165, 55, 0.3);
+    color: var(--primary-gold);
     font-family: var(--font-display);
-    font-size: 0.95rem;
+    font-size: 0.82rem;
     font-weight: 700;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 10px rgba(212, 165, 55, 0.3);
+}
+[data-theme="dark"] .histoire-steps li {
+    color: rgba(255, 255, 255, 0.78);
 }
 
-/* Conclusion en encadre or */
-.histoire-redesign .about-conclusion {
-    background: linear-gradient(135deg, rgba(212, 165, 55, 0.12), rgba(212, 165, 55, 0.04)) !important;
-    border-left: 4px solid var(--primary-gold) !important;
-    border-radius: var(--radius-md);
-    padding: var(--space-lg) !important;
-    font-style: italic;
-    color: var(--primary-dark) !important;
-    max-width: 100% !important;
-    font-size: 1.05rem !important;
-    line-height: 1.7 !important;
-    margin-top: var(--space-xl) !important;
-}
-.histoire-redesign .about-conclusion::first-letter {
-    /* annule le drop-cap */
-    font-family: inherit !important;
-    font-size: inherit !important;
-    font-weight: inherit !important;
-    color: inherit !important;
-    float: none !important;
-    line-height: inherit !important;
-    padding: 0 !important;
-}
-[data-theme="dark"] .histoire-redesign .about-conclusion {
-    color: var(--primary-gold) !important;
-}
-
-/* Mobile : padding adapte */
 @media (max-width: 768px) {
-    .histoire-redesign .about-section {
-        padding: var(--space-lg);
-        border-radius: var(--radius-lg);
-    }
-    .histoire-redesign .about-section h2 {
-        font-size: 1.4rem;
-    }
-    .histoire-method-tab { font-size: 0.85rem; padding: 0.7rem 0.8rem; }
+    .histoire-method-tab { font-size: 0.82rem; padding: 0.6rem 0.7rem; }
 }

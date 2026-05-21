@@ -15,7 +15,7 @@ function HistoirePage() {
     const method1Steps = t('about.story.method1Steps', { returnObjects: true }) || []
 
     return (
-        <div className="about-page histoire-redesign">
+        <div className="about-page">
             <div className="about-page-header">
                 <div className="container">
                     <span className="histoire-hero-badge">
