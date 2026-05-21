@@ -266,6 +266,9 @@
                 "letters": "Lettres, médias & cultures",
                 "earth": "Sciences de la Terre & vivant"
             },
+            "committeesSearchPlaceholder": "Rechercher un comité ou un directeur…",
+            "committeesFilterAll": "Tous",
+            "committeesEmpty": "Aucun comité ne correspond à votre recherche.",
             "foundersTitle": "Le Cercle Fondateur",
             "foundersHelp": "Sélectionnez un membre pour voir sa contribution :",
             "founders": [

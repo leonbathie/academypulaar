@@ -266,6 +266,9 @@
                 "letters": "Letters, media & cultures",
                 "earth": "Earth sciences & life"
             },
+            "committeesSearchPlaceholder": "Search a committee or director…",
+            "committeesFilterAll": "All",
+            "committeesEmpty": "No committee matches your search.",
             "foundersTitle": "The Founding Circle",
             "foundersHelp": "Select a member to view their contribution:",
             "founders": [
