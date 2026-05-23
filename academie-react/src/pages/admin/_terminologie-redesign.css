@@ -441,6 +441,50 @@
     opacity: 0.65;
 }
 
+/* ---------- Boutons utilitaires sous chaque textarea ----------
+   .term-lang-prefill : copie la valeur i18n par defaut dans le champ
+                        (visible uniquement quand le champ est vide)
+   .term-lang-clear   : vide le champ pour revenir au fallback i18n
+                        (visible uniquement quand le champ a du contenu) */
+.terminology-admin-page .term-lang-prefill,
+.terminology-admin-page .term-lang-clear {
+    align-self: flex-start;
+    margin-top: 0.4rem;
+    padding: 0.4rem 0.7rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: background var(--transition-fast),
+                border-color var(--transition-fast),
+                color var(--transition-fast),
+                transform var(--transition-fast);
+    line-height: 1.2;
+    white-space: normal;
+    text-align: left;
+}
+.terminology-admin-page .term-lang-prefill {
+    background: rgba(212, 165, 55, 0.08);
+    color: var(--primary-gold);
+    border: 1px dashed var(--primary-gold);
+}
+.terminology-admin-page .term-lang-prefill:hover {
+    background: rgba(212, 165, 55, 0.18);
+    border-style: solid;
+    transform: translateY(-1px);
+}
+.terminology-admin-page .term-lang-clear {
+    background: transparent;
+    color: var(--medium-gray);
+    border: 1px solid var(--light-gray);
+}
+.terminology-admin-page .term-lang-clear:hover {
+    background: rgba(220, 53, 69, 0.06);
+    color: #c0392b;
+    border-color: #c0392b;
+}
+
 /* ---------- DomainContentEditor : nav par sections (mobile-first) ---------- */
 .terminology-admin-page .domain-editor-section-nav {
     display: flex;

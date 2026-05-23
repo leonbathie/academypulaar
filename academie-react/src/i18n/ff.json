@@ -664,7 +664,9 @@
             "statusFilled": "Mbaylaandi",
             "statusUsesDefault": "Huutoraade tonngooɗe lornol",
             "filledTooltip": "Goɗɗi mbaylaaɗi e jowitiiɗi (4 goɗɗo × 3 ɗemɗe).",
-            "stickyHint": "So a accii goɗɗo meere, firo lornol aplikasoŋ ndi hollirtee."
+            "stickyHint": "So a accii goɗɗo meere, firo lornol aplikasoŋ ndi hollirtee.",
+            "copyDefault": "Eggin firo lornol ngam waylude",
+            "clearField": "Momtu (artu e lornol)"
         },
         "domainContent": {
             "title": "Loowdi jaŋde wonande nokku kala",

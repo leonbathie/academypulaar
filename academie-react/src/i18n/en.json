@@ -662,7 +662,9 @@
             "statusFilled": "Customized",
             "statusUsesDefault": "Uses default value",
             "filledTooltip": "Customized fields out of total (4 fields × 3 languages).",
-            "stickyHint": "Leaving a field empty falls back to the application's default translation."
+            "stickyHint": "Leaving a field empty falls back to the application's default translation.",
+            "copyDefault": "Copy default value to edit it",
+            "clearField": "Clear (revert to default)"
         },
         "domainContent": {
             "title": "Per-domain learning content",

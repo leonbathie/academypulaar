@@ -175,6 +175,7 @@ function TerminologyPageEditor() {
                             {LANG_FIELDS.map(lf => {
                                 const value = form[f.key]?.[lf.col] || ''
                                 const isFilled = !!value.trim()
+                                const defaultText = t(f.i18n, { lng: lf.lang })
                                 return (
                                     <div key={lf.lang} className="form-group term-lang-input">
                                         <label>
@@ -192,15 +193,37 @@ function TerminologyPageEditor() {
                                                 rows={8}
                                                 value={value}
                                                 onChange={e => update(f.key, lf.col, e.target.value)}
-                                                placeholder={t(f.i18n, { lng: lf.lang })}
+                                                placeholder={defaultText}
                                             />
                                         ) : (
                                             <input
                                                 type="text"
                                                 value={value}
                                                 onChange={e => update(f.key, lf.col, e.target.value)}
-                                                placeholder={t(f.i18n, { lng: lf.lang })}
+                                                placeholder={defaultText}
                                             />
+                                        )}
+                                        {/* Quand le champ est vide, un placeholder gris affiche le defaut
+                                            i18n MAIS l'utilisateur ne peut pas l'editer directement. Ce
+                                            bouton recopie le defaut dans le champ pour permettre l edition. */}
+                                        {!isFilled && defaultText && (
+                                            <button
+                                                type="button"
+                                                className="term-lang-prefill"
+                                                onClick={() => update(f.key, lf.col, defaultText)}
+                                            >
+                                                ↓ {t('admin.terminology.copyDefault', 'Copier la valeur par défaut pour l\'éditer')}
+                                            </button>
+                                        )}
+                                        {/* Inversement : bouton pour vider le champ (= revenir au fallback i18n public) */}
+                                        {isFilled && (
+                                            <button
+                                                type="button"
+                                                className="term-lang-clear"
+                                                onClick={() => update(f.key, lf.col, '')}
+                                            >
+                                                ✕ {t('admin.terminology.clearField', 'Vider (revenir au défaut)')}
+                                            </button>
                                         )}
                                     </div>
                                 )
