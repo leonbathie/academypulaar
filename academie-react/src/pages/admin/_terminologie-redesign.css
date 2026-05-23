@@ -414,8 +414,13 @@
     background: var(--white) !important;
 }
 .terminology-admin-page .term-lang-input textarea {
-    min-height: 130px;
+    min-height: 200px;
     resize: vertical;
+    /* field-sizing: content fait grandir le textarea automatiquement
+       avec le contenu sur les navigateurs recents (Chrome 123+, Safari
+       18+, Firefox 125+). Le min-height 200px assure un fallback
+       confortable sur les navigateurs plus anciens. */
+    field-sizing: content;
 }
 
 /* Pastille de statut */

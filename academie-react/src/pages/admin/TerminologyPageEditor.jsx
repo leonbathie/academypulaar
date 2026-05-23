@@ -189,7 +189,7 @@ function TerminologyPageEditor() {
                                         </label>
                                         {f.isArea ? (
                                             <textarea
-                                                rows={5}
+                                                rows={8}
                                                 value={value}
                                                 onChange={e => update(f.key, lf.col, e.target.value)}
                                                 placeholder={t(f.i18n, { lng: lf.lang })}
