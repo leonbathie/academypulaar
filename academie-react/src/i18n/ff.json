@@ -652,6 +652,8 @@
                 "methodText": "Binndi — Mbaadi waɗirde"
             },
             "section": {
+                "header": "Hello hello / Naatirgol",
+                "headerDesc": "Tiitoonde mawnde e binndol naatirgol toown hello /terminologie, kam e tiitoonde nokkuuji.",
                 "why": "Hol ko addani terminoloji Pulaar ?",
                 "whyDesc": "Naatirgol hollirngol ko addani sosgol terminoloji Pulaar.",
                 "method": "Mbaadi waɗirde",
@@ -659,11 +661,15 @@
             },
             "subTitle": "Tiitoonde",
             "subText": "Binndi",
+            "subPageTitle": "Tiitoonde mawnde hello",
+            "subTitleAccent": "Helmere kanjum heewi kolam",
+            "subIntro": "Tiitoonde leyɗina / Binndol naatirgol",
+            "subDomainsTitle": "Tiitoonde nokkuuji",
             "showDefault": "Hollirde tonngooɗe lornol",
             "hideDefault": "Suuɗde tonngooɗe lornol",
             "statusFilled": "Mbaylaandi",
             "statusUsesDefault": "Huutoraade tonngooɗe lornol",
-            "filledTooltip": "Goɗɗi mbaylaaɗi e jowitiiɗi (4 goɗɗo × 3 ɗemɗe).",
+            "filledTooltip": "Goɗɗi mbaylaaɗi e jowitiiɗi ɗemɗe ɗe njowiti.",
             "stickyHint": "So a accii goɗɗo meere, firo lornol aplikasoŋ ndi hollirtee.",
             "copyDefault": "Eggin firo lornol ngam waylude",
             "clearField": "Momtu (artu e lornol)"

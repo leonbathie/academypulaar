@@ -4,9 +4,18 @@ import { Link } from 'react-router-dom'
 import { API_URL } from '../config'
 import './TerminologyPage.css'
 
-// Clés gérées en base via /api/terminologie (section = 'terminologie').
-// Si une valeur est présente, elle remplace la traduction i18n statique.
-const OVERRIDE_KEYS = ['why_title', 'why_text', 'method_title', 'method_text']
+// Cles gerees en base via /api/terminologie. Si une valeur est presente
+// dans la DB pour la langue active, elle remplace la traduction i18n.
+const OVERRIDE_KEYS = [
+    'header_title',
+    'header_title_highlight',
+    'header_intro',
+    'domains_title',
+    'why_title',
+    'why_text',
+    'method_title',
+    'method_text'
+]
 
 function TerminologyPage() {
     const { t, i18n } = useTranslation()
@@ -50,9 +59,10 @@ function TerminologyPage() {
             <div className="term-header">
                 <div className="container">
                     <h1 className="page-title">
-                        {t('terminology.title')} <span className="gold-accent">{t('terminology.titleHighlight')}</span>
+                        {txt('header_title', 'terminology.title')}{' '}
+                        <span className="gold-accent">{txt('header_title_highlight', 'terminology.titleHighlight')}</span>
                     </h1>
-                    <p className="page-subtitle">{t('terminology.intro')}</p>
+                    <p className="page-subtitle">{txt('header_intro', 'terminology.intro')}</p>
                 </div>
             </div>
 
@@ -71,7 +81,7 @@ function TerminologyPage() {
 
                 {/* Domains grid */}
                 <section className="term-section">
-                    <h2>{t('terminology.domains')}</h2>
+                    <h2>{txt('domains_title', 'terminology.domains')}</h2>
                     <div className="term-domains-grid">
                         {domains.map((dom) => (
                             <Link key={dom.key} to={`/terminologie/${dom.slug}`} className="term-domain-card" style={{ textDecoration: 'none', color: 'inherit' }}>

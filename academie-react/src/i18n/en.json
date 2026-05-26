@@ -650,6 +650,8 @@
                 "methodText": "Text — Creation method"
             },
             "section": {
+                "header": "Page header",
+                "headerDesc": "The main title and subtitle displayed at the top of /terminology, plus the title of the domains section.",
                 "why": "Why a Fulfulde terminology?",
                 "whyDesc": "Intro block explaining the motivation behind creating a Fulfulde terminology.",
                 "method": "Creation method",
@@ -657,11 +659,15 @@
             },
             "subTitle": "Title",
             "subText": "Text",
+            "subPageTitle": "Main page title",
+            "subTitleAccent": "Gold-accent word",
+            "subIntro": "Subtitle / intro text",
+            "subDomainsTitle": "\"Domains\" section title",
             "showDefault": "Show default value",
             "hideDefault": "Hide default value",
             "statusFilled": "Customized",
             "statusUsesDefault": "Uses default value",
-            "filledTooltip": "Customized fields out of total (4 fields × 3 languages).",
+            "filledTooltip": "Customized fields out of all editable language slots.",
             "stickyHint": "Leaving a field empty falls back to the application's default translation.",
             "copyDefault": "Copy default value to edit it",
             "clearField": "Clear (revert to default)"

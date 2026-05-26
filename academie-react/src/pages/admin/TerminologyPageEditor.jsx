@@ -7,6 +7,19 @@ import { useApi } from '../../context/AuthContext'
 // de fallback affichee sur le site public lorsque le champ DB est vide.
 const SECTIONS = [
     {
+        id: 'header',
+        icon: '🏷️',
+        accent: 'gold',
+        labelKey: 'admin.terminology.section.header',
+        descKey: 'admin.terminology.section.headerDesc',
+        fields: [
+            { key: 'header_title',           i18n: 'terminology.title',          isArea: false, subKey: 'subPageTitle' },
+            { key: 'header_title_highlight', i18n: 'terminology.titleHighlight', isArea: false, subKey: 'subTitleAccent' },
+            { key: 'header_intro',           i18n: 'terminology.intro',          isArea: true,  subKey: 'subIntro' },
+            { key: 'domains_title',          i18n: 'terminology.domains',        isArea: false, subKey: 'subDomainsTitle' }
+        ]
+    },
+    {
         id: 'why',
         icon: '❓',
         accent: 'gold',

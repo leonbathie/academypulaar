@@ -652,6 +652,8 @@
                 "methodText": "Texte — Méthode de création"
             },
             "section": {
+                "header": "En-tête de la page",
+                "headerDesc": "Le titre principal et le sous-titre affichés en haut de /terminologie, ainsi que le titre de la section des domaines.",
                 "why": "Pourquoi une terminologie Fulfulde ?",
                 "whyDesc": "Le bloc d'introduction expliquant la motivation derrière la création d'une terminologie Fulfulde.",
                 "method": "Méthode de création",
@@ -659,11 +661,15 @@
             },
             "subTitle": "Titre",
             "subText": "Texte",
+            "subPageTitle": "Titre principal de la page",
+            "subTitleAccent": "Mot en accent doré",
+            "subIntro": "Sous-titre / texte d'introduction",
+            "subDomainsTitle": "Titre de la section « Domaines »",
             "showDefault": "Afficher la valeur par défaut",
             "hideDefault": "Masquer la valeur par défaut",
             "statusFilled": "Personnalisé",
             "statusUsesDefault": "Utilise la valeur par défaut",
-            "filledTooltip": "Champs personnalisés sur le total (4 champs × 3 langues).",
+            "filledTooltip": "Champs personnalisés sur le total des langues éditables.",
             "stickyHint": "Laisser un champ vide retombe sur la traduction par défaut de l'application.",
             "copyDefault": "Copier la valeur par défaut pour l'éditer",
             "clearField": "Vider (revenir au défaut)"
