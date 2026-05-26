@@ -1,0 +1,185 @@
+/* =========================================================
+   ContentAdmin (/admin/contenu) — design responsive
+   - Desktop : table classique
+   - Mobile (< 768) : carrousel ordre aleatoire, une carte centree,
+     les autres accessibles par scroll horizontal avec snap.
+   ========================================================= */
+
+/* Wrapper mobile masque sur desktop */
+.content-mobile-wrap {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    /* Masquer la table sur mobile */
+    .content-admin-page .content-admin-table {
+        display: none;
+    }
+
+    .content-mobile-wrap {
+        display: block;
+        margin: var(--space-md) calc(-1 * var(--space-md));
+    }
+
+    /* Compteur 1/N */
+    .content-mobile-counter {
+        display: flex;
+        justify-content: center;
+        margin-bottom: var(--space-sm);
+    }
+    .content-mobile-counter span {
+        background: var(--cream);
+        border: 1px solid var(--light-gray);
+        padding: 0.35rem 0.85rem;
+        border-radius: 999px;
+        font-family: var(--font-body);
+        font-size: 0.82rem;
+        font-weight: 700;
+        color: var(--primary-dark);
+        font-variant-numeric: tabular-nums;
+    }
+
+    /* Conteneur scroll horizontal avec snap */
+    .content-mobile-scroll {
+        display: flex;
+        flex-direction: row;
+        gap: 0;
+        overflow-x: scroll;
+        overflow-y: visible;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        padding: var(--space-sm) 0 var(--space-md);
+    }
+    .content-mobile-scroll::-webkit-scrollbar { display: none; }
+
+    /* Chaque carte = 100% de l'ecran (avec padding interne) */
+    .content-mobile-card {
+        flex: 0 0 100%;
+        width: 100%;
+        scroll-snap-align: center;
+        box-sizing: border-box;
+        padding: 0 var(--space-md);
+    }
+
+    /* Contenu de la carte */
+    .content-mobile-card > * {
+        background: var(--white);
+    }
+    .content-mobile-card {
+        position: relative;
+    }
+    .content-mobile-card .content-mobile-cat {
+        background: linear-gradient(135deg, var(--primary-gold) 0%, var(--gold-dark) 100%);
+        color: var(--white);
+        font-family: var(--font-body);
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        padding: 0.5rem 0.9rem;
+        border-radius: var(--radius-md) var(--radius-md) 0 0;
+        text-align: center;
+        margin: 0 var(--space-md);
+    }
+    .content-mobile-card .content-mobile-row {
+        display: flex;
+        gap: var(--space-sm);
+        padding: var(--space-md);
+        border: 1px solid var(--light-gray);
+        margin: 0 var(--space-md);
+        align-items: flex-start;
+    }
+    .content-mobile-card .content-mobile-row + .content-mobile-row {
+        border-top: none;
+    }
+    .content-mobile-card .content-mobile-dire { border-bottom: none; }
+    .content-mobile-card .content-mobile-dire .content-mobile-icon {
+        background: #22c55e;
+    }
+    .content-mobile-card .content-mobile-nepasdire .content-mobile-icon {
+        background: #ef4444;
+    }
+
+    .content-mobile-icon {
+        flex-shrink: 0;
+        width: 28px;
+        height: 28px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--white);
+        font-weight: 700;
+        border-radius: 50%;
+        font-size: 0.85rem;
+    }
+
+    .content-mobile-row > div { flex: 1; min-width: 0; }
+    .content-mobile-label {
+        display: block;
+        font-family: var(--font-body);
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--medium-gray);
+        margin-bottom: 0.2rem;
+    }
+    .content-mobile-row p {
+        margin: 0;
+        font-family: var(--font-body);
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--primary-dark);
+        line-height: 1.4;
+        word-break: break-word;
+        overflow-wrap: break-word;
+    }
+    .content-mobile-dire p { color: #15803d; }
+    .content-mobile-nepasdire p { color: #b91c1c; }
+
+    .content-mobile-explain {
+        padding: var(--space-md);
+        margin: 0 var(--space-md);
+        background: var(--cream);
+        border: 1px solid var(--light-gray);
+        border-top: none;
+        font-family: var(--font-body);
+        font-size: 0.9rem;
+        color: var(--dark-gray);
+        line-height: 1.55;
+        word-break: break-word;
+        overflow-wrap: break-word;
+    }
+
+    /* Actions edit / delete */
+    .content-mobile-actions {
+        display: flex;
+        gap: var(--space-sm);
+        justify-content: center;
+        padding: var(--space-md);
+        margin: 0 var(--space-md);
+        border: 1px solid var(--light-gray);
+        border-top: none;
+        border-radius: 0 0 var(--radius-md) var(--radius-md);
+    }
+    .content-mobile-actions button {
+        width: 44px;
+        height: 44px;
+        border-radius: var(--radius-md);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all var(--transition-fast);
+    }
+
+    /* Hint scroll */
+    .content-mobile-hint {
+        text-align: center;
+        color: var(--medium-gray);
+        font-size: 0.8rem;
+        margin: var(--space-sm) 0 0;
+        font-style: italic;
+    }
+}

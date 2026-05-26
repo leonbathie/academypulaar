@@ -1,7 +1,8 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useApi } from '../../context/AuthContext'
 import ConfirmDialog from '../../components/ConfirmDialog'
+import './ContentAdmin.css'
 
 function ContentAdmin() {
     const { t } = useTranslation()
@@ -37,6 +38,34 @@ function ContentAdmin() {
     useEffect(() => {
         loadItems()
     }, [])
+
+    // Ordre aleatoire pour le carrousel mobile (re-melange si la liste change).
+    // useMemo evite de re-shuffler a chaque render.
+    const shuffledItems = useMemo(() => {
+        const arr = [...items]
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1))
+            ;[arr[i], arr[j]] = [arr[j], arr[i]]
+        }
+        return arr
+    }, [items])
+
+    // Index visible dans le carrousel mobile (pour afficher 'X / N')
+    const [mobileActiveIdx, setMobileActiveIdx] = useState(0)
+    const mobileScrollRef = useRef(null)
+
+    useEffect(() => {
+        const el = mobileScrollRef.current
+        if (!el || shuffledItems.length === 0) return
+        const handleScroll = () => {
+            const W = el.offsetWidth
+            if (W === 0) return
+            const idx = Math.round(el.scrollLeft / W)
+            setMobileActiveIdx(Math.min(Math.max(idx, 0), shuffledItems.length - 1))
+        }
+        el.addEventListener('scroll', handleScroll, { passive: true })
+        return () => el.removeEventListener('scroll', handleScroll)
+    }, [shuffledItems.length])
 
     const loadItems = async () => {
         try {
@@ -131,7 +160,7 @@ function ContentAdmin() {
     }
 
     return (
-        <div>
+        <div className="content-admin-page">
             <div className="admin-card">
                 <h2>
                     {t('admin.content.title')}
@@ -144,7 +173,60 @@ function ContentAdmin() {
                     </button>
                 </h2>
 
-                <table className="admin-table">
+                {/* === MOBILE : carrousel ordre aleatoire, une carte a la fois === */}
+                {shuffledItems.length > 0 && (
+                    <div className="content-mobile-wrap">
+                        <div className="content-mobile-counter">
+                            <span>{mobileActiveIdx + 1} / {shuffledItems.length}</span>
+                        </div>
+                        <div className="content-mobile-scroll" ref={mobileScrollRef}>
+                            {shuffledItems.map(item => (
+                                <article key={item.id} className="content-mobile-card">
+                                    <div className="content-mobile-cat">
+                                        {item.category ? t(categoryKeyMap[item.category] || item.category) : '—'}
+                                    </div>
+                                    <div className="content-mobile-row content-mobile-dire">
+                                        <span className="content-mobile-icon" aria-hidden="true">✓</span>
+                                        <div>
+                                            <span className="content-mobile-label">{t('admin.content.dire')}</span>
+                                            <p>{item.dire_fr || item.dire}</p>
+                                        </div>
+                                    </div>
+                                    <div className="content-mobile-row content-mobile-nepasdire">
+                                        <span className="content-mobile-icon" aria-hidden="true">✗</span>
+                                        <div>
+                                            <span className="content-mobile-label">{t('admin.content.nePasDire')}</span>
+                                            <p>{item.ne_pas_dire_fr || item.ne_pas_dire}</p>
+                                        </div>
+                                    </div>
+                                    {(item.explanation_fr || item.explanation) && (
+                                        <p className="content-mobile-explain">
+                                            {item.explanation_fr || item.explanation}
+                                        </p>
+                                    )}
+                                    <div className="content-mobile-actions">
+                                        <button className="btn-edit" onClick={() => openModal(item)} aria-label={t('admin.common.edit')}>
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                                            </svg>
+                                        </button>
+                                        <button className="btn-delete" onClick={() => handleDelete(item.id)} aria-label={t('admin.common.delete')}>
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                                <polyline points="3 6 5 6 21 6" />
+                                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </article>
+                            ))}
+                        </div>
+                        <p className="content-mobile-hint">↔ {t('admin.content.swipeHint', 'Glissez horizontalement pour voir les autres')}</p>
+                    </div>
+                )}
+
+                {/* === DESKTOP : table classique === */}
+                <table className="admin-table content-admin-table">
                     <thead>
                         <tr>
                             <th>{t('admin.content.dire')}</th>
