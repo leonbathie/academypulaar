@@ -95,6 +95,10 @@ function TerminologyPageEditor() {
         try {
             const entries = ALL_FIELDS.map(f => ({ key: f.key, ...form[f.key] }))
             await apiRequest('/terminologie', { method: 'POST', body: JSON.stringify({ entries }) })
+            // Re-fetch immediat pour confirmer que la DB a bien tout sauvegarde
+            // (y compris value_en et value_ff). Si l'admin voit les valeurs
+            // re-apparaitre apres rechargement, c'est qu'elles sont en base.
+            await load()
             setMessage({ type: 'success', text: t('admin.terminology.pageSaved') })
             setTimeout(() => setMessage(null), 3000)
         } catch (err) {
@@ -189,9 +193,10 @@ function TerminologyPageEditor() {
                                 const value = form[f.key]?.[lf.col] || ''
                                 const isFilled = !!value.trim()
                                 const defaultText = t(f.i18n, { lng: lf.lang })
+                                const inputId = `tpe-${f.key}-${lf.lang}`
                                 return (
                                     <div key={lf.lang} className="form-group term-lang-input">
-                                        <label>
+                                        <label htmlFor={inputId}>
                                             <span className="admin-lang-flag" aria-hidden="true">{lf.flag}</span>
                                             <span>{t(lf.labelKey)}</span>
                                             <span
@@ -203,17 +208,23 @@ function TerminologyPageEditor() {
                                         </label>
                                         {f.isArea ? (
                                             <textarea
+                                                id={inputId}
                                                 rows={8}
                                                 value={value}
                                                 onChange={e => update(f.key, lf.col, e.target.value)}
                                                 placeholder={defaultText}
+                                                lang={lf.lang}
+                                                spellCheck={false}
                                             />
                                         ) : (
                                             <input
+                                                id={inputId}
                                                 type="text"
                                                 value={value}
                                                 onChange={e => update(f.key, lf.col, e.target.value)}
                                                 placeholder={defaultText}
+                                                lang={lf.lang}
+                                                spellCheck={false}
                                             />
                                         )}
                                         {/* Quand le champ est vide, un placeholder gris affiche le defaut
