@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from 'react'
+import { useEffect, useCallback, useRef, useState } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../context/AuthContext'
@@ -6,11 +6,9 @@ import logoGif from '../assets/logo-academie.gif'
 import './LoginPage.css'
 
 function LoginPage() {
-    const { login, loginWithGoogle, isAuthenticated, loading, GOOGLE_CLIENT_ID } = useAuth()
+    const { loginWithGoogle, isAuthenticated, loading, GOOGLE_CLIENT_ID } = useAuth()
     const { t, i18n } = useTranslation()
     const navigate = useNavigate()
-    const [username, setUsername] = useState('')
-    const [password, setPassword] = useState('')
     const [error, setError] = useState('')
     const [isLoading, setIsLoading] = useState(false)
     const googleBtnRef = useRef(null)
@@ -33,7 +31,7 @@ function LoginPage() {
 
         const renderGoogleButton = () => {
             if (!window.google?.accounts?.id || !googleBtnRef.current) return
-            // Vider le conteneur avant re-render (GSI ne supporte pas le re-render sur un div déjà rendu)
+            // Vider le conteneur avant re-render (GSI ne supporte pas le re-render sur un div deja rendu)
             googleBtnRef.current.innerHTML = ''
             window.google.accounts.id.initialize({
                 client_id: GOOGLE_CLIENT_ID,
@@ -48,7 +46,6 @@ function LoginPage() {
             })
         }
 
-        // Load Google Identity Services script
         const existingScript = document.getElementById('google-gsi')
         if (existingScript) {
             renderGoogleButton()
@@ -73,21 +70,6 @@ function LoginPage() {
         return <Navigate to="/admin" replace />
     }
 
-    const handleSubmit = async (e) => {
-        e.preventDefault()
-        setError('')
-        setIsLoading(true)
-
-        try {
-            await login(username, password)
-            navigate('/admin')
-        } catch (err) {
-            setError(err.message)
-        } finally {
-            setIsLoading(false)
-        }
-    }
-
     return (
         <div className="login-page">
             <div className="login-container">
@@ -97,69 +79,33 @@ function LoginPage() {
                     <p>{t('admin.loginTitle', 'Administration')}</p>
                 </div>
 
-                <form onSubmit={handleSubmit} className="login-form">
-                    {error && (
-                        <div className="login-error">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                <circle cx="12" cy="12" r="10" />
-                                <path d="M12 8v4M12 16h.01" />
-                            </svg>
-                            {error}
-                        </div>
-                    )}
-
-                    <div className="form-group">
-                        <label htmlFor="username">{t('admin.login.username', "Nom d'utilisateur")}</label>
-                        <input
-                            type="text"
-                            id="username"
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
-                            placeholder="admin"
-                            required
-                            autoFocus
-                        />
+                {error && (
+                    <div className="login-error">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <circle cx="12" cy="12" r="10" />
+                            <path d="M12 8v4M12 16h.01" />
+                        </svg>
+                        {error}
                     </div>
+                )}
 
-                    <div className="form-group">
-                        <label htmlFor="password">{t('admin.login.password', 'Mot de passe')}</label>
-                        <input
-                            type="password"
-                            id="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            placeholder="••••••••"
-                            required
-                        />
-                    </div>
-
-                    <button type="submit" className="login-btn" disabled={isLoading}>
-                        {isLoading ? (
-                            <>
-                                <span className="spinner"></span>
-                                {t('admin.login.connecting', 'Connexion...')}
-                            </>
-                        ) : (
-                            <>
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                    <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3" />
-                                </svg>
-                                {t('admin.login.submit', 'Se connecter')}
-                            </>
-                        )}
-                    </button>
-                </form>
-
-                {GOOGLE_CLIENT_ID && (
-                    <>
-                        <div className="login-divider">
-                            <span>{t('admin.login.or', 'ou')}</span>
-                        </div>
+                {GOOGLE_CLIENT_ID ? (
+                    <div className="login-google-only">
                         {i18n.language === 'ff' && (
                             <p className="google-label-ff">{t('admin.login.googleLogin', 'Seŋoraade Google')}</p>
                         )}
-                        <div ref={googleBtnRef} className="google-btn-container"></div>
-                    </>
+                        <div ref={googleBtnRef} className="google-btn-container" aria-busy={isLoading}></div>
+                        {isLoading && (
+                            <p className="login-loading-text">
+                                <span className="spinner"></span>
+                                {t('admin.login.connecting', 'Connexion...')}
+                            </p>
+                        )}
+                    </div>
+                ) : (
+                    <div className="login-error">
+                        Google Sign-In n'est pas configuré (GOOGLE_CLIENT_ID manquant). Contactez l'administrateur.
+                    </div>
                 )}
 
                 <div className="login-footer">
