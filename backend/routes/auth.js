@@ -82,11 +82,17 @@ router.post('/google', async (req, res) => {
         })
 
         const payload = ticket.getPayload()
-        const { sub: googleId, email, name } = payload
+        const { sub: googleId, name } = payload
+        // Normaliser l'email retourne par Google (lowercase + trim) pour
+        // s'aligner avec les invitations creees par les admins, qui peuvent
+        // contenir des majuscules ou des espaces accidentels.
+        const email = (payload.email || '').trim().toLowerCase()
 
         // Chercher un utilisateur existant par google_id ou email
+        // (comparaison case-insensitive sur l'email pour matcher meme si
+        // un ancien compte avait ete cree avec une casse differente).
         let result = await query(
-            'SELECT * FROM users WHERE google_id = $1 OR email = $2',
+            'SELECT * FROM users WHERE google_id = $1 OR LOWER(TRIM(email)) = $2',
             [googleId, email]
         )
 
@@ -119,9 +125,11 @@ router.post('/google', async (req, res) => {
                 user = insertResult.rows[0]
                 console.log(`[AUTH] Super-admin created via Google: ${email}`)
             } else {
-                // Vérifier s'il y a une invitation valide pour cet email (pas d'expiration)
+                // Verifier s'il y a une invitation valide pour cet email (comparaison
+                // case-insensitive + trim pour matcher meme si l'admin a tape l'email
+                // avec une majuscule ou un espace).
                 const inviteResult = await query(
-                    'SELECT * FROM invitations WHERE email = $1 AND used = false',
+                    'SELECT * FROM invitations WHERE LOWER(TRIM(email)) = $1 AND used = false',
                     [email]
                 )
 
@@ -245,11 +253,15 @@ router.post('/change-password', authMiddleware, async (req, res) => {
 // POST /api/auth/invitations
 router.post('/invitations', authMiddleware, requireRole('admin'), async (req, res) => {
     try {
-        const { email, role } = req.body
+        const rawEmail = req.body?.email
+        const { role } = req.body
 
-        if (!email) {
+        if (!rawEmail) {
             return res.status(400).json({ error: 'Email requis' })
         }
+
+        // Normaliser l'email pour eviter les mismatches de casse / espaces.
+        const email = String(rawEmail).trim().toLowerCase()
 
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
         if (!emailRegex.test(email)) {
@@ -259,14 +271,14 @@ router.post('/invitations', authMiddleware, requireRole('admin'), async (req, re
         const allowedRoles = ['admin', 'moderateur']
         const inviteRole = allowedRoles.includes(role) ? role : 'moderateur'
 
-        // Vérifier si l'utilisateur existe déjà
-        const existingUser = await query('SELECT id FROM users WHERE email = $1', [email])
+        // Verifier si l'utilisateur existe deja (case-insensitive)
+        const existingUser = await query('SELECT id FROM users WHERE LOWER(TRIM(email)) = $1', [email])
         if (existingUser.rows.length > 0) {
             return res.status(400).json({ error: 'Un utilisateur avec cet email existe déjà' })
         }
 
-        // Supprimer toute ancienne invitation pour cet email (éviter les doublons)
-        await query('DELETE FROM invitations WHERE email = $1', [email])
+        // Supprimer toute ancienne invitation pour cet email (eviter les doublons)
+        await query('DELETE FROM invitations WHERE LOWER(TRIM(email)) = $1', [email])
 
         const token = crypto.randomBytes(32).toString('hex')
 
@@ -407,9 +419,12 @@ router.delete('/users/:id', authMiddleware, requireRole('admin'), async (req, re
             return res.status(403).json({ error: 'Seuls les super-administrateurs peuvent supprimer un admin' })
         }
 
-        // Supprimer aussi l'invitation associée
-        if (targetUser.rows.length > 0) {
-            await query('DELETE FROM invitations WHERE email = $1', [targetUser.rows[0].email])
+        // Supprimer aussi l'invitation associee (case-insensitive)
+        if (targetUser.rows.length > 0 && targetUser.rows[0].email) {
+            await query(
+                'DELETE FROM invitations WHERE LOWER(TRIM(email)) = LOWER(TRIM($1))',
+                [targetUser.rows[0].email]
+            )
         }
 
         await query('DELETE FROM users WHERE id = $1', [userId])
