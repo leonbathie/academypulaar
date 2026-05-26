@@ -26,7 +26,10 @@ function TerminologyPage() {
 
     useEffect(() => {
         let cancelled = false
-        fetch(`${API_URL}/api/terminologie`)
+        // cache: 'no-store' force le navigateur a aller chercher la valeur
+        // a jour cote serveur (sinon les modifs admin n'apparaissent qu'apres
+        // expiration du cache HTTP).
+        fetch(`${API_URL}/api/terminologie`, { cache: 'no-store' })
             .then(r => (r.ok ? r.json() : {}))
             .then(data => {
                 if (cancelled || !data || typeof data !== 'object') return

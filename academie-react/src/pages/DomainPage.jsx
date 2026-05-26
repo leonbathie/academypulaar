@@ -75,7 +75,7 @@ function DomainPage() {
     useEffect(() => {
         if (!config) return
         let cancelled = false
-        fetch(`${API_URL}/api/domain-content/${domain}`)
+        fetch(`${API_URL}/api/domain-content/${domain}`, { cache: 'no-store' })
             .then(r => (r.ok ? r.json() : {}))
             .then(data => {
                 if (cancelled) return

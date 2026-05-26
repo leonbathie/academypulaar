@@ -15,7 +15,15 @@ const ALLOWED_DOMAINS = new Set([
 
 const ALLOWED_LANGUAGES = new Set(['fr', 'en', 'ff'])
 
-// GET /api/domain-content - Retourner tout le contenu, structuré { domain: { fr, en, ff } }
+// Headers anti-cache pour les GET dynamiques (admin modifie souvent ces
+// textes et doit voir le resultat immediatement sur la page publique).
+function setNoStore(res) {
+    res.set('Cache-Control', 'no-store, no-cache, must-revalidate')
+    res.set('Pragma', 'no-cache')
+    res.set('Expires', '0')
+}
+
+// GET /api/domain-content - Retourner tout le contenu, structure { domain: { fr, en, ff } }
 router.get('/', async (req, res) => {
     try {
         const result = await query('SELECT domain, language, content, updated_at FROM domain_content')
@@ -24,6 +32,7 @@ router.get('/', async (req, res) => {
             if (!out[row.domain]) out[row.domain] = {}
             out[row.domain][row.language] = row.content
         }
+        setNoStore(res)
         res.json(out)
     } catch (error) {
         console.error('Get domain-content error:', error)
@@ -31,7 +40,7 @@ router.get('/', async (req, res) => {
     }
 })
 
-// GET /api/domain-content/:domain - Retourner le contenu d'un domaine, structuré { fr, en, ff }
+// GET /api/domain-content/:domain - Retourner le contenu d'un domaine
 router.get('/:domain', async (req, res) => {
     try {
         const { domain } = req.params
@@ -46,6 +55,7 @@ router.get('/:domain', async (req, res) => {
         for (const row of result.rows) {
             out[row.language] = row.content
         }
+        setNoStore(res)
         res.json(out)
     } catch (error) {
         console.error('Get domain-content/:domain error:', error)
