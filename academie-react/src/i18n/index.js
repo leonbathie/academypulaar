@@ -54,13 +54,34 @@ await i18n
         }
     })
 
-// Lazy-load des autres langues au switch.
+// Change de langue en chargeant d'abord la ressource si necessaire.
+// A utiliser depuis l'UI (Header) : evite le flash de texte fallback et
+// garantit que React re-render avec la bonne langue des le 1er rendu.
+export async function changeLanguage(lng) {
+    if (SUPPORTED.includes(lng) && !i18n.hasResourceBundle(lng, 'translation')) {
+        try {
+            const res = await loadLangResource(lng)
+            i18n.addResourceBundle(lng, 'translation', res, true, true)
+        } catch (e) {
+            console.error('Failed to load language', lng, e)
+        }
+    }
+    return i18n.changeLanguage(lng)
+}
+
+// Filet de securite : si du code appelle i18n.changeLanguage() directement
+// (sans passer par changeLanguage ci-dessus) vers une langue non chargee,
+// on charge la ressource PUIS on re-emet le changement pour forcer le
+// re-render React. Le garde hasResourceBundle evite la boucle infinie.
 i18n.on('languageChanged', async (lng) => {
     if (!SUPPORTED.includes(lng)) return
     if (i18n.hasResourceBundle(lng, 'translation')) return
     try {
         const res = await loadLangResource(lng)
         i18n.addResourceBundle(lng, 'translation', res, true, true)
+        // Re-applique la langue : le 2e passage trouve le bundle (garde
+        // ci-dessus) et ne reboucle pas, mais declenche le re-render.
+        i18n.changeLanguage(lng)
     } catch (e) {
         console.error('Failed to load language', lng, e)
     }

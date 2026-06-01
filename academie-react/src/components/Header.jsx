@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useTheme } from '../context/ThemeContext'
+import { changeLanguage as changeLanguageAsync } from '../i18n'
 import logoGif from '../assets/logo-academie.webp'
 import './Header.css'
 
@@ -76,7 +77,9 @@ function Header() {
     }
 
     const changeLanguage = (langCode) => {
-        i18n.changeLanguage(langCode)
+        // Pre-charge la ressource de langue (si pas deja en cache) puis switch,
+        // ce qui evite le flash de texte fallback avec le lazy-loading i18n.
+        changeLanguageAsync(langCode)
         setIsLangMenuOpen(false)
     }
 

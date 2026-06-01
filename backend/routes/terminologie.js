@@ -32,10 +32,14 @@ router.post('/', authMiddleware, canWrite, async (req, res) => {
             return res.status(400).json({ error: 'Aucune entrée fournie' })
         }
 
-        const client = await query('BEGIN').catch(() => null)
         // Accept object map or array
         const items = Array.isArray(entries) ? entries : Object.keys(entries).map(k => ({ key: k, ...entries[k] }))
 
+        // NB : pas de BEGIN/COMMIT via query() — query() utilise pool.query()
+        // donc chaque appel prend une connexion potentiellement differente.
+        // Un BEGIN ainsi lance laisse une transaction ouverte sur une connexion
+        // rendue au pool (corruption). Chaque upsert est de toute facon
+        // idempotent (ON CONFLICT DO UPDATE), donc l'atomicite n'est pas requise.
         const upserted = []
         for (const item of items) {
             const { key, value_fr, value_en, value_ff } = item
@@ -50,12 +54,10 @@ router.post('/', authMiddleware, canWrite, async (req, res) => {
             upserted.push(result.rows[0])
         }
 
-        await query('COMMIT').catch(() => {})
         res.json({ updated: upserted.length, items: upserted })
 
     } catch (error) {
         console.error('Upsert terminologie error:', error)
-        try { await query('ROLLBACK') } catch (e) {}
         res.status(500).json({ error: 'Erreur serveur' })
     }
 })

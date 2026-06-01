@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Navigate, NavLink, Outlet } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../context/AuthContext'
+import { changeLanguage as changeLanguageAsync } from '../i18n'
 import logoGif from '../assets/logo-academie.webp'
 import './AdminPage.css'
 
@@ -20,7 +21,7 @@ function AdminPage() {
     const currentLang = languages.find(l => l.code === i18n.language) || languages[0]
 
     const changeLanguage = (langCode) => {
-        i18n.changeLanguage(langCode)
+        changeLanguageAsync(langCode)
         setIsLangMenuOpen(false)
     }
 
