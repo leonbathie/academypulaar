@@ -22,7 +22,15 @@ function Footer() {
                         <div className="footer-brand">
                             <Link to="/" className="footer-logo">
                                 <div className="logo-icon">
-                                    <img src={logoGif} alt="Goomu Fulo Wiɗto" className="logo-image" />
+                                    <img
+                                        src={logoGif}
+                                        alt="Goomu Fulo Wiɗto"
+                                        className="logo-image"
+                                        width="100"
+                                        height="100"
+                                        loading="lazy"
+                                        decoding="async"
+                                    />
                                 </div>
                                 <div className="logo-text">
                                     <span className="logo-title">{t('common.siteName')}</span>

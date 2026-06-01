@@ -86,7 +86,15 @@ function Header() {
                 <div className="header-container">
                     <Link to="/" className="logo">
                         <div className="logo-icon">
-                            <img src={logoGif} alt="Goomu Fulo Wiɗto" className="logo-image" />
+                            <img
+                                src={logoGif}
+                                alt="Goomu Fulo Wiɗto"
+                                className="logo-image"
+                                width="100"
+                                height="100"
+                                decoding="async"
+                                fetchPriority="high"
+                            />
                         </div>
                         <div className="logo-text">
                             <span className="logo-title">{t('common.siteName')}</span>
