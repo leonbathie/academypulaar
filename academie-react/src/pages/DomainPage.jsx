@@ -57,6 +57,11 @@ function DomainPage() {
     const normalizeFulfuldeText = (value) => (value ?? '').toString().normalize('NFC').trim()
     const searchNormalizer = (value) => normalizeFulfuldeText(value).toLowerCase()
     const config = DOMAIN_CONFIG[domain]
+    // Multi-domaines : un mot peut appartenir a plusieurs domaines.
+    const wordDomains = (w) => (Array.isArray(w.domains) && w.domains.length > 0)
+        ? w.domains
+        : (w.domain ? [w.domain] : [])
+    const wordHasDomain = (w, d) => wordDomains(w).includes(d)
 
     const [words, setWords] = useState([])
     const [loading, setLoading] = useState(true)
@@ -102,7 +107,7 @@ function DomainPage() {
                 const response = await fetch(`${API_URL}/api/dictionary`)
                 if (response.ok) {
                     const data = await response.json()
-                    const filtered = data.filter(w => config.filters.includes(w.domain))
+                    const filtered = data.filter(w => wordDomains(w).some(d => config.filters.includes(d)))
                     setWords(filtered)
                 }
             } catch (error) {
@@ -186,11 +191,14 @@ function DomainPage() {
         )
     }
     if (selectedSub) {
-        filtered = filtered.filter(w => w.domain === selectedSub)
+        filtered = filtered.filter(w => wordHasDomain(w, selectedSub))
     }
 
-    // Group by sub-domain
-    const subDomains = [...new Set(words.map(w => w.domain).filter(Boolean))]
+    // Sous-domaines presents, restreints a ceux du meta-domaine courant
+    // (un mot multi-domaines peut aussi appartenir a un autre meta).
+    const subDomains = [...new Set(
+        words.flatMap(w => wordDomains(w)).filter(d => config.filters.includes(d))
+    )]
 
     // Letters available
     const letters = [...new Set(filtered.map(w => w.word.charAt(0).toUpperCase()))].sort()
@@ -342,7 +350,7 @@ function DomainPage() {
                                             className={`domain-sub-btn ${selectedSub === sub ? 'active' : ''}`}
                                             onClick={() => setSelectedSub(sub)}
                                         >
-                                            {t(`dictionary.domains.${sub}`, sub)} ({words.filter(w => w.domain === sub).length})
+                                            {t(`dictionary.domains.${sub}`, sub)} ({words.filter(w => wordHasDomain(w, sub)).length})
                                         </button>
                                     ))}
                                 </div>
@@ -430,10 +438,12 @@ function DomainPage() {
                                                             </p>
                                                         )}
 
-                                                        {(entry.category || entry.domain) && (
+                                                        {(entry.category || wordDomains(entry).length > 0) && (
                                                             <div className="domain-word-badges">
                                                                 {entry.category && <span className="domain-badge domain-badge--cat">{t(`dictionary.categories.${entry.category}`, entry.category)}</span>}
-                                                                {entry.domain && <span className="domain-badge domain-badge--dom">{t(`dictionary.domains.${entry.domain}`, entry.domain)}</span>}
+                                                                {wordDomains(entry).map(d => (
+                                                                    <span key={d} className="domain-badge domain-badge--dom">{t(`dictionary.domains.${d}`, d)}</span>
+                                                                ))}
                                                             </div>
                                                         )}
 

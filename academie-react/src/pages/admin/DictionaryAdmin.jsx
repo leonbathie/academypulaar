@@ -559,25 +559,36 @@ function DictionaryAdmin() {
         }
     }
 
+    // Domaines effectifs d'un mot : tableau pivot si present, sinon champ legacy.
+    const wordDomains = (w) => (Array.isArray(w.domains) && w.domains.length > 0)
+        ? w.domains
+        : (w.domain ? [w.domain] : [])
+    // Domaine principal (pour le tri / groupement quand pas de filtre).
+    const primaryDomain = (w) => wordDomains(w)[0] || ''
+
     const filteredWords = words.filter(word => {
         const term = searchNormalizer(searchTerm)
         const matchesSearch = searchNormalizer(word.word).includes(term) ||
                searchNormalizer(word.translation_fr).includes(term) ||
                searchNormalizer(word.translation_en).includes(term) ||
                searchNormalizer(word.translation_ff).includes(term)
-        const matchesDomain = !filterDomain || word.domain === filterDomain
+        // Multi-domaines : le mot matche si le domaine filtre est dans sa liste.
+        const matchesDomain = !filterDomain || wordDomains(word).includes(filterDomain)
         return matchesSearch && matchesDomain
     }).sort((a, b) => {
-        const domainA = a.domain || ''
-        const domainB = b.domain || ''
+        const domainA = primaryDomain(a)
+        const domainB = primaryDomain(b)
         if (domainA !== domainB) return collator.compare(domainA, domainB)
         return collator.compare(a.word || '', b.word || '')
     })
 
-    // Group words by domain for display
+    // Group words by domain for display.
+    // - Filtre actif : tout sous le domaine filtre (le mot a bien ce domaine).
+    // - Sinon : sous le domaine principal (chaque mot apparait une fois ;
+    //   ses autres domaines restent visibles via les badges).
     const domainGroups = {}
     filteredWords.forEach(word => {
-        const domain = word.domain || '_none'
+        const domain = filterDomain || primaryDomain(word) || '_none'
         if (!domainGroups[domain]) domainGroups[domain] = []
         domainGroups[domain].push(word)
     })

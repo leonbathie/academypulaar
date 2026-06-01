@@ -11,6 +11,11 @@ function DictionaryPage() {
     const normalizeFulfuldeText = (value) => (value ?? '').toString().normalize('NFC').trim()
     const searchNormalizer = (value) => normalizeFulfuldeText(value).toLowerCase()
     const collator = new Intl.Collator(lang === 'ff' ? 'ff' : undefined, { sensitivity: 'base', numeric: true })
+    // Multi-domaines : un mot peut avoir plusieurs domaines (tableau `domains`),
+    // avec fallback sur l'ancien champ `domain` unique.
+    const wordHasDomain = (w, d) => Array.isArray(w.domains) && w.domains.length > 0
+        ? w.domains.includes(d)
+        : w.domain === d
     const [searchParams] = useSearchParams()
     const [searchTerm, setSearchTerm] = useState('')
     const [searchType, setSearchType] = useState('prefix')
@@ -84,9 +89,6 @@ function DictionaryPage() {
                 // Extraire les lettres disponibles
                 const uniqueLetters = [...new Set(data.map(w => w.word.charAt(0).toUpperCase()))].sort()
                 setLetters(uniqueLetters)
-
-                // Extraire les domaines disponibles
-                const uniqueDomains = [...new Set(data.filter(w => w.domain).map(w => w.domain))]
             }
         } catch (error) {
             console.error('Error loading dictionary:', error)
@@ -133,7 +135,7 @@ function DictionaryPage() {
                     }
                 })
                 if (selectedDomain) {
-                    filtered = filtered.filter(w => w.domain === selectedDomain)
+                    filtered = filtered.filter(w => wordHasDomain(w, selectedDomain))
                 }
                 setResults(filtered)
                 setIsSearching(false)
@@ -144,11 +146,11 @@ function DictionaryPage() {
                 word.word.charAt(0).toUpperCase() === selectedLetter
             )
             if (selectedDomain) {
-                filtered = filtered.filter(w => w.domain === selectedDomain)
+                filtered = filtered.filter(w => wordHasDomain(w, selectedDomain))
             }
             setResults(filtered)
         } else if (selectedDomain) {
-            const filtered = allWords.filter(w => w.domain === selectedDomain)
+            const filtered = allWords.filter(w => wordHasDomain(w, selectedDomain))
             setResults(filtered)
         } else {
             setResults([])
@@ -244,7 +246,7 @@ function DictionaryPage() {
                             .map(d => ({ key: d, label: t(`dictionary.domains.${d}`) }))
                                     .sort((a, b) => collator.compare(a.label, b.label))
                             .map(({ key: domain }) => {
-                            const count = allWords.filter(w => w.domain === domain).length
+                            const count = allWords.filter(w => wordHasDomain(w, domain)).length
                             if (count === 0) return null
                             return (
                                 <button
