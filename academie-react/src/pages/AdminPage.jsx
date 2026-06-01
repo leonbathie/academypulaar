@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { Navigate, NavLink, Outlet } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../context/AuthContext'
-import logoGif from '../assets/logo-academie.gif'
+import logoGif from '../assets/logo-academie.webp'
 import './AdminPage.css'
 
 function AdminPage() {

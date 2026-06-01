@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useTheme } from '../context/ThemeContext'
-import logoGif from '../assets/logo-academie.gif'
+import logoGif from '../assets/logo-academie.webp'
 import './Header.css'
 
 const languages = [
