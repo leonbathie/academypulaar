@@ -1,8 +1,8 @@
 /* ============================================
    GOOMU FULO WIƊTO - Design System
+   Les polices sont chargees dans index.html (<link>) pour un
+   telechargement parallele immediat (pas via @import render-blocking).
    ============================================ */
-
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Source+Sans+Pro:wght@300;400;600;700&display=swap');
 
 :root {
   /* Colors - Palette Africaine/Fulfulde */

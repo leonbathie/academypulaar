@@ -12,6 +12,18 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
+    <!-- Polices : chargees ici (non-bloquant) plutot que via @import CSS.
+         Le swap evite le texte invisible pendant le chargement (FOIT). -->
+    <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Source+Sans+Pro:wght@400;600;700&display=swap"
+        media="print"
+        onload="this.media='all'"
+    />
+    <noscript>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Source+Sans+Pro:wght@400;600;700&display=swap" />
+    </noscript>
+
     <!-- SEO -->
     <meta name="description" content="Serving the Fulfulde language. Goomu Fulo &amp; Wiɗto has as mission to translate scientific terms into Fulfulde and conduct research to develop Fulfulde language." />
     <link rel="canonical" href="https://goomufulo.com/" />
