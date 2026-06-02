@@ -67,6 +67,16 @@ function Header() {
         setActiveSubmenu(null)
     }, [location])
 
+    // Bloquer le scroll de la page de fond quand le menu mobile est ouvert
+    useEffect(() => {
+        if (isMobileMenuOpen) {
+            document.body.style.overflow = 'hidden'
+        } else {
+            document.body.style.overflow = ''
+        }
+        return () => { document.body.style.overflow = '' }
+    }, [isMobileMenuOpen])
+
     const toggleMobileMenu = () => {
         setIsMobileMenuOpen(!isMobileMenuOpen)
         setActiveSubmenu(null)
