@@ -93,8 +93,8 @@ function Header() {
                                 src={logoGif}
                                 alt="Goomu Fulo Wiɗto"
                                 className="logo-image"
-                                width="100"
-                                height="100"
+                                width="150"
+                                height="110"
                                 decoding="async"
                                 fetchPriority="high"
                             />

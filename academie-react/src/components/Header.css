@@ -143,9 +143,10 @@
 }
 
 .logo-icon {
-    width: 100px;
-    height: 100px;
+    width: 150px;
+    height: 110px;
     color: var(--primary-gold);
+    flex-shrink: 0;
 }
 
 .logo-icon svg {
@@ -157,7 +158,6 @@
     width: 100%;
     height: 100%;
     object-fit: contain;
-    border-radius: 50%;
 }
 
 .logo-video {
@@ -627,8 +627,8 @@
     }
 
     .logo-icon {
-        width: 90px;
-        height: 90px;
+        width: 130px;
+        height: 95px;
         flex-shrink: 0;
     }
 
@@ -666,8 +666,8 @@
     }
 
     .logo-icon {
-        width: 75px;
-        height: 75px;
+        width: 110px;
+        height: 80px;
     }
 
     .logo-title {
@@ -737,8 +737,8 @@
     }
 
     .logo-icon {
-        width: 65px;
-        height: 65px;
+        width: 95px;
+        height: 70px;
     }
 
     .logo-title {
