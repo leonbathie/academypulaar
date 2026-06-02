@@ -904,7 +904,7 @@ const domainContent = {
                 {
                     icon: '🐄',
                     title: 'Kelmeendi nagge',
-                    text: "Fulɓe ina njogii ko ɓuri 80 helmere ngam hollirde mbaadi nagge — noordi, gaawe, ɓenndi. Kelmeendi nay\'i Fulɓe ko ɓurndi heewde nder aduna oo."
+                    text: "Fulɓe ina njogii ko ɓuri 80 helmere ngam hollirde mbaadi nagge — noordi, gaawe, ɓenndi. Kelmeendi nay'i Fulɓe ko ɓurndi heewde nder aduna oo."
                 },
                 {
                     icon: '🌳',

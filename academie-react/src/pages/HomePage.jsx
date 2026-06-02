@@ -1,4 +1,3 @@
-import { useTranslation } from 'react-i18next'
 import Hero from '../components/Hero'
 import Features from '../components/Features'
 import News from '../components/News'

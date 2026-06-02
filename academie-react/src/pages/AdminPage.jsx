@@ -38,7 +38,6 @@ function AdminPage() {
         return () => window.removeEventListener('resize', handleResize)
     }, [])
 
-    const toggleSidebar = () => setSidebarOpen(!sidebarOpen)
     const closeSidebarMobile = () => {
         if (window.innerWidth <= 768) {
             setSidebarOpen(false)

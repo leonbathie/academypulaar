@@ -12,11 +12,6 @@ function StatsAdmin() {
     const [loading, setLoading] = useState(true)
     const [activeTab, setActiveTab] = useState('visitors')
 
-    useEffect(() => {
-        if (!isSuperAdmin) return
-        Promise.all([loadVisitStats(), loadSearchStats()]).finally(() => setLoading(false))
-    }, [])
-
     const loadVisitStats = async () => {
         try {
             const data = await apiRequest('/visits/stats')
@@ -34,6 +29,12 @@ function StatsAdmin() {
             console.error('Error loading search stats:', error)
         }
     }
+
+    useEffect(() => {
+        if (!isSuperAdmin) return
+        Promise.all([loadVisitStats(), loadSearchStats()]).finally(() => setLoading(false))
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     if (!isSuperAdmin) return <Navigate to="/admin" replace />
 

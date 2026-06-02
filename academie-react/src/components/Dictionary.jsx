@@ -12,11 +12,6 @@ function Dictionary() {
     const [wordCount, setWordCount] = useState(0)
     const [definedCount, setDefinedCount] = useState(0)
 
-    // Charger le nombre de mots au démarrage
-    useEffect(() => {
-        loadWordCount()
-    }, [])
-
     const loadWordCount = async () => {
         try {
             // Endpoint leger (compteurs uniquement, cache 60s) — evite de
@@ -31,6 +26,12 @@ function Dictionary() {
             console.error('Error loading word count:', error)
         }
     }
+
+    // Charger le nombre de mots au démarrage
+    useEffect(() => {
+        loadWordCount()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     const handleSearch = (e) => {
         e.preventDefault()
