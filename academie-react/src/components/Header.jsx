@@ -7,9 +7,9 @@ import logoGif from '../assets/logo-academie.webp'
 import './Header.css'
 
 const languages = [
+    { code: 'ff', name: 'Fulfulde', flag: 'FF' },
     { code: 'fr', name: 'Français', flag: 'FR' },
-    { code: 'en', name: 'English', flag: 'En' },
-    { code: 'ff', name: 'Fulfulde', flag: 'FF' }
+    { code: 'en', name: 'English', flag: 'En' }
 ]
 
 function Header() {

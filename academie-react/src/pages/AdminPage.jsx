@@ -13,9 +13,9 @@ function AdminPage() {
     const [isLangMenuOpen, setIsLangMenuOpen] = useState(false)
 
     const languages = [
+        { code: 'ff', name: 'Fulfulde', flag: 'FF' },
         { code: 'fr', name: 'Français', flag: 'FR' },
-        { code: 'en', name: 'English', flag: 'En' },
-        { code: 'ff', name: 'Fulfulde', flag: 'FF' }
+        { code: 'en', name: 'English', flag: 'En' }
     ]
 
     const currentLang = languages.find(l => l.code === i18n.language) || languages[0]
