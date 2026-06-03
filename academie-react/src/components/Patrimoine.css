@@ -1,104 +1,209 @@
 /* =========================================================
    Section Patrimoine (savants) — page d'accueil
-   Carte image + texte, centree, pleine largeur de section.
+   Design premium desktop : grande image cadree, accent dore,
+   citation decorative, ombres profondes, hover elegant.
    ========================================================= */
 .patrimoine {
+    position: relative;
     padding: var(--space-3xl) 0;
-    background: var(--cream);
+    background:
+        radial-gradient(circle at 12% 18%, rgba(212, 165, 55, 0.06) 0%, transparent 42%),
+        radial-gradient(circle at 88% 82%, rgba(139, 41, 66, 0.05) 0%, transparent 42%),
+        var(--cream);
+    overflow: hidden;
 }
 [data-theme="dark"] .patrimoine {
-    background: var(--primary-dark);
+    background:
+        radial-gradient(circle at 12% 18%, rgba(212, 165, 55, 0.08) 0%, transparent 42%),
+        var(--primary-dark);
 }
 
+/* ── En-tete de section ── */
 .patrimoine-head {
     text-align: center;
     margin-bottom: var(--space-2xl);
+    position: relative;
 }
 .patrimoine-head .section-label {
-    display: inline-block;
-    color: var(--primary-gold);
-    font-size: 0.85rem;
-    font-weight: 600;
-    letter-spacing: 0.15em;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: var(--gold-dark);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
     margin-bottom: var(--space-sm);
 }
+.patrimoine-head .section-label::before,
+.patrimoine-head .section-label::after {
+    content: '';
+    width: 28px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--primary-gold));
+}
+.patrimoine-head .section-label::after {
+    background: linear-gradient(90deg, var(--primary-gold), transparent);
+}
 .patrimoine-head .section-title {
     font-family: var(--font-display);
-    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
     color: var(--primary-dark);
     margin: 0;
+    line-height: 1.15;
 }
 [data-theme="dark"] .patrimoine-head .section-title {
     color: var(--white);
 }
 .patrimoine-subtitle {
     color: var(--medium-gray);
-    font-size: 1rem;
+    font-size: 1.05rem;
     line-height: 1.6;
-    max-width: 600px;
+    max-width: 620px;
     margin: var(--space-sm) auto 0;
 }
 
-/* Carte savant : image a gauche, infos a droite (desktop) */
+/* ── Carte savant ── */
 .patrimoine-card {
     display: grid;
-    grid-template-columns: 300px 1fr;
-    gap: var(--space-2xl);
-    max-width: 900px;
+    grid-template-columns: 380px 1fr;
+    gap: 0;
+    max-width: 1000px;
     margin: 0 auto;
     background: var(--white);
     border: 1px solid var(--light-gray);
     border-radius: var(--radius-xl);
     overflow: hidden;
-    box-shadow: 0 8px 30px rgba(26, 26, 46, 0.08);
+    box-shadow: 0 24px 60px rgba(26, 26, 46, 0.12);
+    position: relative;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+/* Liseré doré en haut de la carte */
+.patrimoine-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: var(--gradient-gold);
+    z-index: 2;
+}
+.patrimoine-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 32px 80px rgba(26, 26, 46, 0.18);
 }
 [data-theme="dark"] .patrimoine-card {
     background: var(--primary-navy);
     border-color: rgba(255, 255, 255, 0.1);
 }
 
+/* ── Image ── */
 .patrimoine-image {
+    position: relative;
     background: linear-gradient(135deg, #1a1f3a 0%, #2a1a3a 100%);
     min-height: 100%;
+    overflow: hidden;
 }
 .patrimoine-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
+    transition: transform 0.6s ease;
+}
+.patrimoine-card:hover .patrimoine-image img {
+    transform: scale(1.05);
+}
+/* Voile degrade en bas de l'image pour la profondeur */
+.patrimoine-image::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 55%, rgba(26, 26, 46, 0.45) 100%);
+    pointer-events: none;
+}
+/* Badge "Patrimoine" sur l'image */
+.patrimoine-image-badge {
+    position: absolute;
+    top: var(--space-md);
+    left: var(--space-md);
+    z-index: 2;
+    background: rgba(212, 165, 55, 0.92);
+    color: #1a1a2e;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.35rem 0.8rem;
+    border-radius: 999px;
+    backdrop-filter: blur(4px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
+/* ── Infos ── */
 .patrimoine-info {
-    padding: var(--space-2xl) var(--space-2xl) var(--space-2xl) 0;
+    padding: var(--space-2xl);
     display: flex;
     flex-direction: column;
+    position: relative;
+}
+/* Guillemet decoratif en filigrane */
+.patrimoine-quote {
+    position: absolute;
+    top: var(--space-md);
+    right: var(--space-lg);
+    font-family: Georgia, serif;
+    font-size: 5rem;
+    line-height: 1;
+    color: var(--primary-gold);
+    opacity: 0.12;
+    pointer-events: none;
+    user-select: none;
 }
 
 .patrimoine-name {
     font-family: var(--font-display);
-    font-size: 1.6rem;
+    font-size: 1.9rem;
     color: var(--primary-dark);
-    margin: 0 0 0.2rem;
+    margin: 0 0 0.4rem;
+    line-height: 1.1;
+    position: relative;
+    padding-bottom: 0.6rem;
+}
+/* Petit trait dore sous le nom */
+.patrimoine-name::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 48px;
+    height: 3px;
+    background: var(--gradient-gold);
+    border-radius: 2px;
 }
 [data-theme="dark"] .patrimoine-name {
     color: var(--primary-gold);
 }
 
 .patrimoine-years {
-    display: block;
-    color: var(--medium-gray);
-    font-size: 0.9rem;
-    font-style: italic;
-    margin-bottom: var(--space-md);
-    padding-bottom: var(--space-md);
-    border-bottom: 1px solid var(--light-gray);
+    display: inline-block;
+    width: fit-content;
+    color: var(--gold-dark);
+    background: rgba(212, 165, 55, 0.1);
+    font-size: 0.82rem;
+    font-weight: 600;
+    font-style: normal;
+    letter-spacing: 0.02em;
+    margin: 0.5rem 0 var(--space-lg);
+    padding: 0.3rem 0.85rem;
+    border-radius: 999px;
+}
+[data-theme="dark"] .patrimoine-years {
+    background: rgba(212, 165, 55, 0.15);
 }
 
 .patrimoine-bio {
     color: var(--dark-gray);
-    line-height: 1.7;
-    font-size: 0.98rem;
+    line-height: 1.75;
+    font-size: 1rem;
     flex: 1;
 }
 [data-theme="dark"] .patrimoine-bio {
@@ -111,51 +216,61 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
-.patrimoine-bio .bio-para { margin: 0 0 0.6rem; }
+.patrimoine-bio .bio-para { margin: 0 0 0.7rem; }
 .patrimoine-bio .bio-para:last-child { margin-bottom: 0; }
 
+/* ── Actions ── */
 .patrimoine-actions {
     display: flex;
     align-items: center;
     gap: var(--space-lg);
-    margin-top: var(--space-lg);
+    margin-top: var(--space-xl);
+    padding-top: var(--space-lg);
+    border-top: 1px solid var(--light-gray);
     flex-wrap: wrap;
+}
+[data-theme="dark"] .patrimoine-actions {
+    border-top-color: rgba(255, 255, 255, 0.1);
 }
 
 .patrimoine-toggle {
     display: inline-flex;
     align-items: center;
-    gap: 0.3rem;
+    gap: 0.35rem;
     background: none;
     border: none;
-    color: var(--primary-gold);
-    font-size: 0.9rem;
+    color: var(--gold-dark);
+    font-size: 0.92rem;
     font-weight: 600;
     cursor: pointer;
     padding: 0;
+    transition: color 0.2s ease;
 }
+.patrimoine-toggle:hover { color: var(--primary-gold); }
 .patrimoine-toggle svg { width: 16px; height: 16px; }
 
 .patrimoine-next {
     display: inline-flex;
     align-items: center;
-    gap: 0.4rem;
+    gap: 0.45rem;
     background: linear-gradient(135deg, var(--primary-gold), var(--gold-dark));
     color: #1a1a1a;
     border: none;
-    padding: 0.65rem 1.2rem;
+    padding: 0.7rem 1.4rem;
     border-radius: 50px;
-    font-weight: 600;
+    font-weight: 700;
     font-size: 0.9rem;
     cursor: pointer;
+    margin-left: auto;
     transition: transform 0.25s ease, box-shadow 0.25s ease;
-    box-shadow: 0 4px 14px rgba(212, 175, 55, 0.3);
+    box-shadow: 0 6px 18px rgba(212, 175, 55, 0.32);
 }
 .patrimoine-next:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 22px rgba(212, 175, 55, 0.45);
+    box-shadow: 0 10px 26px rgba(212, 175, 55, 0.5);
 }
-.patrimoine-next svg { width: 16px; height: 16px; }
+.patrimoine-next svg { width: 16px; height: 16px; transition: transform 0.25s ease; }
+.patrimoine-next:hover svg { transform: translateX(3px); }
 
 /* ── Tablette / mobile : image en haut, infos en dessous ── */
 @media (max-width: 768px) {
@@ -166,6 +281,10 @@
         grid-template-columns: 1fr;
         gap: 0;
         max-width: 480px;
+        box-shadow: 0 12px 32px rgba(26, 26, 46, 0.12);
+    }
+    .patrimoine-card:hover {
+        transform: none;
     }
     .patrimoine-image {
         aspect-ratio: 4 / 3;
@@ -174,11 +293,14 @@
     .patrimoine-info {
         padding: var(--space-xl);
     }
+    .patrimoine-quote { font-size: 3.5rem; top: var(--space-sm); right: var(--space-md); }
+    .patrimoine-name { font-size: 1.5rem; }
     .patrimoine-actions {
         gap: var(--space-md);
     }
     .patrimoine-next {
         flex: 1;
+        margin-left: 0;
         justify-content: center;
         min-height: 44px;
     }

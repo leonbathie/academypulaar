@@ -60,9 +60,11 @@ function Patrimoine() {
                                 e.target.src = `https://via.placeholder.com/400x500/1a1f3a/d4af37?text=${encodeURIComponent(scholar.name)}`
                             }}
                         />
+                        <span className="patrimoine-image-badge">{t('scholars.label', 'Patrimoine')}</span>
                     </div>
 
                     <div className="patrimoine-info">
+                        <span className="patrimoine-quote" aria-hidden="true">&#10078;</span>
                         <h3 className="patrimoine-name">{scholar.name}</h3>
                         {scholar.years && <span className="patrimoine-years">{scholar.years}</span>}
 
