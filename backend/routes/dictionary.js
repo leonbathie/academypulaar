@@ -131,7 +131,8 @@ function parseDomainsField(value) {
     return [trimmed]
 }
 
-// Configuration multer pour les fichiers audio
+// Configuration multer pour les fichiers audio + image du mot.
+// Le prefixe du fichier depend du champ : 'image' -> img-, sinon audio-.
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, 'uploads/')
@@ -139,13 +140,23 @@ const storage = multer.diskStorage({
     filename: (req, file, cb) => {
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
         const ext = path.extname(file.originalname).toLowerCase().replace(/[^a-z0-9.]/g, '')
-        cb(null, 'audio-' + uniqueSuffix + ext)
+        const prefix = file.fieldname === 'image' ? 'img-' : 'audio-'
+        cb(null, prefix + uniqueSuffix + ext)
     }
 })
 
-const audioFilter = (req, file, cb) => {
-    const allowedTypes = ['audio/webm', 'audio/mp3', 'audio/mpeg', 'audio/ogg', 'audio/wav', 'audio/mp4']
-    if (allowedTypes.includes(file.mimetype)) {
+// Filtre combine : le champ 'image' accepte les images, les autres l'audio.
+const mediaFilter = (req, file, cb) => {
+    if (file.fieldname === 'image') {
+        if (file.mimetype.startsWith('image/')) {
+            cb(null, true)
+        } else {
+            cb(new Error('Type d\'image non supporté'), false)
+        }
+        return
+    }
+    const allowedAudio = ['audio/webm', 'audio/mp3', 'audio/mpeg', 'audio/ogg', 'audio/wav', 'audio/mp4']
+    if (allowedAudio.includes(file.mimetype)) {
         cb(null, true)
     } else {
         cb(new Error('Type de fichier audio non supporté'), false)
@@ -154,7 +165,7 @@ const audioFilter = (req, file, cb) => {
 
 const upload = multer({
     storage: storage,
-    fileFilter: audioFilter,
+    fileFilter: mediaFilter,
     limits: { fileSize: 10 * 1024 * 1024 } // 10MB max
 })
 
@@ -369,7 +380,8 @@ router.get('/:id', validateId, async (req, res) => {
 //  4. Sinon : creer la ligne et inserer les domaines dans la pivot.
 router.post('/', authMiddleware, canWrite, upload.fields([
     { name: 'audio_word', maxCount: 1 },
-    { name: 'audio_example', maxCount: 1 }
+    { name: 'audio_example', maxCount: 1 },
+    { name: 'image', maxCount: 1 }
 ]), async (req, res) => {
     try {
         const { word, translation_fr, translation_en, translation_ff, category, domain, example, example_translation } = req.body
@@ -396,15 +408,19 @@ router.post('/', authMiddleware, canWrite, upload.fields([
         ))
         const primaryDomain = domainsList[0] || null
 
-        // Recuperer les chemins audio si uploades
+        // Recuperer les chemins audio + image si uploades
         let audioWordPath = null
         let audioExamplePath = null
+        let imagePath = null
         if (req.files) {
             if (req.files['audio_word'] && req.files['audio_word'][0]) {
                 audioWordPath = '/uploads/' + req.files['audio_word'][0].filename
             }
             if (req.files['audio_example'] && req.files['audio_example'][0]) {
                 audioExamplePath = '/uploads/' + req.files['audio_example'][0].filename
+            }
+            if (req.files['image'] && req.files['image'][0]) {
+                imagePath = '/uploads/' + req.files['image'][0].filename
             }
         }
 
@@ -437,6 +453,10 @@ router.post('/', authMiddleware, canWrite, upload.fields([
                 updates.push(`audio_example = COALESCE(audio_example, $${params.length + 1})`)
                 params.push(audioExamplePath)
             }
+            if (imagePath) {
+                updates.push(`image = COALESCE(image, $${params.length + 1})`)
+                params.push(imagePath)
+            }
 
             let row
             if (updates.length > 0) {
@@ -465,15 +485,15 @@ router.post('/', authMiddleware, canWrite, upload.fields([
         const inserted = await query(
             `INSERT INTO dictionary
                 (word, word_normalized, translation_fr, translation_en, translation_ff,
-                 category, domain, example, example_translation, audio_word, audio_example)
-             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+                 category, domain, example, example_translation, audio_word, audio_example, image)
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
              RETURNING *`,
             [
                 normalizedWord, wordKey,
                 normalizedTranslationFr, normalizedTranslationEn, normalizedTranslationFf,
                 normalizedCategory, primaryDomain,
                 normalizedExample, normalizedExampleTranslation,
-                audioWordPath, audioExamplePath
+                audioWordPath, audioExamplePath, imagePath
             ]
         )
         const newRow = inserted.rows[0]
@@ -491,7 +511,8 @@ router.post('/', authMiddleware, canWrite, upload.fields([
 // PUT /api/dictionary/:id - Modifier un mot (Admin only)
 router.put('/:id', authMiddleware, canWrite, validateId, upload.fields([
     { name: 'audio_word', maxCount: 1 },
-    { name: 'audio_example', maxCount: 1 }
+    { name: 'audio_example', maxCount: 1 },
+    { name: 'image', maxCount: 1 }
 ]), async (req, res) => {
     try {
         const { word, translation_fr, translation_en, translation_ff, category, domain, example, example_translation } = req.body
@@ -504,9 +525,9 @@ router.put('/:id', authMiddleware, canWrite, validateId, upload.fields([
         const normalizedExample = normalizeFulfuldeText(example)
         const normalizedExampleTranslation = normalizeFulfuldeText(example_translation)
 
-        // Recuperer l'existant : pour les audios + comparaison du mot.
+        // Recuperer l'existant : pour les audios/image + comparaison du mot.
         const existing = await query(
-            'SELECT word, word_normalized, domain, audio_word, audio_example FROM dictionary WHERE id = $1',
+            'SELECT word, word_normalized, domain, audio_word, audio_example, image FROM dictionary WHERE id = $1',
             [req.params.id]
         )
         if (existing.rows.length === 0) {
@@ -531,11 +552,14 @@ router.put('/:id', authMiddleware, canWrite, validateId, upload.fields([
 
         let audioWordPath = currentRow.audio_word
         let audioExamplePath = currentRow.audio_example
+        let imagePath = currentRow.image
         const oldAudioWord = audioWordPath
         const oldAudioExample = audioExamplePath
+        const oldImage = imagePath
 
         const removeAudioWord = req.body.remove_audio_word === '1' || req.body.remove_audio_word === 'true'
         const removeAudioExample = req.body.remove_audio_example === '1' || req.body.remove_audio_example === 'true'
+        const removeImage = req.body.remove_image === '1' || req.body.remove_image === 'true'
 
         if (req.files) {
             if (req.files['audio_word'] && req.files['audio_word'][0]) {
@@ -544,6 +568,9 @@ router.put('/:id', authMiddleware, canWrite, validateId, upload.fields([
             if (req.files['audio_example'] && req.files['audio_example'][0]) {
                 audioExamplePath = '/uploads/' + req.files['audio_example'][0].filename
             }
+            if (req.files['image'] && req.files['image'][0]) {
+                imagePath = '/uploads/' + req.files['image'][0].filename
+            }
         }
 
         if (removeAudioWord && !(req.files && req.files['audio_word'] && req.files['audio_word'][0])) {
@@ -551,6 +578,9 @@ router.put('/:id', authMiddleware, canWrite, validateId, upload.fields([
         }
         if (removeAudioExample && !(req.files && req.files['audio_example'] && req.files['audio_example'][0])) {
             audioExamplePath = null
+        }
+        if (removeImage && !(req.files && req.files['image'] && req.files['image'][0])) {
+            imagePath = null
         }
 
         // Liste des domaines : array (nouveau) OU single 'domain' (legacy)
@@ -574,16 +604,16 @@ router.put('/:id', authMiddleware, canWrite, validateId, upload.fields([
              SET word = $1, word_normalized = $2,
                  translation_fr = $3, translation_en = $4, translation_ff = $5,
                  category = $6, domain = $7, example = $8, example_translation = $9,
-                 audio_word = $10, audio_example = $11,
+                 audio_word = $10, audio_example = $11, image = $12,
                  updated_at = CURRENT_TIMESTAMP
-             WHERE id = $12 RETURNING *`,
+             WHERE id = $13 RETURNING *`,
             [
                 normalizedWord || null,
                 newWordKey || null,
                 normalizedTranslationFr, normalizedTranslationEn, normalizedTranslationFf,
                 normalizedCategory, primaryDomain,
                 normalizedExample, normalizedExampleTranslation,
-                audioWordPath, audioExamplePath,
+                audioWordPath, audioExamplePath, imagePath,
                 req.params.id
             ]
         )
@@ -608,6 +638,11 @@ router.put('/:id', authMiddleware, canWrite, validateId, upload.fields([
         }
         if ((req.files?.['audio_example'] || removeAudioExample) && oldAudioExample) {
             const oldPath = path.join(__dirname, '..', oldAudioExample)
+            if (fs.existsSync(oldPath)) fs.unlink(oldPath, () => {})
+        }
+        // Supprimer l'ancienne image si remplacee ou retiree
+        if ((req.files?.['image'] || removeImage) && oldImage) {
+            const oldPath = path.join(__dirname, '..', oldImage)
             if (fs.existsSync(oldPath)) fs.unlink(oldPath, () => {})
         }
 

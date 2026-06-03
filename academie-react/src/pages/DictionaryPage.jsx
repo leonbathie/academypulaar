@@ -344,6 +344,17 @@ function DictionaryPage() {
                                     }
                                     return (
                                         <article key={entry.id} className={`word-card ${isExpanded ? 'word-card--expanded' : ''}`}>
+                                            {/* Image illustrative du mot (optionnelle) */}
+                                            {entry.image && (
+                                                <div className="word-image">
+                                                    <img
+                                                        src={`${API_URL}${entry.image}`}
+                                                        alt={entry.word}
+                                                        loading="lazy"
+                                                        onClick={() => { trackWordInteraction(entry.id); toggleCard(entry.id) }}
+                                                    />
+                                                </div>
+                                            )}
                                             {/* En-tête : mot + audio */}
                                             <div className="word-card-top">
                                                 <h3 className="word-term" onClick={() => { trackWordInteraction(entry.id); toggleCard(entry.id) }} style={{ cursor: 'pointer' }}>{entry.word}</h3>

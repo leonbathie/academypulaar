@@ -62,6 +62,12 @@ function DictionaryAdmin() {
     const mediaRecorderRef = useRef(null)
     const audioChunksRef = useRef([])
 
+    // Image du mot (upload)
+    const [imageFile, setImageFile] = useState(null)
+    const [imageUrl, setImageUrl] = useState(null)
+    const [removedImage, setRemovedImage] = useState(false)
+    const imageInputRef = useRef(null)
+
     // Bulk selection states
     const [selectedIds, setSelectedIds] = useState(new Set())
     const [bulkDeleting, setBulkDeleting] = useState(false)
@@ -126,6 +132,7 @@ function DictionaryAdmin() {
             // Set existing audio URLs
             setAudioWordUrl(word.audio_word ? `${API_URL}${word.audio_word}` : null)
             setAudioExampleUrl(word.audio_example ? `${API_URL}${word.audio_example}` : null)
+            setImageUrl(word.image ? `${API_URL}${word.image}` : null)
         } else {
             setEditingWord(null)
             setFormData({
@@ -140,13 +147,36 @@ function DictionaryAdmin() {
             })
             setAudioWordUrl(null)
             setAudioExampleUrl(null)
+            setImageUrl(null)
         }
         setAudioWordBlob(null)
         setAudioExampleBlob(null)
         setRemovedAudioWord(false)
         setRemovedAudioExample(false)
+        setImageFile(null)
+        setRemovedImage(false)
         setActiveTab('fr')
         setShowModal(true)
+    }
+
+    // Sélection / suppression de l'image du mot
+    const handleImageSelect = (e) => {
+        const file = e.target.files?.[0]
+        if (!file) return
+        if (!file.type.startsWith('image/')) {
+            alert(t('admin.dictionary.imageTypeError', 'Veuillez choisir une image'))
+            return
+        }
+        setImageFile(file)
+        setImageUrl(URL.createObjectURL(file))
+        setRemovedImage(false)
+    }
+
+    const deleteImage = () => {
+        setImageFile(null)
+        setImageUrl(null)
+        setRemovedImage(true)
+        if (imageInputRef.current) imageInputRef.current.value = ''
     }
 
     const closeModal = () => {
@@ -250,6 +280,14 @@ function DictionaryAdmin() {
             }
             if (removedAudioExample && !audioExampleBlob) {
                 formDataToSend.append('remove_audio_example', '1')
+            }
+
+            // Image du mot
+            if (imageFile) {
+                formDataToSend.append('image', imageFile)
+            }
+            if (removedImage && !imageFile) {
+                formDataToSend.append('remove_image', '1')
             }
 
             const url = editingWord
@@ -993,6 +1031,40 @@ function DictionaryAdmin() {
                                         <option value="dictionnaire">{t('admin.dictionary.domDict')}</option>
                                         <option value="general">{t('admin.dictionary.domGeneral')}</option>
                                     </select>
+                                </div>
+
+                                {/* Image du mot */}
+                                <div className="form-group">
+                                    <label>🖼️ {t('admin.dictionary.imageLabel', 'Image du mot')}</label>
+                                    <div className="word-image-uploader">
+                                        <input
+                                            ref={imageInputRef}
+                                            type="file"
+                                            accept="image/*"
+                                            onChange={handleImageSelect}
+                                            style={{ display: 'none' }}
+                                        />
+                                        {imageUrl ? (
+                                            <div className="word-image-preview">
+                                                <img src={imageUrl} alt={formData.word || 'image'} />
+                                                <div className="word-image-actions">
+                                                    <button type="button" className="btn-secondary" onClick={() => imageInputRef.current?.click()}>
+                                                        {t('admin.dictionary.imageReplace', 'Remplacer')}
+                                                    </button>
+                                                    <button type="button" className="btn-delete-audio" onClick={deleteImage}>✕</button>
+                                                </div>
+                                            </div>
+                                        ) : (
+                                            <button type="button" className="btn-record" onClick={() => imageInputRef.current?.click()}>
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                                    <rect x="3" y="3" width="18" height="18" rx="2" />
+                                                    <circle cx="8.5" cy="8.5" r="1.5" />
+                                                    <path d="M21 15l-5-5L5 21" />
+                                                </svg>
+                                                {t('admin.dictionary.imageAdd', 'Ajouter une image')}
+                                            </button>
+                                        )}
+                                    </div>
                                 </div>
 
                                 {/* Audio du mot */}

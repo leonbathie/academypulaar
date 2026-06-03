@@ -79,7 +79,9 @@ async function initDatabase() {
             'ALTER TABLE dictionary ADD COLUMN IF NOT EXISTS audio_example VARCHAR(255)',
             // Multi-domaines : colonne normalisee pour anti-doublons
             'ALTER TABLE dictionary ADD COLUMN IF NOT EXISTS word_normalized TEXT',
-            'CREATE INDEX IF NOT EXISTS idx_dictionary_word_normalized ON dictionary(word_normalized)'
+            'CREATE INDEX IF NOT EXISTS idx_dictionary_word_normalized ON dictionary(word_normalized)',
+            // Image illustrative du mot (optionnelle)
+            'ALTER TABLE dictionary ADD COLUMN IF NOT EXISTS image VARCHAR(255)'
         ]
         for (const sql of dictionaryMigrations) {
             await pool.query(sql).catch(() => {})
