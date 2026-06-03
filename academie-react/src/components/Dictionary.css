@@ -402,3 +402,115 @@
         grid-template-columns: repeat(3, 1fr);
     }
 }
+/* =========================================================
+   Recherche en direct sur la page d'accueil
+   ========================================================= */
+.dict-live-results {
+    margin-top: var(--space-md);
+    background: var(--white);
+    border: 1px solid var(--light-gray);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 12px 36px rgba(26, 26, 46, 0.12);
+    overflow: hidden;
+    animation: dictLiveIn 0.2s ease;
+}
+@keyframes dictLiveIn {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+[data-theme="dark"] .dict-live-results {
+    background: var(--primary-navy);
+    border-color: rgba(255, 255, 255, 0.12);
+}
+
+.dict-live-loading,
+.dict-live-empty {
+    padding: var(--space-md) var(--space-lg);
+    color: var(--medium-gray);
+    font-size: 0.92rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.dict-live-spinner {
+    width: 15px; height: 15px;
+    border: 2px solid var(--light-gray);
+    border-top-color: var(--primary-gold);
+    border-radius: 50%;
+    animation: dictSpin 0.7s linear infinite;
+    display: inline-block;
+}
+@keyframes dictSpin { to { transform: rotate(360deg); } }
+
+.dict-live-card {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    padding: 0.8rem var(--space-lg);
+    cursor: pointer;
+    border-bottom: 1px solid var(--light-gray);
+    transition: background 0.15s ease;
+}
+[data-theme="dark"] .dict-live-card { border-bottom-color: rgba(255, 255, 255, 0.08); }
+.dict-live-card:hover,
+.dict-live-card:focus-visible {
+    background: rgba(212, 165, 55, 0.08);
+    outline: none;
+}
+.dict-live-main {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    flex: 1;
+    min-width: 0;
+}
+.dict-live-word {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--primary-dark);
+    line-height: 1.2;
+}
+[data-theme="dark"] .dict-live-word { color: var(--primary-gold); }
+.dict-live-trans {
+    font-size: 0.9rem;
+    color: var(--medium-gray);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.dict-live-audio {
+    flex-shrink: 0;
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(212, 165, 55, 0.12);
+    color: var(--gold-dark);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease, transform 0.15s ease;
+}
+.dict-live-audio svg { width: 16px; height: 16px; }
+.dict-live-audio:hover { background: var(--primary-gold); color: #1a1a1a; transform: scale(1.05); }
+.dict-live-audio.playing { background: var(--primary-gold); color: #1a1a1a; }
+
+.dict-live-all {
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.85rem;
+    background: transparent;
+    border: none;
+    color: var(--gold-dark);
+    font-size: 0.92rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+.dict-live-all svg { width: 16px; height: 16px; transition: transform 0.2s ease; }
+.dict-live-all:hover { background: rgba(212, 165, 55, 0.08); }
+.dict-live-all:hover svg { transform: translateX(4px); }

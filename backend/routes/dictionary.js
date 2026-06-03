@@ -172,7 +172,7 @@ const upload = multer({
 // GET /api/dictionary - Recuperer tous les mots avec leurs domaines (agreges)
 router.get('/', async (req, res) => {
     try {
-        const { search, category, letter, domain } = req.query
+        const { search, category, letter, domain, limit } = req.query
         const params = []
         const conditions = []
 
@@ -207,6 +207,12 @@ router.get('/', async (req, res) => {
         }
 
         const where = conditions.length > 0 ? ('WHERE ' + conditions.join(' AND ')) : ''
+        // Limite optionnelle (recherche rapide sur la home) : entier borne 1-50.
+        let limitClause = ''
+        const parsedLimit = parseInt(limit, 10)
+        if (Number.isInteger(parsedLimit) && parsedLimit > 0) {
+            limitClause = `LIMIT ${Math.min(parsedLimit, 50)}`
+        }
         const sql = `
             SELECT
                 d.*,
@@ -218,6 +224,7 @@ router.get('/', async (req, res) => {
             FROM dictionary d
             ${where}
             ORDER BY d.word ASC
+            ${limitClause}
         `
 
         const result = await query(sql, params)
