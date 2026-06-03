@@ -96,22 +96,29 @@
     border-color: rgba(255, 255, 255, 0.1);
 }
 
-/* ── Image ── */
+/* ── Image ──
+   Le conteneur remplit toute la hauteur de la carte (fond degrade sombre).
+   L'image elle-meme garde un format portrait fixe (aspect-ratio 4/5) calee
+   en haut : elle NE s'etire donc PAS en sliver demesure quand la bio est
+   depliee. Si le texte est plus long que l'image, le degrade sombre comble
+   elegamment le bas du panneau. */
 .patrimoine-image {
     position: relative;
-    background: linear-gradient(135deg, #1a1f3a 0%, #2a1a3a 100%);
-    min-height: 100%;
+    align-self: stretch;
+    background: linear-gradient(160deg, #1a1f3a 0%, #2a1a3a 100%);
     overflow: hidden;
 }
 .patrimoine-image img {
     width: 100%;
-    height: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5;
     object-fit: cover;
+    object-position: 50% 20%;
     display: block;
     transition: transform 0.6s ease;
 }
 .patrimoine-card:hover .patrimoine-image img {
-    transform: scale(1.05);
+    transform: scale(1.04);
 }
 /* Voile degrade en bas de l'image pour la profondeur */
 .patrimoine-image::after {
@@ -218,6 +225,53 @@
 }
 .patrimoine-bio .bio-para { margin: 0 0 0.7rem; }
 .patrimoine-bio .bio-para:last-child { margin-bottom: 0; }
+
+/* Bio enrichie (Markdown) affichee quand "Voir plus" est actif */
+.patrimoine-bio .bio-heading {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    color: var(--primary-dark);
+    margin: 1.4rem 0 0.5rem;
+    padding-left: 0.7rem;
+    border-left: 3px solid var(--primary-gold);
+    line-height: 1.3;
+}
+.patrimoine-bio .bio-heading:first-child { margin-top: 0; }
+[data-theme="dark"] .patrimoine-bio .bio-heading { color: var(--primary-gold); }
+
+.patrimoine-bio .bio-subheading {
+    font-family: var(--font-display);
+    font-size: 1.02rem;
+    font-weight: 600;
+    color: var(--gold-dark);
+    margin: 1.1rem 0 0.4rem;
+    line-height: 1.3;
+}
+[data-theme="dark"] .patrimoine-bio .bio-subheading { color: var(--gold-light); }
+
+.patrimoine-bio .bio-list {
+    margin: 0.4rem 0 0.8rem;
+    padding-left: 1.3rem;
+    list-style: none;
+}
+.patrimoine-bio .bio-list li {
+    position: relative;
+    padding-left: 0.4rem;
+    margin-bottom: 0.4rem;
+    line-height: 1.6;
+}
+.patrimoine-bio .bio-list li::before {
+    content: '';
+    position: absolute;
+    left: -0.9rem;
+    top: 0.65em;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--primary-gold);
+}
+.patrimoine-bio .bio-heading + .bio-para,
+.patrimoine-bio .bio-subheading + .bio-para { margin-top: 0; }
 
 /* ── Actions ── */
 .patrimoine-actions {
