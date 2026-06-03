@@ -187,7 +187,8 @@
     border-radius: var(--radius-xl);
     width: 100%;
     max-width: 820px;
-    max-height: calc(100vh - 2 * var(--space-lg));
+    height: calc(100vh - 2 * var(--space-lg));
+    max-height: 680px;
     overflow: hidden;
     display: grid;
     grid-template-columns: 300px 1fr;
@@ -226,6 +227,7 @@
 .savant-modal-img {
     background: linear-gradient(135deg, #1a1f3a 0%, #2a1a3a 100%);
     overflow: hidden;
+    min-height: 0;
 }
 .savant-modal-img img {
     width: 100%;
@@ -237,7 +239,19 @@
 .savant-modal-body {
     padding: var(--space-2xl);
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    /* min-height: 0 -> indispensable pour qu'un grid item puisse retrecir
+       sous la taille de son contenu et activer le scroll interne. */
+    min-height: 0;
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary-gold) transparent;
 }
+.savant-modal-body::-webkit-scrollbar { width: 8px; }
+.savant-modal-body::-webkit-scrollbar-thumb {
+    background: var(--primary-gold);
+    border-radius: 4px;
+}
+.savant-modal-body::-webkit-scrollbar-track { background: transparent; }
 .savant-modal-kicker {
     display: inline-block;
     color: var(--gold-dark);
@@ -326,10 +340,12 @@
     .savant-card-name { font-size: 1.05rem; }
     .savant-card-preview { font-size: 0.85rem; -webkit-line-clamp: 2; }
 
-    /* Modal : pleine hauteur, image en haut */
+    /* Modal : image en haut (auto), texte en bas (prend le reste + scroll) */
     .savant-modal {
         grid-template-columns: 1fr;
-        max-height: calc(100vh - 2 * var(--space-md));
+        grid-template-rows: auto minmax(0, 1fr);
+        height: calc(100vh - 2 * var(--space-md));
+        max-height: none;
     }
     .savant-modal-img {
         aspect-ratio: 16 / 10;
