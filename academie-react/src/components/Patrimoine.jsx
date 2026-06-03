@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { createPortal } from 'react-dom'
 import { useTranslation } from 'react-i18next'
 import { API_URL } from '../config'
 import { renderBio } from '../utils/renderBio'
@@ -108,8 +109,9 @@ function Patrimoine() {
                 </div>
             </div>
 
-            {/* Modal biographie */}
-            {selected && (
+            {/* Modal biographie — rendu via portal sur document.body pour
+                echapper a tout contexte d'empilement/overflow parent */}
+            {selected && createPortal(
                 <div className="savant-modal-overlay" onClick={() => setSelected(null)}>
                     <div className="savant-modal" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true" aria-label={selected.name}>
                         <button className="savant-modal-close" onClick={() => setSelected(null)} aria-label={t('common.close', 'Fermer')}>
@@ -137,7 +139,8 @@ function Patrimoine() {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>,
+                document.body
             )}
         </section>
     )
