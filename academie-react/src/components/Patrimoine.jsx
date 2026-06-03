@@ -48,7 +48,8 @@ function Patrimoine() {
                 </div>
 
                 <article className={`patrimoine-card ${expanded ? 'is-expanded' : ''}`}>
-                    <div className="patrimoine-image">
+                    {/* Portrait encadre, centre */}
+                    <div className="patrimoine-portrait">
                         <img
                             src={scholar.image
                                 ? `${API_URL}${scholar.image}`
@@ -60,43 +61,44 @@ function Patrimoine() {
                                 e.target.src = `https://via.placeholder.com/400x500/1a1f3a/d4af37?text=${encodeURIComponent(scholar.name)}`
                             }}
                         />
-                        <span className="patrimoine-image-badge">{t('scholars.label', 'Patrimoine')}</span>
                     </div>
 
-                    <div className="patrimoine-info">
-                        <span className="patrimoine-quote" aria-hidden="true">&#10078;</span>
-                        <h3 className="patrimoine-name">{scholar.name}</h3>
-                        {scholar.years && <span className="patrimoine-years">{scholar.years}</span>}
+                    {/* Identite */}
+                    <h3 className="patrimoine-name">{scholar.name}</h3>
+                    {scholar.years && <span className="patrimoine-years">{scholar.years}</span>}
 
-                        <div
-                            className={`patrimoine-bio ${expanded ? 'expanded' : ''}`}
-                            style={bioFallback ? { color: 'var(--medium-gray)', fontStyle: 'italic' } : undefined}
-                        >
-                            {bioFallback
-                                ? <p className="bio-para">{t('common.noTranslation')}</p>
-                                : (expanded ? renderBio(bio) : <p className="bio-para">{bio}</p>)
-                            }
-                        </div>
+                    <span className="patrimoine-divider" aria-hidden="true" />
 
-                        <div className="patrimoine-actions">
-                            {bio && !bioFallback && (
-                                <button className="patrimoine-toggle" onClick={() => setExpanded(v => !v)}>
-                                    {expanded ? t('common.seeLess', 'Voir moins') : t('common.seeMore', 'Voir plus')}
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
-                                        style={{ transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.2s' }}>
-                                        <path d="M6 9l6 6 6-6" />
-                                    </svg>
-                                </button>
-                            )}
-                            {scholars.length > 1 && (
-                                <button className="patrimoine-next" onClick={pickNext}>
-                                    {t('scholars.next', 'Découvrir un autre savant')}
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                        <path d="M5 12h14M12 5l7 7-7 7" />
-                                    </svg>
-                                </button>
-                            )}
-                        </div>
+                    {/* Biographie : colonne de lecture large et centree */}
+                    <div
+                        className={`patrimoine-bio ${expanded ? 'expanded' : ''}`}
+                        style={bioFallback ? { color: 'var(--medium-gray)', fontStyle: 'italic' } : undefined}
+                    >
+                        {bioFallback
+                            ? <p className="bio-para">{t('common.noTranslation')}</p>
+                            : (expanded ? renderBio(bio) : <p className="bio-para">{bio}</p>)
+                        }
+                    </div>
+
+                    {/* Actions */}
+                    <div className="patrimoine-actions">
+                        {bio && !bioFallback && (
+                            <button className="patrimoine-toggle" onClick={() => setExpanded(v => !v)}>
+                                {expanded ? t('common.seeLess', 'Voir moins') : t('common.seeMore', 'Voir plus')}
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
+                                    style={{ transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.2s' }}>
+                                    <path d="M6 9l6 6 6-6" />
+                                </svg>
+                            </button>
+                        )}
+                        {scholars.length > 1 && (
+                            <button className="patrimoine-next" onClick={pickNext}>
+                                {t('scholars.next', 'Découvrir un autre savant')}
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                    <path d="M5 12h14M12 5l7 7-7 7" />
+                                </svg>
+                            </button>
+                        )}
                     </div>
                 </article>
             </div>

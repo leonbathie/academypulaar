@@ -1,20 +1,21 @@
 /* =========================================================
    Section Patrimoine (savants) — page d'accueil
-   Design premium desktop : grande image cadree, accent dore,
-   citation decorative, ombres profondes, hover elegant.
+   Layout editorial centre : portrait encadre en haut, identite,
+   puis biographie dans une colonne de lecture large et aeree.
+   Objectif : lisibilite maximale + elegance.
    ========================================================= */
 .patrimoine {
     position: relative;
     padding: var(--space-3xl) 0;
     background:
-        radial-gradient(circle at 12% 18%, rgba(212, 165, 55, 0.06) 0%, transparent 42%),
-        radial-gradient(circle at 88% 82%, rgba(139, 41, 66, 0.05) 0%, transparent 42%),
+        radial-gradient(circle at 12% 12%, rgba(212, 165, 55, 0.06) 0%, transparent 40%),
+        radial-gradient(circle at 88% 88%, rgba(139, 41, 66, 0.05) 0%, transparent 40%),
         var(--cream);
     overflow: hidden;
 }
 [data-theme="dark"] .patrimoine {
     background:
-        radial-gradient(circle at 12% 18%, rgba(212, 165, 55, 0.08) 0%, transparent 42%),
+        radial-gradient(circle at 12% 12%, rgba(212, 165, 55, 0.08) 0%, transparent 40%),
         var(--primary-dark);
 }
 
@@ -22,7 +23,6 @@
 .patrimoine-head {
     text-align: center;
     margin-bottom: var(--space-2xl);
-    position: relative;
 }
 .patrimoine-head .section-label {
     display: inline-flex;
@@ -63,228 +63,180 @@
     margin: var(--space-sm) auto 0;
 }
 
-/* ── Carte savant ── */
+/* ── Carte : centree, colonne unique ── */
 .patrimoine-card {
-    display: grid;
-    grid-template-columns: 380px 1fr;
-    gap: 0;
-    max-width: 1000px;
+    max-width: 760px;
     margin: 0 auto;
     background: var(--white);
     border: 1px solid var(--light-gray);
     border-radius: var(--radius-xl);
-    overflow: hidden;
-    box-shadow: 0 24px 60px rgba(26, 26, 46, 0.12);
+    box-shadow: 0 20px 55px rgba(26, 26, 46, 0.10);
+    padding: var(--space-2xl) clamp(1.5rem, 5vw, 3.5rem) var(--space-2xl);
+    text-align: center;
     position: relative;
-    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    overflow: hidden;
 }
-/* Liseré doré en haut de la carte */
 .patrimoine-card::before {
     content: '';
     position: absolute;
     top: 0; left: 0; right: 0;
     height: 4px;
     background: var(--gradient-gold);
-    z-index: 2;
-}
-.patrimoine-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 32px 80px rgba(26, 26, 46, 0.18);
 }
 [data-theme="dark"] .patrimoine-card {
     background: var(--primary-navy);
     border-color: rgba(255, 255, 255, 0.1);
 }
 
-/* ── Image ──
-   Le conteneur remplit toute la hauteur de la carte (fond degrade sombre).
-   L'image elle-meme garde un format portrait fixe (aspect-ratio 4/5) calee
-   en haut : elle NE s'etire donc PAS en sliver demesure quand la bio est
-   depliee. Si le texte est plus long que l'image, le degrade sombre comble
-   elegamment le bas du panneau. */
-.patrimoine-image {
-    position: relative;
-    align-self: stretch;
-    background: linear-gradient(160deg, #1a1f3a 0%, #2a1a3a 100%);
+/* ── Portrait encadre ── */
+.patrimoine-portrait {
+    width: 168px;
+    height: 200px;
+    margin: var(--space-sm) auto var(--space-lg);
+    border-radius: 18px;
     overflow: hidden;
+    padding: 5px;
+    background: linear-gradient(145deg, var(--primary-gold), var(--gold-dark));
+    box-shadow: 0 12px 30px rgba(26, 26, 46, 0.18);
 }
-.patrimoine-image img {
+.patrimoine-portrait img {
     width: 100%;
-    height: auto;
-    aspect-ratio: 4 / 5;
+    height: 100%;
     object-fit: cover;
-    object-position: 50% 20%;
+    border-radius: 14px;
     display: block;
-    transition: transform 0.6s ease;
-}
-.patrimoine-card:hover .patrimoine-image img {
-    transform: scale(1.04);
-}
-/* Voile degrade en bas de l'image pour la profondeur */
-.patrimoine-image::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(180deg, transparent 55%, rgba(26, 26, 46, 0.45) 100%);
-    pointer-events: none;
-}
-/* Badge "Patrimoine" sur l'image */
-.patrimoine-image-badge {
-    position: absolute;
-    top: var(--space-md);
-    left: var(--space-md);
-    z-index: 2;
-    background: rgba(212, 165, 55, 0.92);
-    color: #1a1a2e;
-    font-size: 0.68rem;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    padding: 0.35rem 0.8rem;
-    border-radius: 999px;
-    backdrop-filter: blur(4px);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* ── Infos ── */
-.patrimoine-info {
-    padding: var(--space-2xl);
-    display: flex;
-    flex-direction: column;
-    position: relative;
-}
-/* Guillemet decoratif en filigrane */
-.patrimoine-quote {
-    position: absolute;
-    top: var(--space-md);
-    right: var(--space-lg);
-    font-family: Georgia, serif;
-    font-size: 5rem;
-    line-height: 1;
-    color: var(--primary-gold);
-    opacity: 0.12;
-    pointer-events: none;
-    user-select: none;
-}
-
+/* ── Identite ── */
 .patrimoine-name {
     font-family: var(--font-display);
-    font-size: 1.9rem;
+    font-size: clamp(1.5rem, 3vw, 2rem);
     color: var(--primary-dark);
-    margin: 0 0 0.4rem;
-    line-height: 1.1;
-    position: relative;
-    padding-bottom: 0.6rem;
-}
-/* Petit trait dore sous le nom */
-.patrimoine-name::after {
-    content: '';
-    position: absolute;
-    bottom: 0; left: 0;
-    width: 48px;
-    height: 3px;
-    background: var(--gradient-gold);
-    border-radius: 2px;
+    margin: 0 0 0.35rem;
+    line-height: 1.2;
 }
 [data-theme="dark"] .patrimoine-name {
     color: var(--primary-gold);
 }
-
 .patrimoine-years {
     display: inline-block;
-    width: fit-content;
     color: var(--gold-dark);
     background: rgba(212, 165, 55, 0.1);
-    font-size: 0.82rem;
+    font-size: 0.85rem;
     font-weight: 600;
-    font-style: normal;
     letter-spacing: 0.02em;
-    margin: 0.5rem 0 var(--space-lg);
-    padding: 0.3rem 0.85rem;
+    padding: 0.3rem 0.9rem;
     border-radius: 999px;
 }
 [data-theme="dark"] .patrimoine-years {
     background: rgba(212, 165, 55, 0.15);
 }
 
+/* Separateur dore avec losange central */
+.patrimoine-divider {
+    display: block;
+    width: 80px;
+    height: 12px;
+    margin: var(--space-lg) auto var(--space-lg);
+    position: relative;
+}
+.patrimoine-divider::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--primary-gold), transparent);
+}
+.patrimoine-divider::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 7px; height: 7px;
+    transform: translate(-50%, -50%) rotate(45deg);
+    background: var(--primary-gold);
+}
+
+/* ── Biographie : colonne de lecture large, texte aligne a gauche ── */
 .patrimoine-bio {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: left;
     color: var(--dark-gray);
-    line-height: 1.75;
-    font-size: 1rem;
-    flex: 1;
+    line-height: 1.85;
+    font-size: 1.05rem;
 }
 [data-theme="dark"] .patrimoine-bio {
     color: rgba(255, 255, 255, 0.85);
 }
-/* Bio repliee : limite a 5 lignes */
+/* Repliee : 4 lignes max, centree pour l'apercu */
 .patrimoine-bio:not(.expanded) {
+    text-align: center;
     display: -webkit-box;
-    -webkit-line-clamp: 5;
+    -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    color: var(--medium-gray);
+    font-size: 1.05rem;
 }
-.patrimoine-bio .bio-para { margin: 0 0 0.7rem; }
+.patrimoine-bio .bio-para { margin: 0 0 1rem; }
 .patrimoine-bio .bio-para:last-child { margin-bottom: 0; }
 
-/* Bio enrichie (Markdown) affichee quand "Voir plus" est actif */
+/* Bio enrichie (Markdown) — Voir plus */
 .patrimoine-bio .bio-heading {
     font-family: var(--font-display);
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     color: var(--primary-dark);
-    margin: 1.4rem 0 0.5rem;
-    padding-left: 0.7rem;
+    margin: 1.6rem 0 0.6rem;
+    padding-left: 0.8rem;
     border-left: 3px solid var(--primary-gold);
     line-height: 1.3;
+    text-align: left;
 }
 .patrimoine-bio .bio-heading:first-child { margin-top: 0; }
 [data-theme="dark"] .patrimoine-bio .bio-heading { color: var(--primary-gold); }
 
 .patrimoine-bio .bio-subheading {
     font-family: var(--font-display);
-    font-size: 1.02rem;
+    font-size: 1.08rem;
     font-weight: 600;
     color: var(--gold-dark);
-    margin: 1.1rem 0 0.4rem;
+    margin: 1.2rem 0 0.4rem;
     line-height: 1.3;
+    text-align: left;
 }
 [data-theme="dark"] .patrimoine-bio .bio-subheading { color: var(--gold-light); }
 
 .patrimoine-bio .bio-list {
-    margin: 0.4rem 0 0.8rem;
-    padding-left: 1.3rem;
+    margin: 0.5rem 0 1rem;
+    padding-left: 1.4rem;
     list-style: none;
+    text-align: left;
 }
 .patrimoine-bio .bio-list li {
     position: relative;
     padding-left: 0.4rem;
-    margin-bottom: 0.4rem;
-    line-height: 1.6;
+    margin-bottom: 0.5rem;
+    line-height: 1.7;
 }
 .patrimoine-bio .bio-list li::before {
     content: '';
     position: absolute;
     left: -0.9rem;
-    top: 0.65em;
+    top: 0.7em;
     width: 6px;
     height: 6px;
     border-radius: 50%;
     background: var(--primary-gold);
 }
-.patrimoine-bio .bio-heading + .bio-para,
-.patrimoine-bio .bio-subheading + .bio-para { margin-top: 0; }
 
 /* ── Actions ── */
 .patrimoine-actions {
     display: flex;
     align-items: center;
-    gap: var(--space-lg);
-    margin-top: var(--space-xl);
-    padding-top: var(--space-lg);
-    border-top: 1px solid var(--light-gray);
+    justify-content: center;
+    gap: var(--space-xl);
+    margin-top: var(--space-2xl);
     flex-wrap: wrap;
-}
-[data-theme="dark"] .patrimoine-actions {
-    border-top-color: rgba(255, 255, 255, 0.1);
 }
 
 .patrimoine-toggle {
@@ -294,7 +246,7 @@
     background: none;
     border: none;
     color: var(--gold-dark);
-    font-size: 0.92rem;
+    font-size: 0.95rem;
     font-weight: 600;
     cursor: pointer;
     padding: 0;
@@ -310,12 +262,11 @@
     background: linear-gradient(135deg, var(--primary-gold), var(--gold-dark));
     color: #1a1a1a;
     border: none;
-    padding: 0.7rem 1.4rem;
+    padding: 0.75rem 1.6rem;
     border-radius: 50px;
     font-weight: 700;
     font-size: 0.9rem;
     cursor: pointer;
-    margin-left: auto;
     transition: transform 0.25s ease, box-shadow 0.25s ease;
     box-shadow: 0 6px 18px rgba(212, 175, 55, 0.32);
 }
@@ -326,36 +277,27 @@
 .patrimoine-next svg { width: 16px; height: 16px; transition: transform 0.25s ease; }
 .patrimoine-next:hover svg { transform: translateX(3px); }
 
-/* ── Tablette / mobile : image en haut, infos en dessous ── */
+/* ── Mobile ── */
 @media (max-width: 768px) {
     .patrimoine {
         padding: var(--space-2xl) 0;
     }
     .patrimoine-card {
-        grid-template-columns: 1fr;
-        gap: 0;
-        max-width: 480px;
-        box-shadow: 0 12px 32px rgba(26, 26, 46, 0.12);
+        padding: var(--space-xl) var(--space-lg);
+        max-width: 520px;
     }
-    .patrimoine-card:hover {
-        transform: none;
+    .patrimoine-portrait {
+        width: 140px;
+        height: 168px;
     }
-    .patrimoine-image {
-        aspect-ratio: 4 / 3;
-        min-height: 0;
-    }
-    .patrimoine-info {
-        padding: var(--space-xl);
-    }
-    .patrimoine-quote { font-size: 3.5rem; top: var(--space-sm); right: var(--space-md); }
-    .patrimoine-name { font-size: 1.5rem; }
+    .patrimoine-bio { font-size: 1rem; line-height: 1.75; }
     .patrimoine-actions {
         gap: var(--space-md);
+        flex-direction: column-reverse;
     }
     .patrimoine-next {
-        flex: 1;
-        margin-left: 0;
+        width: 100%;
         justify-content: center;
-        min-height: 44px;
+        min-height: 46px;
     }
 }
