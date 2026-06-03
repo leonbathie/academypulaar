@@ -1,0 +1,185 @@
+/* =========================================================
+   Section Patrimoine (savants) — page d'accueil
+   Carte image + texte, centree, pleine largeur de section.
+   ========================================================= */
+.patrimoine {
+    padding: var(--space-3xl) 0;
+    background: var(--cream);
+}
+[data-theme="dark"] .patrimoine {
+    background: var(--primary-dark);
+}
+
+.patrimoine-head {
+    text-align: center;
+    margin-bottom: var(--space-2xl);
+}
+.patrimoine-head .section-label {
+    display: inline-block;
+    color: var(--primary-gold);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: var(--space-sm);
+}
+.patrimoine-head .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    color: var(--primary-dark);
+    margin: 0;
+}
+[data-theme="dark"] .patrimoine-head .section-title {
+    color: var(--white);
+}
+.patrimoine-subtitle {
+    color: var(--medium-gray);
+    font-size: 1rem;
+    line-height: 1.6;
+    max-width: 600px;
+    margin: var(--space-sm) auto 0;
+}
+
+/* Carte savant : image a gauche, infos a droite (desktop) */
+.patrimoine-card {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: var(--space-2xl);
+    max-width: 900px;
+    margin: 0 auto;
+    background: var(--white);
+    border: 1px solid var(--light-gray);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    box-shadow: 0 8px 30px rgba(26, 26, 46, 0.08);
+}
+[data-theme="dark"] .patrimoine-card {
+    background: var(--primary-navy);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.patrimoine-image {
+    background: linear-gradient(135deg, #1a1f3a 0%, #2a1a3a 100%);
+    min-height: 100%;
+}
+.patrimoine-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.patrimoine-info {
+    padding: var(--space-2xl) var(--space-2xl) var(--space-2xl) 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.patrimoine-name {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    color: var(--primary-dark);
+    margin: 0 0 0.2rem;
+}
+[data-theme="dark"] .patrimoine-name {
+    color: var(--primary-gold);
+}
+
+.patrimoine-years {
+    display: block;
+    color: var(--medium-gray);
+    font-size: 0.9rem;
+    font-style: italic;
+    margin-bottom: var(--space-md);
+    padding-bottom: var(--space-md);
+    border-bottom: 1px solid var(--light-gray);
+}
+
+.patrimoine-bio {
+    color: var(--dark-gray);
+    line-height: 1.7;
+    font-size: 0.98rem;
+    flex: 1;
+}
+[data-theme="dark"] .patrimoine-bio {
+    color: rgba(255, 255, 255, 0.85);
+}
+/* Bio repliee : limite a 5 lignes */
+.patrimoine-bio:not(.expanded) {
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+.patrimoine-bio .bio-para { margin: 0 0 0.6rem; }
+.patrimoine-bio .bio-para:last-child { margin-bottom: 0; }
+
+.patrimoine-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-lg);
+    margin-top: var(--space-lg);
+    flex-wrap: wrap;
+}
+
+.patrimoine-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    background: none;
+    border: none;
+    color: var(--primary-gold);
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0;
+}
+.patrimoine-toggle svg { width: 16px; height: 16px; }
+
+.patrimoine-next {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: linear-gradient(135deg, var(--primary-gold), var(--gold-dark));
+    color: #1a1a1a;
+    border: none;
+    padding: 0.65rem 1.2rem;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    box-shadow: 0 4px 14px rgba(212, 175, 55, 0.3);
+}
+.patrimoine-next:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(212, 175, 55, 0.45);
+}
+.patrimoine-next svg { width: 16px; height: 16px; }
+
+/* ── Tablette / mobile : image en haut, infos en dessous ── */
+@media (max-width: 768px) {
+    .patrimoine {
+        padding: var(--space-2xl) 0;
+    }
+    .patrimoine-card {
+        grid-template-columns: 1fr;
+        gap: 0;
+        max-width: 480px;
+    }
+    .patrimoine-image {
+        aspect-ratio: 4 / 3;
+        min-height: 0;
+    }
+    .patrimoine-info {
+        padding: var(--space-xl);
+    }
+    .patrimoine-actions {
+        gap: var(--space-md);
+    }
+    .patrimoine-next {
+        flex: 1;
+        justify-content: center;
+        min-height: 44px;
+    }
+}

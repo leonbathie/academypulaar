@@ -1,7 +1,5 @@
-import { useState, useEffect, useRef, useMemo } from 'react'
+import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { API_URL } from '../config'
-import { renderBio } from '../utils/renderBio'
 import './Hero.css'
 
 // Images Hero : qualite 70 + dimension capee a 1280px (suffit pour 99% des
@@ -18,81 +16,9 @@ const slides = [
     }
 ]
 
-function ScholarCard({ scholar, lang, t, showNext, onNext, expanded: externalExpanded, onToggleExpand }) {
-    const [internalExpanded, setInternalExpanded] = useState(false)
-    const bio = scholar[`bio_${lang}`] || (lang !== 'fr' ? null : scholar.bio_fr)
-    const bioFallback = !scholar[`bio_${lang}`] && lang !== 'fr'
-
-    // Desktop: état contrôlé depuis le parent. Mobile (onToggleExpand=null): état interne
-    const expanded = onToggleExpand ? externalExpanded : internalExpanded
-    const toggle = onToggleExpand ?? (() => setInternalExpanded(v => !v))
-
-    return (
-        <div className={`hero-scholar ${expanded ? 'is-expanded' : ''}`}>
-            <div className="hero-scholar-image">
-                <img
-                    src={scholar.image
-                        ? `${API_URL}${scholar.image}`
-                        : `https://via.placeholder.com/300x400/1a1f3a/d4af37?text=${encodeURIComponent(scholar.name)}`}
-                    alt={scholar.name}
-                    style={{ objectPosition: scholar.image_position || '50% 20%' }}
-                    onError={(e) => {
-                        e.target.src = `https://via.placeholder.com/300x400/1a1f3a/d4af37?text=${encodeURIComponent(scholar.name)}`
-                    }}
-                />
-            </div>
-            <div className="hero-scholar-info">
-                <span className="hero-scholar-label">{t('scholars.label', 'Patrimoine')}</span>
-                <h3 className="hero-scholar-name">{scholar.name}</h3>
-                {scholar.years && <span className="hero-scholar-years">{scholar.years}</span>}
-                <div
-                    className={`hero-scholar-bio ${expanded ? 'expanded' : ''}`}
-                    style={{
-                        ...(bioFallback ? { color: 'rgba(255,255,255,0.45)', fontStyle: 'italic' } : {}),
-                        ...(!expanded && bio && !bioFallback ? { cursor: 'pointer' } : {})
-                    }}
-                    onClick={bio && !bioFallback && !expanded ? toggle : undefined}
-                >
-                    {bioFallback
-                        ? <p className="bio-para">{t('common.noTranslation')}</p>
-                        : (expanded ? renderBio(bio) : <p className="bio-para">{bio}</p>)
-                    }
-                </div>
-                {bio && !bioFallback && (
-                    <button className="hero-scholar-toggle" onClick={toggle}>
-                        {expanded ? t('common.seeLess', 'Voir moins') : t('common.seeMore', 'Voir plus')}
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
-                            style={{ transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.2s' }}>
-                            <path d="M6 9l6 6 6-6" />
-                        </svg>
-                    </button>
-                )}
-                {showNext && (
-                    <button className="hero-scholar-next" onClick={onNext}>
-                        {t('scholars.next', 'Découvrir un autre savant')}
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                            <path d="M5 12h14M12 5l7 7-7 7" />
-                        </svg>
-                    </button>
-                )}
-            </div>
-        </div>
-    )
-}
-
 function Hero() {
-    const { t, i18n } = useTranslation()
+    const { t } = useTranslation()
     const [currentSlide, setCurrentSlide] = useState(0)
-    const [scholars, setScholars] = useState([])
-    const [activeIdx, setActiveIdx] = useState(0)
-    const [bioExpanded, setBioExpanded] = useState(false)
-    const lang = ['fr', 'en', 'ff'].includes(i18n.language) ? i18n.language : 'fr'
-    const scrollRef = useRef(null)
-
-    const loopScholars = useMemo(
-        () => scholars.length > 0 ? [...scholars, ...scholars, ...scholars] : [],
-        [scholars]
-    )
 
     useEffect(() => {
         if (slides.length <= 1) return
@@ -101,70 +27,6 @@ function Hero() {
         }, 6000)
         return () => clearInterval(timer)
     }, [])
-
-    useEffect(() => {
-        fetch(`${API_URL}/api/scholars`)
-            .then(r => r.ok ? r.json() : [])
-            .then(data => {
-                if (Array.isArray(data) && data.length > 0)
-                    setScholars([...data].sort(() => Math.random() - 0.5))
-            })
-            .catch(() => {})
-    }, [])
-
-    // Positionner sur la copie du milieu sans animation
-    useEffect(() => {
-        const el = scrollRef.current
-        if (!el || scholars.length === 0) return
-        requestAnimationFrame(() => {
-            el.scrollLeft = scholars.length * el.offsetWidth
-        })
-    }, [scholars.length])
-
-    // Boucle infinie — saut invisible aux bords uniquement
-    useEffect(() => {
-        const el = scrollRef.current
-        if (!el || scholars.length === 0) return
-        const n = scholars.length
-
-        const handleScroll = () => {
-            const W = el.offsetWidth
-            if (W === 0) return
-            if (el.scrollLeft < n * W * 0.5) {
-                el.scrollLeft += n * W
-            } else if (el.scrollLeft > n * W * 2.5) {
-                el.scrollLeft -= n * W
-            }
-        }
-
-        el.addEventListener('scroll', handleScroll, { passive: true })
-        return () => el.removeEventListener('scroll', handleScroll)
-    }, [scholars.length])
-
-    // Effet visuel via IntersectionObserver — fiable peu importe la vitesse
-    useEffect(() => {
-        const el = scrollRef.current
-        if (!el || scholars.length === 0) return
-
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach(entry => {
-                    entry.target.classList.toggle('is-active', entry.intersectionRatio >= 0.5)
-                })
-            },
-            { root: el, threshold: [0, 0.5, 1.0] }
-        )
-
-        el.querySelectorAll('.hero-scholar-slide').forEach(s => observer.observe(s))
-        return () => observer.disconnect()
-    }, [scholars.length])
-
-    const scholar = scholars[activeIdx] || null
-
-    const pickNext = () => {
-        setBioExpanded(false)
-        setActiveIdx(i => (i + 1) % scholars.length)
-    }
 
     return (
         <section className="hero">
@@ -211,38 +73,6 @@ function Hero() {
                     ))}
                 </div>
             </div>
-
-            {/* Desktop : carte unique + bouton suivant */}
-            {scholar && (
-                <ScholarCard
-                    scholar={scholar}
-                    lang={lang}
-                    t={t}
-                    showNext={scholars.length > 1}
-                    onNext={pickNext}
-                    expanded={bioExpanded}
-                    onToggleExpand={() => setBioExpanded(v => !v)}
-                />
-            )}
-
-            {/* Mobile : carrousel infini */}
-            {loopScholars.length > 0 && (
-                <div className="hero-scholars-scroll" ref={scrollRef}>
-                    {loopScholars.map((s, i) => (
-                        <div key={i} className="hero-scholar-slide">
-                            <ScholarCard
-                                scholar={s}
-                                lang={lang}
-                                t={t}
-                                showNext={false}
-                                onNext={null}
-                                expanded={false}
-                                onToggleExpand={null}
-                            />
-                        </div>
-                    ))}
-                </div>
-            )}
 
             <div className="hero-scroll">
                 <span>{t('hero.scroll')}</span>
