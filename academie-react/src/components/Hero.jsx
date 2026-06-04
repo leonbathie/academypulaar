@@ -119,6 +119,16 @@ function Hero() {
         navigate(q ? `/dictionnaire?search=${encodeURIComponent(q)}` : '/dictionnaire')
     }
 
+    // "Decouvrir" : a chaque clic, defile vers une section differente (cycle).
+    const discoverSections = ['decouvrir', 'patrimoine', 'actualites', 'dictionnaire']
+    const discoverIdx = useRef(0)
+    const handleDiscover = () => {
+        const id = discoverSections[discoverIdx.current % discoverSections.length]
+        const el = document.getElementById(id)
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        discoverIdx.current = (discoverIdx.current + 1) % discoverSections.length
+    }
+
     return (
         <section className="hero">
             <div className="hero-slides">
@@ -217,12 +227,12 @@ function Hero() {
                     </div>
 
                     <div className="hero-buttons">
-                        <a href="#decouvrir" className="btn btn-primary">
+                        <button type="button" className="btn btn-primary" onClick={handleDiscover}>
                             {t('common.discover')}
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                 <path d="M5 12h14M12 5l7 7-7 7" />
                             </svg>
-                        </a>
+                        </button>
                         <a href="#dictionnaire" className="btn btn-secondary">
                             {t('hero.consultDictionary')}
                         </a>
