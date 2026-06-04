@@ -8,10 +8,10 @@ function HomePage() {
     return (
         <>
             <Hero />
-            <Dictionary />
             <Features />
             <Patrimoine />
             <News />
+            <Dictionary />
         </>
     )
 }
