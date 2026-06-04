@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import './Hero.css'
 
@@ -18,7 +19,9 @@ const slides = [
 
 function Hero() {
     const { t } = useTranslation()
+    const navigate = useNavigate()
     const [currentSlide, setCurrentSlide] = useState(0)
+    const [heroSearch, setHeroSearch] = useState('')
 
     useEffect(() => {
         if (slides.length <= 1) return
@@ -27,6 +30,12 @@ function Hero() {
         }, 6000)
         return () => clearInterval(timer)
     }, [])
+
+    const submitHeroSearch = (e) => {
+        e.preventDefault()
+        const q = heroSearch.trim()
+        navigate(q ? `/dictionnaire?search=${encodeURIComponent(q)}` : '/dictionnaire')
+    }
 
     return (
         <section className="hero">
@@ -49,6 +58,24 @@ function Hero() {
                     {slides[currentSlide].subtitleKey && (
                         <p className="hero-subtitle">{t(slides[currentSlide].subtitleKey)}</p>
                     )}
+                    {/* Petite barre de recherche du dictionnaire, directement dans le Hero */}
+                    <form className="hero-search" onSubmit={submitHeroSearch} role="search">
+                        <svg className="hero-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <circle cx="11" cy="11" r="8" />
+                            <path d="M21 21l-4.35-4.35" />
+                        </svg>
+                        <input
+                            type="text"
+                            value={heroSearch}
+                            onChange={(e) => setHeroSearch(e.target.value)}
+                            placeholder={t('dictionary.searchPlaceholder', 'Rechercher un mot…')}
+                            aria-label={t('dictionary.searchPlaceholder', 'Rechercher un mot')}
+                        />
+                        <button type="submit" aria-label={t('common.search', 'Rechercher')}>
+                            {t('common.search', 'Rechercher')}
+                        </button>
+                    </form>
+
                     <div className="hero-buttons">
                         <a href="#decouvrir" className="btn btn-primary">
                             {t('common.discover')}
