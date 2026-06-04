@@ -174,10 +174,10 @@ function Dictionary() {
                                     <div
                                         key={entry.id}
                                         className="dict-live-card"
-                                        onClick={() => navigate(`/dictionnaire?search=${encodeURIComponent(entry.word)}`)}
+                                        onClick={() => navigate(`/dictionnaire?word=${entry.id}`)}
                                         role="button"
                                         tabIndex={0}
-                                        onKeyDown={(e) => { if (e.key === 'Enter') navigate(`/dictionnaire?search=${encodeURIComponent(entry.word)}`) }}
+                                        onKeyDown={(e) => { if (e.key === 'Enter') navigate(`/dictionnaire?word=${entry.id}`) }}
                                     >
                                         <div className="dict-live-main">
                                             <span className="dict-live-word">{entry.word}</span>

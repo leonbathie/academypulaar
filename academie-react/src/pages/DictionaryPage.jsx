@@ -62,6 +62,9 @@ function DictionaryPage() {
         })
     }, [trackWordInteraction])
 
+    // Lien direct vers un mot precis : /dictionnaire?word=<id>
+    const urlWordId = searchParams.get('word')
+
     // Lire les paramètres URL au chargement
     useEffect(() => {
         const urlSearch = searchParams.get('search')
@@ -152,10 +155,23 @@ function DictionaryPage() {
         } else if (selectedDomain) {
             const filtered = allWords.filter(w => wordHasDomain(w, selectedDomain))
             setResults(filtered)
+        } else if (urlWordId) {
+            // Lien direct vers UN mot (?word=id) : afficher ce mot seul, deplie.
+            const entry = allWords.find(w => String(w.id) === String(urlWordId))
+            if (entry) {
+                setResults([entry])
+                setExpandedCards(new Set([entry.id]))
+                setTimeout(() => {
+                    const el = document.getElementById(`word-${entry.id}`)
+                    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' })
+                }, 200)
+            } else {
+                setResults([])
+            }
         } else {
             setResults([])
         }
-    }, [searchTerm, searchType, selectedLetter, selectedDomain, allWords])
+    }, [searchTerm, searchType, selectedLetter, selectedDomain, allWords, urlWordId])
 
     const handleLetterClick = (letter) => {
         setSelectedLetter(letter)
@@ -343,7 +359,7 @@ function DictionaryPage() {
                                         previewHint = null
                                     }
                                     return (
-                                        <article key={entry.id} className={`word-card ${isExpanded ? 'word-card--expanded' : ''}`}>
+                                        <article key={entry.id} id={`word-${entry.id}`} className={`word-card ${isExpanded ? 'word-card--expanded' : ''}`}>
                                             {/* Image illustrative du mot (optionnelle) */}
                                             {entry.image && (
                                                 <div className="word-image">

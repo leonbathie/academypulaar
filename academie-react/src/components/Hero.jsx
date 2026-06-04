@@ -32,6 +32,7 @@ function Hero() {
     const audioRef = useRef(null)
     const [playingId, setPlayingId] = useState(null)
     const searchBoxRef = useRef(null)
+    const resultsRef = useRef(null)
 
     useEffect(() => {
         if (slides.length <= 1) return
@@ -77,6 +78,21 @@ function Hero() {
         document.addEventListener('mousedown', onClick)
         return () => document.removeEventListener('mousedown', onClick)
     }, [])
+
+    // Limiter la hauteur du panneau a l'espace disponible sous la barre,
+    // pour qu'il ne soit jamais coupe par le bas de l'ecran.
+    useEffect(() => {
+        if (!showResults || !resultsRef.current) return
+        const adjust = () => {
+            if (!resultsRef.current) return
+            const top = resultsRef.current.getBoundingClientRect().top
+            const avail = window.innerHeight - top - 16
+            resultsRef.current.style.maxHeight = Math.max(160, avail) + 'px'
+        }
+        adjust()
+        window.addEventListener('resize', adjust)
+        return () => window.removeEventListener('resize', adjust)
+    }, [showResults, results])
 
     const getTranslation = (entry) => {
         switch (lang) {
@@ -146,7 +162,7 @@ function Hero() {
 
                         {/* Resultats en direct */}
                         {showResults && heroSearch.trim().length >= 2 && (
-                            <div className="hero-results">
+                            <div className="hero-results" ref={resultsRef}>
                                 {searching && results.length === 0 && (
                                     <div className="hero-results-msg">
                                         <span className="hero-results-spinner" /> {t('common.search')}…
@@ -159,10 +175,10 @@ function Hero() {
                                     <div
                                         key={entry.id}
                                         className="hero-result"
-                                        onClick={() => navigate(`/dictionnaire?search=${encodeURIComponent(entry.word)}`)}
+                                        onClick={() => navigate(`/dictionnaire?word=${entry.id}`)}
                                         role="button"
                                         tabIndex={0}
-                                        onKeyDown={(e) => { if (e.key === 'Enter') navigate(`/dictionnaire?search=${encodeURIComponent(entry.word)}`) }}
+                                        onKeyDown={(e) => { if (e.key === 'Enter') navigate(`/dictionnaire?word=${entry.id}`) }}
                                     >
                                         <div className="hero-result-main">
                                             <span className="hero-result-word">{entry.word}</span>
