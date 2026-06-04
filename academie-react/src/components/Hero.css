@@ -9,7 +9,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
+    /* visible (et non hidden) pour que le panneau de resultats de recherche
+       puisse depasser sous la banniere. Le fond anime reste clippe par
+       .hero-slides ; l'horizontal est deja borne par .app overflow-x hidden. */
+    overflow: visible;
 }
 
 /* Slides */
@@ -443,13 +446,18 @@
 
 /* Buttons */
 /* Petite barre de recherche dictionnaire dans le Hero */
+.hero-search-box {
+    position: relative;
+    width: 100%;
+    max-width: 460px;
+    margin-bottom: var(--space-lg);
+    z-index: 20;
+}
 .hero-search {
     display: flex;
     align-items: center;
     gap: 0.5rem;
     width: 100%;
-    max-width: 460px;
-    margin-bottom: var(--space-lg);
     padding: 0.4rem 0.4rem 0.4rem 1rem;
     background: rgba(255, 255, 255, 0.14);
     border: 1px solid rgba(255, 255, 255, 0.28);
@@ -499,6 +507,120 @@
     transform: translateY(-1px);
     box-shadow: 0 6px 16px rgba(212, 175, 55, 0.4);
 }
+
+/* Panneau de resultats en direct sous la barre */
+.hero-results {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    background: var(--white);
+    border-radius: 16px;
+    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+    overflow: hidden;
+    animation: heroResIn 0.18s ease;
+    max-height: 60vh;
+    overflow-y: auto;
+}
+@keyframes heroResIn {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+[data-theme="dark"] .hero-results {
+    background: #1f2540;
+}
+
+.hero-results-msg {
+    padding: 0.85rem 1rem;
+    color: var(--medium-gray);
+    font-size: 0.92rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.hero-results-spinner {
+    width: 15px; height: 15px;
+    border: 2px solid rgba(0, 0, 0, 0.12);
+    border-top-color: var(--primary-gold);
+    border-radius: 50%;
+    animation: heroSpin 0.7s linear infinite;
+    display: inline-block;
+}
+@keyframes heroSpin { to { transform: rotate(360deg); } }
+
+.hero-result {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.7rem 1rem;
+    cursor: pointer;
+    border-bottom: 1px solid var(--light-gray);
+    transition: background 0.15s ease;
+    text-align: left;
+}
+[data-theme="dark"] .hero-result { border-bottom-color: rgba(255, 255, 255, 0.08); }
+.hero-result:hover,
+.hero-result:focus-visible {
+    background: rgba(212, 165, 55, 0.1);
+    outline: none;
+}
+.hero-result-main {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    flex: 1;
+    min-width: 0;
+}
+.hero-result-word {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--primary-dark);
+    line-height: 1.2;
+}
+[data-theme="dark"] .hero-result-word { color: var(--primary-gold); }
+.hero-result-trans {
+    font-size: 0.88rem;
+    color: var(--medium-gray);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.hero-result-audio {
+    flex-shrink: 0;
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(212, 165, 55, 0.14);
+    color: var(--gold-dark);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease, transform 0.15s ease;
+}
+.hero-result-audio svg { width: 15px; height: 15px; }
+.hero-result-audio:hover { background: var(--primary-gold); color: #1a1a1a; transform: scale(1.05); }
+.hero-result-audio.playing { background: var(--primary-gold); color: #1a1a1a; }
+
+.hero-results-all {
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.8rem;
+    background: transparent;
+    border: none;
+    color: var(--gold-dark);
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+.hero-results-all svg { width: 16px; height: 16px; transition: transform 0.2s ease; }
+.hero-results-all:hover { background: rgba(212, 165, 55, 0.1); }
+.hero-results-all:hover svg { transform: translateX(4px); }
 
 .hero-buttons {
     display: flex;
@@ -690,7 +812,7 @@
         font-size: 0.9rem;
     }
 
-    .hero-search {
+    .hero-search-box {
         max-width: 100%;
         margin-left: auto;
         margin-right: auto;
