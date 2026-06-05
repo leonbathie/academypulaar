@@ -37,7 +37,6 @@ function Dictionary() {
     // Charger le nombre de mots au démarrage
     useEffect(() => {
         loadWordCount()
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     // Recherche en direct (debounce 300ms) : interroge l'API avec limit=6.

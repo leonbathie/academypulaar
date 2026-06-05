@@ -13,7 +13,7 @@ function getInitialLang() {
     try {
         const stored = localStorage.getItem('i18nextLng')
         if (stored && SUPPORTED.includes(stored)) return stored
-    } catch (_) {}
+    } catch { /* localStorage indisponible : on retombe sur la langue par defaut */ }
     return 'ff'
 }
 

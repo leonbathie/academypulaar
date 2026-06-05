@@ -8,7 +8,7 @@ import './AdminPage.css'
 
 function AdminPage() {
     const { t, i18n } = useTranslation()
-    const { user, logout, isAuthenticated, isAdmin, isSuperAdmin, canWrite, loading } = useAuth()
+    const { user, logout, isAuthenticated, isAdmin, isSuperAdmin, loading } = useAuth()
     const [sidebarOpen, setSidebarOpen] = useState(window.innerWidth > 768)
     const [isLangMenuOpen, setIsLangMenuOpen] = useState(false)
 

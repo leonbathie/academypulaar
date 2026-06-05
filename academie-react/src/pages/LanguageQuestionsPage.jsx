@@ -7,7 +7,6 @@ function LanguageQuestionsPage() {
     const { t, i18n } = useTranslation()
     const [openIndex, setOpenIndex] = useState(null)
     const [apiQuestions, setApiQuestions] = useState([])
-    const [loading, setLoading] = useState(true)
 
     // Questions statiques (fallback)
     const staticQuestions = [
@@ -31,8 +30,6 @@ function LanguageQuestionsPage() {
                 }
             } catch (error) {
                 console.error('Error fetching questions:', error)
-            } finally {
-                setLoading(false)
             }
         }
         fetchQuestions()

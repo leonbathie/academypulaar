@@ -4,7 +4,7 @@ import { API_URL } from '../config'
 import './ContactPage.css'
 
 function ContactPage() {
-    const { t, i18n } = useTranslation()
+    const { t } = useTranslation()
     const [formData, setFormData] = useState({
         name: '',
         email: '',

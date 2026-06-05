@@ -1,12 +1,11 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useApi, useAuth } from '../../context/AuthContext'
+import { useApi } from '../../context/AuthContext'
 import ConfirmDialog from '../../components/ConfirmDialog'
 
 function ContactAdmin() {
     const { t } = useTranslation()
     const { apiRequest } = useApi()
-    const { isAdmin } = useAuth()
     const [messages, setMessages] = useState([])
     const [loading, setLoading] = useState(true)
     const [selectedMessage, setSelectedMessage] = useState(null)

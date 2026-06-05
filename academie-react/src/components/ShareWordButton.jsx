@@ -24,13 +24,12 @@ function ShareWordButton({ entry, t }) {
         try {
             const u = new URL(API_URL)
             return u.origin
-        } catch (_) {
+        } catch {
             return typeof window !== 'undefined' ? window.location.origin : ''
         }
     })()
 
     const shareUrl = `${publicBase}/share/word/${entry.id}`
-    const shareText = `${entry.word}${entry.translation_fr ? ' — ' + entry.translation_fr : ''}`
 
     // Fermer le popover au clic exterieur
     useEffect(() => {
@@ -116,13 +115,13 @@ function ShareWordButton({ entry, t }) {
             await navigator.clipboard.writeText(shareUrl)
             setCopied(true)
             setTimeout(() => setCopied(false), 1800)
-        } catch (_) {
+        } catch {
             // Fallback : selectionner via input
             const input = document.createElement('input')
             input.value = shareUrl
             document.body.appendChild(input)
             input.select()
-            try { document.execCommand('copy'); setCopied(true); setTimeout(() => setCopied(false), 1800) } catch (_) {}
+            try { document.execCommand('copy'); setCopied(true); setTimeout(() => setCopied(false), 1800) } catch { /* ignore */ }
             document.body.removeChild(input)
         }
     }

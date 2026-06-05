@@ -519,15 +519,6 @@ function DictionaryAdmin() {
         }
     }
 
-    const handleCancelDelete = async (requestId) => {
-        try {
-            await apiRequest(`/dictionary/delete-request/${requestId}/cancel`, { method: 'POST' })
-            loadDeleteRequests()
-        } catch (error) {
-            alert(t('admin.common.errorPrefix') + error.message)
-        }
-    }
-
     // PDF Import Functions
     const openPdfModal = () => {
         setPdfFile(null)
