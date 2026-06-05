@@ -45,7 +45,7 @@ function DictionaryAdmin() {
         translation_en: '',
         translation_ff: '',
         category: '',
-        domain: '',
+        domains: [],
         example: '',
         example_translation: ''
     })
@@ -125,7 +125,9 @@ function DictionaryAdmin() {
                 translation_en: word.translation_en || '',
                 translation_ff: word.translation_ff || '',
                 category: word.category || '',
-                domain: word.domain || '',
+                domains: (Array.isArray(word.domains) && word.domains.length > 0)
+                    ? word.domains
+                    : (word.domain ? [word.domain] : []),
                 example: word.example || '',
                 example_translation: word.example_translation || ''
             })
@@ -141,7 +143,7 @@ function DictionaryAdmin() {
                 translation_en: '',
                 translation_ff: '',
                 category: '',
-                domain: '',
+                domains: [],
                 example: '',
                 example_translation: ''
             })
@@ -262,10 +264,20 @@ function DictionaryAdmin() {
         try {
             const formDataToSend = new FormData()
 
-            // Add text fields
+            // Add text fields (domains gere a part : c'est un tableau)
             Object.keys(formData).forEach(key => {
+                if (key === 'domains') return
                 formDataToSend.append(key, normalizeFulfuldeText(formData[key]))
             })
+
+            // Domaines : on envoie la liste exacte souhaitee (mode REPLACE cote
+            // backend) pour que les domaines retires disparaissent vraiment.
+            const cleanDomains = (formData.domains || [])
+                .map(d => normalizeFulfuldeText(d))
+                .filter(Boolean)
+            formDataToSend.append('domains', JSON.stringify(cleanDomains))
+            // Champ legacy 'domain' = domaine principal (premier de la liste)
+            formDataToSend.append('domain', cleanDomains[0] || '')
 
             // Add audio files if recorded
             if (audioWordBlob) {
@@ -1000,28 +1012,23 @@ function DictionaryAdmin() {
 
                                 <div className="form-group">
                                     <label>{t('admin.dictionary.domain')}</label>
-                                    <select
-                                        value={formData.domain}
-                                        onChange={e => setFormData({ ...formData, domain: e.target.value })}
-                                    >
-                                        <option value="">{t('admin.common.select')}</option>
-                                        <option value="scientifique">{t('admin.dictionary.domScience')}</option>
-                                        <option value="mathematiques">{t('admin.dictionary.domMath')}</option>
-                                        <option value="biologie">{t('admin.dictionary.domBio')}</option>
-                                        <option value="philosophie">{t('admin.dictionary.domPhilo')}</option>
-                                        <option value="economie">{t('admin.dictionary.domEco')}</option>
-                                        <option value="droit">{t('admin.dictionary.domDroit')}</option>
-                                        <option value="astronomie">{t('admin.dictionary.domAstro')}</option>
-                                        <option value="informatique">{t('admin.dictionary.domInfo')}</option>
-                                        <option value="botanique">{t('admin.dictionary.domBota')}</option>
-                                        <option value="vivants">{t('admin.dictionary.domVivants')}</option>
-                                        <option value="elevage">{t('admin.dictionary.domElevage')}</option>
-                                        <option value="agriculture">{t('admin.dictionary.domAgri')}</option>
-                                        <option value="peche">{t('admin.dictionary.domPeche')}</option>
-                                        <option value="forge">{t('admin.dictionary.domForge')}</option>
-                                        <option value="dictionnaire">{t('admin.dictionary.domDict')}</option>
-                                        <option value="general">{t('admin.dictionary.domGeneral')}</option>
-                                    </select>
+                                    <div className="domain-checkbox-grid">
+                                        {Object.keys(domainKeyMap).map(dom => (
+                                            <label key={dom} className="domain-checkbox">
+                                                <input
+                                                    type="checkbox"
+                                                    checked={formData.domains.includes(dom)}
+                                                    onChange={e => setFormData(prev => ({
+                                                        ...prev,
+                                                        domains: e.target.checked
+                                                            ? [...prev.domains, dom]
+                                                            : prev.domains.filter(d => d !== dom)
+                                                    }))}
+                                                />
+                                                <span>{t(domainKeyMap[dom])}</span>
+                                            </label>
+                                        ))}
+                                    </div>
                                 </div>
 
                                 {/* Image du mot */}

@@ -2574,6 +2574,34 @@
     font-weight: 500;
 }
 
+/* Selection multi-domaines dans le formulaire d'edition */
+.domain-checkbox-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 0.4rem 0.75rem;
+    padding: 0.6rem 0.75rem;
+    border: 1px solid var(--border-color, #e0d8c8);
+    border-radius: var(--radius-md, 8px);
+    background: var(--bg-subtle, rgba(212, 165, 55, 0.04));
+}
+
+.domain-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+    font-weight: 400;
+    cursor: pointer;
+    user-select: none;
+}
+
+.domain-checkbox input {
+    width: auto;
+    margin: 0;
+    cursor: pointer;
+    accent-color: var(--primary-gold);
+}
+
 /* ===== Delete Requests Panel (Double Validation) ===== */
 .delete-requests-banner {
     display: flex;
