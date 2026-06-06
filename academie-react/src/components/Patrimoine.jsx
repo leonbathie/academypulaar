@@ -11,7 +11,7 @@ function bioPreview(text, max = 120) {
     const clean = String(text)
         .replace(/^#{2,3}\s+/gm, '')   // titres
         .replace(/^[-*]\s+/gm, '')      // listes
-        .replace(/\*\*/g, '')           // gras
+        .replace(/\*+/g, '')            // gras **...** et *...* (WhatsApp)
         .replace(/\s+/g, ' ')
         .trim()
     return clean.length > max ? clean.slice(0, max).trim() + '…' : clean
