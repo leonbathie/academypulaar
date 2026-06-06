@@ -51,19 +51,9 @@
     padding-top: var(--space-2xl);
     padding-bottom: var(--space-2xl);
 }
-/* Paragraphes qui suivent une grille (siège / branches) */
-.histoire-doc-after { margin-top: var(--space-lg); }
-
-/* Sous-titres des méthodes (1) … 2) …) */
-.histoire-method-block { margin-top: var(--space-lg); }
-.histoire-method-name {
-    font-family: var(--font-display);
-    font-size: 1.15rem;
-    font-weight: 700;
-    color: var(--primary-dark);
-    margin: 0 0 var(--space-sm);
-}
-[data-theme="dark"] .histoire-method-name { color: var(--primary-gold); }
+/* Carte sombre siège / rayonnement (texte réel uniquement) */
+.histoire-doc-scope { margin-top: var(--space-lg); }
+.histoire-doc-scope p:last-child { margin-bottom: 0; }
 
 /* ── ARTICLE COLONNE GAUCHE ───────────────────────────── */
 .histoire-article { color: var(--dark-gray); }
