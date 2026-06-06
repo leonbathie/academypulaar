@@ -289,6 +289,15 @@
 [data-theme="dark"] .savant-modal-bio { color: rgba(255, 255, 255, 0.85); }
 .savant-modal-bio .bio-para { margin: 0 0 1rem; }
 .savant-modal-bio .bio-para:last-child { margin-bottom: 0; }
+.savant-modal-bio .bio-link {
+    color: var(--primary-gold);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    word-break: break-word;
+    transition: color var(--transition-fast);
+}
+.savant-modal-bio .bio-link:hover { color: var(--gold-dark); }
 .savant-modal-bio .bio-heading {
     font-family: var(--font-display);
     font-size: 1.3rem;
