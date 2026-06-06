@@ -411,7 +411,7 @@ function ScholarsAdmin() {
                                             className="bio-textarea"
                                             spellCheck="true"
                                         />
-                                        <div className="bio-hint">📝 Markdown: ## Titre, ### Sous-titre, - Liste</div>
+                                        <div className="bio-hint">📝 Markdown: ## Titre, ### Sous-titre, - Liste, *gras*</div>
                                     </div>
                                 )}
                                 {activeTab === 'en' && (
@@ -439,7 +439,7 @@ function ScholarsAdmin() {
                                             className="bio-textarea"
                                             spellCheck="true"
                                         />
-                                        <div className="bio-hint">📝 Markdown: ## Titre, ### Sous-titre, - Liste</div>
+                                        <div className="bio-hint">📝 Markdown: ## Titre, ### Sous-titre, - Liste, *gras*</div>
                                     </div>
                                 )}
 

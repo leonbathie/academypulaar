@@ -14,12 +14,16 @@
 import { Fragment } from 'react'
 
 function inlineEmphasis(line, baseKey) {
-    // Gere **gras** simple. Tout le reste reste texte pur.
-    if (!line.includes('**')) return line
-    const parts = line.split(/(\*\*[^*]+\*\*)/g)
+    // Gere **gras** et *gras* (style WhatsApp). Tout le reste reste texte pur.
+    if (!line.includes('*')) return line
+    // On capture d'abord **...** puis *...* (l'ordre evite de couper le double).
+    const parts = line.split(/(\*\*[^*]+\*\*|\*[^*\n]+\*)/g)
     return parts.map((part, i) => {
-        if (part.startsWith('**') && part.endsWith('**') && part.length > 4) {
+        if (part.length > 4 && part.startsWith('**') && part.endsWith('**')) {
             return <strong key={`${baseKey}-b-${i}`}>{part.slice(2, -2)}</strong>
+        }
+        if (part.length > 2 && part.startsWith('*') && part.endsWith('*')) {
+            return <strong key={`${baseKey}-b-${i}`}>{part.slice(1, -1)}</strong>
         }
         return <Fragment key={`${baseKey}-t-${i}`}>{part}</Fragment>
     })
