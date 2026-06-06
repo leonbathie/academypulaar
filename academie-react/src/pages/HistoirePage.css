@@ -122,52 +122,46 @@
     flex-direction: column;
     gap: var(--space-lg);
 }
-/* Card SOFT = Cercle Fondateur (fond beige/sable a la "argile") */
-.histoire-card--soft {
-    background: #c4b7a4;
-    border: 1px solid rgba(0, 0, 0, 0.1);
+.histoire-card {
+    background: var(--white);
+    border: 1px solid var(--light-gray);
     border-radius: var(--radius-xl);
     padding: var(--space-xl);
-    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 20px rgba(26, 26, 46, 0.06);
 }
-
-/* Card DARK = Rayonnement Transspatial (fond charcoal noir) */
+[data-theme="dark"] .histoire-card {
+    background: rgba(26, 26, 46, 0.6);
+    border-color: rgba(255, 255, 255, 0.08);
+    box-shadow: none;
+}
 .histoire-card--dark {
-    background: #1a1310;
-    border: 1px solid rgba(212, 165, 55, 0.2);
-    border-radius: var(--radius-xl);
-    padding: var(--space-xl);
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--secondary-burgundy) 100%);
     color: var(--cream);
-    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12);
+    border-color: rgba(212, 165, 55, 0.3);
 }
-.histoire-card--dark p {
-    color: rgba(255, 255, 255, 0.78);
-    font-size: 0.95rem;
-    line-height: 1.6;
-    margin: 0 0 var(--space-md);
-}
+.histoire-card--dark p { color: rgba(255, 255, 255, 0.88); font-size: 0.95rem; line-height: 1.6; margin: 0 0 var(--space-md); }
 
 .histoire-card-title {
     font-family: var(--font-display);
     font-size: 1.45rem;
     font-weight: 700;
-    color: var(--primary-gold);
+    color: var(--primary-dark);
     margin: 0 0 var(--space-sm);
     display: inline-flex;
     align-items: center;
     gap: 0.6rem;
 }
-.histoire-card--soft .histoire-card-title { color: var(--gold-dark); }
+.histoire-card--dark .histoire-card-title { color: var(--primary-gold); }
+[data-theme="dark"] .histoire-card-title { color: var(--primary-gold); }
 
 .histoire-card-help {
     font-size: 0.78rem;
     font-weight: 600;
-    color: rgba(0, 0, 0, 0.55);
+    color: var(--medium-gray);
     letter-spacing: 0.08em;
     text-transform: uppercase;
     margin: 0 0 var(--space-md);
 }
-.histoire-card--dark .histoire-card-help { color: rgba(255, 255, 255, 0.6); }
 
 /* Chips fondateurs */
 .histoire-founders-chips {
@@ -177,9 +171,9 @@
     margin-bottom: var(--space-lg);
 }
 .histoire-chip {
-    background: #3a322c;
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    color: var(--cream);
+    background: var(--cream);
+    border: 1px solid var(--light-gray);
+    color: var(--dark-gray);
     padding: 0.55rem 1.1rem;
     border-radius: 999px;
     font-family: var(--font-body);
@@ -189,23 +183,33 @@
     transition: all var(--transition-fast);
     min-height: 38px;
 }
-.histoire-chip:hover { background: #4a3e35; }
+.histoire-chip:hover {
+    border-color: var(--primary-gold);
+    color: var(--primary-dark);
+}
 .histoire-chip.is-active {
-    background: #73221b;
-    border-color: #73221b;
+    background: var(--secondary-burgundy);
+    border-color: var(--secondary-burgundy);
     color: #fff;
-    box-shadow: 0 4px 10px rgba(115, 34, 27, 0.4);
+    box-shadow: 0 4px 10px rgba(139, 41, 66, 0.3);
+}
+[data-theme="dark"] .histoire-chip {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.12);
+    color: var(--cream);
 }
 
-/* Panneau biographie fondateur — DARK (charcoal) */
+/* Panneau biographie fondateur */
 .histoire-founder-panel {
-    background: #1a1310;
-    border: 1px solid rgba(212, 165, 55, 0.2);
+    background: var(--cream);
+    border: 1px solid var(--light-gray);
     border-radius: var(--radius-lg);
     padding: var(--space-lg);
-    color: var(--cream);
     animation: histFounderIn 0.25s ease-out;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+}
+[data-theme="dark"] .histoire-founder-panel {
+    background: rgba(0, 0, 0, 0.2);
+    border-color: rgba(212, 165, 55, 0.2);
 }
 @keyframes histFounderIn {
     from { opacity: 0; transform: translateY(6px); }
@@ -222,11 +226,12 @@
     font-family: var(--font-display);
     font-size: 1.25rem;
     font-weight: 700;
-    color: var(--primary-gold);
+    color: var(--primary-dark);
     margin: 0;
     line-height: 1.2;
     max-width: calc(100% - 100px);
 }
+[data-theme="dark"] .histoire-founder-name { color: var(--primary-gold); }
 
 .histoire-founder-tag {
     background: rgba(212, 165, 55, 0.18);
@@ -240,24 +245,27 @@
     flex-shrink: 0;
 }
 .histoire-founder-role {
-    color: var(--cream);
+    color: var(--secondary-burgundy);
     font-size: 0.92rem;
     font-weight: 600;
     margin-bottom: var(--space-md);
 }
+[data-theme="dark"] .histoire-founder-role { color: var(--primary-gold); }
 
 .histoire-founder-bio {
-    color: rgba(255, 255, 255, 0.78);
+    color: var(--dark-gray);
     font-size: 0.95rem;
     line-height: 1.6;
     margin: 0 0 var(--space-md);
 }
+[data-theme="dark"] .histoire-founder-bio { color: rgba(255, 255, 255, 0.85); }
 
 .histoire-founder-highlights {
     list-style: none;
-    padding: var(--space-md) 0 0;
+    padding: 0;
     margin: 0;
-    border-top: 1px dashed rgba(212, 165, 55, 0.25);
+    border-top: 1px dashed rgba(212, 165, 55, 0.4);
+    padding-top: var(--space-md);
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
@@ -266,9 +274,10 @@
     display: flex;
     align-items: center;
     gap: 0.6rem;
-    color: var(--cream);
+    color: var(--dark-gray);
     font-size: 0.88rem;
 }
+[data-theme="dark"] .histoire-founder-highlights li { color: var(--cream); }
 
 .histoire-hl-check {
     display: inline-flex;
@@ -277,41 +286,41 @@
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    background: rgba(45, 90, 74, 0.25);
-    color: #4ade80;
-    border: 1px solid rgba(74, 222, 128, 0.4);
+    background: rgba(45, 90, 74, 0.15);
+    color: var(--accent-forest);
+    border: 1px solid rgba(45, 90, 74, 0.3);
     font-size: 0.75rem;
     font-weight: 700;
     flex-shrink: 0;
 }
 
-/* Rayonnement : 2 stat boxes en bas (dark + or) */
+/* Rayonnement : 2 stat boxes en bas */
 .histoire-scope-stats {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: var(--space-sm);
-    margin-top: var(--space-lg);
+    margin-top: var(--space-md);
     padding-top: var(--space-md);
-    border-top: 1px solid rgba(212, 165, 55, 0.2);
+    border-top: 1px solid rgba(212, 165, 55, 0.3);
 }
 .histoire-scope-stat {
-    background: rgba(0, 0, 0, 0.35);
-    border: 1px solid rgba(212, 165, 55, 0.18);
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(212, 165, 55, 0.25);
     border-radius: var(--radius-md);
-    padding: var(--space-lg);
+    padding: var(--space-md);
     text-align: center;
 }
 .histoire-scope-value {
     font-family: var(--font-display);
-    font-size: 1.65rem;
+    font-size: 1.5rem;
     font-weight: 700;
     color: var(--primary-gold);
     line-height: 1.2;
-    margin-bottom: 0.4rem;
+    margin-bottom: 0.3rem;
 }
 .histoire-scope-label {
     font-size: 0.72rem;
-    color: rgba(255, 255, 255, 0.75);
+    color: rgba(255, 255, 255, 0.85);
     letter-spacing: 0.12em;
     text-transform: uppercase;
     font-weight: 600;
@@ -354,265 +363,56 @@
 }
 
 /* Bento grid */
-/* ─ Toolbar bento : recherche + filtres par categorie ─── */
-.histoire-bento-toolbar {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-md);
-    align-items: center;
-    margin-bottom: var(--space-lg);
-    padding: var(--space-md);
-    background: var(--white);
-    border: 1px solid var(--light-gray);
-    border-radius: var(--radius-lg);
-    box-shadow: 0 2px 8px rgba(26, 26, 46, 0.04);
-}
-[data-theme="dark"] .histoire-bento-toolbar {
-    background: rgba(255, 255, 255, 0.04);
-    border-color: rgba(255, 255, 255, 0.08);
-}
-.histoire-bento-search {
-    position: relative;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    flex: 1;
-    min-width: 200px;
-    padding: 0.55rem 0.85rem;
-    background: var(--cream);
-    border: 1px solid var(--light-gray);
-    border-radius: var(--radius-md);
-    color: var(--medium-gray);
-    transition: all var(--transition-fast);
-}
-.histoire-bento-search:focus-within {
-    border-color: var(--primary-gold);
-    background: var(--white);
-    box-shadow: 0 0 0 3px rgba(212, 165, 55, 0.15);
-}
-.histoire-bento-search input {
-    flex: 1;
-    border: none;
-    background: transparent;
-    outline: none;
-    font-family: var(--font-body);
-    font-size: 0.9rem;
-    color: var(--dark-gray);
-    min-width: 0;
-}
-[data-theme="dark"] .histoire-bento-search {
-    background: rgba(0, 0, 0, 0.25);
-    border-color: rgba(255, 255, 255, 0.1);
-}
-[data-theme="dark"] .histoire-bento-search input { color: var(--cream); }
-
-.histoire-bento-filters {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
-}
-.histoire-bento-filter {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    padding: 0.5rem 0.85rem;
-    background: transparent;
-    border: 1px solid var(--light-gray);
-    border-radius: 999px;
-    color: var(--medium-gray);
-    font-family: var(--font-body);
-    font-size: 0.82rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all var(--transition-fast);
-    min-height: 36px;
-}
-.histoire-bento-filter:hover:not(.is-active) {
-    border-color: var(--primary-gold);
-    color: var(--primary-dark);
-}
-.histoire-bento-filter.is-active {
-    background: var(--primary-gold);
-    border-color: var(--primary-gold);
-    color: var(--white);
-    box-shadow: 0 2px 8px rgba(212, 165, 55, 0.25);
-}
-[data-theme="dark"] .histoire-bento-filter {
-    border-color: rgba(255, 255, 255, 0.15);
-    color: var(--cream);
-}
-.histoire-bento-filter-count {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(0, 0, 0, 0.08);
-    color: inherit;
-    padding: 0.1rem 0.45rem;
-    border-radius: 999px;
-    font-size: 0.72rem;
-    font-weight: 700;
-    min-width: 22px;
-}
-.histoire-bento-filter.is-active .histoire-bento-filter-count {
-    background: rgba(255, 255, 255, 0.25);
-}
-
-/* ─ Bento grid ──────────────────────────────────────── */
 .histoire-bento {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     gap: var(--space-md);
     list-style: none;
     padding: 0;
     margin: 0;
 }
-
-/* Couleur d'accent par categorie (border-top fin) */
 .histoire-bento-item {
     background: var(--white);
     border: 1px solid var(--light-gray);
     border-radius: var(--radius-lg);
-    padding: var(--space-md) var(--space-md) var(--space-md);
-    transition: all var(--transition-base);
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-}
-.histoire-bento-item::before {
-    content: '';
-    position: absolute;
-    inset: 0 0 auto 0;
-    height: 3px;
-    background: var(--primary-gold);
-    opacity: 0;
-    transition: opacity var(--transition-base);
-}
-.histoire-bento-item:hover::before { opacity: 1; }
-.histoire-bento-item:hover {
-    border-color: var(--primary-gold);
-    box-shadow: 0 6px 20px rgba(26, 26, 46, 0.08);
-    transform: translateY(-3px);
+    padding: var(--space-md);
+    transition: all var(--transition-fast);
 }
 [data-theme="dark"] .histoire-bento-item {
     background: rgba(255, 255, 255, 0.04);
     border-color: rgba(255, 255, 255, 0.08);
 }
-
-/* Couleurs par categorie (border-top) */
-.histoire-bento-item--letters::before  { background: #8b2942; }
-.histoire-bento-item--applied::before  { background: #2563eb; }
-.histoire-bento-item--exact::before    { background: #6366f1; }
-.histoire-bento-item--earth::before    { background: #16a34a; }
-.histoire-bento-item--human::before    { background: #c18839; }
-
-/* Header de card : icone + badge categorie */
-.histoire-bento-top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.5rem;
-    margin-bottom: var(--space-md);
+.histoire-bento-item:hover {
+    border-color: var(--primary-gold);
+    box-shadow: 0 4px 14px rgba(212, 165, 55, 0.12);
+    transform: translateY(-2px);
 }
 .histoire-bento-icon {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 44px;
-    height: 44px;
-    border-radius: var(--radius-md);
-    background: linear-gradient(135deg, rgba(212, 165, 55, 0.18), rgba(212, 165, 55, 0.08));
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-sm);
+    background: rgba(212, 165, 55, 0.12);
     border: 1px solid rgba(212, 165, 55, 0.3);
-    color: var(--gold-dark);
-    flex-shrink: 0;
+    font-size: 1.2rem;
+    margin-bottom: 0.7rem;
 }
-[data-theme="dark"] .histoire-bento-icon { color: var(--primary-gold); }
-
-/* Badge categorie : couleur unique par cat — wrap autorise pour
-   ne plus tronquer "Sciences de la Terre & vivant" etc. */
-.histoire-bento-cat {
-    display: inline-flex;
-    align-items: center;
-    padding: 0.3rem 0.7rem;
-    border-radius: 12px;
-    font-family: var(--font-body);
-    font-size: 0.62rem;
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    line-height: 1.3;
-    text-align: right;
-    white-space: normal;
-    max-width: 60%;
-    flex-shrink: 1;
-    word-break: break-word;
-    hyphens: auto;
-}
-.histoire-bento-cat--letters  { background: rgba(139, 41, 66, 0.12); color: #8b2942; }
-.histoire-bento-cat--applied  { background: rgba(37, 99, 235, 0.12); color: #1d4ed8; }
-.histoire-bento-cat--exact    { background: rgba(99, 102, 241, 0.12); color: #4f46e5; }
-.histoire-bento-cat--earth    { background: rgba(22, 163, 74, 0.12); color: #15803d; }
-.histoire-bento-cat--human    { background: rgba(193, 136, 57, 0.15); color: #a16e1f; }
-[data-theme="dark"] .histoire-bento-cat { filter: brightness(1.4); }
-
 .histoire-bento-domain {
     font-family: var(--font-display);
-    font-size: 1.02rem;
+    font-size: 1rem;
     font-weight: 700;
     color: var(--primary-dark);
     line-height: 1.3;
-    margin-bottom: var(--space-md);
-    flex: 1;
+    margin-bottom: 0.5rem;
 }
 [data-theme="dark"] .histoire-bento-domain { color: var(--white); }
 
-/* Bloc directeur avec medallion d'initiales */
-.histoire-bento-director {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    padding-top: var(--space-sm);
-    border-top: 1px dashed rgba(212, 165, 55, 0.25);
-}
-.histoire-bento-medallion {
-    width: 30px;
-    height: 30px;
-    flex-shrink: 0;
-    border-radius: 50%;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, var(--primary-gold), var(--gold-dark));
-    color: #fff;
-    font-family: var(--font-display);
-    font-size: 0.78rem;
-    font-weight: 700;
-    letter-spacing: 0.02em;
-    box-shadow: 0 2px 6px rgba(212, 165, 55, 0.3);
-}
 .histoire-bento-lead {
-    font-size: 0.78rem;
+    font-size: 0.82rem;
     color: var(--medium-gray);
     font-style: italic;
-    line-height: 1.35;
-    min-width: 0;
-    overflow-wrap: anywhere;
-}
-
-/* Empty state filtre */
-.histoire-bento-empty {
-    text-align: center;
-    padding: var(--space-2xl) var(--space-lg);
-    color: var(--medium-gray);
-    background: var(--white);
-    border: 1px dashed var(--light-gray);
-    border-radius: var(--radius-lg);
-}
-.histoire-bento-empty svg { opacity: 0.5; margin-bottom: 0.5rem; }
-.histoire-bento-empty p { margin: 0; font-size: 0.95rem; }
-[data-theme="dark"] .histoire-bento-empty {
-    background: rgba(255, 255, 255, 0.04);
-    border-color: rgba(255, 255, 255, 0.1);
 }
 
 /* ── SECTION METHODES ─────────────────────────────────── */
@@ -732,102 +532,19 @@
     color: rgba(255, 255, 255, 0.9);
 }
 
-/* ── MissionsPage : goals list numerotee + piliers + horizon ─ */
-
-/* Liste numerotee des 7 objectifs dans l'article (variante avec
-   chiffres or circulaires et separateur subtle, style editorial) */
-.histoire-goals-list {
-    list-style: none;
-    padding: 0;
-    margin: var(--space-xl) 0 0;
-    counter-reset: hist-goal;
-    display: grid;
-    gap: 0.85rem;
-}
-.histoire-goals-list li {
-    counter-increment: hist-goal;
-    position: relative;
-    padding: 0.7rem 0 0.7rem 3.4rem;
-    line-height: 1.65;
-    color: var(--dark-gray);
-    font-family: var(--font-display);
-    font-size: 1.02rem;
-    border-bottom: 1px dashed rgba(212, 165, 55, 0.25);
-}
-.histoire-goals-list li:last-child { border-bottom: none; }
-.histoire-goals-list li::before {
-    content: counter(hist-goal, decimal-leading-zero);
-    position: absolute;
-    left: 0;
-    top: 0.7rem;
-    width: 2.4rem;
-    height: 2.4rem;
-    border-radius: 50%;
-    background: rgba(212, 165, 55, 0.12);
-    border: 1px solid rgba(212, 165, 55, 0.4);
-    color: var(--primary-gold);
-    font-family: var(--font-display);
-    font-size: 0.9rem;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+/* ── Responsive ───────────────────────────────────────── */
+@media (max-width: 768px) {
+    .histoire-page { padding-top: 70px; }
+    .histoire-grid { padding-top: var(--space-lg); }
+    .histoire-card { padding: var(--space-lg); }
+    .histoire-article-title { font-size: 1.9rem; }
+    .histoire-article-body p { font-size: 1rem; line-height: 1.75; }
+    .histoire-article-body .has-dropcap::first-letter { font-size: 3.5rem; }
+    .histoire-quote { padding: var(--space-md); font-size: 0.98rem; }
+    .histoire-founders-chips .histoire-chip { font-size: 0.82rem; padding: 0.5rem 0.85rem; }
+    .histoire-method-tab { font-size: 0.82rem; padding: 0.6rem 0.7rem; }
 }
 
-/* Liste des 4 piliers (dans card-soft de MissionsPage) */
-.histoire-pillars {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-md);
-}
-.histoire-pillar {
-    display: flex;
-    gap: var(--space-md);
-    padding: var(--space-md);
-    background: rgba(255, 255, 255, 0.6);
-    border-radius: var(--radius-md);
-    border: 1px solid rgba(0, 0, 0, 0.08);
-    transition: all var(--transition-fast);
-}
-.histoire-pillar:hover {
-    background: rgba(255, 255, 255, 0.85);
-    border-color: rgba(115, 34, 27, 0.3);
-}
-.histoire-pillar-icon {
-    flex-shrink: 0;
-    width: 42px;
-    height: 42px;
-    border-radius: var(--radius-sm);
-    background: rgba(115, 34, 27, 0.12);
-    border: 1px solid rgba(115, 34, 27, 0.25);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.3rem;
-}
-.histoire-pillar-label {
-    font-family: var(--font-display);
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--primary-dark);
-    margin-bottom: 0.2rem;
-}
-.histoire-pillar-desc {
-    font-size: 0.85rem;
-    color: rgba(0, 0, 0, 0.65);
-    line-height: 1.45;
-}
-
-/* Variante 3-colonnes pour les stat boxes (utilisee dans Horizon) */
-.histoire-scope-stats--3 {
-    grid-template-columns: repeat(3, 1fr);
-}
-@media (max-width: 600px) {
-    .histoire-scope-stats--3 { grid-template-columns: 1fr; }
-}
 
 /* =========================================================
    MissionsPage — composants specifiques
@@ -1011,20 +728,8 @@
     color: #fff;
 }
 
-/* ── Responsive ───────────────────────────────────────── */
+/* ── Responsive : MissionsPage ─────────────────────────── */
 @media (max-width: 768px) {
-    .histoire-page { padding-top: 70px; }
-    .histoire-grid { padding-top: var(--space-lg); }
-    .histoire-card { padding: var(--space-lg); }
-    .histoire-card--soft, .histoire-card--dark { padding: var(--space-lg); }
-    .histoire-article-title { font-size: 1.9rem; }
-    .histoire-article-body p { font-size: 1rem; line-height: 1.75; }
-    .histoire-article-body .has-dropcap::first-letter { font-size: 3.5rem; }
-    .histoire-quote { padding: var(--space-md); font-size: 0.98rem; }
-    .histoire-founders-chips .histoire-chip { font-size: 0.82rem; padding: 0.5rem 0.85rem; }
-    .histoire-method-tab { font-size: 0.82rem; padding: 0.6rem 0.7rem; }
-    .histoire-goals-list li { font-size: 0.95rem; padding-left: 3rem; }
-    .histoire-goals-list li::before { width: 2.1rem; height: 2.1rem; }
     .missions-manifesto-item {
         grid-template-columns: auto 1fr;
         grid-template-rows: auto auto;
@@ -1049,4 +754,5 @@
     }
     .missions-cta-icon { margin: 0 auto; }
     .missions-cta-link { justify-self: stretch; justify-content: center; }
+
 }
