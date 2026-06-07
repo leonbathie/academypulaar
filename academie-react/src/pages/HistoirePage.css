@@ -563,7 +563,7 @@
    Manifeste numerote + piliers lucide + CTA pont vers Histoire
    ========================================================= */
 
-/* Manifeste : liste 7 objectifs numerotes avec icone lucide */
+/* Manifeste : liste 7 objectifs numerotes (sobre, sans icones) */
 .missions-manifesto {
     list-style: none;
     padding: 0;
@@ -574,43 +574,35 @@
 }
 .missions-manifesto-item {
     display: grid;
-    grid-template-columns: auto auto 1fr;
-    align-items: center;
-    gap: var(--space-md);
+    grid-template-columns: auto 1fr;
+    align-items: baseline;
+    gap: var(--space-lg);
     padding: var(--space-md) var(--space-lg);
     background: var(--white);
     border: 1px solid var(--light-gray);
+    border-left: 3px solid var(--light-gray);
     border-radius: var(--radius-md);
     transition: all var(--transition-fast);
 }
 .missions-manifesto-item:hover {
     border-color: var(--primary-gold);
+    border-left-color: var(--primary-gold);
     box-shadow: 0 4px 14px rgba(212, 165, 55, 0.12);
     transform: translateX(2px);
 }
 [data-theme="dark"] .missions-manifesto-item {
     background: rgba(255, 255, 255, 0.04);
     border-color: rgba(255, 255, 255, 0.08);
+    border-left-color: rgba(255, 255, 255, 0.12);
 }
 .missions-manifesto-num {
     font-family: var(--font-display);
-    font-size: 1.1rem;
+    font-size: 1.25rem;
     font-weight: 700;
     color: var(--primary-gold);
-    min-width: 2.2rem;
+    min-width: 2.4rem;
     letter-spacing: -0.01em;
-}
-.missions-manifesto-icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 38px;
-    height: 38px;
-    border-radius: var(--radius-sm);
-    background: rgba(212, 165, 55, 0.1);
-    border: 1px solid rgba(212, 165, 55, 0.3);
-    color: var(--gold-dark);
-    flex-shrink: 0;
+    font-variant-numeric: tabular-nums;
 }
 .missions-manifesto-text {
     color: var(--dark-gray);
@@ -744,21 +736,8 @@
 @media (max-width: 768px) {
     .missions-manifesto-item {
         grid-template-columns: auto 1fr;
-        grid-template-rows: auto auto;
+        gap: var(--space-md);
         padding: var(--space-md);
-    }
-    .missions-manifesto-num {
-        grid-row: 1;
-        grid-column: 1;
-    }
-    .missions-manifesto-icon {
-        grid-row: 1;
-        grid-column: 2;
-        justify-self: end;
-    }
-    .missions-manifesto-text {
-        grid-row: 2;
-        grid-column: 1 / 3;
     }
     .missions-cta {
         grid-template-columns: 1fr;
