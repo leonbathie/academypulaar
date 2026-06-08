@@ -1,0 +1,3 @@
+# Les scripts shell doivent toujours utiliser des fins de ligne LF,
+# sinon le shebang casse sur le serveur Linux (ex. "/usr/bin/env bash\r").
+*.sh text eol=lf

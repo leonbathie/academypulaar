@@ -102,6 +102,52 @@ jobs:
           cd /var/www/academypulaar/backend
           node init-database.js
 
+      - name: Setup automated backups (DB + uploads -> Google Drive)
+        run: |
+          echo "=== Install rclone ==="
+          command -v rclone >/dev/null 2>&1 || sudo apt-get install -y -qq rclone || true
+          rclone version | head -1 || echo "rclone not installed"
+
+          echo "=== Ensure backup directory ==="
+          sudo mkdir -p /var/backups/academypulaar
+          sudo chown -R gha:gha /var/backups/academypulaar
+
+          echo "=== Make backup script executable ==="
+          chmod +x /var/www/academypulaar/backend/scripts/backup.sh
+
+          echo "=== Create backup systemd service (oneshot) ==="
+          printf '%s\n' \
+            '[Unit]' \
+            'Description=Backup quotidien GoomuFuloWidto (DB + uploads -> Google Drive)' \
+            'After=network-online.target postgresql.service' \
+            'Wants=network-online.target' \
+            '' \
+            '[Service]' \
+            'Type=oneshot' \
+            'User=gha' \
+            'WorkingDirectory=/var/www/academypulaar/backend' \
+            'ExecStart=/usr/bin/env bash /var/www/academypulaar/backend/scripts/backup.sh' \
+            | sudo tee /etc/systemd/system/academypulaar-backup.service > /dev/null
+
+          echo "=== Create backup systemd timer (daily 03:30) ==="
+          printf '%s\n' \
+            '[Unit]' \
+            'Description=Declenche le backup quotidien GoomuFuloWidto' \
+            '' \
+            '[Timer]' \
+            'OnCalendar=*-*-* 03:30:00' \
+            'Persistent=true' \
+            '' \
+            '[Install]' \
+            'WantedBy=timers.target' \
+            | sudo tee /etc/systemd/system/academypulaar-backup.timer > /dev/null
+
+          echo "=== Enable timer ==="
+          sudo systemctl daemon-reload
+          sudo systemctl enable --now academypulaar-backup.timer
+          sudo systemctl list-timers academypulaar-backup.timer --no-pager || true
+          echo "NB: configurer le remote rclone 'gdrive' une fois sur le VPS (voir backend/scripts/BACKUP.md)"
+
       - name: Fix uploads permissions
         run: |
           echo "=== Fix uploads permissions ==="
