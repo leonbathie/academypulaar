@@ -67,7 +67,15 @@ function LibraryPage() {
     }
 
     const handleDownload = (bookId) => {
-        window.open(`${API_URL}/api/books/${bookId}/download`, '_blank')
+        // Téléchargement direct sans ouvrir d'onglet : le serveur renvoie
+        // Content-Disposition: attachment, donc le lien déclenche le
+        // téléchargement sans navigation de la page.
+        const link = document.createElement('a')
+        link.href = `${API_URL}/api/books/${bookId}/download`
+        link.setAttribute('download', '')
+        document.body.appendChild(link)
+        link.click()
+        document.body.removeChild(link)
     }
 
     const categories = [...new Set(books.map(b => b.category).filter(Boolean))]
