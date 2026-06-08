@@ -1,7 +1,8 @@
 import { lazy, Suspense } from 'react'
 import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom'
 import { ThemeProvider } from './context/ThemeContext'
-import { AuthProvider } from './context/AuthContext'
+import { AuthProvider, useAuth } from './context/AuthContext'
+import { SettingsProvider, useSettings } from './context/SettingsContext'
 import ScrollToHash from './components/ScrollToHash'
 import PageTracker from './components/PageTracker'
 import Header from './components/Header'
@@ -52,6 +53,21 @@ function PageLoader() {
     )
 }
 
+// Garde la page terminologie : visible publiquement selon le réglage admin,
+// mais toujours accessible aux admins (pour prévisualiser quand elle est cachée).
+function TerminologyGuard({ children }) {
+    const { settings, loading } = useSettings()
+    const { isAdmin } = useAuth()
+
+    if (loading) {
+        return <PageLoader />
+    }
+    if (settings.terminologie_visible === false && !isAdmin) {
+        return <NotFoundPage />
+    }
+    return children
+}
+
 function PublicLayout() {
     return (
         <div className="app">
@@ -77,6 +93,7 @@ function AdminLazyLayout() {
 function App() {
     return (
         <AuthProvider>
+            <SettingsProvider>
             <ThemeProvider>
                 <BrowserRouter>
                     <ScrollToHash />
@@ -93,8 +110,8 @@ function App() {
                             <Route path="/bibliotheque" element={<LibraryPage />} />
                             <Route path="/questions-langue" element={<LanguageQuestionsPage />} />
                             <Route path="/dire" element={<DireNePasDirePage />} />
-                            <Route path="/terminologie" element={<TerminologyPage />} />
-                            <Route path="/terminologie/:domain" element={<DomainPage />} />
+                            <Route path="/terminologie" element={<TerminologyGuard><TerminologyPage /></TerminologyGuard>} />
+                            <Route path="/terminologie/:domain" element={<TerminologyGuard><DomainPage /></TerminologyGuard>} />
                             <Route path="/mentions-legales" element={<MentionsLegalesPage />} />
                             <Route path="/confidentialite" element={<ConfidentialitePage />} />
                             <Route path="*" element={<NotFoundPage />} />
@@ -142,6 +159,7 @@ function App() {
                     </Routes>
                 </BrowserRouter>
             </ThemeProvider>
+            </SettingsProvider>
         </AuthProvider>
     )
 }

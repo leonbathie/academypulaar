@@ -640,6 +640,11 @@
         "terminology": {
             "title": "Kelmeendi",
             "subtitle": "Wayludu hello Kelmeendi e jaŋde nokkuuji kala.",
+            "visibilityTitle": "Yiyeede hello",
+            "visibilityHelp": "So suuɗaama, hello Kelmeendi yiyataako yiloowɓe. Ardiiɓe ina mbaawi tawde mum sahaa kala.",
+            "visibilityVisible": "Hiɗo yiya e huutorɓe",
+            "visibilityHidden": "Ko suuɗaa e huutorɓe",
+            "visibilitySaved": "Yiyeede waylaama",
             "tabPage": "Hello Kelmeendi",
             "tabDomainContent": "Jaŋde nokkuuji",
             "pageTitle": "Hello Kelmeendi — Hol ko addani & Mbaadi waɗirde",

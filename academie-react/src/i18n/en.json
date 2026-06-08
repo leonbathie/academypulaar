@@ -638,6 +638,11 @@
         "terminology": {
             "title": "Terminology",
             "subtitle": "Edit the Terminology landing page and the per-domain learning content.",
+            "visibilityTitle": "Page visibility",
+            "visibilityHelp": "When hidden, the Terminology page is no longer accessible to visitors. Administrators can still view it.",
+            "visibilityVisible": "Visible to users",
+            "visibilityHidden": "Hidden from users",
+            "visibilitySaved": "Visibility updated",
             "tabPage": "Terminology page",
             "tabDomainContent": "Per-domain content",
             "pageTitle": "Terminology page — Why & Method",

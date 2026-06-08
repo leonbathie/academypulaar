@@ -1,10 +1,15 @@
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import logoGif from '../assets/logo-academie.webp'
+import { useSettings } from '../context/SettingsContext'
+import { useAuth } from '../context/AuthContext'
 import './Footer.css'
 
 function Footer() {
     const { t } = useTranslation()
+    const { settings } = useSettings()
+    const { isAdmin } = useAuth()
+    const showTerminologie = settings.terminologie_visible !== false || isAdmin
 
     const scrollToTop = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -58,12 +63,14 @@ function Footer() {
                                         {t('nav.languageQuestions')}
                                     </Link>
                                 </li>
-                                <li>
-                                    <Link to="/terminologie">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 20h9" /><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z" /></svg>
-                                        Kelmeendi
-                                    </Link>
-                                </li>
+                                {showTerminologie && (
+                                    <li>
+                                        <Link to="/terminologie">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 20h9" /><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z" /></svg>
+                                            Kelmeendi
+                                        </Link>
+                                    </li>
+                                )}
                                 <li>
                                     <Link to="/dire">
                                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg>

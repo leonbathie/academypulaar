@@ -258,6 +258,20 @@ async function initDatabase() {
         `)
         console.log('✅ Table content créée')
 
+        // Table des réglages du site (feature flags : visibilité de pages, etc.)
+        await pool.query(`
+            CREATE TABLE IF NOT EXISTS site_settings (
+                key VARCHAR(100) PRIMARY KEY,
+                value TEXT,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        `)
+        await pool.query(`
+            INSERT INTO site_settings (key, value) VALUES ('terminologie_visible', 'true')
+            ON CONFLICT (key) DO NOTHING
+        `)
+        console.log('✅ Table site_settings créée')
+
         // Table des livres (bibliothèque)
         await pool.query(`
             CREATE TABLE IF NOT EXISTS books (

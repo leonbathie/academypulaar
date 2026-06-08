@@ -98,6 +98,7 @@ app.use('/api/hero', adminLimiter, require('./routes/hero'))
 app.use('/api/questions', adminLimiter, require('./routes/questions'))
 app.use('/api/visits', require('./routes/visits'))
 app.use('/api/contact', require('./routes/contact'))
+app.use('/api/settings', require('./routes/settings'))
 
 // Route de test
 app.get('/api/health', (req, res) => {

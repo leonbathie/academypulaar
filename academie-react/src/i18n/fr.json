@@ -640,6 +640,11 @@
         "terminology": {
             "title": "Terminologie",
             "subtitle": "Édition des contenus de la page Terminologie et des domaines pédagogiques.",
+            "visibilityTitle": "Visibilité de la page",
+            "visibilityHelp": "Quand elle est cachée, la page Terminologie n'est plus accessible aux visiteurs. Les administrateurs peuvent toujours la consulter.",
+            "visibilityVisible": "Visible par les utilisateurs",
+            "visibilityHidden": "Cachée aux utilisateurs",
+            "visibilitySaved": "Visibilité mise à jour",
             "tabPage": "Page Terminologie",
             "tabDomainContent": "Contenu par domaine",
             "pageTitle": "Page Terminologie — Pourquoi & Méthode",
