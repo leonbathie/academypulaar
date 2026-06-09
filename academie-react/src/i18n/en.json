@@ -687,7 +687,7 @@
             "title": "Per-domain learning content",
             "help": "This content feeds the \"Learn\" tab on /terminology/:domain. If nothing is saved, the public site shows the default content shipped with the application.",
             "learnVisibilityTitle": "\"Learn\" tab",
-            "learnVisibilityHelp": "Show or hide the \"Learn\" tab of this domain for visitors. Administrators always see it.",
+            "learnVisibilityHelp": "Show or hide the \"Learn\" tab of this domain. Once hidden, it disappears for everyone (content stays editable here).",
             "learnVisibilityVisible": "Visible to users",
             "learnVisibilityHidden": "Hidden from users",
             "selectDomain": "Select a domain",
