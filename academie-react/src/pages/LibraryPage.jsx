@@ -179,11 +179,11 @@ function LibraryPage() {
                                     {getDescription(book) && (() => {
                                         const desc = getDescription(book)
                                         const isExpanded = expandedBooks[book.id]
-                                        const isLong = desc.length > 120
+                                        const isLong = desc.length > 150
                                         return (
                                             <>
                                                 <p className={`book-description${isExpanded ? ' expanded' : ''}`}>
-                                                    {isExpanded ? desc : isLong ? desc.substring(0, 120) + '...' : desc}
+                                                    {desc}
                                                 </p>
                                                 {isLong && (
                                                     <button className="btn-read-more" onClick={() => toggleExpand(book.id)}>

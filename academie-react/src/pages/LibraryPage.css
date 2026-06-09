@@ -161,6 +161,7 @@
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: var(--space-xl);
     padding: var(--space-xl) 0 var(--space-3xl);
+    align-items: start;
 }
 
 /* Book Card */
@@ -246,6 +247,10 @@
     line-height: 1.3;
     overflow-wrap: break-word;
     word-break: break-word;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .book-author {
@@ -269,10 +274,16 @@
     margin-bottom: var(--space-sm);
     overflow-wrap: break-word;
     word-break: break-word;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .book-description.expanded {
     margin-bottom: var(--space-sm);
+    -webkit-line-clamp: unset;
+    overflow: visible;
 }
 
 .btn-read-more {
