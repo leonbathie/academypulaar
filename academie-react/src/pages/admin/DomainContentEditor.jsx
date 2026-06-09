@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useApi } from '../../context/AuthContext'
+import { useSettings } from '../../context/SettingsContext'
 import domainContent from '../../data/domainContent'
 
 // Doit correspondre a DomainPage.jsx + TerminologieAdmin.jsx
@@ -61,6 +62,8 @@ const mergeWithEmpty = (src) => {
 function DomainContentEditor() {
     const { t } = useTranslation()
     const { apiRequest } = useApi()
+    const { settings, refreshSettings } = useSettings()
+    const [savingLearnToggle, setSavingLearnToggle] = useState(false)
     const [domain, setDomain] = useState(DOMAIN_OPTIONS[0].slug)
     const [lang, setLang] = useState('fr')
     const [remote, setRemote] = useState({})
@@ -184,6 +187,24 @@ function DomainContentEditor() {
         return { ...f, methodology: { ...f.methodology, steps: arr } }
     })
 
+    // Visibilite de l'onglet "Apprendre" pour le domaine courant (feature flag).
+    const learnVisible = settings[`learn_visible_${domain}`] !== false
+    const toggleLearnVisibility = async () => {
+        const next = !learnVisible
+        setSavingLearnToggle(true)
+        try {
+            await apiRequest(`/settings/learn_visible_${domain}`, {
+                method: 'PUT',
+                body: JSON.stringify({ value: next })
+            })
+            await refreshSettings()
+        } catch (err) {
+            console.error('Toggle learn visibility error:', err)
+        } finally {
+            setSavingLearnToggle(false)
+        }
+    }
+
     const translationKey = useMemo(() => lang === 'en' ? 'en' : 'fr', [lang])
     const hasRemoteOverride = Boolean(remote?.[domain]?.[lang] && Object.keys(remote[domain][lang]).length > 0)
     const activeDomain = DOMAIN_OPTIONS.find(d => d.slug === domain)
@@ -222,6 +243,30 @@ function DomainContentEditor() {
             </div>
 
             <p className="admin-help-text">{t('admin.domainContent.help')}</p>
+
+            <div className="admin-card terminology-visibility-card domain-learn-visibility">
+                <div className="terminology-visibility-copy">
+                    <h2>{t('admin.domainContent.learnVisibilityTitle')}</h2>
+                    <p>{t('admin.domainContent.learnVisibilityHelp')}</p>
+                </div>
+                <button
+                    type="button"
+                    className={`terminology-visibility-toggle ${learnVisible ? 'is-on' : 'is-off'}`}
+                    role="switch"
+                    aria-checked={learnVisible}
+                    disabled={savingLearnToggle}
+                    onClick={toggleLearnVisibility}
+                >
+                    <span className="terminology-visibility-track" aria-hidden="true">
+                        <span className="terminology-visibility-thumb" />
+                    </span>
+                    <span className="terminology-visibility-state">
+                        {learnVisible
+                            ? t('admin.domainContent.learnVisibilityVisible')
+                            : t('admin.domainContent.learnVisibilityHidden')}
+                    </span>
+                </button>
+            </div>
 
             {activeDomain && (
                 <div className="admin-context-pill" aria-live="polite">

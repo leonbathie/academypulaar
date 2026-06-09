@@ -2,6 +2,8 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { API_URL } from '../config'
+import { useSettings } from '../context/SettingsContext'
+import { useAuth } from '../context/AuthContext'
 import domainContent from '../data/domainContent'
 import './DomainPage.css'
 
@@ -53,7 +55,13 @@ const DOMAIN_CONFIG = {
 function DomainPage() {
     const { domain } = useParams()
     const { t, i18n } = useTranslation()
+    const { settings } = useSettings()
+    const { isAdmin } = useAuth()
     const lang = (i18n.language || 'fr').substring(0, 2)
+    // Onglet "Apprendre" : activable/desactivable par domaine via l'admin.
+    // Toujours visible pour les admins (pour previsualiser).
+    const learnEnabled = settings[`learn_visible_${domain}`] !== false
+    const showLearn = learnEnabled || isAdmin
     const normalizeFulfuldeText = (value) => (value ?? '').toString().normalize('NFC').trim()
     const searchNormalizer = (value) => normalizeFulfuldeText(value).toLowerCase()
     const config = DOMAIN_CONFIG[domain]
@@ -167,6 +175,11 @@ function DomainPage() {
         return () => window.removeEventListener('scroll', onScroll)
     }, [])
 
+    // Si l'onglet Apprendre est masque pour ce domaine, revenir au dictionnaire.
+    useEffect(() => {
+        if (!showLearn && activeTab === 'learn') setActiveTab('words')
+    }, [showLearn, activeTab])
+
     if (!config) {
         return (
             <div className="domain-page">
@@ -237,13 +250,16 @@ function DomainPage() {
                         📖 {lang === 'ff' ? 'Kelme' : lang === 'en' ? 'Dictionary' : 'Dictionnaire'}
                         <span className="domain-tab-badge">{words.length}</span>
                     </button>
-                    <button className={`domain-tab ${activeTab === 'learn' ? 'active' : ''}`} onClick={() => setActiveTab('learn')}>
-                        🎓 {lang === 'ff' ? 'Ekkitol' : lang === 'en' ? 'Learn' : 'Apprendre'}
-                    </button>
+                    {showLearn && (
+                        <button className={`domain-tab ${activeTab === 'learn' ? 'active' : ''}`} onClick={() => setActiveTab('learn')}>
+                            🎓 {lang === 'ff' ? 'Ekkitol' : lang === 'en' ? 'Learn' : 'Apprendre'}
+                            {!learnEnabled && isAdmin && <span className="domain-tab-hidden-flag" title="Masqué aux visiteurs">🚫</span>}
+                        </button>
+                    )}
                 </nav>
 
                 {/* LEARN TAB */}
-                {activeTab === 'learn' && content && (
+                {activeTab === 'learn' && showLearn && content && (
                     <div className="domain-learn-tab">
                         {/* Introduction */}
                         <section className="domain-intro-section">

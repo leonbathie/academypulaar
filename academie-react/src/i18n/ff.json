@@ -688,6 +688,10 @@
         "domainContent": {
             "title": "Loowdi jaŋde wonande nokku kala",
             "help": "Ndii loowdi naatatnde to onngal « Jaŋde » e /terminologie/:nokku. So hay huunde reenaaki, hello ɓulanaaɗo ɗo addata ko loowdi lornol nde aplikasoŋ ndi adda.",
+            "learnVisibilityTitle": "Onngal « Jaŋde »",
+            "learnVisibilityHelp": "Hollu walla suuɗ onngal « Jaŋde » nokku ngoo wonande yiloowɓe. Ardiiɓe ina mbaawi yiyde ngal sahaa kala.",
+            "learnVisibilityVisible": "Hiɗo yiya e huutorɓe",
+            "learnVisibilityHidden": "Ko suuɗaa e huutorɓe",
             "selectDomain": "Suɓo nokku",
             "selectLanguage": "Suɓo ɗemngal",
             "saved": "Loowdi ndi reenaama",

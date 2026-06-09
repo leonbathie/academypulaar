@@ -726,6 +726,13 @@
     color: var(--gold);
 }
 
+/* Indicateur admin : onglet Apprendre masque aux visiteurs */
+.domain-tab-hidden-flag {
+    margin-left: 6px;
+    font-size: 0.8rem;
+    opacity: 0.8;
+}
+
 /* ══════════════════════════════════════════
    LEARN TAB — Introduction
    ══════════════════════════════════════════ */

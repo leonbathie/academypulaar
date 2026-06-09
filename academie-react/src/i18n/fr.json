@@ -688,6 +688,10 @@
         "domainContent": {
             "title": "Contenu pédagogique par domaine",
             "help": "Ce contenu alimente l'onglet « Apprendre » sur /terminologie/:domaine. Si rien n'est enregistré, le site public affiche le contenu par défaut livré avec l'application.",
+            "learnVisibilityTitle": "Onglet « Apprendre »",
+            "learnVisibilityHelp": "Affiche ou masque l'onglet « Apprendre » de ce domaine pour les visiteurs. Les administrateurs le voient toujours.",
+            "learnVisibilityVisible": "Visible par les utilisateurs",
+            "learnVisibilityHidden": "Masqué aux utilisateurs",
             "selectDomain": "Choisir un domaine",
             "selectLanguage": "Choisir une langue",
             "saved": "Contenu enregistré",
