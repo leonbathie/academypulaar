@@ -261,7 +261,9 @@ function TerminologyPageEditor() {
 
             <div className="term-sticky-footer">
                 <span className="term-sticky-footer-hint">
-                    {t('admin.terminology.stickyHint')}
+                    {message
+                        ? <span className={`term-footer-msg term-footer-msg-${message.type}`}>{message.text}</span>
+                        : t('admin.terminology.stickyHint')}
                 </span>
                 <button className="btn-save" onClick={save} disabled={saving}>
                     {saving ? <div className="btn-spinner"></div> : t('admin.common.save')}

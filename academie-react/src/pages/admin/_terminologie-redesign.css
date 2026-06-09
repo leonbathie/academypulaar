@@ -855,6 +855,17 @@
     transform: none;
 }
 
+/* Message de retour affiche a cote du bouton Enregistrer */
+.terminology-admin-page .term-footer-msg {
+    font-weight: 700;
+}
+.terminology-admin-page .term-footer-msg-success {
+    color: var(--forest-green, #2e7d32);
+}
+.terminology-admin-page .term-footer-msg-error {
+    color: #c0392b;
+}
+
 /* Messages inline */
 .terminology-admin-page .admin-message {
     border-radius: var(--radius-md);
