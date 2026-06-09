@@ -161,7 +161,6 @@
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: var(--space-xl);
     padding: var(--space-xl) 0 var(--space-3xl);
-    align-items: start;
 }
 
 /* Book Card */
