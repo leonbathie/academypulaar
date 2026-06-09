@@ -13,6 +13,17 @@ const DOMAIN_OPTIONS = [
     { slug: 'metiers-artisanat',         icon: '🔨', labelKey: 'terminology.domCrafts' }
 ]
 
+// Tous les domaines ayant un onglet "Apprendre" (cf. DOMAIN_CONFIG de DomainPage.jsx),
+// pour la gestion de visibilite — inclut "education" absent de l'edition de contenu.
+const LEARN_VISIBILITY_DOMAINS = [
+    { slug: 'sciences-technologie',      icon: '🔬', labelKey: 'terminology.domScience' },
+    { slug: 'sante-medecine',            icon: '🏥', labelKey: 'terminology.domHealth' },
+    { slug: 'sciences-humaines',         icon: '⚖️', labelKey: 'terminology.domHuman' },
+    { slug: 'education',                 icon: '📚', labelKey: 'terminology.domEdu' },
+    { slug: 'agriculture-environnement', icon: '🌾', labelKey: 'terminology.domAgri' },
+    { slug: 'metiers-artisanat',         icon: '🔨', labelKey: 'terminology.domCrafts' }
+]
+
 const LANGUAGES = [
     { code: 'fr', flag: '🇫🇷', labelKey: 'admin.terminology.lang.fr' },
     { code: 'en', flag: '🇬🇧', labelKey: 'admin.terminology.lang.en' },
@@ -63,7 +74,7 @@ function DomainContentEditor() {
     const { t } = useTranslation()
     const { apiRequest } = useApi()
     const { settings, refreshSettings } = useSettings()
-    const [savingLearnToggle, setSavingLearnToggle] = useState(false)
+    const [savingSlug, setSavingSlug] = useState(null)
     const [domain, setDomain] = useState(DOMAIN_OPTIONS[0].slug)
     const [lang, setLang] = useState('fr')
     const [remote, setRemote] = useState({})
@@ -187,13 +198,13 @@ function DomainContentEditor() {
         return { ...f, methodology: { ...f.methodology, steps: arr } }
     })
 
-    // Visibilite de l'onglet "Apprendre" pour le domaine courant (feature flag).
-    const learnVisible = settings[`learn_visible_${domain}`] !== false
-    const toggleLearnVisibility = async () => {
-        const next = !learnVisible
-        setSavingLearnToggle(true)
+    // Visibilite de l'onglet "Apprendre" par domaine (feature flag).
+    const toggleLearnVisibility = async (slug) => {
+        const currentlyVisible = settings[`learn_visible_${slug}`] !== false
+        const next = !currentlyVisible
+        setSavingSlug(slug)
         try {
-            await apiRequest(`/settings/learn_visible_${domain}`, {
+            await apiRequest(`/settings/learn_visible_${slug}`, {
                 method: 'PUT',
                 body: JSON.stringify({ value: next })
             })
@@ -201,7 +212,7 @@ function DomainContentEditor() {
         } catch (err) {
             console.error('Toggle learn visibility error:', err)
         } finally {
-            setSavingLearnToggle(false)
+            setSavingSlug(null)
         }
     }
 
@@ -244,35 +255,40 @@ function DomainContentEditor() {
 
             <p className="admin-help-text">{t('admin.domainContent.help')}</p>
 
-            <div className="admin-card terminology-visibility-card domain-learn-visibility">
+            <div className="admin-card domain-learn-visibility">
                 <div className="terminology-visibility-copy">
-                    <h2>
-                        {t('admin.domainContent.learnVisibilityTitle')}
-                        {activeDomain && (
-                            <span className="domain-learn-visibility-domain">
-                                {' — '}{activeDomain.icon} {t(activeDomain.labelKey)}
-                            </span>
-                        )}
-                    </h2>
+                    <h2>{t('admin.domainContent.learnVisibilityTitle')}</h2>
                     <p>{t('admin.domainContent.learnVisibilityHelp')}</p>
                 </div>
-                <button
-                    type="button"
-                    className={`terminology-visibility-toggle ${learnVisible ? 'is-on' : 'is-off'}`}
-                    role="switch"
-                    aria-checked={learnVisible}
-                    disabled={savingLearnToggle}
-                    onClick={toggleLearnVisibility}
-                >
-                    <span className="terminology-visibility-track" aria-hidden="true">
-                        <span className="terminology-visibility-thumb" />
-                    </span>
-                    <span className="terminology-visibility-state">
-                        {learnVisible
-                            ? t('admin.domainContent.learnVisibilityVisible')
-                            : t('admin.domainContent.learnVisibilityHidden')}
-                    </span>
-                </button>
+                <ul className="domain-learn-list">
+                    {LEARN_VISIBILITY_DOMAINS.map(d => {
+                        const visible = settings[`learn_visible_${d.slug}`] !== false
+                        return (
+                            <li key={d.slug} className="domain-learn-row">
+                                <span className="domain-learn-name">
+                                    <span aria-hidden="true">{d.icon}</span> {t(d.labelKey)}
+                                </span>
+                                <button
+                                    type="button"
+                                    className={`terminology-visibility-toggle ${visible ? 'is-on' : 'is-off'}`}
+                                    role="switch"
+                                    aria-checked={visible}
+                                    disabled={savingSlug === d.slug}
+                                    onClick={() => toggleLearnVisibility(d.slug)}
+                                >
+                                    <span className="terminology-visibility-track" aria-hidden="true">
+                                        <span className="terminology-visibility-thumb" />
+                                    </span>
+                                    <span className="terminology-visibility-state">
+                                        {visible
+                                            ? t('admin.domainContent.learnVisibilityVisible')
+                                            : t('admin.domainContent.learnVisibilityHidden')}
+                                    </span>
+                                </button>
+                            </li>
+                        )
+                    })}
+                </ul>
             </div>
 
             {activeDomain && (

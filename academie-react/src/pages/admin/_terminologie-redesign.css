@@ -1275,6 +1275,43 @@
     font-weight: 600;
 }
 
+/* Liste de visibilite par domaine */
+.domain-learn-visibility {
+    margin-bottom: var(--space-lg);
+}
+.domain-learn-list {
+    list-style: none;
+    padding: 0;
+    margin: var(--space-md) 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+.domain-learn-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-md);
+    padding: 0.6rem 0.85rem;
+    border: 1px solid var(--light-gray);
+    border-radius: var(--radius-md, 10px);
+    background: var(--white, #fff);
+}
+.domain-learn-name {
+    font-weight: 600;
+    color: var(--primary-dark);
+}
+[data-theme="dark"] .domain-learn-row {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 255, 255, 0.08);
+}
+@media (max-width: 768px) {
+    .domain-learn-row {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
 @media (max-width: 768px) {
     .terminology-visibility-card {
         flex-direction: column;
