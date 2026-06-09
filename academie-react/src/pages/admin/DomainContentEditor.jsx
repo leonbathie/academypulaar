@@ -246,7 +246,14 @@ function DomainContentEditor() {
 
             <div className="admin-card terminology-visibility-card domain-learn-visibility">
                 <div className="terminology-visibility-copy">
-                    <h2>{t('admin.domainContent.learnVisibilityTitle')}</h2>
+                    <h2>
+                        {t('admin.domainContent.learnVisibilityTitle')}
+                        {activeDomain && (
+                            <span className="domain-learn-visibility-domain">
+                                {' — '}{activeDomain.icon} {t(activeDomain.labelKey)}
+                            </span>
+                        )}
+                    </h2>
                     <p>{t('admin.domainContent.learnVisibilityHelp')}</p>
                 </div>
                 <button

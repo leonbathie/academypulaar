@@ -1270,6 +1270,11 @@
 [data-theme="dark"] .terminology-visibility-track {
     background: rgba(255, 255, 255, 0.2);
 }
+.domain-learn-visibility-domain {
+    color: var(--primary-gold, #d4a537);
+    font-weight: 600;
+}
+
 @media (max-width: 768px) {
     .terminology-visibility-card {
         flex-direction: column;
