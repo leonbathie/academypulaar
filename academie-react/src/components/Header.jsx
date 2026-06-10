@@ -203,6 +203,8 @@ function Header() {
                             className={`mobile-menu-btn ${isMobileMenuOpen ? 'open' : ''}`}
                             onClick={toggleMobileMenu}
                             aria-label="Menu"
+                            aria-expanded={isMobileMenuOpen}
+                            aria-controls="mobile-menu"
                         >
                             <span></span>
                             <span></span>
@@ -213,7 +215,7 @@ function Header() {
             </header>
 
             {/* Nav mobile HORS du header pour éviter le stacking context */}
-            <nav className={`nav nav-mobile ${isMobileMenuOpen ? 'open' : ''}`}>
+            <nav id="mobile-menu" className={`nav nav-mobile ${isMobileMenuOpen ? 'open' : ''}`}>
                 <ul className="nav-list">
                     {menuItems.map((item, index) => (
                         <li

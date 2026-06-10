@@ -156,8 +156,13 @@ function DictionaryPage() {
             const filtered = allWords.filter(w => wordHasDomain(w, selectedDomain))
             setResults(filtered)
         } else if (urlWordId) {
-            // Lien direct vers UN mot (?word=id) : afficher ce mot seul, deplie.
-            const entry = allWords.find(w => String(w.id) === String(urlWordId))
+            // Lien direct vers UN mot (?word=id OU ?word=texte) : afficher ce mot
+            // seul, deplie. On accepte l'id numerique ET le texte du mot, car les
+            // liens de partage (/share/word/:id) redirigent vers ?word=<texte>.
+            const entry = allWords.find(w =>
+                String(w.id) === String(urlWordId) ||
+                searchNormalizer(w.word) === searchNormalizer(urlWordId)
+            )
             if (entry) {
                 setResults([entry])
                 setExpandedCards(new Set([entry.id]))
