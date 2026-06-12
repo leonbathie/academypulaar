@@ -100,7 +100,12 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    /* Cadrage biaise vers le haut : centre sur le visage plutot que le buste,
+       pour des portraits homogenes malgre des sources tres variables. */
+    object-position: center 22%;
     display: block;
+    /* Leger grade coherent pour uniformiser couleurs/contraste heterogenes. */
+    filter: saturate(1.05) contrast(1.03);
     transition: transform 0.5s ease;
 }
 .savant-card:hover .savant-card-img img {

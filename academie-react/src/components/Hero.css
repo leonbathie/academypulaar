@@ -40,7 +40,47 @@
 .hero-overlay {
     position: absolute;
     inset: 0;
-    background: var(--gradient-hero);
+    /* Voile renforce : assombrissement lateral cote texte (gauche) + bas,
+       pour garantir le contraste du titre quelle que soit l'image du carrousel. */
+    background:
+        linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.18) 55%, rgba(0, 0, 0, 0) 100%),
+        linear-gradient(0deg, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0) 45%),
+        var(--gradient-hero);
+}
+
+/* Fleches de navigation du carrousel */
+.hero-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 11;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 50%;
+    background: rgba(20, 15, 35, 0.4);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+.hero-arrow svg { width: 24px; height: 24px; }
+.hero-arrow:hover {
+    background: rgba(201, 162, 39, 0.85);
+    border-color: var(--primary-gold);
+}
+.hero-arrow--prev { left: var(--space-lg); }
+.hero-arrow--next { right: var(--space-lg); }
+.hero-arrow:hover.hero-arrow--prev { transform: translateY(-50%) translateX(-2px); }
+.hero-arrow:hover.hero-arrow--next { transform: translateY(-50%) translateX(2px); }
+
+/* Sur mobile : pas de fleches (les indicateurs suffisent, evite le chevauchement) */
+@media (max-width: 768px) {
+    .hero-arrow { display: none; }
 }
 
 /* Content */

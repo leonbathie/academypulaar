@@ -1,9 +1,11 @@
 {
     "common": {
-        "siteName": "Goomu Fulo & Wiɗto",
+        "siteName": "Goomu Fulo e Wiɗto",
         "siteSlogan": "Hentordu Ɗemngal Fulfulde",
         "since": "Gila 2016",
         "discover": "Ƴeew",
+        "previous": "Ɓennuɗo",
+        "next": "Garoowo",
         "share": "Lollin",
         "copyLink": "Naatnu lien o",
         "copied": "Naatnaama !",
@@ -22,7 +24,7 @@
     "nav": {
         "home": "Jaɓɓorgo",
         "institution": "Hentordu GFW",
-        "history": "Ciimtol Goomu Fulo & Wiɗto",
+        "history": "Ciimtol Goomu Fulo e Wiɗto",
         "missions": "Paandaale",
         "organization": "Lowe Golle",
         "statutes": "Laabi",
@@ -50,9 +52,9 @@
         "title1": "Pottital 2025",
         "subtitle1": "Ko faati e pottital ngal",
         "title2": "Saggitorde",
-        "subtitle2": "Muulngo Adano Saggitorde Goomu Fulo & Wiɗto",
+        "subtitle2": "Muulngo Adano Saggitorde Goomu Fulo e Wiɗto",
         "title3": "Ɗemngal Fulfulde",
-        "subtitle3": "Goomu Fulo & Wiɗto Ƴellitooɓe ɗemngal Fulfulde",
+        "subtitle3": "Goomu Fulo e Wiɗto Ƴellitooɓe ɗemngal Fulfulde",
         "title4": "Annduɓe",
         "subtitle4": "Terɗe gollooje ngam ɗemngal Fulfulde",
         "consultDictionary": "Saggitaade",
@@ -62,18 +64,18 @@
         "sectionLabel": "Paandaale amin",
         "title": "Gollande",
         "titleHighlight": "Ɗemngal Fulfulde",
-        "description": "Goomu Fulo & Wiɗto daranii ko Fulde kelme ganndinal e wiɗtude ngam ƴellitde ɗemngal Fulfulde.",
+        "description": "Goomu Fulo e Wiɗto daranii ko Fulde kelme ganndinal e wiɗtude ngam ƴellitde ɗemngal Fulfulde.",
         "institution": {
-            "title": "Goomu Fulo & Wiɗto",
-            "description": "Goomu Fulo & Wiɗto ko hentordu ngam ƴellitde ɗemngal Fulfulde, ."
+            "title": "Goomu Fulo e Wiɗto",
+            "description": "Goomu Fulo e Wiɗto ko hentordu ngam ƴellitde ɗemngal Fulfulde, ."
         },
         "dictionary": {
             "title": "Saggitorde",
-            "description": "Goomu Fulo & Wiɗto woni ko e wallifaade Saggitorde Ganndinal e Ɗemngal Fulfulde."
+            "description": "Goomu Fulo e Wiɗto woni ko e wallifaade Saggitorde Ganndinal e Ɗemngal Fulfulde."
         },
         "prizes": {
             "title": "Njeenaaje",
-            "description": "Hitaande kala, Goomu Fulo & Wiɗto ina hokka njeenaaje binndol."
+            "description": "Hitaande kala, Goomu Fulo e Wiɗto ina hokka njeenaaje binndol."
         },
         "immortals": {
             "title": "Jaale",
@@ -83,7 +85,7 @@
     "news": {
         "sectionLabel": "Humpito",
         "title": "Joljole",
-        "titleHighlight": "Goomu Fulo & Wiɗto",
+        "titleHighlight": "Goomu Fulo e Wiɗto",
         "viewAll": "Yiy fof",
         "language": "Ɗemngal",
         "publication": "Binndol",
@@ -121,7 +123,7 @@
         "sectionLabel": "Saggitorde Fulfulde",
         "title": "Saggitorde ",
         "titleHighlight": "nde",
-        "intro": "Saggitorde Goomu Fulo & Wiɗto ko Saggitorde Ganndinal e Ɗemngal Fulfulde.",
+        "intro": "Saggitorde Goomu Fulo e Wiɗto ko Saggitorde Ganndinal e Ɗemngal Fulfulde.",
         "wordsStartingWith": "Kelme puɗɗortooɗe e",
         "similarWords": "Kelme nannduɗe",
         "searchPlaceholder": "helmere...",
@@ -175,12 +177,12 @@
     },
     "about": {
         "title": "Ciimtol Goomu ngu",
-        "highlight": "Goomu Fulo Wiɗto",
-        "intro": "Goomu Fulo Wiɗto ko fedde toppitiiɗo reentaade, ɓamtaade e ƴellitaade ɗemngal Fulfulde.",
+        "highlight": "Goomu Fulo e Wiɗto",
+        "intro": "Goomu Fulo e Wiɗto ko fedde toppitiiɗo reentaade, ɓamtaade e ƴellitaade ɗemngal Fulfulde.",
         "missionTitle": "Golle Amin",
         "mission": "Golle amin ko mahde saggitorde ganndinal timmunde he ɗemngal Fulfulde, ɓamtude huutoraade ɗum e jaŋde e jayɗe, e reende pinal Fulɓe e ɗemngal mumen.",
         "historyTitle": "Taariik Amin",
-        "history": "Sosaa e dental ganndooji ɗemngal, winnderɓe e yarlitanɓe pinal Fulfulde, Goomu Fulo Wiɗto fuɗɗii ngam jaɓɓaade waɗɗagol binndude e darnaade Fulfulde e waktu internet.",
+        "history": "Sosaa e dental ganndooji ɗemngal, winnderɓe e yarlitanɓe pinal Fulfulde, Goomu Fulo e Wiɗto fuɗɗii ngam jaɓɓaade waɗɗagol binndude e darnaade Fulfulde e waktu internet.",
         "goalsTitle": "Holi paandaale GFW?",
         "goalsIntro": "He mbaydi huuɓtodinndi eɗen mbaawi tonngude payndaale Goomu Fulo e Wiɗto e ɗee toɓɓe garooje :",
         "missionKicker": "Faandaare & Aadi",
@@ -251,7 +253,7 @@
                 { "domain": "Goomu Gannde Weeyaango", "lead": "Ing. Baru Abdalla Wele (Baaba Loocol)" }
             ],
             "hqText": "Hannde ne, ñiiɓirde Goomu Fulo e Wiɗto aafaama wuro Laamorgo Leydi Moritani – Nuwaasot.",
-            "branchesText": "Yaaɓanaa ko tafde cate he nder leyɗeele ɗe kala, ɗo fulɓe hatanteeɓe mbaawi taweede. Hannde, Goomu Fulo Wiɗto ina renndini terɗe jeyaaɓe e ko ina ɓura 12 leydi nder doŋre Afrik.",
+            "branchesText": "Yaaɓanaa ko tafde cate he nder leyɗeele ɗe kala, ɗo fulɓe hatanteeɓe mbaawi taweede. Hannde, Goomu Fulo e Wiɗto ina renndini terɗe jeyaaɓe e ko ina ɓura 12 leydi nder doŋre Afrik.",
             "genesisKicker": "Sosgol & Yiyannde",
             "genesisTitle": "Finugol Hentordu Ganndal",
             "genesisQuote": "Faandaare amen waɗnde ko renndinde daaɗe amen gaa keeri leyɗiwal, waɗde Pulaar-Fulfulde wonande laawol ƴellitaare ganndal.",
@@ -361,13 +363,13 @@
         "q2": "Ɗo yimɓe nayo kaali Fulfulde ?",
         "a2": "Fulfulde ina haalee e yimɓe miliyoŋaaji 40 haa 50 e nder Afirik, gila Senegaal haa Sudaan. Ko gootal e ɗemɗe ɓurɗe saakde e nder Afirik.",
         "q3": "Hol alkulal huutorteengal ngam winndude Fulfulde ?",
-        "a3": "Fulfulde ina winndee e alkulal Latin e maande keeriiɗe (ɓ, ɗ, ŋ, ƴ, ɲ, ñ). Alkulal Arab (Ajami) ina huutoree kadi e gannde. Goomu Fulo & Wiɗto huutorii alkulal Latin moƴƴitinaangal.",
+        "a3": "Fulfulde ina winndee e alkulal Latin e maande keeriiɗe (ɓ, ɗ, ŋ, ƴ, ɲ, ñ). Alkulal Arab (Ajami) ina huutoree kadi e gannde. Goomu Fulo e Wiɗto huutorii alkulal Latin moƴƴitinaangal.",
         "q4": "Ko ngoni gaaluuji innde e Fulfulde ?",
         "a4": "Fulfulde ina jogii yuɓɓo gaaluuji innde (ko ina tolnoo e 25) ɗe ɗowata nanondire celluka. Kala innde ina jeyaa e gaalu gootu ngu ɗowata inneteeɗe, sifaaji e mbaydiiji gollal. Ko ɗum gootal e keeriiɗi ɓurɗi laaɓde e ɗemngal ngal.",
         "q5": "No siigorde gollal gollortee e Fulfulde ?",
         "a5": "Siigorde gollal e Fulfulde ina heewi sanne. Golle ina wayloo mbaydi sabu sahaa, ngonka, daande (gollirde, golleede, hakkunde) e baɗoowo. Yuɓɓo gollal ngal ina jogii kadi ɓeyditte baylitte maana gollal ngal (sabaabu, peccindirgal, teeŋtingal, ekn).",
         "q6": "Hol to neɗɗo waawi janngude Fulfulde ?",
-        "a6": "Ballitine keewɗe ina ngoodi : janngirɗe jaaɓi-haaɗtirde, pelle pine Fulɓe, e kuutorɗe geese hono saggitorde Goomu Fulo & Wiɗto. Lowre amin ina faanditii wallitde janngude e reentaade ɗemngal ngal."
+        "a6": "Ballitine keewɗe ina ngoodi : janngirɗe jaaɓi-haaɗtirde, pelle pine Fulɓe, e kuutorɗe geese hono saggitorde Goomu Fulo e Wiɗto. Lowre amin ina faanditii wallitde janngude e reentaade ɗemngal ngal."
     },
     "terminology": {
         "title": "Kelmeendi",
@@ -376,7 +378,7 @@
         "why": "Ko waɗi kelmeendi Fulfulde ?",
         "whyText": "Ngam ɗemngal wuura e lutti nafde, ina foti waawde hollirde goonga-goongaaji aduna keso oo. Kelmeendi ina newna Fulfulde huutoraade e fanniiji ganndal, karallaagal e laamu.",
         "method": "Laawol soseede",
-        "methodText": "Goomu Fulo & Wiɗto ina huutorii laawol tiiɗngol ngam sosde kelme kese : ƴeewde daaɗe goodɗe, taƴde-jiggaade, wallitaade kelme goɗɗe, e jaɓɓinde ɗe haaltooɓe.",
+        "methodText": "Goomu Fulo e Wiɗto ina huutorii laawol tiiɗngol ngam sosde kelme kese : ƴeewde daaɗe goodɗe, taƴde-jiggaade, wallitaade kelme goɗɗe, e jaɓɓinde ɗe haaltooɓe.",
         "domains": "Fanniiji",
         "domScience": "Ganndal & Karallaagal",
         "domScienceDesc": "Hiisowal & ɓalliwal, nigalewal, ndooguwal e inɗe ganndine.",
@@ -395,14 +397,14 @@
     },
     "footer": {
         "contactTitle": "Jokkorde",
-        "description": "Goomu Fulo & Wiɗto ko fedde toppitiinde reɓɓude, ɓaŋŋinde e ɓeydude Ɖemngal Fulfulde.",
+        "description": "Goomu Fulo e Wiɗto ko fedde toppitiinde reɓɓude, ɓaŋŋinde e ɓeydude Ɖemngal Fulfulde.",
         "institution": "Hentordu",
         "language": "Ɗemngal ngal",
         "services": "Balluuji",
         "stayInformed": "Heɓu kabaruuji",
-        "newsletterText": "Heɓu kabaruuji cakkitiiɗi Goomu Fulo Wiɗto.",
+        "newsletterText": "Heɓu kabaruuji cakkitiiɗi Goomu Fulo e Wiɗto.",
         "emailPlaceholder": "Iimeel maa",
-        "copyright": "Goomu Fulo & Wiɗto. Hakkeeji kala wonande.",
+        "copyright": "Goomu Fulo e Wiɗto. Hakkeeji kala wonande.",
         "legalNotice": "Binndanɗe laawol",
         "privacy": "Gonal Sirru",
         "accessibility": "Heɓtineede"
@@ -492,7 +494,7 @@
             },
             "welcomeCard": {
                 "title": "A jaɓɓaama e Yiilirde",
-                "text": "Huutoro doggol nanol ngol ngam leemde lowre Goomu Fulo Wiɗto :",
+                "text": "Huutoro doggol nanol ngol ngam leemde lowre Goomu Fulo e Wiɗto :",
                 "dict": "Ɓeydude, waylude walla momtude kelme",
                 "news": "Ɓaŋŋinde kabaruuji e binndanɗe",
                 "content": "Leemde biyanɗe",
@@ -870,19 +872,19 @@
     },
     "legal": {
         "title": "Kabaruuji Laawol",
-        "subtitle": "Kabaruuji laawol baɗɗe e lowre goomufulo.com e gollorɗe Duɗal Goomu Fulo Wiɗto.",
+        "subtitle": "Kabaruuji laawol baɗɗe e lowre goomufulo.com e gollorɗe Duɗal Goomu Fulo e Wiɗto.",
         "lastUpdate": "Bayyinaango sakitiingo",
         "tocTitle": "Doggol",
         "s1": {
             "title": "Baɗɗo lowre ndee",
-            "p1": "Lowre goomufulo.com ko fedde pinal e jaŋde Goomu Fulo Wiɗto waɗi nde, fedde ndee daranii ko reende, jannginde e ɓamtude ɗemngal Fulfulde (Pulaar/Pular) e nder kuutorɗe newooje.",
+            "p1": "Lowre goomufulo.com ko fedde pinal e jaŋde Goomu Fulo e Wiɗto waɗi nde, fedde ndee daranii ko reende, jannginde e ɓamtude ɗemngal Fulfulde (Pulaar/Pular) e nder kuutorɗe newooje.",
             "name": "Innde",
             "nature": "Fannu",
             "natureVal": "Fedde pinal e jaŋde",
             "purpose": "Faandaare",
             "purposeVal": "Reende e jannginde ɗemngal Fulfulde e nder kuutorɗe newooje",
             "director": "Hooreeɓe bayyinaango",
-            "directorVal": "Yiilooɓe Goomu Fulo Wiɗto",
+            "directorVal": "Yiilooɓe Goomu Fulo e Wiɗto",
             "address": "Nokku",
             "email": "Iimeel",
             "site": "Lowre"
@@ -897,9 +899,9 @@
         },
         "s3": {
             "title": "Jeyaaɗe hakkille",
-            "p1": "Ko fof woni e lowre goomufulo.com — binndanɗe, firlanɗe, maanaaɗe saggitorde, daande moftaaɗe, nate, maantooje, mbaydi e dokkol — ko Goomu Fulo Wiɗto walla wallidiiɓe mum jeyi, laawol reeni ɗum.",
+            "p1": "Ko fof woni e lowre goomufulo.com — binndanɗe, firlanɗe, maanaaɗe saggitorde, daande moftaaɗe, nate, maantooje, mbaydi e dokkol — ko Goomu Fulo e Wiɗto walla wallidiiɓe mum jeyi, laawol reeni ɗum.",
             "p2": "Saggitorde Fulfulde-Farayse-Engele ndee ko golle hakkille tiiɗɗe reenaaɗe.",
-            "highlight": "Soɗaade, waylude, walla huutoraade ko woni e lowre ndee ina haɗaa so a heɓaani yamiroore Goomu Fulo Wiɗto.",
+            "highlight": "Soɗaade, waylude, walla huutoraade ko woni e lowre ndee ina haɗaa so a heɓaani yamiroore Goomu Fulo e Wiɗto.",
             "sub1": "Ko yamiraa",
             "sub1p": "Ɗeeɗoo kuutorɗe ina njamiree:",
             "sub1l1": "Yuurnaade lowre ndee ngam jaŋde maa keeriiɗo",
@@ -907,7 +909,7 @@
             "sub1l3": "Tonngude ko famɗi so tawii a hollii ɗo yaltiri (goomufulo.com)",
             "sub1l4": "Huutoraade ngam jaŋde e nder duɗe, so tawii a hollii ɗo yaltiri",
             "sub2": "Maantooje e nate",
-            "sub2p": "Innde « Goomu Fulo Wiɗto » e maantoore duɗal ngal e nate mum fof ko maantooje fedde ndee. Huutoraade ɗum ina naamnii yamiroore."
+            "sub2p": "Innde « Goomu Fulo e Wiɗto » e maantoore duɗal ngal e nate mum fof ko maantooje fedde ndee. Huutoraade ɗum ina naamnii yamiroore."
         },
         "s4": {
             "title": "Sarɗiiji kuutorɗe",
@@ -926,14 +928,14 @@
         },
         "s5": {
             "title": "Ɗooftagol darnde",
-            "p1": "Goomu Fulo Wiɗto ina waɗa ko waawi ngam hokkaade kabaruuji ɗemngal celluɗi. Kono fedde ndee waawaa addude haɓɓere wonde firlanɗe fof ina celluɗi.",
+            "p1": "Goomu Fulo e Wiɗto ina waɗa ko waawi ngam hokkaade kabaruuji ɗemngal celluɗi. Kono fedde ndee waawaa addude haɓɓere wonde firlanɗe fof ina celluɗi.",
             "p2": "Ɗemngal Fulfulde ina woodi caggitorɗe keewɗe hono leydi fof: Pulaar e Senegaal, Pular e Gine, Fulfulde e Nijeer/Nijeriya/Kameruun. Firlanɗe ɗee mbaawaa hollirde haalirde leydi fof.",
             "p3": "Fedde ndee waawaa ɗoofteede e ko boni so kuutoraaɗo lowre ndee walla so lowre ndee dartaaki."
         },
         "s6": {
             "title": "Ballitgol kuutortooɓe",
             "p1": "Lowre ndee ina newnanaa kuutortooɓe winndiiɓe wallitde saggitorde ndee. So neɗɗo neldii ko heɓii, ina foti tabintinde wonde ɗuum ko golle mum.",
-            "p2": "Ballitgol fof ina yuurnitee hade bayyineede. Goomu Fulo Wiɗto ina jogii laawol:",
+            "p2": "Ballitgol fof ina yuurnitee hade bayyineede. Goomu Fulo e Wiɗto ina jogii laawol:",
             "l1": "Waylude walla feewnude ballitgol ngam cellingol ɗemngal",
             "l2": "Salaade ballitgol ngo moƴƴaani, ngo bonnii walla ngo naataani",
             "l3": "Momtude ko luulndii pinal Fulɓe",
@@ -972,7 +974,7 @@
         "subtitle": "No min reenirta keɓe maa keeriiɗe e lowre goomufulo.com",
         "lastUpdate": "Bayyinaango sakitiingo",
         "tocTitle": "Doggol",
-        "intro": "To Goomu Fulo Wiɗto, reende keɓe maa keeriiɗe ko huunde arannde. Ndee dawirgol sutura ina hollita no laaɓndi ko min njokki, ko waɗi min njokkiri ɗum e no min reenirta ɗum. Min ina koolaa wonde min cuusataa huutoraade kabaruuji maa ngam coodgu walla yeewtere.",
+        "intro": "To Goomu Fulo e Wiɗto, reende keɓe maa keeriiɗe ko huunde arannde. Ndee dawirgol sutura ina hollita no laaɓndi ko min njokki, ko waɗi min njokkiri ɗum e no min reenirta ɗum. Min ina koolaa wonde min cuusataa huutoraade kabaruuji maa ngam coodgu walla yeewtere.",
         "s1": {
             "title": "Jiiloowo keɓe",
             "p1": "Jiiloowo keɓe keeriiɗe mooftaaɗe e lowre goomufulo.com ko:",
@@ -1023,7 +1025,7 @@
             "l2t": "Gollal nanondiral",
             "l2d": "Jokkol ina tilsi ngam hokkaade ma gollorɗe jaŋde e kuutorɗe ɗemngal ɗe cakkanɗaa so a winndii.",
             "l3t": "Nafoore fooftere",
-            "l3d": "Reenude lowre ndee e moƴƴinde pinal kuutortooɗo ko nafoore fooftere Goomu Fulo Wiɗto."
+            "l3d": "Reenude lowre ndee e moƴƴinde pinal kuutortooɗo ko nafoore fooftere Goomu Fulo e Wiɗto."
         },
         "s5": {
             "title": "Sahaa mooftol",
@@ -1035,7 +1037,7 @@
         },
         "s6": {
             "title": "Lollude keɓe",
-            "p1": "Goomu Fulo Wiɗto soottotaako, njaɓɓaataako walla lolludataa keɓe maa keeriiɗe e banndiraaɓe tataɓe ngam coodgu walla yeewtere.",
+            "p1": "Goomu Fulo e Wiɗto soottotaako, njaɓɓaataako walla lolludataa keɓe maa keeriiɗe e banndiraaɓe tataɓe ngam coodgu walla yeewtere.",
             "highlight": "Keɓe maa cuusataake soottaade, njaɓɓaade walla lollude ngam coodgu. Abada.",
             "p2": "Keɓe maa ina mbaawi lolleede tan e nder ɗeeɗoo:",
             "l1": "Mooftirɗo kuutorgal (Contabo): e nder mooftol keɓe e cerwere tan",

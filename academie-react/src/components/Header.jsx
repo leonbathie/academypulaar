@@ -101,7 +101,7 @@ function Header() {
                         <div className="logo-icon">
                             <img
                                 src={logoGif}
-                                alt="Goomu Fulo Wiɗto"
+                                alt="Goomu Fulo e Wiɗto"
                                 className="logo-image"
                                 width="200"
                                 height="112"

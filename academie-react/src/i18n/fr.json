@@ -1,9 +1,11 @@
 {
     "common": {
-        "siteName": "Goomu Fulo & Wiɗto",
+        "siteName": "Goomu Fulo e Wiɗto",
         "siteSlogan": "Académie de la langue Fulfulde",
         "since": "Depuis 2016",
         "discover": "Découvrir",
+        "previous": "Précédent",
+        "next": "Suivant",
         "share": "Partager",
         "copyLink": "Copier le lien",
         "copied": "Copié !",
@@ -50,9 +52,9 @@
         "title1": "Séance annuelle 2025",
         "subtitle1": "Découvrez les moments forts de cette cérémonie prestigieuse",
         "title2": "Le Dictionnaire",
-        "subtitle2": "Première édition du Dictionnaire Goomu Fulo Wiɗto",
+        "subtitle2": "Première édition du Dictionnaire Goomu Fulo e Wiɗto",
         "title3": "La langue Fulfulde",
-        "subtitle3": "Gardienne de la langue, Goomu Fulo Wiɗto protège le Fulfulde",
+        "subtitle3": "Gardienne de la langue, Goomu Fulo e Wiɗto protège le Fulfulde",
         "title4": "Les Érudits",
         "subtitle4": "Des membres au service de la langue et de la culture Fulfulde",
         "consultDictionary": "Consulter le Dictionnaire",
@@ -62,28 +64,28 @@
         "sectionLabel": "Nos missions",
         "title": "Au service de la ",
         "titleHighlight": "langue Fulfulde",
-        "description": "Goomu Fulo & Wiɗto a pour mission de traduire les mots scientifiques et faire des recherches pour développer la langue Fulfulde.",
+        "description": "Goomu Fulo e Wiɗto a pour mission de traduire les mots scientifiques et faire des recherches pour développer la langue Fulfulde.",
         "institution": {
             "title": "L'institution",
-            "description": "Fondée pour la langue Fulfulde, Goomu Fulo Wiɗto est une organisation de gardiens de la langue."
+            "description": "Fondée pour la langue Fulfulde, Goomu Fulo e Wiɗto est une organisation de gardiens de la langue."
         },
         "dictionary": {
             "title": "Le Dictionnaire",
-            "description": "Goomu Fulo Wiɗto élabore le Dictionnaire, ouvrage de référence de la langue Fulfulde."
+            "description": "Goomu Fulo e Wiɗto élabore le Dictionnaire, ouvrage de référence de la langue Fulfulde."
         },
         "prizes": {
             "title": "Les Prix",
-            "description": "Chaque année, Goomu Fulo Wiɗto décerne des prix littéraires et récompenses."
+            "description": "Chaque année, Goomu Fulo e Wiɗto décerne des prix littéraires et récompenses."
         },
         "immortals": {
             "title": "Les Érudits",
-            "description": "Des membres élus composent Goomu Fulo Wiɗto, gardiens de la langue et de la culture."
+            "description": "Des membres élus composent Goomu Fulo e Wiɗto, gardiens de la langue et de la culture."
         }
     },
     "news": {
         "sectionLabel": "Restez informés",
         "title": "L'actualité de ",
-        "titleHighlight": "Goomu Fulo Wiɗto",
+        "titleHighlight": "Goomu Fulo e Wiɗto",
         "viewAll": "Toutes les actualités",
         "language": "Langue",
         "publication": "Publication",
@@ -102,7 +104,7 @@
         "sectionLabel": "La langue Fulfulde",
         "title": "Dire, ",
         "titleHighlight": "Incorrect",
-        "intro": "Goomu Fulo & Wiɗto vous guide dans l'usage correct de la langue Fulfulde.",
+        "intro": "Goomu Fulo e Wiɗto vous guide dans l'usage correct de la langue Fulfulde.",
         "discoverSection": "Découvrir la rubrique",
         "weSay": "On dit",
         "weDontSay": "On ne dit pas",
@@ -121,7 +123,7 @@
         "sectionLabel": "Dictionnaire Fulfulde",
         "title": "Le ",
         "titleHighlight": "Dictionnaire",
-        "intro": "Le Dictionnaire de Goomu Fulo & Wiɗto est un dictionnaire scientifique de la langue Fulfulde.",
+        "intro": "Le Dictionnaire de Goomu Fulo e Wiɗto est un dictionnaire scientifique de la langue Fulfulde.",
         "wordsStartingWith": "Mots commençant par",
         "similarWords": "Mots proches",
         "searchPlaceholder": "Rechercher un mot...",
@@ -175,12 +177,12 @@
     },
     "about": {
         "title": "À propos de",
-        "highlight": "Goomu Fulo Wiɗto",
-        "intro": "Goomu Fulo Wiɗto est une organisation dédiée à la préservation, la promotion et le développement de la langue Fulfulde.",
+        "highlight": "Goomu Fulo e Wiɗto",
+        "intro": "Goomu Fulo e Wiɗto est une organisation dédiée à la préservation, la promotion et le développement de la langue Fulfulde.",
         "missionTitle": "Notre Mission",
         "mission": "Notre mission est de créer un dictionnaire complet de la langue Fulfulde, de promouvoir son utilisation dans l'éducation et les médias, et de préserver le patrimoine culturel des Fulɓe à travers leur langue.",
         "historyTitle": "Notre Histoire",
-        "history": "Fondée par un groupe de linguistes, écrivains et défenseurs de la culture Fulfulde, Goomu Fulo Wiɗto a vu le jour pour répondre au besoin urgent de documenter et standardiser le Fulfulde à l'ère numérique.",
+        "history": "Fondée par un groupe de linguistes, écrivains et défenseurs de la culture Fulfulde, Goomu Fulo e Wiɗto a vu le jour pour répondre au besoin urgent de documenter et standardiser le Fulfulde à l'ère numérique.",
         "goalsTitle": "Quels sont les objectifs du GFW ?",
         "goalsIntro": "De manière générale, nous pouvons résumer les objectifs du Comité de Traduction et de Recherche aux points suivants :",
         "missionKicker": "Mission & engagement",
@@ -361,13 +363,13 @@
         "q2": "Combien de personnes parlent le Fulfulde ?",
         "a2": "Le Fulfulde est parlé par environ 40 à 50 millions de personnes à travers l'Afrique, du Sénégal au Soudan. C'est l'une des langues les plus répandues du continent africain.",
         "q3": "Quel alphabet est utilisé pour écrire le Fulfulde ?",
-        "a3": "Le Fulfulde s'écrit principalement en alphabet latin avec des caractères spéciaux (ɓ, ɗ, ŋ, ƴ, ɲ, ñ). L'alphabet arabe (Ajami) est aussi utilisé traditionnellement. Goomu Fulo & Wiɗto utilise l'alphabet latin standardisé.",
+        "a3": "Le Fulfulde s'écrit principalement en alphabet latin avec des caractères spéciaux (ɓ, ɗ, ŋ, ƴ, ɲ, ñ). L'alphabet arabe (Ajami) est aussi utilisé traditionnellement. Goomu Fulo e Wiɗto utilise l'alphabet latin standardisé.",
         "q4": "Qu'est-ce que les classes nominales en Fulfulde ?",
         "a4": "Le Fulfulde possède un système unique de classes nominales (environ 25) qui déterminent les accords grammaticaux. Chaque nom appartient à une classe qui influence les pronoms, les adjectifs et les formes verbales. C'est une des caractéristiques les plus distinctives de la langue.",
         "q5": "Comment fonctionne la conjugaison en Fulfulde ?",
         "a5": "La conjugaison en Fulfulde est riche et complexe. Les verbes changent de forme selon le temps, l'aspect, la voix (active, passive, moyenne) et le sujet. Le système verbal inclut aussi des extensions qui modifient le sens du verbe (causatif, réciproque, intensif, etc.).",
         "q6": "Où peut-on apprendre le Fulfulde ?",
-        "a6": "Plusieurs ressources existent : les cours universitaires, les associations culturelles peules, et les outils en ligne comme le dictionnaire de Goomu Fulo & Wiɗto. Notre site vise à faciliter l'apprentissage et la préservation de cette langue."
+        "a6": "Plusieurs ressources existent : les cours universitaires, les associations culturelles peules, et les outils en ligne comme le dictionnaire de Goomu Fulo e Wiɗto. Notre site vise à faciliter l'apprentissage et la préservation de cette langue."
     },
     "terminology": {
         "title": "Terminologie",
@@ -376,7 +378,7 @@
         "why": "Pourquoi une terminologie Fulfulde ?",
         "whyText": "Pour qu'une langue reste vivante et pertinente, elle doit pouvoir exprimer les réalités du monde moderne. La création terminologique permet au Fulfulde de s'adapter aux domaines scientifiques, technologiques et administratifs.",
         "method": "Méthode de création",
-        "methodText": "Goomu Fulo & Wiɗto suit une approche rigoureuse pour créer de nouveaux termes : étude des racines existantes, dérivation morphologique, emprunt adapté, et validation par les locuteurs.",
+        "methodText": "Goomu Fulo e Wiɗto suit une approche rigoureuse pour créer de nouveaux termes : étude des racines existantes, dérivation morphologique, emprunt adapté, et validation par les locuteurs.",
         "domains": "Domaines couverts",
         "domScience": "Sciences & Technologies",
         "domScienceDesc": "Mathématiques & physique, informatique, astronomie et noms scientifiques.",
@@ -395,14 +397,14 @@
     },
     "footer": {
         "contactTitle": "Contact",
-        "description": "Goomu Fulo & Wiɗto est une organisation dédiée à la préservation, la promotion et le développement de la langue Fulfulde.",
+        "description": "Goomu Fulo e Wiɗto est une organisation dédiée à la préservation, la promotion et le développement de la langue Fulfulde.",
         "institution": "L'institution",
         "language": "La Langue",
         "services": "Services",
         "stayInformed": "Restez informé",
-        "newsletterText": "Recevez les dernières actualités de Goomu Fulo Wiɗto.",
+        "newsletterText": "Recevez les dernières actualités de Goomu Fulo e Wiɗto.",
         "emailPlaceholder": "Votre e-mail",
-        "copyright": "Goomu Fulo Wiɗto. Tous droits réservés.",
+        "copyright": "Goomu Fulo e Wiɗto. Tous droits réservés.",
         "legalNotice": "Mentions légales",
         "privacy": "Politique de confidentialité",
         "accessibility": "Accessibilité"
@@ -492,7 +494,7 @@
             },
             "welcomeCard": {
                 "title": "Bienvenue dans l'administration",
-                "text": "Utilisez le menu de gauche pour gérer le contenu du site Goomu Fulo Wiɗto :",
+                "text": "Utilisez le menu de gauche pour gérer le contenu du site Goomu Fulo e Wiɗto :",
                 "dict": "Ajouter, modifier ou supprimer des mots",
                 "news": "Publier des nouvelles et articles",
                 "content": "Gérer les expressions linguistiques",
@@ -870,19 +872,19 @@
     },
     "legal": {
         "title": "Mentions Légales",
-        "subtitle": "Informations légales relatives au site goomufulo.com et aux services proposés par l'Académie Goomu Fulo Wiɗto.",
+        "subtitle": "Informations légales relatives au site goomufulo.com et aux services proposés par l'Académie Goomu Fulo e Wiɗto.",
         "lastUpdate": "Dernière mise à jour",
         "tocTitle": "Sommaire",
         "s1": {
             "title": "Éditeur du site",
-            "p1": "Le site goomufulo.com est édité par l'association culturelle et éducative Goomu Fulo Wiɗto, dédiée à la préservation, l'enseignement et la promotion de la langue Fulfulde (Pulaar/Pular) à travers les outils numériques.",
+            "p1": "Le site goomufulo.com est édité par l'association culturelle et éducative Goomu Fulo e Wiɗto, dédiée à la préservation, l'enseignement et la promotion de la langue Fulfulde (Pulaar/Pular) à travers les outils numériques.",
             "name": "Nom",
             "nature": "Nature",
             "natureVal": "Association culturelle et éducative à but non lucratif",
             "purpose": "Objet",
             "purposeVal": "Préservation et enseignement de la langue Fulfulde à travers le numérique",
             "director": "Directeur de publication",
-            "directorVal": "L'équipe dirigeante de Goomu Fulo Wiɗto",
+            "directorVal": "L'équipe dirigeante de Goomu Fulo e Wiɗto",
             "address": "Adresse",
             "email": "Email",
             "site": "Site web"
@@ -897,9 +899,9 @@
         },
         "s3": {
             "title": "Propriété intellectuelle",
-            "p1": "L'ensemble du contenu présent sur le site goomufulo.com — incluant mais ne se limitant pas aux textes, traductions, définitions du dictionnaire, enregistrements audio, illustrations, logos, design graphique, architecture logicielle et code source — est la propriété exclusive de Goomu Fulo Wiɗto ou de ses contributeurs, et est protégé par les lois relatives à la propriété intellectuelle.",
+            "p1": "L'ensemble du contenu présent sur le site goomufulo.com — incluant mais ne se limitant pas aux textes, traductions, définitions du dictionnaire, enregistrements audio, illustrations, logos, design graphique, architecture logicielle et code source — est la propriété exclusive de Goomu Fulo e Wiɗto ou de ses contributeurs, et est protégé par les lois relatives à la propriété intellectuelle.",
             "p2": "La base de données lexicographique Fulfulde-Français-Anglais, constituant le dictionnaire en ligne, représente un travail original de compilation et de création intellectuelle protégé en tant qu'œuvre de l'esprit.",
-            "highlight": "Toute reproduction, représentation, modification, publication, adaptation totale ou partielle des éléments du site, quel que soit le moyen ou le procédé utilisé, est strictement interdite sans autorisation écrite préalable de Goomu Fulo Wiɗto.",
+            "highlight": "Toute reproduction, représentation, modification, publication, adaptation totale ou partielle des éléments du site, quel que soit le moyen ou le procédé utilisé, est strictement interdite sans autorisation écrite préalable de Goomu Fulo e Wiɗto.",
             "sub1": "Utilisations autorisées",
             "sub1p": "Sont autorisées sans demande préalable les utilisations suivantes :",
             "sub1l1": "La consultation du site à des fins personnelles et éducatives",
@@ -907,7 +909,7 @@
             "sub1l3": "La citation courte avec mention obligatoire de la source (goomufulo.com)",
             "sub1l4": "L'utilisation à des fins pédagogiques dans un cadre scolaire ou universitaire, avec attribution",
             "sub2": "Marques et logos",
-            "sub2p": "Le nom « Goomu Fulo Wiɗto », le logo de l'académie et l'ensemble des éléments graphiques distinctifs sont des marques de l'association. Leur utilisation nécessite une autorisation expresse."
+            "sub2p": "Le nom « Goomu Fulo e Wiɗto », le logo de l'académie et l'ensemble des éléments graphiques distinctifs sont des marques de l'association. Leur utilisation nécessite une autorisation expresse."
         },
         "s4": {
             "title": "Conditions d'utilisation",
@@ -926,14 +928,14 @@
         },
         "s5": {
             "title": "Limitation de responsabilité",
-            "p1": "Goomu Fulo Wiɗto s'efforce de fournir sur le site des informations linguistiques aussi précises que possible. Toutefois, l'association ne peut garantir l'exactitude, la complétude ou l'actualité de l'ensemble des traductions et définitions présentes dans le dictionnaire.",
+            "p1": "Goomu Fulo e Wiɗto s'efforce de fournir sur le site des informations linguistiques aussi précises que possible. Toutefois, l'association ne peut garantir l'exactitude, la complétude ou l'actualité de l'ensemble des traductions et définitions présentes dans le dictionnaire.",
             "p2": "La langue Fulfulde connaissant des variations dialectales significatives selon les régions (Pulaar au Sénégal, Pular en Guinée, Fulfulde au Niger/Nigeria/Cameroun), les traductions proposées peuvent ne pas refléter l'usage spécifique de chaque communauté linguistique.",
             "p3": "L'association ne saurait être tenue responsable des dommages directs ou indirects résultant de l'utilisation du site, d'une interruption de service, d'erreurs dans les contenus ou de l'impossibilité d'accéder au site."
         },
         "s6": {
             "title": "Contributions des utilisateurs",
             "p1": "Le site permet aux utilisateurs enregistrés de contribuer à l'enrichissement du dictionnaire et des contenus linguistiques. En soumettant du contenu, les contributeurs garantissent que leurs apports sont originaux ou libres de droits.",
-            "p2": "Les contributions font l'objet d'une modération par l'équipe éditoriale avant publication. Goomu Fulo Wiɗto se réserve le droit de :",
+            "p2": "Les contributions font l'objet d'une modération par l'équipe éditoriale avant publication. Goomu Fulo e Wiɗto se réserve le droit de :",
             "l1": "Modifier, corriger ou adapter les contributions pour assurer la cohérence linguistique",
             "l2": "Refuser une contribution jugée inappropriée, incorrecte ou hors sujet",
             "l3": "Supprimer tout contenu contraire aux valeurs de respect et de promotion de la culture peule",
@@ -941,7 +943,7 @@
         },
         "s7": {
             "title": "Liens hypertextes",
-            "p1": "Le site goomufulo.com peut contenir des liens vers des sites externes. Ces liens sont fournis à titre informatif et ne constituent en aucun cas une approbation de ces sites par Goomu Fulo Wiɗto. L'association n'exerce aucun contrôle sur le contenu des sites tiers et décline toute responsabilité quant à leur contenu.",
+            "p1": "Le site goomufulo.com peut contenir des liens vers des sites externes. Ces liens sont fournis à titre informatif et ne constituent en aucun cas une approbation de ces sites par Goomu Fulo e Wiɗto. L'association n'exerce aucun contrôle sur le contenu des sites tiers et décline toute responsabilité quant à leur contenu.",
             "p2": "La création de liens hypertextes vers goomufulo.com est libre et ne nécessite pas d'autorisation préalable, sous réserve de ne pas utiliser la technique du « framing » ou toute autre technique d'intégration portant atteinte aux droits de propriété intellectuelle de l'association."
         },
         "s8": {
@@ -972,7 +974,7 @@
         "subtitle": "Comment nous protégeons vos données personnelles sur goomufulo.com",
         "lastUpdate": "Dernière mise à jour",
         "tocTitle": "Sommaire",
-        "intro": "Chez Goomu Fulo Wiɗto, la protection de vos données personnelles est une priorité. Cette politique de confidentialité décrit de façon transparente quelles données nous collectons, pourquoi nous les utilisons et comment nous les protégeons. Nous nous engageons à respecter votre vie privée et à ne jamais utiliser vos informations à des fins commerciales ou publicitaires.",
+        "intro": "Chez Goomu Fulo e Wiɗto, la protection de vos données personnelles est une priorité. Cette politique de confidentialité décrit de façon transparente quelles données nous collectons, pourquoi nous les utilisons et comment nous les protégeons. Nous nous engageons à respecter votre vie privée et à ne jamais utiliser vos informations à des fins commerciales ou publicitaires.",
         "s1": {
             "title": "Responsable du traitement",
             "p1": "Le responsable du traitement des données personnelles collectées sur le site goomufulo.com est :",
@@ -1023,7 +1025,7 @@
             "l2t": "Exécution contractuelle",
             "l2d": "Le traitement est nécessaire à la fourniture du service d'apprentissage et des outils linguistiques auxquels vous avez souscrit en vous inscrivant.",
             "l3t": "Intérêt légitime",
-            "l3d": "La sécurisation de la plateforme et l'amélioration de l'expérience utilisateur constituent un intérêt légitime de Goomu Fulo Wiɗto."
+            "l3d": "La sécurisation de la plateforme et l'amélioration de l'expérience utilisateur constituent un intérêt légitime de Goomu Fulo e Wiɗto."
         },
         "s5": {
             "title": "Durée de conservation",
@@ -1035,7 +1037,7 @@
         },
         "s6": {
             "title": "Partage des données",
-            "p1": "Goomu Fulo Wiɗto ne vend, ne loue et ne partage jamais vos données personnelles avec des tiers à des fins commerciales ou publicitaires.",
+            "p1": "Goomu Fulo e Wiɗto ne vend, ne loue et ne partage jamais vos données personnelles avec des tiers à des fins commerciales ou publicitaires.",
             "highlight": "Vos données ne sont jamais vendues, louées ou partagées à des fins commerciales. Jamais.",
             "p2": "Vos données peuvent être partagées uniquement dans les cas suivants :",
             "l1": "Hébergeur technique (Contabo) : dans le cadre strict de l'hébergement des données sur les serveurs",

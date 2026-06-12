@@ -63,7 +63,7 @@ router.post('/', contactFormLimiter, async (req, res) => {
         if (transporter) {
             try {
                 await transporter.sendMail({
-                    from: `"Goomu Fulo Wi\u0257to" <${process.env.SMTP_USER}>`,
+                    from: `"Goomu Fulo e Wi\u0257to" <${process.env.SMTP_USER}>`,
                     to: SUPER_ADMIN_EMAILS.join(', '),
                     replyTo: email.trim(),
                     subject: `[Contact] ${subject.trim()}`,
