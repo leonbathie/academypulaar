@@ -84,6 +84,13 @@ function News() {
         return text.substring(0, maxLength) + '...'
     }
 
+    // Ne pas afficher la section tant qu'aucune actualite n'est publiee :
+    // un bloc vide donne une impression d'abandon. La section apparait
+    // automatiquement des qu'une actualite est publiee.
+    if (newsItems.length === 0) {
+        return null
+    }
+
     return (
         <section className="news" id="actualites">
             <div className="container">

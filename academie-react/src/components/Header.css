@@ -19,7 +19,7 @@
     display: none !important;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1023px) {
     .nav.nav-mobile {
         display: block !important;
         position: fixed;
@@ -478,7 +478,7 @@
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1023px) {
     .header.scrolled {
         background: rgba(26, 26, 46, 0.98);
     }

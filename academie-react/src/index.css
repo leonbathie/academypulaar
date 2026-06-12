@@ -252,6 +252,9 @@ html {
   font-size: 16px;
   overflow-x: hidden;
   max-width: 100vw;
+  /* Compense le header fixe : les sauts vers une ancre (#section) ne sont
+     plus masques par la barre de navigation. */
+  scroll-padding-top: 96px;
 }
 
 #root {
