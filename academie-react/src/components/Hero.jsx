@@ -35,7 +35,6 @@ function Hero() {
     const navigate = useNavigate()
     const { settings } = useSettings()
     const [currentSlide, setCurrentSlide] = useState(0)
-    const [isPaused, setIsPaused] = useState(false)
     const [heroSearch, setHeroSearch] = useState('')
     // Resultats en direct
     const [results, setResults] = useState([])
@@ -48,15 +47,12 @@ function Hero() {
     const resultsRef = useRef(null)
 
     useEffect(() => {
-        if (slides.length <= 1 || isPaused) return
+        if (slides.length <= 1) return
         const timer = setInterval(() => {
             setCurrentSlide(prev => (prev + 1) % slides.length)
         }, 6000)
         return () => clearInterval(timer)
-    }, [isPaused])
-
-    const goPrev = () => setCurrentSlide(prev => (prev - 1 + slides.length) % slides.length)
-    const goNext = () => setCurrentSlide(prev => (prev + 1) % slides.length)
+    }, [])
 
     // Recherche en direct (debounce 300ms)
     useEffect(() => {
@@ -160,11 +156,7 @@ function Hero() {
     }
 
     return (
-        <section
-            className="hero"
-            onMouseEnter={() => setIsPaused(true)}
-            onMouseLeave={() => setIsPaused(false)}
-        >
+        <section className="hero">
             <div className="hero-slides">
                 {slides.map((slide, index) => (
                     <div
@@ -176,17 +168,6 @@ function Hero() {
                     </div>
                 ))}
             </div>
-
-            {slides.length > 1 && (
-                <>
-                    <button type="button" className="hero-arrow hero-arrow--prev" onClick={goPrev} aria-label={t('common.previous', 'Précédent')}>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6" /></svg>
-                    </button>
-                    <button type="button" className="hero-arrow hero-arrow--next" onClick={goNext} aria-label={t('common.next', 'Suivant')}>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6" /></svg>
-                    </button>
-                </>
-            )}
 
             <div className="hero-content">
                 <div className="hero-text">
