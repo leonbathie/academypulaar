@@ -62,8 +62,11 @@ function DictionaryPage() {
         })
     }, [trackWordInteraction])
 
-    // Lien direct vers un mot precis : /dictionnaire?word=<id>
+    // Lien direct vers un mot precis : /dictionnaire?word=<id|texte>
     const urlWordId = searchParams.get('word')
+    // Vue "lien direct" (depuis une suggestion / un partage) : on affiche
+    // uniquement le mot, sans les badges de domaine.
+    const isDirectWordLink = !!urlWordId && !searchTerm && !selectedLetter && !selectedDomain
 
     // Lire les paramètres URL au chargement
     useEffect(() => {
@@ -407,22 +410,23 @@ function DictionaryPage() {
                                                 </p>
                                             )}
 
-                                            {/* Badges */}
-                                            {(entry.category || (Array.isArray(entry.domains) && entry.domains.length > 0) || entry.domain) && (
+                                            {/* Badges — en vue "lien direct", on masque les domaines */}
+                                            {(entry.category || (!isDirectWordLink && ((Array.isArray(entry.domains) && entry.domains.length > 0) || entry.domain))) && (
                                                 <div className="word-badges">
                                                     {entry.category && (
                                                         <span className="word-badge word-badge--cat">{t(`dictionary.categories.${entry.category}`, entry.category)}</span>
                                                     )}
-                                                    {Array.isArray(entry.domains) && entry.domains.length > 0
-                                                        ? entry.domains.map(d => (
-                                                            <span key={d} className="word-badge word-badge--domain">
-                                                                {t(`dictionary.domains.${d}`, d)}
-                                                            </span>
-                                                          ))
-                                                        : entry.domain && (
-                                                            <span className="word-badge word-badge--domain">{t(`dictionary.domains.${entry.domain}`, entry.domain)}</span>
-                                                          )
-                                                    }
+                                                    {!isDirectWordLink && (
+                                                        Array.isArray(entry.domains) && entry.domains.length > 0
+                                                            ? entry.domains.map(d => (
+                                                                <span key={d} className="word-badge word-badge--domain">
+                                                                    {t(`dictionary.domains.${d}`, d)}
+                                                                </span>
+                                                              ))
+                                                            : entry.domain && (
+                                                                <span className="word-badge word-badge--domain">{t(`dictionary.domains.${entry.domain}`, entry.domain)}</span>
+                                                              )
+                                                    )}
                                                 </div>
                                             )}
 
