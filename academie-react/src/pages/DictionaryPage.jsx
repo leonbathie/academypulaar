@@ -371,7 +371,7 @@ function DictionaryPage() {
                                         previewHint = null
                                     }
                                     return (
-                                        <article key={entry.id} id={`word-${entry.id}`} className={`word-card ${isExpanded ? 'word-card--expanded' : ''}`}>
+                                        <article key={entry.id} id={`word-${entry.id}`} className={`word-card ${isExpanded ? 'word-card--expanded' : ''} ${isDirectWordLink ? 'word-card--detail' : ''}`}>
                                             {/* Image illustrative du mot (optionnelle) */}
                                             {entry.image && (
                                                 <div className="word-image">
