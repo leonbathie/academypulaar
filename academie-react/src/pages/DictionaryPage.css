@@ -174,6 +174,16 @@
     gap: var(--space-lg);
 }
 
+/* Vue "lien direct" (?word=) : un seul mot, carte centree qui s'adapte
+   a l'ecran au lieu d'etre coincee en haut a gauche de la grille. */
+.results-grid--single {
+    grid-template-columns: 1fr;
+    width: 100%;
+    max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 /* === Word Card === */
 .word-card {
     background: var(--white);

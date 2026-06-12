@@ -343,13 +343,15 @@ function DictionaryPage() {
                 </div>
                 )}
 
-                <div className="dictionary-results">
+                <div className={`dictionary-results ${isDirectWordLink ? 'dictionary-results--single' : ''}`}>
                     {results.length > 0 ? (
                         <>
-                            <p className="results-count">
-                                {results.length} {results.length === 1 ? t('dictionary.result') : t('dictionary.results')}
-                            </p>
-                            <div className="results-grid">
+                            {!isDirectWordLink && (
+                                <p className="results-count">
+                                    {results.length} {results.length === 1 ? t('dictionary.result') : t('dictionary.results')}
+                                </p>
+                            )}
+                            <div className={`results-grid ${isDirectWordLink ? 'results-grid--single' : ''}`}>
                                 {results.map((entry) => {
                                     const isExpanded = expandedCards.has(entry.id)
                                     // En Pulaar : alterner FR/EN en aperçu
