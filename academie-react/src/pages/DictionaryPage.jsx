@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams, Link } from 'react-router-dom'
 import { API_URL } from '../config'
 import ShareWordButton from '../components/ShareWordButton'
 import './DictionaryPage.css'
@@ -350,6 +350,14 @@ function DictionaryPage() {
                                 <p className="results-count">
                                     {results.length} {results.length === 1 ? t('dictionary.result') : t('dictionary.results')}
                                 </p>
+                            )}
+                            {isDirectWordLink && (
+                                <Link to="/dictionnaire" className="word-detail-back">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                                        <path d="M19 12H5M12 19l-7-7 7-7" />
+                                    </svg>
+                                    {t('dictionary.backToDictionary', 'Retour au dictionnaire')}
+                                </Link>
                             )}
                             <div className={`results-grid ${isDirectWordLink ? 'results-grid--single' : ''}`}>
                                 {results.map((entry) => {
