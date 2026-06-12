@@ -2,7 +2,18 @@ import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { API_URL } from '../config'
+import { useSettings } from '../context/SettingsContext'
 import './Hero.css'
+
+// Melange de Fisher-Yates (copie, ne mute pas l'original)
+const shuffle = (arr) => {
+    const a = [...arr]
+    for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1))
+        ;[a[i], a[j]] = [a[j], a[i]]
+    }
+    return a
+}
 
 // Images Hero : qualite 70 + dimension capee a 1280px (suffit pour 99% des
 // ecrans, gain ~50% de taille vs w=1920).
@@ -22,6 +33,7 @@ function Hero() {
     const { t, i18n } = useTranslation()
     const lang = (i18n.language || 'fr').substring(0, 2)
     const navigate = useNavigate()
+    const { settings } = useSettings()
     const [currentSlide, setCurrentSlide] = useState(0)
     const [heroSearch, setHeroSearch] = useState('')
     // Resultats en direct
@@ -119,14 +131,28 @@ function Hero() {
         navigate(q ? `/dictionnaire?search=${encodeURIComponent(q)}` : '/dictionnaire')
     }
 
-    // "Decouvrir" : a chaque clic, defile vers une section differente (cycle).
-    const discoverSections = ['decouvrir', 'patrimoine', 'actualites', 'dictionnaire']
-    const discoverIdx = useRef(0)
+    // "Decouvrir" : a chaque clic, emmene vers une partie essentielle du site,
+    // au hasard. On utilise une file melangee : toutes les parties sont vues
+    // (ordre aleatoire) avant qu'une ne se repete.
+    const discoverQueue = useRef([])
     const handleDiscover = () => {
-        const id = discoverSections[discoverIdx.current % discoverSections.length]
-        const el = document.getElementById(id)
-        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
-        discoverIdx.current = (discoverIdx.current + 1) % discoverSections.length
+        const routes = [
+            '/dictionnaire',
+            '/terminologie',
+            '/bibliotheque',
+            '/dire',
+            '/questions-langue',
+            '/a-propos',
+            '/a-propos/histoire',
+            '/a-propos/missions'
+        ].filter(r => r !== '/terminologie' || settings.terminologie_visible !== false)
+
+        if (discoverQueue.current.length === 0) {
+            discoverQueue.current = shuffle(routes)
+        }
+        const next = discoverQueue.current.shift()
+        window.scrollTo({ top: 0 })
+        navigate(next)
     }
 
     return (
