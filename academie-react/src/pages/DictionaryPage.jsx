@@ -257,6 +257,7 @@ function DictionaryPage() {
             </div>
 
             <div className="container">
+                {!isDirectWordLink && (
                 <div className="dictionary-search-section">
                     {/* Filtres par domaine */}
                     <div className="domain-filters">
@@ -340,6 +341,7 @@ function DictionaryPage() {
                         </div>
                     )}
                 </div>
+                )}
 
                 <div className="dictionary-results">
                     {results.length > 0 ? (
