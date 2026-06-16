@@ -258,13 +258,19 @@ router.get('/stats', async (req, res) => {
         }
         const r = await query(`
             SELECT
-                COUNT(*)::int AS total,
-                COUNT(*) FILTER (
+                (SELECT COUNT(*)::int FROM dictionary) AS total,
+                (SELECT COUNT(*)::int FROM dictionary
                     WHERE translation_ff IS NOT NULL AND BTRIM(translation_ff) <> ''
-                )::int AS defined
-            FROM dictionary
+                ) AS defined,
+                (SELECT COUNT(*)::int FROM (
+                    SELECT domain FROM dictionary_domains
+                        WHERE domain IS NOT NULL AND BTRIM(domain) <> ''
+                    UNION
+                    SELECT domain FROM dictionary
+                        WHERE domain IS NOT NULL AND BTRIM(domain) <> ''
+                ) d) AS domains
         `)
-        _statsCache = r.rows[0] || { total: 0, defined: 0 }
+        _statsCache = r.rows[0] || { total: 0, defined: 0, domains: 0 }
         _statsCacheAt = now
         // Cache HTTP 60s pour les visiteurs anonymes
         res.set('Cache-Control', 'public, max-age=60')

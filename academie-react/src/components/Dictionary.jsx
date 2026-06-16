@@ -12,6 +12,7 @@ function Dictionary() {
     const [searchType, setSearchType] = useState('prefix')
     const [wordCount, setWordCount] = useState(0)
     const [definedCount, setDefinedCount] = useState(0)
+    const [domainsCount, setDomainsCount] = useState(0)
     // Recherche inline directe sur la home
     const [results, setResults] = useState([])
     const [searching, setSearching] = useState(false)
@@ -28,6 +29,7 @@ function Dictionary() {
                 const data = await response.json()
                 setWordCount(data.total || 0)
                 setDefinedCount(data.defined || 0)
+                setDomainsCount(data.domains || 0)
             }
         } catch (error) {
             console.error('Error loading word count:', error)
@@ -241,7 +243,7 @@ function Dictionary() {
                         <span className="stat-label">{t('dictionary.editions')}</span>
                     </div>
                     <div className="stat-card">
-                        <span className="stat-number">{definedCount > 0 ? formatNumber(definedCount) : '...'}</span>
+                        <span className="stat-number">{domainsCount > 0 ? formatNumber(domainsCount) : '...'}</span>
                         <span className="stat-label">{t('dictionary.wordsDefined')}</span>
                     </div>
                     <div className="stat-card">
