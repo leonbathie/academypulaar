@@ -300,9 +300,9 @@
 @media (max-width: 968px) {
     .hero {
         height: auto;
-        min-height: 100vh;
+        min-height: auto;
         padding: var(--space-2xl) 0;
-        padding-bottom: var(--space-3xl);
+        padding-bottom: var(--space-2xl);
         flex-direction: column;
         justify-content: flex-start;
         align-items: stretch;
@@ -783,7 +783,7 @@
 
 @media (max-width: 768px) {
     .hero {
-        min-height: 100svh;
+        min-height: auto;
         overflow-x: hidden;
         overflow-y: visible;
     }
@@ -847,7 +847,7 @@
 
 @media (max-width: 480px) {
     .hero {
-        min-height: 100svh;
+        min-height: auto;
         overflow-x: hidden;
         overflow-y: visible;
     }
