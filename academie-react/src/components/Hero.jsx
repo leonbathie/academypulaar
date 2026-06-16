@@ -277,6 +277,27 @@ function Hero() {
                 </div>
             </div>
 
+            {/* Visuel livre 3D a droite — desktop large uniquement */}
+            <div className="hero-visual" aria-hidden="true">
+                <div className="dictionary-book">
+                    <div className="book-spine"></div>
+                    <div className="book-cover">
+                        <div className="book-title">
+                            <span className="book-edition">1</span>
+                            <span className="book-name">{t('dictionary.titleHighlight')}</span>
+                            <span className="book-author">{t('common.siteName')}</span>
+                        </div>
+                        <div className="book-ornament">
+                            <svg viewBox="0 0 80 80" fill="none">
+                                <circle cx="40" cy="40" r="35" stroke="currentColor" strokeWidth="1" />
+                                <circle cx="40" cy="40" r="25" stroke="currentColor" strokeWidth="1" />
+                                <path d="M40 10 L40 70 M10 40 L70 40" stroke="currentColor" strokeWidth="1" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div className="hero-scroll">
                 <span>{t('hero.scroll')}</span>
                 <svg className="scroll-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">

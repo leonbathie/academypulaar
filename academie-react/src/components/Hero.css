@@ -48,6 +48,24 @@
         var(--gradient-hero);
 }
 
+/* Visuel livre 3D a droite du hero (masque par defaut, visible grand ecran) */
+.hero-visual {
+    display: none;
+}
+
+@media (min-width: 1200px) {
+    .hero-visual {
+        display: block;
+        position: absolute;
+        right: 8%;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 6;
+        perspective: 1500px;
+        pointer-events: none;
+    }
+}
+
 /* Content */
 .hero-content {
     position: relative;
