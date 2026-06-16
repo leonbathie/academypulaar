@@ -76,8 +76,19 @@
         transform: translateY(-50%);
         z-index: 6;
         perspective: 1500px;
-        pointer-events: none;
     }
+}
+
+/* Livre interactif : glisser pour le faire tourner */
+.hero-book {
+    cursor: grab;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+    will-change: transform;
+}
+.hero-book:active {
+    cursor: grabbing;
 }
 
 /* Content */

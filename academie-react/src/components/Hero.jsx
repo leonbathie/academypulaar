@@ -125,6 +125,51 @@ function Hero() {
         a.play().catch(() => setPlayingId(null))
     }
 
+    // --- Livre 3D interactif : glisser pour le faire tourner (souris + tactile) ---
+    const bookRef = useRef(null)
+    const bookDrag = useRef({ active: false, startX: 0, startY: 0, ry: -18, rx: 3, baseRy: -18, baseRx: 3 })
+
+    const applyBookTransform = () => {
+        const el = bookRef.current
+        if (el) el.style.transform = `rotateY(${bookDrag.current.ry}deg) rotateX(${bookDrag.current.rx}deg)`
+    }
+    const onBookDown = (e) => {
+        const d = bookDrag.current
+        d.active = true
+        d.startX = e.clientX
+        d.startY = e.clientY
+        d.baseRy = d.ry
+        d.baseRx = d.rx
+        const el = bookRef.current
+        if (el) {
+            el.style.transition = 'none'
+            try { el.setPointerCapture(e.pointerId) } catch { /* ignore */ }
+        }
+    }
+    const onBookMove = (e) => {
+        const d = bookDrag.current
+        if (!d.active) return
+        d.ry = d.baseRy + (e.clientX - d.startX) * 0.4
+        d.rx = Math.max(-35, Math.min(35, d.baseRx - (e.clientY - d.startY) * 0.3))
+        applyBookTransform()
+    }
+    const onBookUp = () => {
+        const d = bookDrag.current
+        if (!d.active) return
+        d.active = false
+        const el = bookRef.current
+        if (el) el.style.transition = 'transform 0.5s cubic-bezier(0.22, 1, 0.36, 1)'
+    }
+    // Double-clic / double-tap : remettre le livre droit
+    const resetBook = () => {
+        const d = bookDrag.current
+        d.ry = -18
+        d.rx = 3
+        const el = bookRef.current
+        if (el) el.style.transition = 'transform 0.6s cubic-bezier(0.22, 1, 0.36, 1)'
+        applyBookTransform()
+    }
+
     const submitHeroSearch = (e) => {
         e.preventDefault()
         const q = heroSearch.trim()
@@ -277,9 +322,20 @@ function Hero() {
                 </div>
             </div>
 
-            {/* Visuel livre 3D a droite — desktop large uniquement */}
-            <div className="hero-visual" aria-hidden="true">
-                <div className="dictionary-book">
+            {/* Visuel livre 3D interactif (glisser pour tourner, double-clic pour redresser) */}
+            <div className="hero-visual">
+                <div
+                    className="dictionary-book hero-book"
+                    ref={bookRef}
+                    onPointerDown={onBookDown}
+                    onPointerMove={onBookMove}
+                    onPointerUp={onBookUp}
+                    onPointerLeave={onBookUp}
+                    onPointerCancel={onBookUp}
+                    onDoubleClick={resetBook}
+                    role="img"
+                    aria-label={t('dictionary.titleHighlight')}
+                >
                     <div className="book-spine"></div>
                     <div className="book-cover">
                         <div className="book-title">
