@@ -35,6 +35,16 @@ function Hero() {
     const navigate = useNavigate()
     const { settings } = useSettings()
     const [currentSlide, setCurrentSlide] = useState(0)
+    // Fond video : uniquement sur smartphone (<=768px), pas charge ailleurs.
+    const [isMobile, setIsMobile] = useState(() =>
+        typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches
+    )
+    useEffect(() => {
+        const mq = window.matchMedia('(max-width: 768px)')
+        const onChange = (e) => setIsMobile(e.matches)
+        mq.addEventListener('change', onChange)
+        return () => mq.removeEventListener('change', onChange)
+    }, [])
     // Fond video du hero : aleatoirement le zebu, le patre (gaynaako) ou le mouton.
     // ?v=2 = cache-busting (force le rechargement des versions 540px reorientees).
     const [heroBgVideo] = useState(() => {
@@ -222,19 +232,23 @@ function Hero() {
                 ))}
             </div>
 
-            {/* Fond video (zebu ou patre, aleatoire) : couvre tout le hero */}
-            <video
-                className="hero-bg-video"
-                src={heroBgVideo}
-                key={heroBgVideo}
-                autoPlay
-                loop
-                muted
-                playsInline
-                preload="metadata"
-                aria-hidden="true"
-            />
-            <div className="hero-bg-video-overlay" aria-hidden="true" />
+            {/* Fond video (zebu, patre ou mouton, aleatoire) : SMARTPHONE uniquement */}
+            {isMobile && (
+                <>
+                    <video
+                        className="hero-bg-video"
+                        src={heroBgVideo}
+                        key={heroBgVideo}
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        preload="metadata"
+                        aria-hidden="true"
+                    />
+                    <div className="hero-bg-video-overlay" aria-hidden="true" />
+                </>
+            )}
 
             <div className="hero-content">
                 <div className="hero-text">
