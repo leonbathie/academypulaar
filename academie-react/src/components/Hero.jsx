@@ -52,8 +52,8 @@ function Hero() {
         return vids[Math.floor(Math.random() * vids.length)]
     })
     const [heroSearch, setHeroSearch] = useState('')
-    // Affichage du livre 3D dans le hero (masque pour le moment — repasser a true pour le reafficher)
-    const showHeroBook = false
+    // Le livre 3D ne s'affiche que sur smartphone (cf. CSS .hero-visual <=768px)
+    const showHeroBook = true
     // Resultats en direct
     const [results, setResults] = useState([])
     const [searching, setSearching] = useState(false)
