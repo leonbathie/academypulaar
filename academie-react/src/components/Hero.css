@@ -82,7 +82,7 @@
 /* Video du zebu (alternative aleatoire au livre) — agrandie + transparente,
    melangee au fond pour un rendu integre (le ciel sombre se fond dans le hero). */
 .hero-video {
-    width: 460px;
+    width: 600px;
     max-width: 100%;
     height: auto;
     border-radius: 18px;
@@ -90,11 +90,13 @@
     display: block;
     opacity: 0.85;
     mix-blend-mode: screen;
+    /* Retourne horizontalement : le zebu est oriente vers la gauche */
+    transform: scaleX(-1);
 }
 
 @media (max-width: 768px) {
     .hero-video {
-        width: 320px;
+        width: 400px;
     }
 }
 
