@@ -70,15 +70,12 @@
     }
 }
 
-/* Voile leger par-dessus la video : laisse bien voir la video tout en
-   gardant assez de contraste pour le texte (degrade plus marque en bas). */
+/* Voile par-dessus la video (opacite d'origine) */
 .hero-bg-video-overlay {
     position: absolute;
     inset: 0;
     z-index: 2;
-    background:
-        linear-gradient(180deg, rgba(26, 26, 46, 0.35) 0%, rgba(26, 26, 46, 0.15) 35%, rgba(20, 10, 25, 0.55) 100%),
-        linear-gradient(135deg, rgba(26, 26, 46, 0.25) 0%, rgba(139, 41, 66, 0.25) 100%);
+    background: var(--gradient-hero);
 }
 
 
@@ -818,7 +815,7 @@
 @media (max-width: 768px) {
     .hero {
         min-height: 100svh;
-        justify-content: center;
+        justify-content: flex-end;
         overflow-x: hidden;
         overflow-y: visible;
     }
@@ -883,7 +880,7 @@
 @media (max-width: 480px) {
     .hero {
         min-height: 100svh;
-        justify-content: center;
+        justify-content: flex-end;
         overflow-x: hidden;
         overflow-y: visible;
     }
