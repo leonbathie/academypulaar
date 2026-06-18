@@ -35,8 +35,6 @@ function Hero() {
     const navigate = useNavigate()
     const { settings } = useSettings()
     const [currentSlide, setCurrentSlide] = useState(0)
-    // Visuel du hero : le zebu en arriere-plan par defaut
-    const [heroVisual] = useState('video')
     const [heroSearch, setHeroSearch] = useState('')
     // Resultats en direct
     const [results, setResults] = useState([])
@@ -216,22 +214,18 @@ function Hero() {
                 ))}
             </div>
 
-            {/* Fond video zebu (si tire au sort) : couvre tout le hero */}
-            {heroVisual === 'video' && (
-                <>
-                    <video
-                        className="hero-bg-video"
-                        src="/zebu.webm"
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
-                        preload="metadata"
-                        aria-hidden="true"
-                    />
-                    <div className="hero-bg-video-overlay" aria-hidden="true" />
-                </>
-            )}
+            {/* Fond video zebu : couvre tout le hero */}
+            <video
+                className="hero-bg-video"
+                src="/zebu.webm"
+                autoPlay
+                loop
+                muted
+                playsInline
+                preload="metadata"
+                aria-hidden="true"
+            />
+            <div className="hero-bg-video-overlay" aria-hidden="true" />
 
             <div className="hero-content">
                 <div className="hero-text">
@@ -341,39 +335,37 @@ function Hero() {
                 </div>
             </div>
 
-            {/* Livre 3D interactif (si tire au sort) : position initiale, a droite */}
-            {heroVisual === 'book' && (
-                <div className="hero-visual">
-                    <div
-                        className="dictionary-book hero-book"
-                        ref={bookRef}
-                        onPointerDown={onBookDown}
-                        onPointerMove={onBookMove}
-                        onPointerUp={onBookUp}
-                        onPointerLeave={onBookUp}
-                        onPointerCancel={onBookUp}
-                        onDoubleClick={resetBook}
-                        role="img"
-                        aria-label={t('dictionary.titleHighlight')}
-                    >
-                        <div className="book-spine"></div>
-                        <div className="book-cover">
-                            <div className="book-title">
-                                <span className="book-edition">1</span>
-                                <span className="book-name">{t('dictionary.titleHighlight')}</span>
-                                <span className="book-author">{t('common.siteName')}</span>
-                            </div>
-                            <div className="book-ornament">
-                                <svg viewBox="0 0 80 80" fill="none">
-                                    <circle cx="40" cy="40" r="35" stroke="currentColor" strokeWidth="1" />
-                                    <circle cx="40" cy="40" r="25" stroke="currentColor" strokeWidth="1" />
-                                    <path d="M40 10 L40 70 M10 40 L70 40" stroke="currentColor" strokeWidth="1" />
-                                </svg>
-                            </div>
+            {/* Livre 3D interactif : position initiale, a droite */}
+            <div className="hero-visual">
+                <div
+                    className="dictionary-book hero-book"
+                    ref={bookRef}
+                    onPointerDown={onBookDown}
+                    onPointerMove={onBookMove}
+                    onPointerUp={onBookUp}
+                    onPointerLeave={onBookUp}
+                    onPointerCancel={onBookUp}
+                    onDoubleClick={resetBook}
+                    role="img"
+                    aria-label={t('dictionary.titleHighlight')}
+                >
+                    <div className="book-spine"></div>
+                    <div className="book-cover">
+                        <div className="book-title">
+                            <span className="book-edition">1</span>
+                            <span className="book-name">{t('dictionary.titleHighlight')}</span>
+                            <span className="book-author">{t('common.siteName')}</span>
+                        </div>
+                        <div className="book-ornament">
+                            <svg viewBox="0 0 80 80" fill="none">
+                                <circle cx="40" cy="40" r="35" stroke="currentColor" strokeWidth="1" />
+                                <circle cx="40" cy="40" r="25" stroke="currentColor" strokeWidth="1" />
+                                <path d="M40 10 L40 70 M10 40 L70 40" stroke="currentColor" strokeWidth="1" />
+                            </svg>
                         </div>
                     </div>
                 </div>
-            )}
+            </div>
 
             <div className="hero-scroll">
                 <span>{t('hero.scroll')}</span>
