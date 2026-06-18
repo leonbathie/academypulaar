@@ -35,8 +35,8 @@ function Hero() {
     const navigate = useNavigate()
     const { settings } = useSettings()
     const [currentSlide, setCurrentSlide] = useState(0)
-    // Visuel du hero : aleatoirement le livre 3D ou la video du zebu
-    const [heroVisual] = useState(() => (Math.random() < 0.5 ? 'book' : 'video'))
+    // Visuel du hero : le zebu en arriere-plan par defaut
+    const [heroVisual] = useState('video')
     const [heroSearch, setHeroSearch] = useState('')
     // Resultats en direct
     const [results, setResults] = useState([])
