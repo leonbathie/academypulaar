@@ -804,7 +804,8 @@
 
 @media (max-width: 768px) {
     .hero {
-        min-height: auto;
+        min-height: 100svh;
+        justify-content: center;
         overflow-x: hidden;
         overflow-y: visible;
     }
@@ -868,7 +869,8 @@
 
 @media (max-width: 480px) {
     .hero {
-        min-height: auto;
+        min-height: 100svh;
+        justify-content: center;
         overflow-x: hidden;
         overflow-y: visible;
     }
