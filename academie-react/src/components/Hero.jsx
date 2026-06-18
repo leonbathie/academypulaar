@@ -35,9 +35,10 @@ function Hero() {
     const navigate = useNavigate()
     const { settings } = useSettings()
     const [currentSlide, setCurrentSlide] = useState(0)
-    // Fond video du hero : aleatoirement le zebu, le patre (gaynaako) ou le mouton
+    // Fond video du hero : aleatoirement le zebu, le patre (gaynaako) ou le mouton.
+    // ?v=2 = cache-busting (force le rechargement des versions 540px reorientees).
     const [heroBgVideo] = useState(() => {
-        const vids = ['/zebu.webm', '/gaynaako.webm', '/mouton.webm']
+        const vids = ['/zebu.webm?v=2', '/gaynaako.webm?v=2', '/mouton.webm?v=2']
         return vids[Math.floor(Math.random() * vids.length)]
     })
     const [heroSearch, setHeroSearch] = useState('')
