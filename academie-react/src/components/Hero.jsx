@@ -35,6 +35,8 @@ function Hero() {
     const navigate = useNavigate()
     const { settings } = useSettings()
     const [currentSlide, setCurrentSlide] = useState(0)
+    // Fond video du hero : aleatoirement le zebu ou le patre (gaynaako)
+    const [heroBgVideo] = useState(() => (Math.random() < 0.5 ? '/zebu.webm' : '/gaynaako.webm'))
     const [heroSearch, setHeroSearch] = useState('')
     // Affichage du livre 3D dans le hero (masque pour le moment — repasser a true pour le reafficher)
     const showHeroBook = false
@@ -216,10 +218,11 @@ function Hero() {
                 ))}
             </div>
 
-            {/* Fond video zebu : couvre tout le hero */}
+            {/* Fond video (zebu ou patre, aleatoire) : couvre tout le hero */}
             <video
                 className="hero-bg-video"
-                src="/zebu.webm"
+                src={heroBgVideo}
+                key={heroBgVideo}
                 autoPlay
                 loop
                 muted
