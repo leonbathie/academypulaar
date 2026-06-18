@@ -48,26 +48,6 @@
         var(--gradient-hero);
 }
 
-/* Visuel livre 3D du hero.
-   - Mobile (<=968px) : dans le flux, centre sous le contenu.
-   - Tablette (969-1199px) : masque (pas assez de place a cote du texte).
-   - Desktop (>=1200px) : absolu, a droite, centre verticalement. */
-/* Le livre 3D ne s'affiche QUE sur smartphone (<=768px), centre sous le contenu. */
-.hero-visual {
-    display: none;
-}
-
-@media (max-width: 768px) {
-    .hero-visual {
-        display: flex;
-        justify-content: center;
-        perspective: 1500px;
-        margin: var(--space-xl) 0 var(--space-sm);
-        position: relative;
-        z-index: 6;
-    }
-}
-
 /* Video du zebu en ARRIERE-PLAN PLEIN du hero (si tiree au sort).
    Couvre tout le hero ; le zebu est oriente vers la gauche (scaleX -1). */
 .hero-bg-video {
@@ -88,17 +68,6 @@
     background: var(--gradient-hero);
 }
 
-/* Livre interactif : glisser pour le faire tourner */
-.hero-book {
-    cursor: grab;
-    touch-action: none;
-    user-select: none;
-    -webkit-user-select: none;
-    will-change: transform;
-}
-.hero-book:active {
-    cursor: grabbing;
-}
 
 /* Content */
 .hero-content {
