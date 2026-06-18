@@ -191,11 +191,15 @@ function Hero() {
 
             <div className="hero-content">
                 <div className="hero-text">
-                    <span className="hero-badge">{t('common.since')}</span>
-                    <h1 className="hero-title">{t(slides[currentSlide].titleKey)}</h1>
-                    {slides[currentSlide].subtitleKey && (
-                        <p className="hero-subtitle">{t(slides[currentSlide].subtitleKey)}</p>
-                    )}
+                    <div className="hero-heading">
+                        <span className="hero-badge">{t('common.since')}</span>
+                        <h1 className="hero-title">{t(slides[currentSlide].titleKey)}</h1>
+                        {slides[currentSlide].subtitleKey && (
+                            <p className="hero-subtitle">{t(slides[currentSlide].subtitleKey)}</p>
+                        )}
+                    </div>
+                    {/* Bloc actions (recherche + boutons) — pousse en bas sur mobile */}
+                    <div className="hero-actions">
                     {/* Petite barre de recherche du dictionnaire, directement dans le Hero */}
                     <div className="hero-search-box" ref={searchBoxRef}>
                         <form className="hero-search" onSubmit={submitHeroSearch} role="search">
@@ -282,6 +286,7 @@ function Hero() {
                         <a href="#dictionnaire" className="btn btn-secondary">
                             {t('hero.consultDictionary')}
                         </a>
+                    </div>
                     </div>
                 </div>
 

@@ -815,21 +815,43 @@
 @media (max-width: 768px) {
     .hero {
         min-height: 100svh;
-        justify-content: flex-end;
+        justify-content: stretch;
         overflow-x: hidden;
         overflow-y: visible;
     }
 
+    /* hero-content remplit la hauteur : titre en haut, actions en bas,
+       la video (object-fit contain) reste visible au milieu. */
     .hero-content {
         padding: 0 var(--space-lg);
         align-items: center;
         text-align: center;
+        flex: 1 1 auto;
     }
 
     .hero-text {
         display: flex;
         flex-direction: column;
         align-items: center;
+        justify-content: space-between;
+        flex: 1 1 auto;
+        width: 100%;
+    }
+
+    .hero-heading {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: var(--space-md);
+    }
+
+    .hero-actions {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: var(--space-md);
     }
 
     .hero-badge {
@@ -880,7 +902,7 @@
 @media (max-width: 480px) {
     .hero {
         min-height: 100svh;
-        justify-content: flex-end;
+        justify-content: stretch;
         overflow-x: hidden;
         overflow-y: visible;
     }
