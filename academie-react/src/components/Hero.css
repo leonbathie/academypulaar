@@ -861,7 +861,8 @@
 
     .hero-buttons {
         flex-direction: column;
-        width: 100%;
+        width: auto;
+        align-items: center;
     }
 
     .btn {
@@ -869,6 +870,14 @@
         justify-content: center;
         padding: var(--space-sm) var(--space-lg);
         font-size: 0.9rem;
+    }
+
+    /* Boutons du hero : compacts (pas pleine largeur) */
+    .hero-buttons .btn {
+        width: auto;
+        min-width: 220px;
+        max-width: 100%;
+        padding: var(--space-sm) var(--space-2xl);
     }
 
     .hero-search-box {
