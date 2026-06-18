@@ -216,6 +216,23 @@ function Hero() {
                 ))}
             </div>
 
+            {/* Fond video zebu (si tire au sort) : couvre tout le hero */}
+            {heroVisual === 'video' && (
+                <>
+                    <video
+                        className="hero-bg-video"
+                        src="/zebu.webm"
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        preload="metadata"
+                        aria-hidden="true"
+                    />
+                    <div className="hero-bg-video-overlay" aria-hidden="true" />
+                </>
+            )}
+
             <div className="hero-content">
                 <div className="hero-text">
                     <span className="hero-badge">{t('common.since')}</span>
@@ -324,9 +341,9 @@ function Hero() {
                 </div>
             </div>
 
-            {/* Visuel du hero : aleatoirement le livre 3D interactif ou la video du zebu */}
-            <div className="hero-visual">
-                {heroVisual === 'book' ? (
+            {/* Livre 3D interactif (si tire au sort) : position initiale, a droite */}
+            {heroVisual === 'book' && (
+                <div className="hero-visual">
                     <div
                         className="dictionary-book hero-book"
                         ref={bookRef}
@@ -355,19 +372,8 @@ function Hero() {
                             </div>
                         </div>
                     </div>
-                ) : (
-                    <video
-                        className="hero-video"
-                        src="/zebu.webm"
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
-                        preload="metadata"
-                        aria-label="Zebu"
-                    />
-                )}
-            </div>
+                </div>
+            )}
 
             <div className="hero-scroll">
                 <span>{t('hero.scroll')}</span>

@@ -71,32 +71,32 @@
     .hero-visual {
         display: block;
         position: absolute;
-        right: 0;
-        bottom: 0;
+        right: 8%;
+        top: 50%;
+        transform: translateY(-50%);
         z-index: 6;
         perspective: 1500px;
     }
 }
 
-/* Video du zebu (alternative aleatoire au livre) — agrandie + transparente,
-   melangee au fond pour un rendu integre (le ciel sombre se fond dans le hero). */
-.hero-video {
-    width: 760px;
-    max-width: 100%;
-    height: auto;
-    border-radius: 18px;
+/* Video du zebu en ARRIERE-PLAN PLEIN du hero (si tiree au sort).
+   Couvre tout le hero ; le zebu est oriente vers la gauche (scaleX -1). */
+.hero-bg-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
-    display: block;
-    opacity: 0.85;
-    mix-blend-mode: screen;
-    /* Retourne horizontalement : le zebu est oriente vers la gauche */
+    z-index: 1;
     transform: scaleX(-1);
 }
 
-@media (max-width: 768px) {
-    .hero-video {
-        width: 460px;
-    }
+/* Voile par-dessus la video pour la lisibilite du texte (meme teinte que le hero) */
+.hero-bg-video-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background: var(--gradient-hero);
 }
 
 /* Livre interactif : glisser pour le faire tourner */
