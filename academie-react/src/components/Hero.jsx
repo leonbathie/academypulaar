@@ -36,6 +36,8 @@ function Hero() {
     const { settings } = useSettings()
     const [currentSlide, setCurrentSlide] = useState(0)
     const [heroSearch, setHeroSearch] = useState('')
+    // Affichage du livre 3D dans le hero (masque pour le moment — repasser a true pour le reafficher)
+    const showHeroBook = false
     // Resultats en direct
     const [results, setResults] = useState([])
     const [searching, setSearching] = useState(false)
@@ -335,7 +337,8 @@ function Hero() {
                 </div>
             </div>
 
-            {/* Livre 3D interactif : position initiale, a droite */}
+            {/* Livre 3D interactif : position initiale, a droite (masque pour le moment) */}
+            {showHeroBook && (
             <div className="hero-visual">
                 <div
                     className="dictionary-book hero-book"
@@ -366,6 +369,7 @@ function Hero() {
                     </div>
                 </div>
             </div>
+            )}
 
             <div className="hero-scroll">
                 <span>{t('hero.scroll')}</span>
