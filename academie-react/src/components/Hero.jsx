@@ -35,6 +35,8 @@ function Hero() {
     const navigate = useNavigate()
     const { settings } = useSettings()
     const [currentSlide, setCurrentSlide] = useState(0)
+    // Visuel du hero : aleatoirement le livre 3D ou la video du zebu
+    const [heroVisual] = useState(() => (Math.random() < 0.5 ? 'book' : 'video'))
     const [heroSearch, setHeroSearch] = useState('')
     // Resultats en direct
     const [results, setResults] = useState([])
@@ -322,36 +324,49 @@ function Hero() {
                 </div>
             </div>
 
-            {/* Visuel livre 3D interactif (glisser pour tourner, double-clic pour redresser) */}
+            {/* Visuel du hero : aleatoirement le livre 3D interactif ou la video du zebu */}
             <div className="hero-visual">
-                <div
-                    className="dictionary-book hero-book"
-                    ref={bookRef}
-                    onPointerDown={onBookDown}
-                    onPointerMove={onBookMove}
-                    onPointerUp={onBookUp}
-                    onPointerLeave={onBookUp}
-                    onPointerCancel={onBookUp}
-                    onDoubleClick={resetBook}
-                    role="img"
-                    aria-label={t('dictionary.titleHighlight')}
-                >
-                    <div className="book-spine"></div>
-                    <div className="book-cover">
-                        <div className="book-title">
-                            <span className="book-edition">1</span>
-                            <span className="book-name">{t('dictionary.titleHighlight')}</span>
-                            <span className="book-author">{t('common.siteName')}</span>
-                        </div>
-                        <div className="book-ornament">
-                            <svg viewBox="0 0 80 80" fill="none">
-                                <circle cx="40" cy="40" r="35" stroke="currentColor" strokeWidth="1" />
-                                <circle cx="40" cy="40" r="25" stroke="currentColor" strokeWidth="1" />
-                                <path d="M40 10 L40 70 M10 40 L70 40" stroke="currentColor" strokeWidth="1" />
-                            </svg>
+                {heroVisual === 'book' ? (
+                    <div
+                        className="dictionary-book hero-book"
+                        ref={bookRef}
+                        onPointerDown={onBookDown}
+                        onPointerMove={onBookMove}
+                        onPointerUp={onBookUp}
+                        onPointerLeave={onBookUp}
+                        onPointerCancel={onBookUp}
+                        onDoubleClick={resetBook}
+                        role="img"
+                        aria-label={t('dictionary.titleHighlight')}
+                    >
+                        <div className="book-spine"></div>
+                        <div className="book-cover">
+                            <div className="book-title">
+                                <span className="book-edition">1</span>
+                                <span className="book-name">{t('dictionary.titleHighlight')}</span>
+                                <span className="book-author">{t('common.siteName')}</span>
+                            </div>
+                            <div className="book-ornament">
+                                <svg viewBox="0 0 80 80" fill="none">
+                                    <circle cx="40" cy="40" r="35" stroke="currentColor" strokeWidth="1" />
+                                    <circle cx="40" cy="40" r="25" stroke="currentColor" strokeWidth="1" />
+                                    <path d="M40 10 L40 70 M10 40 L70 40" stroke="currentColor" strokeWidth="1" />
+                                </svg>
+                            </div>
                         </div>
                     </div>
-                </div>
+                ) : (
+                    <video
+                        className="hero-video"
+                        src="/zebu.webm"
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        preload="metadata"
+                        aria-label="Zebu"
+                    />
+                )}
             </div>
 
             <div className="hero-scroll">

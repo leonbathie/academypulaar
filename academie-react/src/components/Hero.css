@@ -79,6 +79,23 @@
     }
 }
 
+/* Video du zebu (alternative aleatoire au livre) */
+.hero-video {
+    width: 290px;
+    max-width: 100%;
+    height: auto;
+    border-radius: 16px;
+    box-shadow: 0 16px 50px rgba(0, 0, 0, 0.4);
+    object-fit: cover;
+    display: block;
+}
+
+@media (max-width: 768px) {
+    .hero-video {
+        width: 230px;
+    }
+}
+
 /* Livre interactif : glisser pour le faire tourner */
 .hero-book {
     cursor: grab;
