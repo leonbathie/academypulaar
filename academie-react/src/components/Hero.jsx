@@ -35,8 +35,11 @@ function Hero() {
     const navigate = useNavigate()
     const { settings } = useSettings()
     const [currentSlide, setCurrentSlide] = useState(0)
-    // Fond video du hero : aleatoirement le zebu ou le patre (gaynaako)
-    const [heroBgVideo] = useState(() => (Math.random() < 0.5 ? '/zebu.webm' : '/gaynaako.webm'))
+    // Fond video du hero : aleatoirement le zebu, le patre (gaynaako) ou le mouton
+    const [heroBgVideo] = useState(() => {
+        const vids = ['/zebu.webm', '/gaynaako.webm', '/mouton.webm']
+        return vids[Math.floor(Math.random() * vids.length)]
+    })
     const [heroSearch, setHeroSearch] = useState('')
     // Affichage du livre 3D dans le hero (masque pour le moment — repasser a true pour le reafficher)
     const showHeroBook = false
