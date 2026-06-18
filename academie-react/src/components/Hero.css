@@ -60,6 +60,16 @@
     transform: scaleX(-1);
 }
 
+/* Sur mobile (portrait), la video paysage serait rognee (sujet coupe).
+   object-fit: contain => la video s'affiche EN ENTIER ; les bandes
+   haut/bas prennent un fond sombre assorti a la scene nocturne. */
+@media (max-width: 968px) {
+    .hero-bg-video {
+        object-fit: contain;
+        background-color: #141021;
+    }
+}
+
 /* Voile leger par-dessus la video : laisse bien voir la video tout en
    gardant assez de contraste pour le texte (degrade plus marque en bas). */
 .hero-bg-video-overlay {
