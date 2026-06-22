@@ -140,15 +140,23 @@
 }
 
 .dire-page-label svg {
-    width: 18px;
-    height: 18px;
+    width: 13px;
+    height: 13px;
+    padding: 5px;
+    border-radius: 50%;
 }
 
 .dire-page-item--correct .dire-page-label {
     color: #16a34a;
 }
+.dire-page-item--correct .dire-page-label svg {
+    background: rgba(34, 197, 94, 0.12);
+}
 .dire-page-item--incorrect .dire-page-label {
     color: #dc2626;
+}
+.dire-page-item--incorrect .dire-page-label svg {
+    background: rgba(239, 68, 68, 0.12);
 }
 
 .dire-page-text {
@@ -299,15 +307,16 @@
 .dire-share-btn {
     display: inline-flex;
     align-items: center;
-    gap: 0.4rem;
-    padding: 0.4rem 0.85rem;
-    border: 1px solid var(--light-gray);
+    gap: 0.45rem;
+    padding: 0.45rem 1rem;
+    border: 1px solid rgba(212, 165, 55, 0.45);
     border-radius: var(--radius-full);
-    background: var(--white);
-    color: var(--medium-gray);
+    background: rgba(212, 165, 55, 0.08);
+    color: var(--gold-dark);
     font-family: var(--font-body);
-    font-size: 0.8rem;
-    font-weight: 600;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
     cursor: pointer;
     transition: all 0.25s ease;
 }
@@ -316,12 +325,13 @@
     height: 16px;
 }
 .dire-share-btn:hover {
-    color: var(--gold-dark);
+    color: var(--primary-dark);
     border-color: var(--primary-gold);
-    background: rgba(212, 165, 55, 0.1);
+    background: var(--primary-gold);
+    box-shadow: var(--shadow-gold);
 }
 .dire-share-copied {
-    color: #22c55e;
+    color: #16a34a;
     font-weight: 700;
 }
 
@@ -353,14 +363,15 @@
 }
 
 [data-theme="dark"] .dire-share-btn {
-    background: rgba(255, 255, 255, 0.05);
-    border-color: rgba(255, 255, 255, 0.12);
-    color: rgba(255, 255, 255, 0.7);
+    background: rgba(212, 165, 55, 0.12);
+    border-color: rgba(212, 165, 55, 0.45);
+    color: var(--primary-gold);
 }
 [data-theme="dark"] .dire-share-btn:hover {
-    color: var(--primary-gold);
+    color: var(--primary-dark);
     border-color: var(--primary-gold);
-    background: rgba(212, 165, 55, 0.14);
+    background: var(--primary-gold);
+    box-shadow: none;
 }
 
 /* ============================================

@@ -131,6 +131,13 @@ function DireNePasDirePage() {
         canvas.height = H
         const ctx = canvas.getContext('2d')
         try { await document.fonts.ready } catch { /* polices systeme */ }
+        const loadImage = (src) => new Promise((resolve) => {
+            const im = new Image()
+            im.onload = () => resolve(im)
+            im.onerror = () => resolve(null)
+            im.src = src
+        })
+        const logo = await loadImage('/logo-academie.png')
 
         // Fond + cadre + filet dore
         ctx.fillStyle = '#FDF8F0'
@@ -145,7 +152,7 @@ function DireNePasDirePage() {
 
         const cx = W / 2
         const maxW = W - 280
-        let y = 150
+        let y = 120
 
         const diamonds = (yy) => {
             ctx.save()
@@ -158,13 +165,23 @@ function DireNePasDirePage() {
             ctx.restore()
         }
 
+        // Logo en haut, centre
+        if (logo && logo.width) {
+            const lw = 130
+            const lh = logo.height * (lw / logo.width)
+            ctx.drawImage(logo, cx - lw / 2, y, lw, lh)
+            y += lh + 28
+        } else {
+            y = 150
+        }
+
         ctx.textAlign = 'center'
         ctx.fillStyle = '#B8860B'
         ctx.font = '700 28px "Source Sans Pro", Arial, sans-serif'
         ctx.fillText('GOOMU FULO E WIƊTO', cx, y)
-        y += 46
+        y += 44
         diamonds(y)
-        y += 80
+        y += 78
 
         const drawBlock = (label, labelColor, value, strike, valueColor) => {
             ctx.textAlign = 'center'
