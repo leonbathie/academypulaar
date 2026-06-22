@@ -1,5 +1,5 @@
 /* ============================================
-   DIRE NE PAS DIRE PAGE STYLES
+   DIRE / NE PAS DIRE — Page (design soigne)
    ============================================ */
 
 .dire-page {
@@ -7,29 +7,48 @@
     padding-bottom: var(--space-3xl);
 }
 
+/* ── En-tete : hero sombre elegant ── */
 .dire-page-header {
-    background: var(--cream);
-    padding: var(--space-3xl) 0 var(--space-2xl);
-    margin-bottom: var(--space-2xl);
+    position: relative;
     text-align: center;
-    border-bottom: 2px solid var(--primary-gold);
+    padding: var(--space-3xl) var(--space-lg) calc(var(--space-3xl) + var(--space-md));
+    margin-bottom: var(--space-3xl);
+    background:
+        radial-gradient(80% 120% at 50% -10%, rgba(212, 165, 55, 0.18) 0%, transparent 60%),
+        linear-gradient(160deg, #1A1A2E 0%, #16213E 100%);
+    overflow: hidden;
+}
+.dire-page-header::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 4px;
+    border-radius: 4px 4px 0 0;
+    background: var(--gradient-gold);
 }
 
 .dire-page-header .page-title {
-    color: var(--dark-gray);
-    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    color: var(--white);
+    font-size: clamp(2rem, 4.5vw, 3rem);
+    line-height: 1.15;
     margin-bottom: var(--space-md);
+}
+.dire-page-header .page-title .gold-accent {
+    color: var(--primary-gold);
 }
 
 .dire-page-header .page-subtitle {
-    color: var(--medium-gray);
-    font-size: 1.1rem;
-    max-width: 600px;
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 1.12rem;
+    max-width: 640px;
     margin: 0 auto;
-    line-height: 1.7;
+    line-height: 1.75;
 }
 
-/* Filtres */
+/* ── Filtres par categorie ── */
 .dire-page-filters {
     display: flex;
     flex-wrap: wrap;
@@ -39,108 +58,174 @@
 }
 
 .dire-filter-btn {
-    padding: 0.5rem 1.2rem;
-    border: 2px solid var(--primary-gold);
+    padding: 0.55rem 1.3rem;
+    border: 1px solid var(--light-gray);
     border-radius: var(--radius-full);
-    background: transparent;
-    color: var(--accent-forest);
+    background: var(--white);
+    color: var(--dark-gray);
     font-weight: 600;
     font-size: 0.9rem;
     cursor: pointer;
-    transition: all 0.3s ease;
+    box-shadow: var(--shadow-sm);
+    transition: all var(--transition-base);
 }
 
-.dire-filter-btn:hover,
+.dire-filter-btn:hover {
+    border-color: var(--primary-gold);
+    color: var(--gold-dark);
+    transform: translateY(-1px);
+}
+
 .dire-filter-btn.active {
-    background: var(--primary-gold);
-    color: white;
+    background: var(--gradient-gold);
+    border-color: transparent;
+    color: var(--primary-dark);
+    box-shadow: var(--shadow-gold);
 }
 
-/* Grille de cartes */
+/* ── Grille de cartes ── */
 .dire-page-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
     gap: var(--space-xl);
 }
 
-/* Carte */
 .dire-page-card {
+    display: flex;
+    flex-direction: column;
     background: var(--white);
-    border-radius: var(--radius-lg);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid var(--light-gray);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-md);
     overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base);
 }
 
 .dire-page-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-xl);
+    border-color: rgba(212, 165, 55, 0.45);
 }
 
 .dire-page-card-header {
     padding: var(--space-md) var(--space-lg);
-    background: var(--cream);
     border-bottom: 1px solid var(--light-gray);
 }
 
 .dire-page-category {
-    font-size: 0.8rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.35rem 0.85rem;
+    font-size: 0.74rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--primary-gold);
+    letter-spacing: 0.08em;
+    border-radius: var(--radius-full);
+    color: var(--gold-dark);
+    background: rgba(212, 165, 55, 0.14);
+}
+.dire-page-category::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
 }
 
 .dire-page-card-body {
     padding: var(--space-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    flex: 1;
 }
 
+/* ── Blocs On dit / On ne dit pas ── */
 .dire-page-item {
-    margin-bottom: var(--space-lg);
+    position: relative;
+    padding: var(--space-md) var(--space-lg);
+    border-radius: var(--radius-md);
+    border: 1px solid transparent;
 }
 
-.dire-page-item:last-child {
-    margin-bottom: 0;
+.dire-page-item--correct {
+    background: rgba(45, 90, 74, 0.07);
+    border-color: rgba(45, 90, 74, 0.18);
+}
+
+.dire-page-item--incorrect {
+    background: rgba(139, 41, 66, 0.06);
+    border-color: rgba(139, 41, 66, 0.16);
 }
 
 .dire-page-label {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     gap: 0.5rem;
     font-weight: 700;
-    font-size: 0.85rem;
+    font-size: 0.78rem;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: var(--space-xs);
+    letter-spacing: 0.06em;
+    margin-bottom: var(--space-sm);
 }
 
 .dire-page-label svg {
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
+    padding: 3px;
+    border-radius: 50%;
+    color: var(--white);
 }
 
 .dire-page-item--correct .dire-page-label {
-    color: #22c55e;
+    color: var(--accent-forest);
+}
+.dire-page-item--correct .dire-page-label svg {
+    background: var(--accent-forest);
 }
 
 .dire-page-item--incorrect .dire-page-label {
-    color: #ef4444;
+    color: var(--secondary-burgundy);
+}
+.dire-page-item--incorrect .dire-page-label svg {
+    background: var(--secondary-burgundy);
 }
 
 .dire-page-text {
-    font-size: 1.1rem;
-    font-weight: 500;
+    font-size: 1.12rem;
+    font-weight: 600;
     color: var(--dark-gray);
-    line-height: 1.6;
-    padding-left: 1.6rem;
+    line-height: 1.55;
 }
 
+.dire-page-item--incorrect .dire-page-text {
+    text-decoration: line-through;
+    text-decoration-color: rgba(139, 41, 66, 0.5);
+    text-decoration-thickness: 2px;
+    color: var(--medium-gray);
+    font-weight: 500;
+}
+
+/* ── Explication ── */
 .dire-page-explanation {
+    display: flex;
+    gap: var(--space-sm);
+    align-items: flex-start;
     background: var(--cream);
+    border: 1px solid var(--light-gray);
     border-left: 3px solid var(--primary-gold);
     padding: var(--space-md) var(--space-lg);
     border-radius: 0 var(--radius-md) var(--radius-md) 0;
-    margin-top: var(--space-md);
+    margin-top: auto;
+}
+
+.dire-explanation-icon {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    margin-top: 2px;
+    color: var(--primary-gold);
 }
 
 .dire-page-explanation p {
@@ -150,7 +235,7 @@
     margin: 0;
 }
 
-/* Empty state */
+/* ── Etat vide ── */
 .dire-page-empty {
     text-align: center;
     padding: var(--space-3xl) var(--space-xl);
@@ -174,7 +259,7 @@
     font-size: 1rem;
 }
 
-/* Loading */
+/* ── Chargement ── */
 .dire-page-loading {
     text-align: center;
     padding: var(--space-3xl) 0;
@@ -194,44 +279,75 @@
     to { transform: rotate(360deg); }
 }
 
-/* Responsive */
+/* ── Responsive ── */
 @media (max-width: 768px) {
     .dire-page-grid {
         grid-template-columns: 1fr;
     }
-
     .dire-page-header {
-        padding: var(--space-2xl) 0 var(--space-xl);
+        padding: var(--space-2xl) var(--space-md) calc(var(--space-2xl) + var(--space-sm));
+        margin-bottom: var(--space-2xl);
+    }
+    .dire-page-text {
+        font-size: 1.05rem;
     }
 }
 
-/* Dark Mode */
+/* ── Mode sombre ── */
+[data-theme="dark"] .dire-filter-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.12);
+    color: rgba(255, 255, 255, 0.85);
+    box-shadow: none;
+}
+[data-theme="dark"] .dire-filter-btn:hover {
+    border-color: var(--primary-gold);
+    color: var(--primary-gold);
+}
+[data-theme="dark"] .dire-filter-btn.active {
+    color: var(--primary-dark);
+}
+
 [data-theme="dark"] .dire-page-card {
     background: #1E1E2F;
+    border-color: rgba(255, 255, 255, 0.08);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
-
 [data-theme="dark"] .dire-page-card:hover {
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+    border-color: rgba(212, 165, 55, 0.4);
 }
-
 [data-theme="dark"] .dire-page-card-header {
-    background: #16162A;
-    border-bottom-color: #2A2A3E;
+    border-bottom-color: rgba(255, 255, 255, 0.08);
 }
 
-[data-theme="dark"] .dire-page-card-body {
-    background: #1E1E2F;
+[data-theme="dark"] .dire-page-item--correct {
+    background: rgba(139, 196, 169, 0.1);
+    border-color: rgba(139, 196, 169, 0.2);
 }
-
+[data-theme="dark"] .dire-page-item--incorrect {
+    background: rgba(232, 160, 168, 0.08);
+    border-color: rgba(232, 160, 168, 0.2);
+}
+[data-theme="dark"] .dire-page-item--correct .dire-page-label {
+    color: #8BC4A9;
+}
+[data-theme="dark"] .dire-page-item--incorrect .dire-page-label {
+    color: #E8A0A8;
+}
 [data-theme="dark"] .dire-page-text {
     color: #E8E6E1;
+}
+[data-theme="dark"] .dire-page-item--incorrect .dire-page-text {
+    color: #9A9A9A;
+    text-decoration-color: rgba(232, 160, 168, 0.5);
 }
 
 [data-theme="dark"] .dire-page-explanation {
     background: #16162A;
+    border-color: rgba(255, 255, 255, 0.08);
+    border-left-color: var(--primary-gold);
 }
-
 [data-theme="dark"] .dire-page-explanation p {
     color: #B0B0B0;
 }
