@@ -94,6 +94,21 @@ function News() {
 
     const displayItems = ordered.filter(hasLangText)
 
+    // Pour chaque actualite, on choisit UNE image au hasard parmi sa galerie.
+    // Recalcule au chargement des donnees -> nouvelle image a chaque visite.
+    const randomImages = useMemo(() => {
+        const map = {}
+        newsItems.forEach((it) => {
+            const gallery = (it.images && it.images.length)
+                ? it.images
+                : (it.image ? [it.image] : [])
+            map[it.id] = gallery.length
+                ? gallery[Math.floor(Math.random() * gallery.length)]
+                : null
+        })
+        return map
+    }, [newsItems])
+
     // Ne pas afficher la section s'il n'y a aucune actualite a montrer dans la
     // langue courante (rien de publie, ou rien de traduit dans cette langue) :
     // un bloc vide donne une impression d'abandon.
@@ -125,14 +140,16 @@ function News() {
                     </div>
                 ) : (
                     <div className="news-list">
-                        {displayItems.map((item) => (
+                        {displayItems.map((item) => {
+                            const img = randomImages[item.id]
+                            return (
                             <article
                                 key={item.id}
-                                className={`news-row news-row--${item.type || 'default'}${item.image ? '' : ' news-row--noimg'}`}
+                                className={`news-row news-row--${item.type || 'default'}${img ? '' : ' news-row--noimg'}`}
                             >
-                                {item.image && (
+                                {img && (
                                     <div className="news-row-img">
-                                        <img src={`${API_URL}${item.image}`} alt={getTitle(item)} />
+                                        <img src={`${API_URL}${img}`} alt={getTitle(item)} />
                                     </div>
                                 )}
                                 <div className="news-row-body">
@@ -168,7 +185,8 @@ function News() {
                                     )}
                                 </div>
                             </article>
-                        ))}
+                            )
+                        })}
                     </div>
                 )}
             </div>

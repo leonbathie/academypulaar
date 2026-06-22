@@ -4,6 +4,24 @@ import { useApi } from '../../context/AuthContext'
 import { API_URL } from '../../config'
 import ConfirmDialog from '../../components/ConfirmDialog'
 
+const removeBtnStyle = {
+    position: 'absolute',
+    top: '4px',
+    right: '4px',
+    width: '22px',
+    height: '22px',
+    borderRadius: '50%',
+    background: 'rgba(0,0,0,0.6)',
+    color: '#fff',
+    border: 'none',
+    cursor: 'pointer',
+    fontSize: '1rem',
+    lineHeight: '1',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
+}
+
 function NewsAdmin() {
     const { t, i18n } = useTranslation()
     const { apiRequest, token } = useApi()
@@ -13,8 +31,9 @@ function NewsAdmin() {
     const [showModal, setShowModal] = useState(false)
     const [editingNews, setEditingNews] = useState(null)
     const [activeTab, setActiveTab] = useState('fr')
-    const [imagePreview, setImagePreview] = useState(null)
-    const [selectedImage, setSelectedImage] = useState(null)
+    // Galerie multi-images : URLs deja stockees a conserver + nouveaux fichiers
+    const [keptImages, setKeptImages] = useState([])
+    const [newImages, setNewImages] = useState([]) // [{ file, preview }]
     const fileInputRef = useRef(null)
     const [confirmDialog, setConfirmDialog] = useState({ open: false, title: '', message: '', onConfirm: null })
     const closeConfirm = useCallback(() => setConfirmDialog(prev => ({ ...prev, open: false })), [])
@@ -73,7 +92,7 @@ function NewsAdmin() {
                 contact_email: item.contact_email || '',
                 contact_phone: item.contact_phone || ''
             })
-            setImagePreview(item.image ? `${API_URL}${item.image}` : null)
+            setKeptImages(item.images?.length ? item.images : (item.image ? [item.image] : []))
         } else {
             setEditingNews(null)
             setFormData({
@@ -94,9 +113,9 @@ function NewsAdmin() {
                 contact_email: '',
                 contact_phone: ''
             })
-            setImagePreview(null)
+            setKeptImages([])
         }
-        setSelectedImage(null)
+        setNewImages([])
         setActiveTab('fr')
         setShowModal(true)
     }
@@ -104,21 +123,24 @@ function NewsAdmin() {
     const closeModal = () => {
         setShowModal(false)
         setEditingNews(null)
-        setImagePreview(null)
-        setSelectedImage(null)
+        setKeptImages([])
+        setNewImages([])
     }
 
-    const handleImageChange = (e) => {
-        const file = e.target.files[0]
-        if (file) {
-            setSelectedImage(file)
+    const handleImagesAdd = (e) => {
+        const files = Array.from(e.target.files || [])
+        files.forEach(file => {
             const reader = new FileReader()
             reader.onloadend = () => {
-                setImagePreview(reader.result)
+                setNewImages(prev => [...prev, { file, preview: reader.result }])
             }
             reader.readAsDataURL(file)
-        }
+        })
+        e.target.value = '' // autorise la re-selection du meme fichier
     }
+
+    const removeKeptImage = (url) => setKeptImages(prev => prev.filter(u => u !== url))
+    const removeNewImage = (idx) => setNewImages(prev => prev.filter((_, i) => i !== idx))
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -130,12 +152,9 @@ function NewsAdmin() {
                 formDataToSend.append(key, formData[key])
             })
 
-            // Ajouter l'image si sélectionnée
-            if (selectedImage) {
-                formDataToSend.append('image', selectedImage)
-            } else if (editingNews?.image) {
-                formDataToSend.append('existingImage', editingNews.image)
-            }
+            // Galerie : images conservees (URLs) + nouveaux fichiers
+            formDataToSend.append('existingImages', JSON.stringify(keptImages))
+            newImages.forEach(item => formDataToSend.append('images', item.file))
 
             const url = editingNews
                 ? `${API_URL}/api/news/${editingNews.id}`
@@ -277,36 +296,49 @@ function NewsAdmin() {
                         </div>
                         <form onSubmit={handleSubmit} className="modal-form">
                             <div className="modal-body">
-                                {/* Image upload */}
+                                {/* Galerie d'images (plusieurs, affichage aleatoire cote site) */}
                                 <div className="form-group">
                                     <label>{t('admin.news.coverLabel')}</label>
-                                    <div
-                                        onClick={() => fileInputRef.current?.click()}
-                                        style={{
-                                            width: '100%',
-                                            height: '150px',
-                                            borderRadius: '8px',
-                                            background: imagePreview ? `url(${imagePreview}) center/cover` : 'var(--light-gray)',
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            justifyContent: 'center',
-                                            cursor: 'pointer',
-                                            border: '2px dashed var(--medium-gray)',
-                                            transition: 'all 0.3s'
-                                        }}
-                                    >
-                                        {!imagePreview && (
-                                            <div style={{ textAlign: 'center', color: 'var(--medium-gray)' }}>
-                                                <span style={{ fontSize: '2rem', display: 'block' }}>🖼️</span>
-                                                <span>{t('admin.news.clickToAddImage')}</span>
+                                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(110px, 1fr))', gap: '0.6rem' }}>
+                                        {keptImages.map((url) => (
+                                            <div key={url} style={{ position: 'relative', height: '90px', borderRadius: '8px', overflow: 'hidden', border: '1px solid var(--light-gray)' }}>
+                                                <img src={`${API_URL}${url}`} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                                <button type="button" onClick={() => removeKeptImage(url)} aria-label="Retirer" style={removeBtnStyle}>×</button>
                                             </div>
-                                        )}
+                                        ))}
+                                        {newImages.map((item, idx) => (
+                                            <div key={`new-${idx}`} style={{ position: 'relative', height: '90px', borderRadius: '8px', overflow: 'hidden', border: '1px solid var(--primary-gold)' }}>
+                                                <img src={item.preview} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                                <button type="button" onClick={() => removeNewImage(idx)} aria-label="Retirer" style={removeBtnStyle}>×</button>
+                                            </div>
+                                        ))}
+                                        <button
+                                            type="button"
+                                            onClick={() => fileInputRef.current?.click()}
+                                            style={{
+                                                height: '90px',
+                                                borderRadius: '8px',
+                                                background: 'var(--light-gray)',
+                                                cursor: 'pointer',
+                                                border: '2px dashed var(--medium-gray)',
+                                                color: 'var(--medium-gray)',
+                                                display: 'flex',
+                                                flexDirection: 'column',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                                gap: '0.2rem'
+                                            }}
+                                        >
+                                            <span style={{ fontSize: '1.6rem' }}>＋</span>
+                                            <span style={{ fontSize: '0.75rem' }}>{t('admin.news.clickToAddImage')}</span>
+                                        </button>
                                     </div>
                                     <input
                                         ref={fileInputRef}
                                         type="file"
                                         accept="image/*"
-                                        onChange={handleImageChange}
+                                        multiple
+                                        onChange={handleImagesAdd}
                                         style={{ display: 'none' }}
                                     />
                                 </div>

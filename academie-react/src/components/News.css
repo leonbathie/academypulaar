@@ -379,9 +379,29 @@
    RESPONSIVE
    ============================================ */
 
+/* Appareils tactiles (smartphones, tablettes) : pas de scroll interne a
+   hauteur fixe (il entre en conflit avec le scroll de page et "ne passe pas").
+   La carte s'agrandit pour afficher tout le texte, on fait defiler la page. */
+@media (hover: none), (pointer: coarse) {
+    .news-row {
+        height: auto;
+        grid-template-rows: auto;
+    }
+    .news-row-body {
+        height: auto;
+    }
+    .news-row-content {
+        overflow-y: visible;
+        -webkit-mask-image: none;
+        mask-image: none;
+        padding-right: 0;
+    }
+}
+
 @media (max-width: 900px) {
     .news-row {
         grid-template-columns: 1fr;
+        grid-template-rows: auto;
         height: auto;
     }
     .news-row-img {

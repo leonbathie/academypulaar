@@ -174,6 +174,7 @@ async function initDatabase() {
                 date DATE DEFAULT CURRENT_DATE,
                 published BOOLEAN DEFAULT true,
                 image VARCHAR(255),
+                images TEXT,
                 link VARCHAR(500),
                 contact_email VARCHAR(255),
                 contact_phone VARCHAR(50),
@@ -195,6 +196,7 @@ async function initDatabase() {
             'ALTER TABLE news ADD COLUMN IF NOT EXISTS content_en TEXT',
             'ALTER TABLE news ADD COLUMN IF NOT EXISTS content_ff TEXT',
             'ALTER TABLE news ADD COLUMN IF NOT EXISTS image VARCHAR(255)',
+            'ALTER TABLE news ADD COLUMN IF NOT EXISTS images TEXT',
             'ALTER TABLE news ADD COLUMN IF NOT EXISTS link VARCHAR(500)',
             'ALTER TABLE news ADD COLUMN IF NOT EXISTS contact_email VARCHAR(255)',
             'ALTER TABLE news ADD COLUMN IF NOT EXISTS contact_phone VARCHAR(50)'

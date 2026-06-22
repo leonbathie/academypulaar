@@ -32,6 +32,20 @@ const upload = multer({
     }
 })
 
+// La colonne `images` stocke un tableau JSON de chemins. On normalise toujours
+// vers un vrai tableau cote API, en retombant sur l'image unique historique.
+function parseImages(row) {
+    let images = []
+    if (row.images) {
+        try {
+            const parsed = JSON.parse(row.images)
+            if (Array.isArray(parsed)) images = parsed.filter(Boolean)
+        } catch { /* valeur non-JSON : on ignore */ }
+    }
+    if (images.length === 0 && row.image) images = [row.image]
+    return { ...row, images }
+}
+
 // GET /api/news - Récupérer toutes les actualités
 router.get('/', async (req, res) => {
     try {
@@ -65,7 +79,7 @@ router.get('/', async (req, res) => {
         }
 
         const result = await query(sql, params)
-        res.json(result.rows)
+        res.json(result.rows.map(parseImages))
 
     } catch (error) {
         console.error('Get news error:', error)
@@ -82,7 +96,7 @@ router.get('/:id', validateId, async (req, res) => {
             return res.status(404).json({ error: 'Actualité non trouvée' })
         }
 
-        res.json(result.rows[0])
+        res.json(parseImages(result.rows[0]))
     } catch (error) {
         console.error('Get news item error:', error)
         res.status(500).json({ error: 'Erreur serveur' })
@@ -90,7 +104,7 @@ router.get('/:id', validateId, async (req, res) => {
 })
 
 // POST /api/news - Ajouter une actualité (Admin only)
-router.post('/', authMiddleware, canWrite, upload.single('image'), async (req, res) => {
+router.post('/', authMiddleware, canWrite, upload.array('images', 10), async (req, res) => {
     try {
         const {
             title, title_fr, title_en, title_ff,
@@ -104,15 +118,16 @@ router.post('/', authMiddleware, canWrite, upload.single('image'), async (req, r
             return res.status(400).json({ error: 'Le titre est requis' })
         }
 
-        const image = req.file ? `/uploads/${req.file.filename}` : null
+        const images = (req.files || []).map(f => `/uploads/${f.filename}`)
+        const image = images[0] || null
 
         const result = await query(
-            `INSERT INTO news (title, title_fr, title_en, title_ff, excerpt, excerpt_fr, excerpt_en, excerpt_ff, content, content_fr, content_en, content_ff, category, type, date, published, image, link, contact_email, contact_phone)
-             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20) RETURNING *`,
-            [title || title_fr, title_fr, title_en, title_ff, excerpt, excerpt_fr, excerpt_en, excerpt_ff, content, content_fr, content_en, content_ff, category, type, date || new Date(), published !== 'false', image, link, contact_email, contact_phone]
+            `INSERT INTO news (title, title_fr, title_en, title_ff, excerpt, excerpt_fr, excerpt_en, excerpt_ff, content, content_fr, content_en, content_ff, category, type, date, published, image, images, link, contact_email, contact_phone)
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21) RETURNING *`,
+            [title || title_fr, title_fr, title_en, title_ff, excerpt, excerpt_fr, excerpt_en, excerpt_ff, content, content_fr, content_en, content_ff, category, type, date || new Date(), published !== 'false', image, JSON.stringify(images), link, contact_email, contact_phone]
         )
 
-        res.status(201).json(result.rows[0])
+        res.status(201).json(parseImages(result.rows[0]))
 
     } catch (error) {
         console.error('Add news error:', error)
@@ -121,47 +136,52 @@ router.post('/', authMiddleware, canWrite, upload.single('image'), async (req, r
 })
 
 // PUT /api/news/:id - Modifier une actualité (Admin only)
-router.put('/:id', authMiddleware, canWrite, validateId, upload.single('image'), async (req, res) => {
+router.put('/:id', authMiddleware, canWrite, validateId, upload.array('images', 10), async (req, res) => {
     try {
         const {
             title, title_fr, title_en, title_ff,
             excerpt, excerpt_fr, excerpt_en, excerpt_ff,
             content, content_fr, content_en, content_ff,
             category, type, date, published,
-            link, contact_email, contact_phone
+            link, contact_email, contact_phone, existingImages
         } = req.body
 
-        // Récupérer l'ancienne image pour nettoyage
-        const existing = await query('SELECT image FROM news WHERE id = $1', [req.params.id])
-        const oldImage = existing.rows[0]?.image
-
-        let image = existing.rows[0]?.image || null
-        if (req.file) {
-            image = `/uploads/${req.file.filename}`
-        }
-
-        const result = await query(
-            `UPDATE news 
-             SET title = $1, title_fr = $2, title_en = $3, title_ff = $4, 
-                 excerpt = $5, excerpt_fr = $6, excerpt_en = $7, excerpt_ff = $8,
-                 content = $9, content_fr = $10, content_en = $11, content_ff = $12,
-                 category = $13, type = $14, date = $15, published = $16, image = $17,
-                 link = $18, contact_email = $19, contact_phone = $20, updated_at = CURRENT_TIMESTAMP
-             WHERE id = $21 RETURNING *`,
-            [title || title_fr, title_fr, title_en, title_ff, excerpt, excerpt_fr, excerpt_en, excerpt_ff, content, content_fr, content_en, content_ff, category, type, date, published !== 'false', image, link, contact_email, contact_phone, req.params.id]
-        )
-
-        if (result.rows.length === 0) {
+        // Anciennes images (pour nettoyer celles qui ont ete retirees)
+        const existing = await query('SELECT image, images FROM news WHERE id = $1', [req.params.id])
+        if (existing.rows.length === 0) {
             return res.status(404).json({ error: 'Actualité non trouvée' })
         }
+        const oldImages = parseImages(existing.rows[0]).images
 
-        // Supprimer l'ancienne image si remplacée
-        if (req.file && oldImage) {
-            const oldPath = path.join(__dirname, '..', oldImage)
-            if (fs.existsSync(oldPath)) fs.unlink(oldPath, () => {})
+        // Images conservees (envoyees par l'admin) + nouvelles televersees
+        let kept = []
+        try {
+            const parsed = JSON.parse(existingImages || '[]')
+            if (Array.isArray(parsed)) kept = parsed.filter(Boolean)
+        } catch { /* champ absent/invalide : aucune conservee */ }
+        const uploaded = (req.files || []).map(f => `/uploads/${f.filename}`)
+        const images = [...kept, ...uploaded]
+        const image = images[0] || null
+
+        const result = await query(
+            `UPDATE news
+             SET title = $1, title_fr = $2, title_en = $3, title_ff = $4,
+                 excerpt = $5, excerpt_fr = $6, excerpt_en = $7, excerpt_ff = $8,
+                 content = $9, content_fr = $10, content_en = $11, content_ff = $12,
+                 category = $13, type = $14, date = $15, published = $16, image = $17, images = $18,
+                 link = $19, contact_email = $20, contact_phone = $21, updated_at = CURRENT_TIMESTAMP
+             WHERE id = $22 RETURNING *`,
+            [title || title_fr, title_fr, title_en, title_ff, excerpt, excerpt_fr, excerpt_en, excerpt_ff, content, content_fr, content_en, content_ff, category, type, date, published !== 'false', image, JSON.stringify(images), link, contact_email, contact_phone, req.params.id]
+        )
+
+        // Supprimer du disque les images retirees
+        const removed = oldImages.filter(img => !images.includes(img))
+        for (const img of removed) {
+            const p = path.join(__dirname, '..', img)
+            if (fs.existsSync(p)) fs.unlink(p, () => {})
         }
 
-        res.json(result.rows[0])
+        res.json(parseImages(result.rows[0]))
 
     } catch (error) {
         console.error('Update news error:', error)
@@ -178,10 +198,10 @@ router.delete('/:id', authMiddleware, requireRole('admin'), validateId, async (r
             return res.status(404).json({ error: 'Actualité non trouvée' })
         }
 
-        // Supprimer l'image associée du disque
-        const newsItem = result.rows[0]
-        if (newsItem.image) {
-            const imagePath = path.join(__dirname, '..', newsItem.image)
+        // Supprimer toutes les images associées du disque
+        const newsItem = parseImages(result.rows[0])
+        for (const img of newsItem.images) {
+            const imagePath = path.join(__dirname, '..', img)
             if (fs.existsSync(imagePath)) fs.unlink(imagePath, () => {})
         }
 
