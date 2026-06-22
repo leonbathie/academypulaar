@@ -8,16 +8,31 @@
 }
 
 .dire-page-header {
-    background: var(--cream);
+    position: relative;
     padding: var(--space-3xl) 0 var(--space-2xl);
     margin-bottom: var(--space-2xl);
     text-align: center;
-    border-bottom: 2px solid var(--primary-gold);
+    border-bottom: 1px solid rgba(212, 165, 55, 0.25);
+    background:
+        radial-gradient(70% 120% at 50% 0%, rgba(212, 165, 55, 0.10) 0%, transparent 60%),
+        linear-gradient(180deg, var(--cream) 0%, var(--sand) 100%);
+}
+/* Motif losange (tissage Pulaagu) en filigrane */
+.dire-page-header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 0l20 20-20 20L0 20z' fill='none' stroke='%23B8860B' stroke-opacity='0.10' stroke-width='1'/%3E%3C/svg%3E");
+    background-size: 40px 40px;
+}
+.dire-page-header > .container {
+    position: relative;
 }
 
 .dire-page-header .page-title {
     color: var(--dark-gray);
-    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-size: clamp(1.9rem, 4vw, 2.9rem);
     margin-bottom: var(--space-md);
 }
 
@@ -27,6 +42,39 @@
     max-width: 600px;
     margin: 0 auto;
     line-height: 1.7;
+}
+
+/* Separateur losange dore */
+.dire-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin: 0 auto var(--space-lg);
+    position: relative;
+    width: 180px;
+}
+.dire-divider::before,
+.dire-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--primary-gold));
+}
+.dire-divider::after {
+    background: linear-gradient(90deg, var(--primary-gold), transparent);
+}
+.dire-diamond {
+    width: 8px;
+    height: 8px;
+    transform: rotate(45deg);
+    background: var(--primary-gold);
+    border-radius: 1px;
+}
+.dire-diamond:nth-child(2) {
+    width: 11px;
+    height: 11px;
+    background: var(--gold-dark);
 }
 
 /* Filtres */
@@ -65,42 +113,85 @@
 
 /* Carte */
 .dire-page-card {
+    position: relative;
     background: var(--white);
-    border-radius: var(--radius-lg);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid var(--light-gray);
+    border-radius: var(--radius-xl);
+    box-shadow: 0 10px 34px rgba(26, 26, 46, 0.10);
     overflow: hidden;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+/* Filet dore en haut de carte */
+.dire-page-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--gradient-gold);
 }
 
 .dire-page-card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 16px 44px rgba(26, 26, 46, 0.16);
 }
 
 .dire-page-card-header {
     padding: var(--space-md) var(--space-lg);
-    background: var(--cream);
+    background: linear-gradient(180deg, var(--cream) 0%, rgba(245, 230, 211, 0.4) 100%);
     border-bottom: 1px solid var(--light-gray);
 }
 
 .dire-page-category {
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--primary-gold);
+    letter-spacing: 0.08em;
+    color: var(--gold-dark);
 }
 
 .dire-page-card-body {
-    padding: var(--space-lg);
+    padding: var(--space-xl) var(--space-lg);
 }
 
 .dire-page-item {
-    margin-bottom: var(--space-lg);
+    padding: var(--space-md) var(--space-lg);
+    border-radius: var(--radius-md);
+    border-left: 3px solid transparent;
 }
 
-.dire-page-item:last-child {
-    margin-bottom: 0;
+.dire-page-item--correct {
+    background: rgba(34, 197, 94, 0.07);
+    border-left-color: #22c55e;
+}
+
+.dire-page-item--incorrect {
+    background: rgba(239, 68, 68, 0.06);
+    border-left-color: #ef4444;
+}
+
+/* Losange separateur entre On dit / On ne dit pas */
+.dire-vs {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin: var(--space-sm) 0;
+}
+.dire-vs::before,
+.dire-vs::after {
+    content: '';
+    width: 36px;
+    height: 1px;
+    background: var(--light-gray);
+}
+.dire-vs span {
+    width: 9px;
+    height: 9px;
+    transform: rotate(45deg);
+    background: var(--primary-gold);
+    border-radius: 1px;
 }
 
 .dire-page-label {
@@ -411,4 +502,22 @@
         max-width: 420px;
         margin: 0 auto;
     }
+}
+
+/* ── Mode sombre : nouveaux fonds decoratifs ── */
+[data-theme="dark"] .dire-page-header {
+    background:
+        radial-gradient(70% 120% at 50% 0%, rgba(212, 165, 55, 0.12) 0%, transparent 60%),
+        linear-gradient(180deg, #16162A 0%, #1A1A2E 100%);
+    border-bottom-color: rgba(212, 165, 55, 0.22);
+}
+[data-theme="dark"] .dire-vs::before,
+[data-theme="dark"] .dire-vs::after {
+    background: rgba(255, 255, 255, 0.12);
+}
+[data-theme="dark"] .dire-page-item--correct {
+    background: rgba(34, 197, 94, 0.10);
+}
+[data-theme="dark"] .dire-page-item--incorrect {
+    background: rgba(239, 68, 68, 0.10);
 }

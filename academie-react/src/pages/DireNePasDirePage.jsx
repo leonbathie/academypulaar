@@ -127,6 +127,11 @@ function DireNePasDirePage() {
                     <h1 className="page-title">
                         {t('sayDontSay.title')} <span className="gold-accent">{t('sayDontSay.titleHighlight')}</span>
                     </h1>
+                    <div className="dire-divider" aria-hidden="true">
+                        <span className="dire-diamond" />
+                        <span className="dire-diamond" />
+                        <span className="dire-diamond" />
+                    </div>
                     <p className="page-subtitle">{t('sayDontSay.intro')}</p>
                 </div>
             </div>
@@ -217,6 +222,7 @@ function DireNePasDirePage() {
                                     </span>
                                     <p className="dire-page-text">{getDire(currentArticle)}</p>
                                 </div>
+                                <div className="dire-vs" aria-hidden="true"><span /></div>
                                 <div className="dire-page-item dire-page-item--incorrect">
                                     <span className="dire-page-label">
                                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
