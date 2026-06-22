@@ -15,9 +15,28 @@ function News() {
     // Retour visuel "lien copie" apres un partage par presse-papiers
     const [copiedId, setCopiedId] = useState(null)
 
-    const handleShare = async (item) => {
+    const handleShare = async (item, imageUrl) => {
         const url = `${window.location.origin}/#actualite-${item.id}`
-        const shareData = { title: getTitle(item), text: getTitle(item), url }
+        const title = getTitle(item)
+
+        // Tenter de joindre l'image affichee comme fichier (partage natif mobile)
+        let files
+        if (imageUrl) {
+            try {
+                const res = await fetch(`${API_URL}${imageUrl}`)
+                const blob = await res.blob()
+                const ext = (blob.type.split('/')[1] || 'jpg').replace('jpeg', 'jpg')
+                const file = new File([blob], `actualite-${item.id}.${ext}`, { type: blob.type })
+                if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                    files = [file]
+                }
+            } catch { /* image inaccessible : on partage sans */ }
+        }
+
+        const shareData = files
+            ? { title, text: title, url, files }
+            : { title, text: title, url }
+
         if (navigator.share) {
             try { await navigator.share(shareData) } catch { /* annule par l'utilisateur */ }
             return
@@ -221,7 +240,7 @@ function News() {
                                         <button
                                             type="button"
                                             className="news-share"
-                                            onClick={() => handleShare(item)}
+                                            onClick={() => handleShare(item, img)}
                                             aria-label={t('common.share')}
                                             title={t('common.share')}
                                         >
