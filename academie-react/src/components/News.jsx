@@ -72,18 +72,35 @@ function News() {
         })
     }
 
+    // Un article n'est affiche dans une langue que s'il possede un contenu
+    // (ou un resume) dans CETTE langue. Sinon il est masque : on ne fait
+    // jamais deborder le texte francais sur l'anglais ou le fulfulde.
+    const hasLangText = (item) => {
+        // Champs BRUTS de la langue courante, sans repli (contrairement a
+        // getContent/getExcerpt qui retombent sur le francais).
+        const content = lang === 'en' ? item.content_en
+            : lang === 'ff' ? item.content_ff
+            : (item.content_fr || item.content)
+        const excerpt = lang === 'en' ? item.excerpt_en
+            : lang === 'ff' ? item.excerpt_ff
+            : (item.excerpt_fr || item.excerpt)
+        return Boolean((content && content.trim()) || (excerpt && excerpt.trim()))
+    }
+
     // Ordre d'affichage tire au hasard a chaque chargement de la liste.
-    const displayItems = useMemo(() => {
+    const ordered = useMemo(() => {
         return newsItems
             .map((n) => ({ n, r: Math.random() }))
             .sort((a, b) => a.r - b.r)
             .map((x) => x.n)
     }, [newsItems])
 
-    // Ne pas afficher la section tant qu'aucune actualite n'est publiee :
-    // un bloc vide donne une impression d'abandon. La section apparait
-    // automatiquement des qu'une actualite est publiee.
-    if (newsItems.length === 0) {
+    const displayItems = ordered.filter(hasLangText)
+
+    // Ne pas afficher la section s'il n'y a aucune actualite a montrer dans la
+    // langue courante (rien de publie, ou rien de traduit dans cette langue) :
+    // un bloc vide donne une impression d'abandon.
+    if (displayItems.length === 0) {
         return null
     }
 
