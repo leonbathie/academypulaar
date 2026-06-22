@@ -317,3 +317,98 @@
     border-color: var(--primary-gold);
     background: rgba(212, 165, 55, 0.14);
 }
+
+/* ============================================
+   Mise en page 2 colonnes : "pourquoi" + carte
+   ============================================ */
+.dire-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr);
+    gap: var(--space-3xl);
+    align-items: center;
+    max-width: 1080px;
+    margin: 0 auto;
+}
+.dire-layout .dire-single {
+    max-width: none;
+    margin: 0;
+}
+
+.dire-intro-panel {
+    padding: var(--space-sm) 0;
+}
+.dire-intro-accent {
+    display: block;
+    width: 48px;
+    height: 4px;
+    border-radius: 4px;
+    background: var(--gradient-gold);
+    margin-bottom: var(--space-md);
+}
+.dire-intro-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 2.4vw, 2.1rem);
+    line-height: 1.2;
+    color: var(--dark-gray);
+    margin-bottom: var(--space-md);
+}
+.dire-intro-text {
+    color: var(--medium-gray);
+    font-size: 1.05rem;
+    line-height: 1.8;
+    margin-bottom: var(--space-lg);
+}
+.dire-intro-points {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.dire-intro-points li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    color: var(--dark-gray);
+    font-weight: 600;
+    font-size: 0.98rem;
+    line-height: 1.5;
+}
+.dire-intro-points svg {
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    margin-top: 2px;
+    color: #22c55e;
+}
+
+[data-theme="dark"] .dire-intro-title {
+    color: #F8F6F1;
+}
+[data-theme="dark"] .dire-intro-text {
+    color: #B0B0B0;
+}
+[data-theme="dark"] .dire-intro-points li {
+    color: #E8E6E1;
+}
+
+@media (max-width: 900px) {
+    .dire-layout {
+        grid-template-columns: 1fr;
+        gap: var(--space-xl);
+        max-width: 660px;
+    }
+    .dire-intro-panel {
+        text-align: center;
+    }
+    .dire-intro-accent {
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .dire-intro-points {
+        text-align: left;
+        max-width: 420px;
+        margin: 0 auto;
+    }
+}

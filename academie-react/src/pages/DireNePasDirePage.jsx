@@ -161,7 +161,24 @@ function DireNePasDirePage() {
                         <p>{t('sayDontSay.noArticlesDesc')}</p>
                     </div>
                 ) : currentArticle ? (
-                    <div className="dire-single">
+                    <div className="dire-layout">
+                        <aside className="dire-intro-panel">
+                            <span className="dire-intro-accent" />
+                            <h2 className="dire-intro-title">{t('sayDontSay.whyTitle')}</h2>
+                            <p className="dire-intro-text">{t('sayDontSay.whyText')}</p>
+                            <ul className="dire-intro-points">
+                                {['point1', 'point2', 'point3'].map((p) => (
+                                    <li key={p}>
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                                            <path d="M5 13l4 4L19 7" />
+                                        </svg>
+                                        {t(`sayDontSay.${p}`)}
+                                    </li>
+                                ))}
+                            </ul>
+                        </aside>
+
+                        <div className="dire-single">
                         <div key={currentArticle.id} id={`dire-${currentArticle.id}`} className="dire-page-card">
                             <div className="dire-page-card-header">
                                 {currentArticle.category ? (
@@ -226,6 +243,7 @@ function DireNePasDirePage() {
                                 {t('sayDontSay.another', 'Voir une autre')}
                             </button>
                         )}
+                        </div>
                     </div>
                 ) : null}
             </div>
