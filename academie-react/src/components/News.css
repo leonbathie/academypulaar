@@ -214,6 +214,49 @@
     color: var(--primary-gold);
 }
 
+/* Bouton de partage (pousse a droite de la barre meta) */
+.news-share {
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.35rem 0.8rem;
+    border-radius: var(--radius-full);
+    background: transparent;
+    border: 1px solid var(--light-gray);
+    color: var(--medium-gray);
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: color var(--transition-fast), border-color var(--transition-fast), background var(--transition-fast);
+}
+.news-share svg {
+    width: 16px;
+    height: 16px;
+}
+.news-share:hover {
+    color: var(--gold-dark);
+    border-color: var(--primary-gold);
+    background: rgba(212, 165, 55, 0.1);
+}
+.news-share-copied {
+    color: var(--accent-forest);
+    font-weight: 700;
+}
+[data-theme="dark"] .news-share {
+    border-color: rgba(255, 255, 255, 0.15);
+    color: rgba(255, 255, 255, 0.7);
+}
+[data-theme="dark"] .news-share:hover {
+    color: var(--primary-gold);
+    border-color: var(--primary-gold);
+    background: rgba(212, 165, 55, 0.14);
+}
+[data-theme="dark"] .news-share-copied {
+    color: #8BC4A9;
+}
+
 .news-date {
     position: relative;
     font-size: 0.9rem;

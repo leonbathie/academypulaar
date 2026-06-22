@@ -12,10 +12,35 @@ function News() {
     // Articles "deplies" via "Lire la suite" (surtout utile sur smartphone)
     const [expanded, setExpanded] = useState({})
     const toggleExpand = (id) => setExpanded((p) => ({ ...p, [id]: !p[id] }))
+    // Retour visuel "lien copie" apres un partage par presse-papiers
+    const [copiedId, setCopiedId] = useState(null)
+
+    const handleShare = async (item) => {
+        const url = `${window.location.origin}/#actualite-${item.id}`
+        const shareData = { title: getTitle(item), text: getTitle(item), url }
+        if (navigator.share) {
+            try { await navigator.share(shareData) } catch { /* annule par l'utilisateur */ }
+            return
+        }
+        try {
+            await navigator.clipboard.writeText(url)
+            setCopiedId(item.id)
+            setTimeout(() => setCopiedId((c) => (c === item.id ? null : c)), 2000)
+        } catch { /* presse-papiers indisponible */ }
+    }
 
     useEffect(() => {
         loadNews()
     }, [])
+
+    // Lien partage (#actualite-ID) : defile jusqu'a l'article une fois charge.
+    useEffect(() => {
+        if (loading) return
+        const hash = window.location.hash
+        if (!hash.startsWith('#actualite-')) return
+        const el = document.getElementById(hash.slice(1))
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }, [loading])
 
     const loadNews = async () => {
         try {
@@ -179,6 +204,7 @@ function News() {
                             return (
                             <article
                                 key={item.id}
+                                id={`actualite-${item.id}`}
                                 className={`news-row news-row--${item.type || 'default'}${img ? '' : ' news-row--noimg'}`}
                             >
                                 {img && (
@@ -192,6 +218,28 @@ function News() {
                                             {getCategoryLabel(item.category)}
                                         </span>
                                         <time className="news-date">{formatDate(item.date)}</time>
+                                        <button
+                                            type="button"
+                                            className="news-share"
+                                            onClick={() => handleShare(item)}
+                                            aria-label={t('common.share')}
+                                            title={t('common.share')}
+                                        >
+                                            {copiedId === item.id ? (
+                                                <span className="news-share-copied">{t('common.copied')}</span>
+                                            ) : (
+                                                <>
+                                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                                        <circle cx="18" cy="5" r="3" />
+                                                        <circle cx="6" cy="12" r="3" />
+                                                        <circle cx="18" cy="19" r="3" />
+                                                        <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
+                                                        <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
+                                                    </svg>
+                                                    <span>{t('common.share')}</span>
+                                                </>
+                                            )}
+                                        </button>
                                     </div>
                                     <h3 className="news-row-title">{getTitle(item)}</h3>
                                     <div className={`news-row-content${isLong ? (isOpen ? ' news-row-content--scroll' : ' news-row-content--clamp') : ''}`}>
