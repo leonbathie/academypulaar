@@ -91,7 +91,7 @@
 .news-row-body {
     padding: var(--space-2xl);
     min-width: 0;
-    align-self: center;
+    align-self: start;
 }
 .news-row--noimg .news-row-body {
     padding: var(--space-xl);
@@ -101,14 +101,14 @@
     display: flex;
     align-items: center;
     gap: var(--space-md);
-    margin-bottom: var(--space-md);
+    margin-bottom: var(--space-lg);
     flex-wrap: wrap;
 }
 
 .news-category {
-    padding: var(--space-xs) var(--space-sm);
-    font-size: 0.75rem;
-    font-weight: 600;
+    padding: 0.4rem 0.85rem;
+    font-size: 0.95rem;
+    font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.05em;
     border-radius: var(--radius-sm);
@@ -130,8 +130,9 @@
 }
 
 .news-date {
-    font-size: 0.8rem;
-    color: var(--medium-gray);
+    font-size: 1rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.75);
 }
 
 .news-row-title {
