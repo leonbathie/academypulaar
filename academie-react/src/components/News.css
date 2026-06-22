@@ -70,6 +70,7 @@
     position: relative;
     display: grid;
     grid-template-columns: minmax(0, 40%) minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr);
     align-items: stretch;
     height: 440px;
     background: var(--white);
@@ -101,20 +102,25 @@
 .news-row-img {
     position: relative;
     align-self: stretch;
-    min-height: 100%;
-    padding: var(--space-md);
+    min-height: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-lg);
     background:
         radial-gradient(120% 120% at 30% 20%, rgba(212, 165, 55, 0.12) 0%, transparent 55%),
         linear-gradient(135deg, #15193a 0%, #241733 100%);
     overflow: hidden;
 }
 .news-row-img img {
-    width: 100%;
-    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
     object-fit: contain;
     display: block;
     border-radius: var(--radius-md);
-    filter: drop-shadow(0 10px 24px rgba(0, 0, 0, 0.45));
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     transition: transform var(--transition-slow);
 }
 .news-row:hover .news-row-img img {
@@ -133,6 +139,7 @@
 .news-row-body {
     padding: var(--space-2xl);
     min-width: 0;
+    min-height: 0;
     height: 100%;
     display: flex;
     flex-direction: column;
