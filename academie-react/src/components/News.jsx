@@ -9,6 +9,9 @@ function News() {
     const lang = (i18n.language || 'fr').substring(0, 2)
     const [newsItems, setNewsItems] = useState([])
     const [loading, setLoading] = useState(true)
+    // Articles "deplies" via "Lire la suite" (surtout utile sur smartphone)
+    const [expanded, setExpanded] = useState({})
+    const toggleExpand = (id) => setExpanded((p) => ({ ...p, [id]: !p[id] }))
 
     useEffect(() => {
         loadNews()
@@ -142,6 +145,9 @@ function News() {
                     <div className="news-list">
                         {displayItems.map((item) => {
                             const img = randomImages[item.id]
+                            const text = getContent(item) || getExcerpt(item) || ''
+                            const isLong = (text || '').length > 280
+                            const isOpen = !!expanded[item.id]
                             return (
                             <article
                                 key={item.id}
@@ -160,9 +166,22 @@ function News() {
                                         <time className="news-date">{formatDate(item.date)}</time>
                                     </div>
                                     <h3 className="news-row-title">{getTitle(item)}</h3>
-                                    <div className="news-row-content">
-                                        {renderBio(getContent(item) || getExcerpt(item) || '')}
+                                    <div className={`news-row-content${isLong && !isOpen ? ' news-row-content--clamp' : ''}`}>
+                                        {renderBio(text)}
                                     </div>
+                                    {isLong && (
+                                        <button
+                                            type="button"
+                                            className="news-read-more"
+                                            onClick={() => toggleExpand(item.id)}
+                                            aria-expanded={isOpen}
+                                        >
+                                            {isOpen ? t('common.readLess', 'Lire moins') : t('common.readMore', 'Lire la suite')}
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={isOpen ? 'is-open' : ''}>
+                                                <path d="M6 9l6 6 6-6" />
+                                            </svg>
+                                        </button>
+                                    )}
 
                                     {(item.link || item.contact_email || item.contact_phone) && (
                                         <div className="news-contact">
