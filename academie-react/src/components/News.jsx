@@ -36,18 +36,21 @@ function News() {
         }
     }
 
+    // Resume STRICTEMENT dans la langue courante (pas de repli vers une autre
+    // langue : on ne veut jamais voir le francais en anglais ou fulfulde).
     const getExcerpt = (item) => {
         switch (lang) {
-            case 'en': return item.excerpt_en || item.excerpt_fr || item.excerpt
-            case 'ff': return item.excerpt_ff || item.excerpt_fr || item.excerpt
+            case 'en': return item.excerpt_en
+            case 'ff': return item.excerpt_ff
             default: return item.excerpt_fr || item.excerpt
         }
     }
 
+    // Contenu STRICTEMENT dans la langue courante (meme regle que le resume).
     const getContent = (item) => {
         switch (lang) {
-            case 'en': return item.content_en || item.content_fr || item.content
-            case 'ff': return item.content_ff || item.content_fr || item.content
+            case 'en': return item.content_en
+            case 'ff': return item.content_ff
             default: return item.content_fr || item.content
         }
     }
@@ -76,14 +79,8 @@ function News() {
     // (ou un resume) dans CETTE langue. Sinon il est masque : on ne fait
     // jamais deborder le texte francais sur l'anglais ou le fulfulde.
     const hasLangText = (item) => {
-        // Champs BRUTS de la langue courante, sans repli (contrairement a
-        // getContent/getExcerpt qui retombent sur le francais).
-        const content = lang === 'en' ? item.content_en
-            : lang === 'ff' ? item.content_ff
-            : (item.content_fr || item.content)
-        const excerpt = lang === 'en' ? item.excerpt_en
-            : lang === 'ff' ? item.excerpt_ff
-            : (item.excerpt_fr || item.excerpt)
+        const content = getContent(item)
+        const excerpt = getExcerpt(item)
         return Boolean((content && content.trim()) || (excerpt && excerpt.trim()))
     }
 
