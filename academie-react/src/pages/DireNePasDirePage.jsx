@@ -105,12 +105,130 @@ function DireNePasDirePage() {
         setCurrentId(src[Math.floor(Math.random() * src.length)].id)
     }
 
+    // Decoupe un texte en lignes tenant dans maxWidth (pour le canvas).
+    const wrapLines = (ctx, text, maxWidth) => {
+        const words = (text || '').split(/\s+/).filter(Boolean)
+        const lines = []
+        let line = ''
+        for (const w of words) {
+            const test = line ? `${line} ${w}` : w
+            if (ctx.measureText(test).width > maxWidth && line) {
+                lines.push(line)
+                line = w
+            } else {
+                line = test
+            }
+        }
+        if (line) lines.push(line)
+        return lines
+    }
+
+    // Genere une image (PNG) de la carte aux couleurs de la charte.
+    const generateCardImage = async (article) => {
+        const W = 1080, H = 1080
+        const canvas = document.createElement('canvas')
+        canvas.width = W
+        canvas.height = H
+        const ctx = canvas.getContext('2d')
+        try { await document.fonts.ready } catch { /* polices systeme */ }
+
+        // Fond + cadre + filet dore
+        ctx.fillStyle = '#FDF8F0'
+        ctx.fillRect(0, 0, W, H)
+        ctx.strokeStyle = 'rgba(212,165,55,0.45)'
+        ctx.lineWidth = 2
+        ctx.strokeRect(44, 44, W - 88, H - 88)
+        const bar = ctx.createLinearGradient(44, 0, W - 44, 0)
+        bar.addColorStop(0, '#D4A537'); bar.addColorStop(0.5, '#F2D88A'); bar.addColorStop(1, '#D4A537')
+        ctx.fillStyle = bar
+        ctx.fillRect(44, 44, W - 88, 14)
+
+        const cx = W / 2
+        const maxW = W - 280
+        let y = 150
+
+        const diamonds = (yy) => {
+            ctx.save()
+            ctx.fillStyle = '#D4A537'
+            ;[-26, 0, 26].forEach((dx, i) => {
+                const s = i === 1 ? 9 : 6
+                ctx.save(); ctx.translate(cx + dx, yy); ctx.rotate(Math.PI / 4)
+                ctx.fillRect(-s, -s, s * 2, s * 2); ctx.restore()
+            })
+            ctx.restore()
+        }
+
+        ctx.textAlign = 'center'
+        ctx.fillStyle = '#B8860B'
+        ctx.font = '700 28px "Source Sans Pro", Arial, sans-serif'
+        ctx.fillText('GOOMU FULO E WIƊTO', cx, y)
+        y += 46
+        diamonds(y)
+        y += 80
+
+        const drawBlock = (label, labelColor, value, strike, valueColor) => {
+            ctx.textAlign = 'center'
+            ctx.fillStyle = labelColor
+            ctx.font = '700 30px "Source Sans Pro", Arial, sans-serif'
+            ctx.fillText(label.toUpperCase(), cx, y)
+            y += 64
+            ctx.fillStyle = valueColor
+            ctx.font = '600 56px "Playfair Display", Georgia, serif'
+            const lines = wrapLines(ctx, value, maxW)
+            for (const ln of lines) {
+                ctx.fillText(ln, cx, y)
+                if (strike) {
+                    const w = ctx.measureText(ln).width
+                    ctx.strokeStyle = 'rgba(239,68,68,0.6)'
+                    ctx.lineWidth = 4
+                    ctx.beginPath(); ctx.moveTo(cx - w / 2, y - 16); ctx.lineTo(cx + w / 2, y - 16); ctx.stroke()
+                }
+                y += 70
+            }
+        }
+
+        drawBlock(t('sayDontSay.weSay'), '#16a34a', getDire(article), false, '#1A1A2E')
+        y += 30
+        diamonds(y)
+        y += 90
+        drawBlock(t('sayDontSay.weDontSay'), '#ef4444', getNePasDire(article), true, '#9A9A9A')
+
+        const explanation = getExplanation(article)
+        if (explanation) {
+            y += 30
+            ctx.fillStyle = '#7A7A7A'
+            ctx.font = '400 30px "Source Sans Pro", Arial, sans-serif'
+            const lines = wrapLines(ctx, explanation, maxW).slice(0, 3)
+            for (const ln of lines) { ctx.fillText(ln, cx, y); y += 42 }
+        }
+
+        ctx.fillStyle = '#B8860B'
+        ctx.font = '700 26px "Source Sans Pro", Arial, sans-serif'
+        ctx.fillText('goomufulo.com', cx, H - 80)
+
+        return new Promise((resolve) => canvas.toBlob(resolve, 'image/png'))
+    }
+
     const handleShare = async (article) => {
         const url = `${window.location.origin}/dire#dire-${article.id}`
         const title = `${t('sayDontSay.weSay')} : ${getDire(article)}`
         const text = `✅ ${t('sayDontSay.weSay')} : ${getDire(article)}\n❌ ${t('sayDontSay.weDontSay')} : ${getNePasDire(article)}`
+
+        // Joindre une image de la carte (partage natif compatible)
+        let files
+        try {
+            const blob = await generateCardImage(article)
+            if (blob) {
+                const file = new File([blob], `dire-${article.id}.png`, { type: 'image/png' })
+                if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                    files = [file]
+                }
+            }
+        } catch { /* generation impossible : partage sans image */ }
+
+        const shareData = files ? { title, text, url, files } : { title, text, url }
         if (navigator.share) {
-            try { await navigator.share({ title, text, url }) } catch { /* annule */ }
+            try { await navigator.share(shareData) } catch { /* annule */ }
             return
         }
         try {

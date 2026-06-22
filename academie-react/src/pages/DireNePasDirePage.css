@@ -144,11 +144,15 @@
 }
 
 .dire-page-category {
-    font-size: 0.78rem;
+    display: inline-block;
+    padding: 0.3rem 0.85rem;
+    font-size: 0.74rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.08em;
     color: var(--gold-dark);
+    background: rgba(212, 165, 55, 0.14);
+    border-radius: var(--radius-full);
 }
 
 .dire-page-card-body {
@@ -197,33 +201,43 @@
 .dire-page-label {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.6rem;
     font-weight: 700;
-    font-size: 0.85rem;
+    font-size: 0.82rem;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: var(--space-xs);
+    letter-spacing: 0.06em;
+    margin-bottom: var(--space-sm);
 }
 
 .dire-page-label svg {
-    width: 18px;
-    height: 18px;
+    width: 14px;
+    height: 14px;
+    padding: 5px;
+    border-radius: 50%;
+    color: #fff;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.18);
 }
 
 .dire-page-item--correct .dire-page-label {
-    color: #22c55e;
+    color: #16a34a;
+}
+.dire-page-item--correct .dire-page-label svg {
+    background: #22c55e;
 }
 
 .dire-page-item--incorrect .dire-page-label {
-    color: #ef4444;
+    color: #dc2626;
+}
+.dire-page-item--incorrect .dire-page-label svg {
+    background: #ef4444;
 }
 
 .dire-page-text {
-    font-size: 1.1rem;
-    font-weight: 500;
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-weight: 600;
     color: var(--dark-gray);
-    line-height: 1.6;
-    padding-left: 1.6rem;
+    line-height: 1.45;
 }
 
 .dire-page-explanation {
@@ -293,6 +307,33 @@
 
     .dire-page-header {
         padding: var(--space-2xl) 0 var(--space-xl);
+    }
+
+    /* Carte agrandie sur smartphone */
+    .dire-page-card-body {
+        padding: var(--space-2xl) var(--space-xl);
+    }
+    .dire-page-item {
+        padding: var(--space-lg);
+    }
+    .dire-page-text {
+        font-size: 1.55rem;
+        line-height: 1.4;
+    }
+    .dire-page-label {
+        font-size: 0.9rem;
+    }
+    .dire-page-explanation {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .dire-page-card-body {
+        padding: var(--space-xl) var(--space-lg);
+    }
+    .dire-page-text {
+        font-size: 1.4rem;
     }
 }
 
