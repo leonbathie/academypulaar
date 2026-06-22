@@ -166,7 +166,7 @@ function News() {
                                         <time className="news-date">{formatDate(item.date)}</time>
                                     </div>
                                     <h3 className="news-row-title">{getTitle(item)}</h3>
-                                    <div className={`news-row-content${isLong && !isOpen ? ' news-row-content--clamp' : ''}`}>
+                                    <div className={`news-row-content${isLong ? (isOpen ? ' news-row-content--scroll' : ' news-row-content--clamp') : ''}`}>
                                         {renderBio(text)}
                                     </div>
                                     {isLong && (

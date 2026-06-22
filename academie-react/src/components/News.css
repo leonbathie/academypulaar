@@ -454,6 +454,23 @@
         -webkit-mask-image: linear-gradient(180deg, #000 62%, transparent 100%);
         mask-image: linear-gradient(180deg, #000 62%, transparent 100%);
     }
+    /* Une fois deplie : le texte defile DANS la carte (comme la carte des
+       savants), pas la page entiere. */
+    .news-row-content--scroll {
+        max-height: 55vh;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior: contain;
+        padding-right: var(--space-sm);
+        scrollbar-width: thin;
+        scrollbar-color: var(--primary-gold) transparent;
+    }
+    .news-row-content--scroll::-webkit-scrollbar { width: 6px; }
+    .news-row-content--scroll::-webkit-scrollbar-thumb {
+        background: var(--primary-gold);
+        border-radius: var(--radius-full);
+    }
+    .news-row-content--scroll::-webkit-scrollbar-track { background: transparent; }
     .news-read-more {
         display: inline-flex;
     }
