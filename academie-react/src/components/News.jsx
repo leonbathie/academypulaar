@@ -97,20 +97,48 @@ function News() {
 
     const displayItems = ordered.filter(hasLangText)
 
-    // Pour chaque actualite, on choisit UNE image au hasard parmi sa galerie.
-    // Recalcule au chargement des donnees -> nouvelle image a chaque visite.
-    const randomImages = useMemo(() => {
+    // Galerie d'images par actualite (repli sur l'image unique historique).
+    const galleries = useMemo(() => {
         const map = {}
         newsItems.forEach((it) => {
-            const gallery = (it.images && it.images.length)
+            map[it.id] = (it.images && it.images.length)
                 ? it.images
                 : (it.image ? [it.image] : [])
-            map[it.id] = gallery.length
-                ? gallery[Math.floor(Math.random() * gallery.length)]
-                : null
         })
         return map
     }, [newsItems])
+
+    // Image affichee par actualite. Tirage au hasard initial, puis rotation
+    // aleatoire toutes les 3 s pour les galeries de plusieurs images.
+    const [currentImg, setCurrentImg] = useState({})
+    useEffect(() => {
+        const pickRandom = (imgs) => imgs[Math.floor(Math.random() * imgs.length)]
+
+        const init = {}
+        Object.entries(galleries).forEach(([id, imgs]) => {
+            if (imgs.length) init[id] = pickRandom(imgs)
+        })
+        setCurrentImg(init)
+
+        const hasMulti = Object.values(galleries).some((imgs) => imgs.length > 1)
+        if (!hasMulti) return
+
+        const interval = setInterval(() => {
+            setCurrentImg((prev) => {
+                const next = { ...prev }
+                Object.entries(galleries).forEach(([id, imgs]) => {
+                    if (imgs.length > 1) {
+                        // une image differente de l'actuelle
+                        let pick = prev[id]
+                        for (let i = 0; i < 6 && pick === prev[id]; i++) pick = pickRandom(imgs)
+                        next[id] = pick
+                    }
+                })
+                return next
+            })
+        }, 3000)
+        return () => clearInterval(interval)
+    }, [galleries])
 
     // Ne pas afficher la section s'il n'y a aucune actualite a montrer dans la
     // langue courante (rien de publie, ou rien de traduit dans cette langue) :
@@ -144,7 +172,7 @@ function News() {
                 ) : (
                     <div className="news-list">
                         {displayItems.map((item) => {
-                            const img = randomImages[item.id]
+                            const img = currentImg[item.id]
                             const text = getContent(item) || getExcerpt(item) || ''
                             const isLong = (text || '').length > 280
                             const isOpen = !!expanded[item.id]
@@ -155,7 +183,7 @@ function News() {
                             >
                                 {img && (
                                     <div className="news-row-img">
-                                        <img src={`${API_URL}${img}`} alt={getTitle(item)} />
+                                        <img key={img} src={`${API_URL}${img}`} alt={getTitle(item)} />
                                     </div>
                                 )}
                                 <div className="news-row-body">
