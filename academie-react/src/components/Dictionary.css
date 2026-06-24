@@ -198,30 +198,28 @@
     z-index: 1;
 }
 
-.book-edition {
+/* Embleme losange dore (remplace l'ancien numero d'edition) */
+.book-emblem {
     position: relative;
     display: inline-block;
     align-self: flex-start;
-    padding-bottom: 0.55rem;
-    font-family: var(--font-display);
-    font-size: 3.1rem;
-    font-weight: 700;
-    line-height: 1;
-    background: linear-gradient(135deg, #f6dc93 0%, #e3bd5e 40%, #cda034 70%, #b8862a 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    color: transparent;
-    filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.35));
+    padding-bottom: 0.6rem;
+    line-height: 0;
+}
+.book-emblem svg {
+    width: 52px;
+    height: 52px;
+    display: block;
+    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.3));
 }
 
-/* Filet dore sous le numero d'edition */
-.book-edition::after {
+/* Filet dore sous l'embleme */
+.book-emblem::after {
     content: '';
     position: absolute;
-    left: 3px;
+    left: 4px;
     bottom: 0;
-    width: 38px;
+    width: 44px;
     height: 2px;
     background: linear-gradient(90deg, var(--primary-gold), rgba(212, 165, 55, 0.1));
     border-radius: 2px;
@@ -320,7 +318,7 @@
         height: 320px;
     }
     .book-cover { padding: 2rem 1.6rem; }
-    .book-edition { font-size: 2.6rem; }
+    .book-emblem svg { width: 46px; height: 46px; }
     .book-name { font-size: 1.45rem; }
 
     .dictionary-stats {
@@ -351,7 +349,7 @@
         height: 280px;
     }
     .book-cover { padding: 1.7rem 1.4rem; }
-    .book-edition { font-size: 2.3rem; }
+    .book-emblem svg { width: 42px; height: 42px; }
     .book-name { font-size: 1.3rem; }
     .book-ornament { width: 76px; height: 76px; }
 }

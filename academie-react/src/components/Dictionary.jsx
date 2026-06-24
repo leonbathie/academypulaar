@@ -221,7 +221,20 @@ function Dictionary() {
                             <div className="book-spine"></div>
                             <div className="book-cover">
                                 <div className="book-title">
-                                    <span className="book-edition">1</span>
+                                    <span className="book-emblem" aria-hidden="true">
+                                        <svg viewBox="0 0 56 56" fill="none">
+                                            <defs>
+                                                <linearGradient id="bookEmblemGold" x1="0" y1="0" x2="1" y2="1">
+                                                    <stop offset="0" stopColor="#f6dc93" />
+                                                    <stop offset="1" stopColor="#d8b048" />
+                                                </linearGradient>
+                                            </defs>
+                                            <path d="M28 2 L54 28 L28 54 L2 28 Z" stroke="url(#bookEmblemGold)" strokeWidth="1.4" opacity="0.55" />
+                                            <path d="M28 11 L45 28 L28 45 L11 28 Z" fill="url(#bookEmblemGold)" />
+                                            <path d="M28 20 L36 28 L28 36 L20 28 Z" fill="#7a313a" />
+                                            <circle cx="28" cy="28" r="3" fill="url(#bookEmblemGold)" />
+                                        </svg>
+                                    </span>
                                     <span className="book-name">{t('dictionary.bookName')}</span>
                                     <span className="book-author">{t('common.siteName')}</span>
                                 </div>
