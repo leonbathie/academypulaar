@@ -222,7 +222,7 @@ function Dictionary() {
                             <div className="book-cover">
                                 <div className="book-title">
                                     <span className="book-edition">1</span>
-                                    <span className="book-name">{t('dictionary.titleHighlight')}</span>
+                                    <span className="book-name">{t('dictionary.bookName')}</span>
                                     <span className="book-author">{t('common.siteName')}</span>
                                 </div>
                                 <div className="book-ornament">
