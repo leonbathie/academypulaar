@@ -38,7 +38,7 @@ function Hero() {
     // Fond video du hero : aleatoirement le zebu, le patre (gaynaako) ou le mouton.
     // ?v=2 = cache-busting (force le rechargement des versions 540px reorientees).
     const [heroBgVideo] = useState(() => {
-        const vids = ['/zebu.webm?v=2', '/gaynaako.webm?v=3', '/mouton.webm?v=2', '/artiste.webm?v=1', '/cinematic.webm?v=1']
+        const vids = ['/zebu.webm?v=2', '/gaynaako.webm?v=3', '/mouton.webm?v=2', '/artiste.webm?v=1', '/cinematic.webm?v=1', '/tenngaade.webm?v=1', '/cinematic2.webm?v=1', '/remo.webm?v=1']
         return vids[Math.floor(Math.random() * vids.length)]
     })
     const [heroSearch, setHeroSearch] = useState('')
