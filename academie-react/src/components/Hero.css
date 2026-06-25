@@ -65,6 +65,18 @@
     transform: scaleX(-1);
 }
 
+/* Video-logo (tenngaade) : ce n'est pas une scene filmee mais une animation de
+   logo. En "cover" elle est rognee et enormement agrandie sur grand ecran. On
+   l'affiche EN ENTIER (contain), centree et a taille moderee grace au padding,
+   sur un fond creme assorti au logo. Specificite > regle mobile, donc valable
+   sur tous les ecrans. */
+.hero-bg-video.logo {
+    object-fit: contain;
+    background-color: #ece4d3;
+    box-sizing: border-box;
+    padding: 8vh 6vw;
+}
+
 /* Sur mobile (portrait), la video paysage serait rognee (sujet coupe).
    object-fit: contain => la video s'affiche EN ENTIER ; les bandes
    haut/bas prennent un fond sombre assorti a la scene nocturne. */

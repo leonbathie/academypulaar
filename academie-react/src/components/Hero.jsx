@@ -47,7 +47,7 @@ function Hero() {
             { src: '/mouton.webm?v=2', flip: true },
             { src: '/artiste.webm?v=1', flip: true },
             { src: '/cinematic.webm?v=1', flip: true },
-            { src: '/tenngaade.webm?v=1', flip: false },
+            { src: '/tenngaade.webm?v=1', flip: false, logo: true },
             { src: '/cinematic2.webm?v=1', flip: true },
             { src: '/remo.webm?v=1', flip: true },
         ]
@@ -189,7 +189,7 @@ function Hero() {
 
             {/* Fond video (zebu, patre ou mouton, aleatoire) : sur tous les ecrans */}
             <video
-                className={`hero-bg-video ${heroBgVideo.flip ? 'flip' : ''}`}
+                className={`hero-bg-video ${heroBgVideo.flip ? 'flip' : ''} ${heroBgVideo.logo ? 'logo' : ''}`}
                 src={heroBgVideo.src}
                 key={heroBgVideo.src}
                 autoPlay
