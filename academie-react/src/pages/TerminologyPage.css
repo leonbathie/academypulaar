@@ -103,23 +103,32 @@
     line-height: 1.6;
 }
 
-/* Fiche "Sciences" regroupant 3 titres cliquables dans une seule carte */
+/* Fiche "Sciences" regroupant 3 titres cliquables dans une seule carte.
+   Entrees compactes pour que la hauteur reste proche des cartes simples. */
 .term-domain-card--group {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    padding-top: var(--space-lg);
+    padding-bottom: var(--space-lg);
+}
+
+/* Icone plus resserree pour gagner de la hauteur sur la carte groupee */
+.term-domain-card--group .term-domain-icon {
+    margin-bottom: var(--space-sm);
 }
 
 .term-domain-group-list {
     display: flex;
     flex-direction: column;
-    gap: var(--space-sm);
+    gap: 2px;
 }
 
 .term-domain-group-item {
     display: block;
     text-decoration: none;
     color: inherit;
-    padding: var(--space-sm) var(--space-md);
+    padding: var(--space-xs) var(--space-md);
     border-radius: var(--radius-lg);
     transition: background var(--transition-base);
 }
@@ -137,11 +146,13 @@
 }
 
 .term-domain-group-item h3 {
-    margin-bottom: 2px;
+    font-size: 1.05rem;
+    margin-bottom: 1px;
 }
 
 .term-domain-group-item p {
-    font-size: 0.85rem;
+    font-size: 0.82rem;
+    line-height: 1.4;
 }
 
 .term-cta {
