@@ -48,8 +48,10 @@
         var(--gradient-hero);
 }
 
-/* Video du zebu en ARRIERE-PLAN PLEIN du hero (si tiree au sort).
-   Couvre tout le hero ; le zebu est oriente vers la gauche (scaleX -1). */
+/* Video en ARRIERE-PLAN PLEIN du hero (tiree au sort).
+   Couvre tout le hero. Le miroir horizontal (scaleX -1) n'est applique qu'aux
+   videos marquees .flip — JAMAIS aux videos avec texte (logo tenngaade), sinon
+   l'ecriture devient illisible. */
 .hero-bg-video {
     position: absolute;
     inset: 0;
@@ -57,6 +59,9 @@
     height: 100%;
     object-fit: cover;
     z-index: 1;
+}
+
+.hero-bg-video.flip {
     transform: scaleX(-1);
 }
 

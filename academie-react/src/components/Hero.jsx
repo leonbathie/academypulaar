@@ -37,8 +37,20 @@ function Hero() {
     const [currentSlide, setCurrentSlide] = useState(0)
     // Fond video du hero : aleatoirement le zebu, le patre (gaynaako) ou le mouton.
     // ?v=2 = cache-busting (force le rechargement des versions 540px reorientees).
+    // flip: miroir horizontal (scaleX -1) pour orienter la scene vers la gauche.
+    // Les videos contenant du texte (tenngaade = animation du logo) ne doivent
+    // JAMAIS etre retournees, sinon l'ecriture devient illisible.
     const [heroBgVideo] = useState(() => {
-        const vids = ['/zebu.webm?v=2', '/gaynaako.webm?v=3', '/mouton.webm?v=2', '/artiste.webm?v=1', '/cinematic.webm?v=1', '/tenngaade.webm?v=1', '/cinematic2.webm?v=1', '/remo.webm?v=1']
+        const vids = [
+            { src: '/zebu.webm?v=2', flip: true },
+            { src: '/gaynaako.webm?v=3', flip: true },
+            { src: '/mouton.webm?v=2', flip: true },
+            { src: '/artiste.webm?v=1', flip: true },
+            { src: '/cinematic.webm?v=1', flip: true },
+            { src: '/tenngaade.webm?v=1', flip: false },
+            { src: '/cinematic2.webm?v=1', flip: true },
+            { src: '/remo.webm?v=1', flip: true },
+        ]
         return vids[Math.floor(Math.random() * vids.length)]
     })
     const [heroSearch, setHeroSearch] = useState('')
@@ -177,9 +189,9 @@ function Hero() {
 
             {/* Fond video (zebu, patre ou mouton, aleatoire) : sur tous les ecrans */}
             <video
-                className="hero-bg-video"
-                src={heroBgVideo}
-                key={heroBgVideo}
+                className={`hero-bg-video ${heroBgVideo.flip ? 'flip' : ''}`}
+                src={heroBgVideo.src}
+                key={heroBgVideo.src}
                 autoPlay
                 loop
                 muted
