@@ -48,18 +48,10 @@ function TerminologyPage() {
 
     const txt = (overrideKey, i18nKey) => overrides[overrideKey] || t(i18nKey)
 
-    // Premiere fiche "Sciences" : une seule carte regroupant 3 titres cliquables,
-    // chacun menant a sa propre page de terminologie.
-    const scienceGroup = {
-        icon: '🔬',
-        items: [
-            { key: 'domScience', slug: 'sciences-technologie' },
-            { key: 'domTech', slug: 'informatique' },
-            { key: 'domSpace', slug: 'astronomie' }
-        ]
-    }
-
     const domains = [
+        { key: 'domScience', icon: '🔬', slug: 'sciences-technologie' },
+        { key: 'domTech', icon: '💻', slug: 'informatique' },
+        { key: 'domSpace', icon: '🔭', slug: 'astronomie' },
         { key: 'domHealth', icon: '🏥', slug: 'sante-medecine' },
         { key: 'domHuman', icon: '⚖️', slug: 'sciences-humaines' },
         { key: 'domEdu', icon: '📚', slug: 'education' },
@@ -96,18 +88,6 @@ function TerminologyPage() {
                 <section className="term-section">
                     <h2>{txt('domains_title', 'terminology.domains')}</h2>
                     <div className="term-domains-grid">
-                        {/* Fiche Sciences : 3 titres cliquables dans une seule carte */}
-                        <div className="term-domain-card term-domain-card--group">
-                            <span className="term-domain-icon">{scienceGroup.icon}</span>
-                            <div className="term-domain-group-list">
-                                {scienceGroup.items.map((it) => (
-                                    <Link key={it.key} to={`/terminologie/${it.slug}`} className="term-domain-group-item">
-                                        <h3>{t(`terminology.${it.key}`)}</h3>
-                                        <p>{t(`terminology.${it.key}Desc`)}</p>
-                                    </Link>
-                                ))}
-                            </div>
-                        </div>
                         {domains.map((dom) => (
                             <Link key={dom.key} to={`/terminologie/${dom.slug}`} className="term-domain-card" style={{ textDecoration: 'none', color: 'inherit' }}>
                                 <span className="term-domain-icon">{dom.icon}</span>
