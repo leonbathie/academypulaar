@@ -103,6 +103,47 @@
     line-height: 1.6;
 }
 
+/* Fiche "Sciences" regroupant 3 titres cliquables dans une seule carte */
+.term-domain-card--group {
+    display: flex;
+    flex-direction: column;
+}
+
+.term-domain-group-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+.term-domain-group-item {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--radius-lg);
+    transition: background var(--transition-base);
+}
+
+.term-domain-group-item:hover {
+    background: rgba(212, 175, 55, 0.1);
+}
+
+.term-domain-group-item + .term-domain-group-item {
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="dark"] .term-domain-group-item + .term-domain-group-item {
+    border-top-color: rgba(255, 255, 255, 0.1);
+}
+
+.term-domain-group-item h3 {
+    margin-bottom: 2px;
+}
+
+.term-domain-group-item p {
+    font-size: 0.85rem;
+}
+
 .term-cta {
     text-align: center;
     padding: var(--space-3xl) 0;

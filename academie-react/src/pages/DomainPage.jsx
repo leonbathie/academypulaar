@@ -11,8 +11,22 @@ const DOMAIN_CONFIG = {
         icon: '🔬',
         titleKey: 'domScience',
         descKey: 'domScienceDesc',
-        filters: ['scientifique', 'mathematiques', 'informatique', 'astronomie'],
+        filters: ['scientifique', 'mathematiques'],
         color: '#2563eb'
+    },
+    'informatique': {
+        icon: '💻',
+        titleKey: 'domTech',
+        descKey: 'domTechDesc',
+        filters: ['informatique'],
+        color: '#0891b2'
+    },
+    'astronomie': {
+        icon: '🔭',
+        titleKey: 'domSpace',
+        descKey: 'domSpaceDesc',
+        filters: ['astronomie'],
+        color: '#4f46e5'
     },
     'sante-medecine': {
         icon: '🏥',
