@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { API_URL } from '../config'
 import { renderBio } from '../utils/renderBio'
@@ -184,6 +184,19 @@ function News() {
     const goNext = () => setActiveIndex(i => (i + 1) % displayItems.length)
     const safeIndex = Math.min(activeIndex, displayItems.length - 1)
 
+    // Balayage tactile (mobile) : glisser vers la gauche -> suivant, vers la
+    // droite -> precedent. Seuil de 40px pour ignorer les petits mouvements.
+    const touchStartX = useRef(null)
+    const onTouchStart = (e) => { touchStartX.current = e.touches[0].clientX }
+    const onTouchEnd = (e) => {
+        if (touchStartX.current == null || displayItems.length < 2) return
+        const dx = e.changedTouches[0].clientX - touchStartX.current
+        touchStartX.current = null
+        if (Math.abs(dx) < 40) return
+        if (dx < 0) goNext()
+        else goPrev()
+    }
+
     const renderArticle = (item) => {
         const img = currentImg[item.id]
         const text = getContent(item) || getExcerpt(item) || ''
@@ -301,7 +314,7 @@ function News() {
                     </div>
                 ) : (
                     <>
-                        <div className="news-carousel">
+                        <div className="news-carousel" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
                             {displayItems.length > 1 && (
                                 <button type="button" className="news-arrow news-arrow--prev" onClick={goPrev} aria-label={t('common.previous', 'Précédent')}>
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M15 18l-6-6 6-6" /></svg>
