@@ -87,24 +87,15 @@ function News() {
         }
     }
 
-    // Resume STRICTEMENT dans la langue courante (pas de repli vers une autre
-    // langue : on ne veut jamais voir le francais en anglais ou fulfulde).
-    const getExcerpt = (item) => {
-        switch (lang) {
-            case 'en': return item.excerpt_en
-            case 'ff': return item.excerpt_ff
-            default: return item.excerpt_fr || item.excerpt
-        }
-    }
+    // Resume : on prefere la langue courante, puis on se rabat sur une autre
+    // langue disponible (fr > en > ff) pour qu'une actualite publiee mais non
+    // traduite reste visible au lieu d'etre masquee.
+    const getExcerpt = (item) =>
+        item[`excerpt_${lang}`] || item.excerpt_fr || item.excerpt_en || item.excerpt_ff || item.excerpt || ''
 
-    // Contenu STRICTEMENT dans la langue courante (meme regle que le resume).
-    const getContent = (item) => {
-        switch (lang) {
-            case 'en': return item.content_en
-            case 'ff': return item.content_ff
-            default: return item.content_fr || item.content
-        }
-    }
+    // Contenu : meme regle de repli que le resume.
+    const getContent = (item) =>
+        item[`content_${lang}`] || item.content_fr || item.content_en || item.content_ff || item.content || ''
 
     const getCategoryLabel = (category) => {
         const categoryMap = {
@@ -126,9 +117,8 @@ function News() {
         })
     }
 
-    // Un article n'est affiche dans une langue que s'il possede un contenu
-    // (ou un resume) dans CETTE langue. Sinon il est masque : on ne fait
-    // jamais deborder le texte francais sur l'anglais ou le fulfulde.
+    // Un article est affiche des qu'il possede un texte (resume ou contenu)
+    // dans AU MOINS une langue (grace au repli ci-dessus). Sinon il est masque.
     const hasLangText = (item) => {
         const content = getContent(item)
         const excerpt = getExcerpt(item)
