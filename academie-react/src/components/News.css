@@ -64,6 +64,80 @@
 }
 
 /* ============================================
+   CARROUSEL — une actualite a la fois, fleches sur PC + points
+   ============================================ */
+.news-carousel {
+    display: flex;
+    align-items: center;
+    gap: var(--space-lg);
+}
+
+.news-list--single {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.news-arrow {
+    flex: 0 0 auto;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    border: none;
+    background: var(--primary-dark);
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-md);
+    transition: background var(--transition-base), transform var(--transition-base);
+}
+.news-arrow svg {
+    width: 26px;
+    height: 26px;
+}
+.news-arrow:hover {
+    background: var(--primary-gold);
+    color: var(--primary-dark);
+    transform: scale(1.06);
+}
+
+.news-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: var(--space-xl);
+}
+.news-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: none;
+    padding: 0;
+    background: rgba(0, 0, 0, 0.18);
+    cursor: pointer;
+    transition: background var(--transition-base), width var(--transition-base);
+}
+[data-theme="dark"] .news-dot {
+    background: rgba(255, 255, 255, 0.25);
+}
+.news-dot.active {
+    background: var(--primary-gold);
+    width: 26px;
+    border-radius: 5px;
+}
+
+/* Fleches reservees au PC : sur mobile on navigue via les points */
+@media (max-width: 768px) {
+    .news-arrow {
+        display: none;
+    }
+    .news-carousel {
+        gap: 0;
+    }
+}
+
+/* ============================================
    LISTE EN BANDEAUX — image agrandie a gauche, infos a droite
    ============================================ */
 .news-list {

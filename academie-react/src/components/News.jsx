@@ -14,6 +14,10 @@ function News() {
     const toggleExpand = (id) => setExpanded((p) => ({ ...p, [id]: !p[id] }))
     // Retour visuel "lien copie" apres un partage par presse-papiers
     const [copiedId, setCopiedId] = useState(null)
+    // Carrousel : index de l'actualite affichee (mode "une a la fois")
+    const [activeIndex, setActiveIndex] = useState(0)
+    // "Toutes les actualites" : bascule entre carrousel et liste complete
+    const [showAll, setShowAll] = useState(false)
 
     const handleShare = async (item, imageUrl) => {
         const url = `${window.location.origin}/#actualite-${item.id}`
@@ -184,11 +188,105 @@ function News() {
         return () => clearInterval(interval)
     }, [galleries])
 
+    // Recentrer le carrousel quand la liste change ou qu'on bascule l'affichage
+    useEffect(() => { setActiveIndex(0) }, [newsItems.length, showAll])
+
     // Ne pas afficher la section s'il n'y a aucune actualite a montrer dans la
     // langue courante (rien de publie, ou rien de traduit dans cette langue) :
     // un bloc vide donne une impression d'abandon.
     if (displayItems.length === 0) {
         return null
+    }
+
+    const goPrev = () => setActiveIndex(i => (i - 1 + displayItems.length) % displayItems.length)
+    const goNext = () => setActiveIndex(i => (i + 1) % displayItems.length)
+    const safeIndex = Math.min(activeIndex, displayItems.length - 1)
+
+    const renderArticle = (item) => {
+        const img = currentImg[item.id]
+        const text = getContent(item) || getExcerpt(item) || ''
+        const isLong = (text || '').length > 280
+        const isOpen = !!expanded[item.id]
+        return (
+            <article
+                key={item.id}
+                id={`actualite-${item.id}`}
+                className={`news-row news-row--${item.type || 'default'}${img ? '' : ' news-row--noimg'}`}
+            >
+                {img && (
+                    <div className="news-row-img">
+                        <img key={img} src={`${API_URL}${img}`} alt={getTitle(item)} />
+                    </div>
+                )}
+                <div className="news-row-body">
+                    <div className="news-row-meta">
+                        <span className={`news-category news-category--${item.type || 'default'}`}>
+                            {getCategoryLabel(item.category)}
+                        </span>
+                        <time className="news-date">{formatDate(item.date)}</time>
+                        <button
+                            type="button"
+                            className="news-share"
+                            onClick={() => handleShare(item, img)}
+                            aria-label={t('common.share')}
+                            title={t('common.share')}
+                        >
+                            {copiedId === item.id ? (
+                                <span className="news-share-copied">{t('common.copied')}</span>
+                            ) : (
+                                <>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                        <circle cx="18" cy="5" r="3" />
+                                        <circle cx="6" cy="12" r="3" />
+                                        <circle cx="18" cy="19" r="3" />
+                                        <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
+                                        <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
+                                    </svg>
+                                    <span>{t('common.share')}</span>
+                                </>
+                            )}
+                        </button>
+                    </div>
+                    <h3 className="news-row-title">{getTitle(item)}</h3>
+                    <div className={`news-row-content${isLong ? (isOpen ? ' news-row-content--scroll' : ' news-row-content--clamp') : ''}`}>
+                        {renderBio(text)}
+                    </div>
+                    {isLong && (
+                        <button
+                            type="button"
+                            className="news-read-more"
+                            onClick={() => toggleExpand(item.id)}
+                            aria-expanded={isOpen}
+                        >
+                            {isOpen ? t('common.readLess', 'Lire moins') : t('common.readMore', 'Lire la suite')}
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={isOpen ? 'is-open' : ''}>
+                                <path d="M6 9l6 6 6-6" />
+                            </svg>
+                        </button>
+                    )}
+
+                    {(item.link || item.contact_email || item.contact_phone) && (
+                        <div className="news-contact">
+                            {item.link && (
+                                <a href={item.link} target="_blank" rel="noopener noreferrer" className="news-external-link">
+                                    🔗 {t('common.learnMore')}
+                                </a>
+                            )}
+                            {item.contact_email && (
+                                <a href={`mailto:${item.contact_email}`} className="news-contact-item">
+                                    📧 {item.contact_email}
+                                </a>
+                            )}
+                            {item.contact_phone && (
+                                <a href={`tel:${item.contact_phone}`} className="news-contact-item">
+                                    📱 {item.contact_phone}
+                                </a>
+                            )}
+                        </div>
+                    )}
+                </div>
+            </article>
+        )
     }
 
     return (
@@ -201,107 +299,55 @@ function News() {
                             {t('news.title')}<span className="gold-accent">{t('news.titleHighlight')}</span>
                         </h2>
                     </div>
-                    <a href="#toutes-actualites" className="news-view-all">
-                        {t('news.viewAll')}
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                            <path d="M5 12h14M12 5l7 7-7 7" />
-                        </svg>
-                    </a>
+                    {displayItems.length > 1 && (
+                        <button type="button" className="news-view-all" onClick={() => setShowAll(s => !s)}>
+                            {showAll ? t('news.viewLess', 'Réduire') : t('news.viewAll')}
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                <path d="M5 12h14M12 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                    )}
                 </div>
 
                 {loading ? (
                     <div style={{ textAlign: 'center', padding: '2rem' }}>
                         <div className="spinner"></div>
                     </div>
-                ) : (
+                ) : showAll ? (
                     <div className="news-list">
-                        {displayItems.map((item) => {
-                            const img = currentImg[item.id]
-                            const text = getContent(item) || getExcerpt(item) || ''
-                            const isLong = (text || '').length > 280
-                            const isOpen = !!expanded[item.id]
-                            return (
-                            <article
-                                key={item.id}
-                                id={`actualite-${item.id}`}
-                                className={`news-row news-row--${item.type || 'default'}${img ? '' : ' news-row--noimg'}`}
-                            >
-                                {img && (
-                                    <div className="news-row-img">
-                                        <img key={img} src={`${API_URL}${img}`} alt={getTitle(item)} />
-                                    </div>
-                                )}
-                                <div className="news-row-body">
-                                    <div className="news-row-meta">
-                                        <span className={`news-category news-category--${item.type || 'default'}`}>
-                                            {getCategoryLabel(item.category)}
-                                        </span>
-                                        <time className="news-date">{formatDate(item.date)}</time>
-                                        <button
-                                            type="button"
-                                            className="news-share"
-                                            onClick={() => handleShare(item, img)}
-                                            aria-label={t('common.share')}
-                                            title={t('common.share')}
-                                        >
-                                            {copiedId === item.id ? (
-                                                <span className="news-share-copied">{t('common.copied')}</span>
-                                            ) : (
-                                                <>
-                                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                                        <circle cx="18" cy="5" r="3" />
-                                                        <circle cx="6" cy="12" r="3" />
-                                                        <circle cx="18" cy="19" r="3" />
-                                                        <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
-                                                        <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
-                                                    </svg>
-                                                    <span>{t('common.share')}</span>
-                                                </>
-                                            )}
-                                        </button>
-                                    </div>
-                                    <h3 className="news-row-title">{getTitle(item)}</h3>
-                                    <div className={`news-row-content${isLong ? (isOpen ? ' news-row-content--scroll' : ' news-row-content--clamp') : ''}`}>
-                                        {renderBio(text)}
-                                    </div>
-                                    {isLong && (
-                                        <button
-                                            type="button"
-                                            className="news-read-more"
-                                            onClick={() => toggleExpand(item.id)}
-                                            aria-expanded={isOpen}
-                                        >
-                                            {isOpen ? t('common.readLess', 'Lire moins') : t('common.readMore', 'Lire la suite')}
-                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={isOpen ? 'is-open' : ''}>
-                                                <path d="M6 9l6 6 6-6" />
-                                            </svg>
-                                        </button>
-                                    )}
-
-                                    {(item.link || item.contact_email || item.contact_phone) && (
-                                        <div className="news-contact">
-                                            {item.link && (
-                                                <a href={item.link} target="_blank" rel="noopener noreferrer" className="news-external-link">
-                                                    🔗 {t('common.learnMore')}
-                                                </a>
-                                            )}
-                                            {item.contact_email && (
-                                                <a href={`mailto:${item.contact_email}`} className="news-contact-item">
-                                                    📧 {item.contact_email}
-                                                </a>
-                                            )}
-                                            {item.contact_phone && (
-                                                <a href={`tel:${item.contact_phone}`} className="news-contact-item">
-                                                    📱 {item.contact_phone}
-                                                </a>
-                                            )}
-                                        </div>
-                                    )}
-                                </div>
-                            </article>
-                            )
-                        })}
+                        {displayItems.map((item) => renderArticle(item))}
                     </div>
+                ) : (
+                    <>
+                        <div className="news-carousel">
+                            {displayItems.length > 1 && (
+                                <button type="button" className="news-arrow news-arrow--prev" onClick={goPrev} aria-label={t('common.previous', 'Précédent')}>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M15 18l-6-6 6-6" /></svg>
+                                </button>
+                            )}
+                            <div className="news-list news-list--single">
+                                {displayItems[safeIndex] && renderArticle(displayItems[safeIndex])}
+                            </div>
+                            {displayItems.length > 1 && (
+                                <button type="button" className="news-arrow news-arrow--next" onClick={goNext} aria-label={t('common.next', 'Suivant')}>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M9 6l6 6-6 6" /></svg>
+                                </button>
+                            )}
+                        </div>
+                        {displayItems.length > 1 && (
+                            <div className="news-dots">
+                                {displayItems.map((_, i) => (
+                                    <button
+                                        key={i}
+                                        type="button"
+                                        className={`news-dot ${i === safeIndex ? 'active' : ''}`}
+                                        onClick={() => setActiveIndex(i)}
+                                        aria-label={`${t('news.sectionLabel')} ${i + 1}`}
+                                    />
+                                ))}
+                            </div>
+                        )}
+                    </>
                 )}
             </div>
         </section>
