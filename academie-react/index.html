@@ -44,6 +44,32 @@
   </head>
   <body>
     <div id="root"></div>
+    <!-- Auto-recuperation apres deploiement : si un chunk JS hashe (route ou
+         langue) est introuvable — typiquement quand un ancien onglet/bfcache
+         reference des fichiers supprimes par un nouveau deploiement — on
+         recharge la page pour recuperer le index.html frais et les bons chunks.
+         Enregistre AVANT les modules pour attraper aussi l'echec du chunk de
+         langue charge au demarrage. Garde-fou anti-boucle (1 rechargement/10s). -->
+    <script>
+      (function () {
+        function recover() {
+          try {
+            var k = 'chunkReloadAt';
+            var last = +(sessionStorage.getItem(k) || 0);
+            if (Date.now() - last < 10000) return;
+            sessionStorage.setItem(k, Date.now());
+          } catch (e) { /* sessionStorage indispo : on recharge quand meme */ }
+          window.location.reload();
+        }
+        window.addEventListener('vite:preloadError', recover);
+        window.addEventListener('unhandledrejection', function (e) {
+          var m = e && e.reason && (e.reason.message || String(e.reason));
+          if (m && /dynamically imported module|importing a module script|Failed to fetch/i.test(m)) {
+            recover();
+          }
+        });
+      })();
+    </script>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
