@@ -79,23 +79,18 @@ function News() {
         }
     }
 
-    const getTitle = (item) => {
-        switch (lang) {
-            case 'en': return item.title_en || item.title_fr || item.title
-            case 'ff': return item.title_ff || item.title_fr || item.title
-            default: return item.title_fr || item.title
-        }
-    }
+    // Repli langue courante -> ff (langue par defaut du site) -> fr -> en.
+    const getTitle = (item) =>
+        item[`title_${lang}`] || item.title_ff || item.title_fr || item.title_en || item.title || ''
 
-    // Resume : on prefere la langue courante, puis on se rabat sur une autre
-    // langue disponible (fr > en > ff) pour qu'une actualite publiee mais non
-    // traduite reste visible au lieu d'etre masquee.
+    // Resume : langue courante, puis repli sur ff (langue par defaut), fr, en —
+    // pour qu'une actualite publiee mais non traduite reste visible.
     const getExcerpt = (item) =>
-        item[`excerpt_${lang}`] || item.excerpt_fr || item.excerpt_en || item.excerpt_ff || item.excerpt || ''
+        item[`excerpt_${lang}`] || item.excerpt_ff || item.excerpt_fr || item.excerpt_en || item.excerpt || ''
 
     // Contenu : meme regle de repli que le resume.
     const getContent = (item) =>
-        item[`content_${lang}`] || item.content_fr || item.content_en || item.content_ff || item.content || ''
+        item[`content_${lang}`] || item.content_ff || item.content_fr || item.content_en || item.content || ''
 
     const getCategoryLabel = (category) => {
         const categoryMap = {
