@@ -41,7 +41,7 @@
         "dictionary": "Saggitorde",
         "ninthEdition": "Muulngo adano",
         "ninePrefaces": "Fuɗɗoore",
-        "onlineDictionary": "Saggirtorde geese",
+        "onlineDictionary": "Saggitorde geese",
         "prizes": "Njeenaaje",
         "literaryPrizes": "Njeenaaje binndol",
         "workPrizes": "Njeenaaje goɗɗe",
@@ -51,8 +51,8 @@
     "hero": {
         "title1": "Pottital 2025",
         "subtitle1": "Ko faati e pottital ngal",
-        "title2": "Saggirtorde",
-        "subtitle2": "Muulngo Adano Saggirtorde Goomu Fulo e Wiɗto",
+        "title2": "Saggitorde",
+        "subtitle2": "Muulngo Adano Saggitorde Goomu Fulo e Wiɗto",
         "title3": "Ɗemngal Fulfulde",
         "subtitle3": "Goomu Fulo e Wiɗto Ƴellitooɓe ɗemngal Fulfulde",
         "title4": "Annduɓe",
@@ -70,8 +70,8 @@
             "description": "Goomu Fulo e Wiɗto ko hentordu ngam ƴellitde ɗemngal Fulfulde, ."
         },
         "dictionary": {
-            "title": "Saggirtorde",
-            "description": "Goomu Fulo e Wiɗto woni ko e wallifaade Saggirtorde Ganndinal e Ɗemngal Fulfulde."
+            "title": "Saggitorde",
+            "description": "Goomu Fulo e Wiɗto woni ko e wallifaade Saggitorde Ganndinal e Ɗemngal Fulfulde."
         },
         "prizes": {
             "title": "Njeenaaje",
@@ -127,11 +127,11 @@
         "noArticlesDesc": "Binndanɗe \"Selli, Sellaani\" ɗe maa ngarnoy jooni jooni."
     },
     "dictionary": {
-        "sectionLabel": "Saggirtorde Fulfulde",
-        "title": "Saggirtorde ",
+        "sectionLabel": "Saggitorde Fulfulde",
+        "title": "Saggitorde ",
         "titleHighlight": "Fulfulde",
-        "bookName": "Saggirtorde",
-        "intro": "Saggirtorde Goomu Fulo e Wiɗto ko Saggirtorde Ganndinal e Ɗemngal Fulfulde.",
+        "bookName": "Saggitorde",
+        "intro": "Saggitorde Goomu Fulo e Wiɗto ko Saggitorde Ganndinal e Ɗemngal Fulfulde.",
         "wordsStartingWith": "Kelme puɗɗortooɗe e",
         "similarWords": "Kelme nannduɗe",
         "searchPlaceholder": "helmere...",
@@ -438,7 +438,7 @@
         },
         "sidebar": {
             "dashboard": "Jaɓɓorgo",
-            "dictionary": "Saggirtorde",
+            "dictionary": "Saggitorde",
             "news": "Kabaruuji",
             "content": "Selli, Sellaani",
             "terminology": "Kelmeendi",
@@ -563,7 +563,7 @@
             "importError": "Juumre tuma naatnude"
         },
         "dictionary": {
-            "title": "Saggirtorde",
+            "title": "Saggitorde",
             "add": "Ɓeydude helmere",
             "edit": "Waylude helmere",
             "wordFulfulde": "Helmere (Fulfulde)",
@@ -922,7 +922,7 @@
         "s3": {
             "title": "Jeyaaɗe hakkille",
             "p1": "Ko fof woni e lowre goomufulo.com — binndanɗe, firlanɗe, maanaaɗe saggitorde, daande moftaaɗe, nate, maantooje, mbaydi e dokkol — ko Goomu Fulo e Wiɗto walla wallidiiɓe mum jeyi, laawol reeni ɗum.",
-            "p2": "Saggirtorde Fulfulde-Farayse-Engele ndee ko golle hakkille tiiɗɗe reenaaɗe.",
+            "p2": "Saggitorde Fulfulde-Farayse-Engele ndee ko golle hakkille tiiɗɗe reenaaɗe.",
             "highlight": "Soɗaade, waylude, walla huutoraade ko woni e lowre ndee ina haɗaa so a heɓaani yamiroore Goomu Fulo e Wiɗto.",
             "sub1": "Ko yamiraa",
             "sub1p": "Ɗeeɗoo kuutorɗe ina njamiree:",
