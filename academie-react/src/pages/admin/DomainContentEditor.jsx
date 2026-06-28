@@ -7,7 +7,11 @@ import domainContent from '../../data/domainContent'
 // Doit correspondre a DomainPage.jsx + TerminologieAdmin.jsx
 const DOMAIN_OPTIONS = [
     { slug: 'sciences-technologie',      icon: '🔬', labelKey: 'terminology.domScience' },
+    { slug: 'informatique',              icon: '💻', labelKey: 'terminology.domTech' },
+    { slug: 'astronomie',                icon: '🔭', labelKey: 'terminology.domSpace' },
     { slug: 'sante-medecine',            icon: '🏥', labelKey: 'terminology.domHealth' },
+    { slug: 'etres-vivants',             icon: '🦋', labelKey: 'terminology.domLiving' },
+    { slug: 'arbres-plantes',            icon: '🌳', labelKey: 'terminology.domPlants' },
     { slug: 'sciences-humaines',         icon: '⚖️', labelKey: 'terminology.domHuman' },
     { slug: 'agriculture-environnement', icon: '🌾', labelKey: 'terminology.domAgri' },
     { slug: 'metiers-artisanat',         icon: '🔨', labelKey: 'terminology.domCrafts' }
@@ -17,7 +21,11 @@ const DOMAIN_OPTIONS = [
 // pour la gestion de visibilite — inclut "education" absent de l'edition de contenu.
 const LEARN_VISIBILITY_DOMAINS = [
     { slug: 'sciences-technologie',      icon: '🔬', labelKey: 'terminology.domScience' },
+    { slug: 'informatique',              icon: '💻', labelKey: 'terminology.domTech' },
+    { slug: 'astronomie',                icon: '🔭', labelKey: 'terminology.domSpace' },
     { slug: 'sante-medecine',            icon: '🏥', labelKey: 'terminology.domHealth' },
+    { slug: 'etres-vivants',             icon: '🦋', labelKey: 'terminology.domLiving' },
+    { slug: 'arbres-plantes',            icon: '🌳', labelKey: 'terminology.domPlants' },
     { slug: 'sciences-humaines',         icon: '⚖️', labelKey: 'terminology.domHuman' },
     { slug: 'education',                 icon: '📚', labelKey: 'terminology.domEdu' },
     { slug: 'agriculture-environnement', icon: '🌾', labelKey: 'terminology.domAgri' },
