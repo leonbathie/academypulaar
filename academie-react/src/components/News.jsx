@@ -112,13 +112,10 @@ function News() {
         })
     }
 
-    // Un article est affiche des qu'il possede un texte (resume ou contenu)
-    // dans AU MOINS une langue (grace au repli ci-dessus). Sinon il est masque.
-    const hasLangText = (item) => {
-        const content = getContent(item)
-        const excerpt = getExcerpt(item)
-        return Boolean((content && content.trim()) || (excerpt && excerpt.trim()))
-    }
+    // Toute actualite publiee ayant au moins un titre est affichee. Le corps de
+    // texte (resume / contenu) est optionnel : une actualite avec seulement un
+    // titre et une image reste visible.
+    const hasDisplayableContent = (item) => Boolean((getTitle(item) || '').trim())
 
     // Ordre d'affichage tire au hasard a chaque chargement de la liste.
     const ordered = useMemo(() => {
@@ -128,7 +125,7 @@ function News() {
             .map((x) => x.n)
     }, [newsItems])
 
-    const displayItems = ordered.filter(hasLangText)
+    const displayItems = ordered.filter(hasDisplayableContent)
 
     // Galerie d'images par actualite (repli sur l'image unique historique).
     const galleries = useMemo(() => {
