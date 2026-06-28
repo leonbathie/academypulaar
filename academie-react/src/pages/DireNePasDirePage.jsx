@@ -8,7 +8,7 @@ function DireNePasDirePage() {
     const [articles, setArticles] = useState([])
     const [loading, setLoading] = useState(true)
     const [selectedCategory, setSelectedCategory] = useState('all')
-    // Une seule carte affichee a la fois ; les autres viennent au hasard.
+    // Une seule carte affichee a la fois ; on avance dans l'ordre (manuel + auto 5s).
     const [currentId, setCurrentId] = useState(null)
     const [copiedId, setCopiedId] = useState(null)
 
@@ -80,7 +80,7 @@ function DireNePasDirePage() {
         : articles.filter(a => a.category === selectedCategory)
 
     // Choisir la carte a afficher : priorite au lien partage (#dire-ID),
-    // sinon une carte au hasard. Recalcule quand la liste ou le filtre change.
+    // sinon la premiere carte. Recalcule quand la liste ou le filtre change.
     useEffect(() => {
         if (!filteredArticles.length) { setCurrentId(null); return }
         const m = window.location.hash.match(/^#dire-(\d+)$/)
@@ -91,19 +91,34 @@ function DireNePasDirePage() {
         setCurrentId(prev => (
             filteredArticles.some(a => a.id === prev)
                 ? prev
-                : filteredArticles[Math.floor(Math.random() * filteredArticles.length)].id
+                : filteredArticles[0].id
         ))
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [articles, selectedCategory])
 
     const currentArticle = filteredArticles.find(a => a.id === currentId) || filteredArticles[0]
 
-    const showAnother = () => {
-        const pool = filteredArticles.filter(a => a.id !== currentId)
-        const src = pool.length ? pool : filteredArticles
-        if (!src.length) return
-        setCurrentId(src[Math.floor(Math.random() * src.length)].id)
+    // Carte suivante dans l'ordre (pas aleatoire), avec retour au debut a la fin.
+    const goToNext = () => {
+        if (filteredArticles.length < 2) return
+        const idx = filteredArticles.findIndex(a => a.id === currentId)
+        setCurrentId(filteredArticles[(idx + 1) % filteredArticles.length].id)
     }
+
+    // Auto-defilement : passe a la carte suivante (meme ordre) toutes les 5 secondes.
+    useEffect(() => {
+        const list = selectedCategory === 'all'
+            ? articles
+            : articles.filter(a => a.category === selectedCategory)
+        if (list.length < 2) return
+        const timer = setInterval(() => {
+            setCurrentId(prev => {
+                const idx = list.findIndex(a => a.id === prev)
+                return list[(idx + 1) % list.length].id
+            })
+        }, 5000)
+        return () => clearInterval(timer)
+    }, [articles, selectedCategory])
 
     // Decoupe un texte en lignes tenant dans maxWidth (pour le canvas).
     const wrapLines = (ctx, text, maxWidth) => {
@@ -376,7 +391,7 @@ function DireNePasDirePage() {
                         </div>
 
                         {filteredArticles.length > 1 && (
-                            <button type="button" className="dire-next-btn" onClick={showAnother}>
+                            <button type="button" className="dire-next-btn" onClick={goToNext}>
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                     <polyline points="23 4 23 10 17 10" />
                                     <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
