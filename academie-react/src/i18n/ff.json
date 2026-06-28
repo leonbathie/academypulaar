@@ -752,7 +752,13 @@
             "clickToAddFile": "Dobo ngam ɓeydude filewol",
             "description": "Tonngol deftere nde",
             "coverLabel": "Natal deftere nde",
-            "clickToAddCover": "Dobo ngam ɓeydude natal"
+            "clickToAddCover": "Dobo ngam ɓeydude natal",
+            "status": "Ngonka",
+            "published": "Ɓaŋŋinaa",
+            "draft": "Toppitiiɗo",
+            "publish": "Ɓaŋŋinde",
+            "unpublish": "Ittude ɓaŋŋingol",
+            "publishedLabel": "Ɓaŋŋinaa (yiyatee e defterdu)"
         },
         "news": {
             "title": "Kabaruuji",

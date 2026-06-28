@@ -30,7 +30,8 @@ function BooksAdmin() {
         description_fr: '',
         description_en: '',
         description_ff: '',
-        category: ''
+        category: '',
+        published: true
     })
 
     useEffect(() => {
@@ -58,7 +59,8 @@ function BooksAdmin() {
                 description_fr: book.description_fr || '',
                 description_en: book.description_en || '',
                 description_ff: book.description_ff || '',
-                category: book.category || ''
+                category: book.category || '',
+                published: book.published !== false
             })
         } else {
             setEditingBook(null)
@@ -69,7 +71,8 @@ function BooksAdmin() {
                 description_fr: '',
                 description_en: '',
                 description_ff: '',
-                category: ''
+                category: '',
+                published: true
             })
         }
         setSelectedFile(null)
@@ -252,6 +255,36 @@ function BooksAdmin() {
         })
     }
 
+    // Bascule rapide publié/non publié depuis la liste, sans rouvrir le modal.
+    // On renvoie tous les champs texte existants pour ne rien écraser ; le backend
+    // conserve la couverture et le fichier (lus en base) si aucun nouveau n'est envoyé.
+    const togglePublished = async (book) => {
+        try {
+            const fd = new FormData()
+            fd.append('title_fr', book.title_fr || '')
+            fd.append('title_en', book.title_en || '')
+            fd.append('title_ff', book.title_ff || '')
+            fd.append('author', book.author || '')
+            fd.append('description_fr', book.description_fr || '')
+            fd.append('description_en', book.description_en || '')
+            fd.append('description_ff', book.description_ff || '')
+            fd.append('category', book.category || '')
+            fd.append('year', book.year || '')
+            fd.append('price', book.price ?? 0)
+            fd.append('is_free', book.is_free !== false)
+            fd.append('payment_link', book.payment_link || '')
+            fd.append('published', !book.published)
+            const res = await fetch(`${API_URL}/api/books/${book.id}`, {
+                method: 'PUT',
+                headers: { Authorization: `Bearer ${token}` },
+                body: fd
+            })
+            if (res.ok) await loadBooks()
+        } catch (error) {
+            console.error('Toggle published error:', error)
+        }
+    }
+
     const formatFileSize = (bytes) => {
         if (!bytes) return '-'
         if (bytes < 1024) return bytes + ' B'
@@ -283,6 +316,7 @@ function BooksAdmin() {
                             <th>{t('admin.books.category')}</th>
                             <th>{t('admin.books.file')}</th>
                             <th>{t('admin.books.downloads')}</th>
+                            <th>{t('admin.books.status')}</th>
                             <th>{t('admin.common.actions')}</th>
                         </tr>
                     </thead>
@@ -295,6 +329,26 @@ function BooksAdmin() {
                                 <td>{book.category || '-'}</td>
                                 <td>{formatFileSize(book.file_size)}</td>
                                 <td>{book.downloads || 0}</td>
+                                <td>
+                                    <button
+                                        type="button"
+                                        onClick={() => togglePublished(book)}
+                                        title={book.published !== false ? t('admin.books.unpublish') : t('admin.books.publish')}
+                                        style={{
+                                            border: 'none',
+                                            cursor: 'pointer',
+                                            padding: '4px 10px',
+                                            borderRadius: '12px',
+                                            fontSize: '0.8rem',
+                                            fontWeight: 600,
+                                            whiteSpace: 'nowrap',
+                                            background: book.published !== false ? 'rgba(34,197,94,0.12)' : 'rgba(239,68,68,0.12)',
+                                            color: book.published !== false ? '#16a34a' : '#dc2626'
+                                        }}
+                                    >
+                                        {book.published !== false ? `● ${t('admin.books.published')}` : `○ ${t('admin.books.draft')}`}
+                                    </button>
+                                </td>
                                 <td>
                                     <button className="btn-icon" onClick={() => openModal(book)} title={t('admin.common.edit')}>
                                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -313,7 +367,7 @@ function BooksAdmin() {
                         ))}
                         {books.length === 0 && (
                             <tr>
-                                <td colSpan="5" style={{ textAlign: 'center', padding: '2rem', color: 'var(--medium-gray)' }}>
+                                <td colSpan="6" style={{ textAlign: 'center', padding: '2rem', color: 'var(--medium-gray)' }}>
                                     {t('admin.common.noData')}
                                 </td>
                             </tr>
@@ -414,6 +468,17 @@ function BooksAdmin() {
                                             <option value="conce">{t('library.book.categories.conce', 'Littérature')}</option>
                                             <option value="ganndine">{t('library.book.categories.ganndine', 'Sciences')}</option>
                                         </select>
+                                    </div>
+                                    <div className="form-group" style={{ justifyContent: 'flex-end' }}>
+                                        <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
+                                            <input
+                                                type="checkbox"
+                                                checked={formData.published}
+                                                onChange={e => setFormData({ ...formData, published: e.target.checked })}
+                                                style={{ width: 'auto' }}
+                                            />
+                                            {t('admin.books.publishedLabel')}
+                                        </label>
                                     </div>
                                 </div>
 

@@ -752,7 +752,13 @@
             "clickToAddFile": "Cliquez pour ajouter un fichier",
             "description": "Description",
             "coverLabel": "Image de couverture",
-            "clickToAddCover": "Cliquez pour ajouter une couverture"
+            "clickToAddCover": "Cliquez pour ajouter une couverture",
+            "status": "Statut",
+            "published": "Publié",
+            "draft": "Brouillon",
+            "publish": "Publier",
+            "unpublish": "Dépublier",
+            "publishedLabel": "Publié (visible dans la bibliothèque)"
         },
         "news": {
             "title": "Actualités",

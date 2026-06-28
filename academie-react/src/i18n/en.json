@@ -750,7 +750,13 @@
             "clickToAddFile": "Click to add a file",
             "description": "Description",
             "coverLabel": "Cover image",
-            "clickToAddCover": "Click to add a cover image"
+            "clickToAddCover": "Click to add a cover image",
+            "status": "Status",
+            "published": "Published",
+            "draft": "Draft",
+            "publish": "Publish",
+            "unpublish": "Unpublish",
+            "publishedLabel": "Published (visible in the library)"
         },
         "news": {
             "title": "News",
