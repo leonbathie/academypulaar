@@ -18,6 +18,9 @@ function News() {
     const [activeIndex, setActiveIndex] = useState(0)
     // "Toutes les actualites" : bascule entre carrousel et liste complete
     const [showAll, setShowAll] = useState(false)
+    // Position de depart d'un balayage tactile (mobile). Doit etre declare ici
+    // (avant tout return conditionnel) pour respecter les regles des hooks.
+    const touchStartX = useRef(null)
 
     const handleShare = async (item, imageUrl) => {
         const url = `${window.location.origin}/#actualite-${item.id}`
@@ -186,7 +189,6 @@ function News() {
 
     // Balayage tactile (mobile) : glisser vers la gauche -> suivant, vers la
     // droite -> precedent. Seuil de 40px pour ignorer les petits mouvements.
-    const touchStartX = useRef(null)
     const onTouchStart = (e) => { touchStartX.current = e.touches[0].clientX }
     const onTouchEnd = (e) => {
         if (touchStartX.current == null || displayItems.length < 2) return
