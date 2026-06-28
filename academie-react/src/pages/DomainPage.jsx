@@ -253,12 +253,12 @@ function DomainPage() {
                     <p className="domain-page-desc">{t(`terminology.${config.descKey}`)}</p>
                     <div className="domain-page-stats">
                         <div className="domain-stat">
-                            <span className="domain-stat-number">{words.length}</span>
+                            <span className="domain-stat-number">{definedCount}</span>
                             <span className="domain-stat-label">{t('dictionary.editions')}</span>
                         </div>
                         <div className="domain-stat">
-                            <span className="domain-stat-number">{definedCount}</span>
-                            <span className="domain-stat-label">{t('dictionary.wordsDefined')}</span>
+                            <span className="domain-stat-number">{words.length}</span>
+                            <span className="domain-stat-label">{lang === 'ff' ? 'Kelme' : lang === 'en' ? 'Words' : 'Mots'}</span>
                         </div>
                         <div className="domain-stat">
                             <span className="domain-stat-number">{subDomains.length}</span>
