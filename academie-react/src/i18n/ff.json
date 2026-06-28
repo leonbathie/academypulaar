@@ -779,7 +779,12 @@
             "coverLabel": "Natal kabaaru oo",
             "clickToAddImage": "Dobaade ngam ɓeydude natal",
             "redirectLink": "Jokkol (URL)",
-            "catEvent": "Pottital"
+            "catEvent": "Pottital",
+            "status": "Ngonka",
+            "published": "Ɓaŋŋinaa",
+            "draft": "Toppitiiɗo",
+            "publish": "Ɓaŋŋinde",
+            "unpublish": "Ittude ɓaŋŋingol"
         },
         "content": {
             "title": "Selli / Sellaani",

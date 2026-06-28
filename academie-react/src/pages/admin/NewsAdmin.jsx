@@ -196,6 +196,41 @@ function NewsAdmin() {
         })
     }
 
+    // Bascule rapide publie/brouillon depuis la liste. Le PUT reconstruit les
+    // images a partir de existingImages : on renvoie donc TOUS les champs + les
+    // images actuelles pour ne rien ecraser.
+    const togglePublished = async (item) => {
+        try {
+            const fd = new FormData()
+            fd.append('title_fr', item.title_fr || item.title || '')
+            fd.append('title_en', item.title_en || '')
+            fd.append('title_ff', item.title_ff || '')
+            fd.append('excerpt_fr', item.excerpt_fr || item.excerpt || '')
+            fd.append('excerpt_en', item.excerpt_en || '')
+            fd.append('excerpt_ff', item.excerpt_ff || '')
+            fd.append('content_fr', item.content_fr || item.content || '')
+            fd.append('content_en', item.content_en || '')
+            fd.append('content_ff', item.content_ff || '')
+            fd.append('category', item.category || '')
+            fd.append('type', item.type || '')
+            fd.append('date', item.date ? item.date.split('T')[0] : '')
+            fd.append('link', item.link || '')
+            fd.append('contact_email', item.contact_email || '')
+            fd.append('contact_phone', item.contact_phone || '')
+            const imgs = item.images?.length ? item.images : (item.image ? [item.image] : [])
+            fd.append('existingImages', JSON.stringify(imgs))
+            fd.append('published', String(!item.published))
+            const res = await fetch(`${API_URL}/api/news/${item.id}`, {
+                method: 'PUT',
+                headers: { Authorization: `Bearer ${token}` },
+                body: fd
+            })
+            if (res.ok) await loadNews()
+        } catch (error) {
+            console.error('Toggle news published error:', error)
+        }
+    }
+
     if (loading) {
         return <div className="admin-loading"><div className="spinner-large"></div>{t('admin.header.loading')}</div>
     }
@@ -221,6 +256,7 @@ function NewsAdmin() {
                             <th>{t('admin.news.titleLabel')}</th>
                             <th>{t('admin.news.category')}</th>
                             <th>{t('admin.news.date')}</th>
+                            <th>{t('admin.news.status')}</th>
                             <th>{t('admin.common.actions')}</th>
                         </tr>
                     </thead>
@@ -243,6 +279,26 @@ function NewsAdmin() {
                                 <td style={{ maxWidth: '300px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}><strong>{item.title_fr || item.title}</strong></td>
                                 <td>{item.category}</td>
                                 <td>{item.date ? new Date(item.date).toLocaleDateString(i18n.language === 'ff' ? 'fr-FR' : i18n.language) : '-'}</td>
+                                <td>
+                                    <button
+                                        type="button"
+                                        onClick={() => togglePublished(item)}
+                                        title={item.published !== false ? t('admin.news.unpublish') : t('admin.news.publish')}
+                                        style={{
+                                            border: 'none',
+                                            cursor: 'pointer',
+                                            padding: '4px 10px',
+                                            borderRadius: '12px',
+                                            fontSize: '0.8rem',
+                                            fontWeight: 600,
+                                            whiteSpace: 'nowrap',
+                                            background: item.published !== false ? 'rgba(34,197,94,0.12)' : 'rgba(239,68,68,0.12)',
+                                            color: item.published !== false ? '#16a34a' : '#dc2626'
+                                        }}
+                                    >
+                                        {item.published !== false ? `● ${t('admin.news.published')}` : `○ ${t('admin.news.draft')}`}
+                                    </button>
+                                </td>
                                 <td className="actions-cell">
                                     <button className="btn-edit" onClick={() => openModal(item)}>
                                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -261,7 +317,7 @@ function NewsAdmin() {
                         ))}
                         {news.length === 0 && (
                             <tr>
-                                <td colSpan="5" style={{ textAlign: 'center', padding: '2rem', color: 'var(--medium-gray)' }}>
+                                <td colSpan="6" style={{ textAlign: 'center', padding: '2rem', color: 'var(--medium-gray)' }}>
                                     {t('admin.news.noNews')}
                                 </td>
                             </tr>

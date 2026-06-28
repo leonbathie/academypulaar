@@ -777,7 +777,12 @@
             "coverLabel": "Cover image",
             "clickToAddImage": "Click to add an image",
             "redirectLink": "Redirect link (URL)",
-            "catEvent": "Event"
+            "catEvent": "Event",
+            "status": "Status",
+            "published": "Published",
+            "draft": "Draft",
+            "publish": "Publish",
+            "unpublish": "Unpublish"
         },
         "content": {
             "title": "Correct, Incorrect",

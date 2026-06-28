@@ -779,7 +779,12 @@
             "coverLabel": "Image de couverture",
             "clickToAddImage": "Cliquez pour ajouter une image",
             "redirectLink": "Lien de redirection (URL)",
-            "catEvent": "Événement"
+            "catEvent": "Événement",
+            "status": "Statut",
+            "published": "Publié",
+            "draft": "Brouillon",
+            "publish": "Publier",
+            "unpublish": "Dépublier"
         },
         "content": {
             "title": "Correct, Incorrect",
