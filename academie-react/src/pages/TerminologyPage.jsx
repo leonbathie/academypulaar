@@ -53,6 +53,8 @@ function TerminologyPage() {
         { key: 'domTech', icon: '💻', slug: 'informatique' },
         { key: 'domSpace', icon: '🔭', slug: 'astronomie' },
         { key: 'domHealth', icon: '🏥', slug: 'sante-medecine' },
+        { key: 'domLiving', icon: '🦋', slug: 'etres-vivants' },
+        { key: 'domPlants', icon: '🌳', slug: 'arbres-plantes' },
         { key: 'domHuman', icon: '⚖️', slug: 'sciences-humaines' },
         { key: 'domEdu', icon: '📚', slug: 'education' },
         { key: 'domAgri', icon: '🌾', slug: 'agriculture-environnement' },

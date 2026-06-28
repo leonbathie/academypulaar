@@ -32,8 +32,22 @@ const DOMAIN_CONFIG = {
         icon: '🏥',
         titleKey: 'domHealth',
         descKey: 'domHealthDesc',
-        filters: ['biologie', 'vivants'],
+        filters: ['biologie'],
         color: '#dc2626'
+    },
+    'etres-vivants': {
+        icon: '🦋',
+        titleKey: 'domLiving',
+        descKey: 'domLivingDesc',
+        filters: ['vivants'],
+        color: '#0d9488'
+    },
+    'arbres-plantes': {
+        icon: '🌳',
+        titleKey: 'domPlants',
+        descKey: 'domPlantsDesc',
+        filters: ['botanique'],
+        color: '#65a30d'
     },
     'sciences-humaines': {
         icon: '⚖️',
@@ -53,7 +67,7 @@ const DOMAIN_CONFIG = {
         icon: '🌾',
         titleKey: 'domAgri',
         descKey: 'domAgriDesc',
-        filters: ['agriculture', 'botanique', 'vivants', 'elevage', 'peche'],
+        filters: ['agriculture', 'elevage', 'peche'],
         color: '#059669'
     },
     'metiers-artisanat': {
