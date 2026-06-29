@@ -8,8 +8,6 @@ function DireNePasDirePage() {
     const [articles, setArticles] = useState([])
     const [loading, setLoading] = useState(true)
     const [selectedCategory, setSelectedCategory] = useState('all')
-    // Une seule carte affichee a la fois ; on avance dans l'ordre (manuel + auto 5s).
-    const [currentId, setCurrentId] = useState(null)
     const [copiedId, setCopiedId] = useState(null)
 
     useEffect(() => {
@@ -79,46 +77,15 @@ function DireNePasDirePage() {
         ? articles
         : articles.filter(a => a.category === selectedCategory)
 
-    // Choisir la carte a afficher : priorite au lien partage (#dire-ID),
-    // sinon la premiere carte. Recalcule quand la liste ou le filtre change.
+    // Lien de partage (#dire-ID) : faire defiler jusqu'a la carte ciblee une
+    // fois la liste chargee (toutes les cartes sont affichees).
     useEffect(() => {
-        if (!filteredArticles.length) { setCurrentId(null); return }
+        if (loading || !filteredArticles.length) return
         const m = window.location.hash.match(/^#dire-(\d+)$/)
-        if (m && filteredArticles.some(a => String(a.id) === m[1])) {
-            setCurrentId(Number(m[1]))
-            return
-        }
-        setCurrentId(prev => (
-            filteredArticles.some(a => a.id === prev)
-                ? prev
-                : filteredArticles[0].id
-        ))
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [articles, selectedCategory])
-
-    const currentArticle = filteredArticles.find(a => a.id === currentId) || filteredArticles[0]
-
-    // Carte suivante dans l'ordre (pas aleatoire), avec retour au debut a la fin.
-    const goToNext = () => {
-        if (filteredArticles.length < 2) return
-        const idx = filteredArticles.findIndex(a => a.id === currentId)
-        setCurrentId(filteredArticles[(idx + 1) % filteredArticles.length].id)
-    }
-
-    // Auto-defilement : passe a la carte suivante (meme ordre) toutes les 5 secondes.
-    useEffect(() => {
-        const list = selectedCategory === 'all'
-            ? articles
-            : articles.filter(a => a.category === selectedCategory)
-        if (list.length < 2) return
-        const timer = setInterval(() => {
-            setCurrentId(prev => {
-                const idx = list.findIndex(a => a.id === prev)
-                return list[(idx + 1) % list.length].id
-            })
-        }, 5000)
-        return () => clearInterval(timer)
-    }, [articles, selectedCategory])
+        if (!m) return
+        const el = document.getElementById(`dire-${m[1]}`)
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    }, [loading, filteredArticles.length, selectedCategory])
 
     // Decoupe un texte en lignes tenant dans maxWidth (pour le canvas).
     const wrapLines = (ctx, text, maxWidth) => {
@@ -270,6 +237,64 @@ function DireNePasDirePage() {
         } catch { /* presse-papiers indisponible */ }
     }
 
+    const renderCard = (article) => (
+        <div key={article.id} id={`dire-${article.id}`} className="dire-page-card">
+            <div className="dire-page-card-header">
+                {article.category ? (
+                    <span className="dire-page-category">{translateCategory(article.category)}</span>
+                ) : <span />}
+                <button
+                    type="button"
+                    className="dire-share-btn"
+                    onClick={() => handleShare(article)}
+                    aria-label={t('common.share')}
+                    title={t('common.share')}
+                >
+                    {copiedId === article.id ? (
+                        <span className="dire-share-copied">{t('common.copied')}</span>
+                    ) : (
+                        <>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                <circle cx="18" cy="5" r="3" />
+                                <circle cx="6" cy="12" r="3" />
+                                <circle cx="18" cy="19" r="3" />
+                                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
+                                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
+                            </svg>
+                            <span>{t('common.share')}</span>
+                        </>
+                    )}
+                </button>
+            </div>
+            <div className="dire-page-card-body">
+                <div className="dire-page-item dire-page-item--correct">
+                    <span className="dire-page-label">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                            <path d="M5 13l4 4L19 7" />
+                        </svg>
+                        {t('sayDontSay.weSay')}
+                    </span>
+                    <p className="dire-page-text">{getDire(article)}</p>
+                </div>
+                <div className="dire-vs" aria-hidden="true"><span /></div>
+                <div className="dire-page-item dire-page-item--incorrect">
+                    <span className="dire-page-label">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                            <path d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                        {t('sayDontSay.weDontSay')}
+                    </span>
+                    <p className="dire-page-text">{getNePasDire(article)}</p>
+                </div>
+                {getExplanation(article) && (
+                    <div className="dire-page-explanation">
+                        <p>{getExplanation(article)}</p>
+                    </div>
+                )}
+            </div>
+        </div>
+    )
+
     return (
         <div className="dire-page">
             <div className="dire-page-header">
@@ -315,9 +340,9 @@ function DireNePasDirePage() {
                         <h3>{t('sayDontSay.noArticles')}</h3>
                         <p>{t('sayDontSay.noArticlesDesc')}</p>
                     </div>
-                ) : currentArticle ? (
-                    <div className="dire-layout">
-                        <aside className="dire-intro-panel">
+                ) : (
+                    <>
+                        <aside className="dire-intro-panel dire-intro-panel--top">
                             <span className="dire-intro-accent" />
                             <h2 className="dire-intro-title">{t('sayDontSay.whyTitle')}</h2>
                             <p className="dire-intro-text">{t('sayDontSay.whyText')}</p>
@@ -333,75 +358,11 @@ function DireNePasDirePage() {
                             </ul>
                         </aside>
 
-                        <div className="dire-single">
-                        <div key={currentArticle.id} id={`dire-${currentArticle.id}`} className="dire-page-card">
-                            <div className="dire-page-card-header">
-                                {currentArticle.category ? (
-                                    <span className="dire-page-category">{translateCategory(currentArticle.category)}</span>
-                                ) : <span />}
-                                <button
-                                    type="button"
-                                    className="dire-share-btn"
-                                    onClick={() => handleShare(currentArticle)}
-                                    aria-label={t('common.share')}
-                                    title={t('common.share')}
-                                >
-                                    {copiedId === currentArticle.id ? (
-                                        <span className="dire-share-copied">{t('common.copied')}</span>
-                                    ) : (
-                                        <>
-                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                                <circle cx="18" cy="5" r="3" />
-                                                <circle cx="6" cy="12" r="3" />
-                                                <circle cx="18" cy="19" r="3" />
-                                                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
-                                                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
-                                            </svg>
-                                            <span>{t('common.share')}</span>
-                                        </>
-                                    )}
-                                </button>
-                            </div>
-                            <div className="dire-page-card-body">
-                                <div className="dire-page-item dire-page-item--correct">
-                                    <span className="dire-page-label">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
-                                            <path d="M5 13l4 4L19 7" />
-                                        </svg>
-                                        {t('sayDontSay.weSay')}
-                                    </span>
-                                    <p className="dire-page-text">{getDire(currentArticle)}</p>
-                                </div>
-                                <div className="dire-vs" aria-hidden="true"><span /></div>
-                                <div className="dire-page-item dire-page-item--incorrect">
-                                    <span className="dire-page-label">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
-                                            <path d="M6 18L18 6M6 6l12 12" />
-                                        </svg>
-                                        {t('sayDontSay.weDontSay')}
-                                    </span>
-                                    <p className="dire-page-text">{getNePasDire(currentArticle)}</p>
-                                </div>
-                                {getExplanation(currentArticle) && (
-                                    <div className="dire-page-explanation">
-                                        <p>{getExplanation(currentArticle)}</p>
-                                    </div>
-                                )}
-                            </div>
+                        <div className="dire-grid">
+                            {filteredArticles.map((article) => renderCard(article))}
                         </div>
-
-                        {filteredArticles.length > 1 && (
-                            <button type="button" className="dire-next-btn" onClick={goToNext}>
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                    <polyline points="23 4 23 10 17 10" />
-                                    <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
-                                </svg>
-                                {t('sayDontSay.another', 'Voir une autre')}
-                            </button>
-                        )}
-                        </div>
-                    </div>
-                ) : null}
+                    </>
+                )}
             </div>
         </div>
     )
