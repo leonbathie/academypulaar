@@ -53,6 +53,16 @@ function Hero() {
         ]
         return vids[Math.floor(Math.random() * vids.length)]
     })
+    // Perf : la video de fond (100-700 Ko) n'est chargee qu'APRES le premier
+    // rendu, quand le navigateur est au repos, pour ne pas retarder l'affichage
+    // du contenu. En attendant, l'image de fond du slide reste visible.
+    const [videoOn, setVideoOn] = useState(false)
+    useEffect(() => {
+        const ric = window.requestIdleCallback || ((cb) => setTimeout(cb, 600))
+        const cic = window.cancelIdleCallback || clearTimeout
+        const id = ric(() => setVideoOn(true), { timeout: 2500 })
+        return () => cic(id)
+    }, [])
     const [heroSearch, setHeroSearch] = useState('')
     // Resultats en direct
     const [results, setResults] = useState([])
@@ -188,17 +198,19 @@ function Hero() {
             </div>
 
             {/* Fond video (zebu, patre ou mouton, aleatoire) : sur tous les ecrans */}
-            <video
-                className={`hero-bg-video ${heroBgVideo.flip ? 'flip' : ''} ${heroBgVideo.logo ? 'logo' : ''}`}
-                src={heroBgVideo.src}
-                key={heroBgVideo.src}
-                autoPlay
-                loop
-                muted
-                playsInline
-                preload="metadata"
-                aria-hidden="true"
-            />
+            {videoOn && (
+                <video
+                    className={`hero-bg-video ${heroBgVideo.flip ? 'flip' : ''} ${heroBgVideo.logo ? 'logo' : ''}`}
+                    src={heroBgVideo.src}
+                    key={heroBgVideo.src}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    preload="auto"
+                    aria-hidden="true"
+                />
+            )}
             <div className="hero-bg-video-overlay" aria-hidden="true" />
 
             <div className="hero-content">
