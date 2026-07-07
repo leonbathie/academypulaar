@@ -15,6 +15,16 @@
     overflow: visible;
 }
 
+/* Desktop/tablette : le contenu est centre dans 100vh, mais le header est fixe
+   par-dessus. Sans degagement, le badge "Depuis 2016" (haut-gauche) passe
+   derriere le logo. On reserve la hauteur du header en haut. (<=768px a deja
+   son propre padding-top dans les media queries plus bas.) */
+@media (min-width: 769px) {
+    .hero {
+        padding-top: 150px;
+    }
+}
+
 /* Slides */
 .hero-slides {
     position: absolute;
