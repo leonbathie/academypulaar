@@ -1,0 +1,8 @@
+[{
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+        "namespace": "android_app",
+        "package_name": "com.goomufulo.twa",
+        "sha256_cert_fingerprints": ["F4:EF:12:B0:51:E9:B2:40:74:70:54:80:B3:7D:4B:FA:F3:01:43:F6:BE:86:E7:00:F7:4E:6F:11:2E:A8:78:3C"]
+    }
+}]
