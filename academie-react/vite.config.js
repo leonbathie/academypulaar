@@ -13,6 +13,7 @@ export default defineConfig({
             registerType: 'autoUpdate',
             includeAssets: ['favicon.webp', 'favicon.png', 'apple-touch-icon.png'],
             manifest: {
+                id: '/',
                 name: 'Goomu Fulo e Wiɗto',
                 short_name: 'GFW',
                 description: 'Saggitorde e ganndinal Pulaar/Fulfulde — dictionnaire, terminologie et recherche.',
@@ -21,12 +22,20 @@ export default defineConfig({
                 theme_color: '#1a1a2e',
                 background_color: '#fdf8f0',
                 display: 'standalone',
+                orientation: 'any',
                 start_url: '/',
                 scope: '/',
+                categories: ['education', 'books', 'reference'],
                 icons: [
                     { src: 'pwa-192x192.png', sizes: '192x192', type: 'image/png', purpose: 'any' },
                     { src: 'pwa-512x512.png', sizes: '512x512', type: 'image/png', purpose: 'any' },
                     { src: 'pwa-maskable-512x512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' }
+                ],
+                shortcuts: [
+                    { name: 'Dictionnaire', short_name: 'Dico', url: '/dictionnaire' },
+                    { name: 'Terminologie', short_name: 'Terminologie', url: '/terminologie' },
+                    { name: 'Correct / Incorrect', short_name: 'Dire', url: '/dire' },
+                    { name: 'Bibliothèque', short_name: 'Livres', url: '/bibliotheque' }
                 ]
             },
             workbox: {
