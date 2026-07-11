@@ -28,17 +28,20 @@ router.post('/dire', authMiddleware, canWrite, async (req, res) => {
             explanation, explanation_fr, explanation_en, explanation_ff
         } = req.body
 
-        if (!dire && !dire_fr) {
+        const primaryDire = dire || dire_fr || dire_en || dire_ff
+        const primaryNePasDire = ne_pas_dire || ne_pas_dire_fr || ne_pas_dire_en || ne_pas_dire_ff
+
+        if (!primaryDire) {
             return res.status(400).json({ error: 'Dire est requis' })
         }
-        if (!ne_pas_dire && !ne_pas_dire_fr) {
+        if (!primaryNePasDire) {
             return res.status(400).json({ error: 'Ne pas dire est requis' })
         }
 
         const result = await query(
             `INSERT INTO dire_ne_pas_dire (category, dire, dire_fr, dire_en, dire_ff, ne_pas_dire, ne_pas_dire_fr, ne_pas_dire_en, ne_pas_dire_ff, explanation, explanation_fr, explanation_en, explanation_ff)
              VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING *`,
-            [category, dire || dire_fr, dire_fr, dire_en, dire_ff, ne_pas_dire || ne_pas_dire_fr, ne_pas_dire_fr, ne_pas_dire_en, ne_pas_dire_ff, explanation, explanation_fr, explanation_en, explanation_ff]
+            [category, primaryDire, dire_fr, dire_en, dire_ff, primaryNePasDire, ne_pas_dire_fr, ne_pas_dire_en, ne_pas_dire_ff, explanation, explanation_fr, explanation_en, explanation_ff]
         )
 
         res.status(201).json(result.rows[0])

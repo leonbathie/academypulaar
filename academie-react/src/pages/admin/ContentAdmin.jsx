@@ -362,6 +362,7 @@ function ContentAdmin() {
                                                     type="text"
                                                     value={formData.dire_en}
                                                     onChange={e => setFormData({ ...formData, dire_en: e.target.value })}
+                                                    required
                                                     style={{ borderColor: 'rgba(34, 197, 94, 0.5)' }}
                                                 />
                                             </div>
@@ -371,6 +372,7 @@ function ContentAdmin() {
                                                     type="text"
                                                     value={formData.ne_pas_dire_en}
                                                     onChange={e => setFormData({ ...formData, ne_pas_dire_en: e.target.value })}
+                                                    required
                                                     style={{ borderColor: 'rgba(239, 68, 68, 0.5)' }}
                                                 />
                                             </div>
@@ -392,6 +394,7 @@ function ContentAdmin() {
                                                     type="text"
                                                     value={formData.dire_ff}
                                                     onChange={e => setFormData({ ...formData, dire_ff: e.target.value })}
+                                                    required
                                                     style={{ borderColor: 'rgba(34, 197, 94, 0.5)' }}
                                                 />
                                             </div>
@@ -401,6 +404,7 @@ function ContentAdmin() {
                                                     type="text"
                                                     value={formData.ne_pas_dire_ff}
                                                     onChange={e => setFormData({ ...formData, ne_pas_dire_ff: e.target.value })}
+                                                    required
                                                     style={{ borderColor: 'rgba(239, 68, 68, 0.5)' }}
                                                 />
                                             </div>
