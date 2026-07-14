@@ -4,21 +4,48 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="index,follow" />
+    <meta name="theme-color" content="#1A1A2E" />
     <link rel="canonical" href="https://goomufulo.com/confidentialite" />
     <title>Politique de Confidentialité | Goomu Fulo e Wiɗto</title>
     <meta
       name="description"
       content="Comment nous protégeons vos données personnelles sur goomufulo.com."
     />
+
+    <!-- Polices de la charte graphique GFW (memes que l'application) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Source+Sans+Pro:wght@400;600;700&display=swap"
+    />
+
     <style>
+      /* ============================================
+         Charte graphique GOOMU FULO e WIƊTO
+         Tokens repris de src/index.css / LegalPage.css
+         ============================================ */
       :root {
         color-scheme: light;
-        --bg: #f7f2e8;
-        --surface: #ffffff;
-        --text: #1f2937;
-        --muted: #5f6b7a;
-        --accent: #8b5e3c;
-        --border: #e6dccf;
+        --primary-gold: #D4A537;
+        --gold-light: #F2D88A;
+        --primary-dark: #1A1A2E;
+        --primary-navy: #16213E;
+        --secondary-burgundy: #8B2942;
+        --accent-terracotta: #C65D3B;
+        --white: #FFFFFF;
+        --cream: #FDF8F0;
+        --sand: #F5E6D3;
+        --light-gray: #E8E6E1;
+        --medium-gray: #6B6B6B;
+        --dark-gray: #3A3A3A;
+        --surface: #FFFFFF;
+        --font-display: 'Playfair Display', Georgia, serif;
+        --font-body: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+        --radius-md: 8px;
+        --radius-xl: 20px;
+        --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.08);
+        --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.12);
       }
 
       * { box-sizing: border-box; }
@@ -26,125 +53,267 @@
       html, body {
         margin: 0;
         padding: 0;
-        background: linear-gradient(180deg, #f8f4eb 0%, #fffdf8 100%);
-        color: var(--text);
-        font-family: Arial, Helvetica, sans-serif;
-        line-height: 1.65;
+        background: var(--cream);
+        color: var(--dark-gray);
+        font-family: var(--font-body);
+        line-height: 1.7;
+        -webkit-font-smoothing: antialiased;
       }
 
-      body { padding: 32px 16px 64px; }
-
-      .page {
-        max-width: 980px;
+      .container {
+        max-width: 900px;
         margin: 0 auto;
+        padding: 0 24px;
       }
 
-      .hero {
-        background: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: 20px;
-        padding: 32px;
-        box-shadow: 0 18px 50px rgba(34, 23, 13, 0.08);
-        margin-bottom: 24px;
+      /* ---- En-tete : degrade sombre + barre doree (comme .legal-page-header) ---- */
+      .legal-header {
+        background: linear-gradient(135deg, var(--primary-dark) 0%, var(--secondary-burgundy) 50%, var(--accent-terracotta) 100%);
+        color: var(--white);
+        text-align: center;
+        padding: 72px 24px 64px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .legal-header::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 6px;
+        background: linear-gradient(135deg, #D4A537 0%, #F2D88A 50%, #D4A537 100%);
       }
 
       .eyebrow {
         display: inline-block;
-        color: var(--accent);
-        font-weight: 700;
-        letter-spacing: 0.04em;
         text-transform: uppercase;
-        font-size: 0.82rem;
-        margin-bottom: 12px;
+        letter-spacing: 0.14em;
+        font-size: 0.8rem;
+        font-weight: 700;
+        color: var(--gold-light);
+        margin-bottom: 14px;
       }
 
-      h1, h2, h3 { line-height: 1.2; margin-top: 0; }
+      .legal-header h1 {
+        font-family: var(--font-display);
+        font-size: clamp(2rem, 4vw, 2.75rem);
+        font-weight: 700;
+        margin: 0 0 14px;
+        line-height: 1.15;
+      }
 
-      h1 { font-size: clamp(2rem, 4vw, 3.25rem); margin-bottom: 10px; }
-
-      .subtitle { color: var(--muted); margin: 0 0 12px; font-size: 1.05rem; }
+      .legal-header .subtitle {
+        max-width: 620px;
+        margin: 0 auto 18px;
+        font-size: 1.08rem;
+        line-height: 1.6;
+        opacity: 0.9;
+      }
 
       .last-update {
         display: inline-block;
-        background: #f4ebe0;
-        color: #6a4328;
-        border-radius: 999px;
-        padding: 8px 14px;
-        font-size: 0.92rem;
+        padding: 7px 18px;
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 9999px;
+        font-size: 0.86rem;
         font-weight: 600;
       }
 
-      .content {
-        background: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: 20px;
-        padding: 8px 32px 32px;
-      }
+      /* ---- Corps ---- */
+      .legal-body { padding: 56px 0 72px; }
 
+      h1, h2, h3 { line-height: 1.2; }
+
+      /* Encadre d'introduction (comme .legal-highlight) */
       .intro {
-        background: #fff8ef;
-        border-left: 4px solid var(--accent);
-        padding: 18px 20px;
-        border-radius: 14px;
-        margin: 24px 0;
+        background: rgba(212, 165, 55, 0.08);
+        border-left: 4px solid var(--primary-gold);
+        padding: 20px 24px;
+        border-radius: 0 var(--radius-md) var(--radius-md) 0;
+        margin: 0 0 36px;
       }
 
+      .intro p { margin: 0; font-style: italic; color: var(--dark-gray); }
+
+      /* Sommaire (comme .legal-toc) */
       .toc {
-        margin: 24px 0 28px;
-        padding: 20px;
-        border: 1px solid var(--border);
-        border-radius: 16px;
-        background: #fffdfb;
+        background: var(--surface);
+        border-radius: var(--radius-xl);
+        border-left: 4px solid var(--primary-gold);
+        box-shadow: var(--shadow-sm);
+        padding: 28px 36px;
+        margin-bottom: 56px;
       }
 
-      .toc ol { margin: 12px 0 0; padding-left: 22px; columns: 2; gap: 28px; }
+      .toc h2 {
+        font-family: var(--font-display);
+        font-size: 1.15rem;
+        color: var(--primary-gold);
+        margin: 0 0 14px;
+      }
 
-      .section { padding: 24px 0; border-top: 1px solid var(--border); }
+      .toc ol {
+        list-style: none;
+        counter-reset: toc;
+        margin: 0;
+        padding: 0;
+        columns: 2;
+        column-gap: 40px;
+      }
 
-      .section:first-of-type { border-top: 0; }
+      .toc li { counter-increment: toc; margin-bottom: 6px; }
 
-      .section h2 { font-size: 1.45rem; margin-bottom: 12px; }
+      .toc a {
+        display: block;
+        padding: 4px 0;
+        color: var(--medium-gray);
+        text-decoration: none;
+        font-size: 0.96rem;
+        transition: color 0.2s;
+      }
 
-      .section h3 { font-size: 1.1rem; margin: 18px 0 10px; }
-
-      ul { padding-left: 22px; }
-
-      .highlight {
-        background: #fff3dd;
-        border: 1px solid #ead3ae;
-        border-radius: 16px;
-        padding: 18px 20px;
-        margin: 18px 0;
+      .toc a::before {
+        content: counter(toc) ". ";
+        color: var(--primary-gold);
         font-weight: 700;
       }
 
-      .contact-box {
-        margin-top: 28px;
-        padding: 22px;
-        border-radius: 16px;
-        background: linear-gradient(180deg, #fdf4e8 0%, #fffaf4 100%);
-        border: 1px solid #e9d7c2;
+      .toc a:hover { color: var(--primary-gold); }
+
+      /* Sections */
+      .section {
+        padding: 32px 0;
+        border-bottom: 1px solid var(--light-gray);
       }
 
-      a { color: #7a4e31; }
+      .section:last-of-type { border-bottom: 0; }
+
+      .section h2 {
+        font-family: var(--font-display);
+        font-size: 1.55rem;
+        color: var(--dark-gray);
+        margin: 0 0 18px;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+
+      .section-number {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 38px;
+        height: 38px;
+        flex-shrink: 0;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--primary-gold), #e8c547);
+        color: var(--white);
+        font-family: var(--font-body);
+        font-size: 0.98rem;
+        font-weight: 700;
+      }
+
+      .section h3 {
+        font-family: var(--font-display);
+        font-size: 1.15rem;
+        color: var(--dark-gray);
+        margin: 24px 0 10px;
+      }
+
+      .section p {
+        font-size: 1.05rem;
+        line-height: 1.85;
+        color: var(--medium-gray);
+        margin: 0 0 16px;
+      }
+
+      .section ul { padding-left: 24px; margin: 0 0 16px; }
+
+      .section li {
+        font-size: 1.02rem;
+        line-height: 1.8;
+        color: var(--medium-gray);
+        margin-bottom: 6px;
+      }
+
+      .section li::marker { color: var(--primary-gold); }
+
+      .section strong { color: var(--dark-gray); }
+
+      /* Encadre fort (comme .legal-highlight, gras) */
+      .highlight {
+        background: rgba(212, 165, 55, 0.12);
+        border: 1px solid rgba(212, 165, 55, 0.35);
+        border-radius: var(--radius-md);
+        padding: 18px 22px;
+        margin: 18px 0;
+        font-weight: 700;
+        color: var(--dark-gray);
+      }
+
+      a { color: var(--primary-gold); }
+
+      /* Encadre contact (comme .legal-contact-box) */
+      .contact-box {
+        background: var(--surface);
+        border-radius: var(--radius-xl);
+        box-shadow: var(--shadow-md);
+        text-align: center;
+        padding: 32px;
+        margin-top: 40px;
+      }
+
+      .contact-box h3 {
+        font-family: var(--font-display);
+        color: var(--dark-gray);
+        margin: 0 0 10px;
+        font-size: 1.3rem;
+      }
+
+      .contact-box p { color: var(--medium-gray); margin: 0 0 12px; }
+
+      .contact-box a { font-weight: 700; text-decoration: none; }
+      .contact-box a:hover { text-decoration: underline; }
+
+      /* ---- Theme sombre (aligne sur la charte GFW) ---- */
+      @media (prefers-color-scheme: dark) {
+        :root {
+          color-scheme: dark;
+          --cream: #0F0F1A;
+          --surface: #1A1A2E;
+          --dark-gray: #F1EEE7;
+          --medium-gray: #C2C0B8;
+          --light-gray: #2A2A3E;
+        }
+        .section strong { color: var(--dark-gray); }
+        .highlight { color: var(--dark-gray); }
+      }
 
       @media (max-width: 720px) {
-        body { padding: 18px 12px 40px; }
-        .hero, .content { padding-left: 18px; padding-right: 18px; }
+        .container { padding: 0 18px; }
+        .legal-header { padding: 56px 18px 48px; }
+        .legal-body { padding: 40px 0 56px; }
+        .toc { padding: 22px; }
         .toc ol { columns: 1; }
+        .section h2 { font-size: 1.35rem; }
+        .contact-box { padding: 24px; }
       }
     </style>
   </head>
   <body>
-    <main class="page">
-      <header class="hero">
+    <header class="legal-header">
+      <div class="container">
         <span class="eyebrow">Goomu Fulo e Wiɗto</span>
         <h1>Politique de Confidentialité</h1>
         <p class="subtitle">Comment nous protégeons vos données personnelles sur goomufulo.com</p>
         <span class="last-update">Dernière mise à jour : 19 mars 2026</span>
-      </header>
+      </div>
+    </header>
 
-      <article class="content">
+    <main class="legal-body">
+      <div class="container">
         <div class="intro">
           <p>Chez Goomu Fulo e Wiɗto, la protection de vos données personnelles est une priorité. Cette politique de confidentialité décrit de façon transparente quelles données nous collectons, pourquoi nous les utilisons et comment nous les protégeons. Nous nous engageons à respecter votre vie privée et à ne jamais utiliser vos informations à des fins commerciales ou publicitaires.</p>
         </div>
@@ -168,7 +337,7 @@
         </nav>
 
         <section class="section" id="responsable">
-          <h2>1. Responsable du traitement</h2>
+          <h2><span class="section-number">1</span> Responsable du traitement</h2>
           <p>Le responsable du traitement des données personnelles collectées sur le site goomufulo.com est :</p>
           <ul>
             <li><strong>Organisation :</strong> Goomu Fulo Wiɗto</li>
@@ -179,7 +348,7 @@
         </section>
 
         <section class="section" id="collecte">
-          <h2>2. Données collectées</h2>
+          <h2><span class="section-number">2</span> Données collectées</h2>
           <p>Nous collectons différentes catégories de données selon votre utilisation de la plateforme :</p>
           <h3>Données d'inscription</h3>
           <p>Lors de la création de votre compte, nous collectons :</p>
@@ -211,7 +380,7 @@
         </section>
 
         <section class="section" id="finalites">
-          <h2>3. Finalités du traitement</h2>
+          <h2><span class="section-number">3</span> Finalités du traitement</h2>
           <p>Vos données sont utilisées exclusivement pour les finalités suivantes :</p>
           <ul>
             <li>Gestion de votre compte utilisateur et authentification sécurisée</li>
@@ -225,7 +394,7 @@
         </section>
 
         <section class="section" id="base">
-          <h2>4. Base légale du traitement</h2>
+          <h2><span class="section-number">4</span> Base légale du traitement</h2>
           <p>Le traitement de vos données repose sur les bases légales suivantes :</p>
           <ul>
             <li><strong>Consentement :</strong> Vous consentez au traitement de vos données lors de la création de votre compte ou de l'envoi d'un message de contact.</li>
@@ -235,7 +404,7 @@
         </section>
 
         <section class="section" id="conservation">
-          <h2>5. Durée de conservation</h2>
+          <h2><span class="section-number">5</span> Durée de conservation</h2>
           <p>Vos données sont conservées pendant les durées suivantes :</p>
           <ul>
             <li>Données de compte : conservées tant que votre compte est actif. Après suppression de votre compte, vos données sont effacées sous 30 jours.</li>
@@ -246,7 +415,7 @@
         </section>
 
         <section class="section" id="partage">
-          <h2>6. Partage des données</h2>
+          <h2><span class="section-number">6</span> Partage des données</h2>
           <p>Goomu Fulo e Wiɗto ne vend, ne loue et ne partage jamais vos données personnelles avec des tiers à des fins commerciales ou publicitaires.</p>
           <div class="highlight">Vos données ne sont jamais vendues, louées ou partagées à des fins commerciales. Jamais.</div>
           <p>Vos données peuvent être partagées uniquement dans les cas suivants :</p>
@@ -258,7 +427,7 @@
         </section>
 
         <section class="section" id="securite">
-          <h2>7. Sécurité des données</h2>
+          <h2><span class="section-number">7</span> Sécurité des données</h2>
           <p>Nous mettons en œuvre des mesures techniques et organisationnelles robustes pour protéger vos données :</p>
           <ul>
             <li>Chiffrement des communications via HTTPS/TLS (certificat SSL géré par Cloudflare)</li>
@@ -271,7 +440,7 @@
         </section>
 
         <section class="section" id="droits">
-          <h2>8. Vos droits</h2>
+          <h2><span class="section-number">8</span> Vos droits</h2>
           <p>Conformément à la législation applicable en matière de protection des données, vous disposez des droits suivants :</p>
           <ul>
             <li><strong>Droit d'accès :</strong> Vous pouvez demander à connaître les données que nous détenons à votre sujet.</li>
@@ -285,7 +454,7 @@
         </section>
 
         <section class="section" id="cookies">
-          <h2>9. Cookies</h2>
+          <h2><span class="section-number">9</span> Cookies</h2>
           <p>Le site goomufulo.com utilise exclusivement des cookies techniques nécessaires au fonctionnement de la plateforme. Nous n'utilisons aucun cookie publicitaire, de traçage ou d'analyse comportementale.</p>
           <h3>Cookies utilisés</h3>
           <ul>
@@ -297,19 +466,19 @@
         </section>
 
         <section class="section" id="mineurs">
-          <h2>10. Protection des mineurs</h2>
+          <h2><span class="section-number">10</span> Protection des mineurs</h2>
           <p>Le site goomufulo.com est une plateforme éducative à vocation culturelle, accessible à tous les publics. L'apprentissage de la langue Fulfulde est ouvert sans restriction d'âge.</p>
           <p>Cependant, la création d'un compte utilisateur par un mineur de moins de 16 ans requiert le consentement d'un parent ou tuteur légal. Si vous êtes parent et que vous constatez que votre enfant s'est inscrit sans votre consentement, contactez-nous pour que nous procédions à la suppression du compte.</p>
         </section>
 
         <section class="section" id="modifications">
-          <h2>11. Modifications de cette politique</h2>
+          <h2><span class="section-number">11</span> Modifications de cette politique</h2>
           <p>Nous nous réservons le droit de modifier cette politique de confidentialité à tout moment. Les modifications prendront effet dès leur publication sur cette page.</p>
           <p>En cas de modification substantielle affectant vos droits ou la manière dont vos données sont traitées, nous vous en informerons par une notification visible sur le site. La date de dernière mise à jour est indiquée en haut de cette page.</p>
         </section>
 
         <section class="section" id="contact-dpo">
-          <h2>12. Nous contacter</h2>
+          <h2><span class="section-number">12</span> Nous contacter</h2>
           <p>Pour toute question relative à cette politique de confidentialité ou pour exercer vos droits, vous pouvez nous contacter via :</p>
           <ul>
             <li><strong>Email :</strong> contact@goomufulowidto.org</li>
@@ -323,7 +492,7 @@
           <p>Pour toute question ou demande relative à vos données personnelles, n'hésitez pas à nous contacter.</p>
           <p><a href="mailto:contact@goomufulowidto.org">contact@goomufulowidto.org</a></p>
         </aside>
-      </article>
+      </div>
     </main>
   </body>
 </html>
