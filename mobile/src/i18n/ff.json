@@ -1,0 +1,71 @@
+{
+  "tabs": {
+    "home": "Jaɓɓorgo",
+    "dictionary": "Saggitorde",
+    "favorites": "Suɓaaɗe",
+    "library": "Defterdu",
+    "more": "Goɗɗe"
+  },
+  "common": {
+    "siteName": "Goomu Fulo e Wiɗto",
+    "siteSlogan": "Hentordu Ɗemngal Fulfulde",
+    "search": "Yiylo",
+    "share": "Sarde",
+    "retry": "Eto kadi",
+    "loading": "Ina loowa…",
+    "seeAll": "Yiy fof",
+    "close": "Uddu",
+    "error": "Juumre waɗii"
+  },
+  "offline": {
+    "banner": "Alaa jokkondiral — keɓe danndaaɗe",
+    "noData": "Alaa keɓe danndaaɗe. Jokkondir e enternet ngam loowde saggitorde nde."
+  },
+  "home": {
+    "quickSearch": "helmere…",
+    "wordsTranslated": "Kelme Pirtaaɗe",
+    "domains": "Fannuuji",
+    "news": "Kabaruuji",
+    "scholars": "Annduɓe",
+    "noNews": "Alaa kabaaru goodɗo"
+  },
+  "dictionary": {
+    "title": "Saggitorde Fulfulde",
+    "searchPlaceholder": "helmere…",
+    "searchPrompt": "Winndu helmere walla suɓo alkulal ngam fuɗɗaade",
+    "noResults": "Alaa",
+    "result": "njeñtudi",
+    "results": "njeñtudi",
+    "allDomains": "Fannu fof",
+    "noDomain": "Alaa fannu",
+    "listenPronunciation": "Heɗto no wowlirtee",
+    "listenExample": "Heɗto yeru",
+    "example": "Yeru",
+    "wordsStartingWith": "Kelme puɗɗortooɗe e"
+  },
+  "favorites": {
+    "title": "Suɓaaɗe",
+    "empty": "Alaa helmere suɓaande",
+    "emptyHint": "Ñoƴƴu hoodere nde e helmere ngam yiytude nde ɗoo, hay so alaa jokkondiral.",
+    "add": "Ɓeydu e suɓaaɗe",
+    "remove": "Ittu e suɓaaɗe"
+  },
+  "more": {
+    "title": "Goɗɗe",
+    "language": "Ɗemngal",
+    "explore": "Yiyto",
+    "history": "Ciimtol Goomu Fulo e Wiɗto",
+    "missions": "Paandaale",
+    "scholars": "Annduɓe",
+    "members": "Terɗe",
+    "terminology": "Kelmeendi",
+    "sayDontSay": "Selli, Sellaani",
+    "languageQuestions": "Naamne lolluɗe",
+    "library": "Defterdu",
+    "about": "Hentordu GFW",
+    "contact": "Jokkondirde",
+    "legal": "Binndanɗe laawol",
+    "privacy": "Dawirgol Sutura",
+    "openInBrowser": "Uddit e wanngorde"
+  }
+}

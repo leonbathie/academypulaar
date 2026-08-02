@@ -1,0 +1,71 @@
+{
+  "tabs": {
+    "home": "Home",
+    "dictionary": "Dictionary",
+    "favorites": "Favorites",
+    "library": "Library",
+    "more": "More"
+  },
+  "common": {
+    "siteName": "Goomu Fulo e Wiɗto",
+    "siteSlogan": "Academy of the Fulfulde language",
+    "search": "Search",
+    "share": "Share",
+    "retry": "Retry",
+    "loading": "Loading…",
+    "seeAll": "See all",
+    "close": "Close",
+    "error": "Something went wrong"
+  },
+  "offline": {
+    "banner": "Offline — saved content",
+    "noData": "No saved content. Connect to the internet to load the dictionary."
+  },
+  "home": {
+    "quickSearch": "Search for a word…",
+    "wordsTranslated": "Words translated",
+    "domains": "Domains",
+    "news": "News",
+    "scholars": "Scholars",
+    "noNews": "No news available"
+  },
+  "dictionary": {
+    "title": "Fulfulde Dictionary",
+    "searchPlaceholder": "Search for a word…",
+    "searchPrompt": "Type a word or select a letter to start",
+    "noResults": "No results found",
+    "result": "result",
+    "results": "results",
+    "allDomains": "All domains",
+    "noDomain": "No domain",
+    "listenPronunciation": "Listen to pronunciation",
+    "listenExample": "Listen to the example",
+    "example": "Example",
+    "wordsStartingWith": "Words starting with"
+  },
+  "favorites": {
+    "title": "Favorites",
+    "empty": "No favorites yet",
+    "emptyHint": "Tap the star on a word to find it here, even offline.",
+    "add": "Add to favorites",
+    "remove": "Remove from favorites"
+  },
+  "more": {
+    "title": "More",
+    "language": "Language",
+    "explore": "Explore",
+    "history": "History",
+    "missions": "Missions",
+    "scholars": "Scholars",
+    "members": "Members",
+    "terminology": "Terminology",
+    "sayDontSay": "Correct, Incorrect",
+    "languageQuestions": "Frequently asked questions",
+    "library": "Library",
+    "about": "About",
+    "contact": "Contact",
+    "legal": "Legal notice",
+    "privacy": "Privacy",
+    "openInBrowser": "Open in browser"
+  }
+}

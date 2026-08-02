@@ -1,0 +1,57 @@
+{
+  "expo": {
+    "name": "GoomuFulo",
+    "slug": "goomufulo",
+    "scheme": "goomufulo",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "backgroundColor": "#fdf8f0",
+    "primaryColor": "#1a1a2e",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "ios": {
+      "bundleIdentifier": "com.goomufulo.app",
+      "buildNumber": "1",
+      "supportsTablet": false,
+      "config": {
+        "usesNonExemptEncryption": false
+      },
+      "infoPlist": {
+        "CFBundleDisplayName": "GoomuFulo",
+        "CFBundleDevelopmentRegion": "fr",
+        "CFBundleLocalizations": [
+          "fr",
+          "en",
+          "ff"
+        ]
+      }
+    },
+    "android": {
+      "package": "com.goomufulo.app",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundColor": "#fdf8f0"
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash-icon.png",
+          "imageWidth": 200,
+          "resizeMode": "contain",
+          "backgroundColor": "#fdf8f0"
+        }
+      ],
+      "expo-localization",
+      "expo-font",
+      "expo-asset"
+    ]
+  }
+}

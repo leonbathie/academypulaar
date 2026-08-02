@@ -1,0 +1,71 @@
+{
+  "tabs": {
+    "home": "Accueil",
+    "dictionary": "Dictionnaire",
+    "favorites": "Favoris",
+    "library": "Bibliothèque",
+    "more": "Plus"
+  },
+  "common": {
+    "siteName": "Goomu Fulo e Wiɗto",
+    "siteSlogan": "Académie de la langue Fulfulde",
+    "search": "Rechercher",
+    "share": "Partager",
+    "retry": "Réessayer",
+    "loading": "Chargement…",
+    "seeAll": "Voir tout",
+    "close": "Fermer",
+    "error": "Une erreur est survenue"
+  },
+  "offline": {
+    "banner": "Hors ligne — contenu enregistré",
+    "noData": "Aucun contenu enregistré. Connectez-vous à Internet pour charger le dictionnaire."
+  },
+  "home": {
+    "quickSearch": "Rechercher un mot…",
+    "wordsTranslated": "Mots traduits",
+    "domains": "Domaines",
+    "news": "Actualités",
+    "scholars": "Les érudits",
+    "noNews": "Aucune actualité disponible"
+  },
+  "dictionary": {
+    "title": "Dictionnaire Fulfulde",
+    "searchPlaceholder": "Rechercher un mot…",
+    "searchPrompt": "Tapez un mot ou sélectionnez une lettre pour commencer",
+    "noResults": "Aucun résultat trouvé",
+    "result": "résultat",
+    "results": "résultats",
+    "allDomains": "Tous les domaines",
+    "noDomain": "Sans domaine",
+    "listenPronunciation": "Écouter la prononciation",
+    "listenExample": "Écouter l'exemple",
+    "example": "Exemple",
+    "wordsStartingWith": "Mots commençant par"
+  },
+  "favorites": {
+    "title": "Favoris",
+    "empty": "Aucun favori pour l'instant",
+    "emptyHint": "Touchez l'étoile sur un mot pour le retrouver ici, même hors ligne.",
+    "add": "Ajouter aux favoris",
+    "remove": "Retirer des favoris"
+  },
+  "more": {
+    "title": "Plus",
+    "language": "Langue",
+    "explore": "Explorer",
+    "history": "L'histoire",
+    "missions": "Les missions",
+    "scholars": "Les érudits",
+    "members": "Les membres",
+    "terminology": "Terminologie",
+    "sayDontSay": "Correct, Incorrect",
+    "languageQuestions": "Questions fréquentes",
+    "library": "Bibliothèque",
+    "about": "À propos",
+    "contact": "Contact",
+    "legal": "Mentions légales",
+    "privacy": "Confidentialité",
+    "openInBrowser": "Ouvrir dans le navigateur"
+  }
+}
