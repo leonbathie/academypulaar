@@ -2,6 +2,7 @@
   "expo": {
     "name": "GoomuFulo",
     "slug": "goomufulo",
+    "owner": "leonfall",
     "scheme": "goomufulo",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -51,7 +52,8 @@
       ],
       "expo-localization",
       "expo-font",
-      "expo-asset"
+      "expo-asset",
+      "expo-image"
     ]
   }
 }
