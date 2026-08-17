@@ -3,6 +3,9 @@
     "target": {
         "namespace": "android_app",
         "package_name": "com.goomufulo.twa",
-        "sha256_cert_fingerprints": ["F4:EF:12:B0:51:E9:B2:40:74:70:54:80:B3:7D:4B:FA:F3:01:43:F6:BE:86:E7:00:F7:4E:6F:11:2E:A8:78:3C"]
+        "sha256_cert_fingerprints": [
+            "72:47:5F:B1:05:27:28:15:7E:B3:AA:07:66:BC:BA:0E:D1:0A:D8:3D:3C:15:9D:02:88:38:D7:3D:F5:4E:20:63",
+            "F4:EF:12:B0:51:E9:B2:40:74:70:54:80:B3:7D:4B:FA:F3:01:43:F6:BE:86:E7:00:F7:4E:6F:11:2E:A8:78:3C"
+        ]
     }
 }]
