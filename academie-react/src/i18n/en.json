@@ -1,4 +1,17 @@
 {
+    "heart3d": {
+        "nav": "3D heart",
+        "eyebrow": "Explore in Pulaar",
+        "title": "Discover the heart in 3D",
+        "description": "Explore the anatomy of the heart, discover its structures in Pulaar, and test your knowledge with an interactive quiz.",
+        "hint": "Rotate the model, explore its structures, and use the controls to personalize your exploration.",
+        "open": "Open in a new tab",
+        "frameTitle": "Interactive 3D heart exploration",
+        "featureLabel": "A new way to learn",
+        "featureTitle": "The heart comes to life in 3D",
+        "featureText": "Explore the human heart and its Pulaar vocabulary through an interactive experience.",
+        "featureAction": "Explore the 3D heart"
+    },
     "common": {
         "siteName": "Goomu Fulo e Wiɗto",
         "siteSlogan": "Fulfulde Language Academy",

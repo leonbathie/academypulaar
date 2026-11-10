@@ -1,4 +1,17 @@
 {
+    "heart3d": {
+        "nav": "Ɓernde 3D",
+        "eyebrow": "Yiyto e Pulaar",
+        "title": "Yiyto ɓernde e 3D",
+        "description": "Yiyto ɓernde, anndu inɗe ɗe e Pulaar, tee jarrib ganndal maa.",
+        "hint": "Wiylu ɓernde ndee, yiyto e mun, tee kuutor butoŋji ɗin.",
+        "open": "Uddit e tabbere hesere",
+        "frameTitle": "Yiytugol ɓernde e 3D",
+        "featureLabel": "Laawol kesol jaŋde",
+        "featureTitle": "Ɓernde e 3D",
+        "featureText": "Yiyto ɓernde neɗɗo e inɗe mum e Pulaar.",
+        "featureAction": "Yiyto ɓernde e 3D"
+    },
     "common": {
         "siteName": "Goomu Fulo e Wiɗto",
         "siteSlogan": "Hentordu Ɗemngal Fulfulde",

@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="ff">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ɓernde 3D • Design 3D & Kuutorgal Ñoŋal e Pulaar</title>
+  <link rel="stylesheet" href="./src/styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>❤️</text></svg>">
+</head>
+<body>
+  <div id="app">
+    <!-- Top Header -->
+    <header>
+      <div class="brand">
+        <svg class="brand-icon" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+        </svg>
+        <div>
+          <span class="brand-title">ƁERNDE 3D</span>
+          <span class="brand-tag">Design & Ñoŋal e Pulaar</span>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <!-- Language Switcher -->
+        <div class="lang-switch">
+          <button id="lang-ff" class="lang-btn active" title="Pulaar (Fulfulde)">Pulaar</button>
+          <button id="lang-fr" class="lang-btn" title="Français">FR</button>
+          <button id="lang-en" class="lang-btn" title="English">EN</button>
+        </div>
+
+        <button id="btn-add-pin" class="btn btn-primary" title="Faw ñoŋal kesal e dow ɓernde ndee">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+          <span class="i18n-add-pin">+ Ñoŋal Keso</span>
+        </button>
+
+        <button id="btn-quiz" class="btn" title="Fuɗɗo jarribo jaŋde e Pulaar">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3M12 17h.01"/></svg>
+          <span class="i18n-quiz">Jarribo</span>
+        </button>
+
+        <button id="btn-screenshot" class="btn" title="Nate natal 3D e PNG">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+          <span class="i18n-capture">Nate (PNG)</span>
+        </button>
+
+        <button id="btn-export-menu" class="btn" title="Moftu walla naatnu ñoŋi">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+          <span class="i18n-export">Jokkondire</span>
+        </button>
+
+        <button id="btn-help" class="btn" title="Ballal e laawol kuutoragol">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Workspace -->
+    <div class="workspace">
+      <button type="button" id="sidebar-toggle" class="btn sidebar-toggle" aria-controls="anatomy-sidebar" aria-expanded="false">Taƴɗe ɓernde</button>
+      <!-- Left Sidebar: Anatomy Hierarchy & Search -->
+      <aside id="anatomy-sidebar" class="sidebar">
+        <div class="sidebar-header">
+          <div class="search-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="search-input" placeholder="Yiylo taƴre e Pulaar..." autocomplete="off">
+          </div>
+          <div class="quick-pulaar-keys" title="Alkule Pulaar ngam yiylo">
+            <span class="quick-pulaar-label">Alkule :</span>
+            <button type="button" class="pulaar-key-btn quick-key" data-char="ɓ">ɓ</button>
+            <button type="button" class="pulaar-key-btn quick-key" data-char="ɗ">ɗ</button>
+            <button type="button" class="pulaar-key-btn quick-key" data-char="ƴ">ƴ</button>
+            <button type="button" class="pulaar-key-btn quick-key" data-char="ŋ">ŋ</button>
+            <button type="button" class="pulaar-key-btn quick-key" data-char="ñ">ñ</button>
+            <button type="button" class="pulaar-key-btn quick-key" data-char="Ɓ">Ɓ</button>
+            <button type="button" class="pulaar-key-btn quick-key" data-char="Ɗ">Ɗ</button>
+            <button type="button" class="pulaar-key-btn quick-key" data-char="Ƴ">Ƴ</button>
+          </div>
+          <div class="category-chips">
+            <button class="chip active" data-cat="all">Fof (<span id="count-all">15</span>)</button>
+            <button class="chip" data-cat="chamber">Cuuɗi</button>
+            <button class="chip" data-cat="vessel">Ɗaɗi</button>
+            <button class="chip" data-cat="valve">Ombirɗe</button>
+            <button class="chip" data-cat="tissue">Teewu</button>
+          </div>
+        </div>
+
+        <!-- Scrollable Anatomy List -->
+        <div id="annotation-list" class="annotation-list">
+          <!-- Dynamically populated -->
+        </div>
+      </aside>
+
+      <!-- Center 3D Viewport -->
+      <main class="canvas-wrapper">
+        <div id="heart-canvas-container"></div>
+
+        <!-- 3D Floating Part Tooltip -->
+        <div id="hover-tooltip" class="hover-tooltip">Taƴre ɓernde</div>
+
+        <!-- Notice banner when Add Pin mode is active -->
+        <div id="add-pin-notice" class="hover-tooltip" style="top: 60px; background: rgba(230,57,70,0.9); color: white; display: none;">
+          ✨ Ñoŋo nokku e dow ɓernde ndee ngam fawde ñoŋal kesal!
+        </div>
+
+        <!-- Camera Angle Presets -->
+        <div class="view-presets">
+          <button class="view-preset-btn" data-view="anterior" title="Yeeso (Vue antérieure)">Yeeso</button>
+          <button class="view-preset-btn" data-view="posterior" title="Caggal (Vue postérieure)">Caggal</button>
+          <button class="view-preset-btn" data-view="left" title="Nano (Vue gauche)">Nano</button>
+          <button class="view-preset-btn" data-view="right" title="Ñaamo (Vue droite)">Ñaamo</button>
+          <button class="view-preset-btn" data-view="superior" title="Dow (Vue supérieure)">Dow</button>
+        </div>
+
+        <!-- Right Side Anatomy Detail Card -->
+        <aside id="details-panel" class="details-panel">
+          <div class="panel-header">
+            <div>
+              <span id="panel-category" class="tag-pill">Categori</span>
+              <span id="panel-coords" class="tag-pill" style="font-family: monospace; font-size: 0.65rem;">(x, y, z)</span>
+            </div>
+            <button id="panel-close-btn" class="panel-close-btn" title="Uddu">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+          </div>
+
+          <div class="panel-body">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <h2 id="panel-title" class="panel-title">Innde Taƴre</h2>
+              <button id="panel-audio-btn" class="btn" style="padding: 4px 8px;" title="Heɗo no wiyirtee e Pulaar">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+              </button>
+            </div>
+
+            <div class="panel-translations">
+              <span id="panel-title-fr" class="tag-pill">Français</span>
+              <span id="panel-title-en" class="tag-pill">English</span>
+            </div>
+
+            <div class="panel-desc-box">
+              <h4>Golle & Faandaare e Pulaar</h4>
+              <p id="panel-desc-pulaar">Bayyinaango e Pulaar...</p>
+            </div>
+
+            <div class="panel-desc-box">
+              <h4>Description Médicale (Français)</h4>
+              <p id="panel-desc-fr">Explication médicale en français...</p>
+            </div>
+
+            <div class="fun-fact-box">
+              <h4>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                Kumpa Ɓernde
+              </h4>
+              <p id="panel-fun-fact">Kumpa e miijo ɓurɗo laaɓtude...</p>
+            </div>
+
+            <div class="panel-actions">
+              <button id="panel-btn-edit" class="btn" style="flex: 1;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                Waylu (Modifier)
+              </button>
+              <button id="panel-btn-delete" class="btn" style="color: #f87171; border-color: rgba(239,68,68,0.3);">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+              </button>
+            </div>
+          </div>
+        </aside>
+      </main>
+    </div>
+
+    <!-- Bottom Controls Bar -->
+    <footer class="bottom-bar">
+      <!-- Cardiac Cycle Controls -->
+      <div class="bar-section">
+        <button id="btn-play-pause" class="btn btn-primary" title="Darnu walla fuɗɗu fiifngo ɓernde">
+          <svg id="play-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          <svg id="pause-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display:none;"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+          <span id="play-label">Fiifngo</span>
+        </button>
+
+        <div class="bpm-control" title="Yaawre fiifngo ɓernde (Battements par minute)">
+          <span id="bpm-val" class="bpm-badge">72 BPM</span>
+          <input type="range" id="bpm-slider" class="slider" min="35" max="180" value="72">
+        </div>
+
+        <button id="btn-audio-toggle" class="btn" title="Sawto fiifngo ɓernde (Son cardiaque réaliste)">
+          <svg id="audio-on-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+          <span id="audio-status-label">Sawto: OFF</span>
+        </button>
+      </div>
+
+      <!-- Visual Render Modes -->
+      <div class="bar-section">
+        <div class="mode-pills">
+          <button class="mode-btn active" data-mode="realistic" title="No ɓernde wayi e goonga">Réaliste</button>
+          <button class="mode-btn" data-mode="colored" title="Noone ƴiiƴam: Ƴiiƴam laaɓɗam (boɗewal) e tuunɗam (buloowal)">Oxygène</button>
+          <button class="mode-btn" data-mode="xray" title="Rayons X / Suudu nder">Rayons X</button>
+          <button class="mode-btn" data-mode="wireframe" title="Fil de fer 3D">Fil de Fer</button>
+        </div>
+
+        <button id="btn-cross-section" class="btn" title="Kurol nder: Yiy cuuɗi e bombirɗe nder ɓernde">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/></svg>
+          <span>Kurol Nder</span>
+        </button>
+
+        <button id="btn-blood-flow" class="btn btn-active" title="Dogdu ƴiiƴam: Particules sanguines animées">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="6" cy="12" r="3"/><circle cx="12" cy="12" r="3"/><circle cx="18" cy="12" r="3"/></svg>
+          <span>Dogdu Ƴiiƴam</span>
+        </button>
+
+        <button id="btn-toggle-pins" class="btn btn-active" title="Hollu walla suuɗ ñoŋi">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span>Ñoŋi</span>
+        </button>
+      </div>
+    </footer>
+
+    <!-- 1. ADD / EDIT ANNOTATION MODAL -->
+    <div id="annotation-modal" class="modal-overlay">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3 id="modal-annotation-title">Ñoŋal Keso e Pulaar</h3>
+          <button id="modal-ann-close" class="panel-close-btn">&times;</button>
+        </div>
+        <div class="modal-body">
+          <!-- Pulaar Virtual Keyboard Helper -->
+          <div class="pulaar-keyboard-bar">
+            <span class="pulaar-kb-title">Kelle Pulaar (Alkule keeriiɗe - Ñoŋo ngam naatnude) :</span>
+            <div class="pulaar-char-keys">
+              <button type="button" class="pulaar-key-btn" data-char="ɓ">ɓ</button>
+              <button type="button" class="pulaar-key-btn" data-char="ɗ">ɗ</button>
+              <button type="button" class="pulaar-key-btn" data-char="ƴ">ƴ</button>
+              <button type="button" class="pulaar-key-btn" data-char="ŋ">ŋ</button>
+              <button type="button" class="pulaar-key-btn" data-char="ñ">ñ</button>
+              <button type="button" class="pulaar-key-btn" data-char="Ɓ">Ɓ</button>
+              <button type="button" class="pulaar-key-btn" data-char="Ɗ">Ɗ</button>
+              <button type="button" class="pulaar-key-btn" data-char="Ƴ">Ƴ</button>
+              <button type="button" class="pulaar-key-btn" data-char="Ŋ">Ŋ</button>
+              <button type="button" class="pulaar-key-btn" data-char="Ñ">Ñ</button>
+            </div>
+          </div>
+
+          <form id="annotation-form">
+            <input type="hidden" id="form-ann-id">
+            <input type="hidden" id="form-ann-pos-x">
+            <input type="hidden" id="form-ann-pos-y">
+            <input type="hidden" id="form-ann-pos-z">
+
+            <div class="form-group">
+              <label for="form-title-pulaar">Innde e Pulaar (Nom en Pulaar) *</label>
+              <input type="text" id="form-title-pulaar" class="form-control" placeholder="Yeru: Suudu ɓernde nano..." required>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+              <div class="form-group">
+                <label for="form-title-fr">Nom en Français</label>
+                <input type="text" id="form-title-fr" class="form-control" placeholder="Ex: Ventricule gauche...">
+              </div>
+              <div class="form-group">
+                <label for="form-category">Taƴre (Catégorie)</label>
+                <select id="form-category" class="form-control">
+                  <option value="chamber">Suudu ɓernde (Chambre)</option>
+                  <option value="vessel">Ɗadol ƴiiƴam (Vaisseau)</option>
+                  <option value="valve">Ombirgal ɓernde (Valvule)</option>
+                  <option value="tissue">Teewu ɓernde (Tissu/Muscle)</option>
+                  <option value="other">Goɗɗum (Autre)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="form-desc-pulaar">Bayyinaango & Golle e Pulaar (Rôle & Description)</label>
+              <textarea id="form-desc-pulaar" class="form-control" placeholder="Ɗoo aɗa waawi winndude golle ndee taƴre ɓernde e ɗemngal Pulaar..."></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="form-desc-fr">Description Médicale (Français)</label>
+              <textarea id="form-desc-fr" class="form-control" placeholder="Explication médicale ou fonctionnelle en français..."></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="form-funfact-pulaar">Kumpa / Tinndinol e Pulaar (Anecdote / Conseil)</label>
+              <input type="text" id="form-funfact-pulaar" class="form-control" placeholder="Tinndinol jaŋde walla cellal...">
+            </div>
+
+            <div class="form-group">
+              <label for="form-color">Noone Ñoŋal (Couleur du marqueur)</label>
+              <div style="display: flex; gap: 10px; align-items: center;">
+                <input type="color" id="form-color" value="#e63946" style="width: 44px; height: 36px; border: none; border-radius: 6px; cursor: pointer; background: transparent;">
+                <span style="font-size: 0.8rem; color: var(--text-muted);">Suɓo noone ñoŋal ngal e dow ɓernde 3D</span>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button id="modal-ann-cancel" class="btn">Haaytu (Annuler)</button>
+          <button id="modal-ann-submit" class="btn btn-primary">Moftu Ñoŋal (Enregistrer)</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. QUIZ MODAL -->
+    <div id="quiz-modal" class="modal-overlay">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3>Laawol Jaŋde & Jarribo e Pulaar</h3>
+          <button id="quiz-close-btn" class="panel-close-btn">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="quiz-header-status">
+            <span>Ko keɓ-ɗaa : <strong id="quiz-score" style="color: #34d399;">0 / 0</strong></span>
+            <span>🔥 Dimmere : <strong id="quiz-streak" style="color: #f59e0b;">0</strong></span>
+          </div>
+
+          <div id="quiz-prompt" class="quiz-prompt">
+            Hol ko woni innde ndee taƴre ɓernde?
+          </div>
+
+          <div id="quiz-options" class="quiz-options">
+            <!-- 4 answer cards -->
+          </div>
+
+          <div id="quiz-feedback" class="quiz-feedback" style="display: none;">
+            <span id="quiz-feedback-text">Feedback text</span>
+            <button id="quiz-next-btn" class="btn btn-primary" style="padding: 4px 10px; font-size: 0.78rem;">Garoowo (Suivant) &rarr;</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. EXPORT / IMPORT MODAL -->
+    <div id="export-modal" class="modal-overlay">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3>Jokkondire & Moftugol Ñoŋi</h3>
+          <button id="export-close-btn" class="panel-close-btn">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="panel-desc-box">
+            <h4>1. Aaltu Ñoŋi maa (Exporter en JSON)</h4>
+            <p style="margin-bottom: 10px;">Aɗa waawi aaltude ñoŋi maa fof e fiilde JSON ngam huutoraade ɗum caggal walla senndude ɗum e heɗiyankooɓe.</p>
+            <button id="btn-download-json" class="btn btn-primary">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+              Aaltu JSON (Télécharger)
+            </button>
+          </div>
+
+          <div class="panel-desc-box">
+            <h4>2. Naatnu Fiilde Ñoŋi (Importer un JSON)</h4>
+            <p style="margin-bottom: 10px;">Suɓo fiilde JSON ñoŋi ɓernde ngam artirde ɗum e nder jaŋde maa.</p>
+            <input type="file" id="import-json-file" accept=".json" style="display: none;">
+            <button id="btn-trigger-import" class="btn">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+              Naatnu Fiilde JSON
+            </button>
+          </div>
+
+          <div class="panel-desc-box">
+            <h4>3. Rutto e Ñoŋi Asli (Réinitialiser par défaut)</h4>
+            <p style="margin-bottom: 10px;">Momtu waylooji maa kesi ngam artirde taƴe 15 asliije ɗee.</p>
+            <button id="btn-reset-defaults" class="btn" style="color: #f87171; border-color: rgba(239,68,68,0.3);">
+              Artir Taƴe Asliije
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. HELP / ABOUT MODAL -->
+    <div id="help-modal" class="modal-overlay">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3>Ballal & Kuutoragol Ɓernde 3D</h3>
+          <button id="help-close-btn" class="panel-close-btn">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="panel-desc-box">
+            <h4>🎮 No ɓernde ndee yirwintirtee (Commandes 3D)</h4>
+            <ul style="margin-left: 18px; line-height: 1.6; font-size: 0.85rem;">
+              <li><strong>Wirnude (Rotation) :</strong> Ñoŋo e dooluubal nano (clic gauche) tawa aɗa liiɓa.</li>
+              <li><strong>Yaajtinde (Zoom) :</strong> Koorooɓe dooluubal (molette de la souris) walla ñoŋo ɗiɗi e telefoŋ.</li>
+              <li><strong>Dirtinde (Pan / Déplacement) :</strong> Ñoŋo e dooluubal ñaamo (clic droit).</li>
+            </ul>
+          </div>
+
+          <div class="panel-desc-box">
+            <h4>✍️ No ñoŋal kesal wattirtee (Ajouter une annotation)</h4>
+            <ol style="margin-left: 18px; line-height: 1.6; font-size: 0.85rem;">
+              <li>Ñoŋo butoŋ boɗeejo <strong>"+ Ñoŋal Keso"</strong> to dow.</li>
+              <li>Ñoŋo nokku e ɓernde 3D ndee ɗo njiɗ-ɗaa fawde ñoŋal maa.</li>
+              <li>Huutoro alkule Pulaar keeriiɗe ɗee (<strong>ɓ, ɗ, ƴ, ŋ, ñ</strong>) e dow butoŋaaji ɗii.</li>
+              <li>Winndu innde ndee e bayyinaango ngoo, refti ñoŋo <strong>"Moftu"</strong>!</li>
+            </ol>
+          </div>
+
+          <div class="fun-fact-box">
+            <h4>ℹ️ Ko fayti e Pulaar (Fulfulde)</h4>
+            <p>Ɗemngal Pulaar ina jogii alkule keeriiɗe 5 bayyinaaɗe e binndol UNESCO (Bamako 1966) : ɓ, ɗ, ƴ, ŋ, ñ. Ngalu kuutorgal ngal ina adda fartaŋŋe jaŋde cellal e ɗemngal neeniwal.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>
