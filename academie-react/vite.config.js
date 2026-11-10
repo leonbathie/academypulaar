@@ -1,7 +1,6 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
-import { fileURLToPath } from 'node:url'
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -52,7 +51,7 @@ export default defineConfig({
                 // SPA : les routes cote client retombent sur index.html hors-ligne
                 navigateFallback: '/index.html',
                 // ...sauf l'API et les fichiers servis par le backend
-                navigateFallbackDenylist: [/^\/api/, /^\/uploads/, /^\/share/, /^\/coeur-3d(?:\/|$)/],
+                navigateFallbackDenylist: [/^\/api/, /^\/uploads/, /^\/share/],
                 cleanupOutdatedCaches: true,
                 clientsClaim: true,
                 skipWaiting: true,
@@ -69,10 +68,6 @@ export default defineConfig({
         // separation via manualChunks ci-dessous.
         chunkSizeWarningLimit: 800,
         rollupOptions: {
-            input: {
-                main: fileURLToPath(new URL('./index.html', import.meta.url)),
-                coeur3d: fileURLToPath(new URL('./coeur-3d/index.html', import.meta.url))
-            },
             output: {
                 // Separation des dependances en chunks longue-duree-cache.
                 // Quand l'utilisateur revient, ces fichiers sont deja en cache

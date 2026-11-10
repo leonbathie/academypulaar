@@ -11,7 +11,6 @@ import HomePage from './pages/HomePage'
 import './App.css'
 
 // Pages publiques courantes : lazy mais avec preload sur idle (cf. plus bas)
-const Heart3DPage = lazy(() => import('./pages/Heart3DPage'))
 const DictionaryPage = lazy(() => import('./pages/DictionaryPage'))
 const ContactPage = lazy(() => import('./pages/ContactPage'))
 const AboutPage = lazy(() => import('./pages/AboutPage'))
@@ -104,7 +103,6 @@ function App() {
                         <Route element={<PublicLayout />}>
                             <Route path="/" element={<HomePage />} />
                             <Route path="/dictionnaire" element={<DictionaryPage />} />
-                            <Route path="/explorer-coeur" element={<Heart3DPage />} />
                             <Route path="/contact" element={<ContactPage />} />
                             <Route path="/a-propos" element={<AboutPage />} />
                             <Route path="/a-propos/histoire" element={<HistoirePage />} />

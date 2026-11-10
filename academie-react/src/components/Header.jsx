@@ -40,10 +40,6 @@ function Header() {
             link: "/dictionnaire"
         },
         {
-            title: t('heart3d.nav'),
-            link: "/explorer-coeur"
-        },
-        {
             title: t('nav.sayDontSay'),
             link: "/dire"
         },
