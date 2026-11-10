@@ -1,43 +1,155 @@
-﻿(() => {
+(() => {
+  // Positions reprises de l'atlas fourni : coordonnées en pourcentage de l'image carrée.
+  const parts = [
+    ['Atrium droit (Oreillette droite)', 'Nofel ñaamel', [31, 46], [31, 45]],
+    ['Ventricule droit', 'Deerel ñaamel', [44, 64], [43, 74]],
+    ['Atrium gauche (Oreillette gauche)', 'Nofel nanel', [63, 41], [64, 42]],
+    ['Ventricule gauche', 'Deerel nanel', [67, 66], [63, 73]],
+    ['Septum interventriculaire', 'Gallol hakkundeeron', null, [53, 71]],
+    ['Valve tricuspide', 'Udmaare seettatiire', null, [34, 56]],
+    ['Valve mitrale (Bicuspide)', 'Udmaare Kufniire', null, [63, 52]],
+    ['Valve pulmonaire (Sigmoïde)', 'Udmaare jofiire (sigmiire)', null, [46, 47]],
+    ['Valve aortique (Sigmoïde)', 'Udumere sarduure', null, [54, 50]],
+    ['Cordages tendineux & Muscles papillaires', 'Gaacirɗi raɗolinɗi', null, [38, 65]],
+    ['Veine cave supérieure (VCS)', 'Gartirol lompol dowrowol', [35, 21], [34, 20]],
+    ['Veine cave inférieure (VCI)', 'Gartirol lompol leswol', [37, 85], [34, 84]],
+    ["Crosse de l'aorte & Tronc artériel", 'Hofru Sardu e fooɓre naɓrol', [50, 22], [48, 21]],
+    ['Tronc pulmonaire & Artères pulmonaires', 'Fooɓre  jofe e naɓruɗi  jofe', [53, 35], [53, 33]],
+    ['Veines pulmonaires (Droites et Gauches)', 'Gartirɗi jofe ñaami e nani', [74, 40], [76, 38]],
+    ['Myocarde, Endocarde & Épicarde', 'Ketɓero', [52, 47], [74, 66]],
+    ['Apex du cœur (Pointe cardiaque)', 'Seɓre Ɓernde (Hooɓre)', [64, 90], [64, 90]],
+    ['Système Cardionecteur (Nœuds SA/AV & Faisceau de His)', 'Fiɓre nofru reeduure e haɓɓere His', null, [49, 58]],
+    ['Artère interventriculaire antérieure (IVA / LAD)', 'Naɓrol hakkundeeron yeesowol', [57, 63], null],
+    ['Artère coronaire droite (ACD)', 'Naɓrol ɓernde ñaamol', [38, 55], null],
+    ['Artère circonflexe (Cx)', 'Naɓrol wertaangowol', [68, 53], null],
+    ['Grande veine cardiaque & Sinus coronaire', 'Gartiral ɓernde e hofiinde ɓernde', [55, 56], null]
+  ];
   const stage = document.getElementById('stage');
+  const frame = document.getElementById('heart-frame');
   const image = document.getElementById('heart-image');
+  const markers = document.getElementById('heart-markers');
+  const list = document.getElementById('annotations-list');
+  const detail = document.getElementById('annotation-detail');
+  const overlay = document.getElementById('annotation-overlay');
   const zoomValue = document.getElementById('zoom-value');
   const out = document.getElementById('zoom-out');
   const zoomIn = document.getElementById('zoom-in');
   const complete = document.getElementById('complete');
   const coupe = document.getElementById('coupe');
   const pointers = new Map();
-  let scale = 1, x = 0, y = 0, gesture = null;
+  let scale = 1, x = 0, y = 0, gesture = null, view = 2, selected = -1;
+  const number = index => String(index + 1).padStart(2, '0');
 
   function render() {
-    const maxX = Math.max(0, (image.clientWidth * scale - stage.clientWidth) / 2);
-    const maxY = Math.max(0, (image.clientHeight * scale - stage.clientHeight) / 2);
+    const size = Math.min(stage.clientWidth, stage.clientHeight);
+    frame.style.width = `${size}px`;
+    frame.style.height = `${size}px`;
+    const maxX = Math.max(0, (size * scale - stage.clientWidth) / 2);
+    const maxY = Math.max(0, (size * scale - stage.clientHeight) / 2);
     x = Math.max(-maxX, Math.min(maxX, x));
     y = Math.max(-maxY, Math.min(maxY, y));
-    image.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
+    frame.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
+    frame.style.setProperty('--marker-scale', 1 / scale);
     zoomValue.textContent = `${Math.round(scale * 100)} %`;
     out.disabled = scale <= 1;
     zoomIn.disabled = scale >= 6;
   }
   function setScale(value) { scale = Math.max(1, Math.min(6, value)); render(); }
-  function setView(view) {
-    const isComplete = view === 'complete';
+  function renderMarkers() {
+    markers.replaceChildren();
+    parts.forEach((part, index) => {
+      const point = part[view];
+      if (!point) return;
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'annotation-marker';
+      button.style.left = `${point[0]}%`;
+      button.style.top = `${point[1]}%`;
+      button.textContent = number(index);
+      button.setAttribute('aria-label', `${number(index)} · ${part[0]} — ${part[1]}`);
+      button.setAttribute('aria-pressed', String(index === selected));
+      button.addEventListener('click', () => selectPart(index));
+      markers.append(button);
+    });
+  }
+  function renderSelection() {
+    list.querySelectorAll('button').forEach((button, index) => {
+      button.setAttribute('aria-pressed', String(index === selected));
+    });
+    detail.replaceChildren();
+    overlay.replaceChildren();
+    overlay.hidden = selected < 0;
+    if (selected < 0) {
+      detail.textContent = 'Choisissez une partie du cœur pour afficher son nom en pulaar.';
+      return;
+    }
+    const part = parts[selected];
+    const label = document.createElement('span');
+    label.className = 'annotation-detail-number';
+    label.textContent = `#${number(selected)}`;
+    const text = document.createElement('span');
+    const french = document.createElement('strong');
+    french.textContent = part[0];
+    const pulaar = document.createElement('span');
+    pulaar.className = 'annotation-detail-translation';
+    pulaar.lang = 'ff';
+    pulaar.textContent = part[1];
+    text.append(french, pulaar);
+    detail.append(label, text);
+    overlay.append(label.cloneNode(true), text.cloneNode(true));
+  }
+  function setView(nextView) {
+    view = nextView;
+    const isComplete = view === 2;
     image.src = isComplete ? '/cardioatlas/coeur-complet.jpg' : '/cardioatlas/coeur-coupe.jpg';
     image.alt = isComplete ? 'Vue anatomique complète du cœur' : 'Vue anatomique du cœur en coupe';
     complete.classList.toggle('active', isComplete);
     coupe.classList.toggle('active', !isComplete);
     complete.setAttribute('aria-pressed', String(isComplete));
     coupe.setAttribute('aria-pressed', String(!isComplete));
-    scale = 1; x = 0; y = 0; render();
+    if (selected >= 0 && !parts[selected][view]) selected = -1;
+    scale = 1; x = 0; y = 0;
+    renderMarkers(); renderSelection(); render();
   }
+  function selectPart(index) {
+    if (!parts[index][view]) setView(view === 2 ? 3 : 2);
+    selected = index;
+    renderSelection();
+    // Mettre à jour les boutons existants sans déplacer le focus clavier.
+    markers.querySelectorAll('button').forEach(button => {
+      button.setAttribute('aria-pressed', String(button.textContent === number(index)));
+    });
+  }
+  parts.forEach((part, index) => {
+    const item = document.createElement('li');
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'annotation-item';
+    button.setAttribute('aria-pressed', 'false');
+    const badge = document.createElement('span');
+    badge.className = 'annotation-item-number';
+    badge.textContent = `#${number(index)}`;
+    const names = document.createElement('span');
+    names.className = 'annotation-item-names';
+    const french = document.createElement('strong');
+    french.textContent = part[0];
+    const pulaar = document.createElement('span');
+    pulaar.lang = 'ff';
+    pulaar.textContent = part[1];
+    names.append(french, pulaar);
+    button.append(badge, names);
+    button.addEventListener('click', () => selectPart(index));
+    item.append(button);
+    list.append(item);
+  });
   function beginGesture() {
     const p = [...pointers.values()];
     if (p.length >= 2) gesture = {distance: Math.hypot(p[1].x - p[0].x, p[1].y - p[0].y), scale};
     else if (p.length === 1) gesture = {startX: p[0].x, startY: p[0].y, x, y};
     else gesture = null;
   }
-  complete.addEventListener('click', () => setView('complete'));
-  coupe.addEventListener('click', () => setView('coupe'));
+  complete.addEventListener('click', () => setView(2));
+  coupe.addEventListener('click', () => setView(3));
   out.addEventListener('click', () => setScale(scale / 1.25));
   zoomIn.addEventListener('click', () => setScale(scale * 1.25));
   stage.addEventListener('wheel', event => { event.preventDefault(); setScale(scale * Math.exp(-event.deltaY * 0.0015)); }, {passive:false});
@@ -48,6 +160,7 @@
     x += movements[event.key][0]; y += movements[event.key][1]; render();
   });
   stage.addEventListener('pointerdown', event => {
+    if (event.target.closest('button')) return;
     if (event.pointerType === 'mouse' && event.button !== 0) return;
     stage.setPointerCapture(event.pointerId);
     pointers.set(event.pointerId, {x:event.clientX, y:event.clientY});
@@ -65,5 +178,5 @@
   stage.addEventListener('pointercancel', endPointer);
   image.addEventListener('load', render);
   window.addEventListener('resize', render);
-  render();
+  renderMarkers(); render();
 })();

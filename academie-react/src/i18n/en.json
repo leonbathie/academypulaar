@@ -1,4 +1,10 @@
 {
+    "cardioDiscovery": {
+        "label": "Terminology & anatomy",
+        "title": "Discover the heart in Pulaar",
+        "description": "Explore the heart and learn the names of its different parts in French and Pulaar.",
+        "action": "Explore the heart"
+    },
     "common": {
         "siteName": "Goomu Fulo e Wiɗto",
         "siteSlogan": "Fulfulde Language Academy",

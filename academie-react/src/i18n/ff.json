@@ -1,4 +1,10 @@
 {
+    "cardioDiscovery": {
+        "label": "Inɗe e teŋɗe ɓanndu",
+        "title": "Ƴeew ɓernde e pulaar",
+        "description": "Ƴeew ɓernde e inɗe teŋɗe mum e farayse e pulaar.",
+        "action": "Ƴeew ɓernde"
+    },
     "common": {
         "siteName": "Goomu Fulo e Wiɗto",
         "siteSlogan": "Hentordu Ɗemngal Fulfulde",

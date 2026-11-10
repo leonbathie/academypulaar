@@ -1,0 +1,39 @@
+﻿.cardio-discovery {
+    padding: var(--space-3xl) 0;
+    background: var(--cream);
+}
+.cardio-discovery-card {
+    display: grid;
+    grid-template-columns: 1fr minmax(220px, 350px);
+    align-items: center;
+    gap: var(--space-2xl);
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: clamp(1.5rem, 4vw, 3rem);
+    border: 1px solid rgba(212, 165, 55, .3);
+    border-radius: var(--radius-xl);
+    background: var(--white);
+    box-shadow: var(--shadow-md);
+}
+.cardio-discovery h2 {
+    margin: 0 0 1rem;
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+}
+.cardio-discovery p {
+    max-width: 38rem;
+    margin-bottom: 1.5rem;
+    color: var(--dark-gray);
+    line-height: 1.7;
+}
+.cardio-discovery-visual {
+    max-width: 350px;
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    background: #16213e;
+}
+.cardio-discovery-visual img { width: 100%; display: block; }
+[data-theme="dark"] .cardio-discovery-card { background: var(--primary-navy); }
+@media (max-width: 639px) {
+    .cardio-discovery-card { grid-template-columns: 1fr; gap: 1.5rem; }
+    .cardio-discovery-visual { max-width: 240px; }
+}

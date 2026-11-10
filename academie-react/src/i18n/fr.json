@@ -1,4 +1,10 @@
 {
+    "cardioDiscovery": {
+        "label": "Terminologie & anatomie",
+        "title": "Découvrez le cœur en pulaar",
+        "description": "Explorez le cœur et découvrez le nom de ses différentes parties en français et en pulaar.",
+        "action": "Explorer le cœur"
+    },
     "common": {
         "siteName": "Goomu Fulo e Wiɗto",
         "siteSlogan": "Académie de la langue Fulfulde",
