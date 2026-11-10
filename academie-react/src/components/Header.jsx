@@ -48,6 +48,11 @@ function Header() {
             link: "/bibliotheque"
         },
         {
+            title: 'CardioAtlas',
+            link: `${import.meta.env.BASE_URL}cardioatlas/index.html`,
+            documentLink: true
+        },
+        {
             title: t('common.contact'),
             link: "/contact"
         }
@@ -146,6 +151,8 @@ function Header() {
                                                 ))}
                                             </ul>
                                         </>
+                                    ) : item.documentLink ? (
+                                        <a href={item.link} className="nav-link">{item.title}</a>
                                     ) : (
                                         <Link to={item.link} className="nav-link">{item.title}</Link>
                                     )}
@@ -244,6 +251,8 @@ function Header() {
                                         ))}
                                     </ul>
                                 </>
+                            ) : item.documentLink ? (
+                                <a href={item.link} className="nav-link" onClick={() => setIsMobileMenuOpen(false)}>{item.title}</a>
                             ) : (
                                 <Link to={item.link} className="nav-link" onClick={() => setIsMobileMenuOpen(false)}>{item.title}</Link>
                             )}

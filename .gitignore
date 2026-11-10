@@ -45,6 +45,7 @@ hts-cache/
 backblue.gif
 fade.gif
 index.html
+!academie-react/public/cardioatlas/index.html
 *.csv
 TRADUCTIONS-COMPLETES-COMMENTEES*.json
 HELLO*.json

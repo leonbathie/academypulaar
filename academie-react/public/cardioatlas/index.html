@@ -1,0 +1,38 @@
+﻿<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1424">
+  <title>Explorer le cœur — Goomu Fulo e Wiɗto</title>
+  <link rel="stylesheet" href="/cardioatlas/atlas.css">
+  <script src="/cardioatlas/atlas.js" defer></script>
+</head>
+<body>
+  <header class="header">
+    <a class="home" href="/">← Accueil</a>
+    <div class="heading"><span class="heart" aria-hidden="true">♥</span><div><h1>Explorer le cœur</h1><p>Atlas anatomique interactif</p></div></div>
+  </header>
+  <main>
+    <div class="intro"><div><span class="eyebrow">ANATOMIE CARDIAQUE</span><h2>Découvrez le cœur</h2><p>Choisissez une vue et zoomez pour observer les détails.</p></div></div>
+    <section class="atlas" aria-label="Exploration du cœur">
+      <div class="toolbar">
+        <div class="views" role="group" aria-label="Vue du cœur">
+          <button type="button" class="view active" id="complete" aria-pressed="true">Vue complète</button>
+          <button type="button" class="view" id="coupe" aria-pressed="false">Vue en coupe</button>
+        </div>
+        <div class="zoom" role="group" aria-label="Zoom">
+          <span class="zoom-label">Zoom</span>
+          <button type="button" id="zoom-out" aria-label="Réduire le zoom">−</button>
+          <output id="zoom-value" aria-live="polite">100 %</output>
+          <button type="button" id="zoom-in" aria-label="Augmenter le zoom">+</button>
+        </div>
+      </div>
+      <div class="stage" id="stage" tabindex="0" role="region" aria-label="Image du cœur. Utilisez les boutons ou la molette pour zoomer, puis les flèches du clavier pour déplacer l'image.">
+        <img id="heart-image" src="/cardioatlas/coeur-complet.jpg" alt="Vue anatomique complète du cœur" draggable="false">
+      </div>
+      <p class="hint">Utilisez la molette ou pincez l’image pour zoomer. Déplacez l’image agrandie à la souris, au doigt ou avec les flèches du clavier.</p>
+    </section>
+  </main>
+</body>
+</html>

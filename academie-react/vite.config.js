@@ -40,7 +40,7 @@ export default defineConfig({
             },
             workbox: {
                 // Precache de l'app (pas les videos .webm, trop lourdes : chargees a la demande)
-                globPatterns: ['**/*.{js,css,html,webp,png,svg,woff2,json}'],
+                globPatterns: ['**/*.{js,css,html,webp,png,jpg,svg,woff2,json}'],
                 // Grosses images inutiles hors-ligne : icones d'install (recuperees
                 // par l'OS via le manifest) et image OG (crawlers seulement).
                 globIgnores: [
@@ -51,7 +51,7 @@ export default defineConfig({
                 // SPA : les routes cote client retombent sur index.html hors-ligne
                 navigateFallback: '/index.html',
                 // ...sauf l'API et les fichiers servis par le backend
-                navigateFallbackDenylist: [/^\/api/, /^\/uploads/, /^\/share/],
+                navigateFallbackDenylist: [/^\/api/, /^\/uploads/, /^\/share/, /^\/cardioatlas(?:\/|$)/],
                 cleanupOutdatedCaches: true,
                 clientsClaim: true,
                 skipWaiting: true,
