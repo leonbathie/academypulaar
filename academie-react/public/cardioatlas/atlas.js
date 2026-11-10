@@ -36,6 +36,26 @@
   const zoomIn = document.getElementById('zoom-in');
   const complete = document.getElementById('complete');
   const coupe = document.getElementById('coupe');
+  const scroller = document.createElement('div');
+  scroller.className = 'annotation-scroll';
+  scroller.setAttribute('role', 'region');
+  scroller.setAttribute('aria-label', 'Illustration annotée : faites défiler horizontalement pour voir tous les noms');
+  scroller.tabIndex = 0;
+  stage.before(scroller);
+  scroller.append(stage);
+  document.querySelector('.hint').textContent = 'Sur téléphone, faites défiler l’illustration horizontalement pour lire les noms. Utilisez la molette ou pincez l’image pour zoomer ; déplacez ensuite l’image agrandie à la souris, au doigt ou avec les flèches du clavier.';
+  const labels = document.createElement('div');
+  labels.className = 'annotation-labels';
+  const svgNS = 'http://www.w3.org/2000/svg';
+  const lines = document.createElementNS(svgNS, 'svg');
+  lines.classList.add('annotation-lines');
+  lines.setAttribute('aria-hidden', 'true');
+  const leftLabels = document.createElement('div');
+  leftLabels.className = 'annotation-label-column annotation-label-column-left';
+  const rightLabels = document.createElement('div');
+  rightLabels.className = 'annotation-label-column annotation-label-column-right';
+  labels.append(lines, leftLabels, rightLabels);
+  stage.append(labels);
   const pointers = new Map();
   let scale = 1, x = 0, y = 0, gesture = null, view = 2, selected = -1;
   const number = index => String(index + 1).padStart(2, '0');
@@ -50,6 +70,8 @@
     y = Math.max(-maxY, Math.min(maxY, y));
     frame.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
     frame.style.setProperty('--marker-scale', 1 / scale);
+    stage.classList.toggle('is-zoomed', scale > 1);
+    renderLines();
     zoomValue.textContent = `${Math.round(scale * 100)} %`;
     out.disabled = scale <= 1;
     zoomIn.disabled = scale >= 6;
@@ -66,10 +88,60 @@
       button.style.left = `${point[0]}%`;
       button.style.top = `${point[1]}%`;
       button.textContent = number(index);
+      button.dataset.part = index;
       button.setAttribute('aria-label', `${number(index)} · ${part[0]} — ${part[1]}`);
       button.setAttribute('aria-pressed', String(index === selected));
       button.addEventListener('click', () => selectPart(index));
       markers.append(button);
+    });
+    renderLabels();
+  }
+  function renderLabels() {
+    leftLabels.replaceChildren(); rightLabels.replaceChildren(); lines.replaceChildren();
+    const visible = parts.map((part, index) => ({part, index, point: part[view]})).filter(item => item.point);
+    visible.sort((a, b) => a.point[0] - b.point[0]);
+    const middle = Math.ceil(visible.length / 2);
+    [visible.slice(0, middle), visible.slice(middle)].forEach((column, side) => {
+      column.sort((a, b) => a.point[1] - b.point[1]);
+      column.forEach(({part, index}) => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'annotation-image-label';
+        button.dataset.part = index;
+        button.setAttribute('aria-label', `${number(index)} · ${part[0]} — ${part[1]}`);
+        button.setAttribute('aria-pressed', String(index === selected));
+        const badge = document.createElement('span');
+        badge.className = 'annotation-image-label-number';
+        badge.textContent = number(index);
+        const names = document.createElement('span');
+        const pulaar = document.createElement('strong');
+        pulaar.lang = 'ff'; pulaar.textContent = part[1];
+        const french = document.createElement('span');
+        french.textContent = part[0];
+        names.append(pulaar, french); button.append(badge, names);
+        button.addEventListener('click', () => selectPart(index));
+        (side === 0 ? leftLabels : rightLabels).append(button);
+        const line = document.createElementNS(svgNS, 'line');
+        line.dataset.part = index;
+        lines.append(line);
+      });
+    });
+  }
+  function renderLines() {
+    const stageBox = stage.getBoundingClientRect();
+    lines.setAttribute('viewBox', `0 0 ${stage.clientWidth} ${stage.clientHeight}`);
+    lines.querySelectorAll('line').forEach(line => {
+      const index = line.dataset.part;
+      const point = markers.querySelector(`[data-part="${index}"]`);
+      const label = labels.querySelector(`button[data-part="${index}"]`);
+      if (!point || !label) return;
+      const p = point.getBoundingClientRect(), b = label.getBoundingClientRect();
+      const left = label.parentElement === leftLabels;
+      line.setAttribute('x1', left ? b.right - stageBox.left : b.left - stageBox.left);
+      line.setAttribute('y1', b.top + b.height / 2 - stageBox.top);
+      line.setAttribute('x2', p.left + p.width / 2 - stageBox.left);
+      line.setAttribute('y2', p.top + p.height / 2 - stageBox.top);
+      line.classList.toggle('active', Number(index) === selected);
     });
   }
   function renderSelection() {
@@ -117,8 +189,12 @@
     renderSelection();
     // Mettre à jour les boutons existants sans déplacer le focus clavier.
     markers.querySelectorAll('button').forEach(button => {
-      button.setAttribute('aria-pressed', String(button.textContent === number(index)));
+      button.setAttribute('aria-pressed', String(Number(button.dataset.part) === index));
     });
+    labels.querySelectorAll('button').forEach(button => {
+      button.setAttribute('aria-pressed', String(Number(button.dataset.part) === index));
+    });
+    renderLines();
   }
   parts.forEach((part, index) => {
     const item = document.createElement('li');
@@ -179,4 +255,6 @@
   image.addEventListener('load', render);
   window.addEventListener('resize', render);
   renderMarkers(); render();
+  scroller.scrollLeft = (scroller.scrollWidth - scroller.clientWidth) / 2;
+  if (document.fonts) document.fonts.ready.then(render);
 })();

@@ -24,3 +24,26 @@
 .annotation-overlay { position: absolute; z-index: 4; left: 50%; bottom: 14px; transform: translateX(-50%); width: min(560px, calc(100% - 28px)); display: flex; align-items: center; gap: 12px; padding: 10px 14px; border: 1px solid #e7d4a8; border-radius: 10px; background: #fffdf5f2; color: #173551; font-size: 14px; box-shadow: 0 4px 18px #0004; pointer-events: none; }
 .annotation-overlay[hidden] { display: none; }
 .annotation-overlay strong, .annotation-overlay .annotation-detail-translation { display: block; }
+
+/* Les noms restent lisibles autour du cœur, même sur les petits écrans. */
+.annotation-scroll { overflow-x: auto; overscroll-behavior-x: contain; }
+.annotation-scroll:focus-visible { outline: 3px solid #b8860b; outline-offset: -3px; }
+.annotation-scroll .stage { min-width: 850px; min-height: 660px; touch-action: pan-x; }
+.annotation-scroll .stage.is-zoomed { touch-action: none; }
+.annotation-labels { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+.annotation-lines { position: absolute; inset: 0; width: 100%; height: 100%; overflow: hidden; }
+.annotation-lines line { stroke: #f4e1b5; stroke-width: 1.2; opacity: .8; }
+.annotation-lines line.active { stroke: #ffd573; stroke-width: 2.5; opacity: 1; }
+.annotation-label-column { position: absolute; top: 5px; bottom: 5px; width: min(22%, 230px); display: flex; flex-direction: column; justify-content: space-around; gap: 3px; }
+.annotation-label-column-left { left: 7px; }
+.annotation-label-column-right { right: 7px; }
+.annotation-image-label { display: flex; align-items: flex-start; gap: 5px; width: 100%; padding: 4px 6px; border: 1px solid #d9bd7e; border-radius: 6px; background: #fffdf5ef; color: #173551; text-align: left; font-size: 11px; line-height: 1.15; box-shadow: 0 1px 5px #0005; pointer-events: auto; }
+.annotation-image-label strong, .annotation-image-label span span { display: block; }
+.annotation-image-label strong { font-size: 12px; }
+.annotation-image-label span span { color: #536a79; margin-top: 2px; }
+.annotation-image-label-number { color: #9a6a1f; font-weight: 800; font-variant-numeric: tabular-nums; }
+.annotation-image-label:hover, .annotation-image-label[aria-pressed="true"] { background: #f7e8c2; border-color: #b17d28; }
+.annotation-image-label:focus-visible { outline: 3px solid #eab95d; outline-offset: 2px; }
+@media (max-width: 600px) {
+  .annotation-scroll .stage { height: 660px; }
+}
