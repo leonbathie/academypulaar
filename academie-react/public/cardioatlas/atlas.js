@@ -34,6 +34,8 @@
   const zoomIn = document.getElementById('zoom-in');
   const complete = document.getElementById('complete');
   const coupe = document.getElementById('coupe');
+  const numberToggle = document.getElementById('toggle-numbers');
+  const atlas = document.querySelector('.atlas');
   const scroller = document.createElement('div');
   scroller.className = 'annotation-scroll';
   scroller.setAttribute('role', 'region');
@@ -60,6 +62,7 @@
   let scale = 1, x = 0, y = 0, gesture = null, view = 2, selected = -1;
   let beat = 1, animationFrame = null;
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const number = index => String(index + 1).padStart(2, '0');
 
   function paintHeart() {
     const effectiveScale = scale * beat;
@@ -113,6 +116,11 @@
       button.style.left = `${point[0]}%`;
       button.style.top = `${point[1]}%`;
       button.dataset.part = index;
+      const markerNumber = document.createElement('span');
+      markerNumber.className = 'annotation-marker-number';
+      markerNumber.textContent = number(index);
+      markerNumber.setAttribute('aria-hidden', 'true');
+      button.append(markerNumber);
       button.setAttribute('aria-label', `${part[0]} — ${part[1]}`);
       button.setAttribute('aria-pressed', String(index === selected));
       button.addEventListener('click', () => selectPart(index));
@@ -138,12 +146,16 @@
         const saved = labelPositions.get(`${view}:${index}`);
         if (saved) applyLabelPosition(button, saved.x, saved.y);
         makeLabelMovable(button, index);
+        const badge = document.createElement('span');
+        badge.className = 'annotation-image-label-number';
+        badge.textContent = number(index);
+        badge.setAttribute('aria-hidden', 'true');
         const names = document.createElement('span');
         const pulaar = document.createElement('strong');
         pulaar.lang = 'ff'; pulaar.textContent = part[1];
         const french = document.createElement('span');
         french.textContent = part[0];
-        names.append(pulaar, french); button.append(names);
+        names.append(pulaar, french); button.append(badge, names);
         (side === 0 ? leftLabels : rightLabels).append(button);
         const line = document.createElementNS(svgNS, 'line');
         line.dataset.part = index;
@@ -228,6 +240,10 @@
     overlay.hidden = selected < 0;
     if (selected < 0) return;
     const part = parts[selected];
+    const label = document.createElement('span');
+    label.className = 'annotation-detail-number';
+    label.textContent = `#${number(selected)}`;
+    label.setAttribute('aria-hidden', 'true');
     const text = document.createElement('span');
     const french = document.createElement('strong');
     french.textContent = part[0];
@@ -236,7 +252,7 @@
     pulaar.lang = 'ff';
     pulaar.textContent = part[1];
     text.append(french, pulaar);
-    overlay.append(text);
+    overlay.append(label, text);
   }
   function setView(nextView) {
     view = nextView;
@@ -271,6 +287,13 @@
     else gesture = null;
   }
   complete.addEventListener('click', () => setView(2));
+  numberToggle.addEventListener('click', () => {
+    const show = numberToggle.getAttribute('aria-pressed') !== 'true';
+    numberToggle.setAttribute('aria-pressed', String(show));
+    numberToggle.textContent = show ? 'Masquer les numéros' : 'Afficher les numéros';
+    atlas.classList.toggle('show-numbers', show);
+    renderLines();
+  });
   coupe.addEventListener('click', () => setView(3));
   out.addEventListener('click', () => setScale(scale / 1.25));
   zoomIn.addEventListener('click', () => setScale(scale * 1.25));

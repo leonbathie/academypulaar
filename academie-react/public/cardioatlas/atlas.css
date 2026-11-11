@@ -29,7 +29,10 @@ main { max-width: 1200px; margin: auto; padding: 40px 20px 56px; }
 .toolbar { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; padding: 14px 16px; border-bottom: 1px solid #e8e6e1; }
 .views, .zoom { display: flex; align-items: center; gap: 4px; }
 .views { padding: 4px; border-radius: 9px; background: #f5e6d3; }
-.view, .zoom button { border: 0; color: #1a1a2e; background: transparent; border-radius: 6px; font-weight: 600; font-size: .9rem; }
+.view, .zoom button, .number-toggle { border: 0; color: #1a1a2e; background: transparent; border-radius: 6px; font-weight: 600; font-size: .9rem; }
+.number-toggle { padding: 9px 14px; background: #f5e6d3; }
+.number-toggle:hover { background: #f2d88a; }
+.number-toggle[aria-pressed="true"] { background: #d4a537; }
 .view { padding: 9px 14px; }
 .view:hover, .zoom button:hover { background: #f2d88a; }
 .view.active { color: #1a1a2e; background: #d4a537; }

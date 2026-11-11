@@ -6,6 +6,12 @@
 .annotation-marker::after { content: ""; width: 12px; height: 12px; border: 2px solid #fff7e7; border-radius: 50%; background: #173b61; box-shadow: 0 2px 8px #0009; }
 .annotation-marker:hover, .annotation-marker[aria-pressed="true"] { z-index: 2; }
 .annotation-marker:hover::after, .annotation-marker[aria-pressed="true"]::after { background: #b17d28; }
+.annotation-marker-number, .annotation-image-label-number, .annotation-detail-number { display: none; }
+.show-numbers .annotation-marker { border: 2px solid #fff7e7; background: #173b61; color: #fff; box-shadow: 0 2px 8px #0009; font-size: 10px; font-weight: 800; line-height: 1; }
+.show-numbers .annotation-marker::after { display: none; }
+.show-numbers .annotation-marker:hover, .show-numbers .annotation-marker[aria-pressed="true"] { background: #b17d28; }
+.show-numbers .annotation-marker-number, .show-numbers .annotation-image-label-number, .show-numbers .annotation-detail-number { display: block; }
+.annotation-image-label-number, .annotation-detail-number { color: #9a6a1f; font-weight: 800; font-variant-numeric: tabular-nums; }
 .annotation-marker:focus-visible, .annotation-item:focus-visible { outline: 3px solid #eab95d; outline-offset: 3px; z-index: 3; }
 .annotation-detail-translation { color: #465f72; margin-top: 3px; }
 .annotation-overlay { position: absolute; z-index: 4; left: 50%; bottom: 14px; transform: translateX(-50%); width: min(560px, calc(100% - 28px)); display: flex; align-items: center; gap: 12px; padding: 10px 14px; border: 1px solid #e7d4a8; border-radius: 10px; background: #fffdf5f2; color: #173551; font-size: 14px; box-shadow: 0 4px 18px #0004; pointer-events: none; }
