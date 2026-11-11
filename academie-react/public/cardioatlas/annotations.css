@@ -5,22 +5,8 @@
 .annotation-marker { position: absolute; width: 30px; height: 30px; padding: 0; display: grid; place-items: center; border: 2px solid #fff7e7; border-radius: 50%; background: #173b61; color: #fff; box-shadow: 0 2px 8px #0009; font-size: 10px; font-weight: 800; line-height: 1; cursor: pointer; pointer-events: auto; transform: translate(-50%, -50%) scale(var(--marker-scale, 1)); }
 .annotation-marker:hover, .annotation-marker[aria-pressed="true"] { background: #b17d28; color: #fff; z-index: 2; }
 .annotation-marker:focus-visible, .annotation-item:focus-visible { outline: 3px solid #eab95d; outline-offset: 3px; z-index: 3; }
-.annotations { padding: 26px clamp(16px, 3vw, 32px) 32px; border-top: 1px solid #e9dfce; background: #fffdf8; color: #172f49; }
-.annotations-heading { display: flex; justify-content: space-between; align-items: end; gap: 16px; margin-bottom: 16px; }
-.annotations-heading h2 { font-family: 'Playfair Display', Georgia, serif; font-size: clamp(22px, 2.5vw, 30px); margin: 5px 0 0; }
-.annotations-heading p { color: #617286; font-size: 14px; margin: 0; }
-.annotations-eyebrow { color: #9a6a1f; font-size: 11px; font-weight: 700; letter-spacing: .12em; }
-.annotation-detail { display: flex; align-items: center; gap: 13px; min-height: 64px; padding: 12px 16px; border: 1px solid #e7d4a8; border-radius: 12px; background: #fbf5e8; color: #304860; font-size: 15px; }
-.annotation-detail-number, .annotation-item-number { color: #a16e1c; font-size: 12px; font-weight: 800; font-variant-numeric: tabular-nums; }
-.annotation-detail strong, .annotation-detail-translation { display: block; }
+.annotation-detail-number { color: #a16e1c; font-size: 12px; font-weight: 800; font-variant-numeric: tabular-nums; }
 .annotation-detail-translation { color: #465f72; margin-top: 3px; }
-.annotations-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 270px), 1fr)); gap: 8px; padding: 0; margin: 16px 0 0; list-style: none; }
-.annotation-item { width: 100%; min-height: 68px; display: flex; align-items: flex-start; gap: 11px; padding: 12px; border: 1px solid #e8e1d5; border-radius: 10px; background: #fff; text-align: left; color: #1c3651; cursor: pointer; }
-.annotation-item:hover, .annotation-item[aria-pressed="true"] { border-color: #cda352; background: #fbf5e8; }
-.annotation-item-number { flex: none; padding-top: 2px; }
-.annotation-item-names { display: grid; gap: 4px; font-size: 14px; line-height: 1.3; }
-.annotation-item-names > span { color: #617286; }
-@media (max-width: 600px) { .annotations-heading { display: block; } .annotations-heading p { margin-top: 8px; } .annotations-list { grid-template-columns: 1fr; } }
 .annotation-overlay { position: absolute; z-index: 4; left: 50%; bottom: 14px; transform: translateX(-50%); width: min(560px, calc(100% - 28px)); display: flex; align-items: center; gap: 12px; padding: 10px 14px; border: 1px solid #e7d4a8; border-radius: 10px; background: #fffdf5f2; color: #173551; font-size: 14px; box-shadow: 0 4px 18px #0004; pointer-events: none; }
 .annotation-overlay[hidden] { display: none; }
 .annotation-overlay strong, .annotation-overlay .annotation-detail-translation { display: block; }
@@ -47,3 +33,6 @@
 @media (max-width: 600px) {
   .annotation-scroll .stage { height: 660px; }
 }
+
+.annotation-image-label { cursor: grab; touch-action: none; user-select: none; }
+.annotation-image-label.is-dragging { cursor: grabbing; position: relative; z-index: 3; }

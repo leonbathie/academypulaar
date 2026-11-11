@@ -28,8 +28,6 @@
   const frame = document.getElementById('heart-frame');
   const image = document.getElementById('heart-image');
   const markers = document.getElementById('heart-markers');
-  const list = document.getElementById('annotations-list');
-  const detail = document.getElementById('annotation-detail');
   const overlay = document.getElementById('annotation-overlay');
   const zoomValue = document.getElementById('zoom-value');
   const out = document.getElementById('zoom-out');
@@ -43,7 +41,7 @@
   scroller.tabIndex = 0;
   stage.before(scroller);
   scroller.append(stage);
-  document.querySelector('.hint').textContent = 'Sur téléphone, faites défiler l’illustration horizontalement pour lire les noms. Utilisez la molette ou pincez l’image pour zoomer ; déplacez ensuite l’image agrandie à la souris, au doigt ou avec les flèches du clavier.';
+  document.querySelector('.hint').textContent = 'Sur téléphone, faites défiler l’illustration horizontalement pour lire les noms. Utilisez la molette ou pincez l’image pour zoomer. Déplacez les noms en les faisant glisser, ou sélectionnez-les au clavier puis utilisez les flèches.';
   const labels = document.createElement('div');
   labels.className = 'annotation-labels';
   const svgNS = 'http://www.w3.org/2000/svg';
@@ -56,10 +54,40 @@
   rightLabels.className = 'annotation-label-column annotation-label-column-right';
   labels.append(lines, leftLabels, rightLabels);
   stage.append(labels);
+  // Garder les déplacements propres à chaque vue pendant la session.
+  const labelPositions = new Map();
   const pointers = new Map();
   let scale = 1, x = 0, y = 0, gesture = null, view = 2, selected = -1;
+  let beat = 1, animationFrame = null;
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const number = index => String(index + 1).padStart(2, '0');
 
+  function paintHeart() {
+    const effectiveScale = scale * beat;
+    frame.style.transform = `translate(${x}px, ${y}px) scale(${effectiveScale})`;
+    frame.style.setProperty('--marker-scale', 1 / effectiveScale);
+    renderLines();
+  }
+  function animateHeart(time) {
+    animationFrame = null;
+    if (reducedMotion.matches || document.hidden) return;
+    // Deux contractions douces par cycle, synchronisées avec les repères.
+    const phase = (time % 1200) / 1200;
+    const pulse = (start, duration) => {
+      const progress = (phase - start) / duration;
+      return progress > 0 && progress < 1 ? Math.sin(Math.PI * progress) ** 2 : 0;
+    };
+    beat = 1 + 0.035 * pulse(0, 0.23) + 0.022 * pulse(0.27, 0.2);
+    paintHeart();
+    animationFrame = requestAnimationFrame(animateHeart);
+  }
+  function updateAnimation() {
+    if (animationFrame !== null) cancelAnimationFrame(animationFrame);
+    animationFrame = null;
+    beat = 1;
+    paintHeart();
+    if (!reducedMotion.matches && !document.hidden) animationFrame = requestAnimationFrame(animateHeart);
+  }
   function render() {
     const size = Math.min(stage.clientWidth, stage.clientHeight);
     frame.style.width = `${size}px`;
@@ -68,15 +96,13 @@
     const maxY = Math.max(0, (size * scale - stage.clientHeight) / 2);
     x = Math.max(-maxX, Math.min(maxX, x));
     y = Math.max(-maxY, Math.min(maxY, y));
-    frame.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
-    frame.style.setProperty('--marker-scale', 1 / scale);
+    paintHeart();
     stage.classList.toggle('is-zoomed', scale > 1);
-    renderLines();
     zoomValue.textContent = `${Math.round(scale * 100)} %`;
-    out.disabled = scale <= 1;
+    out.disabled = scale <= 0.5;
     zoomIn.disabled = scale >= 6;
   }
-  function setScale(value) { scale = Math.max(1, Math.min(6, value)); render(); }
+  function setScale(value) { scale = Math.max(0.5, Math.min(6, value)); render(); }
   function renderMarkers() {
     markers.replaceChildren();
     parts.forEach((part, index) => {
@@ -110,6 +136,10 @@
         button.dataset.part = index;
         button.setAttribute('aria-label', `${number(index)} · ${part[0]} — ${part[1]}`);
         button.setAttribute('aria-pressed', String(index === selected));
+        button.setAttribute('aria-description', 'Déplacez ce nom avec les flèches du clavier ou faites-le glisser.');
+        const saved = labelPositions.get(`${view}:${index}`);
+        if (saved) applyLabelPosition(button, saved.x, saved.y);
+        makeLabelMovable(button, index);
         const badge = document.createElement('span');
         badge.className = 'annotation-image-label-number';
         badge.textContent = number(index);
@@ -119,7 +149,6 @@
         const french = document.createElement('span');
         french.textContent = part[0];
         names.append(pulaar, french); button.append(badge, names);
-        button.addEventListener('click', () => selectPart(index));
         (side === 0 ? leftLabels : rightLabels).append(button);
         const line = document.createElementNS(svgNS, 'line');
         line.dataset.part = index;
@@ -136,25 +165,73 @@
       const label = labels.querySelector(`button[data-part="${index}"]`);
       if (!point || !label) return;
       const p = point.getBoundingClientRect(), b = label.getBoundingClientRect();
-      const left = label.parentElement === leftLabels;
-      line.setAttribute('x1', left ? b.right - stageBox.left : b.left - stageBox.left);
+      const markerX = p.left + p.width / 2;
+      const labelX = b.left + b.width / 2;
+      line.setAttribute('x1', markerX >= labelX ? b.right - stageBox.left : b.left - stageBox.left);
       line.setAttribute('y1', b.top + b.height / 2 - stageBox.top);
       line.setAttribute('x2', p.left + p.width / 2 - stageBox.left);
       line.setAttribute('y2', p.top + p.height / 2 - stageBox.top);
       line.classList.toggle('active', Number(index) === selected);
     });
   }
-  function renderSelection() {
-    list.querySelectorAll('button').forEach((button, index) => {
-      button.setAttribute('aria-pressed', String(index === selected));
+  function applyLabelPosition(button, dx, dy) {
+    button.dataset.offsetX = dx;
+    button.dataset.offsetY = dy;
+    button.style.transform = `translate(${dx}px, ${dy}px)`;
+  }
+  function moveLabel(button, index, dx, dy) {
+    const stageBox = stage.getBoundingClientRect();
+    const box = button.getBoundingClientRect();
+    const oldX = Number(button.dataset.offsetX || 0), oldY = Number(button.dataset.offsetY || 0);
+    // La position reste dans l'illustration, y compris sur écran tactile.
+    const nextX = Math.max(oldX + stageBox.left - box.left, Math.min(oldX + stageBox.right - box.right, dx));
+    const nextY = Math.max(oldY + stageBox.top - box.top, Math.min(oldY + stageBox.bottom - box.bottom, dy));
+    applyLabelPosition(button, nextX, nextY);
+    labelPositions.set(`${view}:${index}`, {x: nextX, y: nextY});
+    renderLines();
+  }
+  function makeLabelMovable(button, index) {
+    let drag = null, suppressClick = false;
+    button.addEventListener('pointerdown', event => {
+      if (event.pointerType === 'mouse' && event.button !== 0) return;
+      drag = {id: event.pointerId, x: event.clientX, y: event.clientY,
+        offsetX: Number(button.dataset.offsetX || 0), offsetY: Number(button.dataset.offsetY || 0), moved: false};
+      button.setPointerCapture(event.pointerId);
+      button.classList.add('is-dragging');
     });
-    detail.replaceChildren();
+    button.addEventListener('pointermove', event => {
+      if (!drag || drag.id !== event.pointerId) return;
+      const dx = event.clientX - drag.x, dy = event.clientY - drag.y;
+      if (Math.hypot(dx, dy) > 3) drag.moved = true;
+      if (drag.moved) moveLabel(button, index, drag.offsetX + dx, drag.offsetY + dy);
+    });
+    function endDrag(event) {
+      if (!drag || drag.id !== event.pointerId) return;
+      suppressClick = drag.moved;
+      drag = null;
+      button.classList.remove('is-dragging');
+      // Un pointercancel ne produit pas de click ; ne pas bloquer le prochain.
+      if (event.type === 'pointercancel') suppressClick = false;
+    }
+    button.addEventListener('pointerup', endDrag);
+    button.addEventListener('pointercancel', endDrag);
+    button.addEventListener('click', event => {
+      if (suppressClick) { suppressClick = false; event.preventDefault(); return; }
+      selectPart(index);
+    });
+    button.addEventListener('keydown', event => {
+      const directions = {ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1]};
+      const direction = directions[event.key];
+      if (!direction) return;
+      event.preventDefault(); event.stopPropagation();
+      const step = event.shiftKey ? 20 : 5;
+      moveLabel(button, index, Number(button.dataset.offsetX || 0) + step * direction[0], Number(button.dataset.offsetY || 0) + step * direction[1]);
+    });
+  }
+  function renderSelection() {
     overlay.replaceChildren();
     overlay.hidden = selected < 0;
-    if (selected < 0) {
-      detail.textContent = 'Choisissez une partie du cœur pour afficher son nom en pulaar.';
-      return;
-    }
+    if (selected < 0) return;
     const part = parts[selected];
     const label = document.createElement('span');
     label.className = 'annotation-detail-number';
@@ -167,8 +244,7 @@
     pulaar.lang = 'ff';
     pulaar.textContent = part[1];
     text.append(french, pulaar);
-    detail.append(label, text);
-    overlay.append(label.cloneNode(true), text.cloneNode(true));
+    overlay.append(label, text);
   }
   function setView(nextView) {
     view = nextView;
@@ -196,28 +272,6 @@
     });
     renderLines();
   }
-  parts.forEach((part, index) => {
-    const item = document.createElement('li');
-    const button = document.createElement('button');
-    button.type = 'button';
-    button.className = 'annotation-item';
-    button.setAttribute('aria-pressed', 'false');
-    const badge = document.createElement('span');
-    badge.className = 'annotation-item-number';
-    badge.textContent = `#${number(index)}`;
-    const names = document.createElement('span');
-    names.className = 'annotation-item-names';
-    const french = document.createElement('strong');
-    french.textContent = part[0];
-    const pulaar = document.createElement('span');
-    pulaar.lang = 'ff';
-    pulaar.textContent = part[1];
-    names.append(french, pulaar);
-    button.append(badge, names);
-    button.addEventListener('click', () => selectPart(index));
-    item.append(button);
-    list.append(item);
-  });
   function beginGesture() {
     const p = [...pointers.values()];
     if (p.length >= 2) gesture = {distance: Math.hypot(p[1].x - p[0].x, p[1].y - p[0].y), scale};
@@ -254,7 +308,10 @@
   stage.addEventListener('pointercancel', endPointer);
   image.addEventListener('load', render);
   window.addEventListener('resize', render);
+  reducedMotion.addEventListener('change', updateAnimation);
+  document.addEventListener('visibilitychange', updateAnimation);
   renderMarkers(); render();
+  updateAnimation();
   scroller.scrollLeft = (scroller.scrollWidth - scroller.clientWidth) / 2;
   if (document.fonts) document.fonts.ready.then(render);
 })();
