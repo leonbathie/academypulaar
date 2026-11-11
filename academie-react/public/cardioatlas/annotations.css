@@ -22,7 +22,8 @@
 .annotation-scroll { overflow-x: auto; overscroll-behavior-x: contain; }
 .annotation-scroll:focus-visible { outline: 3px solid #b8860b; outline-offset: -3px; }
 .annotation-scroll .stage { min-width: 850px; min-height: 660px; touch-action: pan-x; }
-.annotation-scroll .stage.is-zoomed { touch-action: none; }
+.annotation-scroll .heart-frame { touch-action: none; cursor: grab; }
+.annotation-scroll .heart-frame:active { cursor: grabbing; }
 .annotation-labels { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
 .annotation-lines { position: absolute; inset: 0; width: 100%; height: 100%; overflow: hidden; }
 .annotation-lines line { stroke: #f4e1b5; stroke-width: 1.2; opacity: .8; }

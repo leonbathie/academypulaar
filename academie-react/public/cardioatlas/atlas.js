@@ -43,7 +43,7 @@
   scroller.tabIndex = 0;
   stage.before(scroller);
   scroller.append(stage);
-  document.querySelector('.hint').textContent = 'Sur téléphone, faites défiler l’illustration horizontalement pour lire les noms. Utilisez la molette ou pincez l’image pour zoomer. Déplacez les noms en les faisant glisser, ou sélectionnez-les au clavier puis utilisez les flèches.';
+  document.querySelector('.hint').textContent = 'Faites glisser le cœur pour le déplacer, ou sélectionnez l’illustration puis utilisez les flèches du clavier. Utilisez la molette ou pincez le cœur pour zoomer. Déplacez aussi les noms en les faisant glisser ou avec les flèches. Sur téléphone, faites défiler l’illustration horizontalement en glissant hors du cœur et des noms.';
   const labels = document.createElement('div');
   labels.className = 'annotation-labels';
   const svgNS = 'http://www.w3.org/2000/svg';
@@ -94,8 +94,10 @@
     const size = Math.min(stage.clientWidth, stage.clientHeight);
     frame.style.width = `${size}px`;
     frame.style.height = `${size}px`;
-    const maxX = Math.max(0, (size * scale - stage.clientWidth) / 2);
-    const maxY = Math.max(0, (size * scale - stage.clientHeight) / 2);
+    // Toujours laisser une partie de l’image visible, même lorsqu’elle est réduite.
+    const visible = Math.min(80, size * scale / 2);
+    const maxX = (stage.clientWidth + size * scale) / 2 - visible;
+    const maxY = (stage.clientHeight + size * scale) / 2 - visible;
     x = Math.max(-maxX, Math.min(maxX, x));
     y = Math.max(-maxY, Math.min(maxY, y));
     paintHeart();
@@ -299,13 +301,14 @@
   zoomIn.addEventListener('click', () => setScale(scale * 1.25));
   stage.addEventListener('wheel', event => { event.preventDefault(); setScale(scale * Math.exp(-event.deltaY * 0.0015)); }, {passive:false});
   stage.addEventListener('keydown', event => {
-    const movements = {ArrowLeft: [40, 0], ArrowRight: [-40, 0], ArrowUp: [0, 40], ArrowDown: [0, -40]};
-    if (!movements[event.key] || scale <= 1) return;
+    const movements = {ArrowLeft: [-40, 0], ArrowRight: [40, 0], ArrowUp: [0, -40], ArrowDown: [0, 40]};
+    if (event.target !== stage || !movements[event.key]) return;
     event.preventDefault();
     x += movements[event.key][0]; y += movements[event.key][1]; render();
   });
   stage.addEventListener('pointerdown', event => {
-    if (event.target.closest('button')) return;
+    // Les zones autour de l’image restent disponibles pour le défilement mobile.
+    if (!frame.contains(event.target) || event.target.closest('button')) return;
     if (event.pointerType === 'mouse' && event.button !== 0) return;
     stage.setPointerCapture(event.pointerId);
     pointers.set(event.pointerId, {x:event.clientX, y:event.clientY});
@@ -321,6 +324,7 @@
   function endPointer(event) { pointers.delete(event.pointerId); beginGesture(); }
   stage.addEventListener('pointerup', endPointer);
   stage.addEventListener('pointercancel', endPointer);
+  stage.addEventListener('lostpointercapture', endPointer);
   image.addEventListener('load', render);
   window.addEventListener('resize', render);
   reducedMotion.addEventListener('change', updateAnimation);
