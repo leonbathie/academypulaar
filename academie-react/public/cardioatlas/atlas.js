@@ -60,7 +60,6 @@
   let scale = 1, x = 0, y = 0, gesture = null, view = 2, selected = -1;
   let beat = 1, animationFrame = null;
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const number = index => String(index + 1).padStart(2, '0');
 
   function paintHeart() {
     const effectiveScale = scale * beat;
@@ -113,9 +112,8 @@
       button.className = 'annotation-marker';
       button.style.left = `${point[0]}%`;
       button.style.top = `${point[1]}%`;
-      button.textContent = number(index);
       button.dataset.part = index;
-      button.setAttribute('aria-label', `${number(index)} · ${part[0]} — ${part[1]}`);
+      button.setAttribute('aria-label', `${part[0]} — ${part[1]}`);
       button.setAttribute('aria-pressed', String(index === selected));
       button.addEventListener('click', () => selectPart(index));
       markers.append(button);
@@ -134,21 +132,18 @@
         button.type = 'button';
         button.className = 'annotation-image-label';
         button.dataset.part = index;
-        button.setAttribute('aria-label', `${number(index)} · ${part[0]} — ${part[1]}`);
+        button.setAttribute('aria-label', `${part[0]} — ${part[1]}`);
         button.setAttribute('aria-pressed', String(index === selected));
         button.setAttribute('aria-description', 'Déplacez ce nom avec les flèches du clavier ou faites-le glisser.');
         const saved = labelPositions.get(`${view}:${index}`);
         if (saved) applyLabelPosition(button, saved.x, saved.y);
         makeLabelMovable(button, index);
-        const badge = document.createElement('span');
-        badge.className = 'annotation-image-label-number';
-        badge.textContent = number(index);
         const names = document.createElement('span');
         const pulaar = document.createElement('strong');
         pulaar.lang = 'ff'; pulaar.textContent = part[1];
         const french = document.createElement('span');
         french.textContent = part[0];
-        names.append(pulaar, french); button.append(badge, names);
+        names.append(pulaar, french); button.append(names);
         (side === 0 ? leftLabels : rightLabels).append(button);
         const line = document.createElementNS(svgNS, 'line');
         line.dataset.part = index;
@@ -233,9 +228,6 @@
     overlay.hidden = selected < 0;
     if (selected < 0) return;
     const part = parts[selected];
-    const label = document.createElement('span');
-    label.className = 'annotation-detail-number';
-    label.textContent = `#${number(selected)}`;
     const text = document.createElement('span');
     const french = document.createElement('strong');
     french.textContent = part[0];
@@ -244,7 +236,7 @@
     pulaar.lang = 'ff';
     pulaar.textContent = part[1];
     text.append(french, pulaar);
-    overlay.append(label, text);
+    overlay.append(text);
   }
   function setView(nextView) {
     view = nextView;
