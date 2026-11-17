@@ -265,6 +265,13 @@ router.get('/stats', async (req, res) => {
                     WHERE translation_ff IS NOT NULL AND BTRIM(translation_ff) <> ''
                 ) AS defined,
                 (SELECT COUNT(*)::int FROM (
+                    SELECT unnest(ARRAY[
+                        'scientifique','mathematiques','chimie','biologie','astronomie','informatique',
+                        'religion','finance','economie','sport','droit','politique','philosophie',
+                        'histoire','art_culture','medias','dictionnaire','botanique','vivants',
+                        'agriculture','elevage','peche','alimentation','forge','transport','general'
+                    ]) AS domain
+                    UNION
                     SELECT domain FROM dictionary_domains
                         WHERE domain IS NOT NULL AND BTRIM(domain) <> ''
                     UNION

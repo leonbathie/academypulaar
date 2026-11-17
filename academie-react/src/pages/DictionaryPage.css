@@ -184,9 +184,12 @@
 }
 
 .domain-btn--empty {
-    background: transparent;
-    border-style: dashed;
-    opacity: 0.82;
+    background: var(--white);
+    border-color: rgba(212, 165, 55, 0.32);
+}
+
+.domain-btn--empty .domain-count {
+    opacity: 0.65;
 }
 
 .domain-btn:hover {

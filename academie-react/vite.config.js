@@ -46,7 +46,8 @@ export default defineConfig({
                 globIgnores: [
                     '**/logo-academie.png',
                     '**/pwa-512x512.png',
-                    '**/pwa-maskable-512x512.png'
+                    '**/pwa-maskable-512x512.png',
+                    'cardioatlas/**'
                 ],
                 // SPA : les routes cote client retombent sur index.html hors-ligne
                 navigateFallback: '/index.html',
