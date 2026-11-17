@@ -15,5 +15,9 @@ export const WEB_URL = 'https://goomufulo.com'
 export function mediaUrl(path) {
     if (!path) return null
     if (path.startsWith('http://') || path.startsWith('https://')) return path
-    return `${API_URL}${path.startsWith('/') ? '' : '/'}${path}`
+    const normalized = `${path.startsWith('/') ? '' : '/'}${path}`
+    const withVersion = normalized.startsWith('/uploads/') && !normalized.startsWith('/uploads/books/') && !normalized.includes('?')
+        ? `${normalized}?v=2`
+        : normalized
+    return `${API_URL}${withVersion}`
 }

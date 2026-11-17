@@ -12,6 +12,8 @@ export const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || ''
 
 /**
  * Résout proprement tout chemin média (/uploads/..., uploads/..., URL externe, blob:, data:)
+ * et ajoute un cache-buster léger (?v=2) sur /uploads/ afin de contourner tout ancien cache CDN
+ * qui aurait mémorisé d'anciens en-têtes (ex: Content-Disposition: attachment).
  */
 export function resolveMediaUrl(rawPath) {
     if (!rawPath || typeof rawPath !== 'string') return ''
@@ -19,7 +21,10 @@ export function resolveMediaUrl(rawPath) {
     if (!trimmed) return ''
     if (/^(https?:|data:|blob:)/i.test(trimmed)) return trimmed
     const normalized = trimmed.startsWith('/') ? trimmed : `/${trimmed}`
-    return `${API_URL}${normalized}`
+    const withVersion = normalized.startsWith('/uploads/') && !normalized.startsWith('/uploads/books/') && !normalized.includes('?')
+        ? `${normalized}?v=2`
+        : normalized
+    return `${API_URL}${withVersion}`
 }
 
 /**

@@ -327,13 +327,13 @@ jobs:
           curl -s http://localhost:5000/api/health && echo "" || echo "API direct: FAIL"
 
           echo "=== API via Nginx ==="
-          curl -sk -H "Host: goomufulo.com" https://localhost/api/health && echo "" || echo "API via Nginx: FAIL"
+          curl -sk --resolve goomufulo.com:443:127.0.0.1 https://goomufulo.com/api/health && echo "" || echo "API via Nginx: FAIL"
 
           echo "=== Uploads serving check via Nginx ==="
           SAMPLE_REL=$(find /var/www/academypulaar/backend/uploads -maxdepth 2 -type f \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.webp' \) 2>/dev/null | head -n 1 | sed 's|^/var/www/academypulaar/backend||' || true)
           if [ -n "$SAMPLE_REL" ]; then
             echo "Testing $SAMPLE_REL"
-            curl -skI -H "Host: goomufulo.com" "https://localhost$SAMPLE_REL" | head -n 12 || true
+            curl -skI --resolve goomufulo.com:443:127.0.0.1 "https://goomufulo.com$SAMPLE_REL" | head -n 12 || true
           else
             echo "No sample image file found in uploads yet"
           fi
