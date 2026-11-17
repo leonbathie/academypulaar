@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
-import { API_URL } from '../config'
+import { API_URL, resolveMediaUrl } from '../config'
 import './LibraryPage.css'
 
 function LibraryPage() {
@@ -10,6 +10,7 @@ function LibraryPage() {
     const [loading, setLoading] = useState(true)
     const [selectedCategory, setSelectedCategory] = useState('')
     const [expandedBooks, setExpandedBooks] = useState({})
+    const [brokenCovers, setBrokenCovers] = useState({})
 
     const toggleExpand = useCallback((bookId) => {
         setExpandedBooks(prev => ({ ...prev, [bookId]: !prev[bookId] }))
@@ -151,8 +152,14 @@ function LibraryPage() {
                         {filteredBooks.map(book => (
                             <article key={book.id} className="book-card">
                                 <div className="book-cover">
-                                    {book.cover_image ? (
-                                        <img src={`${API_URL}${book.cover_image}`} alt={getTitle(book)} />
+                                    {book.cover_image && !brokenCovers[book.id] ? (
+                                        <img
+                                            src={resolveMediaUrl(book.cover_image)}
+                                            alt={getTitle(book)}
+                                            loading="lazy"
+                                            decoding="async"
+                                            onError={() => setBrokenCovers(prev => ({ ...prev, [book.id]: true }))}
+                                        />
                                     ) : (
                                         <div className="book-cover-placeholder">
                                             <svg viewBox="0 0 24 24" fill="currentColor">

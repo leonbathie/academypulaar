@@ -6,11 +6,19 @@ const { authMiddleware, canWrite } = require('../middleware/auth')
 // Liste blanche des slugs de domaines de terminologie (cf. DomainPage.jsx + TerminologieAdmin.jsx)
 const ALLOWED_DOMAINS = new Set([
     'sciences-technologie',
+    'informatique',
+    'astronomie',
     'sante-medecine',
+    'etres-vivants',
+    'arbres-plantes',
     'sciences-humaines',
     'education',
     'agriculture-environnement',
-    'metiers-artisanat'
+    'metiers-artisanat',
+    'religion-spiritualite',
+    'finance-economie',
+    'sport-jeux',
+    'arts-medias-culture'
 ])
 
 const ALLOWED_LANGUAGES = new Set(['fr', 'en', 'ff'])

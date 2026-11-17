@@ -5,27 +5,25 @@ const path = require('path')
 const fs = require('fs')
 const { query } = require('../database')
 const { authMiddleware, canWrite, requireRole, validateId } = require('../middleware/auth')
+const { UPLOADS_ROOT, resolveSafeExt, isAllowedImage, ensureUploadedFilesReadable, safeUnlinkUpload } = require('../utils/uploadHelper')
 
 // Configuration Multer pour l'upload d'images
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, 'uploads/')
+        cb(null, UPLOADS_ROOT)
     },
     filename: function (req, file, cb) {
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
-        const ext = path.extname(file.originalname).toLowerCase().replace(/[^a-z0-9.]/g, '')
+        const ext = resolveSafeExt(file, '.jpg')
         cb(null, 'news-' + uniqueSuffix + ext)
     }
 })
 
 const upload = multer({
     storage: storage,
-    limits: { fileSize: 5 * 1024 * 1024 }, // 5MB max
+    limits: { fileSize: 15 * 1024 * 1024 }, // 15MB max
     fileFilter: (req, file, cb) => {
-        const allowedTypes = /jpeg|jpg|png|gif|webp/
-        const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase())
-        const mimetype = allowedTypes.test(file.mimetype)
-        if (extname && mimetype) {
+        if (isAllowedImage(file)) {
             return cb(null, true)
         }
         cb(new Error('Seules les images sont acceptées'))
@@ -118,6 +116,7 @@ router.post('/', authMiddleware, canWrite, upload.array('images', 10), async (re
             return res.status(400).json({ error: 'Le titre est requis' })
         }
 
+        ensureUploadedFilesReadable(req)
         const images = (req.files || []).map(f => `/uploads/${f.filename}`)
         const image = images[0] || null
 
@@ -159,6 +158,7 @@ router.put('/:id', authMiddleware, canWrite, validateId, upload.array('images', 
             const parsed = JSON.parse(existingImages || '[]')
             if (Array.isArray(parsed)) kept = parsed.filter(Boolean)
         } catch { /* champ absent/invalide : aucune conservee */ }
+        ensureUploadedFilesReadable(req)
         const uploaded = (req.files || []).map(f => `/uploads/${f.filename}`)
         const images = [...kept, ...uploaded]
         const image = images[0] || null
@@ -177,8 +177,7 @@ router.put('/:id', authMiddleware, canWrite, validateId, upload.array('images', 
         // Supprimer du disque les images retirees
         const removed = oldImages.filter(img => !images.includes(img))
         for (const img of removed) {
-            const p = path.join(__dirname, '..', img)
-            if (fs.existsSync(p)) fs.unlink(p, () => {})
+            safeUnlinkUpload(img)
         }
 
         res.json(parseImages(result.rows[0]))
@@ -201,8 +200,7 @@ router.delete('/:id', authMiddleware, requireRole('admin'), validateId, async (r
         // Supprimer toutes les images associées du disque
         const newsItem = parseImages(result.rows[0])
         for (const img of newsItem.images) {
-            const imagePath = path.join(__dirname, '..', img)
-            if (fs.existsSync(imagePath)) fs.unlink(imagePath, () => {})
+            safeUnlinkUpload(img)
         }
 
         res.json({ message: 'Actualité supprimée avec succès' })

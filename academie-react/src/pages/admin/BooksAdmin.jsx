@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useApi } from '../../context/AuthContext'
-import { API_URL } from '../../config'
+import { API_URL, resolveMediaUrl } from '../../config'
 import ConfirmDialog from '../../components/ConfirmDialog'
 
 function BooksAdmin() {
@@ -77,7 +77,7 @@ function BooksAdmin() {
         }
         setSelectedFile(null)
         setSelectedCover(null)
-        setCoverPreview(book?.cover_image ? `${API_URL}${book.cover_image}` : null)
+        setCoverPreview(book?.cover_image ? resolveMediaUrl(book.cover_image) : null)
         setActiveTab('fr')
         setShowModal(true)
     }
@@ -122,6 +122,13 @@ function BooksAdmin() {
             Object.keys(formData).forEach(key => {
                 formDataToSend.append(key, formData[key])
             })
+            if (editingBook) {
+                if (editingBook.author && formData.author === undefined) formDataToSend.append('author', editingBook.author)
+                if (editingBook.year && formData.year === undefined) formDataToSend.append('year', editingBook.year)
+                if (editingBook.price !== undefined && formData.price === undefined) formDataToSend.append('price', editingBook.price ?? 0)
+                if (editingBook.is_free !== undefined && formData.is_free === undefined) formDataToSend.append('is_free', editingBook.is_free !== false)
+                if (editingBook.payment_link && formData.payment_link === undefined) formDataToSend.append('payment_link', editingBook.payment_link)
+            }
 
             // Cover image
             if (selectedCover) {
@@ -418,7 +425,7 @@ function BooksAdmin() {
                                         <input
                                             ref={coverInputRef}
                                             type="file"
-                                            accept="image/jpeg,image/png,image/gif,image/webp"
+                                            accept="image/*"
                                             onChange={handleCoverChange}
                                             style={{ display: 'none' }}
                                         />

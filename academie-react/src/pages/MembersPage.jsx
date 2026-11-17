@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { API_URL } from '../config'
+import { API_URL, resolveMediaUrl } from '../config'
 import { parseMarkdown, extractPreview } from '../utils/markdownParser'
 import './MembersPage.css'
 
@@ -10,6 +10,7 @@ function MembersPage() {
     const [members, setMembers] = useState([])
     const [loading, setLoading] = useState(true)
     const [expandedBios, setExpandedBios] = useState({})
+    const [brokenImages, setBrokenImages] = useState({})
 
     useEffect(() => {
         loadMembers()
@@ -94,18 +95,23 @@ function MembersPage() {
                             const displayBio = isExpanded ? bio : truncateBio(bio)
                             const showReadMore = bio && bio.length > 100
 
+                            const imgSrc = member.image && !brokenImages[member.id] ? resolveMediaUrl(member.image) : ''
+
                             return (
                                 <article key={member.id} className={`member-card ${isExpanded ? 'member-card--expanded' : ''}`}>
                                     <div className="member-image">
-                                        {member.image ? (
+                                        {imgSrc ? (
                                             <img
-                                                src={`${API_URL}${member.image}`}
+                                                src={imgSrc}
                                                 alt={member.name}
                                                 loading="lazy"
+                                                decoding="async"
+                                                style={{ objectPosition: member.image_position || '50% 25%' }}
+                                                onError={() => setBrokenImages(prev => ({ ...prev, [member.id]: true }))}
                                             />
                                         ) : (
                                             <div className="member-placeholder">
-                                                <span>👤</span>
+                                                <span>{(member.name || '👤').trim().split(/\s+/).slice(0, 2).map(w => w[0]?.toUpperCase()).join('') || '👤'}</span>
                                             </div>
                                         )}
                                     </div>

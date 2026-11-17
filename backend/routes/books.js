@@ -5,18 +5,11 @@ const path = require('path')
 const fs = require('fs')
 const { query } = require('../database')
 const { authMiddleware, canWrite, requireRole, validateId } = require('../middleware/auth')
+const { UPLOADS_ROOT, resolveSafeExt, isAllowedImage, ensureUploadedFilesReadable, safeUnlinkUpload } = require('../utils/uploadHelper')
 
 // Configuration Multer pour l'upload de livres et images
-const uploadsDir = path.resolve(__dirname, '..', 'uploads')
+const uploadsDir = UPLOADS_ROOT
 const booksDir = path.resolve(uploadsDir, 'books')
-
-// Créer les dossiers au chargement du module
-for (const dir of [uploadsDir, booksDir]) {
-    if (!fs.existsSync(dir)) {
-        fs.mkdirSync(dir, { recursive: true, mode: 0o775 })
-        console.log(`[BOOKS] Dossier créé: ${dir}`)
-    }
-}
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -26,7 +19,9 @@ const storage = multer.diskStorage({
     filename: function (req, file, cb) {
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
         const prefix = file.fieldname === 'cover' ? 'book-cover-' : 'book-'
-        const ext = path.extname(file.originalname).toLowerCase().replace(/[^a-z0-9.]/g, '')
+        const ext = file.fieldname === 'cover'
+            ? resolveSafeExt(file, '.jpg')
+            : path.extname(file.originalname).toLowerCase().replace(/[^a-z0-9.]/g, '')
         cb(null, prefix + uniqueSuffix + ext)
     }
 })
@@ -38,9 +33,7 @@ const upload = multer({
         const ext = path.extname(file.originalname).toLowerCase()
         console.log(`[BOOKS] fileFilter: fieldname=${file.fieldname}, originalname=${file.originalname}, ext=${ext}, mimetype=${file.mimetype}, size=${file.size}`)
         if (file.fieldname === 'cover') {
-            // Accepter images par extension OU par mimetype commençant par image/
-            const allowedExts = /\.(jpeg|jpg|png|gif|webp|bmp|tiff|tif|svg|jfif|avif|ico)$/
-            if (allowedExts.test(ext) || file.mimetype.startsWith('image/')) {
+            if (isAllowedImage(file)) {
                 return cb(null, true)
             }
             console.error(`[BOOKS] Cover REJETÉE: ext=${ext}, mimetype=${file.mimetype}`)
@@ -98,6 +91,7 @@ const handleUpload = (req, res, next) => {
                 message: err.message
             })
         }
+        ensureUploadedFilesReadable(req)
         console.log(`[BOOKS] Multer OK - Body keys: [${Object.keys(req.body || {}).join(', ')}], Files: ${JSON.stringify(Object.keys(req.files || {}))}`)
         next()
     })
@@ -243,7 +237,7 @@ router.put('/:id', authMiddleware, canWrite, validateId, handleUpload, async (re
         } = req.body
 
         // Récupérer les anciens fichiers pour nettoyage
-        const existing = await query('SELECT cover_image, file_path FROM books WHERE id = $1', [req.params.id])
+        const existing = await query('SELECT cover_image, file_path, file_size FROM books WHERE id = $1', [req.params.id])
         const oldCover = existing.rows[0]?.cover_image
         const oldFile = existing.rows[0]?.file_path
 
@@ -275,12 +269,10 @@ router.put('/:id', authMiddleware, canWrite, validateId, handleUpload, async (re
 
         // Supprimer les anciens fichiers si remplacés
         if (req.files?.cover?.[0] && oldCover) {
-            const oldPath = path.join(__dirname, '..', oldCover)
-            if (fs.existsSync(oldPath)) fs.unlink(oldPath, () => {})
+            safeUnlinkUpload(oldCover)
         }
         if (req.files?.file?.[0] && oldFile) {
-            const oldPath = path.join(__dirname, '..', oldFile)
-            if (fs.existsSync(oldPath)) fs.unlink(oldPath, () => {})
+            safeUnlinkUpload(oldFile)
         }
 
         res.json(result.rows[0])

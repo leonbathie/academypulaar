@@ -49,15 +49,17 @@
 }
 
 .term-section p {
-    font-size: 1.1rem;
+    font-size: 1.08rem;
     line-height: 1.8;
     color: var(--medium-gray);
+    text-align: justify;
+    text-align-last: left;
 }
 
 .term-domains-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: var(--space-xl);
+    grid-template-columns: repeat(auto-fill, minmax(235px, 1fr));
+    gap: var(--space-lg);
     margin-top: var(--space-2xl);
 }
 
@@ -65,14 +67,34 @@
     background: var(--white);
     padding: var(--space-xl);
     border-radius: var(--radius-xl);
-    box-shadow: var(--shadow-md);
+    border: 1px solid rgba(212, 165, 55, 0.22);
+    box-shadow: var(--shadow-sm);
     text-align: center;
     transition: all var(--transition-base);
+    position: relative;
+    overflow: hidden;
+}
+
+.term-domain-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--gradient-gold);
+    opacity: 0.45;
+    transition: opacity 0.25s ease;
 }
 
 .term-domain-card:hover {
-    transform: translateY(-6px);
+    transform: translateY(-5px);
     box-shadow: var(--shadow-lg);
+    border-color: rgba(212, 165, 55, 0.55);
+}
+
+.term-domain-card:hover::before {
+    opacity: 1;
 }
 
 [data-theme="dark"] .term-domain-card {

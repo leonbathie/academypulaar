@@ -10,24 +10,33 @@ const DOMAIN_OPTIONS = [
     { slug: 'informatique',              icon: '💻', labelKey: 'terminology.domTech' },
     { slug: 'astronomie',                icon: '🔭', labelKey: 'terminology.domSpace' },
     { slug: 'sante-medecine',            icon: '🏥', labelKey: 'terminology.domHealth' },
+    { slug: 'religion-spiritualite',     icon: '🕌', labelKey: 'terminology.domReligion' },
+    { slug: 'finance-economie',          icon: '💰', labelKey: 'terminology.domFinance' },
+    { slug: 'sport-jeux',                icon: '⚽', labelKey: 'terminology.domSport' },
+    { slug: 'sciences-humaines',         icon: '⚖️', labelKey: 'terminology.domHuman' },
+    { slug: 'arts-medias-culture',       icon: '🎨', labelKey: 'terminology.domCulture' },
+    { slug: 'education',                 icon: '📚', labelKey: 'terminology.domEdu' },
     { slug: 'etres-vivants',             icon: '🦋', labelKey: 'terminology.domLiving' },
     { slug: 'arbres-plantes',            icon: '🌳', labelKey: 'terminology.domPlants' },
-    { slug: 'sciences-humaines',         icon: '⚖️', labelKey: 'terminology.domHuman' },
     { slug: 'agriculture-environnement', icon: '🌾', labelKey: 'terminology.domAgri' },
     { slug: 'metiers-artisanat',         icon: '🔨', labelKey: 'terminology.domCrafts' }
 ]
 
 // Tous les domaines ayant un onglet "Apprendre" (cf. DOMAIN_CONFIG de DomainPage.jsx),
-// pour la gestion de visibilite — inclut "education" absent de l'edition de contenu.
+// pour la gestion de visibilite.
 const LEARN_VISIBILITY_DOMAINS = [
     { slug: 'sciences-technologie',      icon: '🔬', labelKey: 'terminology.domScience' },
     { slug: 'informatique',              icon: '💻', labelKey: 'terminology.domTech' },
     { slug: 'astronomie',                icon: '🔭', labelKey: 'terminology.domSpace' },
     { slug: 'sante-medecine',            icon: '🏥', labelKey: 'terminology.domHealth' },
+    { slug: 'religion-spiritualite',     icon: '🕌', labelKey: 'terminology.domReligion' },
+    { slug: 'finance-economie',          icon: '💰', labelKey: 'terminology.domFinance' },
+    { slug: 'sport-jeux',                icon: '⚽', labelKey: 'terminology.domSport' },
+    { slug: 'sciences-humaines',         icon: '⚖️', labelKey: 'terminology.domHuman' },
+    { slug: 'arts-medias-culture',       icon: '🎨', labelKey: 'terminology.domCulture' },
+    { slug: 'education',                 icon: '📚', labelKey: 'terminology.domEdu' },
     { slug: 'etres-vivants',             icon: '🦋', labelKey: 'terminology.domLiving' },
     { slug: 'arbres-plantes',            icon: '🌳', labelKey: 'terminology.domPlants' },
-    { slug: 'sciences-humaines',         icon: '⚖️', labelKey: 'terminology.domHuman' },
-    { slug: 'education',                 icon: '📚', labelKey: 'terminology.domEdu' },
     { slug: 'agriculture-environnement', icon: '🌾', labelKey: 'terminology.domAgri' },
     { slug: 'metiers-artisanat',         icon: '🔨', labelKey: 'terminology.domCrafts' }
 ]

@@ -174,8 +174,12 @@
 .dire-page-explanation p {
     color: var(--medium-gray);
     font-size: 0.95rem;
-    line-height: 1.7;
+    line-height: 1.72;
     margin: 0;
+    text-align: justify;
+    text-align-last: left;
+    hyphens: auto;
+    -webkit-hyphens: auto;
 }
 
 /* Empty state */

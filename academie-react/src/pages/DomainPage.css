@@ -266,15 +266,24 @@
     border-radius: var(--radius-xl);
     padding: var(--space-lg);
     box-shadow: var(--shadow-sm);
-    transition: all 0.2s ease;
-    border-left: 4px solid transparent;
+    transition: all 0.22s ease;
+    border: 1px solid rgba(212, 165, 55, 0.18);
+    border-left: 4px solid rgba(212, 165, 55, 0.35);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: visible;
 }
 
 .domain-word-card:hover {
     box-shadow: var(--shadow-md);
+    border-color: rgba(212, 165, 55, 0.45);
+    border-left-color: var(--gold);
+    transform: translateY(-2px);
 }
 
 .domain-word-card--expanded {
+    border-color: rgba(212, 165, 55, 0.5);
     border-left-color: var(--gold);
     box-shadow: var(--shadow-md);
 }
@@ -282,11 +291,38 @@
 [data-theme="dark"] .domain-word-card {
     background: var(--primary-dark);
     border: 1px solid rgba(255, 255, 255, 0.08);
-    border-left: 4px solid transparent;
+    border-left: 4px solid rgba(212, 165, 55, 0.4);
 }
 
 [data-theme="dark"] .domain-word-card--expanded {
     border-left-color: var(--gold);
+}
+
+.domain-word-image {
+    margin: calc(-1 * var(--space-lg)) calc(-1 * var(--space-lg)) var(--space-md);
+    aspect-ratio: 16 / 10;
+    max-height: 210px;
+    overflow: hidden;
+    border-radius: calc(var(--radius-xl) - 2px) calc(var(--radius-xl) - 2px) 0 0;
+    background: linear-gradient(135deg, #f6f1e7 0%, #ebe3d3 100%);
+    border-bottom: 1px solid rgba(212, 165, 55, 0.18);
+}
+
+.domain-word-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    cursor: pointer;
+    transition: transform 0.32s ease;
+}
+
+.domain-word-image:hover img {
+    transform: scale(1.04);
+}
+
+[data-theme="dark"] .domain-word-image {
+    background: linear-gradient(135deg, #1b1f38 0%, #261b34 100%);
 }
 
 .domain-word-top {
@@ -295,6 +331,13 @@
     justify-content: space-between;
     gap: 10px;
     margin-bottom: 4px;
+}
+
+.domain-word-top-actions {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
 }
 
 .domain-word-name {
@@ -375,7 +418,18 @@
     color: var(--medium-gray);
     font-size: 0.95rem;
     margin: 8px 0 0;
-    line-height: 1.5;
+    line-height: 1.58;
+}
+
+.domain-word-preview--para {
+    text-align: justify;
+    text-align-last: left;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .domain-word-preview--animate {
@@ -434,18 +488,52 @@
 .domain-word-details {
     margin-top: var(--space-md);
     padding-top: var(--space-md);
-    border-top: 1px solid var(--light-gray);
+    border-top: 1px dashed rgba(212, 165, 55, 0.35);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 [data-theme="dark"] .domain-word-details {
-    border-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.12);
+}
+
+.domain-def-block {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.domain-def-block .domain-trans-flag {
+    align-self: flex-start;
+}
+
+.domain-def-paras {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.domain-para-justified {
+    text-align: justify;
+    text-align-last: left;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    line-height: 1.66;
+    color: var(--dark-gray);
+    font-size: 0.95rem;
+    margin: 0;
+}
+
+[data-theme="dark"] .domain-para-justified {
+    color: rgba(255, 255, 255, 0.88);
 }
 
 .domain-trans-row {
     display: flex;
     align-items: flex-start;
     gap: 10px;
-    margin-bottom: 8px;
+    margin-bottom: 2px;
     font-size: 0.95rem;
     color: var(--dark-gray);
 }
@@ -778,6 +866,10 @@
     line-height: 1.8;
     color: var(--dark-gray);
     margin-bottom: var(--space-md);
+    text-align: justify;
+    text-align-last: left;
+    hyphens: auto;
+    -webkit-hyphens: auto;
 }
 
 .domain-intro-text:last-child {
@@ -841,6 +933,10 @@
     line-height: 1.7;
     color: var(--medium-gray);
     margin: 0;
+    text-align: justify;
+    text-align-last: left;
+    hyphens: auto;
+    -webkit-hyphens: auto;
 }
 
 [data-theme="dark"] .domain-dyk-text {

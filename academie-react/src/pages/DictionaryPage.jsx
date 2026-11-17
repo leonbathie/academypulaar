@@ -1,21 +1,33 @@
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useSearchParams, Link } from 'react-router-dom'
-import { API_URL } from '../config'
+import { createPortal } from 'react-dom'
+import { API_URL, resolveMediaUrl, formatParagraphs } from '../config'
+import { DICTIONARY_DOMAINS, DOMAIN_ICON_MAP } from '../data/domains'
 import ShareWordButton from '../components/ShareWordButton'
 import './DictionaryPage.css'
+
+const normalizeFulfuldeText = (value) => (value ?? '').toString().normalize('NFC').trim()
+const searchNormalizer = (value) => normalizeFulfuldeText(value).toLowerCase()
 
 function DictionaryPage() {
     const { t, i18n } = useTranslation()
     const lang = (i18n.language || 'fr').substring(0, 2)
-    const normalizeFulfuldeText = (value) => (value ?? '').toString().normalize('NFC').trim()
-    const searchNormalizer = (value) => normalizeFulfuldeText(value).toLowerCase()
-    const collator = new Intl.Collator(lang === 'ff' ? 'ff' : undefined, { sensitivity: 'base', numeric: true })
+    const collator = useMemo(
+        () => new Intl.Collator(lang === 'ff' ? 'ff' : undefined, { sensitivity: 'base', numeric: true }),
+        [lang]
+    )
+
     // Multi-domaines : un mot peut avoir plusieurs domaines (tableau `domains`),
     // avec fallback sur l'ancien champ `domain` unique.
-    const wordHasDomain = (w, d) => Array.isArray(w.domains) && w.domains.length > 0
-        ? w.domains.includes(d)
-        : w.domain === d
+    const wordDomains = useCallback((w) => (
+        Array.isArray(w.domains) && w.domains.length > 0
+            ? w.domains
+            : (w.domain ? [w.domain] : [])
+    ), [])
+
+    const wordHasDomain = useCallback((w, d) => wordDomains(w).includes(d), [wordDomains])
+
     const [searchParams] = useSearchParams()
     const [searchTerm, setSearchTerm] = useState('')
     const [searchType, setSearchType] = useState('prefix')
@@ -29,9 +41,11 @@ function DictionaryPage() {
     const [playingAudio, setPlayingAudio] = useState(null)
     const [expandedCards, setExpandedCards] = useState(new Set())
     const [previewLang, setPreviewLang] = useState('fr')
+    const [failedImages, setFailedImages] = useState(() => new Set())
+    const [lightbox, setLightbox] = useState(null)
     const audioRef = useRef(null)
 
-    // Alterner FR/EN chaque seconde en mode Pulaar
+    // Alterner FR/EN en mode Pulaar
     useEffect(() => {
         if (lang !== 'ff') return
         const interval = setInterval(() => {
@@ -39,6 +53,14 @@ function DictionaryPage() {
         }, 3000)
         return () => clearInterval(interval)
     }, [lang])
+
+    // Fermer la visionneuse d'image avec Echap
+    useEffect(() => {
+        if (!lightbox) return
+        const onKey = (e) => { if (e.key === 'Escape') setLightbox(null) }
+        document.addEventListener('keydown', onKey)
+        return () => document.removeEventListener('keydown', onKey)
+    }, [lightbox])
 
     // Tracker une interaction avec un mot (éviter doublons rapides)
     const trackedWords = useRef(new Set())
@@ -62,38 +84,36 @@ function DictionaryPage() {
         })
     }, [trackWordInteraction])
 
-    // Lien direct vers un mot precis : /dictionnaire?word=<id|texte>
+    // Lien direct vers un mot précis : /dictionnaire?word=<id|texte>
     const urlWordId = searchParams.get('word')
-    // Vue "lien direct" (depuis une suggestion / un partage) : on affiche
-    // uniquement le mot, sans les badges de domaine.
     const isDirectWordLink = !!urlWordId && !searchTerm && !selectedLetter && !selectedDomain
 
     // Lire les paramètres URL au chargement
     useEffect(() => {
         const urlSearch = searchParams.get('search')
         const urlType = searchParams.get('type')
+        const urlDomain = searchParams.get('domain')
         if (urlSearch) {
             setSearchTerm(urlSearch)
         }
         if (urlType && (urlType === 'prefix' || urlType === 'similar')) {
             setSearchType(urlType)
         }
+        if (urlDomain) {
+            setSelectedDomain(urlDomain)
+        }
     }, [searchParams])
 
-    // Charger tous les mots au démarrage
-    useEffect(() => {
-        loadDictionary()
-    }, [])
-
-    const loadDictionary = async () => {
+    const loadDictionary = useCallback(async () => {
         try {
             const response = await fetch(`${API_URL}/api/dictionary`)
             if (response.ok) {
                 const data = await response.json()
                 setAllWords(data)
 
-                // Extraire les lettres disponibles
-                const uniqueLetters = [...new Set(data.map(w => w.word.charAt(0).toUpperCase()))].sort()
+                const uniqueLetters = [...new Set(
+                    data.map(w => (w.word || '').charAt(0).toUpperCase()).filter(Boolean)
+                )].sort((a, b) => a.localeCompare(b))
                 setLetters(uniqueLetters)
             }
         } catch (error) {
@@ -101,7 +121,39 @@ function DictionaryPage() {
         } finally {
             setLoading(false)
         }
-    }
+    }, [])
+
+    useEffect(() => {
+        loadDictionary()
+    }, [loadDictionary])
+
+    // Comptage rapide des mots par domaine (mémoïsé en un seul passage O(N))
+    const domainCounts = useMemo(() => {
+        const counts = {}
+        for (const w of allWords) {
+            for (const d of wordDomains(w)) {
+                if (d) counts[d] = (counts[d] || 0) + 1
+            }
+        }
+        return counts
+    }, [allWords, wordDomains])
+
+    // Liste complète des domaines (officiels + éventuels domaines personnalisés en base), triée
+    const sortedDomains = useMemo(() => {
+        const knownKeys = new Set(DICTIONARY_DOMAINS.map(d => d.key))
+        const extras = Object.keys(domainCounts)
+            .filter(k => !knownKeys.has(k))
+            .map(k => ({ key: k, icon: '📌' }))
+
+        return [...DICTIONARY_DOMAINS, ...extras]
+            .map(d => ({
+                key: d.key,
+                icon: d.icon,
+                label: t(`dictionary.domains.${d.key}`, d.key),
+                count: domainCounts[d.key] || 0
+            }))
+            .sort((a, b) => collator.compare(a.label, b.label))
+    }, [domainCounts, t, collator])
 
     // Tracker une recherche (avec debounce long pour éviter le spam)
     useEffect(() => {
@@ -145,11 +197,11 @@ function DictionaryPage() {
                 }
                 setResults(filtered)
                 setIsSearching(false)
-            }, 300)
+            }, 250)
             return () => clearTimeout(timer)
         } else if (selectedLetter) {
             let filtered = allWords.filter(word =>
-                word.word.charAt(0).toUpperCase() === selectedLetter
+                (word.word || '').charAt(0).toUpperCase() === selectedLetter
             )
             if (selectedDomain) {
                 filtered = filtered.filter(w => wordHasDomain(w, selectedDomain))
@@ -159,9 +211,6 @@ function DictionaryPage() {
             const filtered = allWords.filter(w => wordHasDomain(w, selectedDomain))
             setResults(filtered)
         } else if (urlWordId) {
-            // Lien direct vers UN mot (?word=id OU ?word=texte) : afficher ce mot
-            // seul, deplie. On accepte l'id numerique ET le texte du mot, car les
-            // liens de partage (/share/word/:id) redirigent vers ?word=<texte>.
             const entry = allWords.find(w =>
                 String(w.id) === String(urlWordId) ||
                 searchNormalizer(w.word) === searchNormalizer(urlWordId)
@@ -179,11 +228,17 @@ function DictionaryPage() {
         } else {
             setResults([])
         }
-    }, [searchTerm, searchType, selectedLetter, selectedDomain, allWords, urlWordId])
+    }, [searchTerm, searchType, selectedLetter, selectedDomain, allWords, urlWordId, wordHasDomain])
 
     const handleLetterClick = (letter) => {
-        setSelectedLetter(letter)
+        setSelectedLetter(prev => prev === letter ? null : letter)
         setSearchTerm('')
+    }
+
+    const resetAllFilters = () => {
+        setSearchTerm('')
+        setSelectedLetter(null)
+        setSelectedDomain('')
     }
 
     const getTranslation = (entry) => {
@@ -195,12 +250,11 @@ function DictionaryPage() {
     }
 
     const playAudio = (audioUrl, entryId, type) => {
-        const fullUrl = `${API_URL}${audioUrl}`
+        const fullUrl = resolveMediaUrl(audioUrl)
+        if (!fullUrl) return
 
-        // Tracker l'écoute audio
         trackWordInteraction(entryId)
 
-        // Si on clique sur le même audio en cours de lecture, on l'arrête
         if (playingAudio === `${entryId}-${type}`) {
             if (audioRef.current) {
                 audioRef.current.pause()
@@ -210,22 +264,29 @@ function DictionaryPage() {
             return
         }
 
-        // Arrêter l'audio précédent
         if (audioRef.current) {
             audioRef.current.pause()
         }
 
-        // Jouer le nouvel audio
         const audio = new Audio(fullUrl)
         audioRef.current = audio
         setPlayingAudio(`${entryId}-${type}`)
 
-        audio.play()
         audio.onended = () => {
             setPlayingAudio(null)
             audioRef.current = null
         }
+        audio.onerror = () => {
+            setPlayingAudio(null)
+            audioRef.current = null
+        }
+        audio.play().catch(() => {
+            setPlayingAudio(null)
+            audioRef.current = null
+        })
     }
+
+    const hasActiveFilter = Boolean(searchTerm || selectedLetter || selectedDomain)
 
     if (loading) {
         return (
@@ -249,45 +310,69 @@ function DictionaryPage() {
         <div className="dictionary-page">
             <div className="dictionary-page-header">
                 <div className="container">
+                    <span className="dictionary-header-kicker">Goomu Fulo & Wiɗto</span>
                     <h1 className="page-title">
                         {t('dictionary.title')} <span className="gold-accent">{t('dictionary.titleHighlight')}</span>
                     </h1>
                     <p className="page-subtitle">{t('dictionary.intro')}</p>
+                    {allWords.length > 0 && (
+                        <div className="dictionary-header-pills">
+                            <span className="dictionary-header-pill">
+                                <strong>{allWords.length.toLocaleString('fr-FR')}</strong> {t('dictionary.editions')}
+                            </span>
+                            <span className="dictionary-header-pill">
+                                <strong>{sortedDomains.length}</strong> {t('dictionary.wordsDefined')}
+                            </span>
+                        </div>
+                    )}
                 </div>
             </div>
 
             <div className="container">
                 {!isDirectWordLink && (
                 <div className="dictionary-search-section">
-                    {/* Filtres par domaine */}
-                    <div className="domain-filters">
-                        <button
-                            className={`domain-btn ${selectedDomain === '' ? 'active' : ''}`}
-                            onClick={() => setSelectedDomain('')}
-                        >
-                            {t('dictionary.allDomains')}
-                        </button>
-                        {['scientifique', 'mathematiques', 'biologie', 'philosophie', 'economie', 'droit', 'astronomie', 'informatique', 'botanique', 'vivants', 'elevage', 'agriculture', 'peche', 'forge', 'dictionnaire', 'general']
-                            .map(d => ({ key: d, label: t(`dictionary.domains.${d}`) }))
-                                    .sort((a, b) => collator.compare(a.label, b.label))
-                            .map(({ key: domain }) => {
-                            const count = allWords.filter(w => wordHasDomain(w, domain)).length
-                            if (count === 0) return null
-                            return (
+                    {/* Panneau de filtrage par domaine */}
+                    <div className="domain-filters-panel">
+                        <div className="domain-filters-header">
+                            <span className="domain-filters-label">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                                    <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
+                                </svg>
+                                {t('dictionary.filterByDomain', 'Explorer par domaine')}
+                            </span>
+                            {hasActiveFilter && (
+                                <button type="button" className="domain-reset-btn" onClick={resetAllFilters}>
+                                    ✕ {t('dictionary.resetFilters', 'Réinitialiser')}
+                                </button>
+                            )}
+                        </div>
+                        <div className="domain-filters">
+                            <button
+                                type="button"
+                                className={`domain-btn ${selectedDomain === '' ? 'active' : ''}`}
+                                onClick={() => setSelectedDomain('')}
+                            >
+                                <span className="domain-btn-label">{t('dictionary.allDomains')}</span>
+                                <span className="domain-count">{allWords.length}</span>
+                            </button>
+                            {sortedDomains.map(({ key: domain, icon, label, count }) => (
                                 <button
                                     key={domain}
-                                    className={`domain-btn ${selectedDomain === domain ? 'active' : ''}`}
-                                    onClick={() => setSelectedDomain(domain)}
+                                    type="button"
+                                    className={`domain-btn ${selectedDomain === domain ? 'active' : ''} ${count === 0 ? 'domain-btn--empty' : ''}`}
+                                    onClick={() => setSelectedDomain(selectedDomain === domain ? '' : domain)}
                                 >
-                                    {t(`dictionary.domains.${domain}`)} <span className="domain-count">{count}</span>
+                                    {icon && <span className="domain-btn-icon" aria-hidden="true">{icon}</span>}
+                                    <span className="domain-btn-label">{label}</span>
+                                    <span className="domain-count">{count}</span>
                                 </button>
-                            )
-                        })}
+                            ))}
+                        </div>
                     </div>
 
                     <div className="search-box">
-                        <div className="search-options">
-                            <label className="search-option">
+                        <div className="search-options" role="radiogroup" aria-label={t('common.search')}>
+                            <label className={`search-option ${searchType === 'prefix' ? 'is-checked' : ''}`}>
                                 <input
                                     type="radio"
                                     name="searchType"
@@ -297,7 +382,7 @@ function DictionaryPage() {
                                 />
                                 <span>{t('dictionary.wordsStartingWith')}</span>
                             </label>
-                            <label className="search-option">
+                            <label className={`search-option ${searchType === 'similar' ? 'is-checked' : ''}`}>
                                 <input
                                     type="radio"
                                     name="searchType"
@@ -323,23 +408,34 @@ function DictionaryPage() {
                                 placeholder={t('dictionary.searchPlaceholder')}
                                 className="search-input-full"
                             />
+                            {searchTerm && !isSearching && (
+                                <button
+                                    type="button"
+                                    className="search-clear-btn"
+                                    onClick={() => setSearchTerm('')}
+                                    aria-label="Effacer"
+                                >
+                                    ×
+                                </button>
+                            )}
                             {isSearching && <span className="search-spinner"></span>}
                         </div>
-                    </div>
 
-                    {letters.length > 0 && (
-                        <div className="letter-nav">
-                            {letters.map((letter) => (
-                                <button
-                                    key={letter}
-                                    className={`letter-btn ${selectedLetter === letter ? 'active' : ''}`}
-                                    onClick={() => handleLetterClick(letter)}
-                                >
-                                    {letter}
-                                </button>
-                            ))}
-                        </div>
-                    )}
+                        {letters.length > 0 && (
+                            <div className="letter-nav">
+                                {letters.map((letter) => (
+                                    <button
+                                        key={letter}
+                                        type="button"
+                                        className={`letter-btn ${selectedLetter === letter ? 'active' : ''}`}
+                                        onClick={() => handleLetterClick(letter)}
+                                    >
+                                        {letter}
+                                    </button>
+                                ))}
+                            </div>
+                        )}
+                    </div>
                 </div>
                 )}
 
@@ -347,9 +443,18 @@ function DictionaryPage() {
                     {results.length > 0 ? (
                         <>
                             {!isDirectWordLink && (
-                                <p className="results-count">
-                                    {results.length} {results.length === 1 ? t('dictionary.result') : t('dictionary.results')}
-                                </p>
+                                <div className="results-toolbar">
+                                    <p className="results-count">
+                                        <strong>{results.length}</strong> {results.length === 1 ? t('dictionary.result') : t('dictionary.results')}
+                                        {selectedDomain && (
+                                            <span className="results-active-domain">
+                                                {' · '}
+                                                {DOMAIN_ICON_MAP[selectedDomain] ? `${DOMAIN_ICON_MAP[selectedDomain]} ` : ''}
+                                                {t(`dictionary.domains.${selectedDomain}`, selectedDomain)}
+                                            </span>
+                                        )}
+                                    </p>
+                                </div>
                             )}
                             {isDirectWordLink && (
                                 <Link to="/dictionnaire" className="word-detail-back">
@@ -362,6 +467,10 @@ function DictionaryPage() {
                             <div className={`results-grid ${isDirectWordLink ? 'results-grid--single' : ''}`}>
                                 {results.map((entry) => {
                                     const isExpanded = expandedCards.has(entry.id)
+                                    const imgSrc = entry.image && !failedImages.has(entry.id)
+                                        ? resolveMediaUrl(entry.image)
+                                        : ''
+
                                     // En Pulaar : alterner FR/EN en aperçu
                                     let previewTranslation, previewHint
                                     if (lang === 'ff') {
@@ -378,24 +487,55 @@ function DictionaryPage() {
                                         previewTranslation = getTranslation(entry)
                                         previewHint = null
                                     }
+
+                                    const previewClean = formatParagraphs(previewTranslation).join(' ')
+                                    const frParas = formatParagraphs(entry.translation_fr)
+                                    const enParas = formatParagraphs(entry.translation_en)
+                                    const ffParas = formatParagraphs(entry.translation_ff)
+                                    const exampleParas = formatParagraphs(entry.example)
+                                    const exampleTransParas = formatParagraphs(entry.example_translation)
+                                    const entryDomains = wordDomains(entry)
+
                                     return (
                                         <article key={entry.id} id={`word-${entry.id}`} className={`word-card ${isExpanded ? 'word-card--expanded' : ''} ${isDirectWordLink ? 'word-card--detail' : ''}`}>
                                             {/* Image illustrative du mot (optionnelle) */}
-                                            {entry.image && (
+                                            {imgSrc && (
                                                 <div className="word-image">
                                                     <img
-                                                        src={`${API_URL}${entry.image}`}
+                                                        src={imgSrc}
                                                         alt={entry.word}
                                                         loading="lazy"
+                                                        decoding="async"
                                                         onClick={() => { trackWordInteraction(entry.id); toggleCard(entry.id) }}
+                                                        onError={() => setFailedImages(prev => new Set(prev).add(entry.id))}
                                                     />
+                                                    <button
+                                                        type="button"
+                                                        className="word-image-zoom"
+                                                        onClick={(e) => {
+                                                            e.stopPropagation()
+                                                            trackWordInteraction(entry.id)
+                                                            setLightbox({ src: imgSrc, title: entry.word })
+                                                        }}
+                                                        aria-label={entry.word}
+                                                        title="Agrandir l'image"
+                                                    >
+                                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                                            <polyline points="15 3 21 3 21 9" />
+                                                            <polyline points="9 21 3 21 3 15" />
+                                                            <line x1="21" y1="3" x2="14" y2="10" />
+                                                            <line x1="3" y1="21" x2="10" y2="14" />
+                                                        </svg>
+                                                    </button>
                                                 </div>
                                             )}
+
                                             {/* En-tête : mot + audio */}
                                             <div className="word-card-top">
-                                                <h3 className="word-term" onClick={() => { trackWordInteraction(entry.id); toggleCard(entry.id) }} style={{ cursor: 'pointer' }}>{entry.word}</h3>
+                                                <h3 className="word-term" onClick={() => { trackWordInteraction(entry.id); toggleCard(entry.id) }}>{entry.word}</h3>
                                                 {entry.audio_word && (
                                                     <button
+                                                        type="button"
                                                         className={`audio-play-btn ${playingAudio === `${entry.id}-word` ? 'playing' : ''}`}
                                                         onClick={() => playAudio(entry.audio_word, entry.id, 'word')}
                                                         title={t('dictionary.listenPronunciation')}
@@ -414,62 +554,84 @@ function DictionaryPage() {
                                                 )}
                                             </div>
 
-                                            {/* Traduction aperçu */}
-                                            {previewTranslation && !isExpanded && (
-                                                <p className={`word-preview ${lang === 'ff' ? 'word-preview--animate' : ''}`}>
+                                            {/* Traduction aperçu (justifiée si paragraphe) */}
+                                            {previewClean && !isExpanded && (
+                                                <p className={`word-preview ${previewClean.length > 75 ? 'word-preview--para' : ''} ${lang === 'ff' ? 'word-preview--animate' : ''}`}>
                                                     {previewHint && <span className={`word-lang-hint word-lang-hint--${previewHint.toLowerCase()}`}>{previewHint}</span>}
-                                                    {previewTranslation}
+                                                    {previewClean}
                                                 </p>
                                             )}
 
-                                            {/* Badges — en vue "lien direct", on masque les domaines */}
-                                            {(entry.category || (!isDirectWordLink && ((Array.isArray(entry.domains) && entry.domains.length > 0) || entry.domain))) && (
+                                            {/* Badges — en vue "lien direct", on affiche aussi le domaine proprement */}
+                                            {(entry.category || entryDomains.length > 0) && (
                                                 <div className="word-badges">
                                                     {entry.category && (
                                                         <span className="word-badge word-badge--cat">{t(`dictionary.categories.${entry.category}`, entry.category)}</span>
                                                     )}
-                                                    {!isDirectWordLink && (
-                                                        Array.isArray(entry.domains) && entry.domains.length > 0
-                                                            ? entry.domains.map(d => (
-                                                                <span key={d} className="word-badge word-badge--domain">
-                                                                    {t(`dictionary.domains.${d}`, d)}
-                                                                </span>
-                                                              ))
-                                                            : entry.domain && (
-                                                                <span className="word-badge word-badge--domain">{t(`dictionary.domains.${entry.domain}`, entry.domain)}</span>
-                                                              )
-                                                    )}
+                                                    {entryDomains.map(d => (
+                                                        <span key={d} className="word-badge word-badge--domain">
+                                                            {DOMAIN_ICON_MAP[d] ? `${DOMAIN_ICON_MAP[d]} ` : ''}
+                                                            {t(`dictionary.domains.${d}`, d)}
+                                                        </span>
+                                                    ))}
                                                 </div>
                                             )}
 
-                                            {/* Détails dépliés */}
+                                            {/* Détails dépliés : paragraphes justifiés comme dans un dictionnaire académique */}
                                             {isExpanded && (
                                                 <div className="word-details">
-                                                    {entry.translation_fr && (
-                                                        <div className="word-trans-row">
-                                                            <span className="word-trans-flag word-trans-flag--fr">FR</span>
-                                                            <span className="word-trans-text">{entry.translation_fr}</span>
+                                                    {ffParas.length > 0 && (
+                                                        <div className="word-def-block">
+                                                            <span className="word-trans-flag word-trans-flag--ff">
+                                                                {lang === 'ff' ? 'Anndinoore' : 'Fulfulde'}
+                                                            </span>
+                                                            <div className="word-def-paragraphs">
+                                                                {ffParas.map((p, idx) => (
+                                                                    <p key={idx} className="word-para-justified">{p}</p>
+                                                                ))}
+                                                            </div>
                                                         </div>
                                                     )}
-                                                    {entry.translation_en && (
-                                                        <div className="word-trans-row">
-                                                            <span className="word-trans-flag word-trans-flag--en">EN</span>
-                                                            <span className="word-trans-text">{entry.translation_en}</span>
+                                                    {(frParas.length > 0 || enParas.length > 0) && (
+                                                        <div className="word-trans-box">
+                                                            {frParas.length > 0 && (
+                                                                <div className="word-trans-row">
+                                                                    <span className="word-trans-flag word-trans-flag--fr">FR</span>
+                                                                    <div className="word-trans-text">
+                                                                        {frParas.map((p, idx) => (
+                                                                            <p key={idx} className={p.length > 75 ? 'word-para-justified' : ''}>{p}</p>
+                                                                        ))}
+                                                                    </div>
+                                                                </div>
+                                                            )}
+                                                            {enParas.length > 0 && (
+                                                                <div className="word-trans-row">
+                                                                    <span className="word-trans-flag word-trans-flag--en">EN</span>
+                                                                    <div className="word-trans-text">
+                                                                        {enParas.map((p, idx) => (
+                                                                            <p key={idx} className={p.length > 75 ? 'word-para-justified' : ''}>{p}</p>
+                                                                        ))}
+                                                                    </div>
+                                                                </div>
+                                                            )}
                                                         </div>
                                                     )}
-                                                    {entry.translation_ff && (
-                                                        <div className="word-trans-row">
-                                                            <span className="word-trans-flag word-trans-flag--ff">{lang === 'ff' ? 'Anndinoore' : 'FF'}</span>
-                                                            <span className="word-trans-text">{entry.translation_ff}</span>
-                                                        </div>
-                                                    )}
-                                                    {entry.example && (
+                                                    {exampleParas.length > 0 && (
                                                         <div className="word-example-block">
-                                                            <p className="word-example">
-                                                                <span className="example-label">{lang === 'ff' ? 'Yeru :' : 'Ex :'}</span> {entry.example}
-                                                            </p>
+                                                            <div className="word-example-body">
+                                                                <p className="word-example">
+                                                                    <span className="example-label">{lang === 'ff' ? 'Yeru :' : 'Ex :'}</span>{' '}
+                                                                    {exampleParas.join(' ')}
+                                                                </p>
+                                                                {exampleTransParas.length > 0 && (
+                                                                    <p className="word-example-trans">
+                                                                        {exampleTransParas.join(' ')}
+                                                                    </p>
+                                                                )}
+                                                            </div>
                                                             {entry.audio_example && (
                                                                 <button
+                                                                    type="button"
                                                                     className={`audio-play-btn audio-play-btn--small ${playingAudio === `${entry.id}-example` ? 'playing' : ''}`}
                                                                     onClick={() => playAudio(entry.audio_example, entry.id, 'example')}
                                                                     title={t('dictionary.listenExample')}
@@ -493,7 +655,7 @@ function DictionaryPage() {
 
                                             {/* Boutons : voir plus/moins + partager */}
                                             <div className="word-card-actions">
-                                                <button className="word-toggle-btn" onClick={() => toggleCard(entry.id)}>
+                                                <button type="button" className="word-toggle-btn" onClick={() => toggleCard(entry.id)}>
                                                     <span>{isExpanded ? t('admin.dictionary.seeLess') : t('admin.dictionary.seeMore')}</span>
                                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={isExpanded ? 'chevron-up' : ''}>
                                                         <polyline points="6 9 12 15 18 9" />
@@ -506,7 +668,7 @@ function DictionaryPage() {
                                 })}
                             </div>
                         </>
-                    ) : searchTerm || selectedLetter ? (
+                    ) : searchTerm || selectedLetter || selectedDomain || urlWordId ? (
                         <div className="no-results">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                 <circle cx="11" cy="11" r="8" />
@@ -514,6 +676,11 @@ function DictionaryPage() {
                                 <path d="M8 8l6 6M14 8l-6 6" />
                             </svg>
                             <p>{t('dictionary.noResults')}</p>
+                            {hasActiveFilter && (
+                                <button type="button" className="no-results-reset" onClick={resetAllFilters}>
+                                    {t('dictionary.resetFilters', 'Réinitialiser')}
+                                </button>
+                            )}
                         </div>
                     ) : (
                         <div className="search-prompt">
@@ -523,14 +690,27 @@ function DictionaryPage() {
                             </svg>
                             <p>{t('dictionary.searchPrompt')}</p>
                             {allWords.length > 0 && (
-                                <p style={{ color: 'var(--primary-gold)', marginTop: '1rem' }}>
-                                    {allWords.length} {t('dictionary.availableWords')}
+                                <p style={{ color: 'var(--primary-gold)', marginTop: '0.75rem', fontWeight: 600 }}>
+                                    {allWords.length.toLocaleString('fr-FR')} {t('dictionary.availableWords')}
                                 </p>
                             )}
                         </div>
                     )}
                 </div>
             </div>
+
+            {lightbox && createPortal(
+                <div className="word-lightbox-overlay" onClick={() => setLightbox(null)} role="dialog" aria-modal="true" aria-label={lightbox.title}>
+                    <div className="word-lightbox-content" onClick={e => e.stopPropagation()}>
+                        <button type="button" className="word-lightbox-close" onClick={() => setLightbox(null)} aria-label="Fermer">
+                            ✕
+                        </button>
+                        <img src={lightbox.src} alt={lightbox.title} />
+                        {lightbox.title && <p className="word-lightbox-caption">{lightbox.title}</p>}
+                    </div>
+                </div>,
+                document.body
+            )}
         </div>
     )
 }

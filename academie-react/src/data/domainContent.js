@@ -1143,6 +1143,110 @@ const domainContent = {
                 ]
             }
         }
+    },
+
+    'religion-spiritualite': {
+        fr: {
+            introduction: {
+                title: 'Religion, éthique et spiritualité en Fulfulde',
+                paragraphs: [
+                    "La tradition érudite peule possède depuis plusieurs siècles un vocabulaire spirituel, théologique et éthique d'une grande profondeur, transmis dans les foyers d'enseignement (duɗe) à travers toute l'Afrique.",
+                    "Goomu Fulo & Wiɗto recense, harmonise et enrichit cette terminologie afin d'exprimer avec justesse les concepts religieux, juridiques et moraux en Pulaar/Fulfulde."
+                ]
+            },
+            didYouKnow: [
+                { icon: '📖', title: 'Tradition du Kabbe', text: "Dès le XVIIᵉ siècle, les érudits Fulɓe ont traduit et commenté les textes religieux en Fulfulde pour rendre le savoir accessible à tous." },
+                { icon: '🕌', title: 'Écoles traditionnelles (Duɗal)', text: "Le « duɗal » a façonné une terminologie pédagogique et spirituelle commune du Fouta-Toro au Macina et à l'Adamawa." }
+            ],
+            exampleSentences: [
+                { ff: "Goonga e nuunɗal ko doosɗe diina.", fr: "La vérité et la droiture sont des piliers de la foi.", en: "Truth and righteousness are pillars of faith.", context: "Éthique & spiritualité" }
+            ],
+            methodology: {
+                title: 'Méthode terminologique',
+                steps: [
+                    { num: 1, title: 'Corpus classique', desc: 'Recueil des termes attestés chez les grands érudits et poètes Fulɓe.' },
+                    { num: 2, title: 'Harmonisation', desc: 'Unification orthographique selon l’alphabet standardisé Fulfulde.' }
+                ]
+            }
+        }
+    },
+
+    'finance-economie': {
+        fr: {
+            introduction: {
+                title: 'Finance, banque et économie moderne en Fulfulde',
+                paragraphs: [
+                    "Du commerce transsaharien aux services bancaires numériques d'aujourd'hui, les locuteurs Fulfulde animent des réseaux économiques majeurs sur tout le continent.",
+                    "Cette section rassemble les termes précis pour la banque, l'épargne, l'investissement, la comptabilité, la fiscalité et les échanges commerciaux."
+                ]
+            },
+            didYouKnow: [
+                { icon: '💰', title: 'Racines économiques', text: "Des termes comme « ngalu » (richesse/capital), « njeeygu » (commerce) et « kaalis » offrent une base solide pour forger les concepts financiers modernes." },
+                { icon: '🏦', title: 'Finance inclusive', text: "Disposer d'un vocabulaire financier clair en Fulfulde facilite l'inclusion bancaire et l'entrepreneuriat communautaire." }
+            ],
+            exampleSentences: [
+                { ff: "Faggudu leydi ndii ina fawii e golle e njeeygu.", fr: "L'économie du pays repose sur le travail et le commerce.", en: "The country's economy relies on work and trade.", context: "Économie générale" }
+            ],
+            methodology: {
+                title: 'Création des termes financiers',
+                steps: [
+                    { num: 1, title: 'Analyse du concept', desc: 'Définition rigoureuse de l’instrument financier ou comptable.' },
+                    { num: 2, title: 'Équivalent Fulfulde', desc: 'Dérivation à partir des racines patrimoniales du commerce et de la mesure.' }
+                ]
+            }
+        }
+    },
+
+    'sport-jeux': {
+        fr: {
+            introduction: {
+                title: 'Sport, éducation physique et jeux en Fulfulde',
+                paragraphs: [
+                    "Le sport rassemble la jeunesse et véhicule des valeurs d'effort, d'équipe et de dépassement de soi (« coftal ɓalli »). Le commentaire sportif et l'éducation physique en Fulfulde connaissent un essor remarquable.",
+                    "Goomu Fulo & Wiɗto propose une terminologie claire pour les disciplines sportives modernes, l'arbitrage, l'entraînement et les jeux traditionnels."
+                ]
+            },
+            didYouKnow: [
+                { icon: '⚽', title: 'Coftal ɓalli', text: "L'expression « coftal ɓalli » désigne littéralement l'éveil et la vivacité du corps, traduisant avec élégance l'activité sportive." },
+                { icon: '🏆', title: 'Jeux patrimoniaux', text: "Les jeux d'adresse, de stratégie et de lutte traditionnelle possèdent un lexique ancien très expressif en Pulaar/Fulfulde." }
+            ],
+            exampleSentences: [
+                { ff: "Coftal ɓalli ina ɓeyda cellal e kawral.", fr: "Le sport renforce la santé et la cohésion.", en: "Sports strengthen health and unity.", context: "Sport & santé" }
+            ],
+            methodology: {
+                title: 'Méthode terminologique',
+                steps: [
+                    { num: 1, title: 'Observation des règles', desc: 'Analyse précise des actions, postes et règles de chaque discipline.' },
+                    { num: 2, title: 'Adoption par les médias', desc: 'Diffusion auprès des commentateurs sportifs et éducateurs en langue Fulfulde.' }
+                ]
+            }
+        }
+    },
+
+    'arts-medias-culture': {
+        fr: {
+            introduction: {
+                title: 'Arts, musique, médias et patrimoine culturel',
+                paragraphs: [
+                    "De la poésie classique (« jimɗi », « mergol ») au cinéma et au journalisme numérique (« jaayndiyankaagal »), la création artistique et médiatique fait rayonner le Fulfulde dans le monde entier.",
+                    "Ce domaine réunit le vocabulaire des arts visuels, de la musique, de la scène, de l'audiovisuel et de la communication moderne."
+                ]
+            },
+            didYouKnow: [
+                { icon: '🎨', title: 'Esthétique et savoir-faire', text: "Le terme « ñeeñal » englobe à la fois la maîtrise technique, le génie artistique et le sens du beau." },
+                { icon: '📰', title: 'Médias en Fulfulde', text: "Le journalisme radio, télévisé et numérique en Fulfulde joue un rôle clé dans la diffusion quotidienne des néologismes validés." }
+            ],
+            exampleSentences: [
+                { ff: "Pinal e ɗemngal ko ɗaɗi leñol.", fr: "La culture et la langue sont les racines d'un peuple.", en: "Culture and language are the roots of a people.", context: "Culture & identité" }
+            ],
+            methodology: {
+                title: 'Méthode terminologique',
+                steps: [
+                    { num: 1, title: 'Inventaire artistique', desc: 'Collecte des termes musicaux, poétiques et esthétiques à travers les dialectes.' },
+                    { num: 2, title: 'Adaptation médiatique', desc: 'Création des termes techniques de la presse, de l’édition et de l’audiovisuel.' }
+                ]
+            }
+        }
     }
 }
 

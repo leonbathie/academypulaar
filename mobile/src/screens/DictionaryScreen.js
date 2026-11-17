@@ -137,7 +137,7 @@ export default function DictionaryScreen({ navigation, route }) {
                     {domains.map(item => (
                         <FilterChip
                             key={item}
-                            label={item}
+                            label={t(`dictionary.domains.${item}`, item)}
                             active={domain === item}
                             onPress={() => setDomain(domain === item ? null : item)}
                         />

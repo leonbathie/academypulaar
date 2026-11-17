@@ -5,15 +5,16 @@ const path = require('path')
 const fs = require('fs')
 const { query } = require('../database')
 const { authMiddleware, canWrite, requireRole, validateId } = require('../middleware/auth')
+const { UPLOADS_ROOT, resolveSafeExt, isAllowedImage, ensureUploadedFilesReadable, safeUnlinkUpload } = require('../utils/uploadHelper')
 
 // Configuration de l'upload d'images
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'uploads/')
+        cb(null, UPLOADS_ROOT)
     },
     filename: (req, file, cb) => {
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
-        const ext = path.extname(file.originalname).toLowerCase().replace(/[^a-z0-9.]/g, '')
+        const ext = resolveSafeExt(file, '.jpg')
         cb(null, 'member-' + uniqueSuffix + ext)
     }
 })
@@ -22,13 +23,10 @@ const upload = multer({
     storage,
     limits: { fileSize: 20 * 1024 * 1024 }, // 20MB max
     fileFilter: (req, file, cb) => {
-        const allowedTypes = /jpeg|jpg|png|webp|gif/
-        const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase())
-        const mimetype = allowedTypes.test(file.mimetype)
-        if (extname && mimetype) {
+        if (isAllowedImage(file)) {
             return cb(null, true)
         }
-        cb(new Error('Seules les images (JPEG, PNG, WebP, GIF) sont autorisées'))
+        cb(new Error('Seules les images sont autorisées'))
     }
 })
 
@@ -63,6 +61,7 @@ router.get('/:id', validateId, async (req, res) => {
 router.post('/', authMiddleware, canWrite, upload.single('image'), async (req, res) => {
     try {
         const { name, role_fr, role_en, role_ff, specialty, bio_fr, bio_en, bio_ff, joined, facebook, twitter, linkedin, website, email } = req.body
+        ensureUploadedFilesReadable(req)
         const image = req.file ? `/uploads/${req.file.filename}` : null
 
         if (!name) {
@@ -92,10 +91,15 @@ router.put('/:id', authMiddleware, canWrite, validateId, upload.single('image'),
         const existing = await query('SELECT image FROM members WHERE id = $1', [req.params.id])
         const oldImage = existing.rows[0]?.image
 
-        // Si une nouvelle image est uploadée, l'utiliser, sinon garder l'ancienne
+        ensureUploadedFilesReadable(req)
+        const removeImage = req.body.remove_image === '1' || req.body.remove_image === 'true'
+
+        // Si une nouvelle image est uploadée, l'utiliser, sinon garder l'ancienne (sauf suppression explicite)
         let image = existing.rows[0]?.image || null
         if (req.file) {
             image = `/uploads/${req.file.filename}`
+        } else if (removeImage) {
+            image = null
         }
 
         const result = await query(
@@ -111,10 +115,9 @@ router.put('/:id', authMiddleware, canWrite, validateId, upload.single('image'),
             return res.status(404).json({ error: 'Membre non trouvé' })
         }
 
-        // Supprimer l'ancienne image si remplacée
-        if (req.file && oldImage) {
-            const oldPath = path.join(__dirname, '..', oldImage)
-            if (fs.existsSync(oldPath)) fs.unlink(oldPath, () => {})
+        // Supprimer l'ancienne image si remplacée ou retirée
+        if ((req.file || removeImage) && oldImage) {
+            safeUnlinkUpload(oldImage)
         }
 
         res.json(result.rows[0])
@@ -137,8 +140,7 @@ router.delete('/:id', authMiddleware, requireRole('admin'), validateId, async (r
         // Supprimer l'image associée du disque
         const member = result.rows[0]
         if (member.image) {
-            const imagePath = path.join(__dirname, '..', member.image)
-            if (fs.existsSync(imagePath)) fs.unlink(imagePath, () => {})
+            safeUnlinkUpload(member.image)
         }
 
         res.json({ message: 'Membre supprimé avec succès' })

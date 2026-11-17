@@ -5,33 +5,25 @@ const path = require('path')
 const fs = require('fs')
 const { query } = require('../database')
 const { authMiddleware, canWrite, requireRole, validateId } = require('../middleware/auth')
+const { UPLOADS_ROOT, resolveSafeExt, isAllowedImage, ensureUploadedFilesReadable, safeUnlinkUpload } = require('../utils/uploadHelper')
 
-const uploadsDir = path.resolve(__dirname, '..', 'uploads')
+const uploadsDir = UPLOADS_ROOT
 const scholarsDir = path.resolve(uploadsDir, 'scholars')
-
-for (const dir of [uploadsDir, scholarsDir]) {
-    if (!fs.existsSync(dir)) {
-        fs.mkdirSync(dir, { recursive: true, mode: 0o775 })
-        console.log(`[SCHOLARS] Dossier créé: ${dir}`)
-    }
-}
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => cb(null, scholarsDir),
     filename: (req, file, cb) => {
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
-        const ext = path.extname(file.originalname).toLowerCase().replace(/[^a-z0-9.]/g, '')
+        const ext = resolveSafeExt(file, '.jpg')
         cb(null, 'scholar-' + uniqueSuffix + ext)
     }
 })
 
 const upload = multer({
     storage: storage,
-    limits: { fileSize: 10 * 1024 * 1024 },
+    limits: { fileSize: 15 * 1024 * 1024 },
     fileFilter: (req, file, cb) => {
-        const ext = path.extname(file.originalname).toLowerCase()
-        const allowedExts = /\.(jpeg|jpg|png|gif|webp|avif)$/
-        if (allowedExts.test(ext) || file.mimetype.startsWith('image/')) {
+        if (isAllowedImage(file)) {
             return cb(null, true)
         }
         cb(new Error('Type d\'image non supporté'))
@@ -83,6 +75,7 @@ router.post('/', authMiddleware, canWrite, upload.single('image'), async (req, r
         const { name, years, bio_fr, bio_en, bio_ff, published, image_position } = req.body
         if (!name) return res.status(400).json({ error: 'Le nom est requis' })
 
+        ensureUploadedFilesReadable(req)
         const image = req.file ? `/uploads/scholars/${req.file.filename}` : null
 
         const result = await query(
@@ -101,25 +94,25 @@ router.post('/', authMiddleware, canWrite, upload.single('image'), async (req, r
 router.put('/:id', authMiddleware, canWrite, validateId, upload.single('image'), async (req, res) => {
     try {
         const { name, years, bio_fr, bio_en, bio_ff, published, image_position } = req.body
-        const existing = await query('SELECT image FROM scholars WHERE id = $1', [req.params.id])
+        const existing = await query('SELECT image, image_position FROM scholars WHERE id = $1', [req.params.id])
         if (existing.rows.length === 0) return res.status(404).json({ error: 'Savant non trouvé' })
 
+        ensureUploadedFilesReadable(req)
+        const removeImage = req.body.remove_image === '1' || req.body.remove_image === 'true'
         let image = existing.rows[0].image
         if (req.file) {
-            // Supprimer l'ancienne image
-            if (image) {
-                const oldPath = path.resolve(__dirname, '..', image.replace(/^\/+/, ''))
-                if (oldPath.startsWith(uploadsDir) && fs.existsSync(oldPath)) {
-                    try { fs.unlinkSync(oldPath) } catch (e) {}
-                }
-            }
+            if (image) safeUnlinkUpload(image)
             image = `/uploads/scholars/${req.file.filename}`
+        } else if (removeImage) {
+            if (image) safeUnlinkUpload(image)
+            image = null
         }
+        const finalPosition = image_position || existing.rows[0].image_position || '50% 20%'
 
         const result = await query(
             `UPDATE scholars SET name = $1, years = $2, image = $3, image_position = $4, bio_fr = $5, bio_en = $6,
              bio_ff = $7, published = $8, updated_at = CURRENT_TIMESTAMP WHERE id = $9 RETURNING *`,
-            [name, years || null, image, image_position || '50% 20%', bio_fr || null, bio_en || null, bio_ff || null, published !== 'false', req.params.id]
+            [name, years || null, image, finalPosition, bio_fr || null, bio_en || null, bio_ff || null, published !== 'false', req.params.id]
         )
         res.json(result.rows[0])
     } catch (error) {

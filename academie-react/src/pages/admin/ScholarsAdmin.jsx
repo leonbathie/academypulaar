@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useApi } from '../../context/AuthContext'
-import { API_URL } from '../../config'
+import { API_URL, resolveMediaUrl } from '../../config'
 import ConfirmDialog from '../../components/ConfirmDialog'
 import '../../styles/biography.css'
 
@@ -15,6 +15,7 @@ function ScholarsAdmin() {
     const [activeTab, setActiveTab] = useState('fr')
     const [imagePreview, setImagePreview] = useState(null)
     const [selectedImage, setSelectedImage] = useState(null)
+    const [removedImage, setRemovedImage] = useState(false)
     const [imagePosition, setImagePosition] = useState('50% 20%')
     const [saving, setSaving] = useState(false)
     const fileInputRef = useRef(null)
@@ -57,7 +58,7 @@ function ScholarsAdmin() {
                 image_position: pos
             })
             setImagePosition(pos)
-            setImagePreview(item.image ? `${API_URL}${item.image}` : null)
+            setImagePreview(item.image ? resolveMediaUrl(item.image) : null)
         } else {
             setEditing(null)
             setFormData({ name: '', years: '', bio_fr: '', bio_en: '', bio_ff: '', published: true, image_position: '50% 20%' })
@@ -65,6 +66,7 @@ function ScholarsAdmin() {
             setImagePreview(null)
         }
         setSelectedImage(null)
+        setRemovedImage(false)
         setActiveTab('fr')
         setShowModal(true)
     }
@@ -74,12 +76,14 @@ function ScholarsAdmin() {
         setEditing(null)
         setImagePreview(null)
         setSelectedImage(null)
+        setRemovedImage(false)
     }
 
     const handleImageChange = (e) => {
         const file = e.target.files[0]
         if (!file) return
         setSelectedImage(file)
+        setRemovedImage(false)
         const reader = new FileReader()
         reader.onloadend = () => setImagePreview(reader.result)
         reader.readAsDataURL(file)
@@ -101,7 +105,11 @@ function ScholarsAdmin() {
         try {
             const fd = new FormData()
             Object.entries(formData).forEach(([k, v]) => fd.append(k, v))
-            if (selectedImage) fd.append('image', selectedImage)
+            if (selectedImage) {
+                fd.append('image', selectedImage)
+            } else if (removedImage) {
+                fd.append('remove_image', '1')
+            }
 
             const url = editing ? `${API_URL}/api/scholars/${editing.id}` : `${API_URL}/api/scholars`
             const method = editing ? 'PUT' : 'POST'
@@ -148,6 +156,7 @@ function ScholarsAdmin() {
             fd.append('bio_fr', item.bio_fr || '')
             fd.append('bio_en', item.bio_en || '')
             fd.append('bio_ff', item.bio_ff || '')
+            fd.append('image_position', item.image_position || '50% 20%')
             fd.append('published', !item.published)
             const res = await fetch(`${API_URL}/api/scholars/${item.id}`, {
                 method: 'PUT',
@@ -203,9 +212,9 @@ function ScholarsAdmin() {
                                 <td>
                                     {s.image ? (
                                         <img
-                                            src={`${API_URL}${s.image}`}
+                                            src={resolveMediaUrl(s.image)}
                                             alt={s.name}
-                                            style={{ width: 44, height: 44, borderRadius: 8, objectFit: 'cover', display: 'block' }}
+                                            style={{ width: 44, height: 44, borderRadius: 8, objectFit: 'cover', objectPosition: s.image_position || '50% 20%', display: 'block' }}
                                         />
                                     ) : (
                                         <div style={{
@@ -327,7 +336,7 @@ function ScholarsAdmin() {
                                                     {t('admin.scholars.changePhoto', 'Changer la photo')}
                                                 </button>
                                                 <button type="button"
-                                                    onClick={() => { setImagePreview(null); setSelectedImage(null); if (fileInputRef.current) fileInputRef.current.value = '' }}
+                                                    onClick={() => { setImagePreview(null); setSelectedImage(null); setRemovedImage(true); if (fileInputRef.current) fileInputRef.current.value = '' }}
                                                     style={{ padding: '4px 12px', borderRadius: 6, border: 'none', background: 'rgba(239,68,68,0.1)', color: '#dc2626', fontSize: '0.8rem', cursor: 'pointer', fontWeight: 600 }}>
                                                     {t('admin.scholars.removePhoto')}
                                                 </button>

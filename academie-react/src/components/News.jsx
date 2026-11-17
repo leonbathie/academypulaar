@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { API_URL } from '../config'
+import { API_URL, resolveMediaUrl } from '../config'
 import { renderBio } from '../utils/renderBio'
 import './News.css'
 
@@ -9,6 +9,7 @@ function News() {
     const lang = (i18n.language || 'fr').substring(0, 2)
     const [newsItems, setNewsItems] = useState([])
     const [loading, setLoading] = useState(true)
+    const [brokenImgs, setBrokenImgs] = useState({})
     // Articles "deplies" via "Lire la suite" (surtout utile sur smartphone)
     const [expanded, setExpanded] = useState({})
     const toggleExpand = (id) => setExpanded((p) => ({ ...p, [id]: !p[id] }))
@@ -28,14 +29,17 @@ function News() {
 
         // Tenter de joindre l'image affichee comme fichier (partage natif mobile)
         let files
-        if (imageUrl) {
+        const fullImgUrl = imageUrl ? resolveMediaUrl(imageUrl) : ''
+        if (fullImgUrl) {
             try {
-                const res = await fetch(`${API_URL}${imageUrl}`)
-                const blob = await res.blob()
-                const ext = (blob.type.split('/')[1] || 'jpg').replace('jpeg', 'jpg')
-                const file = new File([blob], `actualite-${item.id}.${ext}`, { type: blob.type })
-                if (navigator.canShare && navigator.canShare({ files: [file] })) {
-                    files = [file]
+                const res = await fetch(fullImgUrl)
+                if (res.ok) {
+                    const blob = await res.blob()
+                    const ext = (blob.type.split('/')[1] || 'jpg').replace('jpeg', 'jpg')
+                    const file = new File([blob], `actualite-${item.id}.${ext}`, { type: blob.type })
+                    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                        files = [file]
+                    }
                 }
             } catch { /* image inaccessible : on partage sans */ }
         }
@@ -200,7 +204,9 @@ function News() {
     }
 
     const renderArticle = (item) => {
-        const img = currentImg[item.id]
+        const rawImg = currentImg[item.id]
+        const img = rawImg && !brokenImgs[rawImg] ? rawImg : (galleries[item.id] || []).find(u => !brokenImgs[u]) || null
+        const resolvedImg = img ? resolveMediaUrl(img) : ''
         const text = getContent(item) || getExcerpt(item) || ''
         const isLong = (text || '').length > 280
         const isOpen = !!expanded[item.id]
@@ -208,11 +214,18 @@ function News() {
             <article
                 key={item.id}
                 id={`actualite-${item.id}`}
-                className={`news-row news-row--${item.type || 'default'}${img ? '' : ' news-row--noimg'}`}
+                className={`news-row news-row--${item.type || 'default'}${resolvedImg ? '' : ' news-row--noimg'}`}
             >
-                {img && (
+                {resolvedImg && (
                     <div className="news-row-img">
-                        <img key={img} src={`${API_URL}${img}`} alt={getTitle(item)} />
+                        <img
+                            key={resolvedImg}
+                            src={resolvedImg}
+                            alt={getTitle(item)}
+                            loading="lazy"
+                            decoding="async"
+                            onError={() => setBrokenImgs(prev => ({ ...prev, [img]: true }))}
+                        />
                     </div>
                 )}
                 <div className="news-row-body">

@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { API_URL } from '../config'
+import { API_URL, resolveMediaUrl } from '../config'
 import { useSettings } from '../context/SettingsContext'
 import './Hero.css'
 
@@ -143,13 +143,15 @@ function Hero() {
     }
 
     const playAudio = (entry) => {
-        if (!entry.audio_word) return
+        const audioSrc = resolveMediaUrl(entry.audio_word)
+        if (!audioSrc) return
         if (audioRef.current) { audioRef.current.pause(); audioRef.current = null }
         if (playingId === entry.id) { setPlayingId(null); return }
-        const a = new Audio(`${API_URL}${entry.audio_word}`)
+        const a = new Audio(audioSrc)
         audioRef.current = a
         setPlayingId(entry.id)
         a.onended = () => setPlayingId(null)
+        a.onerror = () => setPlayingId(null)
         a.play().catch(() => setPlayingId(null))
     }
 

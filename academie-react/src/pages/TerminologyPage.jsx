@@ -53,10 +53,14 @@ function TerminologyPage() {
         { key: 'domTech', icon: '💻', slug: 'informatique' },
         { key: 'domSpace', icon: '🔭', slug: 'astronomie' },
         { key: 'domHealth', icon: '🏥', slug: 'sante-medecine' },
+        { key: 'domReligion', icon: '🕌', slug: 'religion-spiritualite' },
+        { key: 'domFinance', icon: '💰', slug: 'finance-economie' },
+        { key: 'domSport', icon: '⚽', slug: 'sport-jeux' },
+        { key: 'domHuman', icon: '⚖️', slug: 'sciences-humaines' },
+        { key: 'domCulture', icon: '🎨', slug: 'arts-medias-culture' },
+        { key: 'domEdu', icon: '📚', slug: 'education' },
         { key: 'domLiving', icon: '🦋', slug: 'etres-vivants' },
         { key: 'domPlants', icon: '🌳', slug: 'arbres-plantes' },
-        { key: 'domHuman', icon: '⚖️', slug: 'sciences-humaines' },
-        { key: 'domEdu', icon: '📚', slug: 'education' },
         { key: 'domAgri', icon: '🌾', slug: 'agriculture-environnement' },
         { key: 'domCrafts', icon: '🔨', slug: 'metiers-artisanat' }
     ]

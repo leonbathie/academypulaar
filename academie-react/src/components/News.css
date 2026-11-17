@@ -388,7 +388,9 @@
     font-size: 1.02rem;
     line-height: 1.85;
     text-align: justify;
+    text-align-last: left;
     hyphens: auto;
+    -webkit-hyphens: auto;
     overflow-wrap: anywhere;
     word-break: break-word;
     flex: 1 1 auto;

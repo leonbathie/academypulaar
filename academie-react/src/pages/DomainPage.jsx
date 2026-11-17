@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { API_URL } from '../config'
+import { API_URL, resolveMediaUrl, formatParagraphs } from '../config'
 import { useSettings } from '../context/SettingsContext'
+import ShareWordButton from '../components/ShareWordButton'
 import domainContent from '../data/domainContent'
 import './DomainPage.css'
 
@@ -11,7 +12,7 @@ const DOMAIN_CONFIG = {
         icon: '🔬',
         titleKey: 'domScience',
         descKey: 'domScienceDesc',
-        filters: ['scientifique', 'mathematiques'],
+        filters: ['scientifique', 'mathematiques', 'chimie'],
         color: '#2563eb'
     },
     'informatique': {
@@ -35,6 +36,27 @@ const DOMAIN_CONFIG = {
         filters: ['biologie'],
         color: '#dc2626'
     },
+    'religion-spiritualite': {
+        icon: '🕌',
+        titleKey: 'domReligion',
+        descKey: 'domReligionDesc',
+        filters: ['religion'],
+        color: '#0f766e'
+    },
+    'finance-economie': {
+        icon: '💰',
+        titleKey: 'domFinance',
+        descKey: 'domFinanceDesc',
+        filters: ['finance', 'economie'],
+        color: '#b45309'
+    },
+    'sport-jeux': {
+        icon: '⚽',
+        titleKey: 'domSport',
+        descKey: 'domSportDesc',
+        filters: ['sport'],
+        color: '#15803d'
+    },
     'etres-vivants': {
         icon: '🦋',
         titleKey: 'domLiving',
@@ -53,28 +75,35 @@ const DOMAIN_CONFIG = {
         icon: '⚖️',
         titleKey: 'domHuman',
         descKey: 'domHumanDesc',
-        filters: ['philosophie', 'economie', 'droit'],
+        filters: ['philosophie', 'economie', 'droit', 'politique', 'histoire'],
         color: '#d97706'
+    },
+    'arts-medias-culture': {
+        icon: '🎨',
+        titleKey: 'domCulture',
+        descKey: 'domCultureDesc',
+        filters: ['art_culture', 'medias'],
+        color: '#9333ea'
     },
     'education': {
         icon: '📚',
         titleKey: 'domEdu',
         descKey: 'domEduDesc',
-        filters: ['dictionnaire'],
+        filters: ['dictionnaire', 'general'],
         color: '#16a34a'
     },
     'agriculture-environnement': {
         icon: '🌾',
         titleKey: 'domAgri',
         descKey: 'domAgriDesc',
-        filters: ['agriculture', 'elevage', 'peche'],
+        filters: ['agriculture', 'elevage', 'peche', 'alimentation'],
         color: '#059669'
     },
     'metiers-artisanat': {
         icon: '🔨',
         titleKey: 'domCrafts',
         descKey: 'domCraftsDesc',
-        filters: ['forge'],
+        filters: ['forge', 'transport'],
         color: '#7c3aed'
     }
 }
@@ -170,7 +199,8 @@ function DomainPage() {
     }, [trackWordInteraction])
 
     const playAudio = (audioUrl, entryId, type) => {
-        const fullUrl = `${API_URL}${audioUrl}`
+        const fullUrl = resolveMediaUrl(audioUrl)
+        if (!fullUrl) return
         trackWordInteraction(entryId)
         if (playingAudio === `${entryId}-${type}`) {
             if (audioRef.current) { audioRef.current.pause(); audioRef.current = null }
@@ -181,8 +211,9 @@ function DomainPage() {
         const audio = new Audio(fullUrl)
         audioRef.current = audio
         setPlayingAudio(`${entryId}-${type}`)
-        audio.play()
         audio.onended = () => { setPlayingAudio(null); audioRef.current = null }
+        audio.onerror = () => { setPlayingAudio(null); audioRef.current = null }
+        audio.play().catch(() => { setPlayingAudio(null); audioRef.current = null })
     }
 
     const getTranslation = (entry) => {
@@ -286,66 +317,74 @@ function DomainPage() {
                 {activeTab === 'learn' && showLearn && content && (
                     <div className="domain-learn-tab">
                         {/* Introduction */}
-                        <section className="domain-intro-section">
-                            <h2 className="domain-section-title">{content.introduction.title}</h2>
-                            {content.introduction.paragraphs.map((p, i) => (
-                                <p key={i} className="domain-intro-text">{p}</p>
-                            ))}
-                        </section>
+                        {content.introduction && (
+                            <section className="domain-intro-section">
+                                <h2 className="domain-section-title">{content.introduction.title}</h2>
+                                {(content.introduction.paragraphs || []).map((p, i) => (
+                                    <p key={i} className="domain-intro-text">{p}</p>
+                                ))}
+                            </section>
+                        )}
 
                         {/* Did You Know */}
-                        <section className="domain-dyk-section">
-                            <h2 className="domain-section-title">
-                                💡 {lang === 'ff' ? 'Aɗa anndi ?' : lang === 'en' ? 'Did you know?' : 'Le saviez-vous ?'}
-                            </h2>
-                            <div className="domain-dyk-grid">
-                                {content.didYouKnow.map((item, i) => (
-                                    <div key={i} className="domain-dyk-card">
-                                        <span className="domain-dyk-icon">{item.icon}</span>
-                                        <h3 className="domain-dyk-title">{item.title}</h3>
-                                        <p className="domain-dyk-text">{item.text}</p>
-                                    </div>
-                                ))}
-                            </div>
-                        </section>
+                        {Array.isArray(content.didYouKnow) && content.didYouKnow.length > 0 && (
+                            <section className="domain-dyk-section">
+                                <h2 className="domain-section-title">
+                                    💡 {lang === 'ff' ? 'Aɗa anndi ?' : lang === 'en' ? 'Did you know?' : 'Le saviez-vous ?'}
+                                </h2>
+                                <div className="domain-dyk-grid">
+                                    {content.didYouKnow.map((item, i) => (
+                                        <div key={i} className="domain-dyk-card">
+                                            <span className="domain-dyk-icon">{item.icon}</span>
+                                            <h3 className="domain-dyk-title">{item.title}</h3>
+                                            <p className="domain-dyk-text">{item.text}</p>
+                                        </div>
+                                    ))}
+                                </div>
+                            </section>
+                        )}
 
                         {/* Example Sentences */}
-                        <section className="domain-examples-section">
-                            <h2 className="domain-section-title">
-                                💬 {lang === 'ff' ? 'Yeru kelme' : lang === 'en' ? 'Example Sentences' : 'Exemples de phrases'}
-                            </h2>
-                            <div className="domain-examples-list">
-                                {content.exampleSentences.map((ex, i) => (
-                                    <div key={i} className="domain-example-card">
-                                        <div className="domain-example-context">{ex.context}</div>
-                                        <div className="domain-example-sentence domain-example-sentence--ff">
-                                            <span className="domain-example-lang">FF</span>
-                                            <span>{ex.ff}</span>
+                        {Array.isArray(content.exampleSentences) && content.exampleSentences.length > 0 && (
+                            <section className="domain-examples-section">
+                                <h2 className="domain-section-title">
+                                    💬 {lang === 'ff' ? 'Yeru kelme' : lang === 'en' ? 'Example Sentences' : 'Exemples de phrases'}
+                                </h2>
+                                <div className="domain-examples-list">
+                                    {content.exampleSentences.map((ex, i) => (
+                                        <div key={i} className="domain-example-card">
+                                            <div className="domain-example-context">{ex.context}</div>
+                                            <div className="domain-example-sentence domain-example-sentence--ff">
+                                                <span className="domain-example-lang">FF</span>
+                                                <span>{ex.ff}</span>
+                                            </div>
+                                            <div className="domain-example-sentence domain-example-sentence--tr">
+                                                <span className="domain-example-lang">{lang === 'en' ? 'EN' : 'FR'}</span>
+                                                <span>{ex[lang === 'en' ? 'en' : 'fr'] || ex.fr}</span>
+                                            </div>
                                         </div>
-                                        <div className="domain-example-sentence domain-example-sentence--tr">
-                                            <span className="domain-example-lang">{lang === 'en' ? 'EN' : 'FR'}</span>
-                                            <span>{ex[lang === 'en' ? 'en' : 'fr'] || ex.fr}</span>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </section>
+                                    ))}
+                                </div>
+                            </section>
+                        )}
 
                         {/* Methodology */}
-                        <section className="domain-method-section">
-                            <h2 className="domain-section-title">⚙️ {content.methodology.title}</h2>
-                            <div className="domain-method-steps">
-                                {content.methodology.steps.map((step) => (
-                                    <div key={step.num} className="domain-method-step">
-                                        <div className="domain-method-num">{step.num}</div>
-                                        <div className="domain-method-content">
-                                            <h3 className="domain-method-step-title">{step.title}</h3>
-                                            <p className="domain-method-step-desc">{step.desc}</p>
+                        {content.methodology && Array.isArray(content.methodology.steps) && content.methodology.steps.length > 0 && (
+                            <section className="domain-method-section">
+                                <h2 className="domain-section-title">⚙️ {content.methodology.title}</h2>
+                                <div className="domain-method-steps">
+                                    {content.methodology.steps.map((step) => (
+                                        <div key={step.num} className="domain-method-step">
+                                            <div className="domain-method-num">{step.num}</div>
+                                            <div className="domain-method-content">
+                                                <h3 className="domain-method-step-title">{step.title}</h3>
+                                                <p className="domain-method-step-desc">{step.desc}</p>
+                                            </div>
                                         </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </section>
+                                    ))}
+                                </div>
+                            </section>
+                        )}
                     </div>
                 )}
 
@@ -435,6 +474,7 @@ function DomainPage() {
                                         <div className="domain-words-grid">
                                             {letterWords.map(entry => {
                                                 const isExpanded = expandedCards.has(entry.id)
+                                                const imgSrc = entry.image ? resolveMediaUrl(entry.image) : ''
                                                 let previewTranslation, previewHint
                                                 if (lang === 'ff') {
                                                     const frText = entry.translation_fr
@@ -447,13 +487,32 @@ function DomainPage() {
                                                 } else {
                                                     previewTranslation = getTranslation(entry); previewHint = null
                                                 }
+                                                const previewClean = formatParagraphs(previewTranslation).join(' ')
+                                                const ffParas = formatParagraphs(entry.translation_ff)
+                                                const frParas = formatParagraphs(entry.translation_fr)
+                                                const enParas = formatParagraphs(entry.translation_en)
+                                                const exParas = formatParagraphs(entry.example)
+                                                const exTransParas = formatParagraphs(entry.example_translation)
                                                 return (
                                                     <article key={entry.id} className={`domain-word-card ${isExpanded ? 'domain-word-card--expanded' : ''}`}>
+                                                        {imgSrc && (
+                                                            <div className="domain-word-image">
+                                                                <img
+                                                                    src={imgSrc}
+                                                                    alt={entry.word}
+                                                                    loading="lazy"
+                                                                    decoding="async"
+                                                                    onClick={() => toggleCard(entry.id)}
+                                                                    onError={(e) => { e.currentTarget.parentElement.style.display = 'none' }}
+                                                                />
+                                                            </div>
+                                                        )}
                                                         <div className="domain-word-top">
                                                             <div className="domain-word-name">
                                                                 <h3 className="domain-word-term" onClick={() => toggleCard(entry.id)}>{entry.word}</h3>
                                                                 {entry.audio_word && (
                                                                     <button
+                                                                        type="button"
                                                                         className={`domain-audio-btn ${playingAudio === `${entry.id}-word` ? 'playing' : ''}`}
                                                                         onClick={() => playAudio(entry.audio_word, entry.id, 'word')}
                                                                         title={t('dictionary.listenPronunciation')}
@@ -466,15 +525,18 @@ function DomainPage() {
                                                                     </button>
                                                                 )}
                                                             </div>
-                                                            <button className="domain-toggle-btn" onClick={() => toggleCard(entry.id)}>
-                                                                <span>{isExpanded ? '−' : '+'}</span>
-                                                            </button>
+                                                            <div className="domain-word-top-actions">
+                                                                <ShareWordButton entry={entry} t={t} />
+                                                                <button type="button" className="domain-toggle-btn" onClick={() => toggleCard(entry.id)}>
+                                                                    <span>{isExpanded ? '−' : '+'}</span>
+                                                                </button>
+                                                            </div>
                                                         </div>
 
-                                                        {previewTranslation && !isExpanded && (
-                                                            <p className={`domain-word-preview ${lang === 'ff' ? 'domain-word-preview--animate' : ''}`}>
+                                                        {previewClean && !isExpanded && (
+                                                            <p className={`domain-word-preview ${previewClean.length > 75 ? 'domain-word-preview--para' : ''} ${lang === 'ff' ? 'domain-word-preview--animate' : ''}`}>
                                                                 {previewHint && <span className="domain-lang-hint">{previewHint}</span>}
-                                                                {previewTranslation}
+                                                                {previewClean}
                                                             </p>
                                                         )}
 
@@ -489,29 +551,39 @@ function DomainPage() {
 
                                                         {isExpanded && (
                                                             <div className="domain-word-details">
-                                                                {entry.translation_fr && (
+                                                                {ffParas.length > 0 && (
+                                                                    <div className="domain-def-block">
+                                                                        <span className="domain-trans-flag domain-trans-flag--ff">{lang === 'ff' ? 'Anndinoore' : 'Fulfulde'}</span>
+                                                                        <div className="domain-def-paras">
+                                                                            {ffParas.map((p, idx) => (
+                                                                                <p key={idx} className="domain-para-justified">{p}</p>
+                                                                            ))}
+                                                                        </div>
+                                                                    </div>
+                                                                )}
+                                                                {frParas.length > 0 && (
                                                                     <div className="domain-trans-row">
                                                                         <span className="domain-trans-flag domain-trans-flag--fr">FR</span>
-                                                                        <span>{entry.translation_fr}</span>
+                                                                        <span className={frParas.join(' ').length > 75 ? 'domain-para-justified' : ''}>{frParas.join(' ')}</span>
                                                                     </div>
                                                                 )}
-                                                                {entry.translation_en && (
+                                                                {enParas.length > 0 && (
                                                                     <div className="domain-trans-row">
                                                                         <span className="domain-trans-flag domain-trans-flag--en">EN</span>
-                                                                        <span>{entry.translation_en}</span>
+                                                                        <span className={enParas.join(' ').length > 75 ? 'domain-para-justified' : ''}>{enParas.join(' ')}</span>
                                                                     </div>
                                                                 )}
-                                                                {entry.translation_ff && (
-                                                                    <div className="domain-trans-row">
-                                                                        <span className="domain-trans-flag domain-trans-flag--ff">{lang === 'ff' ? 'Anndinoore' : 'FF'}</span>
-                                                                        <span>{entry.translation_ff}</span>
-                                                                    </div>
-                                                                )}
-                                                                {entry.example && (
+                                                                {exParas.length > 0 && (
                                                                     <div className="domain-example-block">
-                                                                        <p><strong>{lang === 'ff' ? 'Yeru :' : 'Ex :'}</strong> {entry.example}</p>
+                                                                        <div style={{ flex: 1, minWidth: 0 }}>
+                                                                            <p className="domain-para-justified"><strong>{lang === 'ff' ? 'Yeru :' : 'Ex :'}</strong> {exParas.join(' ')}</p>
+                                                                            {exTransParas.length > 0 && (
+                                                                                <p style={{ fontSize: '0.84rem', color: 'var(--medium-gray)', marginTop: 4 }}>{exTransParas.join(' ')}</p>
+                                                                            )}
+                                                                        </div>
                                                                         {entry.audio_example && (
                                                                             <button
+                                                                                type="button"
                                                                                 className={`domain-audio-btn domain-audio-btn--sm ${playingAudio === `${entry.id}-example` ? 'playing' : ''}`}
                                                                                 onClick={() => playAudio(entry.audio_example, entry.id, 'example')}
                                                                             >

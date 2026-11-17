@@ -1,9 +1,34 @@
 import { useState, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import { useTranslation } from 'react-i18next'
-import { API_URL } from '../config'
+import { API_URL, resolveMediaUrl } from '../config'
 import { renderBio } from '../utils/renderBio'
 import './Patrimoine.css'
+
+// Avatar SVG inline (aucune dépendance externe, ne casse jamais hors-ligne ou si via.placeholder.com est bloqué)
+function scholarPlaceholder(name = '') {
+    const initials = String(name || 'GFW')
+        .trim()
+        .split(/\s+/)
+        .slice(0, 2)
+        .map(w => w.charAt(0).toUpperCase())
+        .join('') || 'GF'
+    const safeInitials = initials.replace(/[<>&"']/g, '')
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500">
+        <defs>
+            <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#1A1A2E"/>
+                <stop offset="55%" stop-color="#241c38"/>
+                <stop offset="100%" stop-color="#431c2c"/>
+            </linearGradient>
+        </defs>
+        <rect width="400" height="500" fill="url(#bg)"/>
+        <circle cx="200" cy="215" r="88" fill="rgba(212,165,55,0.12)" stroke="#D4A537" stroke-width="2.5"/>
+        <text x="200" y="236" text-anchor="middle" fill="#D4A537" font-family="Georgia, serif" font-size="60" font-weight="700">${safeInitials}</text>
+        <line x1="140" y1="340" x2="260" y2="340" stroke="rgba(212,165,55,0.45)" stroke-width="2"/>
+    </svg>`
+    return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`
+}
 
 // Apercu texte court : retire la syntaxe Markdown et tronque.
 function bioPreview(text, max = 120) {
@@ -51,8 +76,7 @@ function Patrimoine() {
     const getBio = (s) => s[`bio_${lang}`] || (lang !== 'fr' ? null : s.bio_fr)
     const isFallback = (s) => !s[`bio_${lang}`] && lang !== 'fr'
 
-    const placeholder = (name) =>
-        `https://via.placeholder.com/400x500/1a1f3a/d4af37?text=${encodeURIComponent(name)}`
+    const placeholder = (name) => scholarPlaceholder(name)
 
     const selBio = selected ? getBio(selected) : null
     const selFallback = selected ? isFallback(selected) : false
@@ -72,6 +96,7 @@ function Patrimoine() {
                     {scholars.map((s) => {
                         const bio = getBio(s)
                         const fallback = isFallback(s)
+                        const imgSrc = s.image ? resolveMediaUrl(s.image) : placeholder(s.name)
                         return (
                             <article
                                 key={s.id}
@@ -83,11 +108,15 @@ function Patrimoine() {
                             >
                                 <div className="savant-card-img">
                                     <img
-                                        src={s.image ? `${API_URL}${s.image}` : placeholder(s.name)}
+                                        src={imgSrc}
                                         alt={s.name}
                                         loading="lazy"
+                                        decoding="async"
                                         style={{ objectPosition: s.image_position || '50% 20%' }}
-                                        onError={(e) => { e.target.src = placeholder(s.name) }}
+                                        onError={(e) => {
+                                            e.currentTarget.onerror = null
+                                            e.currentTarget.src = placeholder(s.name)
+                                        }}
                                     />
                                 </div>
                                 <div className="savant-card-body">
@@ -122,10 +151,13 @@ function Patrimoine() {
                         </button>
                         <div className="savant-modal-img">
                             <img
-                                src={selected.image ? `${API_URL}${selected.image}` : placeholder(selected.name)}
+                                src={selected.image ? resolveMediaUrl(selected.image) : placeholder(selected.name)}
                                 alt={selected.name}
                                 style={{ objectPosition: selected.image_position || '50% 20%' }}
-                                onError={(e) => { e.target.src = placeholder(selected.name) }}
+                                onError={(e) => {
+                                    e.currentTarget.onerror = null
+                                    e.currentTarget.src = placeholder(selected.name)
+                                }}
                             />
                         </div>
                         <div className="savant-modal-body">

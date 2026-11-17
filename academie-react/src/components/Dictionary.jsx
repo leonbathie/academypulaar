@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { API_URL } from '../config'
+import { API_URL, resolveMediaUrl } from '../config'
 import './Dictionary.css'
 
 function Dictionary() {
@@ -11,7 +11,6 @@ function Dictionary() {
     const [searchTerm, setSearchTerm] = useState('')
     const [searchType, setSearchType] = useState('prefix')
     const [wordCount, setWordCount] = useState(0)
-    const [definedCount, setDefinedCount] = useState(0)
     const [domainsCount, setDomainsCount] = useState(0)
     // Recherche inline directe sur la home
     const [results, setResults] = useState([])
@@ -28,7 +27,6 @@ function Dictionary() {
             if (response.ok) {
                 const data = await response.json()
                 setWordCount(data.total || 0)
-                setDefinedCount(data.defined || 0)
                 setDomainsCount(data.domains || 0)
             }
         } catch (error) {
@@ -80,13 +78,15 @@ function Dictionary() {
     }
 
     const playAudio = (entry) => {
-        if (!entry.audio_word) return
+        const audioSrc = resolveMediaUrl(entry.audio_word)
+        if (!audioSrc) return
         if (audioRef.current) { audioRef.current.pause(); audioRef.current = null }
         if (playingId === entry.id) { setPlayingId(null); return }
-        const a = new Audio(`${API_URL}${entry.audio_word}`)
+        const a = new Audio(audioSrc)
         audioRef.current = a
         setPlayingId(entry.id)
         a.onended = () => setPlayingId(null)
+        a.onerror = () => setPlayingId(null)
         a.play().catch(() => setPlayingId(null))
     }
 

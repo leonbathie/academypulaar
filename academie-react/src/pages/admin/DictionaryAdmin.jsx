@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef, Fragment, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useApi, useAuth } from '../../context/AuthContext'
-import { API_URL } from '../../config'
+import { API_URL, resolveMediaUrl } from '../../config'
+import { DICTIONARY_DOMAINS, ADMIN_DOMAIN_KEY_MAP } from '../../data/domains'
 import ConfirmDialog from '../../components/ConfirmDialog'
 
 function DictionaryAdmin() {
@@ -9,25 +10,8 @@ function DictionaryAdmin() {
     const { apiRequest, token } = useApi()
     const { isSuperAdmin, isAdmin, user } = useAuth()
 
-    // Map stored domain values to i18n keys
-    const domainKeyMap = {
-        scientifique: 'admin.dictionary.domScience',
-        mathematiques: 'admin.dictionary.domMath',
-        biologie: 'admin.dictionary.domBio',
-        philosophie: 'admin.dictionary.domPhilo',
-        economie: 'admin.dictionary.domEco',
-        droit: 'admin.dictionary.domDroit',
-        astronomie: 'admin.dictionary.domAstro',
-        informatique: 'admin.dictionary.domInfo',
-        botanique: 'admin.dictionary.domBota',
-        vivants: 'admin.dictionary.domVivants',
-        elevage: 'admin.dictionary.domElevage',
-        agriculture: 'admin.dictionary.domAgri',
-        peche: 'admin.dictionary.domPeche',
-        forge: 'admin.dictionary.domForge',
-        dictionnaire: 'admin.dictionary.domDict',
-        general: 'admin.dictionary.domGeneral'
-    }
+    // Map stored domain values to i18n keys (partagé avec DICTIONARY_DOMAINS)
+    const domainKeyMap = ADMIN_DOMAIN_KEY_MAP
     const normalizeFulfuldeText = (value) => (value ?? '').toString().normalize('NFC').trim()
     const searchNormalizer = (value) => normalizeFulfuldeText(value).toLowerCase()
     const collator = new Intl.Collator(i18n.language || 'ff', { sensitivity: 'base', numeric: true })
@@ -131,10 +115,10 @@ function DictionaryAdmin() {
                 example: word.example || '',
                 example_translation: word.example_translation || ''
             })
-            // Set existing audio URLs
-            setAudioWordUrl(word.audio_word ? `${API_URL}${word.audio_word}` : null)
-            setAudioExampleUrl(word.audio_example ? `${API_URL}${word.audio_example}` : null)
-            setImageUrl(word.image ? `${API_URL}${word.image}` : null)
+            // Set existing audio & image URLs
+            setAudioWordUrl(word.audio_word ? resolveMediaUrl(word.audio_word) : null)
+            setAudioExampleUrl(word.audio_example ? resolveMediaUrl(word.audio_example) : null)
+            setImageUrl(word.image ? resolveMediaUrl(word.image) : null)
         } else {
             setEditingWord(null)
             setFormData({
@@ -667,22 +651,11 @@ function DictionaryAdmin() {
                             onChange={(e) => setFilterDomain(e.target.value)}
                         >
                             <option value="">{t('admin.dictionary.allDomains', 'Tous les domaines')}</option>
-                            <option value="scientifique">{t('admin.dictionary.domScience')}</option>
-                            <option value="mathematiques">{t('admin.dictionary.domMath')}</option>
-                            <option value="biologie">{t('admin.dictionary.domBio')}</option>
-                            <option value="philosophie">{t('admin.dictionary.domPhilo')}</option>
-                            <option value="economie">{t('admin.dictionary.domEco')}</option>
-                            <option value="droit">{t('admin.dictionary.domDroit')}</option>
-                            <option value="astronomie">{t('admin.dictionary.domAstro')}</option>
-                            <option value="informatique">{t('admin.dictionary.domInfo')}</option>
-                            <option value="botanique">{t('admin.dictionary.domBota')}</option>
-                            <option value="vivants">{t('admin.dictionary.domVivants')}</option>
-                            <option value="elevage">{t('admin.dictionary.domElevage')}</option>
-                            <option value="agriculture">{t('admin.dictionary.domAgri')}</option>
-                            <option value="peche">{t('admin.dictionary.domPeche')}</option>
-                            <option value="forge">{t('admin.dictionary.domForge')}</option>
-                            <option value="dictionnaire">{t('admin.dictionary.domDict')}</option>
-                            <option value="general">{t('admin.dictionary.domGeneral')}</option>
+                            {[...DICTIONARY_DOMAINS]
+                                .sort((a, b) => collator.compare(t(a.adminKey), t(b.adminKey)))
+                                .map(d => (
+                                    <option key={d.key} value={d.key}>{d.icon} {t(d.adminKey)}</option>
+                                ))}
                         </select>
                         <button className="btn-add" style={{ background: 'linear-gradient(135deg, #e67e22, #d35400)' }} onClick={openPdfModal}>
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -889,7 +862,10 @@ function DictionaryAdmin() {
                                                         <span className="domain-badge">{t(domainKeyMap[word.domain] || word.domain)}</span>
                                                     ) : '-'}
                                                 </td>
-                                                <td style={{ textAlign: 'center' }}>
+                                                <td style={{ textAlign: 'center', whiteSpace: 'nowrap' }}>
+                                                    {word.image && (
+                                                        <span title={t('admin.dictionary.imageLabel', 'Image du mot')} style={{ marginRight: word.audio_word ? 4 : 0 }}>🖼️</span>
+                                                    )}
                                                     {word.audio_word && (
                                                         <span title={t('admin.common.audioTitle')}>🔊</span>
                                                     )}
@@ -936,6 +912,16 @@ function DictionaryAdmin() {
                                                                 <span className="word-detail-label">{t('admin.dictionary.category')}</span>
                                                                 <span className="word-detail-value">{word.category || '-'}</span>
                                                             </div>
+                                                            {word.image && (
+                                                                <div className="word-detail-item word-detail-full">
+                                                                    <span className="word-detail-label">{t('admin.dictionary.imageLabel', 'Image du mot')}</span>
+                                                                    <img
+                                                                        src={resolveMediaUrl(word.image)}
+                                                                        alt={word.word}
+                                                                        style={{ maxWidth: 180, maxHeight: 130, borderRadius: 8, objectFit: 'cover', marginTop: 4, border: '1px solid var(--light-gray)' }}
+                                                                    />
+                                                                </div>
+                                                            )}
                                                             {word.example && (
                                                                 <div className="word-detail-item word-detail-full">
                                                                     <span className="word-detail-label">{t('admin.dictionary.example')}</span>
@@ -1013,7 +999,9 @@ function DictionaryAdmin() {
                                 <div className="form-group">
                                     <label>{t('admin.dictionary.domain')}</label>
                                     <div className="domain-checkbox-grid">
-                                        {Object.keys(domainKeyMap).map(dom => (
+                                        {[...DICTIONARY_DOMAINS]
+                                            .sort((a, b) => collator.compare(t(a.adminKey), t(b.adminKey)))
+                                            .map(({ key: dom, icon, adminKey }) => (
                                             <label key={dom} className="domain-checkbox">
                                                 <input
                                                     type="checkbox"
@@ -1025,7 +1013,7 @@ function DictionaryAdmin() {
                                                             : prev.domains.filter(d => d !== dom)
                                                     }))}
                                                 />
-                                                <span>{t(domainKeyMap[dom])}</span>
+                                                <span>{icon} {t(adminKey)}</span>
                                             </label>
                                         ))}
                                     </div>
@@ -1289,22 +1277,11 @@ function DictionaryAdmin() {
                                     <label>{t('admin.dictionary.pdfDomain')}</label>
                                     <select value={pdfDomain} onChange={e => setPdfDomain(e.target.value)}>
                                         <option value="">{t('admin.common.select')}</option>
-                                        <option value="scientifique">{t('admin.dictionary.domScience')}</option>
-                                        <option value="mathematiques">{t('admin.dictionary.domMath')}</option>
-                                        <option value="biologie">{t('admin.dictionary.domBio')}</option>
-                                        <option value="philosophie">{t('admin.dictionary.domPhilo')}</option>
-                                        <option value="economie">{t('admin.dictionary.domEco')}</option>
-                                        <option value="droit">{t('admin.dictionary.domDroit')}</option>
-                                        <option value="astronomie">{t('admin.dictionary.domAstro')}</option>
-                                        <option value="informatique">{t('admin.dictionary.domInfo')}</option>
-                                        <option value="botanique">{t('admin.dictionary.domBota')}</option>
-                                        <option value="vivants">{t('admin.dictionary.domVivants')}</option>
-                                        <option value="elevage">{t('admin.dictionary.domElevage')}</option>
-                                        <option value="agriculture">{t('admin.dictionary.domAgri')}</option>
-                                        <option value="peche">{t('admin.dictionary.domPeche')}</option>
-                                        <option value="forge">{t('admin.dictionary.domForge')}</option>
-                                        <option value="dictionnaire">{t('admin.dictionary.domDict')}</option>
-                                        <option value="general">{t('admin.dictionary.domGeneral')}</option>
+                                        {[...DICTIONARY_DOMAINS]
+                                            .sort((a, b) => collator.compare(t(a.adminKey), t(b.adminKey)))
+                                            .map(d => (
+                                                <option key={d.key} value={d.key}>{d.icon} {t(d.adminKey)}</option>
+                                            ))}
                                     </select>
                                 </div>
 

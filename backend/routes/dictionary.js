@@ -7,6 +7,7 @@ const { query } = require('../database')
 const { authMiddleware, canWrite, requireRole, validateId } = require('../middleware/auth')
 const crypto = require('crypto')
 const { isSuperAdmin } = require('../config/super-admins')
+const { UPLOADS_ROOT, resolveSafeExt, isAllowedImage, ensureUploadedFilesReadable, safeUnlinkUpload } = require('../utils/uploadHelper')
 
 function hashIP(ip) {
     const salt = process.env.IP_HASH_SALT || 'goomufulo-salt'
@@ -135,11 +136,12 @@ function parseDomainsField(value) {
 // Le prefixe du fichier depend du champ : 'image' -> img-, sinon audio-.
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'uploads/')
+        cb(null, UPLOADS_ROOT)
     },
     filename: (req, file, cb) => {
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
-        const ext = path.extname(file.originalname).toLowerCase().replace(/[^a-z0-9.]/g, '')
+        const defaultExt = file.fieldname === 'image' ? '.jpg' : '.webm'
+        const ext = resolveSafeExt(file, defaultExt)
         const prefix = file.fieldname === 'image' ? 'img-' : 'audio-'
         cb(null, prefix + uniqueSuffix + ext)
     }
@@ -148,15 +150,15 @@ const storage = multer.diskStorage({
 // Filtre combine : le champ 'image' accepte les images, les autres l'audio.
 const mediaFilter = (req, file, cb) => {
     if (file.fieldname === 'image') {
-        if (file.mimetype.startsWith('image/')) {
+        if (isAllowedImage(file)) {
             cb(null, true)
         } else {
             cb(new Error('Type d\'image non supporté'), false)
         }
         return
     }
-    const allowedAudio = ['audio/webm', 'audio/mp3', 'audio/mpeg', 'audio/ogg', 'audio/wav', 'audio/mp4']
-    if (allowedAudio.includes(file.mimetype)) {
+    const allowedAudio = ['audio/webm', 'audio/mp3', 'audio/mpeg', 'audio/ogg', 'audio/wav', 'audio/mp4', 'audio/x-m4a', 'audio/aac']
+    if (allowedAudio.includes(file.mimetype) || (file.mimetype && file.mimetype.startsWith('audio/'))) {
         cb(null, true)
     } else {
         cb(new Error('Type de fichier audio non supporté'), false)
@@ -166,7 +168,7 @@ const mediaFilter = (req, file, cb) => {
 const upload = multer({
     storage: storage,
     fileFilter: mediaFilter,
-    limits: { fileSize: 10 * 1024 * 1024 } // 10MB max
+    limits: { fileSize: 15 * 1024 * 1024 } // 15MB max
 })
 
 // GET /api/dictionary - Recuperer tous les mots avec leurs domaines (agreges)
@@ -422,9 +424,11 @@ router.post('/', authMiddleware, canWrite, upload.fields([
         const primaryDomain = domainsList[0] || null
 
         // Recuperer les chemins audio + image si uploades
+        ensureUploadedFilesReadable(req)
         let audioWordPath = null
         let audioExamplePath = null
         let imagePath = null
+        ensureUploadedFilesReadable(req)
         if (req.files) {
             if (req.files['audio_word'] && req.files['audio_word'][0]) {
                 audioWordPath = '/uploads/' + req.files['audio_word'][0].filename
@@ -459,15 +463,15 @@ router.post('/', authMiddleware, canWrite, upload.fields([
             setIfMissing('example', normalizedExample)
             setIfMissing('example_translation', normalizedExampleTranslation)
             if (audioWordPath) {
-                updates.push(`audio_word = COALESCE(audio_word, $${params.length + 1})`)
+                updates.push(`audio_word = COALESCE(NULLIF(audio_word, ''), $${params.length + 1})`)
                 params.push(audioWordPath)
             }
             if (audioExamplePath) {
-                updates.push(`audio_example = COALESCE(audio_example, $${params.length + 1})`)
+                updates.push(`audio_example = COALESCE(NULLIF(audio_example, ''), $${params.length + 1})`)
                 params.push(audioExamplePath)
             }
             if (imagePath) {
-                updates.push(`image = COALESCE(image, $${params.length + 1})`)
+                updates.push(`image = COALESCE(NULLIF(image, ''), $${params.length + 1})`)
                 params.push(imagePath)
             }
 
@@ -574,6 +578,7 @@ router.put('/:id', authMiddleware, canWrite, validateId, upload.fields([
         const removeAudioExample = req.body.remove_audio_example === '1' || req.body.remove_audio_example === 'true'
         const removeImage = req.body.remove_image === '1' || req.body.remove_image === 'true'
 
+        ensureUploadedFilesReadable(req)
         if (req.files) {
             if (req.files['audio_word'] && req.files['audio_word'][0]) {
                 audioWordPath = '/uploads/' + req.files['audio_word'][0].filename
@@ -646,17 +651,14 @@ router.put('/:id', authMiddleware, canWrite, validateId, upload.fields([
 
         // Supprimer les anciens fichiers audio si remplaces ou retires
         if ((req.files?.['audio_word'] || removeAudioWord) && oldAudioWord) {
-            const oldPath = path.join(__dirname, '..', oldAudioWord)
-            if (fs.existsSync(oldPath)) fs.unlink(oldPath, () => {})
+            safeUnlinkUpload(oldAudioWord)
         }
         if ((req.files?.['audio_example'] || removeAudioExample) && oldAudioExample) {
-            const oldPath = path.join(__dirname, '..', oldAudioExample)
-            if (fs.existsSync(oldPath)) fs.unlink(oldPath, () => {})
+            safeUnlinkUpload(oldAudioExample)
         }
         // Supprimer l'ancienne image si remplacee ou retiree
         if ((req.files?.['image'] || removeImage) && oldImage) {
-            const oldPath = path.join(__dirname, '..', oldImage)
-            if (fs.existsSync(oldPath)) fs.unlink(oldPath, () => {})
+            safeUnlinkUpload(oldImage)
         }
 
         const finalDomains = await loadDomainsFor(req.params.id)
@@ -767,16 +769,11 @@ router.post('/delete-request/:id/approve', authMiddleware, requireRole('admin'),
             return res.json({ message: 'Le mot avait déjà été supprimé. Demande marquée comme approuvée.' })
         }
 
-        // Supprimer les fichiers audio associés
+        // Supprimer les fichiers audio et image associés
         const deletedWord = deleted.rows[0]
-        if (deletedWord.audio_word) {
-            const audioPath = path.join(__dirname, '..', deletedWord.audio_word)
-            if (fs.existsSync(audioPath)) fs.unlink(audioPath, () => {})
-        }
-        if (deletedWord.audio_example) {
-            const audioPath = path.join(__dirname, '..', deletedWord.audio_example)
-            if (fs.existsSync(audioPath)) fs.unlink(audioPath, () => {})
-        }
+        if (deletedWord.audio_word) safeUnlinkUpload(deletedWord.audio_word)
+        if (deletedWord.audio_example) safeUnlinkUpload(deletedWord.audio_example)
+        if (deletedWord.image) safeUnlinkUpload(deletedWord.image)
 
         // Marquer la demande comme approuvée
         await query(
@@ -870,18 +867,13 @@ router.post('/delete-requests/bulk-approve', authMiddleware, requireRole('admin'
         for (const r of requests) {
             if (r.requested_by === req.user.id) { skippedSelf++; continue }
 
-            const deleted = await query('DELETE FROM dictionary WHERE id = $1 RETURNING audio_word, audio_example', [r.word_id])
+            const deleted = await query('DELETE FROM dictionary WHERE id = $1 RETURNING audio_word, audio_example, image', [r.word_id])
             if (deleted.rows.length > 0) {
                 wordsDeleted++
                 const w = deleted.rows[0]
-                if (w.audio_word) {
-                    const p = path.join(__dirname, '..', w.audio_word)
-                    if (fs.existsSync(p)) fs.unlink(p, () => {})
-                }
-                if (w.audio_example) {
-                    const p = path.join(__dirname, '..', w.audio_example)
-                    if (fs.existsSync(p)) fs.unlink(p, () => {})
-                }
+                if (w.audio_word) safeUnlinkUpload(w.audio_word)
+                if (w.audio_example) safeUnlinkUpload(w.audio_example)
+                if (w.image) safeUnlinkUpload(w.image)
             }
             await query(
                 "UPDATE dictionary_delete_requests SET status = 'approved', approved_by = $1, resolved_at = CURRENT_TIMESTAMP WHERE id = $2",
@@ -1012,7 +1004,7 @@ router.post('/track-view/:id', validateId, async (req, res) => {
 
 // Configuration multer pour les fichiers CSV
 const csvStorage = multer.diskStorage({
-    destination: (req, file, cb) => { cb(null, 'uploads/') },
+    destination: (req, file, cb) => { cb(null, UPLOADS_ROOT) },
     filename: (req, file, cb) => {
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
         cb(null, 'csv-' + uniqueSuffix + '.csv')

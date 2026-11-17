@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useApi } from '../../context/AuthContext'
-import { API_URL } from '../../config'
+import { API_URL, resolveMediaUrl } from '../../config'
 import ConfirmDialog from '../../components/ConfirmDialog'
 import '../../styles/biography.css'
 
@@ -16,6 +16,7 @@ function MembersAdmin() {
     const [editingMember, setEditingMember] = useState(null)
     const [activeTab, setActiveTab] = useState('fr')
     const [imagePreview, setImagePreview] = useState(null)
+    const [removedImage, setRemovedImage] = useState(false)
     const fileInputRef = useRef(null)
     const [formData, setFormData] = useState({
         name: '',
@@ -69,7 +70,7 @@ function MembersAdmin() {
                 website: member.website || '',
                 email: member.email || ''
             })
-            setImagePreview(member.image ? `${API_URL}${member.image}` : null)
+            setImagePreview(member.image ? resolveMediaUrl(member.image) : null)
         } else {
             setEditingMember(null)
             setFormData({
@@ -91,6 +92,7 @@ function MembersAdmin() {
             setImagePreview(null)
         }
         setSelectedImage(null)
+        setRemovedImage(false)
         setActiveTab('fr')
         setShowModal(true)
     }
@@ -100,12 +102,14 @@ function MembersAdmin() {
         setEditingMember(null)
         setImagePreview(null)
         setSelectedImage(null)
+        setRemovedImage(false)
     }
 
     const handleImageChange = (e) => {
         const file = e.target.files[0]
         if (file) {
             setSelectedImage(file)
+            setRemovedImage(false)
             const reader = new FileReader()
             reader.onloadend = () => {
                 setImagePreview(reader.result)
@@ -127,6 +131,8 @@ function MembersAdmin() {
             // Ajouter l'image si sélectionnée
             if (selectedImage) {
                 formDataToSend.append('image', selectedImage)
+            } else if (removedImage) {
+                formDataToSend.append('remove_image', '1')
             } else if (editingMember?.image) {
                 formDataToSend.append('existingImage', editingMember.image)
             }
@@ -205,7 +211,7 @@ function MembersAdmin() {
                                 <td>
                                     {member.image ? (
                                         <img
-                                            src={`${API_URL}${member.image}`}
+                                            src={resolveMediaUrl(member.image)}
                                             alt={member.name}
                                             style={{ width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover' }}
                                         />
@@ -268,7 +274,7 @@ function MembersAdmin() {
                                             height: '120px',
                                             borderRadius: '50%',
                                             margin: '0 auto',
-                                            background: imagePreview ? `url(${imagePreview}) center/cover` : 'var(--light-gray)',
+                                            background: imagePreview ? `url("${imagePreview}") center/cover` : 'var(--light-gray)',
                                             display: 'flex',
                                             alignItems: 'center',
                                             justifyContent: 'center',
@@ -291,6 +297,15 @@ function MembersAdmin() {
                                     <p style={{ marginTop: '0.5rem', fontSize: '0.85rem', color: 'var(--medium-gray)' }}>
                                         {t('admin.members.clickToPhoto')}
                                     </p>
+                                    {imagePreview && (
+                                        <button
+                                            type="button"
+                                            onClick={() => { setImagePreview(null); setSelectedImage(null); setRemovedImage(true); if (fileInputRef.current) fileInputRef.current.value = '' }}
+                                            style={{ marginTop: '0.35rem', padding: '3px 10px', borderRadius: 6, border: 'none', background: 'rgba(239,68,68,0.1)', color: '#dc2626', fontSize: '0.78rem', cursor: 'pointer', fontWeight: 600 }}
+                                        >
+                                            {t('admin.scholars.removePhoto', 'Supprimer la photo')}
+                                        </button>
+                                    )}
                                 </div>
 
                                 <div className="form-row">

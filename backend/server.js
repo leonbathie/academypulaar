@@ -2,8 +2,10 @@ const express = require('express')
 const cors = require('cors')
 const helmet = require('helmet')
 const path = require('path')
+const fs = require('fs')
 const multer = require('multer')
 const rateLimit = require('express-rate-limit')
+const { UPLOADS_ROOT, sniffMimeFromFile } = require('./utils/uploadHelper')
 require('dotenv').config({ path: path.join(__dirname, '.env') })
 
 const app = express()
@@ -42,7 +44,8 @@ const globalLimiter = rateLimit({
 app.use(globalLimiter)
 app.use(helmet({
     contentSecurityPolicy: false, // Handled by Nginx
-    crossOriginEmbedderPolicy: false
+    crossOriginEmbedderPolicy: false,
+    crossOriginResourcePolicy: { policy: 'cross-origin' }
 }))
 app.use(cors({
     origin: [
@@ -78,8 +81,32 @@ app.use('/api', (req, res, next) => {
     next()
 })
 
-// Servir les fichiers uploadés
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
+// Servir les fichiers uploadés avec en-têtes cross-origin et détection MIME de secours
+app.use('/uploads', (req, res, next) => {
+    res.set('Cross-Origin-Resource-Policy', 'cross-origin')
+    res.set('Access-Control-Allow-Origin', '*')
+    const rel = decodeURIComponent(req.path || '').replace(/^\/+/, '')
+    if (!rel.startsWith('books/')) {
+        res.set('Content-Disposition', 'inline')
+    }
+    const ext = path.extname(rel).toLowerCase()
+    if (!ext || ext === '.jfif' || ext === '.avif') {
+        const abs = path.resolve(UPLOADS_ROOT, rel)
+        if (abs.startsWith(UPLOADS_ROOT + path.sep) && fs.existsSync(abs)) {
+            const sniffed = sniffMimeFromFile(abs)
+            if (sniffed) res.type(sniffed)
+        }
+    }
+    next()
+}, express.static(UPLOADS_ROOT, {
+    maxAge: '30d',
+    setHeaders: (res, filePath) => {
+        const ext = path.extname(filePath).toLowerCase()
+        if (ext === '.webp') res.setHeader('Content-Type', 'image/webp')
+        else if (ext === '.avif') res.setHeader('Content-Type', 'image/avif')
+        else if (ext === '.jfif') res.setHeader('Content-Type', 'image/jpeg')
+    }
+}))
 
 // Routes de partage social (en dehors de /api pour avoir des URLs propres)
 app.use('/share', require('./routes/share'))

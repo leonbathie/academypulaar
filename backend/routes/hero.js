@@ -5,33 +5,25 @@ const path = require('path')
 const fs = require('fs')
 const { query } = require('../database')
 const { authMiddleware, canWrite, requireRole, validateId } = require('../middleware/auth')
+const { UPLOADS_ROOT, resolveSafeExt, isAllowedImage, ensureUploadedFilesReadable, safeUnlinkUpload } = require('../utils/uploadHelper')
 
-const uploadsDir = path.resolve(__dirname, '..', 'uploads')
+const uploadsDir = UPLOADS_ROOT
 const heroDir = path.resolve(uploadsDir, 'hero')
-
-for (const dir of [uploadsDir, heroDir]) {
-    if (!fs.existsSync(dir)) {
-        fs.mkdirSync(dir, { recursive: true, mode: 0o775 })
-        console.log(`[HERO] Dossier créé: ${dir}`)
-    }
-}
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => cb(null, heroDir),
     filename: (req, file, cb) => {
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
-        const ext = path.extname(file.originalname).toLowerCase().replace(/[^a-z0-9.]/g, '')
+        const ext = resolveSafeExt(file, '.jpg')
         cb(null, 'hero-' + uniqueSuffix + ext)
     }
 })
 
 const upload = multer({
     storage: storage,
-    limits: { fileSize: 10 * 1024 * 1024 },
+    limits: { fileSize: 15 * 1024 * 1024 },
     fileFilter: (req, file, cb) => {
-        const ext = path.extname(file.originalname).toLowerCase()
-        const allowedExts = /\.(jpeg|jpg|png|gif|webp|avif)$/
-        if (allowedExts.test(ext) || file.mimetype.startsWith('image/')) {
+        if (isAllowedImage(file)) {
             return cb(null, true)
         }
         cb(new Error('Type d\'image non supporté'))
@@ -70,6 +62,7 @@ router.post('/', authMiddleware, canWrite, upload.single('image'), async (req, r
     try {
         const { title_fr, title_en, title_ff, subtitle_fr, subtitle_en, subtitle_ff, sort_order, published } = req.body
 
+        ensureUploadedFilesReadable(req)
         const image = req.file ? `/uploads/hero/${req.file.filename}` : null
 
         const result = await query(
@@ -97,15 +90,10 @@ router.put('/:id', authMiddleware, canWrite, validateId, upload.single('image'),
         const existing = await query('SELECT image FROM hero_slides WHERE id = $1', [req.params.id])
         if (existing.rows.length === 0) return res.status(404).json({ error: 'Slide non trouvée' })
 
+        ensureUploadedFilesReadable(req)
         let image = existing.rows[0].image
         if (req.file) {
-            // Supprimer l'ancienne image
-            if (image) {
-                const oldPath = path.resolve(__dirname, '..', image.replace(/^\/+/, ''))
-                if (oldPath.startsWith(uploadsDir) && fs.existsSync(oldPath)) {
-                    try { fs.unlinkSync(oldPath) } catch (e) {}
-                }
-            }
+            if (image) safeUnlinkUpload(image)
             image = `/uploads/hero/${req.file.filename}`
         }
 

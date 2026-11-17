@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useApi } from '../../context/AuthContext'
-import { API_URL } from '../../config'
+import { API_URL, resolveMediaUrl } from '../../config'
 import ConfirmDialog from '../../components/ConfirmDialog'
 
 const removeBtnStyle = {
@@ -266,7 +266,7 @@ function NewsAdmin() {
                                 <td>
                                     {item.image ? (
                                         <img
-                                            src={`${API_URL}${item.image}`}
+                                            src={resolveMediaUrl(item.image)}
                                             alt={item.title_fr || item.title}
                                             style={{ width: '60px', height: '40px', borderRadius: '4px', objectFit: 'cover' }}
                                         />
@@ -358,7 +358,7 @@ function NewsAdmin() {
                                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(110px, 1fr))', gap: '0.6rem' }}>
                                         {keptImages.map((url) => (
                                             <div key={url} style={{ position: 'relative', height: '90px', borderRadius: '8px', overflow: 'hidden', border: '1px solid var(--light-gray)' }}>
-                                                <img src={`${API_URL}${url}`} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                                <img src={resolveMediaUrl(url)} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                                                 <button type="button" onClick={() => removeKeptImage(url)} aria-label="Retirer" style={removeBtnStyle}>×</button>
                                             </div>
                                         ))}

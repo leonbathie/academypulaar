@@ -75,7 +75,7 @@ export default function WordScreen({ route, navigation }) {
                     <View style={styles.tags}>
                         {domains.map(domain => (
                             <View key={domain} style={styles.tag}>
-                                <Text style={styles.tagText}>{domain}</Text>
+                                <Text style={styles.tagText}>{t(`dictionary.domains.${domain}`, domain)}</Text>
                             </View>
                         ))}
                     </View>
@@ -153,6 +153,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: colors.darkGray,
         lineHeight: 26,
+        textAlign: 'justify',
     },
     tags: {
         flexDirection: 'row',

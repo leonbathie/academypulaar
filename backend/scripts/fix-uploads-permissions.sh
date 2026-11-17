@@ -4,12 +4,17 @@
 
 UPLOADS_DIR="/var/www/academypulaar/backend/uploads"
 BOOKS_DIR="$UPLOADS_DIR/books"
+HERO_DIR="$UPLOADS_DIR/hero"
+SCHOLARS_DIR="$UPLOADS_DIR/scholars"
 SERVICE_USER="gha"
 
 echo "[fix-permissions] Fixing uploads permissions..."
 
+# Ensure Nginx (www-data) can traverse parent directories
+chmod 755 /var/www /var/www/academypulaar /var/www/academypulaar/backend 2>/dev/null || true
+
 # Create directories
-mkdir -p "$BOOKS_DIR"
+mkdir -p "$BOOKS_DIR" "$HERO_DIR" "$SCHOLARS_DIR"
 
 # Set ownership
 chown -R "$SERVICE_USER:$SERVICE_USER" "$UPLOADS_DIR"
