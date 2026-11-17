@@ -495,7 +495,7 @@ function DomainPage() {
                                                 const exTransParas = formatParagraphs(entry.example_translation)
                                                 return (
                                                     <article key={entry.id} className={`domain-word-card ${isExpanded ? 'domain-word-card--expanded' : ''}`}>
-                                                        {imgSrc && (
+                                                        {imgSrc && isExpanded && (
                                                             <div className="domain-word-image">
                                                                 <img
                                                                     src={imgSrc}
@@ -526,6 +526,22 @@ function DomainPage() {
                                                                 )}
                                                             </div>
                                                             <div className="domain-word-top-actions">
+                                                                {imgSrc && !isExpanded && (
+                                                                    <button
+                                                                        type="button"
+                                                                        className="domain-word-thumb"
+                                                                        onClick={() => toggleCard(entry.id)}
+                                                                        title={entry.word}
+                                                                    >
+                                                                        <img
+                                                                            src={imgSrc}
+                                                                            alt={entry.word}
+                                                                            loading="lazy"
+                                                                            decoding="async"
+                                                                            onError={(e) => { e.currentTarget.parentElement.style.display = 'none' }}
+                                                                        />
+                                                                    </button>
+                                                                )}
                                                                 <ShareWordButton entry={entry} t={t} />
                                                                 <button type="button" className="domain-toggle-btn" onClick={() => toggleCard(entry.id)}>
                                                                     <span>{isExpanded ? '−' : '+'}</span>

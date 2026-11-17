@@ -495,15 +495,19 @@ function DictionaryPage() {
 
                                     return (
                                         <article key={entry.id} id={`word-${entry.id}`} className={`word-card ${isExpanded ? 'word-card--expanded' : ''} ${isDirectWordLink ? 'word-card--detail' : ''}`}>
-                                            {/* Image illustrative du mot (optionnelle) */}
-                                            {imgSrc && (
+                                            {/* Image grand format : affichée uniquement quand la carte est dépliée ou en vue directe,
+                                                afin que toutes les cartes repliées d'une même ligne aient exactement la même hauteur */}
+                                            {imgSrc && (isExpanded || isDirectWordLink) && (
                                                 <div className="word-image">
                                                     <img
                                                         src={imgSrc}
                                                         alt={entry.word}
                                                         loading="lazy"
                                                         decoding="async"
-                                                        onClick={() => { trackWordInteraction(entry.id); toggleCard(entry.id) }}
+                                                        onClick={() => {
+                                                            trackWordInteraction(entry.id)
+                                                            setLightbox({ src: imgSrc, title: entry.word })
+                                                        }}
                                                         onError={() => setFailedImages(prev => new Set(prev).add(entry.id))}
                                                     />
                                                     <button
@@ -527,9 +531,30 @@ function DictionaryPage() {
                                                 </div>
                                             )}
 
-                                            {/* En-tête : mot + audio */}
+                                            {/* En-tête : mot + miniature image (en mode replié) + audio */}
                                             <div className="word-card-top">
                                                 <h3 className="word-term" onClick={() => { trackWordInteraction(entry.id); toggleCard(entry.id) }}>{entry.word}</h3>
+                                                {imgSrc && !isExpanded && !isDirectWordLink && (
+                                                    <button
+                                                        type="button"
+                                                        className="word-thumb"
+                                                        onClick={(e) => {
+                                                            e.stopPropagation()
+                                                            trackWordInteraction(entry.id)
+                                                            setLightbox({ src: imgSrc, title: entry.word })
+                                                        }}
+                                                        title="Voir l'image"
+                                                        aria-label={`Image : ${entry.word}`}
+                                                    >
+                                                        <img
+                                                            src={imgSrc}
+                                                            alt={entry.word}
+                                                            loading="lazy"
+                                                            decoding="async"
+                                                            onError={() => setFailedImages(prev => new Set(prev).add(entry.id))}
+                                                        />
+                                                    </button>
+                                                )}
                                                 {entry.audio_word && (
                                                     <button
                                                         type="button"

@@ -519,6 +519,10 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
     gap: var(--space-lg);
+    align-items: stretch;
+}
+
+.results-grid:has(.word-card--expanded) {
     align-items: start;
 }
 
@@ -670,13 +674,40 @@
     background: linear-gradient(135deg, #1b1f38 0%, #261b34 100%);
 }
 
-/* Top section: mot + audio */
+/* Top section: mot + miniature + audio */
 .word-card-top {
     display: flex;
     align-items: center;
     gap: var(--space-sm);
     padding: var(--space-lg) var(--space-lg) var(--space-xs);
     background: linear-gradient(135deg, rgba(212, 165, 55, 0.07) 0%, transparent 65%);
+}
+
+.word-thumb {
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1.5px solid rgba(212, 165, 55, 0.45);
+    background: var(--cream);
+    cursor: pointer;
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(26, 26, 46, 0.1);
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.word-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.word-thumb:hover {
+    transform: scale(1.08);
+    border-color: var(--primary-gold);
+    box-shadow: 0 4px 12px rgba(212, 165, 55, 0.35);
 }
 
 .word-card--expanded .word-card-top {
