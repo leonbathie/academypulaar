@@ -654,7 +654,7 @@ function DictionaryAdmin() {
                             {[...DICTIONARY_DOMAINS]
                                 .sort((a, b) => collator.compare(t(a.adminKey), t(b.adminKey)))
                                 .map(d => (
-                                    <option key={d.key} value={d.key}>{d.icon} {t(d.adminKey)}</option>
+                                    <option key={d.key} value={d.key}>{t(d.adminKey)}</option>
                                 ))}
                         </select>
                         <button className="btn-add" style={{ background: 'linear-gradient(135deg, #e67e22, #d35400)' }} onClick={openPdfModal}>
@@ -1001,7 +1001,7 @@ function DictionaryAdmin() {
                                     <div className="domain-checkbox-grid">
                                         {[...DICTIONARY_DOMAINS]
                                             .sort((a, b) => collator.compare(t(a.adminKey), t(b.adminKey)))
-                                            .map(({ key: dom, icon, adminKey }) => (
+                                            .map(({ key: dom, adminKey }) => (
                                             <label key={dom} className="domain-checkbox">
                                                 <input
                                                     type="checkbox"
@@ -1013,7 +1013,7 @@ function DictionaryAdmin() {
                                                             : prev.domains.filter(d => d !== dom)
                                                     }))}
                                                 />
-                                                <span>{icon} {t(adminKey)}</span>
+                                                <span>{t(adminKey)}</span>
                                             </label>
                                         ))}
                                     </div>
@@ -1280,7 +1280,7 @@ function DictionaryAdmin() {
                                         {[...DICTIONARY_DOMAINS]
                                             .sort((a, b) => collator.compare(t(a.adminKey), t(b.adminKey)))
                                             .map(d => (
-                                                <option key={d.key} value={d.key}>{d.icon} {t(d.adminKey)}</option>
+                                                <option key={d.key} value={d.key}>{t(d.adminKey)}</option>
                                             ))}
                                     </select>
                                 </div>

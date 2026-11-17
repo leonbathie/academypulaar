@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { useSearchParams, Link } from 'react-router-dom'
 import { createPortal } from 'react-dom'
 import { API_URL, resolveMediaUrl, formatParagraphs } from '../config'
-import { DICTIONARY_DOMAINS, DOMAIN_ICON_MAP } from '../data/domains'
+import { DICTIONARY_DOMAINS } from '../data/domains'
 import ShareWordButton from '../components/ShareWordButton'
 import './DictionaryPage.css'
 
@@ -143,12 +143,11 @@ function DictionaryPage() {
         const knownKeys = new Set(DICTIONARY_DOMAINS.map(d => d.key))
         const extras = Object.keys(domainCounts)
             .filter(k => !knownKeys.has(k))
-            .map(k => ({ key: k, icon: '📌' }))
+            .map(k => ({ key: k }))
 
         return [...DICTIONARY_DOMAINS, ...extras]
             .map(d => ({
                 key: d.key,
-                icon: d.icon,
                 label: t(`dictionary.domains.${d.key}`, d.key),
                 count: domainCounts[d.key] || 0
             }))
@@ -349,20 +348,19 @@ function DictionaryPage() {
                         <div className="domain-filters">
                             <button
                                 type="button"
-                                className={`domain-btn ${selectedDomain === '' ? 'active' : ''}`}
+                                className={`domain-btn domain-btn--all ${selectedDomain === '' ? 'active' : ''}`}
                                 onClick={() => setSelectedDomain('')}
                             >
                                 <span className="domain-btn-label">{t('dictionary.allDomains')}</span>
                                 <span className="domain-count">{allWords.length}</span>
                             </button>
-                            {sortedDomains.map(({ key: domain, icon, label, count }) => (
+                            {sortedDomains.map(({ key: domain, label, count }) => (
                                 <button
                                     key={domain}
                                     type="button"
                                     className={`domain-btn ${selectedDomain === domain ? 'active' : ''} ${count === 0 ? 'domain-btn--empty' : ''}`}
                                     onClick={() => setSelectedDomain(selectedDomain === domain ? '' : domain)}
                                 >
-                                    {icon && <span className="domain-btn-icon" aria-hidden="true">{icon}</span>}
                                     <span className="domain-btn-label">{label}</span>
                                     <span className="domain-count">{count}</span>
                                 </button>
@@ -449,7 +447,6 @@ function DictionaryPage() {
                                         {selectedDomain && (
                                             <span className="results-active-domain">
                                                 {' · '}
-                                                {DOMAIN_ICON_MAP[selectedDomain] ? `${DOMAIN_ICON_MAP[selectedDomain]} ` : ''}
                                                 {t(`dictionary.domains.${selectedDomain}`, selectedDomain)}
                                             </span>
                                         )}
@@ -570,7 +567,6 @@ function DictionaryPage() {
                                                     )}
                                                     {entryDomains.map(d => (
                                                         <span key={d} className="word-badge word-badge--domain">
-                                                            {DOMAIN_ICON_MAP[d] ? `${DOMAIN_ICON_MAP[d]} ` : ''}
                                                             {t(`dictionary.domains.${d}`, d)}
                                                         </span>
                                                     ))}

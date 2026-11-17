@@ -3,37 +3,33 @@
  * Source de vérité partagée entre DictionaryPage.jsx et DictionaryAdmin.jsx.
  */
 export const DICTIONARY_DOMAINS = [
-    { key: 'scientifique',  icon: '🔬', adminKey: 'admin.dictionary.domScience' },
-    { key: 'mathematiques', icon: '📐', adminKey: 'admin.dictionary.domMath' },
-    { key: 'chimie',        icon: '🧪', adminKey: 'admin.dictionary.domChimie' },
-    { key: 'biologie',      icon: '🧬', adminKey: 'admin.dictionary.domBio' },
-    { key: 'astronomie',    icon: '🔭', adminKey: 'admin.dictionary.domAstro' },
-    { key: 'informatique',  icon: '💻', adminKey: 'admin.dictionary.domInfo' },
-    { key: 'religion',      icon: '🕌', adminKey: 'admin.dictionary.domReligion' },
-    { key: 'finance',       icon: '💰', adminKey: 'admin.dictionary.domFinance' },
-    { key: 'economie',      icon: '📈', adminKey: 'admin.dictionary.domEco' },
-    { key: 'sport',         icon: '⚽', adminKey: 'admin.dictionary.domSport' },
-    { key: 'droit',         icon: '⚖️', adminKey: 'admin.dictionary.domDroit' },
-    { key: 'politique',     icon: '🏛️', adminKey: 'admin.dictionary.domPolitique' },
-    { key: 'philosophie',   icon: '🧠', adminKey: 'admin.dictionary.domPhilo' },
-    { key: 'histoire',      icon: '📜', adminKey: 'admin.dictionary.domHistoire' },
-    { key: 'art_culture',   icon: '🎨', adminKey: 'admin.dictionary.domArtCulture' },
-    { key: 'medias',        icon: '📰', adminKey: 'admin.dictionary.domMedias' },
-    { key: 'dictionnaire',  icon: '📚', adminKey: 'admin.dictionary.domDict' },
-    { key: 'botanique',     icon: '🌿', adminKey: 'admin.dictionary.domBota' },
-    { key: 'vivants',       icon: '🦋', adminKey: 'admin.dictionary.domVivants' },
-    { key: 'agriculture',   icon: '🌾', adminKey: 'admin.dictionary.domAgri' },
-    { key: 'elevage',       icon: '🐄', adminKey: 'admin.dictionary.domElevage' },
-    { key: 'peche',         icon: '🎣', adminKey: 'admin.dictionary.domPeche' },
-    { key: 'alimentation',  icon: '🍲', adminKey: 'admin.dictionary.domAlimentation' },
-    { key: 'forge',         icon: '🔨', adminKey: 'admin.dictionary.domForge' },
-    { key: 'transport',     icon: '🧭', adminKey: 'admin.dictionary.domTransport' },
-    { key: 'general',       icon: '🌍', adminKey: 'admin.dictionary.domGeneral' }
+    { key: 'scientifique',  adminKey: 'admin.dictionary.domScience' },
+    { key: 'mathematiques', adminKey: 'admin.dictionary.domMath' },
+    { key: 'chimie',        adminKey: 'admin.dictionary.domChimie' },
+    { key: 'biologie',      adminKey: 'admin.dictionary.domBio' },
+    { key: 'astronomie',    adminKey: 'admin.dictionary.domAstro' },
+    { key: 'informatique',  adminKey: 'admin.dictionary.domInfo' },
+    { key: 'religion',      adminKey: 'admin.dictionary.domReligion' },
+    { key: 'finance',       adminKey: 'admin.dictionary.domFinance' },
+    { key: 'economie',      adminKey: 'admin.dictionary.domEco' },
+    { key: 'sport',         adminKey: 'admin.dictionary.domSport' },
+    { key: 'droit',         adminKey: 'admin.dictionary.domDroit' },
+    { key: 'politique',     adminKey: 'admin.dictionary.domPolitique' },
+    { key: 'philosophie',   adminKey: 'admin.dictionary.domPhilo' },
+    { key: 'histoire',      adminKey: 'admin.dictionary.domHistoire' },
+    { key: 'art_culture',   adminKey: 'admin.dictionary.domArtCulture' },
+    { key: 'medias',        adminKey: 'admin.dictionary.domMedias' },
+    { key: 'dictionnaire',  adminKey: 'admin.dictionary.domDict' },
+    { key: 'botanique',     adminKey: 'admin.dictionary.domBota' },
+    { key: 'vivants',       adminKey: 'admin.dictionary.domVivants' },
+    { key: 'agriculture',   adminKey: 'admin.dictionary.domAgri' },
+    { key: 'elevage',       adminKey: 'admin.dictionary.domElevage' },
+    { key: 'peche',         adminKey: 'admin.dictionary.domPeche' },
+    { key: 'alimentation',  adminKey: 'admin.dictionary.domAlimentation' },
+    { key: 'forge',         adminKey: 'admin.dictionary.domForge' },
+    { key: 'transport',     adminKey: 'admin.dictionary.domTransport' },
+    { key: 'general',       adminKey: 'admin.dictionary.domGeneral' }
 ]
-
-export const DOMAIN_ICON_MAP = Object.fromEntries(
-    DICTIONARY_DOMAINS.map(d => [d.key, d.icon])
-)
 
 export const ADMIN_DOMAIN_KEY_MAP = Object.fromEntries(
     DICTIONARY_DOMAINS.map(d => [d.key, d.adminKey])
