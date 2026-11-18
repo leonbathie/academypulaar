@@ -775,6 +775,7 @@
 
 .word-lang-hint--fr { background: #2563eb; }
 .word-lang-hint--en { background: #10b981; }
+.word-lang-hint--ar { background: #047857; }
 
 .word-preview--animate {
     animation: fadeSwitch 1s ease;
@@ -917,7 +918,14 @@
 
 .word-trans-flag--fr { background: #2563eb; }
 .word-trans-flag--en { background: #10b981; }
+.word-trans-flag--ar { background: #047857; }
 .word-trans-flag--ff { background: var(--gold-dark); }
+
+.word-trans-text--ar {
+    font-size: 1.12rem;
+    line-height: 1.75;
+    text-align: right;
+}
 
 .word-trans-text {
     flex: 1;

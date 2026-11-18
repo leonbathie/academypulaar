@@ -70,6 +70,9 @@ export default function WordScreen({ route, navigation }) {
             <View style={styles.card}>
                 <Text style={styles.word}>{entry.word}</Text>
                 {!!translation && <Text style={styles.translation}>{translation}</Text>}
+                {!!entry.translation_ar && (
+                    <Text style={styles.arabicTranslation}>{entry.translation_ar}</Text>
+                )}
 
                 {domains.length > 0 && (
                     <View style={styles.tags}>
@@ -154,6 +157,14 @@ const styles = StyleSheet.create({
         color: colors.darkGray,
         lineHeight: 26,
         textAlign: 'justify',
+    },
+    arabicTranslation: {
+        marginTop: spacing.xs,
+        fontSize: 20,
+        color: colors.dark,
+        lineHeight: 30,
+        writingDirection: 'rtl',
+        textAlign: 'right',
     },
     tags: {
         flexDirection: 'row',

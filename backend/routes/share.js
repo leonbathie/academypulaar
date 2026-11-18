@@ -659,6 +659,7 @@ router.get('/word/:id', validateId, async (req, res) => {
         const descParts = []
         if (word.translation_fr) descParts.push('🇫🇷 ' + word.translation_fr)
         if (word.translation_en) descParts.push('🇬🇧 ' + word.translation_en)
+        if (word.translation_ar) descParts.push('🇸🇦 ' + word.translation_ar)
         const description = descParts.join(' · ') || 'Découvrez ce mot sur le dictionnaire Goomu Fulo & Wiɗto.'
 
         const v = word.updated_at ? new Date(word.updated_at).getTime() : '2'

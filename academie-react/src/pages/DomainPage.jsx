@@ -256,7 +256,8 @@ function DomainPage() {
             searchNormalizer(w.word).includes(term) ||
             searchNormalizer(w.translation_fr).includes(term) ||
             searchNormalizer(w.translation_en).includes(term) ||
-            searchNormalizer(w.translation_ff).includes(term)
+            searchNormalizer(w.translation_ff).includes(term) ||
+            searchNormalizer(w.translation_ar).includes(term)
         )
     }
     if (selectedSub) {
@@ -491,6 +492,7 @@ function DomainPage() {
                                                 const ffParas = formatParagraphs(entry.translation_ff)
                                                 const frParas = formatParagraphs(entry.translation_fr)
                                                 const enParas = formatParagraphs(entry.translation_en)
+                                                const arParas = formatParagraphs(entry.translation_ar)
                                                 const exParas = formatParagraphs(entry.example)
                                                 const exTransParas = formatParagraphs(entry.example_translation)
                                                 return (
@@ -587,6 +589,12 @@ function DomainPage() {
                                                                     <div className="domain-trans-row">
                                                                         <span className="domain-trans-flag domain-trans-flag--en">EN</span>
                                                                         <span className={enParas.join(' ').length > 75 ? 'domain-para-justified' : ''}>{enParas.join(' ')}</span>
+                                                                    </div>
+                                                                )}
+                                                                {arParas.length > 0 && (
+                                                                    <div className="domain-trans-row">
+                                                                        <span className="domain-trans-flag domain-trans-flag--ar">AR</span>
+                                                                        <span dir="rtl" lang="ar" style={{ flex: 1, textAlign: 'right', fontSize: '1.1rem', lineHeight: 1.7 }}>{arParas.join(' ')}</span>
                                                                     </div>
                                                                 )}
                                                                 {exParas.length > 0 && (

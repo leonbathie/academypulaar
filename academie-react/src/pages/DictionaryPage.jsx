@@ -40,16 +40,16 @@ function DictionaryPage() {
     const [selectedDomain, setSelectedDomain] = useState('')
     const [playingAudio, setPlayingAudio] = useState(null)
     const [expandedCards, setExpandedCards] = useState(new Set())
-    const [previewLang, setPreviewLang] = useState('fr')
+    const [previewStep, setPreviewStep] = useState(0)
     const [failedImages, setFailedImages] = useState(() => new Set())
     const [lightbox, setLightbox] = useState(null)
     const audioRef = useRef(null)
 
-    // Alterner FR/EN en mode Pulaar
+    // Alterner FR / EN / AR en mode Pulaar
     useEffect(() => {
         if (lang !== 'ff') return
         const interval = setInterval(() => {
-            setPreviewLang(prev => prev === 'fr' ? 'en' : 'fr')
+            setPreviewStep(prev => (prev + 1) % 6)
         }, 3000)
         return () => clearInterval(interval)
     }, [lang])
@@ -178,17 +178,20 @@ function DictionaryPage() {
                     const frLower = searchNormalizer(word.translation_fr)
                     const enLower = searchNormalizer(word.translation_en)
                     const ffLower = searchNormalizer(word.translation_ff)
+                    const arLower = searchNormalizer(word.translation_ar)
 
                     if (searchType === 'prefix') {
                         return wordLower.startsWith(term) ||
                                frLower.startsWith(term) ||
                                enLower.startsWith(term) ||
-                               ffLower.startsWith(term)
+                               ffLower.startsWith(term) ||
+                               arLower.startsWith(term)
                     } else {
                         return wordLower.includes(term) ||
                                frLower.includes(term) ||
                                enLower.includes(term) ||
-                               ffLower.includes(term)
+                               ffLower.includes(term) ||
+                               arLower.includes(term)
                     }
                 })
                 if (selectedDomain) {
@@ -242,9 +245,9 @@ function DictionaryPage() {
 
     const getTranslation = (entry) => {
         switch (lang) {
-            case 'en': return entry.translation_en || entry.translation_fr
-            case 'ff': return entry.translation_ff || entry.translation_fr
-            default: return entry.translation_fr
+            case 'en': return entry.translation_en || entry.translation_fr || entry.translation_ar
+            case 'ff': return entry.translation_ff || entry.translation_fr || entry.translation_ar
+            default: return entry.translation_fr || entry.translation_ar
         }
     }
 
@@ -468,26 +471,28 @@ function DictionaryPage() {
                                         ? resolveMediaUrl(entry.image)
                                         : ''
 
-                                    // En Pulaar : alterner FR/EN en aperçu
+                                    // En Pulaar : alterner FR / EN / AR (si disponible) en aperçu
                                     let previewTranslation, previewHint
                                     if (lang === 'ff') {
-                                        const frText = entry.translation_fr
-                                        const enText = entry.translation_en
-                                        if (previewLang === 'en' && enText) {
-                                            previewTranslation = enText
-                                            previewHint = 'EN'
-                                        } else {
-                                            previewTranslation = frText || enText
-                                            previewHint = frText ? 'FR' : 'EN'
+                                        const candidates = [
+                                            entry.translation_fr && { hint: 'FR', text: entry.translation_fr },
+                                            entry.translation_en && { hint: 'EN', text: entry.translation_en },
+                                            entry.translation_ar && { hint: 'AR', text: entry.translation_ar }
+                                        ].filter(Boolean)
+                                        if (candidates.length > 0) {
+                                            const picked = candidates[previewStep % candidates.length]
+                                            previewTranslation = picked.text
+                                            previewHint = picked.hint
                                         }
                                     } else {
                                         previewTranslation = getTranslation(entry)
-                                        previewHint = null
+                                        previewHint = (!entry.translation_fr && !(lang === 'en' && entry.translation_en) && entry.translation_ar) ? 'AR' : null
                                     }
 
                                     const previewClean = formatParagraphs(previewTranslation).join(' ')
                                     const frParas = formatParagraphs(entry.translation_fr)
                                     const enParas = formatParagraphs(entry.translation_en)
+                                    const arParas = formatParagraphs(entry.translation_ar)
                                     const ffParas = formatParagraphs(entry.translation_ff)
                                     const exampleParas = formatParagraphs(entry.example)
                                     const exampleTransParas = formatParagraphs(entry.example_translation)
@@ -613,7 +618,7 @@ function DictionaryPage() {
                                                             </div>
                                                         </div>
                                                     )}
-                                                    {(frParas.length > 0 || enParas.length > 0) && (
+                                                    {(frParas.length > 0 || enParas.length > 0 || arParas.length > 0) && (
                                                         <div className="word-trans-box">
                                                             {frParas.length > 0 && (
                                                                 <div className="word-trans-row">
@@ -631,6 +636,16 @@ function DictionaryPage() {
                                                                     <div className="word-trans-text">
                                                                         {enParas.map((p, idx) => (
                                                                             <p key={idx} className={p.length > 75 ? 'word-para-justified' : ''}>{p}</p>
+                                                                        ))}
+                                                                    </div>
+                                                                </div>
+                                                            )}
+                                                            {arParas.length > 0 && (
+                                                                <div className="word-trans-row">
+                                                                    <span className="word-trans-flag word-trans-flag--ar">AR</span>
+                                                                    <div className="word-trans-text word-trans-text--ar" dir="rtl" lang="ar">
+                                                                        {arParas.map((p, idx) => (
+                                                                            <p key={idx}>{p}</p>
                                                                         ))}
                                                                     </div>
                                                                 </div>

@@ -60,6 +60,7 @@ async function initDatabase() {
                 translation_fr TEXT,
                 translation_en TEXT,
                 translation_ff TEXT,
+                translation_ar TEXT,
                 category VARCHAR(50),
                 domain VARCHAR(100),
                 example TEXT,
@@ -81,7 +82,9 @@ async function initDatabase() {
             'ALTER TABLE dictionary ADD COLUMN IF NOT EXISTS word_normalized TEXT',
             'CREATE INDEX IF NOT EXISTS idx_dictionary_word_normalized ON dictionary(word_normalized)',
             // Image illustrative du mot (optionnelle)
-            'ALTER TABLE dictionary ADD COLUMN IF NOT EXISTS image VARCHAR(255)'
+            'ALTER TABLE dictionary ADD COLUMN IF NOT EXISTS image VARCHAR(255)',
+            // Traduction arabe (notamment pour le domaine Religion & Spiritualité)
+            'ALTER TABLE dictionary ADD COLUMN IF NOT EXISTS translation_ar TEXT'
         ]
         for (const sql of dictionaryMigrations) {
             await pool.query(sql).catch(() => {})

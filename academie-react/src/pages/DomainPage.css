@@ -584,10 +584,12 @@
 
 .domain-trans-flag--fr { background: #e8f0fe; color: #1a56db; }
 .domain-trans-flag--en { background: #fef3c7; color: #b45309; }
+.domain-trans-flag--ar { background: #d1fae5; color: #047857; }
 .domain-trans-flag--ff { background: #dcfce7; color: #15803d; }
 
 [data-theme="dark"] .domain-trans-flag--fr { background: rgba(30, 64, 175, 0.2); color: #93bbfd; }
 [data-theme="dark"] .domain-trans-flag--en { background: rgba(180, 83, 9, 0.2); color: #fbbf24; }
+[data-theme="dark"] .domain-trans-flag--ar { background: rgba(4, 120, 87, 0.25); color: #6ee7b7; }
 [data-theme="dark"] .domain-trans-flag--ff { background: rgba(21, 128, 61, 0.2); color: #86efac; }
 
 .domain-example-block {

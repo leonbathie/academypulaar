@@ -599,6 +599,8 @@
             "translationFr": "Français",
             "translationEn": "English",
             "translationFf": "Fulfulde",
+            "translationAr": "Arabe",
+            "placeholderAr": "Terme ou traduction en arabe...",
             "category": "Catégorie",
             "example": "Exemple d'utilisation",
             "audioWord": "Prononciation du mot",

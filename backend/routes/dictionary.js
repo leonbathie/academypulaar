@@ -9,6 +9,9 @@ const crypto = require('crypto')
 const { isSuperAdmin } = require('../config/super-admins')
 const { UPLOADS_ROOT, resolveSafeExt, isAllowedImage, ensureUploadedFilesReadable, safeUnlinkUpload } = require('../utils/uploadHelper')
 
+// S'assurer au démarrage que la colonne translation_ar existe en base
+query('ALTER TABLE dictionary ADD COLUMN IF NOT EXISTS translation_ar TEXT').catch(() => {})
+
 function hashIP(ip) {
     const salt = process.env.IP_HASH_SALT || 'goomufulo-salt'
     return crypto.createHash('sha256').update(ip + salt).digest('hex').substring(0, 16)
@@ -180,7 +183,7 @@ router.get('/', async (req, res) => {
 
         if (search) {
             const normalizedSearch = normalizeFulfuldeText(search)
-            conditions.push(`(d.word ILIKE $${params.length + 1} OR d.translation_fr ILIKE $${params.length + 1})`)
+            conditions.push(`(d.word ILIKE $${params.length + 1} OR d.translation_fr ILIKE $${params.length + 1} OR d.translation_en ILIKE $${params.length + 1} OR d.translation_ar ILIKE $${params.length + 1})`)
             params.push(`%${normalizedSearch}%`)
         }
 
@@ -406,11 +409,12 @@ router.post('/', authMiddleware, canWrite, upload.fields([
     { name: 'image', maxCount: 1 }
 ]), async (req, res) => {
     try {
-        const { word, translation_fr, translation_en, translation_ff, category, domain, example, example_translation } = req.body
+        const { word, translation_fr, translation_en, translation_ff, translation_ar, category, domain, example, example_translation } = req.body
         const normalizedWord = normalizeFulfuldeText(word)
         const normalizedTranslationFr = normalizeFulfuldeText(translation_fr)
         const normalizedTranslationEn = normalizeFulfuldeText(translation_en)
         const normalizedTranslationFf = normalizeFulfuldeText(translation_ff)
+        const normalizedTranslationAr = normalizeFulfuldeText(translation_ar)
         const normalizedCategory = normalizeFulfuldeText(category)
         const normalizedExample = normalizeFulfuldeText(example)
         const normalizedExampleTranslation = normalizeFulfuldeText(example_translation)
@@ -466,6 +470,7 @@ router.post('/', authMiddleware, canWrite, upload.fields([
             setIfMissing('translation_fr', normalizedTranslationFr)
             setIfMissing('translation_en', normalizedTranslationEn)
             setIfMissing('translation_ff', normalizedTranslationFf)
+            setIfMissing('translation_ar', normalizedTranslationAr)
             setIfMissing('category', normalizedCategory)
             setIfMissing('example', normalizedExample)
             setIfMissing('example_translation', normalizedExampleTranslation)
@@ -508,13 +513,13 @@ router.post('/', authMiddleware, canWrite, upload.fields([
         // Mot vraiment nouveau : INSERT puis sync pivot
         const inserted = await query(
             `INSERT INTO dictionary
-                (word, word_normalized, translation_fr, translation_en, translation_ff,
+                (word, word_normalized, translation_fr, translation_en, translation_ff, translation_ar,
                  category, domain, example, example_translation, audio_word, audio_example, image)
-             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
              RETURNING *`,
             [
                 normalizedWord, wordKey,
-                normalizedTranslationFr, normalizedTranslationEn, normalizedTranslationFf,
+                normalizedTranslationFr, normalizedTranslationEn, normalizedTranslationFf, normalizedTranslationAr,
                 normalizedCategory, primaryDomain,
                 normalizedExample, normalizedExampleTranslation,
                 audioWordPath, audioExamplePath, imagePath
@@ -539,11 +544,12 @@ router.put('/:id', authMiddleware, canWrite, validateId, upload.fields([
     { name: 'image', maxCount: 1 }
 ]), async (req, res) => {
     try {
-        const { word, translation_fr, translation_en, translation_ff, category, domain, example, example_translation } = req.body
+        const { word, translation_fr, translation_en, translation_ff, translation_ar, category, domain, example, example_translation } = req.body
         const normalizedWord = normalizeFulfuldeText(word)
         const normalizedTranslationFr = normalizeFulfuldeText(translation_fr)
         const normalizedTranslationEn = normalizeFulfuldeText(translation_en)
         const normalizedTranslationFf = normalizeFulfuldeText(translation_ff)
+        const normalizedTranslationAr = normalizeFulfuldeText(translation_ar)
         const normalizedCategory = normalizeFulfuldeText(category)
         const normalizedDomain = normalizeFulfuldeText(domain)
         const normalizedExample = normalizeFulfuldeText(example)
@@ -551,7 +557,7 @@ router.put('/:id', authMiddleware, canWrite, validateId, upload.fields([
 
         // Recuperer l'existant : pour les audios/image + comparaison du mot.
         const existing = await query(
-            'SELECT word, word_normalized, domain, audio_word, audio_example, image FROM dictionary WHERE id = $1',
+            'SELECT word, word_normalized, domain, translation_ar, audio_word, audio_example, image FROM dictionary WHERE id = $1',
             [req.params.id]
         )
         if (existing.rows.length === 0) {
@@ -623,19 +629,20 @@ router.put('/:id', authMiddleware, canWrite, validateId, upload.fields([
         }
         const primaryDomain = (domainsList && domainsList[0]) || legacySingle || null
         const newWordKey = fulfuldeCompareKey(normalizedWord)
+        const finalTranslationAr = translation_ar !== undefined ? normalizedTranslationAr : currentRow.translation_ar
 
         const result = await query(
             `UPDATE dictionary
              SET word = $1, word_normalized = $2,
-                 translation_fr = $3, translation_en = $4, translation_ff = $5,
-                 category = $6, domain = $7, example = $8, example_translation = $9,
-                 audio_word = $10, audio_example = $11, image = $12,
+                 translation_fr = $3, translation_en = $4, translation_ff = $5, translation_ar = $6,
+                 category = $7, domain = $8, example = $9, example_translation = $10,
+                 audio_word = $11, audio_example = $12, image = $13,
                  updated_at = CURRENT_TIMESTAMP
-             WHERE id = $13 RETURNING *`,
+             WHERE id = $14 RETURNING *`,
             [
                 normalizedWord || null,
                 newWordKey || null,
-                normalizedTranslationFr, normalizedTranslationEn, normalizedTranslationFf,
+                normalizedTranslationFr, normalizedTranslationEn, normalizedTranslationFf, finalTranslationAr,
                 normalizedCategory, primaryDomain,
                 normalizedExample, normalizedExampleTranslation,
                 audioWordPath, audioExamplePath, imagePath,

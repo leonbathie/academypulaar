@@ -28,6 +28,7 @@ function DictionaryAdmin() {
         translation_fr: '',
         translation_en: '',
         translation_ff: '',
+        translation_ar: '',
         category: '',
         domains: [],
         example: '',
@@ -108,6 +109,7 @@ function DictionaryAdmin() {
                 translation_fr: word.translation_fr || '',
                 translation_en: word.translation_en || '',
                 translation_ff: word.translation_ff || '',
+                translation_ar: word.translation_ar || '',
                 category: word.category || '',
                 domains: (Array.isArray(word.domains) && word.domains.length > 0)
                     ? word.domains
@@ -126,6 +128,7 @@ function DictionaryAdmin() {
                 translation_fr: '',
                 translation_en: '',
                 translation_ff: '',
+                translation_ar: '',
                 category: '',
                 domains: [],
                 example: '',
@@ -596,7 +599,8 @@ function DictionaryAdmin() {
         const matchesSearch = searchNormalizer(word.word).includes(term) ||
                searchNormalizer(word.translation_fr).includes(term) ||
                searchNormalizer(word.translation_en).includes(term) ||
-               searchNormalizer(word.translation_ff).includes(term)
+               searchNormalizer(word.translation_ff).includes(term) ||
+               searchNormalizer(word.translation_ar).includes(term)
         // Multi-domaines : le mot matche si le domaine filtre est dans sa liste.
         const matchesDomain = !filterDomain || wordDomains(word).includes(filterDomain)
         return matchesSearch && matchesDomain
@@ -908,6 +912,12 @@ function DictionaryAdmin() {
                                                                 <span className="word-detail-label">{t('admin.dictionary.translationFf')}</span>
                                                                 <span className="word-detail-value">{word.translation_ff || '-'}</span>
                                                             </div>
+                                                            {word.translation_ar && (
+                                                                <div className="word-detail-item">
+                                                                    <span className="word-detail-label">{t('admin.dictionary.translationAr', 'Arabe')}</span>
+                                                                    <span className="word-detail-value" dir="rtl" lang="ar" style={{ fontSize: '1.08rem' }}>{word.translation_ar}</span>
+                                                                </div>
+                                                            )}
                                                             <div className="word-detail-item">
                                                                 <span className="word-detail-label">{t('admin.dictionary.category')}</span>
                                                                 <span className="word-detail-value">{word.category || '-'}</span>
@@ -1006,12 +1016,18 @@ function DictionaryAdmin() {
                                                 <input
                                                     type="checkbox"
                                                     checked={formData.domains.includes(dom)}
-                                                    onChange={e => setFormData(prev => ({
-                                                        ...prev,
-                                                        domains: e.target.checked
-                                                            ? [...prev.domains, dom]
-                                                            : prev.domains.filter(d => d !== dom)
-                                                    }))}
+                                                    onChange={e => {
+                                                        const checked = e.target.checked
+                                                        setFormData(prev => ({
+                                                            ...prev,
+                                                            domains: checked
+                                                                ? [...prev.domains, dom]
+                                                                : prev.domains.filter(d => d !== dom)
+                                                        }))
+                                                        if (dom === 'religion' && !checked && activeTab === 'ar' && !(formData.translation_ar || '').trim()) {
+                                                            setActiveTab('fr')
+                                                        }
+                                                    }}
                                                 />
                                                 <span>{t(adminKey)}</span>
                                             </label>
@@ -1095,7 +1111,7 @@ function DictionaryAdmin() {
                                 </div>
 
                                 {/* Onglets de langues */}
-                                <div className="lang-tabs">
+                                <div className="lang-tabs" style={{ flexWrap: 'wrap' }}>
                                     <button
                                         type="button"
                                         className={`lang-tab ${activeTab === 'fr' ? 'active' : ''}`}
@@ -1117,6 +1133,15 @@ function DictionaryAdmin() {
                                     >
                                         SN {t('admin.dictionary.translationFf')}
                                     </button>
+                                    {(formData.domains.includes('religion') || Boolean((formData.translation_ar || '').trim())) && (
+                                        <button
+                                            type="button"
+                                            className={`lang-tab ${activeTab === 'ar' ? 'active' : ''}`}
+                                            onClick={() => setActiveTab('ar')}
+                                        >
+                                            🇸🇦 {t('admin.dictionary.translationAr', 'Arabe')}
+                                        </button>
+                                    )}
                                 </div>
 
                                 <div className="lang-content">
@@ -1148,6 +1173,20 @@ function DictionaryAdmin() {
                                                 onChange={e => setFormData({ ...formData, translation_ff: e.target.value })}
                                                 placeholder={t('admin.dictionary.placeholderFf')}
                                                 rows="3"
+                                            />
+                                        </div>
+                                    )}
+                                    {activeTab === 'ar' && (
+                                        <div className="form-group">
+                                            <label>{t('admin.dictionary.translationAr', 'Arabe')}</label>
+                                            <textarea
+                                                value={formData.translation_ar}
+                                                onChange={e => setFormData({ ...formData, translation_ar: e.target.value })}
+                                                placeholder={t('admin.dictionary.placeholderAr', 'Terme ou traduction en arabe...')}
+                                                rows="3"
+                                                dir="rtl"
+                                                lang="ar"
+                                                style={{ fontSize: '1.15rem', lineHeight: 1.75 }}
                                             />
                                         </div>
                                     )}
